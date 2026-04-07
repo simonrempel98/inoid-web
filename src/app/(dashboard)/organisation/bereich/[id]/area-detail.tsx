@@ -128,14 +128,14 @@ export function AreaDetail({ area }: { area: Area }) {
       {/* Zurück */}
       <div style={{ position: 'sticky', top: 0, height: 0, overflow: 'visible', zIndex: 50 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '14px 14px 0' }}>
-          <Link href={`/organisation/halle/${area.hall_id}`} style={{
+          <Link href="/organisation" style={{
             height: 34, borderRadius: 20, backgroundColor: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)',
             display: 'flex', alignItems: 'center', gap: 4, padding: '0 12px 0 8px', textDecoration: 'none',
           }}>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6"/>
             </svg>
-            <span style={{ color: 'white', fontSize: 12, fontWeight: 700 }}>{hallName ?? 'Halle'}</span>
+            <span style={{ color: 'white', fontSize: 12, fontWeight: 700 }}>Organisation</span>
           </Link>
           <div style={{
             height: 28, borderRadius: 20, backgroundColor: 'rgba(139,92,246,0.75)',
