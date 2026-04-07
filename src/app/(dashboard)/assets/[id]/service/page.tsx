@@ -2,9 +2,9 @@ import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ServiceSchedules } from './service-schedules'
-import { ServiceTimeline } from './service-timeline'
+import { ServiceVerlaufTabs } from './service-verlauf-tabs'
 import { WartungTimeline, type ScheduleWithAsset } from '@/app/(dashboard)/wartung/wartung-timeline'
-import { ClipboardList, Euro, RefreshCw, BarChart2, Calendar } from 'lucide-react'
+import { ClipboardList, Euro, RefreshCw, BarChart2 } from 'lucide-react'
 
 export default async function ServicePage({
   params,
@@ -36,6 +36,11 @@ export default async function ServicePage({
     .order('next_service_date', { ascending: true })
 
   const totalCost = events?.reduce((sum, e) => sum + (e.cost_eur ?? 0), 0) ?? 0
+
+  const schedulesForGantt: ScheduleWithAsset[] = (schedules ?? []).map(s => ({
+    ...s,
+    assets: { id: asset.id, title: asset.title, category: null, status: asset.status },
+  }))
 
   return (
     <div style={{ fontFamily: 'Arial, sans-serif' }}>
@@ -92,20 +97,14 @@ export default async function ServicePage({
         )}
       </div>
 
-      {/* Gantt */}
+      {/* Gantt-Wartungsplan */}
       {schedules && schedules.length > 0 && (
         <>
           <Divider />
           <div style={{ padding: '20px 20px 0' }}>
             <SectionTitle icon={<BarChart2 size={14} />} label="Wartungsplan" />
             <div style={{ marginTop: 10 }}>
-              <WartungTimeline
-                schedules={schedules.map(s => ({
-                  ...s,
-                  assets: { id: asset.id, title: asset.title, category: null, status: asset.status },
-                })) as ScheduleWithAsset[]}
-                showFilters={false}
-              />
+              <WartungTimeline schedules={schedulesForGantt} showFilters={false} />
             </div>
           </div>
         </>
@@ -113,19 +112,25 @@ export default async function ServicePage({
 
       <Divider />
 
-      {/* Verlauf */}
+      {/* Verlauf mit Liste/Gantt-Tabs */}
       <div style={{ padding: '20px 20px 40px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-          <SectionTitle icon={<Calendar size={14} />} label="Verlauf" />
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+          <SectionTitle icon={<ClipboardList size={14} />} label="Verlauf" />
           {events && events.length > 0 && (
             <Link href={`/assets/${id}/service/neu`} style={{ fontSize: 12, color: '#0099cc', textDecoration: 'none', fontWeight: 600 }}>
               + Eintrag
             </Link>
           )}
         </div>
-        <ServiceTimeline events={events ?? []} assetId={id} />
-        {(!events || events.length === 0) && (
-          <div style={{ marginTop: 12, textAlign: 'center' }}>
+
+        {events && events.length > 0 ? (
+          <ServiceVerlaufTabs
+            events={events}
+            assetId={id}
+            schedules={schedulesForGantt}
+          />
+        ) : (
+          <div style={{ textAlign: 'center', marginTop: 12 }}>
             <Link href={`/assets/${id}/service/neu`} style={{
               backgroundColor: '#003366', color: 'white', padding: '12px 24px',
               borderRadius: 50, textDecoration: 'none', fontSize: 14, fontWeight: 700,
@@ -147,9 +152,7 @@ function StatCard({ label, value, icon }: { label: string; value: string; icon: 
 }
 
 function Divider() {
-  return (
-    <div style={{ margin: '4px 0', borderTop: '2px solid #e8eef8' }} />
-  )
+  return <div style={{ margin: '4px 0', borderTop: '2px solid #e8eef8' }} />
 }
 
 function SectionTitle({ icon, label }: { icon: React.ReactNode; label: string }) {

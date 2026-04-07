@@ -219,7 +219,7 @@ export default async function DashboardPage() {
           color="#003366"
         />
         <StatCard
-          label="Aktive Assets"
+          label="Aktiv"
           value={assetsActive}
           sub={totalAssets > 0 ? `${Math.round((assetsActive / totalAssets) * 100)} % des Bestands` : '—'}
           icon={<CheckCircle2 size={20} />}
@@ -229,9 +229,18 @@ export default async function DashboardPage() {
         <StatCard
           label="Im Service"
           value={assetsInService}
+          sub={totalAssets > 0 ? `${Math.round((assetsInService / totalAssets) * 100)} % des Bestands` : '—'}
           icon={<Wrench size={20} />}
           color="#f59e0b"
           accent="#d97706"
+        />
+        <StatCard
+          label="Außer Betrieb"
+          value={assetsDecommissioned}
+          sub={totalAssets > 0 ? `${Math.round((assetsDecommissioned / totalAssets) * 100)} % des Bestands` : '—'}
+          icon={<Package size={20} />}
+          color="#94a3b8"
+          accent="#64748b"
         />
         <StatCard
           label="Nutzer"
@@ -281,20 +290,31 @@ export default async function DashboardPage() {
         }}>
           <SectionTitle>Asset-Auslastung</SectionTitle>
           <ProgressBar value={totalAssets} max={assetLimit} />
-          <div style={{ display: 'flex', gap: 10, marginTop: 18, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 16 }}>
             {[
               { label: 'Aktiv', count: assetsActive, color: '#22c55e' },
               { label: 'Im Service', count: assetsInService, color: '#f59e0b' },
               { label: 'Außer Betrieb', count: assetsDecommissioned, color: '#94a3b8' },
-            ].map(s => (
-              <div key={s.label} style={{
-                flex: 1, minWidth: 80, background: '#f8faff', borderRadius: 10,
-                padding: '10px 12px', textAlign: 'center',
-              }}>
-                <div style={{ fontSize: 20, fontWeight: 800, color: s.color }}>{s.count}</div>
-                <div style={{ fontSize: 11, color: '#666', marginTop: 2 }}>{s.label}</div>
-              </div>
-            ))}
+            ].map(s => {
+              const pct = totalAssets > 0 ? Math.round((s.count / totalAssets) * 100) : 0
+              return (
+                <div key={s.label}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4, fontSize: 12 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                      <div style={{ width: 8, height: 8, borderRadius: '50%', background: s.color }} />
+                      <span style={{ color: '#444', fontWeight: 600 }}>{s.label}</span>
+                    </div>
+                    <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                      <span style={{ fontWeight: 800, color: s.color, fontSize: 14 }}>{s.count}</span>
+                      <span style={{ color: '#aab8cc', fontSize: 11 }}>{pct} %</span>
+                    </div>
+                  </div>
+                  <div style={{ height: 6, borderRadius: 6, backgroundColor: '#e8edf5', overflow: 'hidden' }}>
+                    <div style={{ height: '100%', width: `${pct}%`, borderRadius: 6, backgroundColor: s.color, transition: 'width 0.5s ease' }} />
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
 

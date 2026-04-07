@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { useRouter, useParams, useSearchParams } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { EVENT_TYPES, type EventType } from '@/lib/service-types'
-import { Camera, Paperclip, Calendar } from 'lucide-react'
+import { Camera, Paperclip, Calendar, RefreshCw } from 'lucide-react'
 
 const NEXT_DATE_PRESETS = [
   { label: '+1W',  days: 7 },
@@ -21,14 +21,18 @@ export default function NeuerServiceEintragPage() {
   const searchParams = useSearchParams()
   const id = params.id as string
   const editId = searchParams.get('edit')
+  const scheduleId = searchParams.get('schedule_id')
   const isEditing = !!editId
+  const fromSchedule = !!scheduleId
   const supabase = createClient()
 
   const [saving, setSaving] = useState(false)
-  const [loading, setLoading] = useState(isEditing)
+  const [loading, setLoading] = useState(isEditing || fromSchedule)
   const [error, setError] = useState<string | null>(null)
   const [customTypes, setCustomTypes] = useState<EventType[]>([])
   const [existingAttachments, setExistingAttachments] = useState<string[]>([])
+  const [scheduleIntervalDays, setScheduleIntervalDays] = useState<number | null>(null)
+  const [scheduleName, setScheduleName] = useState<string>('')
 
   // Felder
   const [eventType, setEventType] = useState('maintenance')
@@ -58,7 +62,25 @@ export default function NeuerServiceEintragPage() {
     })
   }, [])
 
-  // Bei Bearbeitung: bestehende Daten laden
+  // Wartungsintervall vorausfüllen
+  useEffect(() => {
+    if (!scheduleId) return
+    supabase
+      .from('maintenance_schedules')
+      .select('*')
+      .eq('id', scheduleId)
+      .single()
+      .then(({ data }) => {
+        if (!data) return
+        setEventType(data.event_type ?? 'maintenance')
+        setTitle(data.name ?? data.title ?? 'Wartung durchgeführt')
+        setScheduleIntervalDays(data.interval_days ?? null)
+        setScheduleName(data.name ?? '')
+        setLoading(false)
+      })
+  }, [scheduleId])
+
+  // Bearbeitung: bestehende Daten laden
   useEffect(() => {
     if (!editId) return
     supabase
@@ -84,6 +106,14 @@ export default function NeuerServiceEintragPage() {
 
   const allTypes = [...EVENT_TYPES, ...customTypes]
   const selectedType = allTypes.find(e => e.value === eventType) ?? EVENT_TYPES[0]
+
+  // Automatischer nächster Termin basierend auf Intervall
+  const autoNextDate = (() => {
+    if (!scheduleIntervalDays || !eventDate) return null
+    const d = new Date(eventDate)
+    d.setDate(d.getDate() + scheduleIntervalDays)
+    return d
+  })()
 
   function applyNextDatePreset(days: number) {
     const base = eventDate ? new Date(eventDate) : new Date()
@@ -154,7 +184,8 @@ export default function NeuerServiceEintragPage() {
         performed_by: performedBy.trim() || null,
         external_company: externalCompany.trim() || null,
         cost_eur: costEur ? parseFloat(costEur.replace(',', '.')) : null,
-        next_service_date: nextServiceDate || null,
+        // Wenn vom Wartungsintervall: kein manueller next_service_date
+        next_service_date: fromSchedule ? null : (nextServiceDate || null),
         notes: notes.trim() || null,
         attachments: newAttachments.length > 0 ? newAttachments : null,
       }
@@ -182,8 +213,20 @@ export default function NeuerServiceEintragPage() {
         if (insertErr) throw new Error(insertErr.message)
       }
 
-      // Wenn next_service_date gesetzt → maintenance_schedule aktualisieren
-      if (nextServiceDate) {
+      // Wartungsintervall aktualisieren: letztes Datum + nächsten Termin neu setzen
+      if (fromSchedule && scheduleId && scheduleIntervalDays) {
+        const doneDateStr = eventDate.slice(0, 10)
+        const nextDate = new Date(eventDate)
+        nextDate.setDate(nextDate.getDate() + scheduleIntervalDays)
+        const nextStr = nextDate.toISOString().slice(0, 10)
+
+        await supabase.from('maintenance_schedules').update({
+          last_service_date: doneDateStr,
+          next_service_date: nextStr,
+          updated_at: new Date().toISOString(),
+        }).eq('id', scheduleId)
+      } else if (!fromSchedule && nextServiceDate) {
+        // Manuell: erstes aktives Intervall aktualisieren
         const { data: schedules } = await supabase
           .from('maintenance_schedules')
           .select('id')
@@ -231,11 +274,35 @@ export default function NeuerServiceEintragPage() {
         </button>
         <div>
           <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>
-            {isEditing ? 'Eintrag bearbeiten' : 'Neuer Eintrag'}
+            {isEditing ? 'Eintrag bearbeiten' : fromSchedule ? `Wartung abschließen` : 'Neuer Eintrag'}
           </h1>
-          <p style={{ fontSize: 12, color: '#96aed2', margin: 0 }}>Serviceheft</p>
+          <p style={{ fontSize: 12, color: '#96aed2', margin: 0 }}>
+            {fromSchedule ? scheduleName : 'Serviceheft'}
+          </p>
         </div>
       </div>
+
+      {/* Hinweis-Banner wenn vom Wartungsintervall */}
+      {fromSchedule && autoNextDate && (
+        <div style={{
+          margin: '16px 20px 0',
+          background: 'linear-gradient(135deg, #003366, #005599)',
+          borderRadius: 14, padding: '14px 16px',
+          display: 'flex', alignItems: 'center', gap: 12,
+          color: 'white',
+        }}>
+          <RefreshCw size={18} style={{ flexShrink: 0, opacity: 0.8 }} />
+          <div>
+            <div style={{ fontSize: 12, opacity: 0.7, marginBottom: 2 }}>Nächster Termin wird automatisch gesetzt</div>
+            <div style={{ fontSize: 14, fontWeight: 700 }}>
+              {autoNextDate.toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' })}
+              <span style={{ fontSize: 12, fontWeight: 400, opacity: 0.7, marginLeft: 8 }}>
+                ({scheduleIntervalDays} Tage ab Durchführungsdatum)
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div style={{ padding: '20px 20px 0', display: 'flex', flexDirection: 'column', gap: 20 }}>
 
@@ -243,23 +310,23 @@ export default function NeuerServiceEintragPage() {
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
             <label style={labelStyle}>Typ</label>
-            <button
-              type="button"
-              onClick={() => router.push('/settings/event-types')}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#0099cc', fontWeight: 600 }}
-            >
-              + Eigenen anlegen
-            </button>
+            {!fromSchedule && (
+              <button
+                type="button"
+                onClick={() => router.push('/settings/event-types')}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: '#0099cc', fontWeight: 600 }}
+              >
+                + Eigenen anlegen
+              </button>
+            )}
           </div>
 
-          {/* System-Typen */}
           <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: customTypes.length > 0 ? 6 : 0 }}>
             {EVENT_TYPES.map(et => (
               <TypeChip key={et.value} et={et} selected={eventType === et.value} onSelect={setEventType} />
             ))}
           </div>
 
-          {/* Custom-Typen */}
           {customTypes.length > 0 && (
             <>
               <p style={{ fontSize: 10, color: '#96aed2', fontWeight: 700, margin: '8px 0 6px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
@@ -333,51 +400,52 @@ export default function NeuerServiceEintragPage() {
           />
         </div>
 
-        {/* Nächster Termin */}
-        <div>
-          <label style={labelStyle}>Nächster Termin</label>
-          {/* Schnellwahl */}
-          <div style={{ display: 'flex', gap: 6, marginBottom: 8, flexWrap: 'wrap' }}>
-            {NEXT_DATE_PRESETS.map(p => (
-              <button
-                key={p.days}
-                type="button"
-                onClick={() => applyNextDatePreset(p.days)}
-                style={{
-                  padding: '5px 10px', borderRadius: 16, border: '1px solid #c8d4e8',
-                  background: '#f4f6f9', color: '#003366', fontSize: 12, fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                {p.label}
-              </button>
-            ))}
+        {/* Nächster Termin – NUR bei manuellem Eintrag anzeigen */}
+        {!fromSchedule && (
+          <div>
+            <label style={labelStyle}>Nächster Termin</label>
+            <div style={{ display: 'flex', gap: 6, marginBottom: 8, flexWrap: 'wrap' }}>
+              {NEXT_DATE_PRESETS.map(p => (
+                <button
+                  key={p.days}
+                  type="button"
+                  onClick={() => applyNextDatePreset(p.days)}
+                  style={{
+                    padding: '5px 10px', borderRadius: 16, border: '1px solid #c8d4e8',
+                    background: '#f4f6f9', color: '#003366', fontSize: 12, fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {p.label}
+                </button>
+              ))}
+              {nextServiceDate && (
+                <button
+                  type="button"
+                  onClick={() => setNextServiceDate('')}
+                  style={{
+                    padding: '5px 10px', borderRadius: 16, border: '1px solid #fecaca',
+                    background: 'white', color: '#dc2626', fontSize: 12, fontWeight: 700,
+                    cursor: 'pointer',
+                  }}
+                >
+                  ✕ Löschen
+                </button>
+              )}
+            </div>
+            <input
+              type="date"
+              value={nextServiceDate}
+              onChange={e => setNextServiceDate(e.target.value)}
+              style={inputStyle}
+            />
             {nextServiceDate && (
-              <button
-                type="button"
-                onClick={() => setNextServiceDate('')}
-                style={{
-                  padding: '5px 10px', borderRadius: 16, border: '1px solid #fecaca',
-                  background: 'white', color: '#dc2626', fontSize: 12, fontWeight: 700,
-                  cursor: 'pointer',
-                }}
-              >
-                ✕ Löschen
-              </button>
+              <p style={{ fontSize: 12, color: '#003366', fontWeight: 600, margin: '6px 0 0', display: 'flex', alignItems: 'center', gap: 4 }}>
+                <Calendar size={14} /> {new Date(nextServiceDate).toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' })}
+              </p>
             )}
           </div>
-          <input
-            type="date"
-            value={nextServiceDate}
-            onChange={e => setNextServiceDate(e.target.value)}
-            style={inputStyle}
-          />
-          {nextServiceDate && (
-            <p style={{ fontSize: 12, color: '#003366', fontWeight: 600, margin: '6px 0 0', display: 'flex', alignItems: 'center', gap: 4 }}>
-              <Calendar size={14} /> {new Date(nextServiceDate).toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' })}
-            </p>
-          )}
-        </div>
+        )}
 
         {/* Notizen */}
         <div>
@@ -393,9 +461,8 @@ export default function NeuerServiceEintragPage() {
 
         {/* Fotos */}
         <div>
-          <label style={{ ...labelStyle, display: 'flex', alignItems: 'center', gap: 4 }}><Camera size={14} style={{ display: 'inline', verticalAlign: 'middle' }} /> Fotos</label>
+          <label style={{ ...labelStyle, display: 'flex', alignItems: 'center', gap: 4 }}><Camera size={14} /> Fotos</label>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            {/* Bestehende Fotos (Edit-Modus) */}
             {existingAttachments.filter(a => a.includes('|photo|')).map((a, i) => {
               const url = a.split('|photo|')[0]
               return (
@@ -438,7 +505,6 @@ export default function NeuerServiceEintragPage() {
         <div>
           <label style={{ ...labelStyle, display: 'flex', alignItems: 'center', gap: 4 }}><Paperclip size={14} /> Dokumente</label>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {/* Bestehende Dokumente (Edit-Modus) */}
             {existingAttachments.filter(a => a.includes('|doc|')).map((a, i) => {
               const parts = a.split('|doc|')
               const name = parts[1] ?? `Dokument ${i + 1}`
@@ -479,14 +545,12 @@ export default function NeuerServiceEintragPage() {
           </div>
         </div>
 
-        {/* Error */}
         {error && (
           <div style={{ background: '#fff1f1', border: '1px solid #fecaca', borderRadius: 10, padding: '10px 14px', color: '#dc2626', fontSize: 13 }}>
             {error}
           </div>
         )}
 
-        {/* Speichern */}
         <button
           type="button"
           onClick={handleSave}
@@ -498,7 +562,7 @@ export default function NeuerServiceEintragPage() {
             cursor: saving || !title.trim() ? 'default' : 'pointer',
           }}
         >
-          {saving ? 'Wird gespeichert…' : isEditing ? 'Änderungen speichern' : 'Eintrag speichern'}
+          {saving ? 'Wird gespeichert…' : isEditing ? 'Änderungen speichern' : fromSchedule ? 'Wartung abschließen' : 'Eintrag speichern'}
         </button>
       </div>
     </div>
