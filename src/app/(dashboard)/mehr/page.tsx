@@ -115,7 +115,6 @@ export default async function MehrPage() {
         <MenuCard items={[
           { href: '/organisation', label: 'Standorte & Struktur', icon: <MapPin size={18} /> },
           { href: '/teams', label: 'Teams', icon: <Layers size={18} /> },
-          { href: '/settings/invite', label: 'Einladungen', icon: <Users size={18} /> },
           { href: '/settings/roles', label: 'Rollen & Rechte', icon: <KeyRound size={18} /> },
         ]} />
       </div>
