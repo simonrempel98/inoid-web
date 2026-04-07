@@ -4,6 +4,10 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "INOid – Asset Management",
   description: "Digitales Asset Management für Maschinenkomponenten | INOMETA GmbH",
+  icons: {
+    icon: '/icon.svg',
+    shortcut: '/icon.svg',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
