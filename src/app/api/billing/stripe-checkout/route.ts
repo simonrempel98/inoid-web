@@ -3,9 +3,8 @@ import { createClient } from '@/lib/supabase/server'
 import { getPlan } from '@/lib/plans'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
-
 export async function POST(req: NextRequest) {
+  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
   try {
     const supabase = await createClient()
 
