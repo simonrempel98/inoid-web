@@ -87,6 +87,17 @@ const SECTIONS = [
           },
         ],
       },
+      {
+        href: '/settings/billing',
+        label: 'Abonnement',
+        icon: (active: boolean) => (
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="1" y="4" width="22" height="16" rx="2"/>
+            <line x1="1" y1="10" x2="23" y2="10"/>
+          </svg>
+        ),
+      },
     ],
   },
   {
