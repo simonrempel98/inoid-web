@@ -513,13 +513,14 @@ function TypeChip({ et, selected, onSelect }: { et: EventType; selected: boolean
       style={{
         padding: '6px 12px', borderRadius: 20, border: 'none', cursor: 'pointer',
         fontSize: 12, fontWeight: 700,
-        background: selected ? `${et.color}20` : '#f4f6f9',
+        display: 'inline-flex', alignItems: 'center', gap: 5,
+        background: selected ? `${et.color}18` : '#f4f6f9',
         color: selected ? et.color : '#666',
         outline: selected ? `2px solid ${et.color}` : 'none',
         outlineOffset: 1,
       }}
     >
-      {et.icon} {et.label}
+      <et.icon size={13} />{et.label}
     </button>
   )
 }

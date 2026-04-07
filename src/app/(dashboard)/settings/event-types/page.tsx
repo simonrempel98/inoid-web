@@ -89,7 +89,9 @@ export default function EventTypesPage() {
               display: 'flex', alignItems: 'center', gap: 12, padding: '11px 16px',
               borderTop: i > 0 ? '1px solid #f4f6f9' : 'none',
             }}>
-              <span style={{ fontSize: 18, width: 24, textAlign: 'center' }}>{t.icon}</span>
+              <span style={{ width: 24, height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                <t.icon size={18} color={t.color} />
+              </span>
               <span style={{ flex: 1, fontSize: 14, color: '#000', fontWeight: 600 }}>{t.label}</span>
               <span style={{
                 fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 10,
@@ -218,7 +220,7 @@ export default function EventTypesPage() {
                   display: 'flex', alignItems: 'center', gap: 12, padding: '11px 16px',
                   borderTop: i > 0 ? '1px solid #f4f6f9' : 'none',
                 }}>
-                  <span style={{ fontSize: 18, width: 24, textAlign: 'center' }}>{t.icon}</span>
+                  <span style={{ fontSize: 18, width: 24, textAlign: 'center' }}>{t.icon as unknown as string}</span>
                   <span style={{ flex: 1, fontSize: 14, color: '#000', fontWeight: 600 }}>{t.label}</span>
                   <span style={{
                     fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 10,

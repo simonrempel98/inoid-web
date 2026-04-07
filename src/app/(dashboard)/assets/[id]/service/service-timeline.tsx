@@ -157,10 +157,10 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
                       >
                         {/* Typ-Icon */}
                         <span style={{
-                          fontSize: 16, width: 28, height: 28, flexShrink: 0,
+                          width: 28, height: 28, flexShrink: 0,
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
-                          borderRadius: '50%', background: `${et.color}15`,
-                        }}>{et.icon}</span>
+                          borderRadius: '50%', background: `${et.color}18`,
+                        }}><et.icon size={14} color={et.color} /></span>
 
                         {/* Titel */}
                         <span style={{

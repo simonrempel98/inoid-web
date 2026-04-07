@@ -249,8 +249,8 @@ export default function IntervalPage() {
         {name && effectiveDays > 0 && nextDate && (
           <div style={{ background: `${selectedType.color}10`, borderRadius: 12, padding: '14px 16px', border: `1px solid ${selectedType.color}33` }}>
             <p style={{ fontSize: 12, fontWeight: 700, color: selectedType.color, margin: '0 0 4px' }}>Vorschau</p>
-            <p style={{ fontSize: 14, fontWeight: 700, color: '#000', margin: '0 0 3px' }}>
-              {selectedType.icon} {name}
+            <p style={{ fontSize: 14, fontWeight: 700, color: '#000', margin: '0 0 3px', display: 'flex', alignItems: 'center', gap: 6 }}>
+              <selectedType.icon size={14} color={selectedType.color} />{name}
             </p>
             <p style={{ fontSize: 12, color: '#666', margin: 0 }}>
               Alle {effectiveDays} Tage · Fällig: {new Date(nextDate).toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' })}
@@ -286,12 +286,13 @@ function TypeChip({ et, selected, onSelect }: { et: EventType; selected: boolean
     <button type="button" onClick={() => onSelect(et.value)} style={{
       padding: '6px 12px', borderRadius: 20, border: 'none', cursor: 'pointer',
       fontSize: 12, fontWeight: 700,
+      display: 'inline-flex', alignItems: 'center', gap: 5,
       background: selected ? `${et.color}20` : '#f4f6f9',
       color: selected ? et.color : '#666',
       outline: selected ? `2px solid ${et.color}` : 'none',
       outlineOffset: 1,
     }}>
-      {et.icon} {et.label}
+      <et.icon size={13} color={selected ? et.color : '#666'} />{et.label}
     </button>
   )
 }
