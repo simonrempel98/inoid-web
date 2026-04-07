@@ -6,22 +6,17 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { AssetImageGallery } from '@/app/(dashboard)/assets/[id]/asset-image-gallery'
 import {
-  Grid3x3, User, Maximize2, Settings2, Clock, Wrench,
-  ShieldAlert, FileText, Upload, Trash2, Pencil, X, Check
+  Grid3x3, User, Maximize2, Clock, Wrench,
+  FileText, Upload, Trash2, Pencil, X, Check
 } from 'lucide-react'
 
 const PROCESS_TYPES = ['Drucken', 'Schneiden', 'Beschichten', 'Laminieren', 'Stanzen', 'Montage', 'Prüfung / QS', 'Lager', 'Sonstiges']
 const SHIFT_MODELS = ['1-Schicht', '2-Schicht', '3-Schicht', 'Gleitzeit', 'Dauerbetrieb']
-const RISK_LEVELS = [
-  { value: 'niedrig', label: 'Niedrig', color: '#27AE60' },
-  { value: 'mittel', label: 'Mittel', color: '#F39C12' },
-  { value: 'hoch', label: 'Hoch', color: '#E74C3C' },
-]
 
 type Area = {
   id: string; name: string; hall_id: string; organization_id: string
   responsible_name: string | null; process_type: string | null; shift_model: string | null
-  area_sqm: number | null; machine_count: number | null; risk_level: string | null
+  area_sqm: number | null; machine_count: number | null
   notes: string | null; image_urls: string[]; document_urls: string[]
   halls: { id: string; name: string; locations: { id: string; name: string } | null } | null
 }
@@ -40,7 +35,6 @@ export function AreaDetail({ area }: { area: Area }) {
     shift_model: area.shift_model ?? '',
     area_sqm: area.area_sqm?.toString() ?? '',
     machine_count: area.machine_count?.toString() ?? '',
-    risk_level: area.risk_level ?? 'niedrig',
     notes: area.notes ?? '',
   })
 
@@ -57,7 +51,6 @@ export function AreaDetail({ area }: { area: Area }) {
       shift_model: form.shift_model || null,
       area_sqm: form.area_sqm ? parseFloat(form.area_sqm) : null,
       machine_count: form.machine_count ? parseInt(form.machine_count) : null,
-      risk_level: form.risk_level || null,
       notes: form.notes || null,
       updated_at: new Date().toISOString(),
     }).eq('id', area.id)
@@ -109,13 +102,12 @@ export function AreaDetail({ area }: { area: Area }) {
   }
 
   const docName = (url: string) => decodeURIComponent(url.split('/').pop()?.replace(/^\d+_/, '') ?? url)
-  const riskConfig = RISK_LEVELS.find(r => r.value === (area.risk_level ?? 'niedrig')) ?? RISK_LEVELS[0]
 
   const resetForm = () => setForm({
     name: area.name, responsible_name: area.responsible_name ?? '',
     process_type: area.process_type ?? '', shift_model: area.shift_model ?? '',
     area_sqm: area.area_sqm?.toString() ?? '', machine_count: area.machine_count?.toString() ?? '',
-    risk_level: area.risk_level ?? 'niedrig', notes: area.notes ?? '',
+    notes: area.notes ?? '',
   })
 
   // Breadcrumb: Standort > Halle > Bereich
@@ -165,19 +157,10 @@ export function AreaDetail({ area }: { area: Area }) {
             {[locationName, hallName].filter(Boolean).join(' › ')}
           </p>
         )}
-        {!editing && area.risk_level && (
+        {!editing && area.process_type && (
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 12 }}>
-            {area.process_type && (
-              <span style={{ fontSize: 12, fontWeight: 700, padding: '3px 12px', borderRadius: 20, background: '#e8eef6', color: '#003366' }}>
-                {area.process_type}
-              </span>
-            )}
-            <span style={{
-              fontSize: 12, fontWeight: 700, padding: '3px 12px', borderRadius: 20,
-              background: `${riskConfig.color}22`, color: riskConfig.color,
-            }}>
-              <ShieldAlert size={11} style={{ display: 'inline', verticalAlign: 'middle', marginRight: 3 }} />
-              Risiko {riskConfig.label}
+            <span style={{ fontSize: 12, fontWeight: 700, padding: '3px 12px', borderRadius: 20, background: '#e8eef6', color: '#003366' }}>
+              {area.process_type}
             </span>
           </div>
         )}
@@ -210,13 +193,6 @@ export function AreaDetail({ area }: { area: Area }) {
               <select value={form.shift_model} onChange={set('shift_model')} style={{ width: '100%', border: 'none', outline: 'none', fontSize: 14, fontFamily: 'Arial, sans-serif', background: 'transparent' }}>
                 <option value="">– Auswählen –</option>
                 {SHIFT_MODELS.map(s => <option key={s} value={s}>{s}</option>)}
-              </select>
-            </div>
-            <div style={{ height: 1, background: '#c8d4e8' }} />
-            <div style={{ padding: '12px 14px' }}>
-              <label style={{ display: 'block', fontSize: 11, color: '#666', marginBottom: 3 }}>Risikoklasse</label>
-              <select value={form.risk_level} onChange={set('risk_level')} style={{ width: '100%', border: 'none', outline: 'none', fontSize: 14, fontFamily: 'Arial, sans-serif', background: 'transparent' }}>
-                {RISK_LEVELS.map(r => <option key={r.value} value={r.value}>{r.label}</option>)}
               </select>
             </div>
             {[
