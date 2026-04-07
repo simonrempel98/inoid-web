@@ -1,30 +1,52 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { LogoutButton } from '@/components/logout-button'
-import { User, Building2, Users, KeyRound, CreditCard, LogOut } from 'lucide-react'
+import { User, Building2, Users, KeyRound, CreditCard, LogOut, MapPin } from 'lucide-react'
 
-const MENU_SECTIONS = [
-  {
-    label: 'Konto',
-    items: [
-      { href: '/settings/profile', label: 'Mein Profil', icon: <User size={18} /> },
-      { href: '/settings/organization', label: 'Organisation', icon: <Building2 size={18} /> },
-    ],
-  },
-  {
-    label: 'Team',
-    items: [
-      { href: '/settings/members', label: 'Mitglieder einladen', icon: <Users size={18} /> },
-      { href: '/settings/roles', label: 'Rollen & Rechte', icon: <KeyRound size={18} /> },
-    ],
-  },
-  {
-    label: 'Abonnement',
-    items: [
-      { href: '/settings/billing', label: 'Plan & Abrechnung', icon: <CreditCard size={18} /> },
-    ],
-  },
-]
+const chevron = (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+    stroke="#96aed2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="9 18 15 12 9 6"/>
+  </svg>
+)
+
+function MenuCard({ items }: { items: { href: string; label: string; icon: React.ReactNode }[] }) {
+  return (
+    <div style={{
+      background: 'white', borderRadius: 14,
+      border: '1px solid #c8d4e8',
+      overflow: 'hidden',
+    }}>
+      {items.map((item, i) => (
+        <div key={item.href}>
+          {i > 0 && <div style={{ height: 1, background: '#c8d4e8', margin: '0 16px' }} />}
+          <Link href={item.href} style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '14px 16px', textDecoration: 'none', color: '#000000',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+              <span style={{ display: 'flex', alignItems: 'center' }}>{item.icon}</span>
+              <span style={{ fontSize: 15, fontFamily: 'Arial, sans-serif' }}>{item.label}</span>
+            </div>
+            {chevron}
+          </Link>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function SectionLabel({ label }: { label: string }) {
+  return (
+    <p style={{
+      fontSize: 11, fontWeight: 700, color: '#666666',
+      textTransform: 'uppercase', letterSpacing: '0.06em',
+      margin: '0 0 8px 4px',
+    }}>
+      {label}
+    </p>
+  )
+}
 
 export default async function MehrPage() {
   const supabase = await createClient()
@@ -87,42 +109,32 @@ export default async function MehrPage() {
         )}
       </div>
 
-      {/* Menu Sections */}
-      {MENU_SECTIONS.map(section => (
-        <div key={section.label} style={{ marginBottom: 20 }}>
-          <p style={{
-            fontSize: 11, fontWeight: 700, color: '#666666',
-            textTransform: 'uppercase', letterSpacing: '0.06em',
-            margin: '0 0 8px 4px',
-          }}>
-            {section.label}
-          </p>
-          <div style={{
-            background: 'white', borderRadius: 14,
-            border: '1px solid #c8d4e8',
-            overflow: 'hidden',
-          }}>
-            {section.items.map((item, i) => (
-              <div key={item.href}>
-                {i > 0 && <div style={{ height: 1, background: '#c8d4e8', margin: '0 16px' }} />}
-                <Link href={item.href} style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  padding: '14px 16px', textDecoration: 'none', color: '#000000',
-                }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <span style={{ display: 'flex', alignItems: 'center' }}>{item.icon}</span>
-                    <span style={{ fontSize: 15, fontFamily: 'Arial, sans-serif' }}>{item.label}</span>
-                  </div>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                    stroke="#96aed2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <polyline points="9 18 15 12 9 6"/>
-                  </svg>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
+      {/* Organisationsverwaltung */}
+      <div style={{ marginBottom: 20 }}>
+        <SectionLabel label="Organisationsverwaltung" />
+        <MenuCard items={[
+          { href: '/organisation', label: 'Standorte & Struktur', icon: <MapPin size={18} /> },
+          { href: '/settings/invite', label: 'Team & Mitglieder', icon: <Users size={18} /> },
+          { href: '/settings/roles', label: 'Rollen & Rechte', icon: <KeyRound size={18} /> },
+        ]} />
+      </div>
+
+      {/* Konto */}
+      <div style={{ marginBottom: 20 }}>
+        <SectionLabel label="Konto" />
+        <MenuCard items={[
+          { href: '/settings/profile', label: 'Mein Profil', icon: <User size={18} /> },
+          { href: '/settings/organization', label: 'Organisation', icon: <Building2 size={18} /> },
+        ]} />
+      </div>
+
+      {/* Abonnement */}
+      <div style={{ marginBottom: 20 }}>
+        <SectionLabel label="Abonnement" />
+        <MenuCard items={[
+          { href: '/settings/billing', label: 'Plan & Abrechnung', icon: <CreditCard size={18} /> },
+        ]} />
+      </div>
 
       {/* Abmelden */}
       <div style={{
