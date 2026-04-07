@@ -39,7 +39,6 @@ export default async function TeamDetailPage({
     supabase.from('organization_members')
       .select('id, user_id, email, first_name, last_name, invitation_accepted_at, roles(id, name)')
       .eq('organization_id', orgId)
-      .eq('team_id', id)
       .order('created_at'),
     supabase.from('locations').select('id, name').eq('organization_id', orgId).order('name'),
     supabase.from('halls').select('id, name, location_id, locations(name)').eq('organization_id', orgId).order('name'),
