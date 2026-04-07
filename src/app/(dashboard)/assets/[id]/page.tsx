@@ -45,6 +45,16 @@ export default async function AssetDetailPage({
     .order('event_date', { ascending: false })
     .limit(3)
 
+  const { data: { user } } = await supabase.auth.getUser()
+  const { data: profile } = await supabase
+    .from('profiles').select('organization_id').eq('id', user!.id).single()
+  const orgId = profile?.organization_id ?? ''
+  const [{ data: locations }, { data: halls }, { data: areas }] = await Promise.all([
+    supabase.from('locations').select('id, name').eq('organization_id', orgId).order('name'),
+    supabase.from('halls').select('id, name, location_id, locations(name)').eq('organization_id', orgId).order('name'),
+    supabase.from('areas').select('id, name, hall_id, halls(name)').eq('organization_id', orgId).order('name'),
+  ])
+
   const techEntries = Object.entries((asset.technical_data as Record<string, string>) ?? {}).filter(([, v]) => v)
   const commEntries = Object.entries((asset.commercial_data as Record<string, string>) ?? {}).filter(([, v]) => v)
 
@@ -127,6 +137,11 @@ export default async function AssetDetailPage({
           <LocationHistory
             current={asset.location}
             history={locationHistory ?? []}
+            assetId={id}
+            locationRef={(asset as any).location_ref ?? null}
+            locations={locations ?? []}
+            halls={(halls ?? []) as any}
+            areas={(areas ?? []) as any}
           />
         )}
         {asset.created_at && (

@@ -7,8 +7,10 @@ import { createClient } from '@/lib/supabase/client'
 import { AssetImageGallery } from '@/app/(dashboard)/assets/[id]/asset-image-gallery'
 import {
   Grid3x3, User, Maximize2, Clock, Wrench,
-  FileText, Upload, Trash2, Pencil, X, Check
+  FileText, Upload, Trash2, Pencil, X, Check,
+  Tag, ChevronRight, Package, ShieldAlert
 } from 'lucide-react'
+import { getStatusConfig } from '@/lib/asset-statuses'
 
 const PROCESS_TYPES = ['Drucken', 'Schneiden', 'Beschichten', 'Laminieren', 'Stanzen', 'Montage', 'Prüfung / QS', 'Lager', 'Sonstiges']
 const SHIFT_MODELS = ['1-Schicht', '2-Schicht', '3-Schicht', 'Gleitzeit', 'Dauerbetrieb']
@@ -21,7 +23,13 @@ type Area = {
   halls: { id: string; name: string; locations: { id: string; name: string } | null } | null
 }
 
-export function AreaDetail({ area }: { area: Area }) {
+type AssetItem = { id: string; title: string; status: string; category: string | null }
+
+export function AreaDetail({ area, assets, customStatuses }: {
+  area: Area
+  assets: AssetItem[]
+  customStatuses: { value: string; label: string; color: string }[]
+}) {
   const router = useRouter()
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -229,6 +237,55 @@ export function AreaDetail({ area }: { area: Area }) {
           <div style={{ background: 'white', borderRadius: 12, padding: '14px', border: '1px solid #c8d4e8' }}>
             <p style={{ fontSize: 14, color: '#444', margin: 0, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{area.notes}</p>
           </div>
+        </div>
+      )}
+
+      {/* Assets in diesem Bereich */}
+      {!editing && (
+        <div style={{ padding: '0 16px 16px' }}>
+          <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <Package size={14} /> Assets
+            <span style={{ fontSize: 12, fontWeight: 400, color: '#96aed2', marginLeft: 4 }}>{assets.length}</span>
+          </h2>
+          {assets.length === 0 ? (
+            <div style={{ background: 'white', borderRadius: 12, padding: '20px 16px', border: '1px solid #e8eef6', textAlign: 'center' }}>
+              <p style={{ color: '#aaa', fontSize: 13, margin: 0 }}>Noch keine Assets in diesem Bereich</p>
+            </div>
+          ) : (
+            <div>
+              {assets.map(a => {
+                const sc = getStatusConfig(a.status, customStatuses)
+                return (
+                  <Link key={a.id} href={`/assets/${a.id}`} style={{ textDecoration: 'none' }}>
+                    <div style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                      background: 'white', borderRadius: 10, padding: '10px 14px',
+                      border: '1px solid #e8eef6', marginBottom: 6,
+                    }}>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: '#000',
+                          overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {a.title}
+                        </p>
+                        {a.category && (
+                          <p style={{ margin: '2px 0 0', fontSize: 11, color: '#96aed2', display: 'flex', alignItems: 'center', gap: 4 }}>
+                            <Tag size={10} /> {a.category}
+                          </p>
+                        )}
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                        <span style={{
+                          fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
+                          backgroundColor: sc.color, color: 'white',
+                        }}>{sc.label}</span>
+                        <ChevronRight size={14} color="#c8d4e8" />
+                      </div>
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          )}
         </div>
       )}
 

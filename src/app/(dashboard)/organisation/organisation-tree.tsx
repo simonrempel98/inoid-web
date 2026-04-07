@@ -179,7 +179,10 @@ export function OrganisationTree({ organizationId, locations, halls, areas }: Pr
                     {isOpen ? <ChevronDown size={16} color="#003366" /> : <ChevronRight size={16} color="#003366" />}
                     <MapPin size={16} color="#003366" />
                     <div>
-                      <p style={{ margin: 0, fontWeight: 600, fontSize: 15, color: '#000' }}>{loc.name}</p>
+                      <Link href={`/organisation/standort/${loc.id}`} onClick={e => e.stopPropagation()}
+                        style={{ margin: 0, fontWeight: 600, fontSize: 15, color: '#000', textDecoration: 'none' }}>
+                        {loc.name}
+                      </Link>
                       {loc.address && <p style={{ margin: 0, fontSize: 12, color: '#888' }}>{loc.address}</p>}
                     </div>
                   </div>
@@ -232,7 +235,10 @@ export function OrganisationTree({ organizationId, locations, halls, areas }: Pr
                               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                                 {hallOpen ? <ChevronDown size={14} color="#0099cc" /> : <ChevronRight size={14} color="#0099cc" />}
                                 <Building2 size={14} color="#0099cc" />
-                                <span style={{ fontSize: 14, color: '#000', fontWeight: 600 }}>{hall.name}</span>
+                                <Link href={`/organisation/halle/${hall.id}`} onClick={e => e.stopPropagation()}
+                                  style={{ fontSize: 14, color: '#000', fontWeight: 600, textDecoration: 'none' }}>
+                                  {hall.name}
+                                </Link>
                               </div>
                               <div style={{ display: 'flex', gap: 4 }}>
                                 {iconBtn(<Pencil size={13} />, e => startEdit(e, { type: 'hall', id: hall.id, name: hall.name }), 'Halle bearbeiten', '#96aed2')}

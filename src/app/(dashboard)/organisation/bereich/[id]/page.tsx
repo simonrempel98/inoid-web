@@ -18,13 +18,19 @@ export default async function BereichDetailPage({
 
   if (!area) notFound()
 
-  // Assets in diesem Bereich (über area_id falls verknüpft – sonst leer)
+  const { data: org } = await supabase
+    .from('organizations')
+    .select('settings')
+    .eq('id', area.organization_id)
+    .single()
+  const customStatuses = (org?.settings as { custom_statuses?: { value: string; label: string; color: string }[] })?.custom_statuses ?? []
+
   const { data: assets } = await supabase
     .from('assets')
     .select('id, title, status, category')
-    .eq('organization_id', area.organization_id)
+    .eq('location_ref', `area:${id}`)
     .is('deleted_at', null)
-    .limit(20)
+    .order('title')
 
-  return <AreaDetail area={area} />
+  return <AreaDetail area={area} assets={assets ?? []} customStatuses={customStatuses} />
 }
