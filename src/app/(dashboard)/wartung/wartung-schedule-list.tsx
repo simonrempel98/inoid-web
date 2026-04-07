@@ -107,6 +107,12 @@ function CompleteModal({
     setError(null)
     const supabase = createClient()
 
+    // organization_id holen (für RLS)
+    const { data: { user } } = await supabase.auth.getUser()
+    if (!user) { setError('Nicht eingeloggt'); setSaving(false); return }
+    const { data: profile } = await supabase.from('profiles').select('organization_id').eq('id', user.id).single()
+    if (!profile?.organization_id) { setError('Keine Organisation gefunden'); setSaving(false); return }
+
     // Nächsten Termin berechnen
     const done = new Date(date)
     const next = new Date(done)
@@ -116,6 +122,7 @@ function CompleteModal({
     // 1. Serviceeintrag erstellen
     const { error: insertErr } = await supabase.from('asset_lifecycle_events').insert({
       asset_id: schedule.asset_id,
+      organization_id: profile.organization_id,
       title: schedule.name ?? schedule.title ?? 'Wartung',
       event_type: schedule.event_type ?? 'maintenance',
       event_date: date,
@@ -423,20 +430,27 @@ export function WartungScheduleList({
                                         <button
                                           type="button"
                                           onClick={e => { e.stopPropagation(); setCompleting(item as ScheduleWithAsset) }}
-                                          title="Als erledigt markieren"
                                           style={{
-                                            width: 30, height: 30, borderRadius: '50%', flexShrink: 0,
-                                            border: '2px solid #27AE60', background: 'white',
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                            display: 'flex', alignItems: 'center', gap: 5,
+                                            padding: '6px 12px', borderRadius: 20, flexShrink: 0,
+                                            border: '1.5px solid #27AE60', background: 'white',
+                                            color: '#27AE60', fontSize: 12, fontWeight: 700,
                                             cursor: 'pointer',
                                           }}
                                         >
-                                          <CheckCircle2 size={15} color="#27AE60" />
+                                          <CheckCircle2 size={13} color="#27AE60" />
+                                          Erledigt
                                         </button>
                                       ) : (
-                                        <div style={{ width: 30, height: 30, borderRadius: '50%', flexShrink: 0, background: '#e8f5e9', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                          <CheckCircle2 size={15} color="#27AE60" />
-                                        </div>
+                                        <span style={{
+                                          display: 'flex', alignItems: 'center', gap: 5,
+                                          padding: '6px 12px', borderRadius: 20, flexShrink: 0,
+                                          background: '#e8f5e9', color: '#27AE60',
+                                          fontSize: 12, fontWeight: 700,
+                                        }}>
+                                          <CheckCircle2 size={13} color="#27AE60" />
+                                          Erledigt
+                                        </span>
                                       )}
                                     </div>
                                   )
