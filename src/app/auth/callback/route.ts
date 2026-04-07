@@ -36,8 +36,8 @@ export async function GET(request: Request) {
     if (invitedOrgId) {
       const firstName = user.user_metadata?.first_name ?? ''
       const lastName  = user.user_metadata?.last_name  ?? ''
-      const fullName  = [firstName, lastName].filter(Boolean).join(' ')
-        || user.email?.split('@')[0] ?? ''
+      const joined = [firstName, lastName].filter(Boolean).join(' ')
+      const fullName = joined || (user.email?.split('@')[0] ?? '')
 
       await adminClient.from('profiles').insert({
         id: user.id,
