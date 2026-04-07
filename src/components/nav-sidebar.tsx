@@ -48,7 +48,47 @@ const SECTIONS = [
     ],
   },
   {
-    label: 'Verwaltung',
+    label: 'Organisationsverwaltung',
+    items: [
+      {
+        href: '/organisation',
+        label: 'Standorte & Struktur',
+        icon: (active: boolean) => (
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+        ),
+      },
+      {
+        href: '/settings/invite',
+        label: 'Team & Mitglieder',
+        icon: (active: boolean) => (
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        ),
+      },
+      {
+        href: '/settings/roles',
+        label: 'Rollen & Rechte',
+        icon: (active: boolean) => (
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2"/>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+          </svg>
+        ),
+      },
+    ],
+  },
+  {
+    label: 'Konto',
     items: [
       {
         href: '/mehr',
@@ -58,19 +98,6 @@ const SECTIONS = [
             stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="8" r="4"/>
             <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-          </svg>
-        ),
-      },
-      {
-        href: '/settings/members',
-        label: 'Team & Mitglieder',
-        icon: (active: boolean) => (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-            stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
           </svg>
         ),
       },
