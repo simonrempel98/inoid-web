@@ -144,19 +144,12 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
                 key={plan.id}
                 onClick={() => { setSelectedPlan(plan.id); setShowInvoiceForm(false) }}
                 style={{
-                  border: `2px solid ${isSelected ? '#0099cc' : plan.highlighted ? '#003366' : '#c8d4e8'}`,
+                  border: `2px solid ${isSelected ? '#0099cc' : isCurrent ? '#003366' : '#c8d4e8'}`,
                   borderRadius: 14, padding: '16px', cursor: 'pointer',
-                  background: isSelected ? '#f0f9ff' : 'white',
+                  background: isSelected ? '#f0f9ff' : isCurrent ? '#f8faff' : 'white',
                   position: 'relative',
                 }}
               >
-                {plan.highlighted && (
-                  <div style={{
-                    position: 'absolute', top: -10, right: 16,
-                    background: '#003366', color: 'white',
-                    fontSize: 10, fontWeight: 700, padding: '2px 10px', borderRadius: 20,
-                  }}>EMPFOHLEN</div>
-                )}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                   <div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
@@ -280,7 +273,7 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
                 }}
               />
               <p style={{ fontSize: 11, color: '#888', margin: '4px 0 0', textAlign: 'center' }}>
-                Den Code finden Sie auf Ihrer bezahlten Rechnung.
+                Nach Zahlungseingang wird der Code per E-Mail an die Admins übermittelt.
               </p>
             </div>
             <button

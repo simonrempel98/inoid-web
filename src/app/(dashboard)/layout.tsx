@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import Image from 'next/image'
+import Link from 'next/link'
 import { BottomNav } from '@/components/nav-bottom'
 import { Sidebar } from '@/components/nav-sidebar'
 
@@ -31,7 +32,9 @@ export default async function DashboardLayout({ children }: { children: React.Re
         padding: '10px 16px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
-        <Image src="/Inometa_INOid_21x13mm.png" alt="INOid" width={70} height={43} style={{ objectFit: 'contain' }} />
+        <Link href="/dashboard" style={{ display: 'flex' }}>
+          <Image src="/Inometa_INOid_21x13mm.png" alt="INOid" width={70} height={43} style={{ objectFit: 'contain' }} />
+        </Link>
       </header>
 
       {/* Main Content */}

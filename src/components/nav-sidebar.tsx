@@ -158,8 +158,10 @@ export function Sidebar({ userEmail, userName }: { userEmail: string; userName?:
         borderBottom: '1px solid rgba(150,174,210,0.2)',
         display: 'flex', justifyContent: 'center', alignItems: 'center',
       }}>
-        <Image src="/Inometa_INOid_21x13mm.png" alt="INOid" width={120} height={74}
-          style={{ objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+        <Link href="/dashboard" style={{ display: 'flex' }}>
+          <Image src="/Inometa_INOid_21x13mm.png" alt="INOid" width={120} height={74}
+            style={{ objectFit: 'contain', filter: 'brightness(0) invert(1)' }} />
+        </Link>
       </div>
 
       {/* Navigation */}
