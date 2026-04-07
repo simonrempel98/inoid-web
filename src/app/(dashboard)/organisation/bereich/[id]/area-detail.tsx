@@ -8,7 +8,7 @@ import { AssetImageGallery } from '@/app/(dashboard)/assets/[id]/asset-image-gal
 import {
   Grid3x3, User, Maximize2, Clock, Wrench,
   FileText, Upload, Trash2, Pencil, X, Check,
-  Tag, ChevronRight, Package, ShieldAlert
+  ChevronRight, Package, ShieldAlert
 } from 'lucide-react'
 import { getStatusConfig } from '@/lib/asset-statuses'
 
@@ -267,11 +267,6 @@ export function AreaDetail({ area, assets, customStatuses }: {
                           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {a.title}
                         </p>
-                        {a.category && (
-                          <p style={{ margin: '2px 0 0', fontSize: 11, color: '#96aed2', display: 'flex', alignItems: 'center', gap: 4 }}>
-                            <Tag size={10} /> {a.category}
-                          </p>
-                        )}
                       </div>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                         <span style={{

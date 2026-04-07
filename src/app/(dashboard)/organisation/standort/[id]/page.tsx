@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { MapPin, Building2, Tag, ChevronRight, Package } from 'lucide-react'
+import { MapPin, Building2, ChevronRight, Package } from 'lucide-react'
 import { getStatusConfig } from '@/lib/asset-statuses'
 
 export default async function StandortDetailPage({
@@ -189,11 +189,6 @@ export default async function StandortDetailPage({
                       overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {a.title}
                     </p>
-                    {a.category && (
-                      <p style={{ margin: '2px 0 0', fontSize: 11, color: '#96aed2', display: 'flex', alignItems: 'center', gap: 4 }}>
-                        <Tag size={10} /> {a.category}
-                      </p>
-                    )}
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 20, backgroundColor: sc.color, color: 'white' }}>
