@@ -304,8 +304,8 @@ function InfoCard({ icon, label, value }: { icon: React.ReactNode; label: string
       background: 'white', borderRadius: 12, padding: '12px 14px',
       border: '1px solid #c8d4e8',
     }}>
-      <p style={{ fontSize: 11, color: '#96aed2', margin: '0 0 3px', fontWeight: 700, fontFamily: 'Arial, sans-serif' }}>
-        {icon} {label}
+      <p style={{ fontSize: 11, color: '#96aed2', margin: '0 0 3px', fontWeight: 700, fontFamily: 'Arial, sans-serif', display: 'flex', alignItems: 'center', gap: 4 }}>
+        {icon}{label}
       </p>
       <p style={{ fontSize: 13, color: '#000', margin: 0, fontWeight: 600, fontFamily: 'Arial, sans-serif',
         overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -318,7 +318,7 @@ function InfoCard({ icon, label, value }: { icon: React.ReactNode; label: string
 function DataGrid({ title, icon, entries }: { title: string; icon: React.ReactNode; entries: [string, string][] }) {
   return (
     <div style={{ padding: '0 16px 16px' }}>
-      <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: '0 0 10px' }}>{icon} {title}</h2>
+      <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 6 }}>{icon}{title}</h2>
       <div style={{
         background: 'white', borderRadius: 14, border: '1px solid #c8d4e8',
         display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
