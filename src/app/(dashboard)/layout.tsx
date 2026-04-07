@@ -32,7 +32,6 @@ export default async function DashboardLayout({ children }: { children: React.Re
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         <Image src="/Inometa_INOid_21x13mm.png" alt="INOid" width={70} height={43} style={{ objectFit: 'contain' }} />
-        <span style={{ fontSize: 12, color: '#666666' }}>{profile?.full_name ?? user.email}</span>
       </header>
 
       {/* Main Content */}
