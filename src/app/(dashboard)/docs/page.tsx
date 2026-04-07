@@ -506,14 +506,14 @@ export default function DocsPage() {
                 Wende dich an deinen Administrator oder kontaktiere den INOid-Support direkt über Inomet GmbH.
               </p>
               <div style={{ marginTop: 4 }}>
-                <a href="mailto:info@inomet.de" style={{
+                <a href="mailto:srl@inometa.de" style={{
                   display: 'inline-flex', alignItems: 'center', gap: 6,
                   padding: '8px 16px', borderRadius: 20,
                   background: 'rgba(255,255,255,0.2)', border: '1px solid rgba(255,255,255,0.3)',
                   color: 'white', fontSize: 13, fontWeight: 700,
                   textDecoration: 'none',
                 }}>
-                  info@inomet.de <ArrowRight size={13} />
+                  srl@inometa.de <ArrowRight size={13} />
                 </a>
               </div>
             </div>
