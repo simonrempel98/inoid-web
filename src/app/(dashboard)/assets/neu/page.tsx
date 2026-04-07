@@ -44,11 +44,19 @@ export default async function NeuesAssetPage() {
     .from('profiles').select('organization_id').eq('id', user!.id).single()
 
   const orgId = profile?.organization_id ?? ''
-  const [{ data: locations }, { data: halls }, { data: areas }] = await Promise.all([
+  const [{ data: locations }, { data: halls }, { data: areas }, { data: categoryRows }] = await Promise.all([
     supabase.from('locations').select('id, name').eq('organization_id', orgId).order('name'),
     supabase.from('halls').select('id, name, location_id, locations(name)').eq('organization_id', orgId).order('name'),
     supabase.from('areas').select('id, name, hall_id, halls(name)').eq('organization_id', orgId).order('name'),
+    supabase.from('assets').select('category').eq('organization_id', orgId).not('category', 'is', null),
   ])
 
-  return <AssetForm locations={locations ?? []} halls={(halls ?? []) as any} areas={(areas ?? []) as any} />
+  const categories = [...new Set((categoryRows ?? []).map((r: any) => r.category).filter(Boolean))].sort() as string[]
+
+  return <AssetForm
+    locations={locations ?? []}
+    halls={(halls ?? []) as any}
+    areas={(areas ?? []) as any}
+    categories={categories}
+  />
 }

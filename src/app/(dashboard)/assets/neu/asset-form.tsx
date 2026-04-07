@@ -5,13 +5,15 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { CheckCircle2, Smartphone, Tag } from 'lucide-react'
 import { OrgTreePicker, getOrgRefLabel, type OrgLocation, type OrgHall, type OrgArea } from '@/components/org-tree-picker'
+import { CategoryCombobox } from '@/components/category-combobox'
 
 const STEPS = ['Basisdaten', 'Fotos', 'Technik', 'Kommerziell', 'QR / NFC']
 
-export function AssetForm({ locations = [], halls = [], areas = [] }: {
+export function AssetForm({ locations = [], halls = [], areas = [], categories = [] }: {
   locations?: OrgLocation[]
   halls?: OrgHall[]
   areas?: OrgArea[]
+  categories?: string[]
 }) {
   const router = useRouter()
   const supabase = createClient()
@@ -295,8 +297,7 @@ export function AssetForm({ locations = [], halls = [], areas = [] }: {
             </div>
             <div>
               <label style={labelStyle}>Kategorie</label>
-              <input value={category} onChange={e => setCategory(e.target.value)}
-                style={inputStyle} placeholder="z.B. Bohrkronen" />
+              <CategoryCombobox value={category} onChange={setCategory} categories={categories} inputStyle={inputStyle} />
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>

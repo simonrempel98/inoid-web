@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { ClipboardList, Settings2, Briefcase, Camera, Smartphone, Tag } from 'lucide-react'
 import { OrgTreePicker, getOrgRefLabel, type OrgLocation, type OrgHall, type OrgArea } from '@/components/org-tree-picker'
+import { CategoryCombobox } from '@/components/category-combobox'
 
 type Asset = {
   id: string
@@ -25,11 +26,12 @@ type Asset = {
   qr_code: string | null
 }
 
-export function AssetEditForm({ asset, locations = [], halls = [], areas = [] }: {
+export function AssetEditForm({ asset, locations = [], halls = [], areas = [], categories = [] }: {
   asset: Asset
   locations?: OrgLocation[]
   halls?: OrgHall[]
   areas?: OrgArea[]
+  categories?: string[]
 }) {
   const router = useRouter()
   const supabase = createClient()
@@ -231,7 +233,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [] }:
             </div>
             <div>
               <label style={labelStyle}>Kategorie</label>
-              <input value={category} onChange={e => setCategory(e.target.value)} style={inputStyle} />
+              <CategoryCombobox value={category} onChange={setCategory} categories={categories} inputStyle={inputStyle} />
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
