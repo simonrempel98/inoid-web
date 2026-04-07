@@ -39,5 +39,15 @@ export default async function NeuesAssetPage() {
     )
   }
 
-  return <AssetForm />
+  const { data: { user } } = await supabase.auth.getUser()
+  const { data: profile } = await supabase
+    .from('profiles').select('organization_id').eq('id', user!.id).single()
+
+  const { data: locations } = await supabase
+    .from('locations')
+    .select('id, name')
+    .eq('organization_id', profile?.organization_id ?? '')
+    .order('name')
+
+  return <AssetForm locations={locations ?? []} />
 }

@@ -7,7 +7,9 @@ import { CheckCircle2, Smartphone, Tag } from 'lucide-react'
 
 const STEPS = ['Basisdaten', 'Fotos', 'Technik', 'Kommerziell', 'QR / NFC']
 
-export function AssetForm() {
+type Location = { id: string; name: string }
+
+export function AssetForm({ locations = [] }: { locations?: Location[] }) {
   const router = useRouter()
   const supabase = createClient()
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -300,8 +302,17 @@ export function AssetForm() {
             </div>
             <div>
               <label style={labelStyle}>Standort</label>
-              <input value={location} onChange={e => setLocation(e.target.value)}
-                style={inputStyle} placeholder="z.B. Lager A" />
+              {locations.length > 0 ? (
+                <select value={location} onChange={e => setLocation(e.target.value)} style={inputStyle}>
+                  <option value="">– Kein Standort –</option>
+                  {locations.map(l => (
+                    <option key={l.id} value={l.name}>{l.name}</option>
+                  ))}
+                </select>
+              ) : (
+                <input value={location} onChange={e => setLocation(e.target.value)}
+                  style={inputStyle} placeholder="z.B. Lager A" />
+              )}
             </div>
           </div>
           <div>
