@@ -4,6 +4,7 @@ import { Suspense, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { Turnstile } from '@marsidev/react-turnstile'
 
 function LoginForm() {
   const router = useRouter()
@@ -14,17 +15,24 @@ function LoginForm() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const captchaEnabled = !!process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault()
+    if (captchaEnabled && !captchaToken) return
     setLoading(true)
     setError(null)
 
     const supabase = createClient()
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    const { error } = await supabase.auth.signInWithPassword({
+      email, password,
+      options: { captchaToken },
+    })
 
     if (error) {
       setError('E-Mail oder Passwort falsch.')
+      setCaptchaToken(null)
       setLoading(false)
       return
     }
@@ -79,12 +87,23 @@ function LoginForm() {
           </Link>
         </div>
 
-        <button type="submit" disabled={loading} style={{
+        {captchaEnabled && (
+          <div style={{ marginBottom: 16 }}>
+            <Turnstile
+              siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+              onSuccess={setCaptchaToken}
+              onExpire={() => setCaptchaToken(null)}
+              options={{ theme: 'light', language: 'de' }}
+            />
+          </div>
+        )}
+
+        <button type="submit" disabled={loading || (captchaEnabled && !captchaToken)} style={{
           width: '100%', background: '#003366', color: 'white',
           padding: '14px 0', borderRadius: 50, border: 'none',
           fontWeight: 700, fontSize: 16, cursor: 'pointer',
           fontFamily: 'Arial, sans-serif',
-          opacity: loading ? 0.6 : 1,
+          opacity: loading || (captchaEnabled && !captchaToken) ? 0.6 : 1,
         }}>
           {loading ? 'Wird angemeldet…' : 'Anmelden'}
         </button>

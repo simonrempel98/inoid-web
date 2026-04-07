@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { Turnstile } from '@marsidev/react-turnstile'
 
 type Step = 1 | 2 | 3 | 4
 
@@ -24,6 +25,8 @@ export default function RegisterPage() {
   const [step, setStep] = useState<Step>(1)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const captchaEnabled = !!process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
 
   const [form, setForm] = useState({
     firstName: '', lastName: '', email: '', password: '', passwordConfirm: '',
@@ -48,6 +51,7 @@ export default function RegisterPage() {
       email: form.email,
       password: form.password,
       options: {
+        captchaToken: captchaToken ?? undefined,
         data: {
           full_name: `${form.firstName} ${form.lastName}`,
           organization_name: form.companyName,
@@ -207,13 +211,24 @@ export default function RegisterPage() {
 
           {error && <p className="text-red-500 text-sm text-center mb-3">{error}</p>}
 
+          {captchaEnabled && (
+            <div className="mb-4">
+              <Turnstile
+                siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                onSuccess={setCaptchaToken}
+                onExpire={() => setCaptchaToken(null)}
+                options={{ theme: 'light', language: 'de' }}
+              />
+            </div>
+          )}
+
           <div className="flex gap-3">
             <button onClick={() => setStep(2)}
               className="flex-1 py-3.5 rounded-full font-semibold border-2 border-[#1B4F72] text-[#1B4F72]
                 hover:bg-[#1B4F72] hover:text-white transition-colors">
               Zurück
             </button>
-            <button onClick={handleSubmit} disabled={loading}
+            <button onClick={handleSubmit} disabled={loading || (captchaEnabled && !captchaToken)}
               className="flex-1 bg-[#1B4F72] text-white py-3.5 rounded-full font-semibold
                 hover:bg-[#2E86C1] transition-colors disabled:opacity-60">
               {loading ? 'Wird erstellt…' : 'Konto erstellen'}
