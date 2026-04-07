@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 60" fill="none">
+  <!-- INO in dark blue -->
+  <text x="0" y="46" font-family="Arial, sans-serif" font-weight="700" font-size="48" fill="#003366">INO</text>
+  <!-- id in gray -->
+  <text x="96" y="46" font-family="Arial, sans-serif" font-weight="700" font-size="48" fill="#666666">id</text>
+  <!-- WiFi/Signal arcs in cyan above the i -->
+  <path d="M108 8 Q116 1 124 8" stroke="#0099cc" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M112 14 Q116 10 120 14" stroke="#0099cc" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <circle cx="116" cy="19" r="2.5" fill="#0099cc"/>
+</svg>
