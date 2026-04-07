@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { MapPin, Building2, Grid3x3, ChevronDown, ChevronRight, Plus, Trash2 } from 'lucide-react'
 
 type Location = { id: string; name: string; address: string | null }
@@ -184,7 +185,10 @@ export function OrganisationTree({ organizationId, locations, halls, areas }: Pr
                   }
                   <MapPin size={16} color="#003366" />
                   <div>
-                    <p style={{ margin: 0, fontWeight: 600, fontSize: 15, color: '#000' }}>{loc.name}</p>
+                    <Link href={`/organisation/standort/${loc.id}`} onClick={e => e.stopPropagation()}
+                      style={{ fontWeight: 600, fontSize: 15, color: '#000', textDecoration: 'none' }}>
+                      {loc.name}
+                    </Link>
                     {loc.address && <p style={{ margin: 0, fontSize: 12, color: '#888' }}>{loc.address}</p>}
                   </div>
                 </div>
@@ -232,7 +236,10 @@ export function OrganisationTree({ organizationId, locations, halls, areas }: Pr
                                 : <ChevronRight size={14} color="#0099cc" />
                               }
                               <Building2 size={14} color="#0099cc" />
-                              <span style={{ fontSize: 14, color: '#000', fontWeight: 600 }}>{hall.name}</span>
+                              <Link href={`/organisation/halle/${hall.id}`} onClick={e => e.stopPropagation()}
+                                style={{ fontSize: 14, color: '#000', fontWeight: 600, textDecoration: 'none' }}>
+                                {hall.name}
+                              </Link>
                             </div>
                             <div style={{ display: 'flex', gap: 6 }}>
                               <button
@@ -263,7 +270,10 @@ export function OrganisationTree({ organizationId, locations, halls, areas }: Pr
                                 }}>
                                   <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                                     <Grid3x3 size={13} color="#96aed2" />
-                                    <span style={{ fontSize: 13, color: '#222' }}>{area.name}</span>
+                                    <Link href={`/organisation/bereich/${area.id}`} onClick={e => e.stopPropagation()}
+                                style={{ fontSize: 13, color: '#222', textDecoration: 'none' }}>
+                                {area.name}
+                              </Link>
                                   </div>
                                   <button
                                     onClick={() => deleteItem('area', area.id)}
