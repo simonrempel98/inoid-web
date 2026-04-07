@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { MapPin, ChevronRight, ChevronDown, Check, X } from 'lucide-react'
 
 export type OrgLocation = { id: string; name: string }
@@ -34,18 +34,27 @@ export function getOrgRefLabel(
   return ''
 }
 
-export function OrgTreePicker({ locations, halls, areas, value, onChange }: {
+export function OrgTreePicker({ locations, halls, areas, value, onChange, inputStyle }: {
   locations: OrgLocation[]
   halls: OrgHall[]
   areas: OrgArea[]
   value: string
   onChange: (orgRef: string) => void
+  inputStyle?: React.CSSProperties
 }) {
-  const [expanded, setExpanded] = useState<Set<string>>(() => {
-    const s = new Set<string>()
-    locations.forEach(l => s.add(`loc-${l.id}`))
-    return s
-  })
+  const [open, setOpen] = useState(false)
+  const [expanded, setExpanded] = useState<Set<string>>(new Set())
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [])
 
   const toggle = (key: string) => setExpanded(prev => {
     const next = new Set(prev)
@@ -53,7 +62,10 @@ export function OrgTreePicker({ locations, halls, areas, value, onChange }: {
     return next
   })
 
-  const select = (ref: string) => onChange(value === ref ? '' : ref)
+  const select = (ref: string) => {
+    onChange(value === ref ? '' : ref)
+    setOpen(false)
+  }
 
   const hallsByLocation: Record<string, OrgHall[]> = {}
   const unparentedHalls: OrgHall[] = []
@@ -127,16 +139,10 @@ export function OrgTreePicker({ locations, halls, areas, value, onChange }: {
       )
     })
 
-  if (locations.length === 0 && halls.length === 0 && areas.length === 0) {
-    return (
-      <p style={{ fontSize: 12, color: '#96aed2', margin: 0, fontStyle: 'italic' }}>
-        Noch keine Standorte angelegt.
-      </p>
-    )
-  }
+  const label = getOrgRefLabel(value, locations, halls, areas)
 
-  return (
-    <div style={{ border: '1px solid #c8d4e8', borderRadius: 10, background: '#f8fafd', maxHeight: 200, overflowY: 'auto', padding: 6 }}>
+  const tree = (
+    <div style={{ padding: 6 }}>
       {locations.map(l => {
         const ref = `location:${l.id}`
         const key = `loc-${l.id}`
@@ -160,6 +166,53 @@ export function OrgTreePicker({ locations, halls, areas, value, onChange }: {
         )
       })}
       {unparentedHalls.length > 0 && renderHalls(unparentedHalls, 0)}
+    </div>
+  )
+
+  if (locations.length === 0 && halls.length === 0 && areas.length === 0) {
+    return (
+      <p style={{ fontSize: 12, color: '#96aed2', margin: 0, fontStyle: 'italic' }}>
+        Noch keine Standorte angelegt.
+      </p>
+    )
+  }
+
+  return (
+    <div ref={containerRef} style={{ position: 'relative' }}>
+      {/* Trigger */}
+      <div onClick={() => setOpen(o => !o)} style={{
+        ...inputStyle,
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        cursor: 'pointer', userSelect: 'none',
+        color: label ? '#000' : '#aaa',
+      }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          {label && <MapPin size={13} color="#96aed2" />}
+          {label || '– Kein Standort –'}
+        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+          {value && (
+            <span onClick={e => { e.stopPropagation(); onChange('') }}
+              style={{ display: 'flex', alignItems: 'center', color: '#96aed2' }}>
+              <X size={13} />
+            </span>
+          )}
+          <ChevronDown size={14} color="#96aed2" style={{ transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />
+        </div>
+      </div>
+
+      {/* Dropdown */}
+      {open && (
+        <div style={{
+          position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 100,
+          background: 'white', border: '1px solid #c8d4e8', borderRadius: 10,
+          boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+          maxHeight: 220, overflowY: 'auto',
+          marginTop: 4,
+        }}>
+          {tree}
+        </div>
+      )}
     </div>
   )
 }

@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { CheckCircle2, Smartphone, Tag, X } from 'lucide-react'
+import { CheckCircle2, Smartphone, Tag } from 'lucide-react'
 import { OrgTreePicker, getOrgRefLabel, type OrgLocation, type OrgHall, type OrgArea } from '@/components/org-tree-picker'
 
 const STEPS = ['Basisdaten', 'Fotos', 'Technik', 'Kommerziell', 'QR / NFC']
@@ -306,17 +306,9 @@ export function AssetForm({ locations = [], halls = [], areas = [] }: {
                 style={inputStyle} placeholder="z.B. Hilti" />
             </div>
             <div>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-                <label style={labelStyle}>Standort</label>
-                {locationRef && (
-                  <button type="button" onClick={() => setLocationRef('')}
-                    style={{ display: 'flex', alignItems: 'center', gap: 4, background: '#e6f0ff', border: 'none', borderRadius: 20, padding: '2px 8px', cursor: 'pointer', color: '#003366', fontSize: 11, fontWeight: 600 }}>
-                    {getOrgRefLabel(locationRef, locations, halls, areas)} <X size={10} />
-                  </button>
-                )}
-              </div>
+              <label style={labelStyle}>Standort</label>
               {locations.length > 0
-                ? <OrgTreePicker locations={locations} halls={halls} areas={areas} value={locationRef} onChange={setLocationRef} />
+                ? <OrgTreePicker locations={locations} halls={halls} areas={areas} value={locationRef} onChange={setLocationRef} inputStyle={inputStyle} />
                 : <input value={location} onChange={e => setLocation(e.target.value)} style={inputStyle} placeholder="z.B. Lager A" />
               }
             </div>
