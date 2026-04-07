@@ -98,7 +98,7 @@ function LoginForm() {
           fontWeight: 700, fontSize: 16, textDecoration: 'none',
           fontFamily: 'Arial, sans-serif',
         }}>
-          Account beantragen
+          Registrieren
         </Link>
       </div>
 
