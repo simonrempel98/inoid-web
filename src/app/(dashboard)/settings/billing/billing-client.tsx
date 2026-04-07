@@ -200,7 +200,7 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
                   </div>
                   <div style={{ textAlign: 'right', flexShrink: 0, marginLeft: 12 }}>
                     <div style={{ fontSize: 20, fontWeight: 700, color: '#003366' }}>{plan.price_net} €</div>
-                    <div style={{ fontSize: 10, color: '#888' }}>zzgl. MwSt./Jahr</div>
+                    <div style={{ fontSize: 10, color: '#888' }}>zzgl. MwSt./Monat</div>
                   </div>
                 </div>
 

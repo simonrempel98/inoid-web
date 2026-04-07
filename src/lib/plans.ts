@@ -4,7 +4,7 @@ export type Plan = {
   id: PlanId
   name: string
   description: string
-  price_net: number       // € netto/Jahr
+  price_net: number       // € netto/Monat
   vat_rate: number        // 0.19
   asset_limit: number
   user_limit: number | null
@@ -36,7 +36,7 @@ export const PLANS: Plan[] = [
     id: 'starter',
     name: 'Starter',
     description: 'Für kleine Betriebe',
-    price_net: 490,
+    price_net: 50,
     vat_rate: 0.19,
     asset_limit: 100,
     user_limit: 10,
@@ -56,7 +56,7 @@ export const PLANS: Plan[] = [
     id: 'professional',
     name: 'Professional',
     description: 'Für wachsende Teams',
-    price_net: 990,
+    price_net: 100,
     vat_rate: 0.19,
     asset_limit: 500,
     user_limit: null,
@@ -75,7 +75,7 @@ export const PLANS: Plan[] = [
     id: 'enterprise',
     name: 'Enterprise',
     description: 'Für große Organisationen',
-    price_net: 1990,
+    price_net: 329,
     vat_rate: 0.19,
     asset_limit: 10000,
     user_limit: null,

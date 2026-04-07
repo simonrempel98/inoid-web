@@ -134,9 +134,9 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
           <tbody>
             <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
               <td style={{ padding: '12px 0' }}>
-                <div style={{ fontWeight: 700 }}>INOid {planLabel(invoice.plan)} – Jahreslizenz</div>
+                <div style={{ fontWeight: 700 }}>INOid {planLabel(invoice.plan)} – Monatslizenz</div>
                 <div style={{ fontSize: 11, color: '#888', marginTop: 2 }}>
-                  Zugang zur INOid Asset-Management-Plattform, {planLabel(invoice.plan)}-Plan, 1 Jahr
+                  Zugang zur INOid Asset-Management-Plattform, {planLabel(invoice.plan)}-Plan, monatlich kündbar
                 </div>
               </td>
               <td style={{ textAlign: 'right', verticalAlign: 'top', padding: '12px 0', fontWeight: 700 }}>
