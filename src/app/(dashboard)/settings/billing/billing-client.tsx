@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Check, CreditCard, FileText, KeyRound, ChevronDown, ChevronUp, Loader2 } from 'lucide-react'
+import { Check, FileText, KeyRound, ChevronDown, ChevronUp, Loader2 } from 'lucide-react'
 import type { Plan } from '@/lib/plans'
 
 type Invoice = {
@@ -31,44 +31,24 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
   const router = useRouter()
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null)
   const [showInvoiceForm, setShowInvoiceForm] = useState(false)
-  const [showCodeForm, setShowCodeForm] = useState(false)
-  const [loading, setLoading] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState<string | null>(null)
 
-  // Invoice form fields
+  // Rechnungsformular
   const [billingName, setBillingName] = useState(orgName)
   const [billingStreet, setBillingStreet] = useState('')
   const [billingCity, setBillingCity] = useState('')
   const [billingCountry, setBillingCountry] = useState('Deutschland')
   const [billingVatId, setBillingVatId] = useState('')
 
-  // Code activation
+  // Aktivierungscode
   const [activationCode, setActivationCode] = useState('')
-
-  async function handleStripeCheckout() {
-    if (!selectedPlan) return
-    setLoading('stripe')
-    setError(null)
-    try {
-      const res = await fetch('/api/billing/stripe-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ plan_id: selectedPlan }),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error)
-      window.location.href = data.url
-    } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : String(e))
-    } finally {
-      setLoading(null)
-    }
-  }
+  const [codeLoading, setCodeLoading] = useState(false)
 
   async function handleCreateInvoice() {
     if (!selectedPlan) return
-    setLoading('invoice')
+    setLoading(true)
     setError(null)
     try {
       const res = await fetch('/api/billing/create-invoice', {
@@ -90,13 +70,13 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : String(e))
     } finally {
-      setLoading(null)
+      setLoading(false)
     }
   }
 
   async function handleActivateCode() {
     if (!activationCode.trim()) return
-    setLoading('code')
+    setCodeLoading(true)
     setError(null)
     try {
       const res = await fetch('/api/billing/activate-code', {
@@ -106,14 +86,13 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error)
-      setSuccess(`Plan ${planLabel[data.plan] ?? data.plan} erfolgreich aktiviert!`)
-      setShowCodeForm(false)
+      setSuccess(`Plan „${planLabel[data.plan] ?? data.plan}" erfolgreich aktiviert!`)
       setActivationCode('')
       router.refresh()
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : String(e))
     } finally {
-      setLoading(null)
+      setCodeLoading(false)
     }
   }
 
@@ -151,7 +130,7 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
         </div>
       )}
 
-      {/* Plan selection */}
+      {/* Plan-Auswahl */}
       <div style={{ marginBottom: 24 }}>
         <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 10px' }}>
           Plan wählen
@@ -163,7 +142,7 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
             return (
               <div
                 key={plan.id}
-                onClick={() => { setSelectedPlan(plan.id); setShowInvoiceForm(false); setShowCodeForm(false) }}
+                onClick={() => { setSelectedPlan(plan.id); setShowInvoiceForm(false) }}
                 style={{
                   border: `2px solid ${isSelected ? '#0099cc' : plan.highlighted ? '#003366' : '#c8d4e8'}`,
                   borderRadius: 14, padding: '16px', cursor: 'pointer',
@@ -190,7 +169,7 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
                       )}
                     </div>
                     <p style={{ fontSize: 12, color: '#666', margin: '0 0 8px' }}>{plan.description}</p>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
                       {plan.features.slice(0, 3).map(f => (
                         <span key={f} style={{ fontSize: 11, color: '#555', display: 'flex', alignItems: 'center', gap: 3 }}>
                           <Check size={10} color="#0099cc" /> {f}
@@ -205,33 +184,19 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
                 </div>
 
                 {isSelected && (
-                  <div style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid #c8d4e8', display: 'flex', gap: 10 }}>
+                  <div style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid #c8d4e8' }}>
                     <button
-                      onClick={e => { e.stopPropagation(); handleStripeCheckout() }}
-                      disabled={loading === 'stripe'}
+                      onClick={e => { e.stopPropagation(); setShowInvoiceForm(v => !v) }}
                       style={{
-                        flex: 1, padding: '10px 12px',
+                        width: '100%', padding: '10px 12px',
                         background: '#003366', color: 'white',
                         border: 'none', borderRadius: 10, cursor: 'pointer',
                         fontSize: 13, fontWeight: 700,
                         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
                       }}
                     >
-                      {loading === 'stripe' ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <CreditCard size={14} />}
-                      Jetzt mit Karte zahlen
-                    </button>
-                    <button
-                      onClick={e => { e.stopPropagation(); setShowInvoiceForm(v => !v) }}
-                      style={{
-                        flex: 1, padding: '10px 12px',
-                        background: 'white', color: '#003366',
-                        border: '1.5px solid #003366', borderRadius: 10, cursor: 'pointer',
-                        fontSize: 13, fontWeight: 700,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                      }}
-                    >
                       <FileText size={14} />
-                      Auf Rechnung
+                      Rechnung erstellen
                       {showInvoiceForm ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
                     </button>
                   </div>
@@ -242,7 +207,7 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
         </div>
       </div>
 
-      {/* Invoice form */}
+      {/* Rechnungsformular */}
       {showInvoiceForm && selectedPlan && (
         <div style={{
           background: '#f8faff', border: '1px solid #c8d4e8', borderRadius: 14,
@@ -276,35 +241,31 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
           ))}
           <button
             onClick={handleCreateInvoice}
-            disabled={loading === 'invoice' || !billingName.trim()}
+            disabled={loading || !billingName.trim()}
             style={{
               width: '100%', padding: '11px', marginTop: 4,
               background: '#003366', color: 'white',
               border: 'none', borderRadius: 10, cursor: 'pointer',
               fontSize: 14, fontWeight: 700,
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-              opacity: (!billingName.trim() || loading === 'invoice') ? 0.6 : 1,
+              opacity: (!billingName.trim() || loading) ? 0.6 : 1,
             }}
           >
-            {loading === 'invoice'
-              ? <Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} />
-              : <FileText size={15} />}
+            {loading ? <Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} /> : <FileText size={15} />}
             Rechnung erstellen & anzeigen
           </button>
           <p style={{ fontSize: 11, color: '#888', margin: '8px 0 0', textAlign: 'center' }}>
-            Nach Banküberweisung erhalten Sie einen 9-stelligen Aktivierungscode.
+            Nach Überweisung erhalten Sie Ihren 9-stelligen Aktivierungscode per E-Mail.
           </p>
         </div>
       )}
 
-      {/* Code activation */}
+      {/* Aktivierungscode */}
       <div style={{ marginBottom: 24 }}>
         <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 10px' }}>
           Aktivierungscode einlösen
         </p>
-        <div style={{
-          background: 'white', border: '1px solid #c8d4e8', borderRadius: 14, padding: '16px',
-        }}>
+        <div style={{ background: 'white', border: '1px solid #c8d4e8', borderRadius: 14, padding: '16px' }}>
           <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
             <div style={{ flex: 1 }}>
               <input
@@ -319,30 +280,28 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
                 }}
               />
               <p style={{ fontSize: 11, color: '#888', margin: '4px 0 0', textAlign: 'center' }}>
-                Sie finden den Code auf Ihrer bezahlten Rechnung.
+                Den Code finden Sie auf Ihrer bezahlten Rechnung.
               </p>
             </div>
             <button
               onClick={handleActivateCode}
-              disabled={activationCode.length !== 9 || loading === 'code'}
+              disabled={activationCode.length !== 9 || codeLoading}
               style={{
                 padding: '10px 16px', background: '#0099cc', color: 'white',
                 border: 'none', borderRadius: 8, cursor: 'pointer',
                 fontSize: 13, fontWeight: 700, whiteSpace: 'nowrap',
                 display: 'flex', alignItems: 'center', gap: 6,
-                opacity: (activationCode.length !== 9 || loading === 'code') ? 0.5 : 1,
+                opacity: (activationCode.length !== 9 || codeLoading) ? 0.5 : 1,
               }}
             >
-              {loading === 'code'
-                ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} />
-                : <KeyRound size={14} />}
+              {codeLoading ? <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> : <KeyRound size={14} />}
               Aktivieren
             </button>
           </div>
         </div>
       </div>
 
-      {/* Invoice history */}
+      {/* Rechnungshistorie */}
       {invoices.length > 0 && (
         <div>
           <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 10px' }}>
@@ -352,13 +311,10 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
             {invoices.map((inv, i) => (
               <div key={inv.id}>
                 {i > 0 && <div style={{ height: 1, background: '#c8d4e8', margin: '0 16px' }} />}
-                <a
-                  href={`/settings/billing/invoice/${inv.id}`}
-                  style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '13px 16px', textDecoration: 'none', color: 'inherit',
-                  }}
-                >
+                <a href={`/settings/billing/invoice/${inv.id}`} style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '13px 16px', textDecoration: 'none', color: 'inherit',
+                }}>
                   <div>
                     <div style={{ fontSize: 13, fontWeight: 700, color: '#003366' }}>{inv.invoice_number}</div>
                     <div style={{ fontSize: 11, color: '#888' }}>

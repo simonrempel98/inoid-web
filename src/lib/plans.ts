@@ -10,7 +10,6 @@ export type Plan = {
   user_limit: number | null
   features: string[]
   highlighted: boolean
-  stripe_price_id: string | null
 }
 
 export const PLANS: Plan[] = [
@@ -30,7 +29,6 @@ export const PLANS: Plan[] = [
       'Wartungsintervalle',
     ],
     highlighted: false,
-    stripe_price_id: null,
   },
   {
     id: 'starter',
@@ -50,7 +48,6 @@ export const PLANS: Plan[] = [
       'E-Mail-Support',
     ],
     highlighted: false,
-    stripe_price_id: process.env.STRIPE_PRICE_STARTER ?? null,
   },
   {
     id: 'professional',
@@ -69,7 +66,6 @@ export const PLANS: Plan[] = [
       'Prioritäts-Support',
     ],
     highlighted: true,
-    stripe_price_id: process.env.STRIPE_PRICE_PROFESSIONAL ?? null,
   },
   {
     id: 'enterprise',
@@ -88,7 +84,6 @@ export const PLANS: Plan[] = [
       'On-Premise Option',
     ],
     highlighted: false,
-    stripe_price_id: process.env.STRIPE_PRICE_ENTERPRISE ?? null,
   },
 ]
 
@@ -104,14 +99,14 @@ export function planVat(plan: Plan): number {
   return Math.round(plan.price_net * plan.vat_rate * 100) / 100
 }
 
-// Inomet GmbH Rechnungsabsender – anpassen wenn nötig
+// Inomet GmbH Rechnungsabsender
 export const SELLER = {
   name: 'Inomet GmbH',
   street: 'Planckstraße 15',
   city: '70184 Stuttgart',
   country: 'Deutschland',
-  vat_id: 'DE123456789',      // <-- echte USt-ID eintragen
-  tax_number: '99/123/45678', // <-- echte Steuernummer eintragen
+  vat_id: 'DE123456789',
+  tax_number: '99/123/45678',
   email: 'billing@inometa.de',
   bank_name: 'Deutsche Bank',
   iban: 'DE12 3456 7890 1234 5678 90',
