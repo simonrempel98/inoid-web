@@ -344,7 +344,7 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
       {/* Mitglieder-Tabelle */}
       <div style={{ marginBottom: 24 }}>
         <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 8px 2px' }}>
-          Mitglieder einladen
+          Mitglieder anlegen
         </p>
         <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
           {/* Tabellen-Header */}

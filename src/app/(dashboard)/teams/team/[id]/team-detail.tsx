@@ -219,7 +219,7 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
         {!showInvite && (
           <button onClick={() => setShowInvite(true)}
             style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: '#003366', color: 'white', border: 'none', borderRadius: 50, padding: '13px', fontSize: 14, fontWeight: 700, cursor: 'pointer', marginBottom: 20, fontFamily: 'Arial, sans-serif' }}>
-            <UserPlus size={15} /> Mitglied einladen
+            <UserPlus size={15} /> Mitglied anlegen
           </button>
         )}
 
@@ -228,7 +228,7 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
           <div style={{ background: 'white', borderRadius: 14, border: '1px solid #0099cc', overflow: 'hidden', marginBottom: 20 }}>
             <div style={{ padding: '12px 16px', background: '#f0f8ff', borderBottom: '1px solid #c8d4e8', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 13, fontWeight: 700, color: '#003366', display: 'flex', alignItems: 'center', gap: 6 }}>
-                <UserPlus size={14} /> Neues Mitglied einladen
+                <UserPlus size={14} /> Neues Mitglied anlegen
               </span>
               <button onClick={() => { setShowInvite(false); setInviteError(null) }}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#96aed2', display: 'flex' }}>
