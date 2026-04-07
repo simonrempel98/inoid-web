@@ -69,7 +69,7 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
 
   // Mitglied bearbeiten
   const [editingMemberId, setEditingMemberId] = useState<string | null>(null)
-  const [editForm, setEditForm] = useState({ first_name: '', last_name: '', role_id: '' })
+  const [editForm, setEditForm] = useState({ first_name: '', last_name: '', app_role: 'leser' as AppRole })
   const [savingMember, setSavingMember] = useState(false)
 
   // Mitglied einladen
@@ -101,17 +101,20 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
 
   function startEditMember(m: Member) {
     setEditingMemberId(m.id)
-    setEditForm({ first_name: m.first_name ?? '', last_name: m.last_name ?? '', role_id: m.roles?.id ?? '' })
+    setEditForm({ first_name: m.first_name ?? '', last_name: m.last_name ?? '', app_role: m.app_role ?? 'leser' })
   }
 
   async function saveMember() {
     if (!editingMemberId) return
     setSavingMember(true)
+    const member = members.find(m => m.id === editingMemberId)
     await updateMember(editingMemberId, {
       first_name: editForm.first_name || undefined,
       last_name: editForm.last_name || undefined,
-      role_id: editForm.role_id || undefined,
     })
+    if (member?.user_id && editForm.app_role !== member.app_role) {
+      await setMemberRole(member.user_id, editForm.app_role)
+    }
     setSavingMember(false)
     setEditingMemberId(null)
     router.refresh()
@@ -319,8 +322,10 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
                       </div>
                       <div style={{ marginBottom: 10 }}>
                         <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>ROLLE</label>
-                        <select value={editForm.role_id} onChange={e => setEditForm(f => ({ ...f, role_id: e.target.value }))} style={selectStyle}>
-                          {roles.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
+                        <select value={editForm.app_role} onChange={e => setEditForm(f => ({ ...f, app_role: e.target.value as AppRole }))} style={selectStyle}>
+                          {(Object.keys(ROLE_LABELS) as AppRole[]).map(r => (
+                            <option key={r} value={r}>{ROLE_LABELS[r]}</option>
+                          ))}
                         </select>
                       </div>
                       <div style={{ display: 'flex', gap: 8 }}>
