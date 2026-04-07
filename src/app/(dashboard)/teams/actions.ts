@@ -8,6 +8,7 @@ export type InviteMemberInput = {
   last_name: string
   email: string
   role_id: string
+  password: string
 }
 
 export type CreateTeamInput = {
@@ -19,6 +20,15 @@ export type CreateTeamInput = {
   members: InviteMemberInput[]
 }
 
+async function getOrgId() {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return null
+  const { data: profile } = await supabase
+    .from('profiles').select('organization_id').eq('id', user.id).single()
+  return profile?.organization_id ?? null
+}
+
 export async function createTeamWithMembers(input: CreateTeamInput) {
   const supabase = await createClient()
   const admin = createAdminClient()
@@ -26,13 +36,7 @@ export async function createTeamWithMembers(input: CreateTeamInput) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return { error: 'Nicht eingeloggt' }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('organization_id')
-    .eq('id', user.id)
-    .single()
-
-  const orgId = profile?.organization_id
+  const orgId = await getOrgId()
   if (!orgId) return { error: 'Keine Organisation gefunden' }
 
   // 1. Team erstellen
@@ -51,11 +55,11 @@ export async function createTeamWithMembers(input: CreateTeamInput) {
 
   if (teamErr || !team) return { error: teamErr?.message ?? 'Team konnte nicht erstellt werden' }
 
-  // 2. Mitglieder einladen
+  // 2. Mitglieder anlegen
   const results: { email: string; success: boolean; error?: string }[] = []
 
   for (const member of input.members) {
-    if (!member.email.trim()) continue
+    if (!member.email.trim() || !member.password) continue
 
     try {
       // Prüfen ob bereits Mitglied
@@ -76,36 +80,45 @@ export async function createTeamWithMembers(input: CreateTeamInput) {
         continue
       }
 
-      // Neues Mitglied via Supabase Admin Invite einladen (sendet echte E-Mail)
-      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.inoid.app'
-      const { data: invited, error: inviteErr } = await admin.auth.admin.inviteUserByEmail(
-        member.email.trim(),
-        {
-          redirectTo: `${siteUrl}/auth/callback`,
-          data: {
-            organization_id: orgId,
-            team_id: team.id,
-            first_name: member.first_name,
-            last_name: member.last_name,
-          },
-        }
-      )
+      // User direkt anlegen
+      const { data: created, error: createErr } = await admin.auth.admin.createUser({
+        email: member.email.trim(),
+        password: member.password,
+        email_confirm: true,
+        user_metadata: {
+          organization_id: orgId,
+          team_id: team.id,
+          first_name: member.first_name,
+          last_name: member.last_name,
+        },
+      })
 
-      if (inviteErr) {
-        results.push({ email: member.email, success: false, error: inviteErr.message })
+      if (createErr || !created.user) {
+        results.push({ email: member.email, success: false, error: createErr?.message ?? 'Fehler' })
         continue
       }
 
-      // organization_members Eintrag anlegen
+      // Profile anlegen
+      const fullName = [member.first_name, member.last_name].filter(Boolean).join(' ')
+      await admin.from('profiles').insert({
+        id: created.user.id,
+        organization_id: orgId,
+        email: member.email.trim(),
+        full_name: fullName,
+        preferred_language: 'de',
+        is_platform_admin: false,
+      })
+
+      // organization_members anlegen
       await supabase.from('organization_members').insert({
         organization_id: orgId,
-        user_id: invited.user.id,
+        user_id: created.user.id,
         email: member.email.trim(),
         role_id: member.role_id,
         team_id: team.id,
         first_name: member.first_name || null,
         last_name: member.last_name || null,
-        invitation_accepted_at: null,
+        invitation_accepted_at: new Date().toISOString(),
       })
 
       results.push({ email: member.email, success: true })
@@ -115,6 +128,73 @@ export async function createTeamWithMembers(input: CreateTeamInput) {
   }
 
   return { teamId: team.id, results }
+}
+
+export async function addMemberWithPassword(input: {
+  teamId: string
+  first_name: string
+  last_name: string
+  email: string
+  role_id: string
+  password: string
+}) {
+  const supabase = await createClient()
+  const admin = createAdminClient()
+
+  const orgId = await getOrgId()
+  if (!orgId) return { error: 'Keine Organisation gefunden' }
+
+  // Bereits Mitglied?
+  const { data: existing } = await supabase
+    .from('organization_members')
+    .select('id')
+    .eq('organization_id', orgId)
+    .eq('email', input.email.trim())
+    .single()
+
+  if (existing) {
+    await supabase.from('organization_members')
+      .update({ team_id: input.teamId })
+      .eq('id', existing.id)
+    return { success: true }
+  }
+
+  const { data: created, error: createErr } = await admin.auth.admin.createUser({
+    email: input.email.trim(),
+    password: input.password,
+    email_confirm: true,
+    user_metadata: {
+      organization_id: orgId,
+      team_id: input.teamId,
+      first_name: input.first_name,
+      last_name: input.last_name,
+    },
+  })
+
+  if (createErr || !created.user) return { error: createErr?.message ?? 'Fehler beim Anlegen' }
+
+  const fullName = [input.first_name, input.last_name].filter(Boolean).join(' ')
+  await admin.from('profiles').insert({
+    id: created.user.id,
+    organization_id: orgId,
+    email: input.email.trim(),
+    full_name: fullName,
+    preferred_language: 'de',
+    is_platform_admin: false,
+  })
+
+  await supabase.from('organization_members').insert({
+    organization_id: orgId,
+    user_id: created.user.id,
+    email: input.email.trim(),
+    role_id: input.role_id,
+    team_id: input.teamId,
+    first_name: input.first_name || null,
+    last_name: input.last_name || null,
+    invitation_accepted_at: new Date().toISOString(),
+  })
+
+  return { success: true }
 }
 
 export async function updateMember(memberId: string, data: {
@@ -137,28 +217,4 @@ export async function removeMember(memberId: string) {
     .delete()
     .eq('id', memberId)
   return { error: error?.message }
-}
-
-export async function resendInvite(memberId: string) {
-  const supabase = await createClient()
-  const admin = createAdminClient()
-
-  const { data: member } = await supabase
-    .from('organization_members')
-    .select('email, user_id')
-    .eq('id', memberId)
-    .single()
-
-  if (!member) return { error: 'Mitglied nicht gefunden' }
-
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.inoid.app'
-
-  if (member.user_id) {
-    // Neues Invite an bestehende Auth-User ID senden
-    await admin.auth.admin.inviteUserByEmail(member.email, {
-      redirectTo: `${siteUrl}/auth/callback`,
-    })
-  }
-
-  return { success: true }
 }

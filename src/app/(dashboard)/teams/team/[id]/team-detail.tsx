@@ -4,10 +4,10 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import { updateMember, removeMember, resendInvite } from '../../actions'
+import { updateMember, removeMember, addMemberWithPassword } from '../../actions'
 import {
   Users, MapPin, Pencil, X, Check, Trash2,
-  UserPlus, Mail, RefreshCw, KeyRound, ChevronDown, Loader
+  UserPlus, KeyRound, Loader
 } from 'lucide-react'
 
 type Team = {
@@ -74,12 +74,10 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
   const [inviteLast, setInviteLast] = useState('')
   const [inviteEmail, setInviteEmail] = useState('')
   const [inviteRoleId, setInviteRoleId] = useState(roles[0]?.id ?? '')
+  const [invitePassword, setInvitePassword] = useState('')
   const [inviting, setInviting] = useState(false)
   const [inviteError, setInviteError] = useState<string | null>(null)
   const [inviteSuccess, setInviteSuccess] = useState<string | null>(null)
-  const [resending, setResending] = useState<string | null>(null)
-
-  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://www.inoid.app'
 
   async function saveTeam() {
     setSavingTeam(true)
@@ -120,64 +118,30 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
     router.refresh()
   }
 
-  async function handleResend(memberId: string) {
-    setResending(memberId)
-    await resendInvite(memberId)
-    setResending(null)
-    router.refresh()
-  }
-
   async function handleInvite() {
-    if (!inviteEmail.trim()) return
+    if (!inviteEmail.trim() || !invitePassword) return
     setInviting(true)
     setInviteError(null)
     setInviteSuccess(null)
 
-    const supabase = createClient()
-    const token = Array.from({ length: 32 }, () => 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789'[Math.floor(Math.random() * 55)]).join('')
-    const expiresAt = new Date(Date.now() + 12 * 60 * 60 * 1000).toISOString()
+    const result = await addMemberWithPassword({
+      teamId: team.id,
+      first_name: inviteFirst,
+      last_name: inviteLast,
+      email: inviteEmail.trim(),
+      role_id: inviteRoleId || roles[0]?.id,
+      password: invitePassword,
+    })
 
-    const { data: existing } = await supabase
-      .from('organization_members')
-      .select('id, invitation_accepted_at')
-      .eq('organization_id', organizationId)
-      .eq('email', inviteEmail.trim())
-      .single()
-
-    if (existing?.invitation_accepted_at) {
-      await supabase.from('organization_members').update({ team_id: team.id }).eq('id', existing.id)
-      setInviteSuccess(`${inviteEmail} wurde dem Team hinzugefügt.`)
-    } else if (existing) {
-      await supabase.from('organization_members').update({
-        team_id: team.id, invitation_token: token, invitation_expires_at: expiresAt,
-        first_name: inviteFirst || null, last_name: inviteLast || null,
-      }).eq('id', existing.id)
-      setInviteSuccess(`Neue Einladung für ${inviteEmail} erstellt.`)
-    } else {
-      const roleId = inviteRoleId || roles[0]?.id
-      if (!roleId) { setInviteError('Keine Rolle vorhanden.'); setInviting(false); return }
-      const { error } = await supabase.from('organization_members').insert({
-        organization_id: organizationId,
-        email: inviteEmail.trim(),
-        role_id: roleId,
-        team_id: team.id,
-        invitation_token: token,
-        invitation_expires_at: expiresAt,
-        first_name: inviteFirst || null,
-        last_name: inviteLast || null,
-      })
-      if (error) { setInviteError(error.message); setInviting(false); return }
-      setInviteSuccess(`Einladung an ${inviteEmail} erstellt. Link: ${origin}/invite/${token}`)
-    }
-
-    setInviteFirst(''); setInviteLast(''); setInviteEmail('')
     setInviting(false)
+    if (result.error) { setInviteError(result.error); return }
+
+    setInviteFirst(''); setInviteLast(''); setInviteEmail(''); setInvitePassword('')
     setShowInvite(false)
     router.refresh()
   }
 
-  const accepted = members.filter(m => m.invitation_accepted_at)
-  const pending  = members.filter(m => !m.invitation_accepted_at)
+  const accepted = members
   const breadcrumb = [team.departments?.divisions?.name, team.departments?.name].filter(Boolean).join(' › ')
   const label = orgRefLabel(team)
 
@@ -299,12 +263,19 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
                 </select>
               </div>
             </div>
+            <div style={{ height: 1, background: '#e8eef6' }} />
+            <div style={{ padding: '11px 14px' }}>
+              <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>TEMPORÄRES PASSWORT *</label>
+              <input value={invitePassword} onChange={e => setInvitePassword(e.target.value)}
+                placeholder="z.B. Firma2024!"
+                style={{ ...inputStyle, fontSize: 14 }} />
+            </div>
             {inviteError && <p style={{ color: '#E74C3C', fontSize: 12, padding: '0 14px 10px', margin: 0 }}>{inviteError}</p>}
             <div style={{ padding: '10px 14px', borderTop: '1px solid #e8eef6' }}>
-              <button onClick={handleInvite} disabled={inviting || !inviteEmail.trim()}
-                style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#003366', color: 'white', border: 'none', borderRadius: 8, padding: '9px 18px', fontSize: 13, cursor: 'pointer', fontWeight: 700, opacity: inviting || !inviteEmail.trim() ? 0.5 : 1 }}>
-                {inviting ? <Loader size={13} /> : <Mail size={13} />}
-                {inviting ? 'Wird eingeladen…' : 'Einladung erstellen'}
+              <button onClick={handleInvite} disabled={inviting || !inviteEmail.trim() || !invitePassword}
+                style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#003366', color: 'white', border: 'none', borderRadius: 8, padding: '9px 18px', fontSize: 13, cursor: 'pointer', fontWeight: 700, opacity: inviting || !inviteEmail.trim() || !invitePassword ? 0.5 : 1 }}>
+                {inviting ? <Loader size={13} /> : <UserPlus size={13} />}
+                {inviting ? 'Wird angelegt…' : 'Benutzer anlegen'}
               </button>
             </div>
           </div>
@@ -383,43 +354,6 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
           </div>
         )}
 
-        {/* ── Ausstehende Einladungen ───────────────────────────── */}
-        {pending.length > 0 && (
-          <div style={{ marginBottom: 20 }}>
-            <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 8px 2px' }}>
-              Ausstehende Einladungen · {pending.length}
-            </p>
-            <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
-              {pending.map((m, i) => (
-                <div key={m.id}>
-                  {i > 0 && <div style={{ height: 1, background: '#e8eef6', margin: '0 16px' }} />}
-                  <div style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
-                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: '#f0f4ff', border: '2px dashed #c8d4e8', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, color: '#96aed2', flexShrink: 0 }}>
-                      {initials(m)}
-                    </div>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <p style={{ margin: '0 0 1px', fontSize: 14, fontWeight: 600, color: '#000', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                        {[m.first_name, m.last_name].filter(Boolean).join(' ') || m.email}
-                      </p>
-                      <p style={{ margin: 0, fontSize: 12, color: '#888' }}>{m.email}</p>
-                      <span style={{ display: 'inline-block', fontSize: 10, fontWeight: 700, color: '#F39C12', background: '#fef9e7', borderRadius: 20, padding: '2px 8px', marginTop: 3 }}>Einladung ausstehend</span>
-                    </div>
-                    <div style={{ display: 'flex', gap: 4 }}>
-                      <button onClick={() => handleResend(m.id)} title="Erneut einladen" disabled={resending === m.id}
-                        style={{ background: '#f5f8fc', border: '1px solid #c8d4e8', borderRadius: 7, padding: '6px 8px', cursor: 'pointer', color: '#0099cc', display: 'flex' }}>
-                        {resending === m.id ? <Loader size={14} /> : <RefreshCw size={14} />}
-                      </button>
-                      <button onClick={() => handleRemove(m.id, m.email)} title="Entfernen"
-                        style={{ background: '#fff5f5', border: '1px solid #fcc', borderRadius: 7, padding: '6px 8px', cursor: 'pointer', color: '#E74C3C', display: 'flex' }}>
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
 
         {members.length === 0 && (
           <div style={{ textAlign: 'center', padding: '32px 16px', background: 'white', borderRadius: 14, border: '1px solid #c8d4e8' }}>

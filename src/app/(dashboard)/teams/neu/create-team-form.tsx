@@ -10,11 +10,11 @@ type Hall       = { id: string; name: string; location_id: string; locations: { 
 type Area       = { id: string; name: string; hall_id: string; halls: { name: string } | null }
 type Role       = { id: string; name: string }
 
-type MemberRow = { id: string; first_name: string; last_name: string; email: string; role_id: string }
+type MemberRow = { id: string; first_name: string; last_name: string; email: string; role_id: string; password: string }
 
 const emptyRow = (defaultRoleId = ''): MemberRow => ({
   id: Math.random().toString(36).slice(2),
-  first_name: '', last_name: '', email: '', role_id: defaultRoleId,
+  first_name: '', last_name: '', email: '', role_id: defaultRoleId, password: '',
 })
 
 function getOrgRefLabel(
@@ -200,7 +200,7 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
   const addRow = () => setMembers(prev => [...prev, emptyRow(defaultRoleId)])
   const removeRow = (id: string) => setMembers(prev => prev.filter(r => r.id !== id))
 
-  const filledMembers = members.filter(r => r.email.trim())
+  const filledMembers = members.filter(r => r.email.trim() && r.password)
 
   async function handleSubmit() {
     if (!teamName.trim()) { setFormError('Bitte einen Teamnamen eingeben.'); return }
@@ -219,6 +219,7 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
         last_name: r.last_name,
         email: r.email,
         role_id: r.role_id || defaultRoleId,
+        password: r.password,
       })),
     })
 
@@ -240,7 +241,7 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
             <h2 style={{ fontSize: 17, fontWeight: 700, color: '#1a5c3a', margin: 0 }}>Team erstellt!</h2>
           </div>
           <p style={{ fontSize: 14, color: '#2d7a4f', margin: 0 }}>
-            {ok.length > 0 ? `${ok.length} Einladung${ok.length > 1 ? 'en' : ''} erfolgreich versendet.` : 'Team wurde angelegt.'}
+            {ok.length > 0 ? `${ok.length} Benutzer${ok.length > 1 ? '' : ''} erfolgreich angelegt.` : 'Team wurde angelegt.'}
           </p>
         </div>
 
@@ -347,8 +348,8 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
         </p>
         <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
           {/* Tabellen-Header */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1.5fr 1fr 36px', gap: 0, padding: '8px 14px', borderBottom: '1px solid #c8d4e8', background: '#f8fafd' }}>
-            {['Vorname', 'Nachname', 'E-Mail', 'Rolle', ''].map((h, i) => (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1.5fr 1fr 1fr 36px', gap: 0, padding: '8px 14px', borderBottom: '1px solid #c8d4e8', background: '#f8fafd' }}>
+            {['Vorname', 'Nachname', 'E-Mail', 'Rolle', 'Passwort', ''].map((h, i) => (
               <span key={i} style={{ fontSize: 10, fontWeight: 700, color: '#96aed2', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</span>
             ))}
           </div>
@@ -357,7 +358,7 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
           {members.map((row, idx) => (
             <div key={row.id}>
               {idx > 0 && <div style={{ height: 1, background: '#e8eef6' }} />}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1.5fr 1fr 36px', alignItems: 'center', padding: '0 14px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1.5fr 1fr 1fr 36px', alignItems: 'center', padding: '0 14px' }}>
                 <input value={row.first_name} onChange={e => updateRow(row.id, 'first_name', e.target.value)}
                   placeholder="Max"
                   style={{ outline: 'none', border: 'none', fontSize: 13, fontFamily: 'Arial, sans-serif', padding: '11px 8px 11px 0', background: 'transparent', width: '100%' }} />
@@ -371,6 +372,9 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
                   style={{ outline: 'none', border: 'none', fontSize: 12, fontFamily: 'Arial, sans-serif', padding: '11px 4px', background: 'transparent', color: '#000', width: '100%' }}>
                   {roles.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
                 </select>
+                <input value={row.password} onChange={e => updateRow(row.id, 'password', e.target.value)}
+                  placeholder="Temp.-Passwort"
+                  style={{ outline: 'none', border: 'none', fontSize: 13, fontFamily: 'Arial, sans-serif', padding: '11px 8px', background: 'transparent', width: '100%' }} />
                 <button onClick={() => members.length > 1 && removeRow(row.id)} disabled={members.length <= 1}
                   style={{ background: 'none', border: 'none', cursor: members.length > 1 ? 'pointer' : 'default', color: '#c0ccda', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, opacity: members.length <= 1 ? 0.3 : 1 }}>
                   <Trash2 size={14} />
@@ -389,7 +393,7 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
         </div>
         {filledMembers.length > 0 && (
           <p style={{ fontSize: 12, color: '#96aed2', margin: '6px 0 0 2px' }}>
-            {filledMembers.length} Einladung{filledMembers.length > 1 ? 'en' : ''} werden per E-Mail versendet.
+            {filledMembers.length} Benutzer werden direkt angelegt. Bitte Zugangsdaten weitergeben.
           </p>
         )}
       </div>
