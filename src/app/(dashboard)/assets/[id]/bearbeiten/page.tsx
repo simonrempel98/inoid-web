@@ -19,5 +19,6 @@ export default async function AssetBearbeitenPage({
 
   if (!asset) notFound()
 
-  return <AssetEditForm asset={asset} />
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return <AssetEditForm asset={asset as any} />
 }
