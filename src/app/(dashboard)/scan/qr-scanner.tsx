@@ -32,9 +32,9 @@ export function QrScanner() {
   const [torch, setTorch] = useState(false)
   const [scanning, setScanning] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [lastScan, setLastScan] = useState<string | null>(null)
   const [found, setFound] = useState(false)
   const [permDenied, setPermDenied] = useState(false)
+  const cooldownRef = useRef(false) // verhindert Doppelerkennung ohne State-Overhead
 
   // Alle Kameras auflisten
   const listCameras = useCallback(async () => {
@@ -116,69 +116,80 @@ export function QrScanner() {
   }, [])
 
   // QR-Scan Loop
+  // Fixes: Canvas auf feste 640px → jsQR hat 9× weniger Pixel;
+  //        200ms-Throttle → kein Main-Thread-Freeze;
+  //        cooldownRef statt State → kein Stale-Closure durch lastScan-Dependency;
+  //        rAF am Anfang schedulen → Loop läuft immer, Cooldown verhindert Doppelscans
   useEffect(() => {
     if (!scanning) return
 
     const canvas = canvasRef.current
     if (!canvas) return
+
+    // Feste Scan-Auflösung: 640px breit. Canvas VOR getContext dimensionieren,
+    // damit willReadFrequently auf dem richtigen Canvas greift.
+    const SCAN_W = 640
+    canvas.width = SCAN_W
+    canvas.height = 360 // wird beim ersten Frame auf echtes Seitenverhältnis korrigiert
+
     const ctx = canvas.getContext('2d', { willReadFrequently: true })
     if (!ctx) return
 
-    const scan = () => {
+    cooldownRef.current = false
+    let lastAttempt = 0
+
+    const scan = (ts: number) => {
+      // Loop immer weiterführen – Cooldown verhindert Doppelerkennung
+      animRef.current = requestAnimationFrame(scan)
+
+      // Throttle: jsQR nur alle 200ms (~5fps) – reicht für QR, verhindert Freeze
+      if (ts - lastAttempt < 200) return
+      lastAttempt = ts
+
       const video = videoRef.current
-      if (!video || video.readyState < 2) {
-        animRef.current = requestAnimationFrame(scan)
-        return
+      if (!video || video.readyState < 2 || video.videoWidth === 0) return
+
+      // Seitenverhältnis beibehalten, Höhe nur bei Bedarf anpassen
+      const h = Math.round(video.videoHeight * SCAN_W / video.videoWidth)
+      if (canvas.height !== h) canvas.height = h
+
+      ctx.drawImage(video, 0, 0, SCAN_W, h)
+
+      let imageData: ImageData
+      try {
+        imageData = ctx.getImageData(0, 0, SCAN_W, h)
+      } catch {
+        return // SecurityError bei tainted canvas (sollte nicht passieren)
       }
 
-      // Canvas-Dimensionen nur bei Änderung setzen (reset löscht sonst Context-State)
-      if (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight) {
-        canvas.width = video.videoWidth
-        canvas.height = video.videoHeight
-      }
-
-      ctx.drawImage(video, 0, 0)
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-      if (!imageData || imageData.width === 0) {
-        animRef.current = requestAnimationFrame(scan)
-        return
-      }
+      if (cooldownRef.current) return
 
       const code = jsQR(imageData.data, imageData.width, imageData.height, {
         inversionAttempts: 'attemptBoth',
       })
 
-      if (code?.data && code.data !== lastScan) {
-        setLastScan(code.data)
-        handleScanResult(code.data)
-        return
+      if (!code?.data) return
+
+      // QR erkannt – Cooldown setzen
+      cooldownRef.current = true
+      const match = code.data.match(/\/assets\/([0-9a-f-]{36})/i)
+      if (match) {
+        setFound(true)
+        setTimeout(() => router.push(`/assets/${match[1]}`), 600)
+      } else {
+        // Unbekanntes Format: kurz anzeigen, dann weiter scannen
+        setFound(true)
+        setTimeout(() => {
+          setFound(false)
+          cooldownRef.current = false
+        }, 2000)
       }
-      animRef.current = requestAnimationFrame(scan)
     }
 
     animRef.current = requestAnimationFrame(scan)
     return () => cancelAnimationFrame(animRef.current)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scanning, lastScan])
-
-  function handleScanResult(data: string) {
-    setFound(true)
-    cancelAnimationFrame(animRef.current)
-
-    // INOid-URL erkennen: https://inoid.app/assets/{uuid}
-    const match = data.match(/\/assets\/([0-9a-f-]{36})/i)
-    if (match) {
-      setTimeout(() => router.push(`/assets/${match[1]}`), 600)
-      return
-    }
-    // Rohwert anzeigen wenn kein bekanntes Format
-    setTimeout(() => {
-      setFound(false)
-      setLastScan(null)
-      setScanning(true)
-      animRef.current = requestAnimationFrame(() => {})
-    }, 2000)
-  }
+  }, [scanning])
 
   // Zoom anwenden
   async function applyZoom(newZoom: number) {
