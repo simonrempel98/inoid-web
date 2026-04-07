@@ -82,6 +82,8 @@ const FEATURES = [
       'Automatische Berechnung aus letztem Termin',
       'Überfällige Termine sofort sichtbar',
       'Intervalle pro Asset beliebig kombinierbar',
+      'Wartung direkt als erledigt markieren – auch vor Fälligkeit',
+      'Nächster Termin wird beim Abhaken automatisch vorgerückt',
     ],
   },
   {
@@ -164,6 +166,7 @@ const ROLES = [
 
 const TIPS = [
   { icon: Zap, text: 'Asset duplizieren spart Zeit bei der Erfassung gleicher Geräte.' },
+  { icon: CheckCircle2, text: 'Wartung früh erledigt? Einfach den grünen ✓-Button im Wartungs-Dashboard tippen – der nächste Termin wird automatisch berechnet.' },
   { icon: ShieldCheck, text: 'Weise jedem Mitarbeiter die engste Rolle zu – Leser für externe Prüfer.' },
   { icon: Smartphone, text: 'INOid läuft als PWA: Startbildschirm-Link auf dem Smartphone für App-Feeling.' },
   { icon: Bell, text: 'Prüfe täglich das Wartungs-Dashboard – überfällige Intervalle werden rot markiert.' },
