@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { LogoutButton } from '@/components/logout-button'
-import { User, Building2, Users, KeyRound, CreditCard, LogOut, MapPin } from 'lucide-react'
+import { User, Building2, Users, KeyRound, CreditCard, LogOut, MapPin, Layers } from 'lucide-react'
 
 const chevron = (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -114,7 +114,8 @@ export default async function MehrPage() {
         <SectionLabel label="Organisationsverwaltung" />
         <MenuCard items={[
           { href: '/organisation', label: 'Standorte & Struktur', icon: <MapPin size={18} /> },
-          { href: '/settings/invite', label: 'Team & Mitglieder', icon: <Users size={18} /> },
+          { href: '/teams', label: 'Teams', icon: <Layers size={18} /> },
+          { href: '/settings/invite', label: 'Einladungen', icon: <Users size={18} /> },
           { href: '/settings/roles', label: 'Rollen & Rechte', icon: <KeyRound size={18} /> },
         ]} />
       </div>
