@@ -9,8 +9,21 @@ const SECTIONS = [
   {
     items: [
       {
+        href: '/dashboard',
+        label: 'Dashboard',
+        icon: (active: boolean) => (
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+            stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <rect x="3" y="3" width="7" height="7" rx="1"/>
+            <rect x="14" y="3" width="7" height="7" rx="1"/>
+            <rect x="3" y="14" width="7" height="7" rx="1"/>
+            <rect x="14" y="14" width="7" height="7" rx="1"/>
+          </svg>
+        ),
+      },
+      {
         href: '/assets',
-        label: 'Assets',
+        label: 'Asset-Management',
         icon: (active: boolean) => (
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
             stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -123,6 +136,7 @@ export function Sidebar({ userEmail, userName }: { userEmail: string; userName?:
 
   const isActive = (href: string) => {
     if (href === '/assets') return pathname === '/assets' || pathname.startsWith('/assets/')
+    if (href === '/dashboard') return pathname === '/dashboard'
     return pathname.startsWith(href)
   }
 

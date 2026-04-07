@@ -6,8 +6,11 @@ import { usePathname } from 'next/navigation'
 export function BottomNav() {
   const pathname = usePathname()
 
-  const isActive = (href: string) =>
-    href === '/assets' ? pathname.startsWith('/assets') : pathname === href
+  const isActive = (href: string) => {
+    if (href === '/assets') return pathname.startsWith('/assets')
+    if (href === '/dashboard') return pathname === '/dashboard'
+    return pathname === href
+  }
 
   return (
     <nav style={{
@@ -19,7 +22,19 @@ export function BottomNav() {
       zIndex: 50,
     }}>
 
-      {/* Assets */}
+      {/* Dashboard */}
+      <NavItem href="/dashboard" label="Dashboard" active={isActive('/dashboard')}>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+          stroke={isActive('/dashboard') ? '#003366' : '#96aed2'}
+          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="3" width="7" height="7" rx="1"/>
+          <rect x="14" y="3" width="7" height="7" rx="1"/>
+          <rect x="3" y="14" width="7" height="7" rx="1"/>
+          <rect x="14" y="14" width="7" height="7" rx="1"/>
+        </svg>
+      </NavItem>
+
+      {/* Asset-Management */}
       <NavItem href="/assets" label="Assets" active={isActive('/assets')}>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
           stroke={isActive('/assets') ? '#003366' : '#96aed2'}
@@ -36,9 +51,7 @@ export function BottomNav() {
         <Link href="/scan" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
           <div style={{
             width: 60, height: 60, borderRadius: '50%',
-            background: isActive('/scan')
-              ? 'linear-gradient(135deg, #003366, #0099cc)'
-              : 'linear-gradient(135deg, #003366, #0099cc)',
+            background: 'linear-gradient(135deg, #003366, #0099cc)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             boxShadow: '0 4px 16px rgba(0,51,102,0.35)',
             marginTop: -20,
