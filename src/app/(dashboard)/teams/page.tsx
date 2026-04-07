@@ -14,11 +14,11 @@ export default async function TeamsPage() {
 
   const orgId = profile?.organization_id ?? ''
 
-  const [{ data: divisions }, { data: departments }, { data: teams }] = await Promise.all([
-    supabase.from('divisions').select('*').eq('organization_id', orgId).order('name'),
-    supabase.from('departments').select('*').eq('organization_id', orgId).order('name'),
-    supabase.from('teams').select('*, areas(name)').eq('organization_id', orgId).order('name'),
-  ])
+  const { data: teams } = await supabase
+    .from('teams')
+    .select('id, name, location_id, hall_id, area_id, locations(name), halls(name), areas(name)')
+    .eq('organization_id', orgId)
+    .order('name')
 
   return (
     <div style={{ padding: '24px 16px', fontFamily: 'Arial, sans-serif', maxWidth: 560 }}>
@@ -32,16 +32,11 @@ export default async function TeamsPage() {
           + Neues Team
         </Link>
       </div>
-      <p style={{ fontSize: 13, color: '#666666', marginBottom: 24, margin: '4px 0 24px' }}>
-        Bereiche, Abteilungen und Teams verwalten
+      <p style={{ fontSize: 13, color: '#666666', margin: '4px 0 24px' }}>
+        Teams verwalten und bearbeiten
       </p>
 
-      <TeamsTree
-        organizationId={orgId}
-        divisions={divisions ?? []}
-        departments={departments ?? []}
-        teams={(teams ?? []) as any}
-      />
+      <TeamsTree teams={(teams ?? []) as any} />
     </div>
   )
 }
