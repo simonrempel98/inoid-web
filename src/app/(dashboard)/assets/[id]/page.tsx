@@ -7,6 +7,7 @@ import { AssetQrDisplay } from './asset-qr-display'
 import { DuplicateButton } from './duplicate-button'
 import { AssetImageGallery } from './asset-image-gallery'
 import { AssetStatusActions } from './asset-status-actions'
+import { AssetDocuments } from './asset-documents'
 import { getStatusConfig } from '@/lib/asset-statuses'
 import { Tag, Factory, MapPin, Calendar, Settings2, Briefcase, Wrench, Smartphone } from 'lucide-react'
 import { LocationHistory } from './location-history'
@@ -229,6 +230,13 @@ export default async function AssetDetailPage({
           </div>
         )}
       </div>
+
+      {/* Dokumente */}
+      <AssetDocuments
+        assetId={id}
+        initialUrls={(asset as any).document_urls ?? []}
+        canEdit={perms.editAssets}
+      />
 
       {/* QR Code + NFC */}
       <div style={{ padding: '0 16px 16px' }}>
