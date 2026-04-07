@@ -3,7 +3,8 @@
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
-import { ClipboardList, Settings2, Briefcase, Camera, Smartphone, Tag } from 'lucide-react'
+import { ClipboardList, Settings2, Briefcase, Camera, Smartphone, Tag, X } from 'lucide-react'
+import { OrgTreePicker, getOrgRefLabel, type OrgLocation, type OrgHall, type OrgArea } from '@/components/org-tree-picker'
 
 type Asset = {
   id: string
@@ -14,6 +15,7 @@ type Asset = {
   category: string | null
   manufacturer: string | null
   location: string | null
+  location_ref: string | null
   description: string | null
   status: string
   technical_data: Record<string, string> | null
@@ -23,7 +25,12 @@ type Asset = {
   qr_code: string | null
 }
 
-export function AssetEditForm({ asset }: { asset: Asset }) {
+export function AssetEditForm({ asset, locations = [], halls = [], areas = [] }: {
+  asset: Asset
+  locations?: OrgLocation[]
+  halls?: OrgHall[]
+  areas?: OrgArea[]
+}) {
   const router = useRouter()
   const supabase = createClient()
 
@@ -53,6 +60,7 @@ export function AssetEditForm({ asset }: { asset: Asset }) {
   const [category, setCategory] = useState(asset.category ?? '')
   const [manufacturer, setManufacturer] = useState(asset.manufacturer ?? '')
   const [location, setLocation] = useState(asset.location ?? '')
+  const [locationRef, setLocationRef] = useState(asset.location_ref ?? '')
   const [description, setDescription] = useState(asset.description ?? '')
   const [status, setStatus] = useState(asset.status as 'active' | 'in_service' | 'decommissioned')
 
@@ -119,7 +127,8 @@ export function AssetEditForm({ asset }: { asset: Asset }) {
           order_number: orderNumber.trim() || null,
           category: category.trim() || null,
           manufacturer: manufacturer.trim() || null,
-          location: location.trim() || null,
+          location: getOrgRefLabel(locationRef, locations, halls, areas) || location.trim() || null,
+          location_ref: locationRef || null,
           description: description.trim() || null,
           status,
           technical_data: techData,
@@ -231,8 +240,19 @@ export function AssetEditForm({ asset }: { asset: Asset }) {
               <input value={manufacturer} onChange={e => setManufacturer(e.target.value)} style={inputStyle} />
             </div>
             <div>
-              <label style={labelStyle}>Standort</label>
-              <input value={location} onChange={e => setLocation(e.target.value)} style={inputStyle} />
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                <label style={labelStyle}>Standort</label>
+                {locationRef && (
+                  <button type="button" onClick={() => setLocationRef('')}
+                    style={{ display: 'flex', alignItems: 'center', gap: 4, background: '#e6f0ff', border: 'none', borderRadius: 20, padding: '2px 8px', cursor: 'pointer', color: '#003366', fontSize: 11, fontWeight: 600 }}>
+                    {getOrgRefLabel(locationRef, locations, halls, areas)} <X size={10} />
+                  </button>
+                )}
+              </div>
+              {locations.length > 0
+                ? <OrgTreePicker locations={locations} halls={halls} areas={areas} value={locationRef} onChange={setLocationRef} />
+                : <input value={location} onChange={e => setLocation(e.target.value)} style={inputStyle} placeholder="z.B. Lager A" />
+              }
             </div>
           </div>
           <div>

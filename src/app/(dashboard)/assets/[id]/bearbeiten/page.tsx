@@ -19,6 +19,21 @@ export default async function AssetBearbeitenPage({
 
   if (!asset) notFound()
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return <AssetEditForm asset={asset as any} />
+  const { data: { user } } = await supabase.auth.getUser()
+  const { data: profile } = await supabase
+    .from('profiles').select('organization_id').eq('id', user!.id).single()
+
+  const orgId = profile?.organization_id ?? ''
+  const [{ data: locations }, { data: halls }, { data: areas }] = await Promise.all([
+    supabase.from('locations').select('id, name').eq('organization_id', orgId).order('name'),
+    supabase.from('halls').select('id, name, location_id, locations(name)').eq('organization_id', orgId).order('name'),
+    supabase.from('areas').select('id, name, hall_id, halls(name)').eq('organization_id', orgId).order('name'),
+  ])
+
+  return <AssetEditForm
+    asset={asset as any}
+    locations={locations ?? []}
+    halls={(halls ?? []) as any}
+    areas={(areas ?? []) as any}
+  />
 }
