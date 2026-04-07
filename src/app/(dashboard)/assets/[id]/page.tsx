@@ -7,6 +7,7 @@ import { AssetImageGallery } from './asset-image-gallery'
 import { AssetStatusActions } from './asset-status-actions'
 import { getStatusConfig } from '@/lib/asset-statuses'
 import { Tag, Factory, MapPin, Calendar, Settings2, Briefcase, Wrench, Smartphone } from 'lucide-react'
+import { LocationHistory } from './location-history'
 
 export default async function AssetDetailPage({
   params,
@@ -30,6 +31,12 @@ export default async function AssetDetailPage({
     .select('settings')
     .single()
   const customStatuses = (org?.settings as { custom_statuses?: { value: string; label: string; color: string }[] })?.custom_statuses ?? []
+
+  const { data: locationHistory } = await supabase
+    .from('asset_location_history')
+    .select('id, location, changed_at')
+    .eq('asset_id', id)
+    .order('changed_at', { ascending: false })
 
   const { data: events } = await supabase
     .from('asset_lifecycle_events')
@@ -117,7 +124,10 @@ export default async function AssetDetailPage({
           <InfoCard icon={<Factory size={14} />} label="Hersteller" value={asset.manufacturer} />
         )}
         {asset.location && (
-          <InfoCard icon={<MapPin size={14} />} label="Standort" value={asset.location} />
+          <LocationHistory
+            current={asset.location}
+            history={locationHistory ?? []}
+          />
         )}
         {asset.created_at && (
           <InfoCard icon={<Calendar size={14} />} label="Angelegt" value={new Date(asset.created_at).toLocaleDateString('de-DE')} />
