@@ -1,13 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
-import { notFound } from 'next/navigation'
-import { TeamDetail } from './team-detail'
+import { CreateTeamForm } from './create-team-form'
 
-export default async function TeamDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>
-}) {
-  const { id } = await params
+export default async function TeamsNeuPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
@@ -19,26 +13,16 @@ export default async function TeamDetailPage({
 
   const orgId = profile?.organization_id ?? ''
 
-  const { data: team } = await supabase
-    .from('teams')
-    .select('*, departments(name, divisions(name)), areas(id, name), halls(id, name), locations(id, name)')
-    .eq('id', id)
-    .single()
-
-  if (!team) notFound()
-
   const [
-    { data: members },
+    { data: divisions },
+    { data: departments },
     { data: locations },
     { data: halls },
     { data: areas },
     { data: roles },
   ] = await Promise.all([
-    supabase.from('organization_members')
-      .select('id, email, first_name, last_name, invitation_accepted_at, roles(id, name)')
-      .eq('organization_id', orgId)
-      .eq('team_id', id)
-      .order('created_at'),
+    supabase.from('divisions').select('id, name').eq('organization_id', orgId).order('name'),
+    supabase.from('departments').select('id, name, division_id').eq('organization_id', orgId).order('name'),
     supabase.from('locations').select('id, name').eq('organization_id', orgId).order('name'),
     supabase.from('halls').select('id, name, location_id, locations(name)').eq('organization_id', orgId).order('name'),
     supabase.from('areas').select('id, name, hall_id, halls(name)').eq('organization_id', orgId).order('name'),
@@ -46,14 +30,13 @@ export default async function TeamDetailPage({
   ])
 
   return (
-    <TeamDetail
-      team={team as any}
-      members={(members ?? []) as any}
-      locations={(locations ?? []) as any}
+    <CreateTeamForm
+      divisions={divisions ?? []}
+      departments={(departments ?? []) as any}
+      locations={locations ?? []}
       halls={(halls ?? []) as any}
       areas={(areas ?? []) as any}
       roles={roles ?? []}
-      organizationId={orgId}
     />
   )
 }
