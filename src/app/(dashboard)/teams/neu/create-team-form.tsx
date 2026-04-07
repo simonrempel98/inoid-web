@@ -1,13 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createTeamWithMembers } from './actions'
 import { Plus, Trash2, Users, MapPin, Check, AlertCircle, Loader, ChevronRight, ChevronDown, X } from 'lucide-react'
 
-type Division   = { id: string; name: string }
-type Department = { id: string; name: string; division_id: string }
 type Location   = { id: string; name: string }
 type Hall       = { id: string; name: string; location_id: string; locations: { name: string } | null }
 type Area       = { id: string; name: string; hall_id: string; halls: { name: string } | null }
@@ -184,24 +181,18 @@ function OrgTreePicker({ locations, halls, areas, value, onChange }: {
   )
 }
 
-export function CreateTeamForm({ divisions, departments, locations, halls, areas, roles }: {
-  divisions: Division[]; departments: Department[]
+export function CreateTeamForm({ locations, halls, areas, roles }: {
   locations: Location[]; halls: Hall[]; areas: Area[]; roles: Role[]
 }) {
-  const router = useRouter()
   const defaultRoleId = roles[0]?.id ?? ''
 
   const [teamName, setTeamName] = useState('')
-  const [divisionId, setDivisionId] = useState(divisions[0]?.id ?? '')
-  const [departmentId, setDepartmentId] = useState('')
   const [orgRef, setOrgRef] = useState('')
   const [members, setMembers] = useState<MemberRow[]>([emptyRow(defaultRoleId)])
   const [submitting, setSubmitting] = useState(false)
   const [results, setResults] = useState<{ email: string; success: boolean; error?: string }[] | null>(null)
   const [teamId, setTeamId] = useState<string | null>(null)
   const [formError, setFormError] = useState<string | null>(null)
-
-  const filteredDepts = departments.filter(d => !divisionId || d.division_id === divisionId)
 
   const updateRow = (id: string, field: keyof MemberRow, value: string) =>
     setMembers(prev => prev.map(r => r.id === id ? { ...r, [field]: value } : r))
@@ -213,7 +204,6 @@ export function CreateTeamForm({ divisions, departments, locations, halls, areas
 
   async function handleSubmit() {
     if (!teamName.trim()) { setFormError('Bitte einen Teamnamen eingeben.'); return }
-    if (!departmentId) { setFormError('Bitte eine Abteilung auswählen.'); return }
     setFormError(null)
     setSubmitting(true)
 
@@ -221,7 +211,6 @@ export function CreateTeamForm({ divisions, departments, locations, halls, areas
 
     const result = await createTeamWithMembers({
       name: teamName.trim(),
-      department_id: departmentId,
       location_id: type === 'location' ? id : undefined,
       hall_id: type === 'hall' ? id : undefined,
       area_id: type === 'area' ? id : undefined,
@@ -314,25 +303,6 @@ export function CreateTeamForm({ divisions, departments, locations, halls, areas
               style={{ width: '100%', outline: 'none', border: 'none', fontSize: 15, fontWeight: 600, fontFamily: 'Arial, sans-serif', background: 'transparent', color: '#000' }} />
           </div>
 
-          <div style={{ height: 1, background: '#c8d4e8' }} />
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr' }}>
-            <div style={{ padding: '13px 16px', borderRight: '1px solid #c8d4e8' }}>
-              <label style={{ display: 'block', fontSize: 11, color: '#96aed2', marginBottom: 4, fontWeight: 700 }}>BEREICH *</label>
-              <select value={divisionId} onChange={e => { setDivisionId(e.target.value); setDepartmentId('') }}
-                style={{ width: '100%', outline: 'none', border: 'none', fontSize: 14, fontFamily: 'Arial, sans-serif', background: 'transparent', color: '#000' }}>
-                <option value="">– Auswählen –</option>
-                {divisions.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
-              </select>
-            </div>
-            <div style={{ padding: '13px 16px' }}>
-              <label style={{ display: 'block', fontSize: 11, color: '#96aed2', marginBottom: 4, fontWeight: 700 }}>ABTEILUNG *</label>
-              <select value={departmentId} onChange={e => setDepartmentId(e.target.value)}
-                style={{ width: '100%', outline: 'none', border: 'none', fontSize: 14, fontFamily: 'Arial, sans-serif', background: 'transparent', color: filteredDepts.length === 0 ? '#aaa' : '#000' }}>
-                <option value="">– Auswählen –</option>
-                {filteredDepts.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
-              </select>
-            </div>
-          </div>
         </div>
       </div>
 
@@ -432,12 +402,12 @@ export function CreateTeamForm({ divisions, departments, locations, halls, areas
       )}
 
       {/* Submit */}
-      <button onClick={handleSubmit} disabled={submitting || !teamName.trim() || !departmentId}
+      <button onClick={handleSubmit} disabled={submitting || !teamName.trim()}
         style={{
           width: '100%', background: '#003366', color: 'white', border: 'none', borderRadius: 50,
           padding: '15px', fontSize: 15, fontWeight: 700, cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-          opacity: submitting || !teamName.trim() || !departmentId ? 0.5 : 1,
+          opacity: submitting || !teamName.trim() ? 0.5 : 1,
           fontFamily: 'Arial, sans-serif',
         }}>
         {submitting ? <><Loader size={16} /> Wird erstellt…</> : <><Users size={16} /> Team erstellen & Einladungen senden</>}

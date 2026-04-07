@@ -12,7 +12,7 @@ export type InviteMemberInput = {
 
 export type CreateTeamInput = {
   name: string
-  department_id: string
+  department_id?: string
   location_id?: string
   hall_id?: string
   area_id?: string
@@ -40,7 +40,7 @@ export async function createTeamWithMembers(input: CreateTeamInput) {
     .from('teams')
     .insert({
       organization_id: orgId,
-      department_id: input.department_id,
+      department_id: input.department_id || null,
       name: input.name,
       location_id: input.location_id || null,
       hall_id: input.hall_id || null,

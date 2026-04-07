@@ -14,15 +14,11 @@ export default async function TeamsNeuPage() {
   const orgId = profile?.organization_id ?? ''
 
   const [
-    { data: divisions },
-    { data: departments },
     { data: locations },
     { data: halls },
     { data: areas },
     { data: roles },
   ] = await Promise.all([
-    supabase.from('divisions').select('id, name').eq('organization_id', orgId).order('name'),
-    supabase.from('departments').select('id, name, division_id').eq('organization_id', orgId).order('name'),
     supabase.from('locations').select('id, name').eq('organization_id', orgId).order('name'),
     supabase.from('halls').select('id, name, location_id, locations(name)').eq('organization_id', orgId).order('name'),
     supabase.from('areas').select('id, name, hall_id, halls(name)').eq('organization_id', orgId).order('name'),
@@ -31,8 +27,6 @@ export default async function TeamsNeuPage() {
 
   return (
     <CreateTeamForm
-      divisions={divisions ?? []}
-      departments={(departments ?? []) as any}
       locations={locations ?? []}
       halls={(halls ?? []) as any}
       areas={(areas ?? []) as any}
