@@ -30,7 +30,35 @@ export async function GET(request: Request) {
     .single()
 
   if (!existingProfile) {
-    // Neues Profile anlegen
+    const invitedOrgId = user.user_metadata?.organization_id as string | undefined
+
+    // Eingeladener User → bestehender Organisation zuordnen
+    if (invitedOrgId) {
+      const firstName = user.user_metadata?.first_name ?? ''
+      const lastName  = user.user_metadata?.last_name  ?? ''
+      const fullName  = [firstName, lastName].filter(Boolean).join(' ')
+        || user.email?.split('@')[0] ?? ''
+
+      await adminClient.from('profiles').insert({
+        id: user.id,
+        organization_id: invitedOrgId,
+        email: user.email!,
+        full_name: fullName,
+        preferred_language: 'de',
+        is_platform_admin: false,
+      })
+
+      // Einladung als angenommen markieren
+      await adminClient
+        .from('organization_members')
+        .update({ invitation_accepted_at: new Date().toISOString() })
+        .eq('user_id', user.id)
+        .is('invitation_accepted_at', null)
+
+      return NextResponse.redirect(`${origin}/einladung/willkommen`)
+    }
+
+    // Neuer User → eigene Organisation anlegen
     const fullName = user.user_metadata?.full_name ?? user.email?.split('@')[0] ?? ''
     const orgName = user.user_metadata?.organization_name ?? `${fullName}'s Organisation`
     const slug = orgName.toLowerCase()
