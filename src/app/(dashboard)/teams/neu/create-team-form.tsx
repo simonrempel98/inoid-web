@@ -248,7 +248,7 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
         {err.length > 0 && (
           <div style={{ background: '#fff5f5', border: '1px solid #E74C3C', borderRadius: 14, padding: '16px', marginBottom: 20 }}>
             <p style={{ fontSize: 13, fontWeight: 700, color: '#E74C3C', margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <AlertCircle size={14} /> Fehler bei {err.length} Einladung{err.length > 1 ? 'en' : ''}:
+              <AlertCircle size={14} /> Fehler bei {err.length} Mitglied{err.length > 1 ? 'ern' : ''}:
             </p>
             {err.map(e => (
               <p key={e.email} style={{ fontSize: 12, color: '#c0392b', margin: '4px 0' }}>
@@ -414,7 +414,7 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
           opacity: submitting || !teamName.trim() ? 0.5 : 1,
           fontFamily: 'Arial, sans-serif',
         }}>
-        {submitting ? <><Loader size={16} /> Wird erstellt…</> : <><Users size={16} /> Team erstellen & Einladungen senden</>}
+        {submitting ? <><Loader size={16} /> Wird erstellt…</> : <><Users size={16} /> Team erstellen & Mitglieder anlegen</>}
       </button>
     </div>
   )

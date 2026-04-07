@@ -24,10 +24,10 @@ export default async function InvitePage() {
   return (
     <div style={{ padding: '24px 16px', fontFamily: 'Arial, sans-serif', maxWidth: 480 }}>
       <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000000', marginBottom: 6 }}>
-        Einladungen
+        Mitglieder anlegen
       </h1>
       <p style={{ fontSize: 13, color: '#666666', marginBottom: 24, margin: '0 0 24px' }}>
-        Lade Teammitglieder mit einem 12-Stunden-Code ein.
+        Lege neue Mitglieder direkt für deine Organisation an.
       </p>
 
       <InviteManager organizationId={orgId} invitations={invitations ?? []} />

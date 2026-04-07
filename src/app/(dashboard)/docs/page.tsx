@@ -124,7 +124,7 @@ const FEATURES = [
       'Admin: voller Zugriff + Benutzerverwaltung',
       'Techniker: Assets & Service bearbeiten',
       'Leser: nur Ansicht, keine Änderungen',
-      'Einladung per E-Mail',
+      'Mitglieder direkt anlegen (E-Mail + Passwort)',
       'Rollen jederzeit änderbar',
     ],
   },
@@ -159,7 +159,7 @@ const FEATURES = [
 ]
 
 const ROLES = [
-  { role: 'Admin', color: '#003366', bg: '#e8f0f8', points: ['Alles lesen & bearbeiten', 'Assets anlegen & löschen', 'Team verwalten & einladen', 'Rollen vergeben', 'Einstellungen ändern'] },
+  { role: 'Admin', color: '#003366', bg: '#e8f0f8', points: ['Alles lesen & bearbeiten', 'Assets anlegen & löschen', 'Mitglieder anlegen & verwalten', 'Rollen vergeben', 'Einstellungen ändern'] },
   { role: 'Techniker', color: '#0077b6', bg: '#e6f4fb', points: ['Alle Assets sehen', 'Assets & Serviceheft bearbeiten', 'Serviceeinträge anlegen', 'Wartungsintervalle pflegen', 'Keine Teamverwaltung'] },
   { role: 'Leser', color: '#6b7d99', bg: '#f4f6f9', points: ['Alle Assets sehen', 'Serviceheft lesen', 'Keine Bearbeitungsrechte', 'Kein Anlegen/Löschen', 'Ideal für Prüfer & Externe'] },
 ]
@@ -441,7 +441,7 @@ export default function DocsPage() {
             }}>
               <span style={{ fontSize: 18, flexShrink: 0 }}>💡</span>
               <p style={{ fontSize: 13, color: '#555', margin: 0, lineHeight: 1.5 }}>
-                Rollen verwaltest du unter <strong>Teams → Mitglied auswählen → Rolle ändern</strong>. Neue Mitglieder einladen geht über <strong>Teams → Team öffnen → + Einladen</strong>.
+                Rollen verwaltest du unter <strong>Teams → Mitglied auswählen → Rolle ändern</strong>. Neue Mitglieder anlegst du über <strong>Teams → Team öffnen → Mitglied anlegen</strong>.
               </p>
             </div>
           </div>

@@ -160,7 +160,7 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
             }}
           >
             <Mail size={14} />
-            Einladen
+            Anlegen
           </button>
         </div>
         {error && <p style={{ color: '#E74C3C', fontSize: 13, marginTop: 8, margin: '8px 0 0' }}>{error}</p>}
@@ -207,7 +207,7 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
                     )}
                     <button
                       onClick={() => deleteInvite(inv.id)}
-                      title="Einladung löschen"
+                      title="Eintrag löschen"
                       style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: '#c0ccda', display: 'flex' }}
                     >
                       <Trash2 size={15} />
@@ -254,7 +254,7 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
 
       {invitations.length === 0 && (
         <p style={{ textAlign: 'center', color: '#aaa', fontSize: 13, marginTop: 16 }}>
-          Noch keine Einladungen verschickt.
+          Noch keine Mitglieder angelegt.
         </p>
       )}
     </div>
