@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { LogoutButton } from '@/components/logout-button'
-import { User, Building2, Users, KeyRound, CreditCard, LogOut, MapPin, Layers } from 'lucide-react'
+import { User, Building2, Users, KeyRound, CreditCard, LogOut, MapPin, Layers, BookOpen } from 'lucide-react'
 
 const chevron = (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -133,6 +133,14 @@ export default async function MehrPage() {
         <SectionLabel label="Abonnement" />
         <MenuCard items={[
           { href: '/settings/billing', label: 'Plan & Abrechnung', icon: <CreditCard size={18} /> },
+        ]} />
+      </div>
+
+      {/* Hilfe */}
+      <div style={{ marginBottom: 20 }}>
+        <SectionLabel label="Hilfe" />
+        <MenuCard items={[
+          { href: '/docs', label: 'Dokumentation', icon: <BookOpen size={18} /> },
         ]} />
       </div>
 

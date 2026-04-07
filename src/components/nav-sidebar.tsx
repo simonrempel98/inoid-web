@@ -218,11 +218,26 @@ export function Sidebar({ userEmail, userName }: { userEmail: string; userName?:
         ))}
       </nav>
 
-      {/* User + Logout */}
+      {/* User + Docs + Logout */}
       <div style={{ padding: '14px 20px', borderTop: '1px solid rgba(150,174,210,0.2)' }}>
-        <p style={{ color: '#c8d4e8', fontSize: 13, margin: '0 0 8px', fontFamily: 'Arial, sans-serif', fontWeight: 600 }}>
+        <p style={{ color: '#c8d4e8', fontSize: 13, margin: '0 0 10px', fontFamily: 'Arial, sans-serif', fontWeight: 600 }}>
           {userName ?? userEmail}
         </p>
+        <Link href="/docs" style={{
+          display: 'flex', alignItems: 'center', gap: 8,
+          padding: '8px 10px', borderRadius: 8, marginBottom: 8,
+          background: 'rgba(150,174,210,0.12)',
+          color: '#96aed2', textDecoration: 'none',
+          fontSize: 13, fontFamily: 'Arial, sans-serif', fontWeight: 600,
+          transition: 'background 0.15s',
+        }}>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#96aed2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          Dokumentation
+        </Link>
         <LogoutButton />
       </div>
     </aside>
