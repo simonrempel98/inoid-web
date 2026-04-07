@@ -10,9 +10,12 @@ import {
 } from 'lucide-react'
 
 type Team = {
-  id: string; name: string; area_id: string | null
+  id: string; name: string
+  area_id: string | null; hall_id: string | null; location_id: string | null
   departments: { name: string; divisions: { name: string } | null } | null
   areas: { id: string; name: string } | null
+  halls: { id: string; name: string } | null
+  locations: { id: string; name: string } | null
 }
 type Member = {
   id: string; email: string
@@ -21,8 +24,10 @@ type Member = {
   invitation_accepted_at: string | null
   roles: { name: string } | null
 }
-type Area   = { id: string; name: string; halls: { name: string } | null }
-type Role   = { id: string; name: string }
+type Location = { id: string; name: string }
+type Hall     = { id: string; name: string; location_id: string; locations: { name: string } | null }
+type Area     = { id: string; name: string; hall_id: string; halls: { name: string } | null }
+type Role     = { id: string; name: string }
 
 function randomToken() {
   const chars = 'ABCDEFGHJKMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789'
@@ -41,13 +46,29 @@ function timeLeft(m: Member) {
   return `${h}h ${min}m`
 }
 
-export function TeamDetail({ team, members, areas, roles, organizationId }: {
-  team: Team; members: Member[]; areas: Area[]; roles: Role[]; organizationId: string
+// Kombinierter Wert: "location:uuid" | "hall:uuid" | "area:uuid" | ""
+function encodeRef(team: Team): string {
+  if (team.area_id) return `area:${team.area_id}`
+  if (team.hall_id) return `hall:${team.hall_id}`
+  if (team.location_id) return `location:${team.location_id}`
+  return ''
+}
+function orgRefLabel(team: Team): string | null {
+  if (team.areas) return team.areas.name
+  if (team.halls) return team.halls.name
+  if (team.locations) return team.locations.name
+  return null
+}
+
+export function TeamDetail({ team, members, locations, halls, areas, roles, organizationId }: {
+  team: Team; members: Member[]
+  locations: Location[]; halls: Hall[]; areas: Area[]
+  roles: Role[]; organizationId: string
 }) {
   const router = useRouter()
   const [editingName, setEditingName] = useState(false)
   const [name, setName] = useState(team.name)
-  const [selectedAreaId, setSelectedAreaId] = useState(team.area_id ?? '')
+  const [orgRef, setOrgRef] = useState(encodeRef(team))
   const [saving, setSaving] = useState(false)
 
   const [inviteEmail, setInviteEmail] = useState('')
@@ -61,9 +82,12 @@ export function TeamDetail({ team, members, areas, roles, organizationId }: {
   async function saveTeam() {
     setSaving(true)
     const supabase = createClient()
+    const [type, id] = orgRef ? orgRef.split(':') : ['', '']
     await supabase.from('teams').update({
       name,
-      area_id: selectedAreaId || null,
+      location_id: type === 'location' ? id : null,
+      hall_id:     type === 'hall'     ? id : null,
+      area_id:     type === 'area'     ? id : null,
     }).eq('id', team.id)
     setSaving(false)
     setEditingName(false)
@@ -158,13 +182,37 @@ export function TeamDetail({ team, members, areas, roles, organizationId }: {
               autoFocus
               style={{ fontSize: 22, fontWeight: 700, color: 'white', background: 'transparent', border: 'none', borderBottom: '2px solid rgba(255,255,255,0.5)', outline: 'none', width: '100%', marginBottom: 8, fontFamily: 'Arial, sans-serif' }} />
             <div style={{ marginBottom: 12 }}>
-              <label style={{ display: 'block', fontSize: 11, color: 'rgba(255,255,255,0.6)', marginBottom: 4 }}>Bereich zuordnen (optional)</label>
-              <select value={selectedAreaId} onChange={e => setSelectedAreaId(e.target.value)}
+              <label style={{ display: 'block', fontSize: 11, color: 'rgba(255,255,255,0.6)', marginBottom: 4 }}>
+                Standort zuordnen (optional)
+              </label>
+              <select value={orgRef} onChange={e => setOrgRef(e.target.value)}
                 style={{ background: 'rgba(255,255,255,0.15)', color: 'white', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 8, padding: '6px 10px', fontSize: 13, outline: 'none', width: '100%' }}>
-                <option value="">– Kein Bereich –</option>
-                {areas.map(a => (
-                  <option key={a.id} value={a.id}>{a.halls?.name ? `${a.halls.name} › ` : ''}{a.name}</option>
-                ))}
+                <option value="">– Keine Zuordnung –</option>
+                {locations.length > 0 && (
+                  <optgroup label="Standorte">
+                    {locations.map(l => (
+                      <option key={l.id} value={`location:${l.id}`}>{l.name}</option>
+                    ))}
+                  </optgroup>
+                )}
+                {halls.length > 0 && (
+                  <optgroup label="Hallen">
+                    {halls.map(h => (
+                      <option key={h.id} value={`hall:${h.id}`}>
+                        {h.locations?.name ? `${h.locations.name} › ` : ''}{h.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                )}
+                {areas.length > 0 && (
+                  <optgroup label="Bereiche">
+                    {areas.map(a => (
+                      <option key={a.id} value={`area:${a.id}`}>
+                        {a.halls?.name ? `${a.halls.name} › ` : ''}{a.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                )}
               </select>
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
@@ -172,7 +220,7 @@ export function TeamDetail({ team, members, areas, roles, organizationId }: {
                 style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'white', color: '#003366', border: 'none', borderRadius: 20, padding: '7px 16px', fontSize: 13, cursor: 'pointer', fontWeight: 700, opacity: saving ? 0.6 : 1 }}>
                 <Check size={13} /> Speichern
               </button>
-              <button onClick={() => { setEditingName(false); setName(team.name); setSelectedAreaId(team.area_id ?? '') }}
+              <button onClick={() => { setEditingName(false); setName(team.name); setOrgRef(encodeRef(team)) }}
                 style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'transparent', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 20, padding: '7px 16px', fontSize: 13, cursor: 'pointer' }}>
                 <X size={13} /> Abbrechen
               </button>
@@ -183,10 +231,10 @@ export function TeamDetail({ team, members, areas, roles, organizationId }: {
             <div>
               {breadcrumb && <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: 12, margin: '0 0 4px' }}>{breadcrumb}</p>}
               <h1 style={{ fontSize: 24, fontWeight: 700, color: 'white', margin: '0 0 6px' }}>{team.name}</h1>
-              {team.areas && (
+              {orgRefLabel(team) && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                   <MapPin size={12} color="rgba(255,255,255,0.6)" />
-                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>{team.areas.name}</span>
+                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)' }}>{orgRefLabel(team)}</span>
                 </div>
               )}
               <div style={{ marginTop: 10, display: 'flex', alignItems: 'center', gap: 6 }}>
