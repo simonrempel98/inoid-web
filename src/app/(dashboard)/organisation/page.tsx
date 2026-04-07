@@ -1,9 +1,13 @@
 import { createClient } from '@/lib/supabase/server'
 import { OrganisationTree } from './organisation-tree'
+import { getRole } from '@/lib/get-role'
+import { can } from '@/lib/permissions'
 
 export default async function OrganisationPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
+  const role = await getRole()
+  const canEdit = can(role).editOrgStructure
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -39,6 +43,7 @@ export default async function OrganisationPage() {
         locations={locations ?? []}
         halls={halls ?? []}
         areas={areas ?? []}
+        canEdit={canEdit}
       />
     </div>
   )

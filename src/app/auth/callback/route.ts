@@ -163,7 +163,7 @@ export async function GET(request: Request) {
 
     const ownerRole = roles?.find(r => r.name === 'OWNER')
 
-    // Profile anlegen
+    // Profile anlegen (Org-Ersteller = Admin)
     await adminClient.from('profiles').insert({
       id: user.id,
       organization_id: org.id,
@@ -171,6 +171,7 @@ export async function GET(request: Request) {
       full_name: fullName,
       preferred_language: 'de',
       is_platform_admin: false,
+      app_role: 'admin',
     })
 
     // User als OWNER eintragen

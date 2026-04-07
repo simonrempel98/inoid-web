@@ -2,12 +2,14 @@
 
 import { createAdminClient } from '@/lib/supabase/admin'
 import { createClient } from '@/lib/supabase/server'
+import type { AppRole } from '@/lib/permissions'
 
 export type InviteMemberInput = {
   first_name: string
   last_name: string
   email: string
   role_id: string
+  app_role: AppRole
   password: string
 }
 
@@ -27,6 +29,15 @@ async function getOrgId() {
   const { data: profile } = await supabase
     .from('profiles').select('organization_id').eq('id', user.id).single()
   return profile?.organization_id ?? null
+}
+
+async function getCurrentAppRole(): Promise<AppRole> {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return 'leser'
+  const { data: profile } = await supabase
+    .from('profiles').select('app_role').eq('id', user.id).single()
+  return (profile?.app_role as AppRole) ?? 'leser'
 }
 
 export async function createTeamWithMembers(input: CreateTeamInput) {
@@ -62,7 +73,6 @@ export async function createTeamWithMembers(input: CreateTeamInput) {
     if (!member.email.trim() || !member.password) continue
 
     try {
-      // Prüfen ob bereits Mitglied
       const { data: existing } = await supabase
         .from('organization_members')
         .select('id')
@@ -80,7 +90,6 @@ export async function createTeamWithMembers(input: CreateTeamInput) {
         continue
       }
 
-      // User direkt anlegen
       const { data: created, error: createErr } = await admin.auth.admin.createUser({
         email: member.email.trim(),
         password: member.password,
@@ -98,7 +107,6 @@ export async function createTeamWithMembers(input: CreateTeamInput) {
         continue
       }
 
-      // Profile anlegen
       const fullName = [member.first_name, member.last_name].filter(Boolean).join(' ')
       await admin.from('profiles').insert({
         id: created.user.id,
@@ -107,9 +115,9 @@ export async function createTeamWithMembers(input: CreateTeamInput) {
         full_name: fullName,
         preferred_language: 'de',
         is_platform_admin: false,
+        app_role: member.app_role ?? 'leser',
       })
 
-      // organization_members anlegen
       await supabase.from('organization_members').insert({
         organization_id: orgId,
         user_id: created.user.id,
@@ -136,6 +144,7 @@ export async function addMemberWithPassword(input: {
   last_name: string
   email: string
   role_id: string
+  app_role: AppRole
   password: string
 }) {
   const supabase = await createClient()
@@ -144,7 +153,6 @@ export async function addMemberWithPassword(input: {
   const orgId = await getOrgId()
   if (!orgId) return { error: 'Keine Organisation gefunden' }
 
-  // Bereits Mitglied?
   const { data: existing } = await supabase
     .from('organization_members')
     .select('id')
@@ -181,6 +189,7 @@ export async function addMemberWithPassword(input: {
     full_name: fullName,
     preferred_language: 'de',
     is_platform_admin: false,
+    app_role: input.app_role ?? 'leser',
   })
 
   await supabase.from('organization_members').insert({
@@ -216,5 +225,25 @@ export async function removeMember(memberId: string) {
     .from('organization_members')
     .delete()
     .eq('id', memberId)
+  return { error: error?.message }
+}
+
+export async function setMemberRole(userId: string, appRole: AppRole) {
+  const supabase = await createClient()
+  const admin = createAdminClient()
+
+  // Nur Admins dürfen Rollen ändern
+  const currentRole = await getCurrentAppRole()
+  if (currentRole !== 'admin') return { error: 'Keine Berechtigung' }
+
+  const orgId = await getOrgId()
+  if (!orgId) return { error: 'Keine Organisation' }
+
+  const { error } = await admin
+    .from('profiles')
+    .update({ app_role: appRole })
+    .eq('id', userId)
+    .eq('organization_id', orgId)
+
   return { error: error?.message }
 }

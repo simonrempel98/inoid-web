@@ -4,6 +4,8 @@ import { AssetSearch } from './asset-search'
 import { AssetFilters } from './asset-filters'
 import { AssetCardActions } from './asset-card-actions'
 import { AssetDeleteButton } from './asset-delete-button'
+import { getRole } from '@/lib/get-role'
+import { can } from '@/lib/permissions'
 
 export default async function AssetsPage({
   searchParams,
@@ -12,6 +14,8 @@ export default async function AssetsPage({
 }) {
   const { q, status, sort = 'newest', cat } = await searchParams
   const supabase = await createClient()
+  const role = await getRole()
+  const perms = can(role)
 
   // Basis-Query aufbauen
   let query = supabase
@@ -84,14 +88,16 @@ export default async function AssetsPage({
             }
           </p>
         </div>
-        <Link href="/assets/neu" style={{
-          backgroundColor: '#003366', color: 'white',
-          padding: '10px 18px', borderRadius: 50,
-          textDecoration: 'none', fontSize: 14, fontWeight: 700,
-          display: 'flex', alignItems: 'center', gap: 6,
-        }}>
-          <span style={{ fontSize: 18, lineHeight: 1 }}>+</span> Neu
-        </Link>
+        {perms.editAssets && (
+          <Link href="/assets/neu" style={{
+            backgroundColor: '#003366', color: 'white',
+            padding: '10px 18px', borderRadius: 50,
+            textDecoration: 'none', fontSize: 14, fontWeight: 700,
+            display: 'flex', alignItems: 'center', gap: 6,
+          }}>
+            <span style={{ fontSize: 18, lineHeight: 1 }}>+</span> Neu
+          </Link>
+        )}
       </div>
 
       {/* Suche */}
@@ -188,23 +194,25 @@ export default async function AssetsPage({
                     })()}
                   </div>
 
-                  {asset.status === 'decommissioned' && (
+                  {asset.status === 'decommissioned' && perms.deleteAssets && (
                     <AssetDeleteButton assetId={asset.id} />
                   )}
-                  <AssetCardActions
-                    assetId={asset.id}
-                    assetTitle={asset.title}
-                    organizationId={asset.organization_id}
-                    technicalData={asset.technical_data}
-                    commercialData={asset.commercial_data}
-                    articleNumber={asset.article_number}
-                    orderNumber={asset.order_number}
-                    category={asset.category}
-                    manufacturer={asset.manufacturer}
-                    location={asset.location}
-                    description={asset.description}
-                    status={asset.status}
-                  />
+                  {perms.editAssets && (
+                    <AssetCardActions
+                      assetId={asset.id}
+                      assetTitle={asset.title}
+                      organizationId={asset.organization_id}
+                      technicalData={asset.technical_data}
+                      commercialData={asset.commercial_data}
+                      articleNumber={asset.article_number}
+                      orderNumber={asset.order_number}
+                      category={asset.category}
+                      manufacturer={asset.manufacturer}
+                      location={asset.location}
+                      description={asset.description}
+                      status={asset.status}
+                    />
+                  )}
                 </div>
               </Link>
             ))}

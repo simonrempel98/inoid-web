@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import { TeamDetail } from './team-detail'
+import type { AppRole } from '@/lib/permissions'
 
 export default async function TeamDetailPage({
   params,
@@ -13,11 +14,12 @@ export default async function TeamDetailPage({
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('organization_id')
+    .select('organization_id, app_role')
     .eq('id', user!.id)
     .single()
 
   const orgId = profile?.organization_id ?? ''
+  const currentUserRole = (profile?.app_role as AppRole) ?? 'leser'
 
   const { data: team } = await supabase
     .from('teams')
@@ -35,7 +37,7 @@ export default async function TeamDetailPage({
     { data: roles },
   ] = await Promise.all([
     supabase.from('organization_members')
-      .select('id, email, first_name, last_name, invitation_accepted_at, roles(id, name)')
+      .select('id, user_id, email, first_name, last_name, invitation_accepted_at, roles(id, name)')
       .eq('organization_id', orgId)
       .eq('team_id', id)
       .order('created_at'),
@@ -45,15 +47,29 @@ export default async function TeamDetailPage({
     supabase.from('roles').select('id, name').eq('organization_id', orgId).order('name'),
   ])
 
+  // app_role aus profiles holen und in members einmischen
+  const userIds = (members ?? []).map(m => m.user_id).filter(Boolean) as string[]
+  const { data: profileRoles } = userIds.length > 0
+    ? await supabase.from('profiles').select('id, app_role').in('id', userIds)
+    : { data: [] }
+
+  const roleByUserId = Object.fromEntries((profileRoles ?? []).map(p => [p.id, p.app_role as AppRole]))
+
+  const membersWithRole = (members ?? []).map(m => ({
+    ...m,
+    app_role: (m.user_id ? roleByUserId[m.user_id] : null) ?? 'leser' as AppRole,
+  }))
+
   return (
     <TeamDetail
       team={team as any}
-      members={(members ?? []) as any}
+      members={membersWithRole as any}
       locations={(locations ?? []) as any}
       halls={(halls ?? []) as any}
       areas={(areas ?? []) as any}
       roles={roles ?? []}
       organizationId={orgId}
+      currentUserRole={currentUserRole}
     />
   )
 }

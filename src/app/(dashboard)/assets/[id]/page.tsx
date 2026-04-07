@@ -1,5 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
+import { getRole } from '@/lib/get-role'
+import { can } from '@/lib/permissions'
 import Link from 'next/link'
 import { AssetQrDisplay } from './asset-qr-display'
 import { DuplicateButton } from './duplicate-button'
@@ -16,6 +18,8 @@ export default async function AssetDetailPage({
 }) {
   const { id } = await params
   const supabase = await createClient()
+  const role = await getRole()
+  const perms = can(role)
 
   const { data: asset } = await supabase
     .from('assets')
@@ -173,13 +177,15 @@ export default async function AssetDetailPage({
             border: '1px solid #c8d4e8', textAlign: 'center',
           }}>
             <p style={{ color: '#999', fontSize: 13, margin: '0 0 12px' }}>Noch keine Einträge</p>
-            <Link href={`/assets/${id}/service/neu`} style={{
-              backgroundColor: '#003366', color: 'white',
-              padding: '8px 18px', borderRadius: 50,
-              textDecoration: 'none', fontSize: 13, fontWeight: 700,
-            }}>
-              + Eintrag anlegen
-            </Link>
+            {perms.editService && (
+              <Link href={`/assets/${id}/service/neu`} style={{
+                backgroundColor: '#003366', color: 'white',
+                padding: '8px 18px', borderRadius: 50,
+                textDecoration: 'none', fontSize: 13, fontWeight: 700,
+              }}>
+                + Eintrag anlegen
+              </Link>
+            )}
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -209,6 +215,7 @@ export default async function AssetDetailPage({
                 </div>
               </div>
             ))}
+            {perms.editService && (
             <Link href={`/assets/${id}/service/neu`} style={{
               display: 'block', textAlign: 'center',
               backgroundColor: 'white', color: '#003366',
@@ -218,6 +225,7 @@ export default async function AssetDetailPage({
             }}>
               + Neuer Eintrag
             </Link>
+          )}
           </div>
         )}
       </div>
@@ -254,20 +262,22 @@ export default async function AssetDetailPage({
       </div>
 
       {/* Aktionen */}
-      <div style={{ padding: '0 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <div style={{ display: 'flex', gap: 10 }}>
-          <DuplicateButton asset={asset} />
-          <Link href={`/assets/${id}/bearbeiten`} style={{
-            flex: 1, display: 'block', textAlign: 'center',
-            backgroundColor: '#003366', color: 'white',
-            padding: '13px', borderRadius: 50,
-            textDecoration: 'none', fontSize: 14, fontWeight: 700,
-          }}>
-            Bearbeiten
-          </Link>
+      {perms.editAssets && (
+        <div style={{ padding: '0 16px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div style={{ display: 'flex', gap: 10 }}>
+            <DuplicateButton asset={asset} />
+            <Link href={`/assets/${id}/bearbeiten`} style={{
+              flex: 1, display: 'block', textAlign: 'center',
+              backgroundColor: '#003366', color: 'white',
+              padding: '13px', borderRadius: 50,
+              textDecoration: 'none', fontSize: 14, fontWeight: 700,
+            }}>
+              Bearbeiten
+            </Link>
+          </div>
+          <AssetStatusActions assetId={id} currentStatus={asset.status} customStatuses={customStatuses} />
         </div>
-        <AssetStatusActions assetId={id} currentStatus={asset.status} customStatuses={customStatuses} />
-      </div>
+      )}
     </div>
   )
 }

@@ -15,6 +15,7 @@ interface Props {
   locations: Location[]
   halls: Hall[]
   areas: Area[]
+  canEdit: boolean
 }
 
 type EditState =
@@ -22,7 +23,7 @@ type EditState =
   | { type: 'hall'; id: string; name: string }
   | null
 
-export function OrganisationTree({ organizationId, locations, halls, areas }: Props) {
+export function OrganisationTree({ organizationId, locations, halls, areas, canEdit }: Props) {
   const router = useRouter()
   const [expandedLocations, setExpandedLocations] = useState<Set<string>>(new Set())
   const [expandedHalls, setExpandedHalls] = useState<Set<string>>(new Set())
@@ -186,11 +187,13 @@ export function OrganisationTree({ organizationId, locations, halls, areas }: Pr
                       {loc.address && <p style={{ margin: 0, fontSize: 12, color: '#888' }}>{loc.address}</p>}
                     </div>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                    {iconBtn(<Pencil size={14} />, e => startEdit(e, { type: 'location', id: loc.id, name: loc.name, address: loc.address ?? '' }), 'Standort bearbeiten', '#96aed2')}
-                    {iconBtn(<Plus size={16} />, e => { e.stopPropagation(); startAdding('hall', loc.id) }, 'Halle hinzufügen', '#0099cc')}
-                    {iconBtn(<Trash2 size={15} />, e => { e.stopPropagation(); deleteItem('location', loc.id) }, 'Standort löschen')}
-                  </div>
+                  {canEdit && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                      {iconBtn(<Pencil size={14} />, e => startEdit(e, { type: 'location', id: loc.id, name: loc.name, address: loc.address ?? '' }), 'Standort bearbeiten', '#96aed2')}
+                      {iconBtn(<Plus size={16} />, e => { e.stopPropagation(); startAdding('hall', loc.id) }, 'Halle hinzufügen', '#0099cc')}
+                      {iconBtn(<Trash2 size={15} />, e => { e.stopPropagation(); deleteItem('location', loc.id) }, 'Standort löschen')}
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -240,11 +243,13 @@ export function OrganisationTree({ organizationId, locations, halls, areas }: Pr
                                   {hall.name}
                                 </Link>
                               </div>
-                              <div style={{ display: 'flex', gap: 4 }}>
-                                {iconBtn(<Pencil size={13} />, e => startEdit(e, { type: 'hall', id: hall.id, name: hall.name }), 'Halle bearbeiten', '#96aed2')}
-                                {iconBtn(<Plus size={14} />, e => { e.stopPropagation(); startAdding('area', hall.id) }, 'Bereich hinzufügen', '#0099cc')}
-                                {iconBtn(<Trash2 size={13} />, e => { e.stopPropagation(); deleteItem('hall', hall.id) }, 'Halle löschen')}
-                              </div>
+                              {canEdit && (
+                                <div style={{ display: 'flex', gap: 4 }}>
+                                  {iconBtn(<Pencil size={13} />, e => startEdit(e, { type: 'hall', id: hall.id, name: hall.name }), 'Halle bearbeiten', '#96aed2')}
+                                  {iconBtn(<Plus size={14} />, e => { e.stopPropagation(); startAdding('area', hall.id) }, 'Bereich hinzufügen', '#0099cc')}
+                                  {iconBtn(<Trash2 size={13} />, e => { e.stopPropagation(); deleteItem('hall', hall.id) }, 'Halle löschen')}
+                                </div>
+                              )}
                             </div>
                           )}
 
@@ -264,12 +269,12 @@ export function OrganisationTree({ organizationId, locations, halls, areas }: Pr
                                       {area.name}
                                     </Link>
                                   </div>
-                                  {iconBtn(<Trash2 size={12} />, e => { e.stopPropagation(); deleteItem('area', area.id) }, 'Bereich löschen')}
+                                  {canEdit && iconBtn(<Trash2 size={12} />, e => { e.stopPropagation(); deleteItem('area', area.id) }, 'Bereich löschen')}
                                 </div>
                               ))}
 
-                              {isAdding('area', hall.id) && inputBox('Bereichsname z.B. Druckzone A')}
-                              {!isAdding('area', hall.id) && (
+                              {canEdit && isAdding('area', hall.id) && inputBox('Bereichsname z.B. Druckzone A')}
+                              {canEdit && !isAdding('area', hall.id) && (
                                 <button onClick={() => startAdding('area', hall.id)}
                                   style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 6, background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, color: '#0099cc', padding: '4px 0', fontFamily: 'Arial, sans-serif' }}>
                                   <Plus size={13} /> Bereich hinzufügen
@@ -282,8 +287,8 @@ export function OrganisationTree({ organizationId, locations, halls, areas }: Pr
                     )
                   })}
 
-                  {isAdding('hall', loc.id) && inputBox('Hallenname z.B. Halle 1')}
-                  {!isAdding('hall', loc.id) && (
+                  {canEdit && isAdding('hall', loc.id) && inputBox('Hallenname z.B. Halle 1')}
+                  {canEdit && !isAdding('hall', loc.id) && (
                     <button onClick={() => startAdding('hall', loc.id)}
                       style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8, background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, color: '#0099cc', padding: '4px 0', fontFamily: 'Arial, sans-serif' }}>
                       <Plus size={13} /> Halle hinzufügen
@@ -296,11 +301,11 @@ export function OrganisationTree({ organizationId, locations, halls, areas }: Pr
         )
       })}
 
-      {isAdding('location', undefined) && (
+      {canEdit && isAdding('location', undefined) && (
         <div style={{ marginBottom: 10 }}>{inputBox('Standortname z.B. Werk Bocholt', true)}</div>
       )}
 
-      {!isAdding('location', undefined) && (
+      {canEdit && !isAdding('location', undefined) && (
         <button onClick={() => startAdding('location')}
           style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', background: 'white', border: '2px dashed #c8d4e8', borderRadius: 12, padding: '14px 16px', cursor: 'pointer', color: '#003366', fontFamily: 'Arial, sans-serif', fontSize: 14, fontWeight: 600, marginTop: locations.length > 0 ? 4 : 0 }}>
           <Plus size={16} /> Standort hinzufügen

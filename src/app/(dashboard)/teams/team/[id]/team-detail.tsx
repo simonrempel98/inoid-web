@@ -4,11 +4,12 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
-import { updateMember, removeMember, addMemberWithPassword } from '../../actions'
+import { updateMember, removeMember, addMemberWithPassword, setMemberRole } from '../../actions'
 import {
   Users, MapPin, Pencil, X, Check, Trash2,
-  UserPlus, KeyRound, Loader
+  UserPlus, KeyRound, Loader, Shield
 } from 'lucide-react'
+import { ROLE_LABELS, ROLE_COLORS, ROLE_BG, type AppRole } from '@/lib/permissions'
 
 type Team = {
   id: string; name: string
@@ -19,10 +20,11 @@ type Team = {
   locations: { id: string; name: string } | null
 }
 type Member = {
-  id: string; email: string
+  id: string; user_id: string | null; email: string
   first_name: string | null; last_name: string | null
   invitation_accepted_at: string | null
   roles: { id: string; name: string } | null
+  app_role: AppRole
 }
 type Location = { id: string; name: string }
 type Hall     = { id: string; name: string; location_id: string; locations: { name: string } | null }
@@ -50,11 +52,13 @@ function initials(m: Member) {
   return m.email[0].toUpperCase()
 }
 
-export function TeamDetail({ team, members, locations, halls, areas, roles, organizationId }: {
+export function TeamDetail({ team, members, locations, halls, areas, roles, organizationId, currentUserRole }: {
   team: Team; members: Member[]
   locations: Location[]; halls: Hall[]; areas: Area[]; roles: Role[]
   organizationId: string
+  currentUserRole: AppRole
 }) {
+  const isAdmin = currentUserRole === 'admin'
   const router = useRouter()
 
   // Team bearbeiten
@@ -74,6 +78,7 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
   const [inviteLast, setInviteLast] = useState('')
   const [inviteEmail, setInviteEmail] = useState('')
   const [inviteRoleId, setInviteRoleId] = useState(roles[0]?.id ?? '')
+  const [inviteAppRole, setInviteAppRole] = useState<AppRole>('leser')
   const [invitePassword, setInvitePassword] = useState('')
   const [inviting, setInviting] = useState(false)
   const [inviteError, setInviteError] = useState<string | null>(null)
@@ -130,13 +135,14 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
       last_name: inviteLast,
       email: inviteEmail.trim(),
       role_id: inviteRoleId || roles[0]?.id,
+      app_role: inviteAppRole,
       password: invitePassword,
     })
 
     setInviting(false)
     if (result.error) { setInviteError(result.error); return }
 
-    setInviteFirst(''); setInviteLast(''); setInviteEmail(''); setInvitePassword('')
+    setInviteFirst(''); setInviteLast(''); setInviteEmail(''); setInvitePassword(''); setInviteAppRole('leser')
     setShowInvite(false)
     router.refresh()
   }
@@ -215,8 +221,8 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
 
       <div style={{ padding: '20px 16px 0' }}>
 
-        {/* ── Mitglied hinzufügen Button ──────────────────────────── */}
-        {!showInvite && (
+        {/* ── Mitglied hinzufügen Button (nur Admin) ─────────────── */}
+        {isAdmin && !showInvite && (
           <button onClick={() => setShowInvite(true)}
             style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: '#003366', color: 'white', border: 'none', borderRadius: 50, padding: '13px', fontSize: 14, fontWeight: 700, cursor: 'pointer', marginBottom: 20, fontFamily: 'Arial, sans-serif' }}>
             <UserPlus size={15} /> Mitglied anlegen
@@ -258,8 +264,10 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
               </div>
               <div style={{ padding: '11px 14px' }}>
                 <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>ROLLE</label>
-                <select value={inviteRoleId} onChange={e => setInviteRoleId(e.target.value)} style={{ ...selectStyle, fontSize: 14 }}>
-                  {roles.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
+                <select value={inviteAppRole} onChange={e => setInviteAppRole(e.target.value as AppRole)} style={{ ...selectStyle, fontSize: 14 }}>
+                  {(Object.keys(ROLE_LABELS) as AppRole[]).map(r => (
+                    <option key={r} value={r}>{ROLE_LABELS[r]}</option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -334,18 +342,26 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <p style={{ margin: '0 0 2px', fontSize: 14, fontWeight: 600, color: '#000', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{displayName(m)}</p>
                         <p style={{ margin: 0, fontSize: 12, color: '#888', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.email}</p>
-                        {m.roles && <span style={{ display: 'inline-block', fontSize: 10, fontWeight: 700, color: '#0099cc', background: '#e8f4fc', borderRadius: 20, padding: '2px 8px', marginTop: 3 }}>{m.roles.name}</span>}
+                        <span style={{
+                          display: 'inline-block', fontSize: 10, fontWeight: 700,
+                          color: ROLE_COLORS[m.app_role], background: ROLE_BG[m.app_role],
+                          borderRadius: 20, padding: '2px 8px', marginTop: 3
+                        }}>
+                          {ROLE_LABELS[m.app_role]}
+                        </span>
                       </div>
-                      <div style={{ display: 'flex', gap: 4 }}>
-                        <button onClick={() => startEditMember(m)} title="Bearbeiten"
-                          style={{ background: '#f5f8fc', border: '1px solid #c8d4e8', borderRadius: 7, padding: '6px 8px', cursor: 'pointer', color: '#003366', display: 'flex' }}>
-                          <Pencil size={14} />
-                        </button>
-                        <button onClick={() => handleRemove(m.id, displayName(m))} title="Entfernen"
-                          style={{ background: '#fff5f5', border: '1px solid #fcc', borderRadius: 7, padding: '6px 8px', cursor: 'pointer', color: '#E74C3C', display: 'flex' }}>
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
+                      {isAdmin && (
+                        <div style={{ display: 'flex', gap: 4 }}>
+                          <button onClick={() => startEditMember(m)} title="Bearbeiten"
+                            style={{ background: '#f5f8fc', border: '1px solid #c8d4e8', borderRadius: 7, padding: '6px 8px', cursor: 'pointer', color: '#003366', display: 'flex' }}>
+                            <Pencil size={14} />
+                          </button>
+                          <button onClick={() => handleRemove(m.id, displayName(m))} title="Entfernen"
+                            style={{ background: '#fff5f5', border: '1px solid #fcc', borderRadius: 7, padding: '6px 8px', cursor: 'pointer', color: '#E74C3C', display: 'flex' }}>
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
