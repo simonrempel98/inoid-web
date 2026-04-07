@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createTeamWithMembers } from './actions'
-import { Plus, Trash2, Users, MapPin, Check, AlertCircle, Loader } from 'lucide-react'
+import { Plus, Trash2, Users, MapPin, Check, AlertCircle, Loader, ChevronRight, ChevronDown, X } from 'lucide-react'
 
 type Division   = { id: string; name: string }
 type Department = { id: string; name: string; division_id: string }
@@ -19,6 +19,170 @@ const emptyRow = (defaultRoleId = ''): MemberRow => ({
   id: Math.random().toString(36).slice(2),
   first_name: '', last_name: '', email: '', role_id: defaultRoleId,
 })
+
+function getOrgRefLabel(
+  orgRef: string,
+  locations: Location[],
+  halls: Hall[],
+  areas: Area[],
+): string {
+  if (!orgRef) return ''
+  const [type, id] = orgRef.split(':')
+  if (type === 'location') return locations.find(l => l.id === id)?.name ?? ''
+  if (type === 'hall') {
+    const h = halls.find(h => h.id === id)
+    if (!h) return ''
+    return h.locations?.name ? `${h.locations.name} › ${h.name}` : h.name
+  }
+  if (type === 'area') {
+    const a = areas.find(a => a.id === id)
+    if (!a) return ''
+    const h = halls.find(h => h.id === a.hall_id)
+    const loc = h?.locations?.name
+    if (loc && h) return `${loc} › ${h.name} › ${a.name}`
+    if (h) return `${h.name} › ${a.name}`
+    return a.name
+  }
+  return ''
+}
+
+function OrgTreePicker({ locations, halls, areas, value, onChange }: {
+  locations: Location[]
+  halls: Hall[]
+  areas: Area[]
+  value: string
+  onChange: (v: string) => void
+}) {
+  const [expanded, setExpanded] = useState<Set<string>>(() => {
+    const s = new Set<string>()
+    locations.forEach(l => s.add(`loc-${l.id}`))
+    return s
+  })
+
+  const toggle = (key: string) => setExpanded(prev => {
+    const next = new Set(prev)
+    if (next.has(key)) next.delete(key)
+    else next.add(key)
+    return next
+  })
+
+  const select = (ref: string) => onChange(value === ref ? '' : ref)
+
+  const hallsByLocation: Record<string, Hall[]> = {}
+  const unparentedHalls: Hall[] = []
+  for (const h of halls) {
+    if (h.location_id) {
+      if (!hallsByLocation[h.location_id]) hallsByLocation[h.location_id] = []
+      hallsByLocation[h.location_id].push(h)
+    } else {
+      unparentedHalls.push(h)
+    }
+  }
+
+  const areasByHall: Record<string, Area[]> = {}
+  for (const a of areas) {
+    if (!areasByHall[a.hall_id]) areasByHall[a.hall_id] = []
+    areasByHall[a.hall_id].push(a)
+  }
+
+  const nodeStyle = (ref: string): React.CSSProperties => ({
+    display: 'flex', alignItems: 'center', gap: 7,
+    padding: '7px 10px',
+    borderRadius: 8,
+    cursor: 'pointer',
+    background: value === ref ? '#e6f0ff' : 'transparent',
+    color: value === ref ? '#003366' : '#222',
+    fontWeight: value === ref ? 700 : 400,
+    userSelect: 'none',
+  })
+
+  const renderAreas = (hallId: string, depth: number) => {
+    const list = areasByHall[hallId] ?? []
+    if (list.length === 0) return null
+    return list.map(a => {
+      const ref = `area:${a.id}`
+      return (
+        <div key={a.id} style={{ paddingLeft: depth * 16 }}>
+          <div style={nodeStyle(ref)} onClick={() => select(ref)}>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+              stroke={value === ref ? '#003366' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="12 2 2 7 12 22 22 7 12 2"/>
+            </svg>
+            <span style={{ fontSize: 13 }}>{a.name}</span>
+            {value === ref && <Check size={12} color="#003366" style={{ marginLeft: 'auto' }} />}
+          </div>
+        </div>
+      )
+    })
+  }
+
+  const renderHalls = (hallList: Hall[], depth: number) => {
+    return hallList.map(h => {
+      const ref = `hall:${h.id}`
+      const key = `hall-${h.id}`
+      const isOpen = expanded.has(key)
+      const hasAreas = (areasByHall[h.id] ?? []).length > 0
+      return (
+        <div key={h.id} style={{ paddingLeft: depth * 16 }}>
+          <div style={nodeStyle(ref)} onClick={() => select(ref)}>
+            {hasAreas ? (
+              <span onClick={e => { e.stopPropagation(); toggle(key) }} style={{ display: 'flex', alignItems: 'center', color: '#96aed2' }}>
+                {isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+              </span>
+            ) : <span style={{ width: 14 }} />}
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+              stroke={value === ref ? '#003366' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            <span style={{ fontSize: 13 }}>{h.name}</span>
+            {value === ref && <Check size={12} color="#003366" style={{ marginLeft: 'auto' }} />}
+          </div>
+          {isOpen && renderAreas(h.id, 1)}
+        </div>
+      )
+    })
+  }
+
+  if (locations.length === 0 && halls.length === 0 && areas.length === 0) {
+    return (
+      <p style={{ fontSize: 13, color: '#96aed2', margin: '4px 0 0', fontStyle: 'italic' }}>
+        Noch keine Standorte oder Bereiche angelegt.
+      </p>
+    )
+  }
+
+  return (
+    <div style={{
+      border: '1px solid #c8d4e8', borderRadius: 10, background: '#f8fafd',
+      maxHeight: 220, overflowY: 'auto', padding: '6px',
+    }}>
+      {locations.map(l => {
+        const ref = `location:${l.id}`
+        const key = `loc-${l.id}`
+        const isOpen = expanded.has(key)
+        const locHalls = hallsByLocation[l.id] ?? []
+        const hasChildren = locHalls.length > 0
+        return (
+          <div key={l.id}>
+            <div style={nodeStyle(ref)} onClick={() => select(ref)}>
+              {hasChildren ? (
+                <span onClick={e => { e.stopPropagation(); toggle(key) }} style={{ display: 'flex', alignItems: 'center', color: '#96aed2' }}>
+                  {isOpen ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
+                </span>
+              ) : <span style={{ width: 14 }} />}
+              <MapPin size={14} color={value === ref ? '#003366' : '#96aed2'} />
+              <span style={{ fontSize: 13, fontWeight: 600 }}>{l.name}</span>
+              {value === ref && <Check size={12} color="#003366" style={{ marginLeft: 'auto' }} />}
+            </div>
+            {isOpen && renderHalls(locHalls, 1)}
+          </div>
+        )
+      })}
+      {unparentedHalls.length > 0 && renderHalls(unparentedHalls, 0)}
+    </div>
+  )
+}
 
 export function CreateTeamForm({ divisions, departments, locations, halls, areas, roles }: {
   divisions: Division[]; departments: Department[]
@@ -124,6 +288,8 @@ export function CreateTeamForm({ divisions, departments, locations, halls, areas
     )
   }
 
+  const orgRefLabel = getOrgRefLabel(orgRef, locations, halls, areas)
+
   // ── Formular ────────────────────────────────────────────────────
   return (
     <div style={{ padding: '24px 16px', fontFamily: 'Arial, sans-serif', maxWidth: 600 }}>
@@ -167,32 +333,40 @@ export function CreateTeamForm({ divisions, departments, locations, halls, areas
               </select>
             </div>
           </div>
+        </div>
+      </div>
 
-          <div style={{ height: 1, background: '#c8d4e8' }} />
-          <div style={{ padding: '13px 16px' }}>
-            <label style={{ display: 'block', fontSize: 11, color: '#96aed2', marginBottom: 4, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 5 }}>
-              <MapPin size={11} /> STANDORT-ZUORDNUNG (OPTIONAL)
-            </label>
-            <select value={orgRef} onChange={e => setOrgRef(e.target.value)}
-              style={{ width: '100%', outline: 'none', border: 'none', fontSize: 14, fontFamily: 'Arial, sans-serif', background: 'transparent', color: '#000' }}>
-              <option value="">– Keine Zuordnung –</option>
-              {locations.length > 0 && (
-                <optgroup label="Standorte">
-                  {locations.map(l => <option key={l.id} value={`location:${l.id}`}>{l.name}</option>)}
-                </optgroup>
-              )}
-              {halls.length > 0 && (
-                <optgroup label="Hallen">
-                  {halls.map(h => <option key={h.id} value={`hall:${h.id}`}>{h.locations?.name ? `${h.locations.name} › ` : ''}{h.name}</option>)}
-                </optgroup>
-              )}
-              {areas.length > 0 && (
-                <optgroup label="Bereiche">
-                  {areas.map(a => <option key={a.id} value={`area:${a.id}`}>{a.halls?.name ? `${a.halls.name} › ` : ''}{a.name}</option>)}
-                </optgroup>
-              )}
-            </select>
-          </div>
+      {/* Standort-Zuordnung */}
+      <div style={{ marginBottom: 20 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '0 0 8px 2px' }}>
+          <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0, display: 'flex', alignItems: 'center', gap: 5 }}>
+            <MapPin size={11} color="#666" /> Standort-Zuordnung
+            <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: '#aaa', fontSize: 11 }}>(optional)</span>
+          </p>
+          {orgRef && (
+            <button onClick={() => setOrgRef('')} style={{
+              display: 'flex', alignItems: 'center', gap: 4,
+              background: '#e6f0ff', border: 'none', borderRadius: 20,
+              padding: '3px 10px', cursor: 'pointer', color: '#003366', fontSize: 12, fontWeight: 600,
+            }}>
+              <span>{orgRefLabel}</span>
+              <X size={12} />
+            </button>
+          )}
+        </div>
+        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '12px 14px' }}>
+          {!orgRef && (
+            <p style={{ fontSize: 12, color: '#96aed2', margin: '0 0 10px', fontStyle: 'italic' }}>
+              Kein Standort ausgewählt — Team wird ohne Zuordnung angelegt.
+            </p>
+          )}
+          <OrgTreePicker
+            locations={locations}
+            halls={halls}
+            areas={areas}
+            value={orgRef}
+            onChange={setOrgRef}
+          />
         </div>
       </div>
 

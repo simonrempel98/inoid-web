@@ -73,17 +73,19 @@ const SECTIONS = [
             <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
           </svg>
         ),
-      },
-      {
-        href: '/settings/roles',
-        label: 'Rollen & Rechte',
-        icon: (active: boolean) => (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-            stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-          </svg>
-        ),
+        children: [
+          {
+            href: '/settings/roles',
+            label: 'Rollen & Rechte',
+            icon: (active: boolean) => (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            ),
+          },
+        ],
       },
     ],
   },
@@ -127,6 +129,7 @@ export function Sidebar({ userEmail, userName }: { userEmail: string; userName?:
   const isChildActive = (href: string) => pathname.startsWith(href)
 
   const assetsOpen = pathname.startsWith('/assets')
+  const teamsOpen = pathname.startsWith('/teams') || pathname.startsWith('/settings/roles')
 
   return (
     <aside style={{
@@ -161,7 +164,10 @@ export function Sidebar({ userEmail, userName }: { userEmail: string; userName?:
             {section.items.map(item => {
               const active = isActive(item.href)
               const hasChildren = 'children' in item && item.children && item.children.length > 0
-              const showChildren = hasChildren && assetsOpen
+              const showChildren = hasChildren && (
+                (item.href === '/assets' && assetsOpen) ||
+                (item.href === '/teams' && teamsOpen)
+              )
 
               return (
                 <div key={item.href}>
@@ -182,21 +188,23 @@ export function Sidebar({ userEmail, userName }: { userEmail: string; userName?:
                   {/* Sub-Items */}
                   {showChildren && hasChildren && (
                     <div style={{ borderLeft: '3px solid #0099cc' }}>
-                      {(item as typeof item & { children: { href: string; label: string }[] }).children.map(child => {
+                      {(item as typeof item & { children: { href: string; label: string; icon?: (active: boolean) => React.ReactNode }[] }).children.map(child => {
                         const childActive = isChildActive(child.href)
                         return (
                           <Link key={child.href} href={child.href} style={{
                             display: 'flex', alignItems: 'center', gap: 8,
-                            padding: '8px 20px 8px 32px',
+                            padding: '8px 20px 8px 28px',
                             backgroundColor: childActive ? 'rgba(0,153,204,0.25)' : 'transparent',
                             color: childActive ? 'white' : '#96aed2',
                             textDecoration: 'none', fontSize: 13,
                             fontFamily: 'Arial, sans-serif',
                             transition: 'background 0.15s',
                           }}>
-                            <svg width="4" height="4" viewBox="0 0 4 4">
-                              <circle cx="2" cy="2" r="2" fill={childActive ? 'white' : '#96aed2'} />
-                            </svg>
+                            {child.icon ? child.icon(childActive) : (
+                              <svg width="4" height="4" viewBox="0 0 4 4">
+                                <circle cx="2" cy="2" r="2" fill={childActive ? 'white' : '#96aed2'} />
+                              </svg>
+                            )}
                             {child.label}
                           </Link>
                         )
