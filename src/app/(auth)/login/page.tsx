@@ -102,11 +102,6 @@ function LoginForm() {
         </Link>
       </div>
 
-      <div style={{ marginTop: 16, textAlign: 'center' }}>
-        <Link href="/scan" style={{ fontSize: 14, color: '#666666', textDecoration: 'none' }}>
-          Als Gast fortfahren →
-        </Link>
-      </div>
     </div>
   )
 }
