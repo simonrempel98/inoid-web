@@ -31,6 +31,7 @@ export function AreaDetail({ area }: { area: Area }) {
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
 
   const [form, setForm] = useState({
     name: area.name,
@@ -68,13 +69,17 @@ export function AreaDetail({ area }: { area: Area }) {
   async function uploadImage(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]; if (!file) return
     setUploading(true)
+    setUploadError(null)
     const supabase = createClient()
     const path = `areas/${area.id}/${Date.now()}_${file.name}`
-    const { data } = await supabase.storage.from('org-files').upload(path, file, { upsert: true })
-    if (data) {
+    const { data, error } = await supabase.storage.from('org-files').upload(path, file, { upsert: true })
+    if (error) {
+      setUploadError(`Fehler: ${error.message}`)
+    } else if (data) {
       const { data: { publicUrl } } = supabase.storage.from('org-files').getPublicUrl(path)
-      await supabase.from('areas').update({ image_urls: [...(area.image_urls ?? []), publicUrl] }).eq('id', area.id)
-      router.refresh()
+      const { error: dbError } = await supabase.from('areas').update({ image_urls: [...(area.image_urls ?? []), publicUrl] }).eq('id', area.id)
+      if (dbError) setUploadError(`DB-Fehler: ${dbError.message}`)
+      else router.refresh()
     }
     setUploading(false)
   }
@@ -82,13 +87,17 @@ export function AreaDetail({ area }: { area: Area }) {
   async function uploadDocument(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0]; if (!file) return
     setUploading(true)
+    setUploadError(null)
     const supabase = createClient()
     const path = `areas/${area.id}/docs/${Date.now()}_${file.name}`
-    const { data } = await supabase.storage.from('org-files').upload(path, file, { upsert: true })
-    if (data) {
+    const { data, error } = await supabase.storage.from('org-files').upload(path, file, { upsert: true })
+    if (error) {
+      setUploadError(`Fehler: ${error.message}`)
+    } else if (data) {
       const { data: { publicUrl } } = supabase.storage.from('org-files').getPublicUrl(path)
-      await supabase.from('areas').update({ document_urls: [...(area.document_urls ?? []), publicUrl] }).eq('id', area.id)
-      router.refresh()
+      const { error: dbError } = await supabase.from('areas').update({ document_urls: [...(area.document_urls ?? []), publicUrl] }).eq('id', area.id)
+      if (dbError) setUploadError(`DB-Fehler: ${dbError.message}`)
+      else router.refresh()
     }
     setUploading(false)
   }
@@ -290,6 +299,11 @@ export function AreaDetail({ area }: { area: Area }) {
 
       {/* Bild hochladen */}
       <div style={{ padding: '0 16px 20px' }}>
+        {uploadError && (
+          <p style={{ color: '#E74C3C', fontSize: 12, marginBottom: 8, background: '#fff5f5', border: '1px solid #fcc', borderRadius: 8, padding: '8px 12px', margin: '0 0 8px' }}>
+            {uploadError}
+          </p>
+        )}
         <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, border: '2px dashed #c8d4e8', borderRadius: 12, padding: '14px', cursor: 'pointer', fontSize: 13, color: '#96aed2', background: 'white' }}>
           <Upload size={15} /> {uploading ? 'Lädt hoch…' : 'Bild hinzufügen'}
           <input type="file" accept="image/*" style={{ display: 'none' }} onChange={uploadImage} />
