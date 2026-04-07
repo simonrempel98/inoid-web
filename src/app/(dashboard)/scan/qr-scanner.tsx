@@ -119,22 +119,33 @@ export function QrScanner() {
   useEffect(() => {
     if (!scanning) return
 
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d', { willReadFrequently: true })
+    if (!ctx) return
+
     const scan = () => {
       const video = videoRef.current
-      const canvas = canvasRef.current
-      if (!video || !canvas || video.readyState !== video.HAVE_ENOUGH_DATA) {
+      if (!video || video.readyState < 2) {
         animRef.current = requestAnimationFrame(scan)
         return
       }
-      canvas.width = video.videoWidth
-      canvas.height = video.videoHeight
-      const ctx = canvas.getContext('2d', { willReadFrequently: true })
-      if (!ctx) { animRef.current = requestAnimationFrame(scan); return }
+
+      // Canvas-Dimensionen nur bei Änderung setzen (reset löscht sonst Context-State)
+      if (canvas.width !== video.videoWidth || canvas.height !== video.videoHeight) {
+        canvas.width = video.videoWidth
+        canvas.height = video.videoHeight
+      }
 
       ctx.drawImage(video, 0, 0)
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+      if (!imageData || imageData.width === 0) {
+        animRef.current = requestAnimationFrame(scan)
+        return
+      }
+
       const code = jsQR(imageData.data, imageData.width, imageData.height, {
-        inversionAttempts: 'dontInvert',
+        inversionAttempts: 'attemptBoth',
       })
 
       if (code?.data && code.data !== lastScan) {
