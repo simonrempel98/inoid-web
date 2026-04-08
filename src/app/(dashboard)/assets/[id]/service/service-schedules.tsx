@@ -43,8 +43,8 @@ export function ServiceSchedules({ schedules, assetId }: { schedules: Schedule[]
           const color =
             days === null ? '#96aed2' :
             days < 0 ? '#E74C3C' :
-            days <= 7 ? '#E74C3C' :
-            days <= 30 ? '#F39C12' : '#27AE60'
+            days <= 7 ? '#a855f7' :
+            days <= 30 ? '#a855f7' : '#27AE60'
           const urgencyLabel =
             days === null ? '' :
             days < 0 ? `${Math.abs(days)}T überfällig` :

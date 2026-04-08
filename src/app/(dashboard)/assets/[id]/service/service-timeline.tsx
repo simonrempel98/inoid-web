@@ -5,6 +5,14 @@ import { useRouter } from 'next/navigation'
 import { getEventType } from '@/lib/service-types'
 import { Wrench, User, Building2, Calendar } from 'lucide-react'
 
+type ChecklistResultItem = {
+  id: string
+  text: string
+  resources?: string
+  checked: boolean
+  note?: string
+}
+
 type Event = {
   id: string
   title: string
@@ -17,6 +25,7 @@ type Event = {
   next_service_date: string | null
   notes: string | null
   attachments: unknown
+  checklist_result?: ChecklistResultItem[]
 }
 
 function groupByMonth(events: Event[]) {
@@ -137,9 +146,8 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
                   const attachments = Array.isArray(event.attachments) ? event.attachments as string[] : []
                   const photos = attachments.filter(a => a.includes('|photo|'))
                   const docs = attachments.filter(a => a.includes('|doc|'))
-                  const hasDetails = event.description || event.notes || event.performed_by ||
-                    event.external_company || event.cost_eur || event.next_service_date ||
-                    photos.length > 0 || docs.length > 0
+                  const checklist = Array.isArray((event as any).checklist_result) ? (event as any).checklist_result as ChecklistResultItem[] : []
+                  const hasDetails = true
 
                   return (
                     <div key={event.id} style={{ borderTop: i > 0 ? '1px solid #f4f6f9' : 'none' }}>
@@ -150,17 +158,19 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
                         style={{
                           width: '100%', padding: '10px 14px 10px 20px',
                           background: 'none', border: 'none',
-                          cursor: hasDetails ? 'pointer' : 'default',
+                          cursor: 'pointer',
                           display: 'flex', alignItems: 'center', gap: 10,
                           textAlign: 'left',
                         }}
                       >
-                        {/* Typ-Icon */}
+                        {/* Typ-Punkt */}
                         <span style={{
                           width: 28, height: 28, flexShrink: 0,
                           display: 'flex', alignItems: 'center', justifyContent: 'center',
                           borderRadius: '50%', background: `${et.color}18`,
-                        }}><et.icon size={14} color={et.color} /></span>
+                        }}>
+                          <span style={{ width: 10, height: 10, borderRadius: '50%', background: et.color, display: 'block' }} />
+                        </span>
 
                         {/* Titel */}
                         <span style={{
@@ -197,13 +207,18 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
                           padding: '0 14px 14px 58px',
                           display: 'flex', flexDirection: 'column', gap: 8,
                         }}>
-                          {/* Typ-Badge + Edit-Button */}
-                          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <span style={{
-                              display: 'inline-block', fontSize: 10, fontWeight: 700,
-                              padding: '2px 8px', borderRadius: 10,
-                              backgroundColor: `${et.color}20`, color: et.color,
-                            }}>{et.label}</span>
+                          {/* Typ-Badge + Datum + Edit-Button */}
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 8, justifyContent: 'space-between' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                              <span style={{
+                                display: 'inline-block', fontSize: 10, fontWeight: 700,
+                                padding: '2px 8px', borderRadius: 10,
+                                backgroundColor: `${et.color}20`, color: et.color,
+                              }}>{et.label}</span>
+                              <span style={{ fontSize: 11, color: '#96aed2' }}>
+                                {date.toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' })}
+                              </span>
+                            </div>
                             <button
                               type="button"
                               onClick={() => router.push(`/assets/${assetId}/service/neu?edit=${event.id}`)}
@@ -245,6 +260,68 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
                             }}>
                               <p style={{ fontSize: 10, fontWeight: 700, color: '#96aed2', margin: '0 0 3px' }}>NOTIZEN</p>
                               <p style={{ fontSize: 12, color: '#444', margin: 0, lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>{event.notes}</p>
+                            </div>
+                          )}
+
+                          {/* Checkliste */}
+                          {checklist.length > 0 && (
+                            <div style={{
+                              background: '#f9fbff', borderRadius: 8, padding: '8px 10px',
+                              border: '1px solid #e8eef8',
+                            }}>
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
+                                <p style={{ fontSize: 10, fontWeight: 700, color: '#96aed2', margin: 0 }}>CHECKLISTE</p>
+                                <span style={{ fontSize: 10, fontWeight: 700, color: '#22c55e' }}>
+                                  {checklist.filter(c => c.checked).length}/{checklist.length} erledigt
+                                </span>
+                              </div>
+                              <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+                                {checklist.map((item, ci) => (
+                                  <div key={ci} style={{
+                                    borderBottom: ci < checklist.length - 1 ? '1px solid #f4f6f9' : 'none',
+                                    padding: '6px 0',
+                                  }}>
+                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+                                      {/* Schritt-Nummer/Checkmark */}
+                                      <span style={{
+                                        width: 18, height: 18, borderRadius: '50%', flexShrink: 0,
+                                        background: item.checked ? '#22c55e' : '#f4f6f9',
+                                        border: `1.5px solid ${item.checked ? '#22c55e' : '#c8d4e8'}`,
+                                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                        fontSize: 9, fontWeight: 800,
+                                        color: item.checked ? 'white' : '#666',
+                                        marginTop: 1,
+                                      }}>
+                                        {item.checked
+                                          ? <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                                          : ci + 1
+                                        }
+                                      </span>
+                                      <div style={{ flex: 1, minWidth: 0 }}>
+                                        <span style={{
+                                          fontSize: 12, color: item.checked ? '#888' : '#333',
+                                          textDecoration: item.checked ? 'line-through' : 'none',
+                                          display: 'block',
+                                        }}>{item.text}</span>
+                                        {item.resources && (
+                                          <span style={{ fontSize: 10, color: '#96aed2', display: 'block', marginTop: 1 }}>
+                                            🔧 {item.resources}
+                                          </span>
+                                        )}
+                                        {item.note && (
+                                          <div style={{
+                                            marginTop: 4, padding: '4px 8px', borderRadius: 6,
+                                            background: '#f9fbff', border: '1px solid #e8eef8',
+                                            fontSize: 11, color: '#444', lineHeight: 1.4,
+                                          }}>
+                                            {item.note}
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
                             </div>
                           )}
 

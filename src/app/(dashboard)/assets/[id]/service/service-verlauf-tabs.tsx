@@ -64,7 +64,7 @@ export function ServiceVerlaufTabs({ events, assetId, schedules }: Props) {
       )}
 
       {tab === 'gantt' && schedules.length > 0 && (
-        <WartungTimeline schedules={schedules} showFilters={false} />
+        <WartungTimeline schedules={schedules} showFilters={false} showAssetName={false} />
       )}
 
       {tab === 'gantt' && schedules.length === 0 && (
