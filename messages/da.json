@@ -178,7 +178,7 @@
       "model": "Model",
       "purchaseDate": "Købsdato",
       "purchasePrice": "Købspris (€)",
-      "location": "Sted",
+      "location": "Placering",
       "locationText": "Sted (fritekst)",
       "notes": "Noter",
       "photos": "Fotos",
@@ -223,7 +223,18 @@
       "print": "Udskriv"
     },
     "locationHistory": "Stedshistorik",
-    "noLocationHistory": "Ingen stedshistorik tilgængelig"
+    "noLocationHistory": "Ingen stedshistorik tilgængelig",
+    "detail": {
+      "createdAt": "Oprettet",
+      "showAll": "Vis alle",
+      "qrNfc": "QR-kode & NFC",
+      "noQr": "Ingen QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Bestilling",
+      "newEntry": "+ Ny post",
+      "createFirstEntry": "+ Tilføj post"
+    }
   },
   "service": {
     "title": "Servicelogbog",

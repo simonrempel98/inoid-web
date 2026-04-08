@@ -178,7 +178,7 @@
       "model": "Modelo",
       "purchaseDate": "Data de compra",
       "purchasePrice": "Preço de compra (€)",
-      "location": "Local",
+      "location": "Localização",
       "locationText": "Local em texto livre",
       "notes": "Notas",
       "photos": "Fotos",
@@ -223,7 +223,18 @@
       "print": "Imprimir"
     },
     "locationHistory": "Histórico de locais",
-    "noLocationHistory": "Sem histórico de locais disponível"
+    "noLocationHistory": "Sem histórico de locais disponível",
+    "detail": {
+      "createdAt": "Criado",
+      "showAll": "Ver tudo",
+      "qrNfc": "Código QR & NFC",
+      "noQr": "Sem QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Pedido",
+      "newEntry": "+ Nova entrada",
+      "createFirstEntry": "+ Adicionar entrada"
+    }
   },
   "service": {
     "title": "Livro de serviço",

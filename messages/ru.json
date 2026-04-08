@@ -223,7 +223,18 @@
       "print": "Печать"
     },
     "locationHistory": "История местоположений",
-    "noLocationHistory": "Нет истории местоположений"
+    "noLocationHistory": "Нет истории местоположений",
+    "detail": {
+      "createdAt": "Создано",
+      "showAll": "Показать все",
+      "qrNfc": "QR-код & NFC",
+      "noQr": "Нет QR",
+      "articlePrefix": "Арт.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Заказ",
+      "newEntry": "+ Новая запись",
+      "createFirstEntry": "+ Добавить запись"
+    }
   },
   "service": {
     "title": "Сервисный журнал",

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { getRole } from '@/lib/get-role'
 import { can } from '@/lib/permissions'
 import Link from 'next/link'
+import { getTranslations, getLocale } from 'next-intl/server'
 import { AssetQrDisplay } from './asset-qr-display'
 import { DuplicateButton } from './duplicate-button'
 import { AssetImageGallery } from './asset-image-gallery'
@@ -19,6 +20,8 @@ export default async function AssetDetailPage({
 }) {
   const { id } = await params
   const supabase = await createClient()
+  const t = await getTranslations()
+  const locale = await getLocale()
   const role = await getRole()
   const perms = can(role)
 
@@ -64,9 +67,9 @@ export default async function AssetDetailPage({
   const commEntries = Object.entries((asset.commercial_data as Record<string, string>) ?? {}).filter(([, v]) => v)
 
   const eventTypeLabel: Record<string, string> = {
-    maintenance: 'Wartung', overhaul: 'Überholung', coating: 'Beschichtung',
-    repair: 'Reparatur', cleaning: 'Reinigung', incident: 'Vorfall',
-    inspection: 'Inspektion', installation: 'Einbau', decommission: 'Stilllegung', other: 'Sonstiges',
+    maintenance: t('eventTypes.maintenance'), overhaul: t('eventTypes.overhaul'), coating: t('eventTypes.coating'),
+    repair: t('eventTypes.repair'), cleaning: t('eventTypes.cleaning'), incident: t('eventTypes.incident'),
+    inspection: t('eventTypes.inspection'), installation: t('eventTypes.installation'), decommission: t('eventTypes.decommission'), other: t('eventTypes.other'),
   }
 
   return (
@@ -86,7 +89,7 @@ export default async function AssetDetailPage({
               <polyline points="15 18 9 12 15 6"/>
             </svg>
             <span style={{ color: 'white', fontSize: 12, fontWeight: 700, fontFamily: 'Arial, sans-serif' }}>
-              Zurück
+              {t('common.back')}
             </span>
           </Link>
           {(() => {
@@ -114,13 +117,13 @@ export default async function AssetDetailPage({
         </h1>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 12 }}>
           {asset.article_number && (
-            <span style={chipStyle}>Art. {asset.article_number}</span>
+            <span style={chipStyle}>{t('assets.detail.articlePrefix')} {asset.article_number}</span>
           )}
           {asset.serial_number && (
-            <span style={chipStyle}>SN {asset.serial_number}</span>
+            <span style={chipStyle}>{t('assets.detail.serialPrefix')} {asset.serial_number}</span>
           )}
           {asset.order_number && (
-            <span style={chipStyle}>Bestellung {asset.order_number}</span>
+            <span style={chipStyle}>{t('assets.detail.orderPrefix')} {asset.order_number}</span>
           )}
         </div>
         {asset.description && (
@@ -133,10 +136,10 @@ export default async function AssetDetailPage({
       {/* Quick Info Karten */}
       <div style={{ padding: '0 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
         {asset.category && (
-          <InfoCard icon={<Tag size={14} />} label="Kategorie" value={asset.category} />
+          <InfoCard icon={<Tag size={14} />} label={t('assets.fields.category')} value={asset.category} />
         )}
         {asset.manufacturer && (
-          <InfoCard icon={<Factory size={14} />} label="Hersteller" value={asset.manufacturer} />
+          <InfoCard icon={<Factory size={14} />} label={t('assets.fields.manufacturer')} value={asset.manufacturer} />
         )}
         {asset.location && (
           <LocationHistory
@@ -150,26 +153,26 @@ export default async function AssetDetailPage({
           />
         )}
         {asset.created_at && (
-          <InfoCard icon={<Calendar size={14} />} label="Angelegt" value={new Date(asset.created_at).toLocaleDateString('de-DE')} />
+          <InfoCard icon={<Calendar size={14} />} label={t('assets.detail.createdAt')} value={new Date(asset.created_at).toLocaleDateString(locale)} />
         )}
       </div>
 
       {/* Technische Daten */}
       {techEntries.length > 0 && (
-        <DataGrid title="Technische Daten" icon={<Settings2 size={15} />} entries={techEntries} />
+        <DataGrid title={t('assets.fields.technicalData')} icon={<Settings2 size={15} />} entries={techEntries} />
       )}
 
       {/* Kommerzielle Daten */}
       {commEntries.length > 0 && (
-        <DataGrid title="Kommerzielle Daten" icon={<Briefcase size={15} />} entries={commEntries} />
+        <DataGrid title={t('assets.fields.commercialData')} icon={<Briefcase size={15} />} entries={commEntries} />
       )}
 
       {/* Letzte Service-Einträge */}
       <div style={{ padding: '0 16px 16px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <Link href={`/assets/${id}/service`} style={{ fontSize: 15, fontWeight: 700, color: '#000', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}><Wrench size={14} /> Serviceheft</Link>
+          <Link href={`/assets/${id}/service`} style={{ fontSize: 15, fontWeight: 700, color: '#000', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}><Wrench size={14} /> {t('service.title')}</Link>
           <Link href={`/assets/${id}/service`} style={{ fontSize: 13, color: '#0099cc', textDecoration: 'none', fontWeight: 600 }}>
-            Alle anzeigen
+            {t('assets.detail.showAll')}
           </Link>
         </div>
         {!events || events.length === 0 ? (
@@ -177,14 +180,14 @@ export default async function AssetDetailPage({
             background: 'white', borderRadius: 12, padding: '20px 16px',
             border: '1px solid #c8d4e8', textAlign: 'center',
           }}>
-            <p style={{ color: '#999', fontSize: 13, margin: '0 0 12px' }}>Noch keine Einträge</p>
+            <p style={{ color: '#999', fontSize: 13, margin: '0 0 12px' }}>{t('service.timeline.noEntries')}</p>
             {perms.editService && (
               <Link href={`/assets/${id}/service/neu`} style={{
                 backgroundColor: '#003366', color: 'white',
                 padding: '8px 18px', borderRadius: 50,
                 textDecoration: 'none', fontSize: 13, fontWeight: 700,
               }}>
-                + Eintrag anlegen
+                {t('assets.detail.createFirstEntry')}
               </Link>
             )}
           </div>
@@ -210,7 +213,7 @@ export default async function AssetDetailPage({
                   </p>
                   <p style={{ color: '#96aed2', fontSize: 11, margin: 0 }}>
                     {eventTypeLabel[ev.event_type] ?? ev.event_type} ·{' '}
-                    {new Date(ev.event_date).toLocaleDateString('de-DE')}
+                    {new Date(ev.event_date).toLocaleDateString(locale)}
                     {ev.performed_by ? ` · ${ev.performed_by}` : ''}
                   </p>
                 </div>
@@ -224,7 +227,7 @@ export default async function AssetDetailPage({
               border: '1px dashed #c8d4e8',
               textDecoration: 'none', fontSize: 13, fontWeight: 700,
             }}>
-              + Neuer Eintrag
+              {t('assets.detail.newEntry')}
             </Link>
           )}
           </div>
@@ -240,7 +243,7 @@ export default async function AssetDetailPage({
 
       {/* QR Code + NFC */}
       <div style={{ padding: '0 16px 16px' }}>
-        <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 6 }}><Smartphone size={14} /> QR-Code & NFC</h2>
+        <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 6 }}><Smartphone size={14} /> {t('assets.detail.qrNfc')}</h2>
         <div style={{
           background: 'white', borderRadius: 14, padding: 20,
           border: '1px solid #c8d4e8',
@@ -254,7 +257,7 @@ export default async function AssetDetailPage({
                 width: 160, height: 160, borderRadius: 12, backgroundColor: '#f4f6f9',
                 border: '1px solid #c8d4e8', display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
-                <span style={{ color: '#96aed2', fontSize: 12 }}>Kein QR</span>
+                <span style={{ color: '#96aed2', fontSize: 12 }}>{t('assets.detail.noQr')}</span>
               </div>
               <div>
                 <p style={{ fontSize: 11, color: '#96aed2', fontWeight: 700, margin: '0 0 4px', fontFamily: 'Arial, sans-serif' }}>
@@ -280,7 +283,7 @@ export default async function AssetDetailPage({
               padding: '13px', borderRadius: 50,
               textDecoration: 'none', fontSize: 14, fontWeight: 700,
             }}>
-              Bearbeiten
+              {t('common.edit')}
             </Link>
           </div>
           <AssetStatusActions assetId={id} currentStatus={asset.status} customStatuses={customStatuses} />

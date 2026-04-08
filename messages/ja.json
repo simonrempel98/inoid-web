@@ -178,7 +178,7 @@
       "model": "モデル",
       "purchaseDate": "購入日",
       "purchasePrice": "購入価格（€）",
-      "location": "拠点",
+      "location": "場所",
       "locationText": "自由記述の場所",
       "notes": "メモ",
       "photos": "写真",
@@ -223,7 +223,18 @@
       "print": "印刷"
     },
     "locationHistory": "拠点履歴",
-    "noLocationHistory": "拠点履歴がありません"
+    "noLocationHistory": "拠点履歴がありません",
+    "detail": {
+      "createdAt": "作成日",
+      "showAll": "すべて表示",
+      "qrNfc": "QRコード & NFC",
+      "noQr": "QRなし",
+      "articlePrefix": "品番",
+      "serialPrefix": "SN",
+      "orderPrefix": "注文",
+      "newEntry": "+ 新しいエントリ",
+      "createFirstEntry": "+ エントリを追加"
+    }
   },
   "service": {
     "title": "サービスログ",

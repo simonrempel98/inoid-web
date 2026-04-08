@@ -178,7 +178,7 @@
       "model": "Modèle",
       "purchaseDate": "Date d'achat",
       "purchasePrice": "Prix d'achat (€)",
-      "location": "Site",
+      "location": "Emplacement",
       "locationText": "Site en texte libre",
       "notes": "Notes",
       "photos": "Photos",
@@ -223,7 +223,18 @@
       "print": "Imprimer"
     },
     "locationHistory": "Historique des sites",
-    "noLocationHistory": "Aucun historique de site disponible"
+    "noLocationHistory": "Aucun historique de site disponible",
+    "detail": {
+      "createdAt": "Créé le",
+      "showAll": "Tout afficher",
+      "qrNfc": "Code QR & NFC",
+      "noQr": "Pas de QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Commande",
+      "newEntry": "+ Nouvelle entrée",
+      "createFirstEntry": "+ Ajouter une entrée"
+    }
   },
   "service": {
     "title": "Carnet de service",

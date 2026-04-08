@@ -223,7 +223,18 @@
       "print": "Afdrukken"
     },
     "locationHistory": "Locatiegeschiedenis",
-    "noLocationHistory": "Geen locatiegeschiedenis beschikbaar"
+    "noLocationHistory": "Geen locatiegeschiedenis beschikbaar",
+    "detail": {
+      "createdAt": "Aangemaakt",
+      "showAll": "Alles tonen",
+      "qrNfc": "QR-code & NFC",
+      "noQr": "Geen QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Bestelling",
+      "newEntry": "+ Nieuwe invoer",
+      "createFirstEntry": "+ Invoer toevoegen"
+    }
   },
   "service": {
     "title": "Servicelogboek",

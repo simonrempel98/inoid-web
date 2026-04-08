@@ -174,11 +174,11 @@
       "serialNumber": "Serienummer",
       "articleNumber": "Artikkelnummer",
       "barcode": "Strekkode / QR-kode",
-      "manufacturer": "Produsent",
+      "manufacturer": "Manufacturer",
       "model": "Modell",
       "purchaseDate": "Kjøpsdato",
       "purchasePrice": "Innkjøpspris (€)",
-      "location": "Sted",
+      "location": "Location",
       "locationText": "Sted (fritekst)",
       "notes": "Notater",
       "photos": "Bilder",
@@ -223,7 +223,18 @@
       "print": "Skriv ut"
     },
     "locationHistory": "Stedshistorikk",
-    "noLocationHistory": "Ingen stedshistorikk tilgjengelig"
+    "noLocationHistory": "Ingen stedshistorikk tilgjengelig",
+    "detail": {
+      "createdAt": "Created",
+      "showAll": "Show all",
+      "qrNfc": "QR Code & NFC",
+      "noQr": "No QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Order",
+      "newEntry": "+ New entry",
+      "createFirstEntry": "+ Add entry"
+    }
   },
   "service": {
     "title": "Servicelogg",

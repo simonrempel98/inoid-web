@@ -223,7 +223,18 @@
       "print": "Εκτύπωση"
     },
     "locationHistory": "Ιστορικό τοποθεσιών",
-    "noLocationHistory": "Δεν υπάρχει ιστορικό τοποθεσιών"
+    "noLocationHistory": "Δεν υπάρχει ιστορικό τοποθεσιών",
+    "detail": {
+      "createdAt": "Δημιουργήθηκε",
+      "showAll": "Εμφάνιση όλων",
+      "qrNfc": "Κωδικός QR & NFC",
+      "noQr": "Χωρίς QR",
+      "articlePrefix": "Αρ.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Παραγγελία",
+      "newEntry": "+ Νέα καταχώρηση",
+      "createFirstEntry": "+ Προσθήκη καταχώρησης"
+    }
   },
   "service": {
     "title": "Βιβλίο σέρβις",

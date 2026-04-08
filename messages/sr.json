@@ -174,11 +174,11 @@
       "serialNumber": "Серијски број",
       "articleNumber": "Број артикла",
       "barcode": "Бар-код / QR кôд",
-      "manufacturer": "Произвођач",
+      "manufacturer": "Manufacturer",
       "model": "Модел",
       "purchaseDate": "Датум куповине",
       "purchasePrice": "Куповна цена (€)",
-      "location": "Локација",
+      "location": "Location",
       "locationText": "Локација (слободни текст)",
       "notes": "Белешке",
       "photos": "Фотографије",
@@ -223,7 +223,18 @@
       "print": "Штампај"
     },
     "locationHistory": "Историја локација",
-    "noLocationHistory": "Нема историје локација"
+    "noLocationHistory": "Нема историје локација",
+    "detail": {
+      "createdAt": "Created",
+      "showAll": "Show all",
+      "qrNfc": "QR Code & NFC",
+      "noQr": "No QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Order",
+      "newEntry": "+ New entry",
+      "createFirstEntry": "+ Add entry"
+    }
   },
   "service": {
     "title": "Сервисна књига",

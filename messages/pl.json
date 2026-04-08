@@ -223,7 +223,18 @@
       "print": "Drukuj"
     },
     "locationHistory": "Historia lokalizacji",
-    "noLocationHistory": "Brak historii lokalizacji"
+    "noLocationHistory": "Brak historii lokalizacji",
+    "detail": {
+      "createdAt": "Utworzono",
+      "showAll": "Pokaż wszystko",
+      "qrNfc": "Kod QR & NFC",
+      "noQr": "Brak QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Zamówienie",
+      "newEntry": "+ Nowy wpis",
+      "createFirstEntry": "+ Dodaj wpis"
+    }
   },
   "service": {
     "title": "Dziennik serwisowy",

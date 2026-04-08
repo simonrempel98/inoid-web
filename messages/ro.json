@@ -223,7 +223,18 @@
       "print": "Tipărire"
     },
     "locationHistory": "Istoric locații",
-    "noLocationHistory": "Niciun istoric de locații disponibil"
+    "noLocationHistory": "Niciun istoric de locații disponibil",
+    "detail": {
+      "createdAt": "Creat",
+      "showAll": "Arată tot",
+      "qrNfc": "Cod QR & NFC",
+      "noQr": "Fără QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Comandă",
+      "newEntry": "+ Intrare nouă",
+      "createFirstEntry": "+ Adăugați intrare"
+    }
   },
   "service": {
     "title": "Jurnal service",

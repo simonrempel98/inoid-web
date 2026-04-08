@@ -174,11 +174,11 @@
       "serialNumber": "Serijski broj",
       "articleNumber": "Broj artikla",
       "barcode": "Barkod / QR kôd",
-      "manufacturer": "Proizvođač",
+      "manufacturer": "Manufacturer",
       "model": "Model",
       "purchaseDate": "Datum kupnje",
       "purchasePrice": "Kupovna cijena (€)",
-      "location": "Lokacija",
+      "location": "Location",
       "locationText": "Lokacija (slobodni tekst)",
       "notes": "Bilješke",
       "photos": "Fotografije",
@@ -223,7 +223,18 @@
       "print": "Ispis"
     },
     "locationHistory": "Povijest lokacija",
-    "noLocationHistory": "Nema povijesti lokacija"
+    "noLocationHistory": "Nema povijesti lokacija",
+    "detail": {
+      "createdAt": "Created",
+      "showAll": "Show all",
+      "qrNfc": "QR Code & NFC",
+      "noQr": "No QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Order",
+      "newEntry": "+ New entry",
+      "createFirstEntry": "+ Add entry"
+    }
   },
   "service": {
     "title": "Servisna knjiga",

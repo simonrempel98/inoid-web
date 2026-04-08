@@ -178,7 +178,7 @@
       "model": "Modello",
       "purchaseDate": "Data di acquisto",
       "purchasePrice": "Prezzo di acquisto (€)",
-      "location": "Sede",
+      "location": "Posizione",
       "locationText": "Sede testo libero",
       "notes": "Note",
       "photos": "Foto",
@@ -223,7 +223,18 @@
       "print": "Stampa"
     },
     "locationHistory": "Storico sedi",
-    "noLocationHistory": "Nessuno storico sedi disponibile"
+    "noLocationHistory": "Nessuno storico sedi disponibile",
+    "detail": {
+      "createdAt": "Creato",
+      "showAll": "Mostra tutto",
+      "qrNfc": "Codice QR & NFC",
+      "noQr": "Nessun QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Ordine",
+      "newEntry": "+ Nuova voce",
+      "createFirstEntry": "+ Aggiungi voce"
+    }
   },
   "service": {
     "title": "Libretto di servizio",

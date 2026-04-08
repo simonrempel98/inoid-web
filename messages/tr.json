@@ -223,7 +223,18 @@
       "print": "Yazdır"
     },
     "locationHistory": "Konum geçmişi",
-    "noLocationHistory": "Konum geçmişi bulunmuyor"
+    "noLocationHistory": "Konum geçmişi bulunmuyor",
+    "detail": {
+      "createdAt": "Oluşturuldu",
+      "showAll": "Tümünü göster",
+      "qrNfc": "QR Kodu & NFC",
+      "noQr": "QR yok",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Sipariş",
+      "newEntry": "+ Yeni giriş",
+      "createFirstEntry": "+ Giriş ekle"
+    }
   },
   "service": {
     "title": "Servis defteri",

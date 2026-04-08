@@ -178,7 +178,7 @@
       "model": "Model",
       "purchaseDate": "Datum nákupu",
       "purchasePrice": "Nákupní cena (€)",
-      "location": "Místo",
+      "location": "Umístění",
       "locationText": "Místo (volný text)",
       "notes": "Poznámky",
       "photos": "Fotografie",
@@ -223,7 +223,18 @@
       "print": "Tisk"
     },
     "locationHistory": "Historie míst",
-    "noLocationHistory": "Žádná historie míst"
+    "noLocationHistory": "Žádná historie míst",
+    "detail": {
+      "createdAt": "Vytvořeno",
+      "showAll": "Zobrazit vše",
+      "qrNfc": "QR kód & NFC",
+      "noQr": "Žádný QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Objednávka",
+      "newEntry": "+ Nová položka",
+      "createFirstEntry": "+ Přidat položku"
+    }
   },
   "service": {
     "title": "Servisní kniha",

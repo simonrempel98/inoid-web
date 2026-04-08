@@ -223,7 +223,18 @@
       "print": "Print"
     },
     "locationHistory": "Location history",
-    "noLocationHistory": "No location history available"
+    "noLocationHistory": "No location history available",
+    "detail": {
+      "createdAt": "Created",
+      "showAll": "Show all",
+      "qrNfc": "QR Code & NFC",
+      "noQr": "No QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Order",
+      "newEntry": "+ New entry",
+      "createFirstEntry": "+ Add entry"
+    }
   },
   "service": {
     "title": "Service log",

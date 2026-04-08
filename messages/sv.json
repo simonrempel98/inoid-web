@@ -223,7 +223,18 @@
       "print": "Skriv ut"
     },
     "locationHistory": "Platshistorik",
-    "noLocationHistory": "Ingen platshistorik tillgänglig"
+    "noLocationHistory": "Ingen platshistorik tillgänglig",
+    "detail": {
+      "createdAt": "Skapad",
+      "showAll": "Visa alla",
+      "qrNfc": "QR-kod & NFC",
+      "noQr": "Ingen QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Beställning",
+      "newEntry": "+ Ny post",
+      "createFirstEntry": "+ Lägg till post"
+    }
   },
   "service": {
     "title": "Servicelogg",

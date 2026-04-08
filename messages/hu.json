@@ -223,7 +223,18 @@
       "print": "Nyomtatás"
     },
     "locationHistory": "Helyszíntörténet",
-    "noLocationHistory": "Nincs helyszíntörténet"
+    "noLocationHistory": "Nincs helyszíntörténet",
+    "detail": {
+      "createdAt": "Létrehozva",
+      "showAll": "Összes megjelenítése",
+      "qrNfc": "QR-kód & NFC",
+      "noQr": "Nincs QR",
+      "articlePrefix": "Cikk.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Rendelés",
+      "newEntry": "+ Új bejegyzés",
+      "createFirstEntry": "+ Bejegyzés hozzáadása"
+    }
   },
   "service": {
     "title": "Szerviznapló",

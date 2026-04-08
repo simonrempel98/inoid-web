@@ -223,7 +223,18 @@
       "print": "Друк"
     },
     "locationHistory": "Історія місцезнаходжень",
-    "noLocationHistory": "Немає історії місцезнаходжень"
+    "noLocationHistory": "Немає історії місцезнаходжень",
+    "detail": {
+      "createdAt": "Створено",
+      "showAll": "Показати все",
+      "qrNfc": "QR-код & NFC",
+      "noQr": "Немає QR",
+      "articlePrefix": "Арт.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Замовлення",
+      "newEntry": "+ Новий запис",
+      "createFirstEntry": "+ Додати запис"
+    }
   },
   "service": {
     "title": "Сервісний журнал",

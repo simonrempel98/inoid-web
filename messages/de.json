@@ -223,7 +223,18 @@
       "print": "Drucken"
     },
     "locationHistory": "Standort-Verlauf",
-    "noLocationHistory": "Kein Standortverlauf vorhanden"
+    "noLocationHistory": "Kein Standortverlauf vorhanden",
+    "detail": {
+      "createdAt": "Angelegt",
+      "showAll": "Alle anzeigen",
+      "qrNfc": "QR-Code & NFC",
+      "noQr": "Kein QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Bestellung",
+      "newEntry": "+ Neuer Eintrag",
+      "createFirstEntry": "+ Eintrag anlegen"
+    }
   },
   "service": {
     "title": "Serviceheft",

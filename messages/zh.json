@@ -178,7 +178,7 @@
       "model": "型号",
       "purchaseDate": "购买日期",
       "purchasePrice": "购买价格（€）",
-      "location": "地点",
+      "location": "位置",
       "locationText": "自由文本地点",
       "notes": "备注",
       "photos": "照片",
@@ -223,7 +223,18 @@
       "print": "打印"
     },
     "locationHistory": "地点历史",
-    "noLocationHistory": "无地点历史记录"
+    "noLocationHistory": "无地点历史记录",
+    "detail": {
+      "createdAt": "创建于",
+      "showAll": "查看全部",
+      "qrNfc": "QR码 & NFC",
+      "noQr": "无QR码",
+      "articlePrefix": "货号",
+      "serialPrefix": "SN",
+      "orderPrefix": "订单",
+      "newEntry": "+ 新条目",
+      "createFirstEntry": "+ 添加条目"
+    }
   },
   "service": {
     "title": "服务日志",

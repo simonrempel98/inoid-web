@@ -174,11 +174,11 @@
       "serialNumber": "Serijos numeris",
       "articleNumber": "Straipsnio numeris",
       "barcode": "Brūkšninis kodas / QR",
-      "manufacturer": "Gamintojas",
+      "manufacturer": "Manufacturer",
       "model": "Modelis",
       "purchaseDate": "Pirkimo data",
       "purchasePrice": "Pirkimo kaina (€)",
-      "location": "Vieta",
+      "location": "Location",
       "locationText": "Vieta (laisvas tekstas)",
       "notes": "Pastabos",
       "photos": "Nuotraukos",
@@ -223,7 +223,18 @@
       "print": "Spausdinti"
     },
     "locationHistory": "Vietos istorija",
-    "noLocationHistory": "Nėra vietos istorijos"
+    "noLocationHistory": "Nėra vietos istorijos",
+    "detail": {
+      "createdAt": "Created",
+      "showAll": "Show all",
+      "qrNfc": "QR Code & NFC",
+      "noQr": "No QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Order",
+      "newEntry": "+ New entry",
+      "createFirstEntry": "+ Add entry"
+    }
   },
   "service": {
     "title": "Serviso žurnalas",

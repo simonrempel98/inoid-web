@@ -174,11 +174,11 @@
       "serialNumber": "Sērijas numurs",
       "articleNumber": "Raksta numurs",
       "barcode": "Svītrkods / QR kods",
-      "manufacturer": "Ražotājs",
+      "manufacturer": "Manufacturer",
       "model": "Modelis",
       "purchaseDate": "Iegādes datums",
       "purchasePrice": "Iegādes cena (€)",
-      "location": "Vieta",
+      "location": "Location",
       "locationText": "Vieta (brīvs teksts)",
       "notes": "Piezīmes",
       "photos": "Fotogrāfijas",
@@ -223,7 +223,18 @@
       "print": "Drukāt"
     },
     "locationHistory": "Vietas vēsture",
-    "noLocationHistory": "Nav vietas vēstures"
+    "noLocationHistory": "Nav vietas vēstures",
+    "detail": {
+      "createdAt": "Created",
+      "showAll": "Show all",
+      "qrNfc": "QR Code & NFC",
+      "noQr": "No QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Order",
+      "newEntry": "+ New entry",
+      "createFirstEntry": "+ Add entry"
+    }
   },
   "service": {
     "title": "Servisa žurnāls",

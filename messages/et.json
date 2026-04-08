@@ -174,11 +174,11 @@
       "serialNumber": "Seerianumber",
       "articleNumber": "Artiklinumber",
       "barcode": "Vöötkood / QR-kood",
-      "manufacturer": "Tootja",
+      "manufacturer": "Manufacturer",
       "model": "Mudel",
       "purchaseDate": "Ostukuupäev",
       "purchasePrice": "Ostuhind (€)",
-      "location": "Asukoht",
+      "location": "Location",
       "locationText": "Asukoht (vabatekst)",
       "notes": "Märkused",
       "photos": "Fotod",
@@ -223,7 +223,18 @@
       "print": "Prindi"
     },
     "locationHistory": "Asukoha ajalugu",
-    "noLocationHistory": "Asukoha ajalugu puudub"
+    "noLocationHistory": "Asukoha ajalugu puudub",
+    "detail": {
+      "createdAt": "Created",
+      "showAll": "Show all",
+      "qrNfc": "QR Code & NFC",
+      "noQr": "No QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Order",
+      "newEntry": "+ New entry",
+      "createFirstEntry": "+ Add entry"
+    }
   },
   "service": {
     "title": "Teenindusraamat",

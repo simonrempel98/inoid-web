@@ -223,7 +223,18 @@
       "print": "Imprimir"
     },
     "locationHistory": "Historial de ubicaciones",
-    "noLocationHistory": "No hay historial de ubicaciones disponible"
+    "noLocationHistory": "No hay historial de ubicaciones disponible",
+    "detail": {
+      "createdAt": "Creado",
+      "showAll": "Ver todo",
+      "qrNfc": "Código QR & NFC",
+      "noQr": "Sin QR",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Pedido",
+      "newEntry": "+ Nueva entrada",
+      "createFirstEntry": "+ Añadir entrada"
+    }
   },
   "service": {
     "title": "Historial de servicio",

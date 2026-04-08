@@ -223,7 +223,18 @@
       "print": "Tulosta"
     },
     "locationHistory": "Sijaintihistoria",
-    "noLocationHistory": "Ei sijaintihistoriaa"
+    "noLocationHistory": "Ei sijaintihistoriaa",
+    "detail": {
+      "createdAt": "Luotu",
+      "showAll": "Näytä kaikki",
+      "qrNfc": "QR-koodi & NFC",
+      "noQr": "Ei QR:ää",
+      "articlePrefix": "Art.",
+      "serialPrefix": "SN",
+      "orderPrefix": "Tilaus",
+      "newEntry": "+ Uusi merkintä",
+      "createFirstEntry": "+ Lisää merkintä"
+    }
   },
   "service": {
     "title": "Huoltopäiväkirja",
