@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { completeProfile } from './actions'
 
 export function CompleteForm({ email, orgName, defaultName }: {
@@ -9,6 +10,7 @@ export function CompleteForm({ email, orgName, defaultName }: {
   orgName: string
   defaultName: string
 }) {
+  const t = useTranslations('completePage')
   const router = useRouter()
   const [fullName, setFullName] = useState(defaultName)
   const [password, setPassword] = useState('')
@@ -19,11 +21,11 @@ export function CompleteForm({ email, orgName, defaultName }: {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (password !== passwordConfirm) {
-      setError('Passwörter stimmen nicht überein.')
+      setError(t('mismatch'))
       return
     }
     if (password.length < 8) {
-      setError('Passwort muss mindestens 8 Zeichen haben.')
+      setError(t('tooShort'))
       return
     }
     setLoading(true)
@@ -46,30 +48,30 @@ export function CompleteForm({ email, orgName, defaultName }: {
         marginBottom: 24, textAlign: 'center', color: 'white',
       }}>
         <p style={{ fontSize: 12, opacity: 0.7, margin: '0 0 4px', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-          Du wurdest eingeladen von
+          {t('invitedBy')}
         </p>
         <p style={{ fontSize: 18, fontWeight: 700, margin: 0 }}>{orgName}</p>
       </div>
 
       <h1 style={{ fontSize: 22, fontWeight: 700, color: '#1A1A1A', margin: '0 0 6px' }}>
-        Konto einrichten
+        {t('title')}
       </h1>
       <p style={{ fontSize: 14, color: '#666', margin: '0 0 24px' }}>
-        Lege dein Passwort fest und bestätige deinen Namen.
+        {t('subtitle')}
       </p>
 
       <form onSubmit={handleSubmit}>
         <div style={{ background: 'white', borderRadius: 16, overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', marginBottom: 16 }}>
           {/* E-Mail (read-only) */}
           <div style={{ padding: '13px 16px', borderBottom: '1px solid #f0f0f0' }}>
-            <p style={{ fontSize: 11, color: '#aaa', margin: '0 0 3px', fontWeight: 700, textTransform: 'uppercase' }}>E-Mail</p>
+            <p style={{ fontSize: 11, color: '#aaa', margin: '0 0 3px', fontWeight: 700, textTransform: 'uppercase' }}>{t('emailLabel')}</p>
             <p style={{ fontSize: 14, color: '#666', margin: 0 }}>{email}</p>
           </div>
 
           {/* Name */}
           <div style={{ padding: '13px 16px', borderBottom: '1px solid #f0f0f0' }}>
             <label style={{ display: 'block', fontSize: 11, color: '#aaa', margin: '0 0 3px', fontWeight: 700, textTransform: 'uppercase' }}>
-              Vollständiger Name
+              {t('nameLabel')}
             </label>
             <input
               value={fullName}
@@ -83,13 +85,13 @@ export function CompleteForm({ email, orgName, defaultName }: {
           {/* Passwort */}
           <div style={{ padding: '13px 16px', borderBottom: '1px solid #f0f0f0' }}>
             <label style={{ display: 'block', fontSize: 11, color: '#aaa', margin: '0 0 3px', fontWeight: 700, textTransform: 'uppercase' }}>
-              Passwort wählen
+              {t('passwordLabel')}
             </label>
             <input
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              placeholder="Mindestens 8 Zeichen"
+              placeholder="••••••••"
               required
               style={{ width: '100%', outline: 'none', border: 'none', fontSize: 15, fontFamily: 'Arial, sans-serif', background: 'transparent' }}
             />
@@ -98,7 +100,7 @@ export function CompleteForm({ email, orgName, defaultName }: {
           {/* Passwort bestätigen */}
           <div style={{ padding: '13px 16px' }}>
             <label style={{ display: 'block', fontSize: 11, color: '#aaa', margin: '0 0 3px', fontWeight: 700, textTransform: 'uppercase' }}>
-              Passwort bestätigen
+              {t('confirmLabel')}
             </label>
             <input
               type="password"
@@ -126,7 +128,7 @@ export function CompleteForm({ email, orgName, defaultName }: {
             opacity: loading || !password || !fullName.trim() ? 0.5 : 1,
           }}
         >
-          {loading ? 'Wird eingerichtet…' : 'Konto einrichten & loslegen'}
+          {loading ? t('loading') : t('submit')}
         </button>
       </form>
     </div>

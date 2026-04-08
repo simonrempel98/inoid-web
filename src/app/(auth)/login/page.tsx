@@ -3,10 +3,13 @@
 import { Suspense, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
+import { useTranslations, useLocale } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { Turnstile } from '@marsidev/react-turnstile'
 
 function LoginForm() {
+  const t = useTranslations('loginPage')
+  const locale = useLocale()
   const router = useRouter()
   const searchParams = useSearchParams()
   const redirectTo = searchParams.get('redirectTo') ?? '/assets'
@@ -31,7 +34,7 @@ function LoginForm() {
     })
 
     if (error) {
-      setError('E-Mail oder Passwort falsch.')
+      setError(t('error'))
       setCaptchaToken(null)
       setLoading(false)
       return
@@ -61,19 +64,19 @@ function LoginForm() {
   return (
     <div style={{ width: '100%', maxWidth: 360, fontFamily: 'Arial, sans-serif' }}>
       <h1 style={{ fontSize: 24, fontWeight: 700, color: '#000000', textAlign: 'center', marginBottom: 24 }}>
-        Anmelden
+        {t('title')}
       </h1>
 
       <form onSubmit={handleLogin}>
         <div style={{ background: 'white', borderRadius: 16, boxShadow: '0 1px 4px rgba(0,0,0,0.08)', overflow: 'hidden', marginBottom: 16 }}>
           <div style={{ padding: '14px 16px' }}>
-            <label style={labelStyle}>E-Mail</label>
+            <label style={labelStyle}>{t('emailLabel')}</label>
             <input type="email" value={email} onChange={e => setEmail(e.target.value)}
               placeholder="name@firma.de" required style={inputStyle} />
           </div>
           <div style={{ height: 1, background: '#c8d4e8' }} />
           <div style={{ padding: '14px 16px' }}>
-            <label style={labelStyle}>Passwort</label>
+            <label style={labelStyle}>{t('passwordLabel')}</label>
             <input type="password" value={password} onChange={e => setPassword(e.target.value)}
               placeholder="••••••••" required style={inputStyle} />
           </div>
@@ -83,7 +86,7 @@ function LoginForm() {
 
         <div style={{ textAlign: 'right', marginBottom: 16 }}>
           <Link href="/forgot-password" style={{ fontSize: 14, color: '#0099cc', textDecoration: 'none' }}>
-            Passwort vergessen?
+            {t('forgotPassword')}
           </Link>
         </div>
 
@@ -93,7 +96,7 @@ function LoginForm() {
               siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
               onSuccess={setCaptchaToken}
               onExpire={() => setCaptchaToken(null)}
-              options={{ theme: 'light', language: 'de' }}
+              options={{ theme: 'light', language: locale }}
             />
           </div>
         )}
@@ -105,7 +108,7 @@ function LoginForm() {
           fontFamily: 'Arial, sans-serif',
           opacity: loading || (captchaEnabled && !captchaToken) ? 0.6 : 1,
         }}>
-          {loading ? 'Wird angemeldet…' : 'Anmelden'}
+          {loading ? t('loading') : t('submit')}
         </button>
       </form>
 
@@ -117,7 +120,7 @@ function LoginForm() {
           fontWeight: 700, fontSize: 16, textDecoration: 'none',
           fontFamily: 'Arial, sans-serif',
         }}>
-          Registrieren
+          {t('register')}
         </Link>
       </div>
 

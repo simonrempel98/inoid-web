@@ -2,9 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 
 export default function InvitePage() {
+  const t = useTranslations('invitePage')
   const params = useParams()
   const router = useRouter()
   const token = params.token as string
@@ -42,7 +44,7 @@ export default function InvitePage() {
   async function handleAccept(e: React.FormEvent) {
     e.preventDefault()
     if (password !== passwordConfirm) {
-      setError('Passwörter stimmen nicht überein.')
+      setError(t('mismatch'))
       return
     }
 
@@ -51,7 +53,6 @@ export default function InvitePage() {
 
     const supabase = createClient()
 
-    // Registrieren oder einloggen
     const { error: signUpError } = await supabase.auth.signUp({
       email: invitation!.email,
       password,
@@ -72,40 +73,40 @@ export default function InvitePage() {
   if (notFound) {
     return (
       <div className="w-full max-w-sm text-center">
-        <h1 className="text-2xl font-bold text-[#1A1A1A] mb-3">Einladung nicht gefunden</h1>
-        <p className="text-gray-500">Dieser Link ist ungültig oder bereits verwendet.</p>
+        <h1 className="text-2xl font-bold text-[#1A1A1A] mb-3">{t('notFoundTitle')}</h1>
+        <p className="text-gray-500">{t('notFoundDesc')}</p>
       </div>
     )
   }
 
   if (!invitation) {
-    return <div className="text-gray-400">Lade Einladung…</div>
+    return <div className="text-gray-400">{t('loading')}</div>
   }
 
   return (
     <div className="w-full max-w-sm">
-      <h1 className="text-2xl font-bold text-[#1A1A1A] mb-1">Einladung annehmen</h1>
+      <h1 className="text-2xl font-bold text-[#1A1A1A] mb-1">{t('title')}</h1>
       <p className="text-gray-500 text-sm mb-2">
-        Du wurdest zu <strong>{invitation.organization_name}</strong> eingeladen.
+        {t('invitedTo', { org: <strong key="org">{invitation.organization_name}</strong> } as any)}
       </p>
       <p className="text-[#1B4F72] text-sm font-semibold mb-6">{invitation.email}</p>
 
       <form onSubmit={handleAccept}>
         <div className="bg-white rounded-2xl shadow-sm overflow-hidden mb-4">
           <div className="px-4 py-3.5">
-            <label className="block text-xs text-gray-500 mb-1">Passwort wählen</label>
+            <label className="block text-xs text-gray-500 mb-1">{t('passwordLabel')}</label>
             <input
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
-              placeholder="Mindestens 8 Zeichen"
+              placeholder={t('passwordPlaceholder')}
               required
               className="w-full outline-none text-base bg-transparent"
             />
           </div>
           <div className="h-px bg-gray-100" />
           <div className="px-4 py-3.5">
-            <label className="block text-xs text-gray-500 mb-1">Passwort bestätigen</label>
+            <label className="block text-xs text-gray-500 mb-1">{t('confirmLabel')}</label>
             <input
               type="password"
               value={passwordConfirm}
@@ -122,7 +123,7 @@ export default function InvitePage() {
         <button type="submit" disabled={loading || !password}
           className="w-full bg-[#1B4F72] text-white py-3.5 rounded-full font-semibold
             hover:bg-[#2E86C1] transition-colors disabled:opacity-60">
-          {loading ? 'Wird verarbeitet…' : 'Konto erstellen & beitreten'}
+          {loading ? t('processing') : t('submit')}
         </button>
       </form>
     </div>
