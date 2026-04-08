@@ -537,13 +537,34 @@
       "activationCodePlaceholder": "9位数代码",
       "activate": "激活",
       "activating": "激活中…",
-      "createInvoice": "创建发票",
+      "createInvoice": "Create invoice",
       "plans": {
         "free": "免费",
         "starter": "入门版",
         "professional": "专业版",
         "enterprise": "企业版"
-      }
+      },
+      "selectPlan": "Select plan",
+      "current": "Current",
+      "netPerMonth": "excl. VAT/month",
+      "showForm": "Create & view invoice",
+      "address": "Billing address",
+      "nameLabel": "Name / Company *",
+      "street": "Street & number",
+      "city": "ZIP & city",
+      "country": "Country",
+      "vatId": "VAT ID (optional)",
+      "afterTransfer": "After payment you will receive your 9-digit activation code by email.",
+      "redeemCode": "Redeem activation code",
+      "codePlaceholder": "9-digit code",
+      "codeHint": "After payment, the code will be sent to admins by email.",
+      "activateBtn": "Activate",
+      "history": "Invoice history",
+      "paid": "Paid",
+      "cancelled": "Cancelled",
+      "pending": "Pending",
+      "activated": "Plan \"{plan}\" successfully activated!",
+      "currentPlanLabel": "Current plan:"
     },
     "invite": {
       "title": "创建用户",
@@ -617,5 +638,8 @@
   },
   "mehr": {
     "help": "帮助"
+  },
+  "roles": {
+    "subtitle": "Define who can do what in your organization."
   }
 }

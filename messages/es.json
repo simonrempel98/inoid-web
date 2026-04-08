@@ -543,7 +543,28 @@
         "starter": "Starter",
         "professional": "Profesional",
         "enterprise": "Empresarial"
-      }
+      },
+      "selectPlan": "Seleccionar plan",
+      "current": "Actual",
+      "netPerMonth": "excl. IVA/mes",
+      "showForm": "Crear y ver factura",
+      "address": "Dirección de facturación",
+      "nameLabel": "Nombre / Empresa *",
+      "street": "Calle y número",
+      "city": "CP y ciudad",
+      "country": "País",
+      "vatId": "NIF/CIF (opcional)",
+      "afterTransfer": "Tras el pago recibirás tu código de activación de 9 dígitos por email.",
+      "redeemCode": "Canjear código de activación",
+      "codePlaceholder": "Código de 9 dígitos",
+      "codeHint": "Tras el pago, el código se enviará a los admins por email.",
+      "activateBtn": "Activar",
+      "history": "Historial de facturas",
+      "paid": "Pagado",
+      "cancelled": "Cancelado",
+      "pending": "Pendiente",
+      "activated": "¡Plan \"{plan}\" activado con éxito!",
+      "currentPlanLabel": "Plan actual:"
     },
     "invite": {
       "title": "Crear usuario",
@@ -617,5 +638,8 @@
   },
   "mehr": {
     "help": "Ayuda"
+  },
+  "roles": {
+    "subtitle": "Define quién puede hacer qué en tu organización."
   }
 }

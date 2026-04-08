@@ -2,9 +2,11 @@ import { createClient } from '@/lib/supabase/server'
 import { getRole } from '@/lib/get-role'
 import { RolesManager } from './roles-manager'
 import type { AppRole } from '@/lib/permissions'
+import { getTranslations } from 'next-intl/server'
 
 export default async function RolesPage() {
   const supabase = await createClient()
+  const t = await getTranslations()
   const { data: { user } } = await supabase.auth.getUser()
 
   const { data: profile } = await supabase
@@ -25,10 +27,10 @@ export default async function RolesPage() {
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', padding: '24px 16px', maxWidth: 560 }}>
       <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 4px' }}>
-        Rollen & Rechte
+        {t('nav.roles')}
       </h1>
       <p style={{ fontSize: 13, color: '#666', margin: '0 0 24px' }}>
-        Lege fest, wer was in der Organisation darf.
+        {t('roles.subtitle')}
       </p>
 
       <RolesManager

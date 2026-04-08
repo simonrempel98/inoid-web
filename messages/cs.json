@@ -537,13 +537,34 @@
       "activationCodePlaceholder": "9místný kód",
       "activate": "Aktivovat",
       "activating": "Aktivace…",
-      "createInvoice": "Vytvořit fakturu",
+      "createInvoice": "Create invoice",
       "plans": {
         "free": "Zdarma",
         "starter": "Starter",
         "professional": "Profesionální",
         "enterprise": "Enterprise"
-      }
+      },
+      "selectPlan": "Select plan",
+      "current": "Current",
+      "netPerMonth": "excl. VAT/month",
+      "showForm": "Create & view invoice",
+      "address": "Billing address",
+      "nameLabel": "Name / Company *",
+      "street": "Street & number",
+      "city": "ZIP & city",
+      "country": "Country",
+      "vatId": "VAT ID (optional)",
+      "afterTransfer": "After payment you will receive your 9-digit activation code by email.",
+      "redeemCode": "Redeem activation code",
+      "codePlaceholder": "9-digit code",
+      "codeHint": "After payment, the code will be sent to admins by email.",
+      "activateBtn": "Activate",
+      "history": "Invoice history",
+      "paid": "Paid",
+      "cancelled": "Cancelled",
+      "pending": "Pending",
+      "activated": "Plan \"{plan}\" successfully activated!",
+      "currentPlanLabel": "Current plan:"
     },
     "invite": {
       "title": "Vytvořit uživatele",
@@ -617,5 +638,8 @@
   },
   "mehr": {
     "help": "Nápověda"
+  },
+  "roles": {
+    "subtitle": "Define who can do what in your organization."
   }
 }

@@ -543,7 +543,28 @@
         "starter": "Starter",
         "professional": "Professional",
         "enterprise": "Enterprise"
-      }
+      },
+      "selectPlan": "Plan wählen",
+      "current": "Aktuell",
+      "netPerMonth": "zzgl. MwSt./Monat",
+      "showForm": "Rechnung erstellen & anzeigen",
+      "address": "Rechnungsadresse",
+      "nameLabel": "Name / Firma *",
+      "street": "Straße & Hausnummer",
+      "city": "PLZ & Ort",
+      "country": "Land",
+      "vatId": "USt-ID (optional)",
+      "afterTransfer": "Nach Überweisung erhalten Sie Ihren 9-stelligen Aktivierungscode per E-Mail.",
+      "redeemCode": "Aktivierungscode einlösen",
+      "codePlaceholder": "9-stelliger Code",
+      "codeHint": "Nach Zahlungseingang wird der Code per E-Mail an die Admins übermittelt.",
+      "activateBtn": "Aktivieren",
+      "history": "Rechnungshistorie",
+      "paid": "Bezahlt",
+      "cancelled": "Storniert",
+      "pending": "Ausstehend",
+      "activated": "Plan „{plan}\" erfolgreich aktiviert!",
+      "currentPlanLabel": "Aktueller Plan:"
     },
     "invite": {
       "title": "Nutzer anlegen",
@@ -617,5 +638,8 @@
   },
   "mehr": {
     "help": "Hilfe"
+  },
+  "roles": {
+    "subtitle": "Lege fest, wer was in der Organisation darf."
   }
 }
