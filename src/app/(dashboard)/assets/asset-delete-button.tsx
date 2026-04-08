@@ -2,9 +2,11 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 
 export function AssetDeleteButton({ assetId }: { assetId: string }) {
+  const t = useTranslations()
   const router = useRouter()
   const supabase = createClient()
   const [confirm, setConfirm] = useState(false)
@@ -22,7 +24,7 @@ export function AssetDeleteButton({ assetId }: { assetId: string }) {
     return (
       <button type="button"
         onClick={e => { e.preventDefault(); e.stopPropagation(); setConfirm(true) }}
-        title="Endgültig löschen"
+        title={t('common.delete')}
         style={{
           width: 32, height: 32, borderRadius: 8, flexShrink: 0,
           border: '1px solid #fecaca', background: 'white',
@@ -43,11 +45,11 @@ export function AssetDeleteButton({ assetId }: { assetId: string }) {
       onClick={e => { e.preventDefault(); e.stopPropagation() }}>
       <button type="button" onClick={e => { e.stopPropagation(); setConfirm(false) }}
         style={{ padding: '4px 10px', borderRadius: 8, border: '1px solid #c8d4e8', background: 'white', color: '#666', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
-        Nein
+        {t('common.no')}
       </button>
       <button type="button" onClick={handleDelete} disabled={loading}
         style={{ padding: '4px 10px', borderRadius: 8, border: 'none', background: '#dc2626', color: 'white', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
-        {loading ? '…' : 'Löschen'}
+        {loading ? '…' : t('common.delete')}
       </button>
     </div>
   )

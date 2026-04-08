@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { FileText, Upload, Trash2, Download } from 'lucide-react'
 
@@ -22,7 +23,6 @@ function fileIcon(url: string) {
 
 function fileName(url: string) {
   const raw = decodeURIComponent(url.split('/').pop() ?? url)
-  // Zeitstempel-Präfix entfernen (z.B. "1234567890_dateiname.pdf")
   return raw.replace(/^\d+_/, '')
 }
 
@@ -31,6 +31,7 @@ export function AssetDocuments({ assetId, initialUrls, canEdit }: {
   initialUrls: string[]
   canEdit: boolean
 }) {
+  const t = useTranslations()
   const [urls, setUrls] = useState<string[]>(initialUrls)
   const [uploading, setUploading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -50,7 +51,7 @@ export function AssetDocuments({ assetId, initialUrls, canEdit }: {
       const { error: upErr } = await supabase.storage
         .from('org-files')
         .upload(path, file, { upsert: true })
-      if (upErr) { setError(`Upload fehlgeschlagen: ${upErr.message}`); continue }
+      if (upErr) { setError(`${t('common.error')}: ${upErr.message}`); continue }
       const { data: { publicUrl } } = supabase.storage.from('org-files').getPublicUrl(path)
       newUrls.push(publicUrl)
     }
@@ -62,7 +63,6 @@ export function AssetDocuments({ assetId, initialUrls, canEdit }: {
       router.refresh()
     }
     setUploading(false)
-    // Input zurücksetzen
     e.target.value = ''
   }
 
@@ -78,7 +78,7 @@ export function AssetDocuments({ assetId, initialUrls, canEdit }: {
     <div style={{ padding: '0 16px 16px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
         <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
-          <FileText size={14} /> Dokumente
+          <FileText size={14} /> {t('assets.fields.documents')}
           {urls.length > 0 && (
             <span style={{ fontSize: 12, fontWeight: 400, color: '#96aed2', marginLeft: 2 }}>{urls.length}</span>
           )}
@@ -86,7 +86,7 @@ export function AssetDocuments({ assetId, initialUrls, canEdit }: {
         {canEdit && (
           <label style={{ display: 'flex', alignItems: 'center', gap: 5, cursor: 'pointer', fontSize: 13, color: '#0099cc', fontWeight: 600 }}>
             <Upload size={13} />
-            {uploading ? 'Lädt…' : 'Hochladen'}
+            {uploading ? t('common.loading') : t('common.upload')}
             <input
               type="file"
               multiple
@@ -109,7 +109,7 @@ export function AssetDocuments({ assetId, initialUrls, canEdit }: {
         <div style={{ background: 'white', borderRadius: 12, padding: '20px 16px', border: '1px solid #e8eef6', textAlign: 'center' }}>
           <FileText size={24} color="#c8d4e8" style={{ marginBottom: 8 }} />
           <p style={{ color: '#aaa', fontSize: 13, margin: 0 }}>
-            {canEdit ? 'Noch keine Dokumente. Lade ein PDF oder Office-Dokument hoch.' : 'Keine Dokumente vorhanden.'}
+            {canEdit ? t('service.entry.addDocument') : t('common.noData')}
           </p>
         </div>
       ) : (

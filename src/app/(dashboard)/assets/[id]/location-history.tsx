@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { MapPin, ChevronDown, ChevronUp, MoveRight, Pencil, Check, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { useTranslations, useLocale } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { OrgTreePicker, getOrgRefLabel } from '@/components/org-tree-picker'
 import type { OrgLocation, OrgHall, OrgArea } from '@/components/org-tree-picker'
@@ -22,6 +23,8 @@ export function LocationHistory({ current, history, assetId, locationRef: initia
   halls: OrgHall[]
   areas: OrgArea[]
 }) {
+  const t = useTranslations()
+  const locale = useLocale()
   const [open, setOpen] = useState(false)
   const [editing, setEditing] = useState(false)
   const [locationRef, setLocationRef] = useState(initialLocationRef ?? '')
@@ -67,7 +70,7 @@ export function LocationHistory({ current, history, assetId, locationRef: initia
             <MapPin size={14} color="#003366" />
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <p style={{ margin: 0, fontSize: 11, color: '#96aed2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Standort</p>
+            <p style={{ margin: 0, fontSize: 11, color: '#96aed2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{t('assets.fields.location')}</p>
             {editing ? (
               <div style={{ marginTop: 4 }}>
                 <OrgTreePicker
@@ -108,7 +111,7 @@ export function LocationHistory({ current, history, assetId, locationRef: initia
                 opacity: saving ? 0.6 : 1,
               }}>
                 <Check size={13} style={{ marginRight: 4 }} />
-                {saving ? '…' : 'Speichern'}
+                {saving ? '…' : t('common.save')}
               </button>
             </>
           ) : (
@@ -124,7 +127,7 @@ export function LocationHistory({ current, history, assetId, locationRef: initia
                   onClick={() => setOpen(o => !o)}
                   style={{ display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer' }}
                 >
-                  <span style={{ fontSize: 11, color: '#96aed2' }}>{history.length} Änderung{history.length !== 1 ? 'en' : ''}</span>
+                  <span style={{ fontSize: 11, color: '#96aed2' }}>{history.length} {t('assets.locationHistory')}</span>
                   {open ? <ChevronUp size={14} color="#96aed2" /> : <ChevronDown size={14} color="#96aed2" />}
                 </div>
               )}
@@ -137,14 +140,14 @@ export function LocationHistory({ current, history, assetId, locationRef: initia
       {open && !editing && (
         <div style={{ borderTop: '1px solid #e8eef6' }}>
           <p style={{ fontSize: 10, fontWeight: 700, color: '#96aed2', textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0, padding: '10px 16px 6px' }}>
-            Standortverlauf
+            {t('assets.locationHistory')}
           </p>
           {/* Aktuell */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 16px' }}>
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#27AE60', flexShrink: 0, marginLeft: 3 }} />
             <div style={{ flex: 1 }}>
               <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#000' }}>{current}</p>
-              <p style={{ margin: 0, fontSize: 11, color: '#96aed2' }}>Aktuell</p>
+              <p style={{ margin: 0, fontSize: 11, color: '#96aed2' }}>{t('common.active')}</p>
             </div>
           </div>
           {/* Historie */}
@@ -154,7 +157,7 @@ export function LocationHistory({ current, history, assetId, locationRef: initia
               <div style={{ flex: 1 }}>
                 <p style={{ margin: 0, fontSize: 13, color: '#555' }}>{entry.location ?? '–'}</p>
                 <p style={{ margin: 0, fontSize: 11, color: '#96aed2' }}>
-                  bis {new Date(entry.changed_at).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                  {new Date(entry.changed_at).toLocaleDateString(locale, { day: '2-digit', month: '2-digit', year: 'numeric' })}
                 </p>
               </div>
               <MoveRight size={12} color="#c8d4e8" />

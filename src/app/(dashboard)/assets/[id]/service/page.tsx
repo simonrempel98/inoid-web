@@ -5,7 +5,7 @@ import { ServiceSchedules } from './service-schedules'
 import { ServiceTimeline } from './service-timeline'
 import { WartungTimeline, type ScheduleWithAsset } from '@/app/(dashboard)/wartung/wartung-timeline'
 import { ClipboardList, Euro, RefreshCw, BarChart2 } from 'lucide-react'
-import { getTranslations } from 'next-intl/server'
+import { getTranslations, getLocale } from 'next-intl/server'
 
 export default async function ServicePage({
   params,
@@ -15,6 +15,7 @@ export default async function ServicePage({
   const { id } = await params
   const supabase = await createClient()
   const t = await getTranslations()
+  const locale = await getLocale()
 
   const { data: asset } = await supabase
     .from('assets')
@@ -69,7 +70,7 @@ export default async function ServicePage({
       {/* Statistik-Karten */}
       <div style={{ padding: '0 20px 20px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
         <StatCard label={t('service.entries')} value={String(events?.length ?? 0)} icon={<ClipboardList size={14} />} />
-        <StatCard label={t('service.totalCost')} value={totalCost > 0 ? `${totalCost.toLocaleString('de-DE')} €` : '–'} icon={<Euro size={14} />} />
+        <StatCard label={t('service.totalCost')} value={totalCost > 0 ? `${totalCost.toLocaleString(locale)} €` : '–'} icon={<Euro size={14} />} />
         <StatCard label={t('service.intervals')} value={String(schedules?.length ?? 0)} icon={<RefreshCw size={14} />} />
       </div>
 
