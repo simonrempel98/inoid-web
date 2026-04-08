@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Табло",
+    "assets": "Управление на активи",
+    "scan": "Сканиране",
+    "wartung": "Поддръжка & Сервиз",
+    "organisation": "Местоположения & Структура",
+    "teams": "Екипи",
+    "billing": "Абонамент",
+    "profile": "Профил & Настройки",
+    "docs": "Документация",
+    "logout": "Изход",
+    "orgManagement": "Управление на организацията",
+    "account": "Акаунт"
+  },
+  "common": {
+    "save": "Запазване",
+    "cancel": "Отказ",
+    "delete": "Изтриване",
+    "edit": "Редактиране",
+    "create": "Създаване",
+    "back": "Назад",
+    "loading": "Зареждане…",
+    "saving": "Запазване…",
+    "error": "Грешка",
+    "success": "Успешно",
+    "confirm": "Потвърждение",
+    "close": "Затваряне",
+    "search": "Търсене",
+    "filter": "Филтър",
+    "all": "Всички",
+    "none": "Няма",
+    "yes": "Да",
+    "no": "Не",
+    "optional": "незадължително",
+    "required": "Задължително поле",
+    "new": "+ Нов",
+    "add": "Добавяне",
+    "remove": "Премахване",
+    "noData": "Няма налични данни",
+    "perPage": "на страница",
+    "page": "Страница",
+    "of": "от",
+    "entries": "Записи",
+    "reset": "Нулиране",
+    "actions": "Действия",
+    "status": "Статус",
+    "date": "Дата",
+    "name": "Наименование",
+    "description": "Описание",
+    "notes": "Бележки",
+    "cost": "Разходи",
+    "type": "Тип",
+    "category": "Категория",
+    "preview": "Преглед",
+    "upload": "Качване",
+    "download": "Изтегляне",
+    "copy": "Копиране",
+    "duplicate": "Дублиране",
+    "active": "Активен",
+    "inactive": "Неактивен",
+    "system": "Система",
+    "custom": "Персонализиран",
+    "label": "Етикет",
+    "color": "Цвят",
+    "unknown": "Неизвестно",
+    "today": "Днес",
+    "tomorrow": "Утре",
+    "yesterday": "Вчера",
+    "daysAgo": "Закъснение {n} дни",
+    "inDays": "след {n} дни",
+    "months": ["Януари","Февруари","Март","Април","Май","Юни","Юли","Август","Септември","Октомври","Ноември","Декември"],
+    "noEntries": "Няма записи",
+    "pagination": "Страница {current} от {total}"
+  },
+  "auth": {
+    "login": "Вход",
+    "logout": "Изход",
+    "email": "Имейл адрес",
+    "password": "Парола",
+    "forgotPassword": "Забравена парола?",
+    "noAccount": "Нямате акаунт?",
+    "register": "Регистрация",
+    "loginError": "Неуспешен вход. Моля, проверете данните си.",
+    "welcomeBack": "Добре дошли отново"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Добро утро",
+      "afternoon": "Добър ден",
+      "evening": "Добър вечер"
+    },
+    "overdueWarning": "{n} просрочена поддръжка",
+    "overdueWarningPlural": "{n} просрочени поддръжки",
+    "stats": {
+      "assetsTotal": "Общо активи",
+      "active": "Активни",
+      "inService": "На сервиз",
+      "decommissioned": "Извън употреба",
+      "users": "Потребители",
+      "overdueServices": "Просрочена поддръжка",
+      "dueThisWeek": "Тази седмица",
+      "serviceEventsMonth": "Сервизни събития (месец)",
+      "maintenanceCostYear": "Разходи за поддръжка (година)",
+      "allDone": "Всичко е готово",
+      "limit": "Лимит: {n}",
+      "unlimited": "Неограничен",
+      "percentOfStock": "{n} % от запаса",
+      "totalSub": "Общо {n}",
+      "monthSub": "{n} € този месец"
+    },
+    "sections": {
+      "assetUtilization": "Използване на активи",
+      "maintenanceOverview": "Преглед на поддръжката",
+      "assetsByCategory": "Активи по категория",
+      "recentActivity": "Последна активност",
+      "currentPlan": "Текущ план",
+      "quickAccess": "Бърз достъп",
+      "noCategories": "Няма категории",
+      "noActivity": "Няма сервизни събития"
+    },
+    "maintenance": {
+      "overdue": "Просрочено",
+      "thisWeek": "Тази седмица",
+      "next30Days": "Следващите 30 дни",
+      "totalIntervals": "Общо активни интервали"
+    },
+    "quickLinks": {
+      "createAsset": "Създаване на актив",
+      "openMaintenance": "Отваряне на поддръжка",
+      "scanAsset": "Сканиране на актив",
+      "locations": "Местоположения",
+      "addUser": "Добавяне на потребител",
+      "documentation": "Документация"
+    },
+    "plan": {
+      "active": "АКТИВЕН",
+      "inactive": "НЕАКТИВЕН",
+      "assets": "Активи",
+      "users": "Потребители",
+      "manageBilling": "Управление на абонамента"
+    }
+  },
+  "assets": {
+    "title": "Управление на активи",
+    "subtitle": "Цялото оборудване с един поглед",
+    "new": "Нов актив",
+    "search": "Търсене на активи…",
+    "filter": {
+      "allCategories": "Всички категории",
+      "allStatuses": "Всички статуси",
+      "allLocations": "Всички местоположения"
+    },
+    "noAssets": "Все още няма активи",
+    "noAssetsDesc": "Създайте първото си оборудване.",
+    "noResults": "Не са намерени активи",
+    "fields": {
+      "title": "Етикет",
+      "category": "Категория",
+      "status": "Статус",
+      "serialNumber": "Сериен номер",
+      "articleNumber": "Артикулен номер",
+      "barcode": "Баркод / QR код",
+      "manufacturer": "Производител",
+      "model": "Модел",
+      "purchaseDate": "Дата на покупка",
+      "purchasePrice": "Покупна цена (€)",
+      "location": "Местоположение",
+      "locationText": "Местоположение (текст)",
+      "notes": "Бележки",
+      "photos": "Снимки",
+      "documents": "Документи",
+      "technicalData": "Технически данни",
+      "commercialData": "Търговски данни"
+    },
+    "status": {
+      "active": "Активен",
+      "in_service": "На сервиз",
+      "decommissioned": "Извън употреба",
+      "defective": "Дефектен"
+    },
+    "actions": {
+      "viewServiceLog": "Сервизен журнал",
+      "edit": "Редактиране",
+      "duplicate": "Дублиране",
+      "delete": "Изтриване",
+      "confirmDelete": "Да се изтрие ли този актив? Действието е необратимо.",
+      "duplicateSuccess": "Активът е дублиран"
+    },
+    "new_page": {
+      "title": "Създаване на нов актив",
+      "edit_title": "Редактиране на актив",
+      "save": "Създаване на актив",
+      "saveEdit": "Запазване на промените",
+      "addTechField": "+ Добавяне на поле",
+      "fieldName": "Наименование на полето",
+      "fieldValue": "Стойност",
+      "addPhoto": "Добавяне на снимка",
+      "photoHint": "Снимките се съхраняват директно в облака",
+      "selectLocation": "Избор на местоположение",
+      "noLocation": "Без местоположение",
+      "errors": {
+        "titleRequired": "Моля, въведете етикет.",
+        "saveFailed": "Грешка при запазване"
+      }
+    },
+    "qr": {
+      "title": "QR код",
+      "download": "Изтегляне на QR код",
+      "print": "Печат"
+    },
+    "locationHistory": "История на местоположенията",
+    "noLocationHistory": "Няма история на местоположенията"
+  },
+  "service": {
+    "title": "Сервизен журнал",
+    "subtitle": "Пълна документация на всички събития",
+    "newEntry": "+ Запис",
+    "entries": "Записи",
+    "totalCost": "Общи разходи",
+    "intervals": "Интервали",
+    "noEntries": "Все още няма записи",
+    "noEntriesDesc": "Документирайте поддръжки, ремонти и инспекции.",
+    "entry": {
+      "title": "Заглавие",
+      "titlePlaceholder": "напр. {type} извършено",
+      "type": "Тип",
+      "date": "Дата и час",
+      "description": "Описание",
+      "descriptionPlaceholder": "Какво беше направено?",
+      "performedBy": "Извършено от",
+      "performedByPlaceholder": "Име",
+      "externalCompany": "Фирма / външна",
+      "externalCompanyPlaceholder": "напр. TÜV",
+      "costEur": "Разходи (€)",
+      "nextDate": "Следваща дата",
+      "notes": "Бележки / забележки",
+      "notesPlaceholder": "Вътрешни бележки, констатации, препоръки…",
+      "photos": "Снимки",
+      "documents": "Документи",
+      "addDocument": "+ Добавяне на документ / PDF",
+      "save": "Запазване на записа",
+      "saveEdit": "Запазване на промените",
+      "completeMaintenance": "Завършване на поддръжката",
+      "new": "Нов запис",
+      "edit": "Редактиране на запис",
+      "customType": "+ Създаване на персонализиран",
+      "cancelCustomType": "× Отказ",
+      "newTypePlaceholder": "Етикет, напр. Калибриране",
+      "createType": "Създаване и избор на тип",
+      "nextDateAutoSet": "Следващата дата ще бъде зададена автоматично",
+      "nextDateIntervalHint": "{n} дни от датата на изпълнение",
+      "errors": {
+        "titleRequired": "Моля, въведете заглавие.",
+        "saveFailed": "Грешка при запазване"
+      }
+    },
+    "checklist": {
+      "title": "Контролен списък",
+      "subtitle": "Отбележете всяка стъпка и по желание добавете бележки",
+      "done": "готово",
+      "addNote": "+ Бележка",
+      "notePlaceholder": "Констатация, измерване, забележка за тази стъпка…",
+      "resources": "Ресурси (незадължително): инструменти, материали…"
+    },
+    "interval": {
+      "title": "Нов интервал",
+      "editTitle": "Редактиране на интервал",
+      "subtitle": "Повтаряща се задача",
+      "name": "Етикет *",
+      "namePlaceholder": "напр. {type} на всеки 6 месеца",
+      "interval": "Интервал",
+      "intervalDays": "На всеки {n} дни",
+      "custom": "Персонализиран",
+      "customDays": "Дни",
+      "customDaysPlaceholder": "напр. 45",
+      "lastDone": "Последно изпълнено",
+      "lastDoneHint": "Незадължително – изчислява следващата дата",
+      "nextDue": "Следващ срок *",
+      "preview": "Преглед",
+      "previewDesc": "На всеки {days} дни · Срок: {date}",
+      "checklist": "Контролен списък",
+      "checklistSubtitle": "Номерирани стъпки за отбелязване при изпълнение",
+      "addStep": "+ Стъпка",
+      "stepPlaceholder": "Описване на стъпка {n}…",
+      "resourcesPlaceholder": "Ресурси (незадължително): инструменти, материали…",
+      "noSteps": "Няма стъпки – натиснете \"+ Стъпка\"",
+      "save": "Създаване на интервал",
+      "saveEdit": "Запазване на промените",
+      "newType": "Създаване на нов тип",
+      "errors": {
+        "nameRequired": "Моля, въведете етикет.",
+        "intervalRequired": "Моля, въведете валиден интервал.",
+        "nextDateRequired": "Моля, посочете следващия срок."
+      }
+    },
+    "schedules": {
+      "title": "Интервали за поддръжка",
+      "newInterval": "+ Интервал",
+      "noSchedules": "Все още няма интервали за поддръжка",
+      "noSchedulesDesc": "Настройте повтарящ се план за поддръжка.",
+      "dueDate": "Срок на {date}",
+      "overdue": "Просрочено",
+      "dueIn": "След {n} дни",
+      "dueToday": "Срок днес",
+      "complete": "Отбелязване като готово",
+      "completeShort": "Завърши",
+      "lastDone": "Последно: {date}",
+      "interval": "На всеки {n} дни"
+    },
+    "timeline": {
+      "entry": "Запис",
+      "entries": "Записи",
+      "noEntries": "Все още няма записи",
+      "noEntriesDesc": "Документирайте поддръжки, ремонти и инспекции.",
+      "nextDate": "Следващо: {date}",
+      "editBtn": "Редактиране",
+      "checklistSection": "Контролен списък",
+      "notesSection": "Бележки"
+    }
+  },
+  "wartung": {
+    "title": "Поддръжка & Сервиз",
+    "subtitle": "Всички предстоящи интервали за поддръжка",
+    "tabs": {
+      "list": "Списък със задачи",
+      "gantt": "Диаграма на Гант"
+    },
+    "filter": {
+      "search": "Търсене по актив, сер. №, категория…",
+      "urgency": "Спешност",
+      "all": "Всички",
+      "overdue": "Просрочено",
+      "week": "Тази седмица",
+      "twoWeeks": "Две седмици",
+      "month": "30 дни",
+      "category": "Категория",
+      "allCategories": "Всички категории",
+      "reset": "Нулиране"
+    },
+    "groups": {
+      "overdue": "Просрочено",
+      "thisWeek": "Тази седмица",
+      "next30Days": "Следващите 30 дни",
+      "later": "По-късно"
+    },
+    "noSchedules": "Няма записи",
+    "noSchedulesDesc": "Няма задачи за поддръжка за този филтър.",
+    "complete": "Отбелязване като готово",
+    "completeBtn": "Завърши",
+    "stats": {
+      "overdue": "Просрочена поддръжка",
+      "thisWeek": "Тази седмица",
+      "thisMonth": "Този месец",
+      "total": "Активни интервали"
+    }
+  },
+  "organisation": {
+    "title": "Местоположения & Структура",
+    "subtitle": "Управление на оперативната структура",
+    "newLocation": "+ Местоположение",
+    "newHall": "+ Хале",
+    "newArea": "+ Зона",
+    "noLocations": "Все още няма местоположения",
+    "noLocationsDesc": "Създайте първото си местоположение.",
+    "location": "Местоположение",
+    "hall": "Хале",
+    "area": "Зона",
+    "assetsHere": "{n} активи",
+    "fields": {
+      "name": "Наименование",
+      "description": "Описание"
+    }
+  },
+  "teams": {
+    "title": "Екипи",
+    "subtitle": "Управление на членове и роли",
+    "newTeam": "+ Екип",
+    "inviteMember": "Покана на член",
+    "newMember": "Създаване на член",
+    "noTeams": "Все още няма екипи",
+    "member": "Член",
+    "members": "Членове",
+    "role": "Роля",
+    "roles": {
+      "admin": "Администратор",
+      "technician": "Техник",
+      "viewer": "Читател"
+    },
+    "roleDesc": {
+      "admin": "Пълен достъп + управление на потребители",
+      "technician": "Редактиране на активи и сервиз",
+      "viewer": "Само преглед"
+    },
+    "fields": {
+      "name": "Наименование на екипа",
+      "email": "Имейл адрес",
+      "password": "Парола",
+      "fullName": "Пълно ime"
+    },
+    "actions": {
+      "changeRole": "Промяна на роля",
+      "removeMember": "Премахване на член",
+      "confirmRemove": "Да се премахне ли този член?"
+    }
+  },
+  "settings": {
+    "title": "Настройки",
+    "profile": {
+      "title": "Профил",
+      "subtitle": "Лични данни и настройки",
+      "fullName": "Пълно ime",
+      "email": "Имейл адрес",
+      "language": "Език",
+      "languageSubtitle": "Език на приложението за вашия акаунт",
+      "save": "Запазване на профила",
+      "saved": "Запазено",
+      "changePassword": "Промяна на паролата",
+      "currentPassword": "Текуща парола",
+      "newPassword": "Нова парола",
+      "passwordSaved": "Паролата е променена"
+    },
+    "eventTypes": {
+      "title": "Типове събития",
+      "subtitle": "Персонализирани категории за сервизни записи",
+      "systemTypes": "Системни типове",
+      "customTypes": "Персонализирани типове",
+      "newType": "+ Нов",
+      "labelPlaceholder": "напр. Калибриране, TÜV, Инспекция…",
+      "colorLabel": "Цвят",
+      "preview": "Преглед:",
+      "save": "Създаване на тип",
+      "saving": "Запазване…",
+      "noCustomTypes": "Все още няма персонализирани типове.",
+      "systemBadge": "Система"
+    },
+    "billing": {
+      "title": "Абонамент",
+      "subtitle": "Управление на план и плащания",
+      "currentPlan": "Текущ план",
+      "status": {
+        "active": "Активен",
+        "inactive": "Неактивен",
+        "trial": "Пробен период"
+      },
+      "changePlan": "Смяна на план",
+      "activationCode": "Осребряване на код за активиране",
+      "activationCodePlaceholder": "9-цифрен код",
+      "activate": "Активиране",
+      "activating": "Активиране…",
+      "createInvoice": "Създаване на фактура",
+      "plans": {
+        "free": "Безплатен",
+        "starter": "Стартов",
+        "professional": "Професионален",
+        "enterprise": "Корпоративен"
+      }
+    },
+    "invite": {
+      "title": "Създаване на потребител",
+      "subtitle": "Добавяне на нов член към организацията",
+      "email": "Имейл адрес",
+      "fullName": "Пълно ime",
+      "password": "Парола",
+      "role": "Роля",
+      "save": "Създаване на потребител",
+      "success": "Потребителят е създаден успешно."
+    },
+    "statuses": {
+      "title": "Статуси на активи",
+      "subtitle": "Дефиниране на персонализирани статуси",
+      "systemStatuses": "Системни статуси",
+      "customStatuses": "Персонализирани статуси",
+      "newStatus": "+ Нов"
+    }
+  },
+  "scan": {
+    "title": "Сканиране на актив",
+    "subtitle": "Сканиране на QR код или NFC",
+    "startCamera": "Стартиране на камерата",
+    "scanning": "Сканиране…",
+    "noPermission": "Достъпът до камерата не е разрешен",
+    "notFound": "Не е намерен актив",
+    "openAsset": "Отваряне на актив"
+  },
+  "docs": {
+    "title": "Документация",
+    "subtitle": "Всичко, което трябва да знаете.",
+    "heroDesc": "INOid е вашето цифрово управление на активи — от първата регистрация до извеждане от употреба. Готово за 5 минути.",
+    "stats": {
+      "firstAsset": "до първия актив",
+      "featureAreas": "функционални области",
+      "browserBased": "базирано на браузър"
+    },
+    "tabs": {
+      "quickstart": "Бърз старт",
+      "features": "Функции",
+      "roles": "Роли",
+      "plans": "Планове и абонамент",
+      "tips": "Съвети"
+    },
+    "quickstart": {
+      "intro": "Четири стъпки и ще научите основното за INOid.",
+      "openDirectly": "Отваряне директно",
+      "demoTour": "Демо обиколка",
+      "demoSoon": "Обучително видео скоро"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Инспекция",
+    "maintenance": "Поддръжка",
+    "repair": "Ремонт",
+    "overhaul": "Основен ремонт",
+    "coating": "Покритие",
+    "cleaning": "Почистване",
+    "installation": "Монтаж/Инсталация",
+    "incident": "Инцидент/Щета",
+    "decommission": "Извеждане от употреба",
+    "other": "Друго"
+  },
+  "intervalPresets": {
+    "weekly": "Седмично",
+    "monthly": "Месечно",
+    "quarterly": "Тримесечно",
+    "biannual": "Полугодишно",
+    "annual": "Годишно",
+    "biennial": "Двегодишно"
+  }
+}

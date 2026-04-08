@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Panou de control",
+    "assets": "Gestionare active",
+    "scan": "Scanare",
+    "wartung": "Mentenanță & Service",
+    "organisation": "Locații & Structură",
+    "teams": "Echipe",
+    "billing": "Abonament",
+    "profile": "Profil & Setări",
+    "docs": "Documentație",
+    "logout": "Deconectare",
+    "orgManagement": "Gestionare organizație",
+    "account": "Cont"
+  },
+  "common": {
+    "save": "Salvare",
+    "cancel": "Anulare",
+    "delete": "Ștergere",
+    "edit": "Editare",
+    "create": "Creare",
+    "back": "Înapoi",
+    "loading": "Se încarcă…",
+    "saving": "Se salvează…",
+    "error": "Eroare",
+    "success": "Succes",
+    "confirm": "Confirmare",
+    "close": "Închidere",
+    "search": "Căutare",
+    "filter": "Filtrare",
+    "all": "Toate",
+    "none": "Niciunul",
+    "yes": "Da",
+    "no": "Nu",
+    "optional": "opțional",
+    "required": "Câmp obligatoriu",
+    "new": "+ Nou",
+    "add": "Adăugare",
+    "remove": "Eliminare",
+    "noData": "Nu există date disponibile",
+    "perPage": "pe pagină",
+    "page": "Pagina",
+    "of": "din",
+    "entries": "Intrări",
+    "reset": "Resetare",
+    "actions": "Acțiuni",
+    "status": "Stare",
+    "date": "Dată",
+    "name": "Nume",
+    "description": "Descriere",
+    "notes": "Note",
+    "cost": "Cost",
+    "type": "Tip",
+    "category": "Categorie",
+    "preview": "Previzualizare",
+    "upload": "Încărcare",
+    "download": "Descărcare",
+    "copy": "Copiere",
+    "duplicate": "Duplicare",
+    "active": "Activ",
+    "inactive": "Inactiv",
+    "system": "Sistem",
+    "custom": "Personalizat",
+    "label": "Etichetă",
+    "color": "Culoare",
+    "unknown": "Necunoscut",
+    "today": "Astăzi",
+    "tomorrow": "Mâine",
+    "yesterday": "Ieri",
+    "daysAgo": "{n} zile întârziere",
+    "inDays": "în {n} zile",
+    "months": ["Ianuarie","Februarie","Martie","Aprilie","Mai","Iunie","Iulie","August","Septembrie","Octombrie","Noiembrie","Decembrie"],
+    "noEntries": "Nicio intrare",
+    "pagination": "Pagina {current} din {total}"
+  },
+  "auth": {
+    "login": "Autentificare",
+    "logout": "Deconectare",
+    "email": "Adresă de e-mail",
+    "password": "Parolă",
+    "forgotPassword": "Ai uitat parola?",
+    "noAccount": "Nu ai cont?",
+    "register": "Înregistrare",
+    "loginError": "Autentificare eșuată. Verificați datele de acces.",
+    "welcomeBack": "Bine ai revenit"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Bună dimineața",
+      "afternoon": "Bună ziua",
+      "evening": "Bună seara"
+    },
+    "overdueWarning": "{n} mentenanță restantă",
+    "overdueWarningPlural": "{n} mentenanțe restante",
+    "stats": {
+      "assetsTotal": "Total active",
+      "active": "Active",
+      "inService": "În service",
+      "decommissioned": "Scos din funcțiune",
+      "users": "Utilizatori",
+      "overdueServices": "Mentenanțe restante",
+      "dueThisWeek": "Scadent această săptămână",
+      "serviceEventsMonth": "Evenimente de service (lună)",
+      "maintenanceCostYear": "Costuri mentenanță (an)",
+      "allDone": "Totul finalizat",
+      "limit": "Limită: {n}",
+      "unlimited": "Nelimitat",
+      "percentOfStock": "{n} % din stoc",
+      "totalSub": "{n} total",
+      "monthSub": "{n} € luna aceasta"
+    },
+    "sections": {
+      "assetUtilization": "Utilizare active",
+      "maintenanceOverview": "Prezentare mentenanță",
+      "assetsByCategory": "Active după categorie",
+      "recentActivity": "Activitate recentă",
+      "currentPlan": "Plan curent",
+      "quickAccess": "Acces rapid",
+      "noCategories": "Nicio categorie",
+      "noActivity": "Niciun eveniment de service"
+    },
+    "maintenance": {
+      "overdue": "Restant",
+      "thisWeek": "Această săptămână",
+      "next30Days": "Următoarele 30 zile",
+      "totalIntervals": "Total intervale active"
+    },
+    "quickLinks": {
+      "createAsset": "Creare activ",
+      "openMaintenance": "Deschidere mentenanță",
+      "scanAsset": "Scanare activ",
+      "locations": "Locații",
+      "addUser": "Adăugare utilizator",
+      "documentation": "Documentație"
+    },
+    "plan": {
+      "active": "ACTIV",
+      "inactive": "INACTIV",
+      "assets": "Active",
+      "users": "Utilizatori",
+      "manageBilling": "Gestionare abonament"
+    }
+  },
+  "assets": {
+    "title": "Gestionare active",
+    "subtitle": "Toate echipamentele dintr-o privire",
+    "new": "Activ nou",
+    "search": "Căutare active…",
+    "filter": {
+      "allCategories": "Toate categoriile",
+      "allStatuses": "Toate stările",
+      "allLocations": "Toate locațiile"
+    },
+    "noAssets": "Niciun activ încă",
+    "noAssetsDesc": "Creați primul echipament.",
+    "noResults": "Niciun activ găsit",
+    "fields": {
+      "title": "Etichetă",
+      "category": "Categorie",
+      "status": "Stare",
+      "serialNumber": "Număr de serie",
+      "articleNumber": "Număr articol",
+      "barcode": "Cod de bare / QR",
+      "manufacturer": "Producător",
+      "model": "Model",
+      "purchaseDate": "Data achiziției",
+      "purchasePrice": "Preț achiziție (€)",
+      "location": "Locație",
+      "locationText": "Locație text liber",
+      "notes": "Note",
+      "photos": "Fotografii",
+      "documents": "Documente",
+      "technicalData": "Date tehnice",
+      "commercialData": "Date comerciale"
+    },
+    "status": {
+      "active": "Activ",
+      "in_service": "În service",
+      "decommissioned": "Scos din funcțiune",
+      "defective": "Defect"
+    },
+    "actions": {
+      "viewServiceLog": "Jurnal service",
+      "edit": "Editare",
+      "duplicate": "Duplicare",
+      "delete": "Ștergere",
+      "confirmDelete": "Ștergeți acest activ? Acțiunea este ireversibilă.",
+      "duplicateSuccess": "Activul a fost duplicat"
+    },
+    "new_page": {
+      "title": "Creare activ nou",
+      "edit_title": "Editare activ",
+      "save": "Creare activ",
+      "saveEdit": "Salvare modificări",
+      "addTechField": "+ Adăugare câmp",
+      "fieldName": "Nume câmp",
+      "fieldValue": "Valoare",
+      "addPhoto": "Adăugare fotografie",
+      "photoHint": "Fotografiile sunt stocate direct în cloud",
+      "selectLocation": "Selectare locație",
+      "noLocation": "Fără locație",
+      "errors": {
+        "titleRequired": "Introduceți o etichetă.",
+        "saveFailed": "Eroare la salvare"
+      }
+    },
+    "qr": {
+      "title": "Cod QR",
+      "download": "Descărcare cod QR",
+      "print": "Tipărire"
+    },
+    "locationHistory": "Istoric locații",
+    "noLocationHistory": "Niciun istoric de locații disponibil"
+  },
+  "service": {
+    "title": "Jurnal service",
+    "subtitle": "Documentație completă a tuturor evenimentelor",
+    "newEntry": "+ Intrare",
+    "entries": "Intrări",
+    "totalCost": "Cost total",
+    "intervals": "Intervale",
+    "noEntries": "Nicio intrare încă",
+    "noEntriesDesc": "Documentați mentenanțele, reparațiile și inspecțiile.",
+    "entry": {
+      "title": "Titlu",
+      "titlePlaceholder": "ex. {type} efectuat",
+      "type": "Tip",
+      "date": "Dată și oră",
+      "description": "Descriere",
+      "descriptionPlaceholder": "Ce s-a făcut?",
+      "performedBy": "Efectuat de",
+      "performedByPlaceholder": "Nume",
+      "externalCompany": "Companie / extern",
+      "externalCompanyPlaceholder": "ex. TÜV",
+      "costEur": "Cost (€)",
+      "nextDate": "Următoarea dată",
+      "notes": "Note / observații",
+      "notesPlaceholder": "Note interne, constatări, recomandări…",
+      "photos": "Fotografii",
+      "documents": "Documente",
+      "addDocument": "+ Adăugare document / PDF",
+      "save": "Salvare intrare",
+      "saveEdit": "Salvare modificări",
+      "completeMaintenance": "Finalizare mentenanță",
+      "new": "Intrare nouă",
+      "edit": "Editare intrare",
+      "customType": "+ Creare personalizat",
+      "cancelCustomType": "× Anulare",
+      "newTypePlaceholder": "Etichetă, ex. Calibrare",
+      "createType": "Creare și selectare tip",
+      "nextDateAutoSet": "Următoarea dată va fi setată automat",
+      "nextDateIntervalHint": "{n} zile de la data execuției",
+      "errors": {
+        "titleRequired": "Introduceți un titlu.",
+        "saveFailed": "Eroare la salvare"
+      }
+    },
+    "checklist": {
+      "title": "Listă de verificare",
+      "subtitle": "Bifați fiecare pas și adăugați opțional note",
+      "done": "gata",
+      "addNote": "+ Notă",
+      "notePlaceholder": "Constatare, măsurătoare, observație pentru acest pas…",
+      "resources": "Resurse (opțional): unelte, materiale…"
+    },
+    "interval": {
+      "title": "Interval nou",
+      "editTitle": "Editare interval",
+      "subtitle": "Sarcină recurentă",
+      "name": "Etichetă *",
+      "namePlaceholder": "ex. {type} la fiecare 6 luni",
+      "interval": "Interval",
+      "intervalDays": "La fiecare {n} zile",
+      "custom": "Personalizat",
+      "customDays": "Zile",
+      "customDaysPlaceholder": "ex. 45",
+      "lastDone": "Ultima executare",
+      "lastDoneHint": "Opțional – calculează data următoare",
+      "nextDue": "Următoarea scadență *",
+      "preview": "Previzualizare",
+      "previewDesc": "La fiecare {days} zile · Scadență: {date}",
+      "checklist": "Listă de verificare",
+      "checklistSubtitle": "Pași numerotați de bifat la execuție",
+      "addStep": "+ Pas",
+      "stepPlaceholder": "Descrieți pasul {n}…",
+      "resourcesPlaceholder": "Resurse (opțional): unelte, materiale…",
+      "noSteps": "Niciun pas – apăsați \"+ Pas\"",
+      "save": "Creare interval",
+      "saveEdit": "Salvare modificări",
+      "newType": "Creare tip nou",
+      "errors": {
+        "nameRequired": "Introduceți o etichetă.",
+        "intervalRequired": "Introduceți un interval valid.",
+        "nextDateRequired": "Specificați data scadenței."
+      }
+    },
+    "schedules": {
+      "title": "Intervale de mentenanță",
+      "newInterval": "+ Interval",
+      "noSchedules": "Niciun interval de mentenanță",
+      "noSchedulesDesc": "Configurați un plan de mentenanță recurent.",
+      "dueDate": "Scadent la {date}",
+      "overdue": "Restant",
+      "dueIn": "Scadent în {n} zile",
+      "dueToday": "Scadent astăzi",
+      "complete": "Marcați ca finalizat",
+      "completeShort": "Finalizare",
+      "lastDone": "Ultima dată: {date}",
+      "interval": "La fiecare {n} zile"
+    },
+    "timeline": {
+      "entry": "Intrare",
+      "entries": "Intrări",
+      "noEntries": "Nicio intrare încă",
+      "noEntriesDesc": "Documentați mentenanțele, reparațiile și inspecțiile.",
+      "nextDate": "Următoarea: {date}",
+      "editBtn": "Editare",
+      "checklistSection": "Listă de verificare",
+      "notesSection": "Note"
+    }
+  },
+  "wartung": {
+    "title": "Mentenanță & Service",
+    "subtitle": "Toate intervalele de mentenanță scadente",
+    "tabs": {
+      "list": "Listă sarcini",
+      "gantt": "Diagramă Gantt"
+    },
+    "filter": {
+      "search": "Căutare după activ, nr. serie, categorie…",
+      "urgency": "Urgență",
+      "all": "Toate",
+      "overdue": "Restante",
+      "week": "Această săptămână",
+      "twoWeeks": "Două săptămâni",
+      "month": "30 zile",
+      "category": "Categorie",
+      "allCategories": "Toate categoriile",
+      "reset": "Resetare"
+    },
+    "groups": {
+      "overdue": "Restante",
+      "thisWeek": "Această săptămână",
+      "next30Days": "Următoarele 30 zile",
+      "later": "Mai târziu"
+    },
+    "noSchedules": "Nicio intrare",
+    "noSchedulesDesc": "Nicio sarcină de mentenanță pentru acest filtru.",
+    "complete": "Marcați ca finalizat",
+    "completeBtn": "Finalizare",
+    "stats": {
+      "overdue": "Mentenanțe restante",
+      "thisWeek": "Scadent această săptămână",
+      "thisMonth": "Scadent luna aceasta",
+      "total": "Intervale active"
+    }
+  },
+  "organisation": {
+    "title": "Locații & Structură",
+    "subtitle": "Gestionare structură operațională",
+    "newLocation": "+ Locație",
+    "newHall": "+ Hală",
+    "newArea": "+ Zonă",
+    "noLocations": "Nicio locație încă",
+    "noLocationsDesc": "Creați prima locație.",
+    "location": "Locație",
+    "hall": "Hală",
+    "area": "Zonă",
+    "assetsHere": "{n} active",
+    "fields": {
+      "name": "Nume",
+      "description": "Descriere"
+    }
+  },
+  "teams": {
+    "title": "Echipe",
+    "subtitle": "Gestionare membri și roluri",
+    "newTeam": "+ Echipă",
+    "inviteMember": "Invitare membru",
+    "newMember": "Creare membru",
+    "noTeams": "Nicio echipă încă",
+    "member": "Membru",
+    "members": "Membri",
+    "role": "Rol",
+    "roles": {
+      "admin": "Administrator",
+      "technician": "Tehnician",
+      "viewer": "Cititor"
+    },
+    "roleDesc": {
+      "admin": "Acces complet + gestionare utilizatori",
+      "technician": "Editare active și service",
+      "viewer": "Doar vizualizare"
+    },
+    "fields": {
+      "name": "Nume echipă",
+      "email": "Adresă de e-mail",
+      "password": "Parolă",
+      "fullName": "Nume complet"
+    },
+    "actions": {
+      "changeRole": "Schimbare rol",
+      "removeMember": "Eliminare membru",
+      "confirmRemove": "Eliminați acest membru?"
+    }
+  },
+  "settings": {
+    "title": "Setări",
+    "profile": {
+      "title": "Profil",
+      "subtitle": "Date personale și setări",
+      "fullName": "Nume complet",
+      "email": "Adresă de e-mail",
+      "language": "Limbă",
+      "languageSubtitle": "Limba aplicației pentru contul dvs.",
+      "save": "Salvare profil",
+      "saved": "Salvat",
+      "changePassword": "Schimbare parolă",
+      "currentPassword": "Parola curentă",
+      "newPassword": "Parolă nouă",
+      "passwordSaved": "Parola a fost schimbată"
+    },
+    "eventTypes": {
+      "title": "Tipuri de evenimente",
+      "subtitle": "Categorii personalizate pentru intrările de service",
+      "systemTypes": "Tipuri sistem",
+      "customTypes": "Tipuri personalizate",
+      "newType": "+ Nou",
+      "labelPlaceholder": "ex. Calibrare, TÜV, Inspecție…",
+      "colorLabel": "Culoare",
+      "preview": "Previzualizare:",
+      "save": "Creare tip",
+      "saving": "Se salvează…",
+      "noCustomTypes": "Niciun tip personalizat creat.",
+      "systemBadge": "Sistem"
+    },
+    "billing": {
+      "title": "Abonament",
+      "subtitle": "Gestionare plan și plăți",
+      "currentPlan": "Plan curent",
+      "status": {
+        "active": "Activ",
+        "inactive": "Inactiv",
+        "trial": "Perioadă de probă"
+      },
+      "changePlan": "Schimbare plan",
+      "activationCode": "Utilizare cod de activare",
+      "activationCodePlaceholder": "Cod de 9 cifre",
+      "activate": "Activare",
+      "activating": "Se activează…",
+      "createInvoice": "Creare factură",
+      "plans": {
+        "free": "Gratuit",
+        "starter": "Starter",
+        "professional": "Profesional",
+        "enterprise": "Enterprise"
+      }
+    },
+    "invite": {
+      "title": "Creare utilizator",
+      "subtitle": "Adăugare nou membru în organizație",
+      "email": "Adresă de e-mail",
+      "fullName": "Nume complet",
+      "password": "Parolă",
+      "role": "Rol",
+      "save": "Creare utilizator",
+      "success": "Utilizatorul a fost creat cu succes."
+    },
+    "statuses": {
+      "title": "Stări active",
+      "subtitle": "Definire stări personalizate",
+      "systemStatuses": "Stări sistem",
+      "customStatuses": "Stări personalizate",
+      "newStatus": "+ Nou"
+    }
+  },
+  "scan": {
+    "title": "Scanare activ",
+    "subtitle": "Scanare cod QR sau NFC",
+    "startCamera": "Pornire cameră",
+    "scanning": "Se scanează…",
+    "noPermission": "Acces la cameră neautorizat",
+    "notFound": "Niciun activ găsit",
+    "openAsset": "Deschidere activ"
+  },
+  "docs": {
+    "title": "Documentație",
+    "subtitle": "Tot ce trebuie să știți.",
+    "heroDesc": "INOid este gestionarea dvs. digitală a activelor — de la prima înregistrare până la scoaterea din funcțiune. Gata în 5 minute.",
+    "stats": {
+      "firstAsset": "până la primul activ",
+      "featureAreas": "domenii de funcționalitate",
+      "browserBased": "bazat pe browser"
+    },
+    "tabs": {
+      "quickstart": "Start rapid",
+      "features": "Funcționalități",
+      "roles": "Roluri",
+      "plans": "Planuri și abonament",
+      "tips": "Sfaturi"
+    },
+    "quickstart": {
+      "intro": "Patru pași și veți cunoaște esențialul INOid.",
+      "openDirectly": "Deschidere directă",
+      "demoTour": "Tur demo",
+      "demoSoon": "Videoclip de prezentare în curând"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Inspecție",
+    "maintenance": "Mentenanță",
+    "repair": "Reparație",
+    "overhaul": "Revizie generală",
+    "coating": "Acoperire",
+    "cleaning": "Curățare",
+    "installation": "Instalare/Montaj",
+    "incident": "Incident/Daune",
+    "decommission": "Scoatere din funcțiune",
+    "other": "Altele"
+  },
+  "intervalPresets": {
+    "weekly": "Săptămânal",
+    "monthly": "Lunar",
+    "quarterly": "Trimestrial",
+    "biannual": "Semestrial",
+    "annual": "Anual",
+    "biennial": "Bianual"
+  }
+}

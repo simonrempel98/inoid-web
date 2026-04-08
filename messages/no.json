@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Instrumentbord",
+    "assets": "Aktivstyring",
+    "scan": "Skann",
+    "wartung": "Vedlikehold & Service",
+    "organisation": "Steder & Struktur",
+    "teams": "Team",
+    "billing": "Abonnement",
+    "profile": "Profil & Innstillinger",
+    "docs": "Dokumentasjon",
+    "logout": "Logg ut",
+    "orgManagement": "Organisasjonsstyring",
+    "account": "Konto"
+  },
+  "common": {
+    "save": "Lagre",
+    "cancel": "Avbryt",
+    "delete": "Slett",
+    "edit": "Rediger",
+    "create": "Opprett",
+    "back": "Tilbake",
+    "loading": "Laster…",
+    "saving": "Lagrer…",
+    "error": "Feil",
+    "success": "Vellykket",
+    "confirm": "Bekreft",
+    "close": "Lukk",
+    "search": "Søk",
+    "filter": "Filtrer",
+    "all": "Alle",
+    "none": "Ingen",
+    "yes": "Ja",
+    "no": "Nei",
+    "optional": "valgfritt",
+    "required": "Obligatorisk felt",
+    "new": "+ Ny",
+    "add": "Legg til",
+    "remove": "Fjern",
+    "noData": "Ingen tilgjengelige data",
+    "perPage": "per side",
+    "page": "Side",
+    "of": "av",
+    "entries": "Oppføringer",
+    "reset": "Tilbakestill",
+    "actions": "Handlinger",
+    "status": "Status",
+    "date": "Dato",
+    "name": "Navn",
+    "description": "Beskrivelse",
+    "notes": "Notater",
+    "cost": "Kostnad",
+    "type": "Type",
+    "category": "Kategori",
+    "preview": "Forhåndsvisning",
+    "upload": "Last opp",
+    "download": "Last ned",
+    "copy": "Kopier",
+    "duplicate": "Dupliser",
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "system": "System",
+    "custom": "Tilpasset",
+    "label": "Etikett",
+    "color": "Farge",
+    "unknown": "Ukjent",
+    "today": "I dag",
+    "tomorrow": "I morgen",
+    "yesterday": "I går",
+    "daysAgo": "{n} dager forsinket",
+    "inDays": "om {n} dager",
+    "months": ["Januar","Februar","Mars","April","Mai","Juni","Juli","August","September","Oktober","November","Desember"],
+    "noEntries": "Ingen oppføringer",
+    "pagination": "Side {current} av {total}"
+  },
+  "auth": {
+    "login": "Logg inn",
+    "logout": "Logg ut",
+    "email": "E-postadresse",
+    "password": "Passord",
+    "forgotPassword": "Glemt passord?",
+    "noAccount": "Har du ikke en konto?",
+    "register": "Registrer",
+    "loginError": "Innlogging mislyktes. Sjekk påloggingsinformasjonen din.",
+    "welcomeBack": "Velkommen tilbake"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "God morgen",
+      "afternoon": "God dag",
+      "evening": "God kveld"
+    },
+    "overdueWarning": "{n} forsinket vedlikehold",
+    "overdueWarningPlural": "{n} forsinkede vedlikeholdstasks",
+    "stats": {
+      "assetsTotal": "Aktiver totalt",
+      "active": "Aktiv",
+      "inService": "Under service",
+      "decommissioned": "Tatt ut av drift",
+      "users": "Brukere",
+      "overdueServices": "Forsinkede vedlikeholdstasks",
+      "dueThisWeek": "Forfaller denne uken",
+      "serviceEventsMonth": "Servicehendelser (måned)",
+      "maintenanceCostYear": "Vedlikeholdskostnader (år)",
+      "allDone": "Alt er gjort",
+      "limit": "Grense: {n}",
+      "unlimited": "Ubegrenset",
+      "percentOfStock": "{n} % av beholdningen",
+      "totalSub": "{n} totalt",
+      "monthSub": "{n} € denne måneden"
+    },
+    "sections": {
+      "assetUtilization": "Aktivutnyttelse",
+      "maintenanceOverview": "Vedlikeholdsoversikt",
+      "assetsByCategory": "Aktiver per kategori",
+      "recentActivity": "Nylig aktivitet",
+      "currentPlan": "Gjeldende plan",
+      "quickAccess": "Hurtigtilgang",
+      "noCategories": "Ingen kategorier",
+      "noActivity": "Ingen servicehendelser ennå"
+    },
+    "maintenance": {
+      "overdue": "Forsinket",
+      "thisWeek": "Denne uken",
+      "next30Days": "Neste 30 dager",
+      "totalIntervals": "Aktive intervaller totalt"
+    },
+    "quickLinks": {
+      "createAsset": "Opprett aktiv",
+      "openMaintenance": "Åpne vedlikehold",
+      "scanAsset": "Skann aktiv",
+      "locations": "Steder",
+      "addUser": "Legg til bruker",
+      "documentation": "Dokumentasjon"
+    },
+    "plan": {
+      "active": "AKTIV",
+      "inactive": "INAKTIV",
+      "assets": "Aktiver",
+      "users": "Brukere",
+      "manageBilling": "Administrer abonnement"
+    }
+  },
+  "assets": {
+    "title": "Aktivstyring",
+    "subtitle": "Alt utstyr i én oversikt",
+    "new": "Nytt aktiv",
+    "search": "Søk aktiver…",
+    "filter": {
+      "allCategories": "Alle kategorier",
+      "allStatuses": "Alle statuser",
+      "allLocations": "Alle steder"
+    },
+    "noAssets": "Ingen aktiver ennå",
+    "noAssetsDesc": "Opprett ditt første utstyr.",
+    "noResults": "Ingen aktiver funnet",
+    "fields": {
+      "title": "Etikett",
+      "category": "Kategori",
+      "status": "Status",
+      "serialNumber": "Serienummer",
+      "articleNumber": "Artikkelnummer",
+      "barcode": "Strekkode / QR-kode",
+      "manufacturer": "Produsent",
+      "model": "Modell",
+      "purchaseDate": "Kjøpsdato",
+      "purchasePrice": "Innkjøpspris (€)",
+      "location": "Sted",
+      "locationText": "Sted (fritekst)",
+      "notes": "Notater",
+      "photos": "Bilder",
+      "documents": "Dokumenter",
+      "technicalData": "Tekniske data",
+      "commercialData": "Kommersielle data"
+    },
+    "status": {
+      "active": "Aktiv",
+      "in_service": "Under service",
+      "decommissioned": "Tatt ut av drift",
+      "defective": "Defekt"
+    },
+    "actions": {
+      "viewServiceLog": "Servicelogg",
+      "edit": "Rediger",
+      "duplicate": "Dupliser",
+      "delete": "Slett",
+      "confirmDelete": "Slette dette aktivet? Handlingen kan ikke angres.",
+      "duplicateSuccess": "Aktiv duplisert"
+    },
+    "new_page": {
+      "title": "Opprett nytt aktiv",
+      "edit_title": "Rediger aktiv",
+      "save": "Opprett aktiv",
+      "saveEdit": "Lagre endringer",
+      "addTechField": "+ Legg til felt",
+      "fieldName": "Feltnavn",
+      "fieldValue": "Verdi",
+      "addPhoto": "Legg til bilde",
+      "photoHint": "Bilder lagres direkte i skyen",
+      "selectLocation": "Velg sted",
+      "noLocation": "Intet sted",
+      "errors": {
+        "titleRequired": "Skriv inn en etikett.",
+        "saveFailed": "Feil ved lagring"
+      }
+    },
+    "qr": {
+      "title": "QR-kode",
+      "download": "Last ned QR-kode",
+      "print": "Skriv ut"
+    },
+    "locationHistory": "Stedshistorikk",
+    "noLocationHistory": "Ingen stedshistorikk tilgjengelig"
+  },
+  "service": {
+    "title": "Servicelogg",
+    "subtitle": "Komplett dokumentasjon av alle hendelser",
+    "newEntry": "+ Oppføring",
+    "entries": "Oppføringer",
+    "totalCost": "Total kostnad",
+    "intervals": "Intervaller",
+    "noEntries": "Ingen oppføringer ennå",
+    "noEntriesDesc": "Dokumenter vedlikehold, reparasjoner og inspeksjoner.",
+    "entry": {
+      "title": "Tittel",
+      "titlePlaceholder": "f.eks. {type} utført",
+      "type": "Type",
+      "date": "Dato og tid",
+      "description": "Beskrivelse",
+      "descriptionPlaceholder": "Hva ble gjort?",
+      "performedBy": "Utført av",
+      "performedByPlaceholder": "Navn",
+      "externalCompany": "Selskap / eksternt",
+      "externalCompanyPlaceholder": "f.eks. TÜV",
+      "costEur": "Kostnad (€)",
+      "nextDate": "Neste dato",
+      "notes": "Notater / merknader",
+      "notesPlaceholder": "Interne notater, funn, anbefalinger…",
+      "photos": "Bilder",
+      "documents": "Dokumenter",
+      "addDocument": "+ Legg til dokument / PDF",
+      "save": "Lagre oppføring",
+      "saveEdit": "Lagre endringer",
+      "completeMaintenance": "Fullfør vedlikehold",
+      "new": "Ny oppføring",
+      "edit": "Rediger oppføring",
+      "customType": "+ Opprett tilpasset",
+      "cancelCustomType": "× Avbryt",
+      "newTypePlaceholder": "Etikett, f.eks. Kalibrering",
+      "createType": "Opprett og velg type",
+      "nextDateAutoSet": "Neste dato settes automatisk",
+      "nextDateIntervalHint": "{n} dager fra utføringsdatoen",
+      "errors": {
+        "titleRequired": "Skriv inn en tittel.",
+        "saveFailed": "Feil ved lagring"
+      }
+    },
+    "checklist": {
+      "title": "Sjekkliste",
+      "subtitle": "Kryss av hvert trinn og legg eventuelt til notater",
+      "done": "ferdig",
+      "addNote": "+ Notat",
+      "notePlaceholder": "Funn, måling, merknad for dette trinnet…",
+      "resources": "Ressurser (valgfritt): verktøy, materialer…"
+    },
+    "interval": {
+      "title": "Nytt intervall",
+      "editTitle": "Rediger intervall",
+      "subtitle": "Gjentakende oppgave",
+      "name": "Etikett *",
+      "namePlaceholder": "f.eks. {type} hver 6. måned",
+      "interval": "Intervall",
+      "intervalDays": "Hver {n}. dag",
+      "custom": "Tilpasset",
+      "customDays": "Dager",
+      "customDaysPlaceholder": "f.eks. 45",
+      "lastDone": "Sist utført",
+      "lastDoneHint": "Valgfritt – beregner neste dato",
+      "nextDue": "Neste forfallsdato *",
+      "preview": "Forhåndsvisning",
+      "previewDesc": "Hver {days}. dag · Forfaller: {date}",
+      "checklist": "Sjekkliste",
+      "checklistSubtitle": "Nummererte trinn som krysses av ved utføring",
+      "addStep": "+ Trinn",
+      "stepPlaceholder": "Beskriv trinn {n}…",
+      "resourcesPlaceholder": "Ressurser (valgfritt): verktøy, materialer…",
+      "noSteps": "Ingen trinn – trykk på \"+ Trinn\"",
+      "save": "Opprett intervall",
+      "saveEdit": "Lagre endringer",
+      "newType": "Opprett ny type",
+      "errors": {
+        "nameRequired": "Skriv inn en etikett.",
+        "intervalRequired": "Skriv inn et gyldig intervall.",
+        "nextDateRequired": "Angi neste forfallsdato."
+      }
+    },
+    "schedules": {
+      "title": "Vedlikeholdsintervaller",
+      "newInterval": "+ Intervall",
+      "noSchedules": "Ingen vedlikeholdsintervaller ennå",
+      "noSchedulesDesc": "Konfigurer en gjentakende vedlikeholdsplan.",
+      "dueDate": "Forfaller {date}",
+      "overdue": "Forsinket",
+      "dueIn": "Forfaller om {n} dager",
+      "dueToday": "Forfaller i dag",
+      "complete": "Merk som fullført",
+      "completeShort": "Fullfør",
+      "lastDone": "Sist: {date}",
+      "interval": "Hver {n}. dag"
+    },
+    "timeline": {
+      "entry": "Oppføring",
+      "entries": "Oppføringer",
+      "noEntries": "Ingen oppføringer ennå",
+      "noEntriesDesc": "Dokumenter vedlikehold, reparasjoner og inspeksjoner.",
+      "nextDate": "Neste: {date}",
+      "editBtn": "Rediger",
+      "checklistSection": "Sjekkliste",
+      "notesSection": "Notater"
+    }
+  },
+  "wartung": {
+    "title": "Vedlikehold & Service",
+    "subtitle": "Alle forfallende vedlikeholdsintervaller",
+    "tabs": {
+      "list": "Oppgaveliste",
+      "gantt": "Gantt-diagram"
+    },
+    "filter": {
+      "search": "Søk etter aktiv, serienr., kategori…",
+      "urgency": "Haster",
+      "all": "Alle",
+      "overdue": "Forsinket",
+      "week": "Denne uken",
+      "twoWeeks": "To uker",
+      "month": "30 dager",
+      "category": "Kategori",
+      "allCategories": "Alle kategorier",
+      "reset": "Tilbakestill"
+    },
+    "groups": {
+      "overdue": "Forsinket",
+      "thisWeek": "Denne uken",
+      "next30Days": "Neste 30 dager",
+      "later": "Senere"
+    },
+    "noSchedules": "Ingen oppføringer",
+    "noSchedulesDesc": "Ingen vedlikeholdsoppgaver for dette filteret.",
+    "complete": "Merk som fullført",
+    "completeBtn": "Fullfør",
+    "stats": {
+      "overdue": "Forsinkede vedlikeholdstasks",
+      "thisWeek": "Forfaller denne uken",
+      "thisMonth": "Forfaller denne måneden",
+      "total": "Aktive intervaller"
+    }
+  },
+  "organisation": {
+    "title": "Steder & Struktur",
+    "subtitle": "Administrer driftsstruktur",
+    "newLocation": "+ Sted",
+    "newHall": "+ Hall",
+    "newArea": "+ Område",
+    "noLocations": "Ingen steder ennå",
+    "noLocationsDesc": "Opprett ditt første sted.",
+    "location": "Sted",
+    "hall": "Hall",
+    "area": "Område",
+    "assetsHere": "{n} aktiver",
+    "fields": {
+      "name": "Navn",
+      "description": "Beskrivelse"
+    }
+  },
+  "teams": {
+    "title": "Team",
+    "subtitle": "Administrer medlemmer og roller",
+    "newTeam": "+ Team",
+    "inviteMember": "Inviter medlem",
+    "newMember": "Opprett medlem",
+    "noTeams": "Ingen team ennå",
+    "member": "Medlem",
+    "members": "Medlemmer",
+    "role": "Rolle",
+    "roles": {
+      "admin": "Administrator",
+      "technician": "Tekniker",
+      "viewer": "Leser"
+    },
+    "roleDesc": {
+      "admin": "Full tilgang + brukerstyring",
+      "technician": "Rediger aktiver og service",
+      "viewer": "Kun visning"
+    },
+    "fields": {
+      "name": "Teamnavn",
+      "email": "E-postadresse",
+      "password": "Passord",
+      "fullName": "Fullt navn"
+    },
+    "actions": {
+      "changeRole": "Endre rolle",
+      "removeMember": "Fjern medlem",
+      "confirmRemove": "Fjerne dette medlemmet?"
+    }
+  },
+  "settings": {
+    "title": "Innstillinger",
+    "profile": {
+      "title": "Profil",
+      "subtitle": "Personlige data og innstillinger",
+      "fullName": "Fullt navn",
+      "email": "E-postadresse",
+      "language": "Språk",
+      "languageSubtitle": "App-språk for kontoen din",
+      "save": "Lagre profil",
+      "saved": "Lagret",
+      "changePassword": "Endre passord",
+      "currentPassword": "Gjeldende passord",
+      "newPassword": "Nytt passord",
+      "passwordSaved": "Passord endret"
+    },
+    "eventTypes": {
+      "title": "Hendelsestyper",
+      "subtitle": "Tilpassede kategorier for serviceoppføringer",
+      "systemTypes": "Systemtyper",
+      "customTypes": "Tilpassede typer",
+      "newType": "+ Ny",
+      "labelPlaceholder": "f.eks. Kalibrering, TÜV, Inspeksjon…",
+      "colorLabel": "Farge",
+      "preview": "Forhåndsvisning:",
+      "save": "Opprett type",
+      "saving": "Lagrer…",
+      "noCustomTypes": "Ingen tilpassede typer ennå.",
+      "systemBadge": "System"
+    },
+    "billing": {
+      "title": "Abonnement",
+      "subtitle": "Administrer plan og betalinger",
+      "currentPlan": "Gjeldende plan",
+      "status": {
+        "active": "Aktiv",
+        "inactive": "Inaktiv",
+        "trial": "Prøveperiode"
+      },
+      "changePlan": "Bytt plan",
+      "activationCode": "Løs inn aktiveringskode",
+      "activationCodePlaceholder": "9-sifret kode",
+      "activate": "Aktiver",
+      "activating": "Aktiverer…",
+      "createInvoice": "Opprett faktura",
+      "plans": {
+        "free": "Gratis",
+        "starter": "Starter",
+        "professional": "Profesjonell",
+        "enterprise": "Enterprise"
+      }
+    },
+    "invite": {
+      "title": "Opprett bruker",
+      "subtitle": "Legg til et nytt medlem i organisasjonen",
+      "email": "E-postadresse",
+      "fullName": "Fullt navn",
+      "password": "Passord",
+      "role": "Rolle",
+      "save": "Opprett bruker",
+      "success": "Brukeren ble opprettet."
+    },
+    "statuses": {
+      "title": "Aktivstatus",
+      "subtitle": "Definer tilpassede statuser",
+      "systemStatuses": "Systemstatuser",
+      "customStatuses": "Tilpassede statuser",
+      "newStatus": "+ Ny"
+    }
+  },
+  "scan": {
+    "title": "Skann aktiv",
+    "subtitle": "Skann QR-kode eller NFC",
+    "startCamera": "Start kamera",
+    "scanning": "Skanner…",
+    "noPermission": "Kameratilgang ikke tillatt",
+    "notFound": "Ingen aktiv funnet",
+    "openAsset": "Åpne aktiv"
+  },
+  "docs": {
+    "title": "Dokumentasjon",
+    "subtitle": "Alt du trenger å vite.",
+    "heroDesc": "INOid er din digitale aktivstyring — fra første registrering til avvikling. Klar på 5 minutter.",
+    "stats": {
+      "firstAsset": "til første aktiv",
+      "featureAreas": "funksjonsområder",
+      "browserBased": "nettleserbasert"
+    },
+    "tabs": {
+      "quickstart": "Hurtigstart",
+      "features": "Funksjoner",
+      "roles": "Roller",
+      "plans": "Planer og abonnement",
+      "tips": "Tips"
+    },
+    "quickstart": {
+      "intro": "Fire trinn og du kjenner det vesentlige i INOid.",
+      "openDirectly": "Åpne direkte",
+      "demoTour": "Demotour",
+      "demoSoon": "Introduksjonsvideo kommer snart"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Inspeksjon",
+    "maintenance": "Vedlikehold",
+    "repair": "Reparasjon",
+    "overhaul": "Generaloverhaling",
+    "coating": "Overflatebehandling",
+    "cleaning": "Rengjøring",
+    "installation": "Installasjon/Montering",
+    "incident": "Hendelse/Skade",
+    "decommission": "Avvikling",
+    "other": "Annet"
+  },
+  "intervalPresets": {
+    "weekly": "Ukentlig",
+    "monthly": "Månedlig",
+    "quarterly": "Kvartalsvis",
+    "biannual": "Halvårlig",
+    "annual": "Årlig",
+    "biennial": "Annethvert år"
+  }
+}

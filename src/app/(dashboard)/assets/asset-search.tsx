@@ -2,8 +2,10 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useTransition } from 'react'
+import { useTranslations } from 'next-intl'
 
 export function AssetSearch({ defaultValue }: { defaultValue?: string }) {
+  const t = useTranslations('assets')
   const router = useRouter()
   const searchParams = useSearchParams()
   const [, startTransition] = useTransition()
@@ -11,14 +13,8 @@ export function AssetSearch({ defaultValue }: { defaultValue?: string }) {
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
     const value = e.target.value
     const params = new URLSearchParams(searchParams.toString())
-    if (value) {
-      params.set('q', value)
-    } else {
-      params.delete('q')
-    }
-    startTransition(() => {
-      router.replace(`/assets?${params.toString()}`)
-    })
+    if (value) { params.set('q', value) } else { params.delete('q') }
+    startTransition(() => router.replace(`/assets?${params.toString()}`))
   }
 
   return (
@@ -32,7 +28,7 @@ export function AssetSearch({ defaultValue }: { defaultValue?: string }) {
       <input
         defaultValue={defaultValue}
         onChange={handleSearch}
-        placeholder="Suche nach Titel, Artikelnr., Seriennr. …"
+        placeholder={t('search')}
         style={{
           width: '100%', padding: '10px 12px 10px 38px',
           borderRadius: 10, border: '1px solid #c8d4e8',

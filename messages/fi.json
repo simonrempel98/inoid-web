@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Kojelauta",
+    "assets": "Omaisuudenhallinta",
+    "scan": "Skannaa",
+    "wartung": "Huolto & Palvelu",
+    "organisation": "Sijainnit & Rakenne",
+    "teams": "Tiimit",
+    "billing": "Tilaus",
+    "profile": "Profiili & Asetukset",
+    "docs": "Dokumentaatio",
+    "logout": "Kirjaudu ulos",
+    "orgManagement": "Organisaatiohallinta",
+    "account": "Tili"
+  },
+  "common": {
+    "save": "Tallenna",
+    "cancel": "Peruuta",
+    "delete": "Poista",
+    "edit": "Muokkaa",
+    "create": "Luo",
+    "back": "Takaisin",
+    "loading": "Ladataan…",
+    "saving": "Tallennetaan…",
+    "error": "Virhe",
+    "success": "Onnistui",
+    "confirm": "Vahvista",
+    "close": "Sulje",
+    "search": "Haku",
+    "filter": "Suodata",
+    "all": "Kaikki",
+    "none": "Ei mitään",
+    "yes": "Kyllä",
+    "no": "Ei",
+    "optional": "valinnainen",
+    "required": "Pakollinen kenttä",
+    "new": "+ Uusi",
+    "add": "Lisää",
+    "remove": "Poista",
+    "noData": "Ei saatavilla olevia tietoja",
+    "perPage": "sivulla",
+    "page": "Sivu",
+    "of": "/",
+    "entries": "Merkinnät",
+    "reset": "Nollaa",
+    "actions": "Toiminnot",
+    "status": "Tila",
+    "date": "Päivämäärä",
+    "name": "Nimi",
+    "description": "Kuvaus",
+    "notes": "Muistiinpanot",
+    "cost": "Kustannus",
+    "type": "Tyyppi",
+    "category": "Kategoria",
+    "preview": "Esikatselu",
+    "upload": "Lataa",
+    "download": "Lataa alas",
+    "copy": "Kopioi",
+    "duplicate": "Kahdenna",
+    "active": "Aktiivinen",
+    "inactive": "Ei aktiivinen",
+    "system": "Järjestelmä",
+    "custom": "Mukautettu",
+    "label": "Nimi",
+    "color": "Väri",
+    "unknown": "Tuntematon",
+    "today": "Tänään",
+    "tomorrow": "Huomenna",
+    "yesterday": "Eilen",
+    "daysAgo": "{n} päivää myöhässä",
+    "inDays": "{n} päivän kuluttua",
+    "months": ["Tammikuu","Helmikuu","Maaliskuu","Huhtikuu","Toukokuu","Kesäkuu","Heinäkuu","Elokuu","Syyskuu","Lokakuu","Marraskuu","Joulukuu"],
+    "noEntries": "Ei merkintöjä",
+    "pagination": "Sivu {current} / {total}"
+  },
+  "auth": {
+    "login": "Kirjaudu sisään",
+    "logout": "Kirjaudu ulos",
+    "email": "Sähköpostiosoite",
+    "password": "Salasana",
+    "forgotPassword": "Unohditko salasanan?",
+    "noAccount": "Ei tiliä vielä?",
+    "register": "Rekisteröidy",
+    "loginError": "Kirjautuminen epäonnistui. Tarkista kirjautumistietosi.",
+    "welcomeBack": "Tervetuloa takaisin"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Hyvää huomenta",
+      "afternoon": "Hyvää päivää",
+      "evening": "Hyvää iltaa"
+    },
+    "overdueWarning": "{n} myöhässä oleva huolto",
+    "overdueWarningPlural": "{n} myöhässä olevaa huoltoa",
+    "stats": {
+      "assetsTotal": "Omaisuutta yhteensä",
+      "active": "Aktiivinen",
+      "inService": "Huollossa",
+      "decommissioned": "Poistettu käytöstä",
+      "users": "Käyttäjät",
+      "overdueServices": "Myöhässä olevat huollot",
+      "dueThisWeek": "Tällä viikolla",
+      "serviceEventsMonth": "Huoltotapahtumat (kuukausi)",
+      "maintenanceCostYear": "Huoltokustannukset (vuosi)",
+      "allDone": "Kaikki valmista",
+      "limit": "Raja: {n}",
+      "unlimited": "Rajoittamaton",
+      "percentOfStock": "{n} % varastosta",
+      "totalSub": "{n} yhteensä",
+      "monthSub": "{n} € tässä kuussa"
+    },
+    "sections": {
+      "assetUtilization": "Omaisuuden käyttöaste",
+      "maintenanceOverview": "Huollon yhteenveto",
+      "assetsByCategory": "Omaisuus kategorioittain",
+      "recentActivity": "Viimeaikainen toiminta",
+      "currentPlan": "Nykyinen suunnitelma",
+      "quickAccess": "Pikakäyttö",
+      "noCategories": "Ei kategorioita",
+      "noActivity": "Ei vielä huoltotapahtumia"
+    },
+    "maintenance": {
+      "overdue": "Myöhässä",
+      "thisWeek": "Tällä viikolla",
+      "next30Days": "Seuraavat 30 päivää",
+      "totalIntervals": "Aktiiviset välit yhteensä"
+    },
+    "quickLinks": {
+      "createAsset": "Luo omaisuus",
+      "openMaintenance": "Avaa huolto",
+      "scanAsset": "Skannaa omaisuus",
+      "locations": "Sijainnit",
+      "addUser": "Lisää käyttäjä",
+      "documentation": "Dokumentaatio"
+    },
+    "plan": {
+      "active": "AKTIIVINEN",
+      "inactive": "EI AKTIIVINEN",
+      "assets": "Omaisuus",
+      "users": "Käyttäjät",
+      "manageBilling": "Hallitse tilausta"
+    }
+  },
+  "assets": {
+    "title": "Omaisuudenhallinta",
+    "subtitle": "Kaikki laitteet yhdellä silmäyksellä",
+    "new": "Uusi omaisuus",
+    "search": "Hae omaisuutta…",
+    "filter": {
+      "allCategories": "Kaikki kategoriat",
+      "allStatuses": "Kaikki tilat",
+      "allLocations": "Kaikki sijainnit"
+    },
+    "noAssets": "Ei omaisuutta vielä",
+    "noAssetsDesc": "Luo ensimmäinen laitteesi.",
+    "noResults": "Omaisuutta ei löydy",
+    "fields": {
+      "title": "Nimi",
+      "category": "Kategoria",
+      "status": "Tila",
+      "serialNumber": "Sarjanumero",
+      "articleNumber": "Artikkelinumero",
+      "barcode": "Viivakoodi / QR-koodi",
+      "manufacturer": "Valmistaja",
+      "model": "Malli",
+      "purchaseDate": "Ostopäivä",
+      "purchasePrice": "Ostohinta (€)",
+      "location": "Sijainti",
+      "locationText": "Sijainti (vapaa teksti)",
+      "notes": "Muistiinpanot",
+      "photos": "Kuvat",
+      "documents": "Asiakirjat",
+      "technicalData": "Tekniset tiedot",
+      "commercialData": "Kaupalliset tiedot"
+    },
+    "status": {
+      "active": "Aktiivinen",
+      "in_service": "Huollossa",
+      "decommissioned": "Poistettu käytöstä",
+      "defective": "Viallinen"
+    },
+    "actions": {
+      "viewServiceLog": "Huoltopäiväkirja",
+      "edit": "Muokkaa",
+      "duplicate": "Kahdenna",
+      "delete": "Poista",
+      "confirmDelete": "Poistetaanko tämä omaisuus? Toimintoa ei voi peruuttaa.",
+      "duplicateSuccess": "Omaisuus kahdennettu"
+    },
+    "new_page": {
+      "title": "Luo uusi omaisuus",
+      "edit_title": "Muokkaa omaisuutta",
+      "save": "Luo omaisuus",
+      "saveEdit": "Tallenna muutokset",
+      "addTechField": "+ Lisää kenttä",
+      "fieldName": "Kentän nimi",
+      "fieldValue": "Arvo",
+      "addPhoto": "Lisää kuva",
+      "photoHint": "Kuvat tallennetaan suoraan pilveen",
+      "selectLocation": "Valitse sijainti",
+      "noLocation": "Ei sijaintia",
+      "errors": {
+        "titleRequired": "Anna nimi.",
+        "saveFailed": "Tallennusvirhe"
+      }
+    },
+    "qr": {
+      "title": "QR-koodi",
+      "download": "Lataa QR-koodi",
+      "print": "Tulosta"
+    },
+    "locationHistory": "Sijaintihistoria",
+    "noLocationHistory": "Ei sijaintihistoriaa"
+  },
+  "service": {
+    "title": "Huoltopäiväkirja",
+    "subtitle": "Täydellinen dokumentaatio kaikista tapahtumista",
+    "newEntry": "+ Merkintä",
+    "entries": "Merkinnät",
+    "totalCost": "Kokonaiskustannus",
+    "intervals": "Välit",
+    "noEntries": "Ei vielä merkintöjä",
+    "noEntriesDesc": "Dokumentoi huollot, korjaukset ja tarkastukset.",
+    "entry": {
+      "title": "Otsikko",
+      "titlePlaceholder": "esim. {type} suoritettu",
+      "type": "Tyyppi",
+      "date": "Päivämäärä ja aika",
+      "description": "Kuvaus",
+      "descriptionPlaceholder": "Mitä tehtiin?",
+      "performedBy": "Suorittaja",
+      "performedByPlaceholder": "Nimi",
+      "externalCompany": "Yritys / ulkoinen",
+      "externalCompanyPlaceholder": "esim. TÜV",
+      "costEur": "Kustannus (€)",
+      "nextDate": "Seuraava aika",
+      "notes": "Muistiinpanot / huomiot",
+      "notesPlaceholder": "Sisäiset muistiinpanot, havainnot, suositukset…",
+      "photos": "Kuvat",
+      "documents": "Asiakirjat",
+      "addDocument": "+ Lisää asiakirja / PDF",
+      "save": "Tallenna merkintä",
+      "saveEdit": "Tallenna muutokset",
+      "completeMaintenance": "Viimeistele huolto",
+      "new": "Uusi merkintä",
+      "edit": "Muokkaa merkintää",
+      "customType": "+ Luo mukautettu",
+      "cancelCustomType": "× Peruuta",
+      "newTypePlaceholder": "Nimi, esim. Kalibrointi",
+      "createType": "Luo ja valitse tyyppi",
+      "nextDateAutoSet": "Seuraava aika asetetaan automaattisesti",
+      "nextDateIntervalHint": "{n} päivää suorituspäivästä",
+      "errors": {
+        "titleRequired": "Anna otsikko.",
+        "saveFailed": "Tallennusvirhe"
+      }
+    },
+    "checklist": {
+      "title": "Tarkistuslista",
+      "subtitle": "Merkitse jokainen vaihe ja lisää halutessasi muistiinpanoja",
+      "done": "valmis",
+      "addNote": "+ Muistiinpano",
+      "notePlaceholder": "Havainto, mittaus, huomio tähän vaiheeseen…",
+      "resources": "Resurssit (valinnainen): työkalut, materiaalit…"
+    },
+    "interval": {
+      "title": "Uusi väli",
+      "editTitle": "Muokkaa väliä",
+      "subtitle": "Toistuva tehtävä",
+      "name": "Nimi *",
+      "namePlaceholder": "esim. {type} joka 6. kuukausi",
+      "interval": "Väli",
+      "intervalDays": "Joka {n}. päivä",
+      "custom": "Mukautettu",
+      "customDays": "Päivää",
+      "customDaysPlaceholder": "esim. 45",
+      "lastDone": "Viimeksi suoritettu",
+      "lastDoneHint": "Valinnainen – laskee seuraavan päivämäärän",
+      "nextDue": "Seuraava eräpäivä *",
+      "preview": "Esikatselu",
+      "previewDesc": "Joka {days}. päivä · Eräpäivä: {date}",
+      "checklist": "Tarkistuslista",
+      "checklistSubtitle": "Numeroituja vaiheita merkittäväksi suorituksen aikana",
+      "addStep": "+ Vaihe",
+      "stepPlaceholder": "Kuvaa vaihe {n}…",
+      "resourcesPlaceholder": "Resurssit (valinnainen): työkalut, materiaalit…",
+      "noSteps": "Ei vaiheita – napauta \"+ Vaihe\"",
+      "save": "Luo väli",
+      "saveEdit": "Tallenna muutokset",
+      "newType": "Luo uusi tyyppi",
+      "errors": {
+        "nameRequired": "Anna nimi.",
+        "intervalRequired": "Anna kelvollinen väli.",
+        "nextDateRequired": "Määritä seuraava eräpäivä."
+      }
+    },
+    "schedules": {
+      "title": "Huoltovälit",
+      "newInterval": "+ Väli",
+      "noSchedules": "Ei vielä huoltovälejä",
+      "noSchedulesDesc": "Aseta toistuva huoltosuunnitelma.",
+      "dueDate": "Eräpäivä {date}",
+      "overdue": "Myöhässä",
+      "dueIn": "{n} päivän kuluttua",
+      "dueToday": "Tänään",
+      "complete": "Merkitse valmiiksi",
+      "completeShort": "Viimeistele",
+      "lastDone": "Viimeksi: {date}",
+      "interval": "Joka {n}. päivä"
+    },
+    "timeline": {
+      "entry": "Merkintä",
+      "entries": "Merkinnät",
+      "noEntries": "Ei vielä merkintöjä",
+      "noEntriesDesc": "Dokumentoi huollot, korjaukset ja tarkastukset.",
+      "nextDate": "Seuraava: {date}",
+      "editBtn": "Muokkaa",
+      "checklistSection": "Tarkistuslista",
+      "notesSection": "Muistiinpanot"
+    }
+  },
+  "wartung": {
+    "title": "Huolto & Palvelu",
+    "subtitle": "Kaikki erääntyvät huoltovälit",
+    "tabs": {
+      "list": "Tehtävälista",
+      "gantt": "Gantt-kaavio"
+    },
+    "filter": {
+      "search": "Hae omaisuuden, sarjanumeron, kategorian mukaan…",
+      "urgency": "Kiireellisyys",
+      "all": "Kaikki",
+      "overdue": "Myöhässä",
+      "week": "Tämä viikko",
+      "twoWeeks": "Kaksi viikkoa",
+      "month": "30 päivää",
+      "category": "Kategoria",
+      "allCategories": "Kaikki kategoriat",
+      "reset": "Nollaa"
+    },
+    "groups": {
+      "overdue": "Myöhässä",
+      "thisWeek": "Tällä viikolla",
+      "next30Days": "Seuraavat 30 päivää",
+      "later": "Myöhemmin"
+    },
+    "noSchedules": "Ei merkintöjä",
+    "noSchedulesDesc": "Ei huoltotehtäviä tälle suodattimelle.",
+    "complete": "Merkitse valmiiksi",
+    "completeBtn": "Viimeistele",
+    "stats": {
+      "overdue": "Myöhässä olevat huollot",
+      "thisWeek": "Tällä viikolla",
+      "thisMonth": "Tässä kuussa",
+      "total": "Aktiiviset välit"
+    }
+  },
+  "organisation": {
+    "title": "Sijainnit & Rakenne",
+    "subtitle": "Hallitse toiminnallista rakennetta",
+    "newLocation": "+ Sijainti",
+    "newHall": "+ Halli",
+    "newArea": "+ Alue",
+    "noLocations": "Ei vielä sijainteja",
+    "noLocationsDesc": "Luo ensimmäinen sijaintisi.",
+    "location": "Sijainti",
+    "hall": "Halli",
+    "area": "Alue",
+    "assetsHere": "{n} omaisuutta",
+    "fields": {
+      "name": "Nimi",
+      "description": "Kuvaus"
+    }
+  },
+  "teams": {
+    "title": "Tiimit",
+    "subtitle": "Hallitse jäseniä ja rooleja",
+    "newTeam": "+ Tiimi",
+    "inviteMember": "Kutsu jäsen",
+    "newMember": "Luo jäsen",
+    "noTeams": "Ei vielä tiimejä",
+    "member": "Jäsen",
+    "members": "Jäsenet",
+    "role": "Rooli",
+    "roles": {
+      "admin": "Järjestelmänvalvoja",
+      "technician": "Teknikko",
+      "viewer": "Lukija"
+    },
+    "roleDesc": {
+      "admin": "Täysi pääsy + käyttäjähallinta",
+      "technician": "Muokkaa omaisuutta ja palvelua",
+      "viewer": "Vain katselu"
+    },
+    "fields": {
+      "name": "Tiimin nimi",
+      "email": "Sähköpostiosoite",
+      "password": "Salasana",
+      "fullName": "Koko nimi"
+    },
+    "actions": {
+      "changeRole": "Vaihda rooli",
+      "removeMember": "Poista jäsen",
+      "confirmRemove": "Poistetaanko tämä jäsen?"
+    }
+  },
+  "settings": {
+    "title": "Asetukset",
+    "profile": {
+      "title": "Profiili",
+      "subtitle": "Henkilökohtaiset tiedot ja asetukset",
+      "fullName": "Koko nimi",
+      "email": "Sähköpostiosoite",
+      "language": "Kieli",
+      "languageSubtitle": "Sovelluksen kieli tilillesi",
+      "save": "Tallenna profiili",
+      "saved": "Tallennettu",
+      "changePassword": "Vaihda salasana",
+      "currentPassword": "Nykyinen salasana",
+      "newPassword": "Uusi salasana",
+      "passwordSaved": "Salasana vaihdettu"
+    },
+    "eventTypes": {
+      "title": "Tapahtumatyypit",
+      "subtitle": "Mukautetut kategoriat huoltomerkinnöille",
+      "systemTypes": "Järjestelmätyypit",
+      "customTypes": "Mukautetut tyypit",
+      "newType": "+ Uusi",
+      "labelPlaceholder": "esim. Kalibrointi, TÜV, Tarkastus…",
+      "colorLabel": "Väri",
+      "preview": "Esikatselu:",
+      "save": "Luo tyyppi",
+      "saving": "Tallennetaan…",
+      "noCustomTypes": "Ei vielä mukautettuja tyyppejä.",
+      "systemBadge": "Järjestelmä"
+    },
+    "billing": {
+      "title": "Tilaus",
+      "subtitle": "Hallitse suunnitelmaa ja maksuja",
+      "currentPlan": "Nykyinen suunnitelma",
+      "status": {
+        "active": "Aktiivinen",
+        "inactive": "Ei aktiivinen",
+        "trial": "Kokeilujakso"
+      },
+      "changePlan": "Vaihda suunnitelma",
+      "activationCode": "Lunasta aktivointikoodi",
+      "activationCodePlaceholder": "9-numeroinen koodi",
+      "activate": "Aktivoi",
+      "activating": "Aktivoidaan…",
+      "createInvoice": "Luo lasku",
+      "plans": {
+        "free": "Ilmainen",
+        "starter": "Starter",
+        "professional": "Ammattilainen",
+        "enterprise": "Enterprise"
+      }
+    },
+    "invite": {
+      "title": "Luo käyttäjä",
+      "subtitle": "Lisää uusi jäsen organisaatioon",
+      "email": "Sähköpostiosoite",
+      "fullName": "Koko nimi",
+      "password": "Salasana",
+      "role": "Rooli",
+      "save": "Luo käyttäjä",
+      "success": "Käyttäjä luotiin onnistuneesti."
+    },
+    "statuses": {
+      "title": "Omaisuuden tilat",
+      "subtitle": "Määritä mukautetut tilat",
+      "systemStatuses": "Järjestelmätilat",
+      "customStatuses": "Mukautetut tilat",
+      "newStatus": "+ Uusi"
+    }
+  },
+  "scan": {
+    "title": "Skannaa omaisuus",
+    "subtitle": "Skannaa QR-koodi tai NFC",
+    "startCamera": "Käynnistä kamera",
+    "scanning": "Skannataan…",
+    "noPermission": "Kameran käyttöoikeus evätty",
+    "notFound": "Omaisuutta ei löydy",
+    "openAsset": "Avaa omaisuus"
+  },
+  "docs": {
+    "title": "Dokumentaatio",
+    "subtitle": "Kaikki mitä sinun täytyy tietää.",
+    "heroDesc": "INOid on digitaalinen omaisuudenhallintasi — ensimmäisestä rekisteröinnistä käytöstä poistamiseen. Valmis 5 minuutissa.",
+    "stats": {
+      "firstAsset": "ensimmäiseen omaisuuteen",
+      "featureAreas": "toiminnalliset alueet",
+      "browserBased": "selainpohjainen"
+    },
+    "tabs": {
+      "quickstart": "Pikakäynnistys",
+      "features": "Toiminnot",
+      "roles": "Roolit",
+      "plans": "Suunnitelmat ja tilaus",
+      "tips": "Vinkit"
+    },
+    "quickstart": {
+      "intro": "Neljä vaihetta ja tunnet INOidin perusasiat.",
+      "openDirectly": "Avaa suoraan",
+      "demoTour": "Demo-kierros",
+      "demoSoon": "Esittelyvideo tulossa pian"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Tarkastus",
+    "maintenance": "Huolto",
+    "repair": "Korjaus",
+    "overhaul": "Yleishuolto",
+    "coating": "Pinnoitus",
+    "cleaning": "Puhdistus",
+    "installation": "Asennus/Kokoonpano",
+    "incident": "Tapaturma/Vahinko",
+    "decommission": "Käytöstä poisto",
+    "other": "Muu"
+  },
+  "intervalPresets": {
+    "weekly": "Viikoittain",
+    "monthly": "Kuukausittain",
+    "quarterly": "Neljännesvuosittain",
+    "biannual": "Puolivuosittain",
+    "annual": "Vuosittain",
+    "biennial": "Kahden vuoden välein"
+  }
+}

@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "ダッシュボード",
+    "assets": "資産管理",
+    "scan": "スキャン",
+    "wartung": "メンテナンス・サービス",
+    "organisation": "拠点・組織構造",
+    "teams": "チーム",
+    "billing": "サブスクリプション",
+    "profile": "プロフィール・設定",
+    "docs": "ドキュメント",
+    "logout": "ログアウト",
+    "orgManagement": "組織管理",
+    "account": "アカウント"
+  },
+  "common": {
+    "save": "保存",
+    "cancel": "キャンセル",
+    "delete": "削除",
+    "edit": "編集",
+    "create": "作成",
+    "back": "戻る",
+    "loading": "読み込み中…",
+    "saving": "保存中…",
+    "error": "エラー",
+    "success": "成功",
+    "confirm": "確認",
+    "close": "閉じる",
+    "search": "検索",
+    "filter": "フィルター",
+    "all": "すべて",
+    "none": "なし",
+    "yes": "はい",
+    "no": "いいえ",
+    "optional": "任意",
+    "required": "必須",
+    "new": "+ 新規",
+    "add": "追加",
+    "remove": "削除",
+    "noData": "データがありません",
+    "perPage": "件/ページ",
+    "page": "ページ",
+    "of": "/",
+    "entries": "件",
+    "reset": "リセット",
+    "actions": "操作",
+    "status": "ステータス",
+    "date": "日付",
+    "name": "名前",
+    "description": "説明",
+    "notes": "メモ",
+    "cost": "費用",
+    "type": "種類",
+    "category": "カテゴリ",
+    "preview": "プレビュー",
+    "upload": "アップロード",
+    "download": "ダウンロード",
+    "copy": "コピー",
+    "duplicate": "複製",
+    "active": "有効",
+    "inactive": "無効",
+    "system": "システム",
+    "custom": "カスタム",
+    "label": "ラベル",
+    "color": "色",
+    "unknown": "不明",
+    "today": "今日",
+    "tomorrow": "明日",
+    "yesterday": "昨日",
+    "daysAgo": "{n}日超過",
+    "inDays": "{n}日後",
+    "months": ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],
+    "noEntries": "エントリなし",
+    "pagination": "{current} / {total} ページ"
+  },
+  "auth": {
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "email": "メールアドレス",
+    "password": "パスワード",
+    "forgotPassword": "パスワードをお忘れですか？",
+    "noAccount": "アカウントをお持ちでないですか？",
+    "register": "登録",
+    "loginError": "ログインに失敗しました。認証情報をご確認ください。",
+    "welcomeBack": "おかえりなさい"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "おはようございます",
+      "afternoon": "こんにちは",
+      "evening": "こんばんは"
+    },
+    "overdueWarning": "{n}件の期限超過メンテナンス",
+    "overdueWarningPlural": "{n}件の期限超過メンテナンス",
+    "stats": {
+      "assetsTotal": "総資産数",
+      "active": "有効",
+      "inService": "サービス中",
+      "decommissioned": "廃棄済み",
+      "users": "ユーザー",
+      "overdueServices": "期限超過メンテナンス",
+      "dueThisWeek": "今週の期限",
+      "serviceEventsMonth": "サービスイベント（月間）",
+      "maintenanceCostYear": "メンテナンスコスト（年間）",
+      "allDone": "すべて完了",
+      "limit": "上限: {n}",
+      "unlimited": "無制限",
+      "percentOfStock": "在庫の{n}%",
+      "totalSub": "合計 {n}件",
+      "monthSub": "今月 {n}€"
+    },
+    "sections": {
+      "assetUtilization": "資産稼働率",
+      "maintenanceOverview": "メンテナンス概要",
+      "assetsByCategory": "カテゴリ別資産",
+      "recentActivity": "最近のアクティビティ",
+      "currentPlan": "現在のプラン",
+      "quickAccess": "クイックアクセス",
+      "noCategories": "カテゴリなし",
+      "noActivity": "サービスイベントなし"
+    },
+    "maintenance": {
+      "overdue": "期限超過",
+      "thisWeek": "今週の期限",
+      "next30Days": "今後30日",
+      "totalIntervals": "有効インターバル合計"
+    },
+    "quickLinks": {
+      "createAsset": "資産を作成",
+      "openMaintenance": "メンテナンスを開く",
+      "scanAsset": "資産をスキャン",
+      "locations": "拠点",
+      "addUser": "ユーザーを追加",
+      "documentation": "ドキュメント"
+    },
+    "plan": {
+      "active": "有効",
+      "inactive": "無効",
+      "assets": "資産",
+      "users": "ユーザー",
+      "manageBilling": "サブスクリプションを管理"
+    }
+  },
+  "assets": {
+    "title": "資産管理",
+    "subtitle": "すべての設備を一覧表示",
+    "new": "新規資産",
+    "search": "資産を検索…",
+    "filter": {
+      "allCategories": "すべてのカテゴリ",
+      "allStatuses": "すべてのステータス",
+      "allLocations": "すべての拠点"
+    },
+    "noAssets": "資産がまだありません",
+    "noAssetsDesc": "最初の資産を作成してください。",
+    "noResults": "資産が見つかりません",
+    "fields": {
+      "title": "ラベル",
+      "category": "カテゴリ",
+      "status": "ステータス",
+      "serialNumber": "シリアル番号",
+      "articleNumber": "品番",
+      "barcode": "バーコード / QRコード",
+      "manufacturer": "メーカー",
+      "model": "モデル",
+      "purchaseDate": "購入日",
+      "purchasePrice": "購入価格（€）",
+      "location": "拠点",
+      "locationText": "自由記述の場所",
+      "notes": "メモ",
+      "photos": "写真",
+      "documents": "書類",
+      "technicalData": "技術データ",
+      "commercialData": "商業データ"
+    },
+    "status": {
+      "active": "有効",
+      "in_service": "サービス中",
+      "decommissioned": "廃棄済み",
+      "defective": "故障"
+    },
+    "actions": {
+      "viewServiceLog": "サービスログ",
+      "edit": "編集",
+      "duplicate": "複製",
+      "delete": "削除",
+      "confirmDelete": "この資産を削除しますか？この操作は取り消せません。",
+      "duplicateSuccess": "資産を複製しました"
+    },
+    "new_page": {
+      "title": "新規資産を作成",
+      "edit_title": "資産を編集",
+      "save": "資産を作成",
+      "saveEdit": "変更を保存",
+      "addTechField": "+ フィールドを追加",
+      "fieldName": "フィールド名",
+      "fieldValue": "値",
+      "addPhoto": "写真を追加",
+      "photoHint": "写真はクラウドに直接保存されます",
+      "selectLocation": "拠点を選択",
+      "noLocation": "拠点なし",
+      "errors": {
+        "titleRequired": "ラベルを入力してください。",
+        "saveFailed": "保存エラー"
+      }
+    },
+    "qr": {
+      "title": "QRコード",
+      "download": "QRコードをダウンロード",
+      "print": "印刷"
+    },
+    "locationHistory": "拠点履歴",
+    "noLocationHistory": "拠点履歴がありません"
+  },
+  "service": {
+    "title": "サービスログ",
+    "subtitle": "すべてのイベントの完全な記録",
+    "newEntry": "+ エントリ",
+    "entries": "エントリ",
+    "totalCost": "総費用",
+    "intervals": "インターバル",
+    "noEntries": "まだエントリがありません",
+    "noEntriesDesc": "メンテナンス、修理、点検を記録してください。",
+    "entry": {
+      "title": "タイトル",
+      "titlePlaceholder": "例：{type}を実施",
+      "type": "種類",
+      "date": "日時",
+      "description": "説明",
+      "descriptionPlaceholder": "何をしましたか？",
+      "performedBy": "担当者",
+      "performedByPlaceholder": "名前",
+      "externalCompany": "会社 / 外部業者",
+      "externalCompanyPlaceholder": "例：TÜV",
+      "costEur": "費用（€）",
+      "nextDate": "次回予定",
+      "notes": "メモ・備考",
+      "notesPlaceholder": "内部メモ、所見、推奨事項…",
+      "photos": "写真",
+      "documents": "書類",
+      "addDocument": "+ 書類 / PDFを追加",
+      "save": "エントリを保存",
+      "saveEdit": "変更を保存",
+      "completeMaintenance": "メンテナンス完了",
+      "new": "新規エントリ",
+      "edit": "エントリを編集",
+      "customType": "+ カスタム作成",
+      "cancelCustomType": "× キャンセル",
+      "newTypePlaceholder": "ラベル（例：校正）",
+      "createType": "種類を作成して選択",
+      "nextDateAutoSet": "次回予定日は自動的に設定されます",
+      "nextDateIntervalHint": "実施日から{n}日後",
+      "errors": {
+        "titleRequired": "タイトルを入力してください。",
+        "saveFailed": "保存エラー"
+      }
+    },
+    "checklist": {
+      "title": "チェックリスト",
+      "subtitle": "各ステップを確認し、オプションでメモを追加",
+      "done": "完了",
+      "addNote": "+ メモ",
+      "notePlaceholder": "このステップの所見、測定値、備考…",
+      "resources": "リソース（任意）：工具、材料…"
+    },
+    "interval": {
+      "title": "新規インターバル",
+      "editTitle": "インターバルを編集",
+      "subtitle": "定期的な予定",
+      "name": "ラベル *",
+      "namePlaceholder": "例：{type}を6ヶ月ごと",
+      "interval": "インターバル",
+      "intervalDays": "{n}日ごと",
+      "custom": "カスタム",
+      "customDays": "日数",
+      "customDaysPlaceholder": "例：45",
+      "lastDone": "最終実施日",
+      "lastDoneHint": "任意 – 次回期限日を計算します",
+      "nextDue": "次回期限日 *",
+      "preview": "プレビュー",
+      "previewDesc": "{days}日ごと · 期限：{date}",
+      "checklist": "チェックリスト",
+      "checklistSubtitle": "実施時に確認する番号付きステップ",
+      "addStep": "+ ステップ",
+      "stepPlaceholder": "ステップ{n}を説明…",
+      "resourcesPlaceholder": "リソース（任意）：工具、材料…",
+      "noSteps": "ステップがありません – 「+ ステップ」をタップ",
+      "save": "インターバルを作成",
+      "saveEdit": "変更を保存",
+      "newType": "新しい種類を作成",
+      "errors": {
+        "nameRequired": "ラベルを入力してください。",
+        "intervalRequired": "有効なインターバルを入力してください。",
+        "nextDateRequired": "次回期限日を指定してください。"
+      }
+    },
+    "schedules": {
+      "title": "メンテナンスインターバル",
+      "newInterval": "+ インターバル",
+      "noSchedules": "メンテナンスインターバルがまだありません",
+      "noSchedulesDesc": "定期メンテナンスのスケジュールを設定してください。",
+      "dueDate": "期限：{date}",
+      "overdue": "期限超過",
+      "dueIn": "{n}日後に期限",
+      "dueToday": "今日が期限",
+      "complete": "完了にする",
+      "completeShort": "完了",
+      "lastDone": "最終：{date}",
+      "interval": "{n}日ごと"
+    },
+    "timeline": {
+      "entry": "エントリ",
+      "entries": "エントリ",
+      "noEntries": "まだエントリがありません",
+      "noEntriesDesc": "メンテナンス、修理、点検を記録してください。",
+      "nextDate": "次回：{date}",
+      "editBtn": "編集",
+      "checklistSection": "チェックリスト",
+      "notesSection": "メモ"
+    }
+  },
+  "wartung": {
+    "title": "メンテナンス・サービス",
+    "subtitle": "すべての期限メンテナンスインターバル",
+    "tabs": {
+      "list": "タスクリスト",
+      "gantt": "ガントチャート"
+    },
+    "filter": {
+      "search": "資産、シリアル番号、カテゴリで検索…",
+      "urgency": "緊急度",
+      "all": "すべて",
+      "overdue": "期限超過",
+      "week": "今週",
+      "twoWeeks": "2週間",
+      "month": "30日",
+      "category": "カテゴリ",
+      "allCategories": "すべてのカテゴリ",
+      "reset": "リセット"
+    },
+    "groups": {
+      "overdue": "期限超過",
+      "thisWeek": "今週",
+      "next30Days": "今後30日",
+      "later": "それ以降"
+    },
+    "noSchedules": "エントリなし",
+    "noSchedulesDesc": "このフィルターに該当するメンテナンスタスクはありません。",
+    "complete": "完了にする",
+    "completeBtn": "完了",
+    "stats": {
+      "overdue": "期限超過メンテナンス",
+      "thisWeek": "今週の期限",
+      "thisMonth": "今月の期限",
+      "total": "有効インターバル"
+    }
+  },
+  "organisation": {
+    "title": "拠点・組織構造",
+    "subtitle": "運営構造を管理",
+    "newLocation": "+ 拠点",
+    "newHall": "+ ホール",
+    "newArea": "+ エリア",
+    "noLocations": "拠点がまだありません",
+    "noLocationsDesc": "最初の拠点を作成してください。",
+    "location": "拠点",
+    "hall": "ホール",
+    "area": "エリア",
+    "assetsHere": "{n}件の資産",
+    "fields": {
+      "name": "名前",
+      "description": "説明"
+    }
+  },
+  "teams": {
+    "title": "チーム",
+    "subtitle": "メンバーと役割を管理",
+    "newTeam": "+ チーム",
+    "inviteMember": "メンバーを招待",
+    "newMember": "メンバーを作成",
+    "noTeams": "チームがまだありません",
+    "member": "メンバー",
+    "members": "メンバー",
+    "role": "役割",
+    "roles": {
+      "admin": "管理者",
+      "technician": "技術者",
+      "viewer": "閲覧者"
+    },
+    "roleDesc": {
+      "admin": "全アクセス + ユーザー管理",
+      "technician": "資産・サービスの編集",
+      "viewer": "閲覧のみ"
+    },
+    "fields": {
+      "name": "チーム名",
+      "email": "メールアドレス",
+      "password": "パスワード",
+      "fullName": "フルネーム"
+    },
+    "actions": {
+      "changeRole": "役割を変更",
+      "removeMember": "メンバーを削除",
+      "confirmRemove": "このメンバーを本当に削除しますか？"
+    }
+  },
+  "settings": {
+    "title": "設定",
+    "profile": {
+      "title": "プロフィール",
+      "subtitle": "個人データと設定",
+      "fullName": "フルネーム",
+      "email": "メールアドレス",
+      "language": "言語",
+      "languageSubtitle": "アカウントのアプリ言語",
+      "save": "プロフィールを保存",
+      "saved": "保存済み",
+      "changePassword": "パスワードを変更",
+      "currentPassword": "現在のパスワード",
+      "newPassword": "新しいパスワード",
+      "passwordSaved": "パスワードを変更しました"
+    },
+    "eventTypes": {
+      "title": "イベント種類",
+      "subtitle": "サービスエントリのカスタムカテゴリ",
+      "systemTypes": "システム種類",
+      "customTypes": "カスタム種類",
+      "newType": "+ 新規",
+      "labelPlaceholder": "例：校正、点検、TÜV…",
+      "colorLabel": "色",
+      "preview": "プレビュー：",
+      "save": "種類を作成",
+      "saving": "保存中…",
+      "noCustomTypes": "カスタム種類がまだ作成されていません。",
+      "systemBadge": "システム"
+    },
+    "billing": {
+      "title": "サブスクリプション",
+      "subtitle": "プランと支払いを管理",
+      "currentPlan": "現在のプラン",
+      "status": {
+        "active": "有効",
+        "inactive": "無効",
+        "trial": "トライアル"
+      },
+      "changePlan": "プランを変更",
+      "activationCode": "アクティベーションコードを使用",
+      "activationCodePlaceholder": "9桁のコード",
+      "activate": "アクティベート",
+      "activating": "アクティベート中…",
+      "createInvoice": "請求書を作成",
+      "plans": {
+        "free": "無料",
+        "starter": "スターター",
+        "professional": "プロフェッショナル",
+        "enterprise": "エンタープライズ"
+      }
+    },
+    "invite": {
+      "title": "ユーザーを作成",
+      "subtitle": "組織に新しいメンバーを追加",
+      "email": "メールアドレス",
+      "fullName": "フルネーム",
+      "password": "パスワード",
+      "role": "役割",
+      "save": "ユーザーを作成",
+      "success": "ユーザーが正常に作成されました。"
+    },
+    "statuses": {
+      "title": "資産ステータス",
+      "subtitle": "カスタムステータスを定義",
+      "systemStatuses": "システムステータス",
+      "customStatuses": "カスタムステータス",
+      "newStatus": "+ 新規"
+    }
+  },
+  "scan": {
+    "title": "資産をスキャン",
+    "subtitle": "QRコードまたはNFCをスキャン",
+    "startCamera": "カメラを起動",
+    "scanning": "スキャン中…",
+    "noPermission": "カメラのアクセスが許可されていません",
+    "notFound": "資産が見つかりません",
+    "openAsset": "資産を開く"
+  },
+  "docs": {
+    "title": "ドキュメント",
+    "subtitle": "必要なすべての情報。",
+    "heroDesc": "INOidはデジタル資産管理です — 初回登録から廃棄まで。5分で準備完了。",
+    "stats": {
+      "firstAsset": "最初の資産まで",
+      "featureAreas": "機能エリア",
+      "browserBased": "ブラウザベース"
+    },
+    "tabs": {
+      "quickstart": "クイックスタート",
+      "features": "機能",
+      "roles": "役割",
+      "plans": "プランとサブスクリプション",
+      "tips": "ヒント"
+    },
+    "quickstart": {
+      "intro": "4つのステップでINOidの基本がわかります。",
+      "openDirectly": "直接開く",
+      "demoTour": "デモツアー",
+      "demoSoon": "ウォークスルー動画は近日公開予定"
+    }
+  },
+  "eventTypes": {
+    "inspection": "点検",
+    "maintenance": "メンテナンス",
+    "repair": "修理",
+    "overhaul": "オーバーホール",
+    "coating": "コーティング",
+    "cleaning": "清掃",
+    "installation": "設置・組立",
+    "incident": "インシデント・損傷",
+    "decommission": "廃棄",
+    "other": "その他"
+  },
+  "intervalPresets": {
+    "weekly": "毎週",
+    "monthly": "毎月",
+    "quarterly": "四半期ごと",
+    "biannual": "半年ごと",
+    "annual": "毎年",
+    "biennial": "2年ごと"
+  }
+}

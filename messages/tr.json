@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Gösterge Paneli",
+    "assets": "Varlık Yönetimi",
+    "scan": "Tara",
+    "wartung": "Bakım & Servis",
+    "organisation": "Konumlar & Yapı",
+    "teams": "Ekipler",
+    "billing": "Abonelik",
+    "profile": "Profil & Ayarlar",
+    "docs": "Belgeler",
+    "logout": "Çıkış Yap",
+    "orgManagement": "Organizasyon Yönetimi",
+    "account": "Hesap"
+  },
+  "common": {
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "create": "Oluştur",
+    "back": "Geri",
+    "loading": "Yükleniyor…",
+    "saving": "Kaydediliyor…",
+    "error": "Hata",
+    "success": "Başarılı",
+    "confirm": "Onayla",
+    "close": "Kapat",
+    "search": "Ara",
+    "filter": "Filtrele",
+    "all": "Tümü",
+    "none": "Hiçbiri",
+    "yes": "Evet",
+    "no": "Hayır",
+    "optional": "isteğe bağlı",
+    "required": "Zorunlu alan",
+    "new": "+ Yeni",
+    "add": "Ekle",
+    "remove": "Kaldır",
+    "noData": "Veri bulunmuyor",
+    "perPage": "sayfa başına",
+    "page": "Sayfa",
+    "of": "/",
+    "entries": "Kayıtlar",
+    "reset": "Sıfırla",
+    "actions": "İşlemler",
+    "status": "Durum",
+    "date": "Tarih",
+    "name": "Ad",
+    "description": "Açıklama",
+    "notes": "Notlar",
+    "cost": "Maliyet",
+    "type": "Tür",
+    "category": "Kategori",
+    "preview": "Önizleme",
+    "upload": "Yükle",
+    "download": "İndir",
+    "copy": "Kopyala",
+    "duplicate": "Çoğalt",
+    "active": "Aktif",
+    "inactive": "Pasif",
+    "system": "Sistem",
+    "custom": "Özel",
+    "label": "Etiket",
+    "color": "Renk",
+    "unknown": "Bilinmiyor",
+    "today": "Bugün",
+    "tomorrow": "Yarın",
+    "yesterday": "Dün",
+    "daysAgo": "{n} gün gecikmiş",
+    "inDays": "{n} gün içinde",
+    "months": ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"],
+    "noEntries": "Kayıt yok",
+    "pagination": "Sayfa {current} / {total}"
+  },
+  "auth": {
+    "login": "Giriş Yap",
+    "logout": "Çıkış Yap",
+    "email": "E-posta adresi",
+    "password": "Şifre",
+    "forgotPassword": "Şifreni mi unuttun?",
+    "noAccount": "Hesabın yok mu?",
+    "register": "Kayıt Ol",
+    "loginError": "Giriş başarısız. Lütfen bilgilerinizi kontrol edin.",
+    "welcomeBack": "Tekrar hoş geldiniz"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Günaydın",
+      "afternoon": "İyi günler",
+      "evening": "İyi akşamlar"
+    },
+    "overdueWarning": "{n} gecikmiş bakım",
+    "overdueWarningPlural": "{n} gecikmiş bakım",
+    "stats": {
+      "assetsTotal": "Toplam varlık",
+      "active": "Aktif",
+      "inService": "Serviste",
+      "decommissioned": "Hizmet dışı",
+      "users": "Kullanıcılar",
+      "overdueServices": "Gecikmiş bakımlar",
+      "dueThisWeek": "Bu hafta yapılacak",
+      "serviceEventsMonth": "Servis etkinlikleri (ay)",
+      "maintenanceCostYear": "Bakım maliyetleri (yıl)",
+      "allDone": "Her şey tamam",
+      "limit": "Limit: {n}",
+      "unlimited": "Sınırsız",
+      "percentOfStock": "Stoğun % {n}",
+      "totalSub": "Toplam {n}",
+      "monthSub": "Bu ay {n} €"
+    },
+    "sections": {
+      "assetUtilization": "Varlık kullanımı",
+      "maintenanceOverview": "Bakım genel bakışı",
+      "assetsByCategory": "Kategoriye göre varlıklar",
+      "recentActivity": "Son etkinlik",
+      "currentPlan": "Mevcut plan",
+      "quickAccess": "Hızlı erişim",
+      "noCategories": "Kategori yok",
+      "noActivity": "Henüz servis etkinliği yok"
+    },
+    "maintenance": {
+      "overdue": "Gecikmiş",
+      "thisWeek": "Bu hafta",
+      "next30Days": "Sonraki 30 gün",
+      "totalIntervals": "Toplam aktif aralık"
+    },
+    "quickLinks": {
+      "createAsset": "Varlık oluştur",
+      "openMaintenance": "Bakımı aç",
+      "scanAsset": "Varlık tara",
+      "locations": "Konumlar",
+      "addUser": "Kullanıcı ekle",
+      "documentation": "Belgeler"
+    },
+    "plan": {
+      "active": "AKTİF",
+      "inactive": "PASİF",
+      "assets": "Varlıklar",
+      "users": "Kullanıcılar",
+      "manageBilling": "Aboneliği yönet"
+    }
+  },
+  "assets": {
+    "title": "Varlık Yönetimi",
+    "subtitle": "Tüm ekipmanlara tek bakışta",
+    "new": "Yeni varlık",
+    "search": "Varlık ara…",
+    "filter": {
+      "allCategories": "Tüm kategoriler",
+      "allStatuses": "Tüm durumlar",
+      "allLocations": "Tüm konumlar"
+    },
+    "noAssets": "Henüz varlık yok",
+    "noAssetsDesc": "İlk ekipmanınızı oluşturun.",
+    "noResults": "Varlık bulunamadı",
+    "fields": {
+      "title": "Etiket",
+      "category": "Kategori",
+      "status": "Durum",
+      "serialNumber": "Seri numarası",
+      "articleNumber": "Makale numarası",
+      "barcode": "Barkod / QR kodu",
+      "manufacturer": "Üretici",
+      "model": "Model",
+      "purchaseDate": "Satın alma tarihi",
+      "purchasePrice": "Satın alma fiyatı (€)",
+      "location": "Konum",
+      "locationText": "Serbest metin konumu",
+      "notes": "Notlar",
+      "photos": "Fotoğraflar",
+      "documents": "Belgeler",
+      "technicalData": "Teknik veriler",
+      "commercialData": "Ticari veriler"
+    },
+    "status": {
+      "active": "Aktif",
+      "in_service": "Serviste",
+      "decommissioned": "Hizmet dışı",
+      "defective": "Arızalı"
+    },
+    "actions": {
+      "viewServiceLog": "Servis defteri",
+      "edit": "Düzenle",
+      "duplicate": "Çoğalt",
+      "delete": "Sil",
+      "confirmDelete": "Bu varlık silinsin mi? Bu işlem geri alınamaz.",
+      "duplicateSuccess": "Varlık çoğaltıldı"
+    },
+    "new_page": {
+      "title": "Yeni varlık oluştur",
+      "edit_title": "Varlığı düzenle",
+      "save": "Varlık oluştur",
+      "saveEdit": "Değişiklikleri kaydet",
+      "addTechField": "+ Alan ekle",
+      "fieldName": "Alan adı",
+      "fieldValue": "Değer",
+      "addPhoto": "Fotoğraf ekle",
+      "photoHint": "Fotoğraflar doğrudan bulutta saklanır",
+      "selectLocation": "Konum seç",
+      "noLocation": "Konum yok",
+      "errors": {
+        "titleRequired": "Lütfen bir etiket girin.",
+        "saveFailed": "Kaydetme hatası"
+      }
+    },
+    "qr": {
+      "title": "QR kodu",
+      "download": "QR kodunu indir",
+      "print": "Yazdır"
+    },
+    "locationHistory": "Konum geçmişi",
+    "noLocationHistory": "Konum geçmişi bulunmuyor"
+  },
+  "service": {
+    "title": "Servis defteri",
+    "subtitle": "Tüm olayların eksiksiz dokümantasyonu",
+    "newEntry": "+ Kayıt",
+    "entries": "Kayıtlar",
+    "totalCost": "Toplam maliyet",
+    "intervals": "Aralıklar",
+    "noEntries": "Henüz kayıt yok",
+    "noEntriesDesc": "Bakımları, onarımları ve denetimleri belgeleyin.",
+    "entry": {
+      "title": "Başlık",
+      "titlePlaceholder": "örn. {type} yapıldı",
+      "type": "Tür",
+      "date": "Tarih ve saat",
+      "description": "Açıklama",
+      "descriptionPlaceholder": "Ne yapıldı?",
+      "performedBy": "Yapan",
+      "performedByPlaceholder": "Ad",
+      "externalCompany": "Şirket / harici",
+      "externalCompanyPlaceholder": "örn. TÜV",
+      "costEur": "Maliyet (€)",
+      "nextDate": "Sonraki randevu",
+      "notes": "Notlar / açıklamalar",
+      "notesPlaceholder": "Dahili notlar, bulgular, öneriler…",
+      "photos": "Fotoğraflar",
+      "documents": "Belgeler",
+      "addDocument": "+ Belge / PDF ekle",
+      "save": "Kaydı kaydet",
+      "saveEdit": "Değişiklikleri kaydet",
+      "completeMaintenance": "Bakımı tamamla",
+      "new": "Yeni kayıt",
+      "edit": "Kaydı düzenle",
+      "customType": "+ Özel oluştur",
+      "cancelCustomType": "× İptal",
+      "newTypePlaceholder": "Etiket, örn. Kalibrasyon",
+      "createType": "Tür oluştur ve seç",
+      "nextDateAutoSet": "Sonraki randevu otomatik olarak ayarlanacak",
+      "nextDateIntervalHint": "Uygulama tarihinden {n} gün sonra",
+      "errors": {
+        "titleRequired": "Lütfen bir başlık girin.",
+        "saveFailed": "Kaydetme hatası"
+      }
+    },
+    "checklist": {
+      "title": "Kontrol listesi",
+      "subtitle": "Her adımı işaretleyin ve isteğe bağlı notlar ekleyin",
+      "done": "tamamlandı",
+      "addNote": "+ Not",
+      "notePlaceholder": "Bu adım için bulgu, ölçüm, açıklama…",
+      "resources": "Kaynaklar (isteğe bağlı): araçlar, malzemeler…"
+    },
+    "interval": {
+      "title": "Yeni aralık",
+      "editTitle": "Aralığı düzenle",
+      "subtitle": "Yinelenen randevu",
+      "name": "Etiket *",
+      "namePlaceholder": "örn. {type} her 6 ayda bir",
+      "interval": "Aralık",
+      "intervalDays": "Her {n} günde bir",
+      "custom": "Özel",
+      "customDays": "Gün",
+      "customDaysPlaceholder": "örn. 45",
+      "lastDone": "Son yapılma",
+      "lastDoneHint": "İsteğe bağlı – sonraki tarihi hesaplar",
+      "nextDue": "Sonraki vade *",
+      "preview": "Önizleme",
+      "previewDesc": "Her {days} günde bir · Vade: {date}",
+      "checklist": "Kontrol listesi",
+      "checklistSubtitle": "Uygulama sırasında işaretlenecek numaralı adımlar",
+      "addStep": "+ Adım",
+      "stepPlaceholder": "{n}. adımı açıkla…",
+      "resourcesPlaceholder": "Kaynaklar (isteğe bağlı): araçlar, malzemeler…",
+      "noSteps": "Adım yok – \"+ Adım\" düğmesine dokunun",
+      "save": "Aralık oluştur",
+      "saveEdit": "Değişiklikleri kaydet",
+      "newType": "Yeni tür oluştur",
+      "errors": {
+        "nameRequired": "Lütfen bir etiket girin.",
+        "intervalRequired": "Lütfen geçerli bir aralık girin.",
+        "nextDateRequired": "Lütfen sonraki vade tarihini belirtin."
+      }
+    },
+    "schedules": {
+      "title": "Bakım aralıkları",
+      "newInterval": "+ Aralık",
+      "noSchedules": "Henüz bakım aralığı yok",
+      "noSchedulesDesc": "Yinelenen bir bakım planı oluşturun.",
+      "dueDate": "Vade: {date}",
+      "overdue": "Gecikmiş",
+      "dueIn": "{n} gün içinde",
+      "dueToday": "Bugün vadesi doluyor",
+      "complete": "Tamamlandı olarak işaretle",
+      "completeShort": "Tamamla",
+      "lastDone": "Son: {date}",
+      "interval": "Her {n} günde bir"
+    },
+    "timeline": {
+      "entry": "Kayıt",
+      "entries": "Kayıtlar",
+      "noEntries": "Henüz kayıt yok",
+      "noEntriesDesc": "Bakımları, onarımları ve denetimleri belgeleyin.",
+      "nextDate": "Sonraki: {date}",
+      "editBtn": "Düzenle",
+      "checklistSection": "Kontrol listesi",
+      "notesSection": "Notlar"
+    }
+  },
+  "wartung": {
+    "title": "Bakım & Servis",
+    "subtitle": "Tüm vadesi gelen bakım aralıkları",
+    "tabs": {
+      "list": "Görev listesi",
+      "gantt": "Gantt şeması"
+    },
+    "filter": {
+      "search": "Varlık, seri no., kategori ile ara…",
+      "urgency": "Aciliyet",
+      "all": "Tümü",
+      "overdue": "Gecikmiş",
+      "week": "Bu hafta",
+      "twoWeeks": "İki hafta",
+      "month": "30 gün",
+      "category": "Kategori",
+      "allCategories": "Tüm kategoriler",
+      "reset": "Sıfırla"
+    },
+    "groups": {
+      "overdue": "Gecikmiş",
+      "thisWeek": "Bu hafta",
+      "next30Days": "Sonraki 30 gün",
+      "later": "Daha sonra"
+    },
+    "noSchedules": "Kayıt yok",
+    "noSchedulesDesc": "Bu filtre için bakım görevi yok.",
+    "complete": "Tamamlandı olarak işaretle",
+    "completeBtn": "Tamamla",
+    "stats": {
+      "overdue": "Gecikmiş bakımlar",
+      "thisWeek": "Bu hafta vadesi doluyor",
+      "thisMonth": "Bu ay vadesi doluyor",
+      "total": "Aktif aralıklar"
+    }
+  },
+  "organisation": {
+    "title": "Konumlar & Yapı",
+    "subtitle": "Operasyonel yapıyı yönet",
+    "newLocation": "+ Konum",
+    "newHall": "+ Salon",
+    "newArea": "+ Alan",
+    "noLocations": "Henüz konum yok",
+    "noLocationsDesc": "İlk konumunuzu oluşturun.",
+    "location": "Konum",
+    "hall": "Salon",
+    "area": "Alan",
+    "assetsHere": "{n} varlık",
+    "fields": {
+      "name": "Ad",
+      "description": "Açıklama"
+    }
+  },
+  "teams": {
+    "title": "Ekipler",
+    "subtitle": "Üyeleri ve rolleri yönet",
+    "newTeam": "+ Ekip",
+    "inviteMember": "Üye davet et",
+    "newMember": "Üye oluştur",
+    "noTeams": "Henüz ekip yok",
+    "member": "Üye",
+    "members": "Üyeler",
+    "role": "Rol",
+    "roles": {
+      "admin": "Yönetici",
+      "technician": "Teknisyen",
+      "viewer": "Görüntüleyici"
+    },
+    "roleDesc": {
+      "admin": "Tam erişim + kullanıcı yönetimi",
+      "technician": "Varlık ve servisi düzenle",
+      "viewer": "Yalnızca görüntüle"
+    },
+    "fields": {
+      "name": "Ekip adı",
+      "email": "E-posta adresi",
+      "password": "Şifre",
+      "fullName": "Tam ad"
+    },
+    "actions": {
+      "changeRole": "Rol değiştir",
+      "removeMember": "Üyeyi kaldır",
+      "confirmRemove": "Bu üye kaldırılsın mı?"
+    }
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "profile": {
+      "title": "Profil",
+      "subtitle": "Kişisel veriler ve ayarlar",
+      "fullName": "Tam ad",
+      "email": "E-posta adresi",
+      "language": "Dil",
+      "languageSubtitle": "Hesabınız için uygulama dili",
+      "save": "Profili kaydet",
+      "saved": "Kaydedildi",
+      "changePassword": "Şifre değiştir",
+      "currentPassword": "Mevcut şifre",
+      "newPassword": "Yeni şifre",
+      "passwordSaved": "Şifre değiştirildi"
+    },
+    "eventTypes": {
+      "title": "Etkinlik türleri",
+      "subtitle": "Servis kayıtları için özel kategoriler",
+      "systemTypes": "Sistem türleri",
+      "customTypes": "Özel türler",
+      "newType": "+ Yeni",
+      "labelPlaceholder": "örn. Kalibrasyon, TÜV, Denetim…",
+      "colorLabel": "Renk",
+      "preview": "Önizleme:",
+      "save": "Tür oluştur",
+      "saving": "Kaydediliyor…",
+      "noCustomTypes": "Henüz özel tür yok.",
+      "systemBadge": "Sistem"
+    },
+    "billing": {
+      "title": "Abonelik",
+      "subtitle": "Plan ve ödemeleri yönet",
+      "currentPlan": "Mevcut plan",
+      "status": {
+        "active": "Aktif",
+        "inactive": "Pasif",
+        "trial": "Deneme"
+      },
+      "changePlan": "Planı değiştir",
+      "activationCode": "Aktivasyon kodu kullan",
+      "activationCodePlaceholder": "9 haneli kod",
+      "activate": "Etkinleştir",
+      "activating": "Etkinleştiriliyor…",
+      "createInvoice": "Fatura oluştur",
+      "plans": {
+        "free": "Ücretsiz",
+        "starter": "Starter",
+        "professional": "Profesyonel",
+        "enterprise": "Kurumsal"
+      }
+    },
+    "invite": {
+      "title": "Kullanıcı oluştur",
+      "subtitle": "Organizasyona yeni üye ekle",
+      "email": "E-posta adresi",
+      "fullName": "Tam ad",
+      "password": "Şifre",
+      "role": "Rol",
+      "save": "Kullanıcı oluştur",
+      "success": "Kullanıcı başarıyla oluşturuldu."
+    },
+    "statuses": {
+      "title": "Varlık durumları",
+      "subtitle": "Özel durumlar tanımla",
+      "systemStatuses": "Sistem durumları",
+      "customStatuses": "Özel durumlar",
+      "newStatus": "+ Yeni"
+    }
+  },
+  "scan": {
+    "title": "Varlık tara",
+    "subtitle": "QR kodu veya NFC tara",
+    "startCamera": "Kamerayı başlat",
+    "scanning": "Taranıyor…",
+    "noPermission": "Kamera erişimine izin verilmedi",
+    "notFound": "Varlık bulunamadı",
+    "openAsset": "Varlığı aç"
+  },
+  "docs": {
+    "title": "Belgeler",
+    "subtitle": "Bilmeniz gereken her şey.",
+    "heroDesc": "INOid, ilk kayıttan hizmet dışı bırakmaya kadar dijital varlık yönetiminizdir. 5 dakikada hazır.",
+    "stats": {
+      "firstAsset": "ilk varlığa kadar",
+      "featureAreas": "özellik alanları",
+      "browserBased": "tarayıcı tabanlı"
+    },
+    "tabs": {
+      "quickstart": "Hızlı başlangıç",
+      "features": "Özellikler",
+      "roles": "Roller",
+      "plans": "Planlar & abonelik",
+      "tips": "İpuçları"
+    },
+    "quickstart": {
+      "intro": "Dört adım ve INOid'in özünü öğreneceksiniz.",
+      "openDirectly": "Doğrudan aç",
+      "demoTour": "Demo turu",
+      "demoSoon": "Tanıtım videosu yakında"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Denetim",
+    "maintenance": "Bakım",
+    "repair": "Onarım",
+    "overhaul": "Revizyon",
+    "coating": "Kaplama",
+    "cleaning": "Temizlik",
+    "installation": "Kurulum/Montaj",
+    "incident": "Olay/Hasar",
+    "decommission": "Hizmet dışı bırakma",
+    "other": "Diğer"
+  },
+  "intervalPresets": {
+    "weekly": "Haftalık",
+    "monthly": "Aylık",
+    "quarterly": "Üç aylık",
+    "biannual": "Altı aylık",
+    "annual": "Yıllık",
+    "biennial": "İki yıllık"
+  }
+}

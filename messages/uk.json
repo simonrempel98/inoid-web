@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Панель управління",
+    "assets": "Управління активами",
+    "scan": "Сканування",
+    "wartung": "Технічне обслуговування & Сервіс",
+    "organisation": "Місцезнаходження & Структура",
+    "teams": "Команди",
+    "billing": "Підписка",
+    "profile": "Профіль & Налаштування",
+    "docs": "Документація",
+    "logout": "Вийти",
+    "orgManagement": "Управління організацією",
+    "account": "Акаунт"
+  },
+  "common": {
+    "save": "Зберегти",
+    "cancel": "Скасувати",
+    "delete": "Видалити",
+    "edit": "Редагувати",
+    "create": "Створити",
+    "back": "Назад",
+    "loading": "Завантаження…",
+    "saving": "Збереження…",
+    "error": "Помилка",
+    "success": "Успішно",
+    "confirm": "Підтвердити",
+    "close": "Закрити",
+    "search": "Пошук",
+    "filter": "Фільтр",
+    "all": "Усі",
+    "none": "Немає",
+    "yes": "Так",
+    "no": "Ні",
+    "optional": "необов'язково",
+    "required": "Обов'язкове поле",
+    "new": "+ Новий",
+    "add": "Додати",
+    "remove": "Видалити",
+    "noData": "Немає доступних даних",
+    "perPage": "на сторінку",
+    "page": "Сторінка",
+    "of": "з",
+    "entries": "Записи",
+    "reset": "Скинути",
+    "actions": "Дії",
+    "status": "Статус",
+    "date": "Дата",
+    "name": "Назва",
+    "description": "Опис",
+    "notes": "Нотатки",
+    "cost": "Вартість",
+    "type": "Тип",
+    "category": "Категорія",
+    "preview": "Попередній перегляд",
+    "upload": "Завантажити",
+    "download": "Скачати",
+    "copy": "Копіювати",
+    "duplicate": "Дублювати",
+    "active": "Активний",
+    "inactive": "Неактивний",
+    "system": "Система",
+    "custom": "Користувацький",
+    "label": "Мітка",
+    "color": "Колір",
+    "unknown": "Невідомо",
+    "today": "Сьогодні",
+    "tomorrow": "Завтра",
+    "yesterday": "Вчора",
+    "daysAgo": "Прострочено на {n} днів",
+    "inDays": "через {n} днів",
+    "months": ["Січень","Лютий","Березень","Квітень","Травень","Червень","Липень","Серпень","Вересень","Жовтень","Листопад","Грудень"],
+    "noEntries": "Немає записів",
+    "pagination": "Сторінка {current} з {total}"
+  },
+  "auth": {
+    "login": "Увійти",
+    "logout": "Вийти",
+    "email": "Адреса електронної пошти",
+    "password": "Пароль",
+    "forgotPassword": "Забули пароль?",
+    "noAccount": "Немає акаунту?",
+    "register": "Зареєструватися",
+    "loginError": "Помилка входу. Перевірте свої облікові дані.",
+    "welcomeBack": "Ласкаво просимо назад"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Доброго ранку",
+      "afternoon": "Добрий день",
+      "evening": "Добрий вечір"
+    },
+    "overdueWarning": "{n} прострочене обслуговування",
+    "overdueWarningPlural": "{n} прострочених обслуговувань",
+    "stats": {
+      "assetsTotal": "Усього активів",
+      "active": "Активних",
+      "inService": "На обслуговуванні",
+      "decommissioned": "Виведено з експлуатації",
+      "users": "Користувачі",
+      "overdueServices": "Прострочене обслуговування",
+      "dueThisWeek": "Цього тижня",
+      "serviceEventsMonth": "Сервісних подій (місяць)",
+      "maintenanceCostYear": "Витрати на обслуговування (рік)",
+      "allDone": "Усе виконано",
+      "limit": "Ліміт: {n}",
+      "unlimited": "Необмежено",
+      "percentOfStock": "{n} % запасу",
+      "totalSub": "Усього {n}",
+      "monthSub": "{n} € цього місяця"
+    },
+    "sections": {
+      "assetUtilization": "Використання активів",
+      "maintenanceOverview": "Огляд обслуговування",
+      "assetsByCategory": "Активи за категоріями",
+      "recentActivity": "Остання активність",
+      "currentPlan": "Поточний план",
+      "quickAccess": "Швидкий доступ",
+      "noCategories": "Немає категорій",
+      "noActivity": "Немає сервісних подій"
+    },
+    "maintenance": {
+      "overdue": "Прострочено",
+      "thisWeek": "Цього тижня",
+      "next30Days": "Наступні 30 днів",
+      "totalIntervals": "Усього активних інтервалів"
+    },
+    "quickLinks": {
+      "createAsset": "Створити актив",
+      "openMaintenance": "Відкрити обслуговування",
+      "scanAsset": "Сканувати актив",
+      "locations": "Місцезнаходження",
+      "addUser": "Додати користувача",
+      "documentation": "Документація"
+    },
+    "plan": {
+      "active": "АКТИВНИЙ",
+      "inactive": "НЕАКТИВНИЙ",
+      "assets": "Активи",
+      "users": "Користувачі",
+      "manageBilling": "Управління підпискою"
+    }
+  },
+  "assets": {
+    "title": "Управління активами",
+    "subtitle": "Все обладнання з першого погляду",
+    "new": "Новий актив",
+    "search": "Пошук активів…",
+    "filter": {
+      "allCategories": "Усі категорії",
+      "allStatuses": "Усі статуси",
+      "allLocations": "Усі місцезнаходження"
+    },
+    "noAssets": "Активів поки немає",
+    "noAssetsDesc": "Створіть своє перше обладнання.",
+    "noResults": "Активи не знайдено",
+    "fields": {
+      "title": "Мітка",
+      "category": "Категорія",
+      "status": "Статус",
+      "serialNumber": "Серійний номер",
+      "articleNumber": "Артикул",
+      "barcode": "Штрих-код / QR-код",
+      "manufacturer": "Виробник",
+      "model": "Модель",
+      "purchaseDate": "Дата купівлі",
+      "purchasePrice": "Ціна купівлі (€)",
+      "location": "Місцезнаходження",
+      "locationText": "Місцезнаходження (текст)",
+      "notes": "Нотатки",
+      "photos": "Фотографії",
+      "documents": "Документи",
+      "technicalData": "Технічні дані",
+      "commercialData": "Комерційні дані"
+    },
+    "status": {
+      "active": "Активний",
+      "in_service": "На обслуговуванні",
+      "decommissioned": "Виведено з експлуатації",
+      "defective": "Несправний"
+    },
+    "actions": {
+      "viewServiceLog": "Сервісний журнал",
+      "edit": "Редагувати",
+      "duplicate": "Дублювати",
+      "delete": "Видалити",
+      "confirmDelete": "Видалити цей актив? Цю дію не можна скасувати.",
+      "duplicateSuccess": "Актив дублювано"
+    },
+    "new_page": {
+      "title": "Створити новий актив",
+      "edit_title": "Редагувати актив",
+      "save": "Створити актив",
+      "saveEdit": "Зберегти зміни",
+      "addTechField": "+ Додати поле",
+      "fieldName": "Назва поля",
+      "fieldValue": "Значення",
+      "addPhoto": "Додати фото",
+      "photoHint": "Фотографії зберігаються безпосередньо в хмарі",
+      "selectLocation": "Вибрати місцезнаходження",
+      "noLocation": "Без місцезнаходження",
+      "errors": {
+        "titleRequired": "Введіть мітку.",
+        "saveFailed": "Помилка збереження"
+      }
+    },
+    "qr": {
+      "title": "QR-код",
+      "download": "Скачати QR-код",
+      "print": "Друк"
+    },
+    "locationHistory": "Історія місцезнаходжень",
+    "noLocationHistory": "Немає історії місцезнаходжень"
+  },
+  "service": {
+    "title": "Сервісний журнал",
+    "subtitle": "Повна документація всіх подій",
+    "newEntry": "+ Запис",
+    "entries": "Записи",
+    "totalCost": "Загальна вартість",
+    "intervals": "Інтервали",
+    "noEntries": "Записів поки немає",
+    "noEntriesDesc": "Документуйте обслуговування, ремонти та перевірки.",
+    "entry": {
+      "title": "Заголовок",
+      "titlePlaceholder": "напр. {type} виконано",
+      "type": "Тип",
+      "date": "Дата і час",
+      "description": "Опис",
+      "descriptionPlaceholder": "Що було зроблено?",
+      "performedBy": "Виконано",
+      "performedByPlaceholder": "Ім'я",
+      "externalCompany": "Компанія / зовнішній",
+      "externalCompanyPlaceholder": "напр. TÜV",
+      "costEur": "Вартість (€)",
+      "nextDate": "Наступна дата",
+      "notes": "Нотатки / примітки",
+      "notesPlaceholder": "Внутрішні нотатки, результати, рекомендації…",
+      "photos": "Фотографії",
+      "documents": "Документи",
+      "addDocument": "+ Додати документ / PDF",
+      "save": "Зберегти запис",
+      "saveEdit": "Зберегти зміни",
+      "completeMaintenance": "Завершити обслуговування",
+      "new": "Новий запис",
+      "edit": "Редагувати запис",
+      "customType": "+ Створити користувацький",
+      "cancelCustomType": "× Скасувати",
+      "newTypePlaceholder": "Мітка, напр. Калібрування",
+      "createType": "Створити і вибрати тип",
+      "nextDateAutoSet": "Наступна дата буде встановлена автоматично",
+      "nextDateIntervalHint": "{n} днів від дати виконання",
+      "errors": {
+        "titleRequired": "Введіть заголовок.",
+        "saveFailed": "Помилка збереження"
+      }
+    },
+    "checklist": {
+      "title": "Контрольний список",
+      "subtitle": "Відмітьте кожен крок і за бажанням додайте нотатки",
+      "done": "виконано",
+      "addNote": "+ Нотатка",
+      "notePlaceholder": "Результат, вимірювання, зауваження для цього кроку…",
+      "resources": "Ресурси (необов'язково): інструменти, матеріали…"
+    },
+    "interval": {
+      "title": "Новий інтервал",
+      "editTitle": "Редагувати інтервал",
+      "subtitle": "Повторювальне завдання",
+      "name": "Мітка *",
+      "namePlaceholder": "напр. {type} кожні 6 місяців",
+      "interval": "Інтервал",
+      "intervalDays": "Кожні {n} днів",
+      "custom": "Користувацький",
+      "customDays": "Днів",
+      "customDaysPlaceholder": "напр. 45",
+      "lastDone": "Останнє виконання",
+      "lastDoneHint": "Необов'язково – обчислює наступну дату",
+      "nextDue": "Наступний термін *",
+      "preview": "Попередній перегляд",
+      "previewDesc": "Кожні {days} днів · Термін: {date}",
+      "checklist": "Контрольний список",
+      "checklistSubtitle": "Пронумеровані кроки для відмітки при виконанні",
+      "addStep": "+ Крок",
+      "stepPlaceholder": "Описати крок {n}…",
+      "resourcesPlaceholder": "Ресурси (необов'язково): інструменти, матеріали…",
+      "noSteps": "Немає кроків – натисніть \"+ Крок\"",
+      "save": "Створити інтервал",
+      "saveEdit": "Зберегти зміни",
+      "newType": "Створити новий тип",
+      "errors": {
+        "nameRequired": "Введіть мітку.",
+        "intervalRequired": "Введіть допустимий інтервал.",
+        "nextDateRequired": "Вкажіть наступний термін."
+      }
+    },
+    "schedules": {
+      "title": "Інтервали обслуговування",
+      "newInterval": "+ Інтервал",
+      "noSchedules": "Інтервалів обслуговування поки немає",
+      "noSchedulesDesc": "Налаштуйте повторюваний план обслуговування.",
+      "dueDate": "Термін {date}",
+      "overdue": "Прострочено",
+      "dueIn": "Через {n} днів",
+      "dueToday": "Термін сьогодні",
+      "complete": "Відмітити як виконане",
+      "completeShort": "Завершити",
+      "lastDone": "Останнє: {date}",
+      "interval": "Кожні {n} днів"
+    },
+    "timeline": {
+      "entry": "Запис",
+      "entries": "Записи",
+      "noEntries": "Записів поки немає",
+      "noEntriesDesc": "Документуйте обслуговування, ремонти та перевірки.",
+      "nextDate": "Наступне: {date}",
+      "editBtn": "Редагувати",
+      "checklistSection": "Контрольний список",
+      "notesSection": "Нотатки"
+    }
+  },
+  "wartung": {
+    "title": "Технічне обслуговування & Сервіс",
+    "subtitle": "Усі майбутні інтервали обслуговування",
+    "tabs": {
+      "list": "Список завдань",
+      "gantt": "Діаграма Ганта"
+    },
+    "filter": {
+      "search": "Пошук за активом, серійним №, категорією…",
+      "urgency": "Терміновість",
+      "all": "Усі",
+      "overdue": "Прострочені",
+      "week": "Цей тиждень",
+      "twoWeeks": "Два тижні",
+      "month": "30 днів",
+      "category": "Категорія",
+      "allCategories": "Усі категорії",
+      "reset": "Скинути"
+    },
+    "groups": {
+      "overdue": "Прострочені",
+      "thisWeek": "Цього тижня",
+      "next30Days": "Наступні 30 днів",
+      "later": "Пізніше"
+    },
+    "noSchedules": "Немає записів",
+    "noSchedulesDesc": "Немає завдань обслуговування для цього фільтру.",
+    "complete": "Відмітити як виконане",
+    "completeBtn": "Завершити",
+    "stats": {
+      "overdue": "Прострочене обслуговування",
+      "thisWeek": "Цього тижня",
+      "thisMonth": "Цього місяця",
+      "total": "Активні інтервали"
+    }
+  },
+  "organisation": {
+    "title": "Місцезнаходження & Структура",
+    "subtitle": "Управління операційною структурою",
+    "newLocation": "+ Місцезнаходження",
+    "newHall": "+ Цех",
+    "newArea": "+ Зона",
+    "noLocations": "Місцезнаходжень поки немає",
+    "noLocationsDesc": "Створіть перше місцезнаходження.",
+    "location": "Місцезнаходження",
+    "hall": "Цех",
+    "area": "Зона",
+    "assetsHere": "{n} активів",
+    "fields": {
+      "name": "Назва",
+      "description": "Опис"
+    }
+  },
+  "teams": {
+    "title": "Команди",
+    "subtitle": "Управління учасниками та ролями",
+    "newTeam": "+ Команда",
+    "inviteMember": "Запросити учасника",
+    "newMember": "Створити учасника",
+    "noTeams": "Команд поки немає",
+    "member": "Учасник",
+    "members": "Учасники",
+    "role": "Роль",
+    "roles": {
+      "admin": "Адміністратор",
+      "technician": "Технік",
+      "viewer": "Читач"
+    },
+    "roleDesc": {
+      "admin": "Повний доступ + управління користувачами",
+      "technician": "Редагування активів і сервісу",
+      "viewer": "Тільки перегляд"
+    },
+    "fields": {
+      "name": "Назва команди",
+      "email": "Адреса електронної пошти",
+      "password": "Пароль",
+      "fullName": "Повне ім'я"
+    },
+    "actions": {
+      "changeRole": "Змінити роль",
+      "removeMember": "Видалити учасника",
+      "confirmRemove": "Видалити цього учасника?"
+    }
+  },
+  "settings": {
+    "title": "Налаштування",
+    "profile": {
+      "title": "Профіль",
+      "subtitle": "Особисті дані та налаштування",
+      "fullName": "Повне ім'я",
+      "email": "Адреса електронної пошти",
+      "language": "Мова",
+      "languageSubtitle": "Мова застосунку для вашого акаунту",
+      "save": "Зберегти профіль",
+      "saved": "Збережено",
+      "changePassword": "Змінити пароль",
+      "currentPassword": "Поточний пароль",
+      "newPassword": "Новий пароль",
+      "passwordSaved": "Пароль змінено"
+    },
+    "eventTypes": {
+      "title": "Типи подій",
+      "subtitle": "Користувацькі категорії для сервісних записів",
+      "systemTypes": "Системні типи",
+      "customTypes": "Користувацькі типи",
+      "newType": "+ Новий",
+      "labelPlaceholder": "напр. Калібрування, TÜV, Інспекція…",
+      "colorLabel": "Колір",
+      "preview": "Попередній перегляд:",
+      "save": "Створити тип",
+      "saving": "Збереження…",
+      "noCustomTypes": "Користувацьких типів поки немає.",
+      "systemBadge": "Система"
+    },
+    "billing": {
+      "title": "Підписка",
+      "subtitle": "Управління планом та платежами",
+      "currentPlan": "Поточний план",
+      "status": {
+        "active": "Активний",
+        "inactive": "Неактивний",
+        "trial": "Пробний період"
+      },
+      "changePlan": "Змінити план",
+      "activationCode": "Активувати код",
+      "activationCodePlaceholder": "9-значний код",
+      "activate": "Активувати",
+      "activating": "Активація…",
+      "createInvoice": "Створити рахунок",
+      "plans": {
+        "free": "Безкоштовний",
+        "starter": "Стартовий",
+        "professional": "Професійний",
+        "enterprise": "Корпоративний"
+      }
+    },
+    "invite": {
+      "title": "Створити користувача",
+      "subtitle": "Додати нового учасника до організації",
+      "email": "Адреса електронної пошти",
+      "fullName": "Повне ім'я",
+      "password": "Пароль",
+      "role": "Роль",
+      "save": "Створити користувача",
+      "success": "Користувача успішно створено."
+    },
+    "statuses": {
+      "title": "Статуси активів",
+      "subtitle": "Визначити користувацькі статуси",
+      "systemStatuses": "Системні статуси",
+      "customStatuses": "Користувацькі статуси",
+      "newStatus": "+ Новий"
+    }
+  },
+  "scan": {
+    "title": "Сканувати актив",
+    "subtitle": "Сканувати QR-код або NFC",
+    "startCamera": "Запустити камеру",
+    "scanning": "Сканування…",
+    "noPermission": "Доступ до камери не дозволено",
+    "notFound": "Актив не знайдено",
+    "openAsset": "Відкрити актив"
+  },
+  "docs": {
+    "title": "Документація",
+    "subtitle": "Все, що потрібно знати.",
+    "heroDesc": "INOid — ваше цифрове управління активами: від першої реєстрації до виведення з експлуатації. Готово за 5 хвилин.",
+    "stats": {
+      "firstAsset": "до першого активу",
+      "featureAreas": "функціональних областей",
+      "browserBased": "на основі браузера"
+    },
+    "tabs": {
+      "quickstart": "Швидкий старт",
+      "features": "Функції",
+      "roles": "Ролі",
+      "plans": "Плани та підписка",
+      "tips": "Поради"
+    },
+    "quickstart": {
+      "intro": "Чотири кроки — і ви засвоїте головне в INOid.",
+      "openDirectly": "Відкрити напряму",
+      "demoTour": "Демо-тур",
+      "demoSoon": "Навчальне відео незабаром"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Інспекція",
+    "maintenance": "Технічне обслуговування",
+    "repair": "Ремонт",
+    "overhaul": "Капітальний ремонт",
+    "coating": "Покриття",
+    "cleaning": "Очищення",
+    "installation": "Встановлення/Монтаж",
+    "incident": "Інцидент/Пошкодження",
+    "decommission": "Виведення з експлуатації",
+    "other": "Інше"
+  },
+  "intervalPresets": {
+    "weekly": "Щотижня",
+    "monthly": "Щомісяця",
+    "quarterly": "Щоквартально",
+    "biannual": "Раз на півроку",
+    "annual": "Щорічно",
+    "biennial": "Раз на два роки"
+  }
+}

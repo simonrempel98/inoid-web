@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "assets": "Activabeheer",
+    "scan": "Scannen",
+    "wartung": "Onderhoud & Service",
+    "organisation": "Locaties & Structuur",
+    "teams": "Teams",
+    "billing": "Abonnement",
+    "profile": "Profiel & Instellingen",
+    "docs": "Documentatie",
+    "logout": "Uitloggen",
+    "orgManagement": "Organisatiebeheer",
+    "account": "Account"
+  },
+  "common": {
+    "save": "Opslaan",
+    "cancel": "Annuleren",
+    "delete": "Verwijderen",
+    "edit": "Bewerken",
+    "create": "Aanmaken",
+    "back": "Terug",
+    "loading": "Laden…",
+    "saving": "Opslaan…",
+    "error": "Fout",
+    "success": "Geslaagd",
+    "confirm": "Bevestigen",
+    "close": "Sluiten",
+    "search": "Zoeken",
+    "filter": "Filter",
+    "all": "Alle",
+    "none": "Geen",
+    "yes": "Ja",
+    "no": "Nee",
+    "optional": "optioneel",
+    "required": "Verplicht veld",
+    "new": "+ Nieuw",
+    "add": "Toevoegen",
+    "remove": "Verwijderen",
+    "noData": "Geen gegevens beschikbaar",
+    "perPage": "per pagina",
+    "page": "Pagina",
+    "of": "van",
+    "entries": "Vermeldingen",
+    "reset": "Opnieuw instellen",
+    "actions": "Acties",
+    "status": "Status",
+    "date": "Datum",
+    "name": "Naam",
+    "description": "Beschrijving",
+    "notes": "Notities",
+    "cost": "Kosten",
+    "type": "Type",
+    "category": "Categorie",
+    "preview": "Voorbeeld",
+    "upload": "Uploaden",
+    "download": "Downloaden",
+    "copy": "Kopiëren",
+    "duplicate": "Dupliceren",
+    "active": "Actief",
+    "inactive": "Inactief",
+    "system": "Systeem",
+    "custom": "Aangepast",
+    "label": "Label",
+    "color": "Kleur",
+    "unknown": "Onbekend",
+    "today": "Vandaag",
+    "tomorrow": "Morgen",
+    "yesterday": "Gisteren",
+    "daysAgo": "{n} dagen achterstallig",
+    "inDays": "over {n} dagen",
+    "months": ["Januari","Februari","Maart","April","Mei","Juni","Juli","Augustus","September","Oktober","November","December"],
+    "noEntries": "Geen vermeldingen",
+    "pagination": "Pagina {current} van {total}"
+  },
+  "auth": {
+    "login": "Inloggen",
+    "logout": "Uitloggen",
+    "email": "E-mailadres",
+    "password": "Wachtwoord",
+    "forgotPassword": "Wachtwoord vergeten?",
+    "noAccount": "Nog geen account?",
+    "register": "Registreren",
+    "loginError": "Inloggen mislukt. Controleer uw inloggegevens.",
+    "welcomeBack": "Welkom terug"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Goedemorgen",
+      "afternoon": "Goedemiddag",
+      "evening": "Goedenavond"
+    },
+    "overdueWarning": "{n} achterstallig onderhoud",
+    "overdueWarningPlural": "{n} achterstallige onderhoudstaken",
+    "stats": {
+      "assetsTotal": "Totaal activa",
+      "active": "Actief",
+      "inService": "In service",
+      "decommissioned": "Buiten gebruik",
+      "users": "Gebruikers",
+      "overdueServices": "Achterstallig onderhoud",
+      "dueThisWeek": "Deze week te doen",
+      "serviceEventsMonth": "Servicegebeurtenissen (maand)",
+      "maintenanceCostYear": "Onderhoudskosten (jaar)",
+      "allDone": "Alles gedaan",
+      "limit": "Limiet: {n}",
+      "unlimited": "Onbeperkt",
+      "percentOfStock": "{n} % van de voorraad",
+      "totalSub": "{n} totaal",
+      "monthSub": "{n} € deze maand"
+    },
+    "sections": {
+      "assetUtilization": "Activabenutting",
+      "maintenanceOverview": "Onderhoudsoverzicht",
+      "assetsByCategory": "Activa per categorie",
+      "recentActivity": "Recente activiteit",
+      "currentPlan": "Huidig plan",
+      "quickAccess": "Snelle toegang",
+      "noCategories": "Geen categorieën",
+      "noActivity": "Nog geen servicegebeurtenissen"
+    },
+    "maintenance": {
+      "overdue": "Achterstallig",
+      "thisWeek": "Deze week",
+      "next30Days": "Volgende 30 dagen",
+      "totalIntervals": "Totaal actieve intervallen"
+    },
+    "quickLinks": {
+      "createAsset": "Activum aanmaken",
+      "openMaintenance": "Onderhoud openen",
+      "scanAsset": "Activum scannen",
+      "locations": "Locaties",
+      "addUser": "Gebruiker toevoegen",
+      "documentation": "Documentatie"
+    },
+    "plan": {
+      "active": "ACTIEF",
+      "inactive": "INACTIEF",
+      "assets": "Activa",
+      "users": "Gebruikers",
+      "manageBilling": "Abonnement beheren"
+    }
+  },
+  "assets": {
+    "title": "Activabeheer",
+    "subtitle": "Alle apparatuur in één oogopslag",
+    "new": "Nieuw activum",
+    "search": "Activa zoeken…",
+    "filter": {
+      "allCategories": "Alle categorieën",
+      "allStatuses": "Alle statussen",
+      "allLocations": "Alle locaties"
+    },
+    "noAssets": "Nog geen activa",
+    "noAssetsDesc": "Maak uw eerste apparaat aan.",
+    "noResults": "Geen activa gevonden",
+    "fields": {
+      "title": "Label",
+      "category": "Categorie",
+      "status": "Status",
+      "serialNumber": "Serienummer",
+      "articleNumber": "Artikelnummer",
+      "barcode": "Barcode / QR-code",
+      "manufacturer": "Fabrikant",
+      "model": "Model",
+      "purchaseDate": "Aankoopdatum",
+      "purchasePrice": "Aankoopprijs (€)",
+      "location": "Locatie",
+      "locationText": "Vrije tekst locatie",
+      "notes": "Notities",
+      "photos": "Foto's",
+      "documents": "Documenten",
+      "technicalData": "Technische gegevens",
+      "commercialData": "Commerciële gegevens"
+    },
+    "status": {
+      "active": "Actief",
+      "in_service": "In service",
+      "decommissioned": "Buiten gebruik",
+      "defective": "Defect"
+    },
+    "actions": {
+      "viewServiceLog": "Servicelogboek",
+      "edit": "Bewerken",
+      "duplicate": "Dupliceren",
+      "delete": "Verwijderen",
+      "confirmDelete": "Dit activum verwijderen? Deze actie kan niet ongedaan worden gemaakt.",
+      "duplicateSuccess": "Activum gedupliceerd"
+    },
+    "new_page": {
+      "title": "Nieuw activum aanmaken",
+      "edit_title": "Activum bewerken",
+      "save": "Activum aanmaken",
+      "saveEdit": "Wijzigingen opslaan",
+      "addTechField": "+ Veld toevoegen",
+      "fieldName": "Veldnaam",
+      "fieldValue": "Waarde",
+      "addPhoto": "Foto toevoegen",
+      "photoHint": "Foto's worden direct in de cloud opgeslagen",
+      "selectLocation": "Locatie selecteren",
+      "noLocation": "Geen locatie",
+      "errors": {
+        "titleRequired": "Voer een label in.",
+        "saveFailed": "Fout bij opslaan"
+      }
+    },
+    "qr": {
+      "title": "QR-code",
+      "download": "QR-code downloaden",
+      "print": "Afdrukken"
+    },
+    "locationHistory": "Locatiegeschiedenis",
+    "noLocationHistory": "Geen locatiegeschiedenis beschikbaar"
+  },
+  "service": {
+    "title": "Servicelogboek",
+    "subtitle": "Volledige documentatie van alle gebeurtenissen",
+    "newEntry": "+ Vermelding",
+    "entries": "Vermeldingen",
+    "totalCost": "Totale kosten",
+    "intervals": "Intervallen",
+    "noEntries": "Nog geen vermeldingen",
+    "noEntriesDesc": "Documenteer onderhoud, reparaties en inspecties.",
+    "entry": {
+      "title": "Titel",
+      "titlePlaceholder": "bijv. {type} uitgevoerd",
+      "type": "Type",
+      "date": "Datum & tijd",
+      "description": "Beschrijving",
+      "descriptionPlaceholder": "Wat is er gedaan?",
+      "performedBy": "Uitgevoerd door",
+      "performedByPlaceholder": "Naam",
+      "externalCompany": "Bedrijf / extern",
+      "externalCompanyPlaceholder": "bijv. TÜV",
+      "costEur": "Kosten (€)",
+      "nextDate": "Volgende afspraak",
+      "notes": "Notities / opmerkingen",
+      "notesPlaceholder": "Interne notities, bevindingen, aanbevelingen…",
+      "photos": "Foto's",
+      "documents": "Documenten",
+      "addDocument": "+ Document / PDF toevoegen",
+      "save": "Vermelding opslaan",
+      "saveEdit": "Wijzigingen opslaan",
+      "completeMaintenance": "Onderhoud afronden",
+      "new": "Nieuwe vermelding",
+      "edit": "Vermelding bewerken",
+      "customType": "+ Aangepast aanmaken",
+      "cancelCustomType": "× Annuleren",
+      "newTypePlaceholder": "Label, bijv. Kalibratie",
+      "createType": "Type aanmaken & selecteren",
+      "nextDateAutoSet": "Volgende afspraak wordt automatisch ingesteld",
+      "nextDateIntervalHint": "{n} dagen vanaf de uitvoeringsdatum",
+      "errors": {
+        "titleRequired": "Voer een titel in.",
+        "saveFailed": "Fout bij opslaan"
+      }
+    },
+    "checklist": {
+      "title": "Controlelijst",
+      "subtitle": "Vink elke stap af en voeg optioneel notities toe",
+      "done": "gedaan",
+      "addNote": "+ Notitie",
+      "notePlaceholder": "Bevinding, meting, opmerking voor deze stap…",
+      "resources": "Hulpmiddelen (optioneel): gereedschap, materialen…"
+    },
+    "interval": {
+      "title": "Nieuw interval",
+      "editTitle": "Interval bewerken",
+      "subtitle": "Terugkerende afspraak",
+      "name": "Label *",
+      "namePlaceholder": "bijv. {type} elke 6 maanden",
+      "interval": "Interval",
+      "intervalDays": "Elke {n} dagen",
+      "custom": "Aangepast",
+      "customDays": "Dagen",
+      "customDaysPlaceholder": "bijv. 45",
+      "lastDone": "Laatste uitvoering",
+      "lastDoneHint": "Optioneel – berekent volgende vervaldatum",
+      "nextDue": "Volgende vervaldatum *",
+      "preview": "Voorbeeld",
+      "previewDesc": "Elke {days} dagen · Vervalt: {date}",
+      "checklist": "Controlelijst",
+      "checklistSubtitle": "Genummerde stappen die bij uitvoering worden afgevinkt",
+      "addStep": "+ Stap",
+      "stepPlaceholder": "Stap {n} beschrijven…",
+      "resourcesPlaceholder": "Hulpmiddelen (optioneel): gereedschap, materialen…",
+      "noSteps": "Nog geen stappen – tik op \"+ Stap\"",
+      "save": "Interval aanmaken",
+      "saveEdit": "Wijzigingen opslaan",
+      "newType": "Nieuw type aanmaken",
+      "errors": {
+        "nameRequired": "Voer een label in.",
+        "intervalRequired": "Voer een geldig interval in.",
+        "nextDateRequired": "Geef de volgende vervaldatum op."
+      }
+    },
+    "schedules": {
+      "title": "Onderhoudsintervallen",
+      "newInterval": "+ Interval",
+      "noSchedules": "Nog geen onderhoudsintervallen",
+      "noSchedulesDesc": "Stel een terugkerend onderhoudsschema in.",
+      "dueDate": "Vervalt op {date}",
+      "overdue": "Achterstallig",
+      "dueIn": "Vervalt over {n} dagen",
+      "dueToday": "Vervalt vandaag",
+      "complete": "Markeren als gedaan",
+      "completeShort": "Afronden",
+      "lastDone": "Laatste: {date}",
+      "interval": "Elke {n} dagen"
+    },
+    "timeline": {
+      "entry": "Vermelding",
+      "entries": "Vermeldingen",
+      "noEntries": "Nog geen vermeldingen",
+      "noEntriesDesc": "Documenteer onderhoud, reparaties en inspecties.",
+      "nextDate": "Volgende: {date}",
+      "editBtn": "Bewerken",
+      "checklistSection": "Controlelijst",
+      "notesSection": "Notities"
+    }
+  },
+  "wartung": {
+    "title": "Onderhoud & Service",
+    "subtitle": "Alle vervallende onderhoudsintervallen",
+    "tabs": {
+      "list": "Takenlijst",
+      "gantt": "Gantt-diagram"
+    },
+    "filter": {
+      "search": "Zoeken op activum, serienr., categorie…",
+      "urgency": "Urgentie",
+      "all": "Alle",
+      "overdue": "Achterstallig",
+      "week": "Deze week",
+      "twoWeeks": "Twee weken",
+      "month": "30 dagen",
+      "category": "Categorie",
+      "allCategories": "Alle categorieën",
+      "reset": "Opnieuw instellen"
+    },
+    "groups": {
+      "overdue": "Achterstallig",
+      "thisWeek": "Deze week",
+      "next30Days": "Volgende 30 dagen",
+      "later": "Later"
+    },
+    "noSchedules": "Geen vermeldingen",
+    "noSchedulesDesc": "Geen onderhoudstaken voor dit filter.",
+    "complete": "Markeren als gedaan",
+    "completeBtn": "Afronden",
+    "stats": {
+      "overdue": "Achterstallig onderhoud",
+      "thisWeek": "Deze week te doen",
+      "thisMonth": "Deze maand te doen",
+      "total": "Actieve intervallen"
+    }
+  },
+  "organisation": {
+    "title": "Locaties & Structuur",
+    "subtitle": "Operationele structuur beheren",
+    "newLocation": "+ Locatie",
+    "newHall": "+ Hal",
+    "newArea": "+ Gebied",
+    "noLocations": "Nog geen locaties",
+    "noLocationsDesc": "Maak uw eerste locatie aan.",
+    "location": "Locatie",
+    "hall": "Hal",
+    "area": "Gebied",
+    "assetsHere": "{n} activa",
+    "fields": {
+      "name": "Naam",
+      "description": "Beschrijving"
+    }
+  },
+  "teams": {
+    "title": "Teams",
+    "subtitle": "Leden & rollen beheren",
+    "newTeam": "+ Team",
+    "inviteMember": "Lid uitnodigen",
+    "newMember": "Lid aanmaken",
+    "noTeams": "Nog geen teams",
+    "member": "Lid",
+    "members": "Leden",
+    "role": "Rol",
+    "roles": {
+      "admin": "Beheerder",
+      "technician": "Technicus",
+      "viewer": "Lezer"
+    },
+    "roleDesc": {
+      "admin": "Volledige toegang + gebruikersbeheer",
+      "technician": "Activa & service bewerken",
+      "viewer": "Alleen bekijken"
+    },
+    "fields": {
+      "name": "Teamnaam",
+      "email": "E-mailadres",
+      "password": "Wachtwoord",
+      "fullName": "Volledige naam"
+    },
+    "actions": {
+      "changeRole": "Rol wijzigen",
+      "removeMember": "Lid verwijderen",
+      "confirmRemove": "Dit lid echt verwijderen?"
+    }
+  },
+  "settings": {
+    "title": "Instellingen",
+    "profile": {
+      "title": "Profiel",
+      "subtitle": "Persoonlijke gegevens & instellingen",
+      "fullName": "Volledige naam",
+      "email": "E-mailadres",
+      "language": "Taal",
+      "languageSubtitle": "App-taal voor uw account",
+      "save": "Profiel opslaan",
+      "saved": "Opgeslagen",
+      "changePassword": "Wachtwoord wijzigen",
+      "currentPassword": "Huidig wachtwoord",
+      "newPassword": "Nieuw wachtwoord",
+      "passwordSaved": "Wachtwoord gewijzigd"
+    },
+    "eventTypes": {
+      "title": "Gebeurtenistypen",
+      "subtitle": "Aangepaste categorieën voor servicevermeldingen",
+      "systemTypes": "Systeemtypen",
+      "customTypes": "Aangepaste typen",
+      "newType": "+ Nieuw",
+      "labelPlaceholder": "bijv. Kalibratie, TÜV, Inspectie…",
+      "colorLabel": "Kleur",
+      "preview": "Voorbeeld:",
+      "save": "Type aanmaken",
+      "saving": "Opslaan…",
+      "noCustomTypes": "Nog geen aangepaste typen.",
+      "systemBadge": "Systeem"
+    },
+    "billing": {
+      "title": "Abonnement",
+      "subtitle": "Plan & betalingen beheren",
+      "currentPlan": "Huidig plan",
+      "status": {
+        "active": "Actief",
+        "inactive": "Inactief",
+        "trial": "Proefperiode"
+      },
+      "changePlan": "Plan wijzigen",
+      "activationCode": "Activatiecode inwisselen",
+      "activationCodePlaceholder": "9-cijferige code",
+      "activate": "Activeren",
+      "activating": "Activeren…",
+      "createInvoice": "Factuur aanmaken",
+      "plans": {
+        "free": "Gratis",
+        "starter": "Starter",
+        "professional": "Professioneel",
+        "enterprise": "Enterprise"
+      }
+    },
+    "invite": {
+      "title": "Gebruiker aanmaken",
+      "subtitle": "Nieuw lid toevoegen aan de organisatie",
+      "email": "E-mailadres",
+      "fullName": "Volledige naam",
+      "password": "Wachtwoord",
+      "role": "Rol",
+      "save": "Gebruiker aanmaken",
+      "success": "Gebruiker succesvol aangemaakt."
+    },
+    "statuses": {
+      "title": "Activastatussen",
+      "subtitle": "Aangepaste statussen definiëren",
+      "systemStatuses": "Systeemstatussen",
+      "customStatuses": "Aangepaste statussen",
+      "newStatus": "+ Nieuw"
+    }
+  },
+  "scan": {
+    "title": "Activum scannen",
+    "subtitle": "QR-code of NFC scannen",
+    "startCamera": "Camera starten",
+    "scanning": "Scannen…",
+    "noPermission": "Cameratoegang niet toegestaan",
+    "notFound": "Geen activum gevonden",
+    "openAsset": "Activum openen"
+  },
+  "docs": {
+    "title": "Documentatie",
+    "subtitle": "Alles wat u moet weten.",
+    "heroDesc": "INOid is uw digitaal activabeheer — van eerste registratie tot buitengebruikstelling. In 5 minuten klaar.",
+    "stats": {
+      "firstAsset": "tot het eerste activum",
+      "featureAreas": "functiegebieden",
+      "browserBased": "browsergebaseerd"
+    },
+    "tabs": {
+      "quickstart": "Snel starten",
+      "features": "Functies",
+      "roles": "Rollen",
+      "plans": "Plannen & abonnement",
+      "tips": "Tips"
+    },
+    "quickstart": {
+      "intro": "Vier stappen en u kent de kern van INOid.",
+      "openDirectly": "Direct openen",
+      "demoTour": "Demotour",
+      "demoSoon": "Introductievideo binnenkort beschikbaar"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Inspectie",
+    "maintenance": "Onderhoud",
+    "repair": "Reparatie",
+    "overhaul": "Revisie",
+    "coating": "Coating",
+    "cleaning": "Reiniging",
+    "installation": "Installatie/Montage",
+    "incident": "Incident/Schade",
+    "decommission": "Buitengebruikstelling",
+    "other": "Overig"
+  },
+  "intervalPresets": {
+    "weekly": "Wekelijks",
+    "monthly": "Maandelijks",
+    "quarterly": "Driemaandelijks",
+    "biannual": "Halfjaarlijks",
+    "annual": "Jaarlijks",
+    "biennial": "Tweejaarlijks"
+  }
+}

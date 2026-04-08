@@ -6,6 +6,7 @@ import { AssetCardActions } from './asset-card-actions'
 import { AssetDeleteButton } from './asset-delete-button'
 import { getRole } from '@/lib/get-role'
 import { can } from '@/lib/permissions'
+import { getTranslations } from 'next-intl/server'
 
 export default async function AssetsPage({
   searchParams,
@@ -69,7 +70,7 @@ export default async function AssetsPage({
   const customStatuses = (orgData?.settings as { custom_statuses?: { value: string; label: string; color: string }[] })?.custom_statuses ?? []
 
   const { getStatusConfig } = await import('@/lib/asset-statuses')
-
+  const t = await getTranslations()
   const hasFilters = !!(status || cat || (sort && sort !== 'newest'))
 
   return (
@@ -82,10 +83,8 @@ export default async function AssetsPage({
         <div>
           <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 2px' }}>Assets</h1>
           <p style={{ fontSize: 13, color: '#666', margin: 0 }}>
-            {hasFilters || q
-              ? <>{assets?.length ?? 0} Treffer · {totalCount ?? 0}{org?.asset_limit && org.asset_limit > 0 ? ` / ${org.asset_limit}` : ''} gesamt</>
-              : <>{totalCount ?? 0}{org?.asset_limit && org.asset_limit > 0 ? ` / ${org.asset_limit}` : ''} Komponenten</>
-            }
+            {totalCount ?? 0}{org?.asset_limit && org.asset_limit > 0 ? ` / ${org.asset_limit}` : ''} {t('assets.title')}
+            {(hasFilters || q) && <> · {assets?.length ?? 0} {t('assets.noResults').toLowerCase()}</>}
           </p>
         </div>
         {perms.editAssets && (
@@ -95,7 +94,7 @@ export default async function AssetsPage({
             textDecoration: 'none', fontSize: 14, fontWeight: 700,
             display: 'flex', alignItems: 'center', gap: 6,
           }}>
-            <span style={{ fontSize: 18, lineHeight: 1 }}>+</span> Neu
+            <span style={{ fontSize: 18, lineHeight: 1 }}>+</span> {t('common.new').replace('+ ', '')}
           </Link>
         )}
       </div>
@@ -125,12 +124,10 @@ export default async function AssetsPage({
           }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>📦</div>
             <p style={{ fontWeight: 700, color: '#000', fontSize: 16, margin: '0 0 8px' }}>
-              {hasFilters || q ? 'Keine Ergebnisse' : 'Noch keine Assets'}
+              {hasFilters || q ? t('assets.noResults') : t('assets.noAssets')}
             </p>
             <p style={{ color: '#666', fontSize: 14, margin: '0 0 20px' }}>
-              {hasFilters || q
-                ? 'Keine Assets gefunden für die aktuellen Filter.'
-                : 'Lege dein erstes Asset an.'}
+              {hasFilters || q ? t('assets.noResults') : t('assets.noAssetsDesc')}
             </p>
             {!hasFilters && !q && (
               <Link href="/assets/neu" style={{
@@ -138,7 +135,7 @@ export default async function AssetsPage({
                 padding: '12px 24px', borderRadius: 50,
                 textDecoration: 'none', fontSize: 14, fontWeight: 700,
               }}>
-                + Erstes Asset anlegen
+                {t('common.new')} Asset
               </Link>
             )}
           </div>

@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Vezérlőpult",
+    "assets": "Eszközkezelés",
+    "scan": "Szkennelés",
+    "wartung": "Karbantartás & Szerviz",
+    "organisation": "Helyszínek & Struktúra",
+    "teams": "Csapatok",
+    "billing": "Előfizetés",
+    "profile": "Profil & Beállítások",
+    "docs": "Dokumentáció",
+    "logout": "Kijelentkezés",
+    "orgManagement": "Szervezetkezelés",
+    "account": "Fiók"
+  },
+  "common": {
+    "save": "Mentés",
+    "cancel": "Mégse",
+    "delete": "Törlés",
+    "edit": "Szerkesztés",
+    "create": "Létrehozás",
+    "back": "Vissza",
+    "loading": "Betöltés…",
+    "saving": "Mentés…",
+    "error": "Hiba",
+    "success": "Siker",
+    "confirm": "Megerősítés",
+    "close": "Bezárás",
+    "search": "Keresés",
+    "filter": "Szűrés",
+    "all": "Összes",
+    "none": "Egyik sem",
+    "yes": "Igen",
+    "no": "Nem",
+    "optional": "opcionális",
+    "required": "Kötelező mező",
+    "new": "+ Új",
+    "add": "Hozzáadás",
+    "remove": "Eltávolítás",
+    "noData": "Nincs elérhető adat",
+    "perPage": "oldalanként",
+    "page": "Oldal",
+    "of": "/",
+    "entries": "Bejegyzések",
+    "reset": "Visszaállítás",
+    "actions": "Műveletek",
+    "status": "Állapot",
+    "date": "Dátum",
+    "name": "Név",
+    "description": "Leírás",
+    "notes": "Megjegyzések",
+    "cost": "Költség",
+    "type": "Típus",
+    "category": "Kategória",
+    "preview": "Előnézet",
+    "upload": "Feltöltés",
+    "download": "Letöltés",
+    "copy": "Másolás",
+    "duplicate": "Duplikálás",
+    "active": "Aktív",
+    "inactive": "Inaktív",
+    "system": "Rendszer",
+    "custom": "Egyéni",
+    "label": "Megnevezés",
+    "color": "Szín",
+    "unknown": "Ismeretlen",
+    "today": "Ma",
+    "tomorrow": "Holnap",
+    "yesterday": "Tegnap",
+    "daysAgo": "{n} napja lejárt",
+    "inDays": "{n} nap múlva",
+    "months": ["Január","Február","Március","Április","Május","Június","Július","Augusztus","Szeptember","Október","November","December"],
+    "noEntries": "Nincsenek bejegyzések",
+    "pagination": "{current}. oldal / {total}"
+  },
+  "auth": {
+    "login": "Bejelentkezés",
+    "logout": "Kijelentkezés",
+    "email": "E-mail cím",
+    "password": "Jelszó",
+    "forgotPassword": "Elfelejtett jelszó?",
+    "noAccount": "Még nincs fiókja?",
+    "register": "Regisztráció",
+    "loginError": "A bejelentkezés sikertelen. Kérjük, ellenőrizze adatait.",
+    "welcomeBack": "Üdvözöljük vissza"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Jó reggelt",
+      "afternoon": "Jó napot",
+      "evening": "Jó estét"
+    },
+    "overdueWarning": "{n} lejárt karbantartás",
+    "overdueWarningPlural": "{n} lejárt karbantartás",
+    "stats": {
+      "assetsTotal": "Összes eszköz",
+      "active": "Aktív",
+      "inService": "Szervizben",
+      "decommissioned": "Kivont",
+      "users": "Felhasználók",
+      "overdueServices": "Lejárt karbantartások",
+      "dueThisWeek": "Ezen a héten esedékes",
+      "serviceEventsMonth": "Szervizesemények (hónap)",
+      "maintenanceCostYear": "Karbantartási költségek (év)",
+      "allDone": "Minden kész",
+      "limit": "Korlát: {n}",
+      "unlimited": "Korlátlan",
+      "percentOfStock": "A készlet {n} %-a",
+      "totalSub": "Összesen {n}",
+      "monthSub": "{n} € ebben a hónapban"
+    },
+    "sections": {
+      "assetUtilization": "Eszközkihasználtság",
+      "maintenanceOverview": "Karbantartás áttekintése",
+      "assetsByCategory": "Eszközök kategóriánként",
+      "recentActivity": "Legutóbbi tevékenység",
+      "currentPlan": "Jelenlegi terv",
+      "quickAccess": "Gyors elérés",
+      "noCategories": "Nincs kategória",
+      "noActivity": "Még nincs szervizesemény"
+    },
+    "maintenance": {
+      "overdue": "Lejárt",
+      "thisWeek": "Ezen a héten",
+      "next30Days": "Következő 30 nap",
+      "totalIntervals": "Összes aktív intervallum"
+    },
+    "quickLinks": {
+      "createAsset": "Eszköz létrehozása",
+      "openMaintenance": "Karbantartás megnyitása",
+      "scanAsset": "Eszköz szkennelése",
+      "locations": "Helyszínek",
+      "addUser": "Felhasználó hozzáadása",
+      "documentation": "Dokumentáció"
+    },
+    "plan": {
+      "active": "AKTÍV",
+      "inactive": "INAKTÍV",
+      "assets": "Eszközök",
+      "users": "Felhasználók",
+      "manageBilling": "Előfizetés kezelése"
+    }
+  },
+  "assets": {
+    "title": "Eszközkezelés",
+    "subtitle": "Az összes berendezés egy pillantásra",
+    "new": "Új eszköz",
+    "search": "Eszközök keresése…",
+    "filter": {
+      "allCategories": "Összes kategória",
+      "allStatuses": "Összes állapot",
+      "allLocations": "Összes helyszín"
+    },
+    "noAssets": "Még nincsenek eszközök",
+    "noAssetsDesc": "Hozza létre az első berendezését.",
+    "noResults": "Nem található eszköz",
+    "fields": {
+      "title": "Megnevezés",
+      "category": "Kategória",
+      "status": "Állapot",
+      "serialNumber": "Sorozatszám",
+      "articleNumber": "Cikkszám",
+      "barcode": "Vonalkód / QR-kód",
+      "manufacturer": "Gyártó",
+      "model": "Modell",
+      "purchaseDate": "Vásárlás dátuma",
+      "purchasePrice": "Vételár (€)",
+      "location": "Helyszín",
+      "locationText": "Helyszín (szabad szöveg)",
+      "notes": "Megjegyzések",
+      "photos": "Fotók",
+      "documents": "Dokumentumok",
+      "technicalData": "Műszaki adatok",
+      "commercialData": "Kereskedelmi adatok"
+    },
+    "status": {
+      "active": "Aktív",
+      "in_service": "Szervizben",
+      "decommissioned": "Kivont",
+      "defective": "Hibás"
+    },
+    "actions": {
+      "viewServiceLog": "Szerviznapló",
+      "edit": "Szerkesztés",
+      "duplicate": "Duplikálás",
+      "delete": "Törlés",
+      "confirmDelete": "Törli ezt az eszközt? Ez a művelet nem vonható vissza.",
+      "duplicateSuccess": "Eszköz duplikálva"
+    },
+    "new_page": {
+      "title": "Új eszköz létrehozása",
+      "edit_title": "Eszköz szerkesztése",
+      "save": "Eszköz létrehozása",
+      "saveEdit": "Változtatások mentése",
+      "addTechField": "+ Mező hozzáadása",
+      "fieldName": "Mező neve",
+      "fieldValue": "Érték",
+      "addPhoto": "Fotó hozzáadása",
+      "photoHint": "A fotók közvetlenül a felhőben tárolódnak",
+      "selectLocation": "Helyszín kiválasztása",
+      "noLocation": "Nincs helyszín",
+      "errors": {
+        "titleRequired": "Kérjük, adjon meg megnevezést.",
+        "saveFailed": "Mentési hiba"
+      }
+    },
+    "qr": {
+      "title": "QR-kód",
+      "download": "QR-kód letöltése",
+      "print": "Nyomtatás"
+    },
+    "locationHistory": "Helyszíntörténet",
+    "noLocationHistory": "Nincs helyszíntörténet"
+  },
+  "service": {
+    "title": "Szerviznapló",
+    "subtitle": "Az összes esemény teljes dokumentációja",
+    "newEntry": "+ Bejegyzés",
+    "entries": "Bejegyzések",
+    "totalCost": "Összes költség",
+    "intervals": "Intervallumok",
+    "noEntries": "Még nincsenek bejegyzések",
+    "noEntriesDesc": "Dokumentálja a karbantartásokat, javításokat és ellenőrzéseket.",
+    "entry": {
+      "title": "Cím",
+      "titlePlaceholder": "pl. {type} elvégezve",
+      "type": "Típus",
+      "date": "Dátum és idő",
+      "description": "Leírás",
+      "descriptionPlaceholder": "Mi történt?",
+      "performedBy": "Elvégezte",
+      "performedByPlaceholder": "Név",
+      "externalCompany": "Cég / külső",
+      "externalCompanyPlaceholder": "pl. TÜV",
+      "costEur": "Költség (€)",
+      "nextDate": "Következő időpont",
+      "notes": "Megjegyzések / észrevételek",
+      "notesPlaceholder": "Belső megjegyzések, megállapítások, ajánlások…",
+      "photos": "Fotók",
+      "documents": "Dokumentumok",
+      "addDocument": "+ Dokumentum / PDF hozzáadása",
+      "save": "Bejegyzés mentése",
+      "saveEdit": "Változtatások mentése",
+      "completeMaintenance": "Karbantartás befejezése",
+      "new": "Új bejegyzés",
+      "edit": "Bejegyzés szerkesztése",
+      "customType": "+ Egyéni létrehozása",
+      "cancelCustomType": "× Mégse",
+      "newTypePlaceholder": "Megnevezés, pl. Kalibrálás",
+      "createType": "Típus létrehozása és kiválasztása",
+      "nextDateAutoSet": "A következő időpontot automatikusan beállítja",
+      "nextDateIntervalHint": "{n} nap a végrehajtás dátumától",
+      "errors": {
+        "titleRequired": "Kérjük, adjon meg címet.",
+        "saveFailed": "Mentési hiba"
+      }
+    },
+    "checklist": {
+      "title": "Ellenőrzőlista",
+      "subtitle": "Jelöljön be minden lépést, és opcionálisan adjon hozzá megjegyzéseket",
+      "done": "kész",
+      "addNote": "+ Megjegyzés",
+      "notePlaceholder": "Megállapítás, mérés, megjegyzés ehhez a lépéshez…",
+      "resources": "Erőforrások (opcionális): eszközök, anyagok…"
+    },
+    "interval": {
+      "title": "Új intervallum",
+      "editTitle": "Intervallum szerkesztése",
+      "subtitle": "Ismétlődő feladat",
+      "name": "Megnevezés *",
+      "namePlaceholder": "pl. {type} minden 6 hónapban",
+      "interval": "Intervallum",
+      "intervalDays": "Minden {n} napban",
+      "custom": "Egyéni",
+      "customDays": "Nap",
+      "customDaysPlaceholder": "pl. 45",
+      "lastDone": "Utoljára elvégezve",
+      "lastDoneHint": "Opcionális – kiszámolja a következő dátumot",
+      "nextDue": "Következő határidő *",
+      "preview": "Előnézet",
+      "previewDesc": "Minden {days} napban · Határidő: {date}",
+      "checklist": "Ellenőrzőlista",
+      "checklistSubtitle": "Számozott lépések végrehajtáskor való bejelöléshez",
+      "addStep": "+ Lépés",
+      "stepPlaceholder": "{n}. lépés leírása…",
+      "resourcesPlaceholder": "Erőforrások (opcionális): eszközök, anyagok…",
+      "noSteps": "Nincsenek lépések – érintse meg a \"+ Lépés\" gombot",
+      "save": "Intervallum létrehozása",
+      "saveEdit": "Változtatások mentése",
+      "newType": "Új típus létrehozása",
+      "errors": {
+        "nameRequired": "Kérjük, adjon meg megnevezést.",
+        "intervalRequired": "Kérjük, adjon meg érvényes intervallumot.",
+        "nextDateRequired": "Kérjük, adja meg a következő határidőt."
+      }
+    },
+    "schedules": {
+      "title": "Karbantartási intervallumok",
+      "newInterval": "+ Intervallum",
+      "noSchedules": "Még nincsenek karbantartási intervallumok",
+      "noSchedulesDesc": "Állítson be ismétlődő karbantartási tervet.",
+      "dueDate": "Határidő: {date}",
+      "overdue": "Lejárt",
+      "dueIn": "{n} nap múlva",
+      "dueToday": "Ma esedékes",
+      "complete": "Megjelölés készként",
+      "completeShort": "Befejezés",
+      "lastDone": "Utoljára: {date}",
+      "interval": "Minden {n} napban"
+    },
+    "timeline": {
+      "entry": "Bejegyzés",
+      "entries": "Bejegyzések",
+      "noEntries": "Még nincsenek bejegyzések",
+      "noEntriesDesc": "Dokumentálja a karbantartásokat, javításokat és ellenőrzéseket.",
+      "nextDate": "Következő: {date}",
+      "editBtn": "Szerkesztés",
+      "checklistSection": "Ellenőrzőlista",
+      "notesSection": "Megjegyzések"
+    }
+  },
+  "wartung": {
+    "title": "Karbantartás & Szerviz",
+    "subtitle": "Az összes esedékes karbantartási intervallum",
+    "tabs": {
+      "list": "Feladatlista",
+      "gantt": "Gantt-diagram"
+    },
+    "filter": {
+      "search": "Keresés eszköz, sorozatszám, kategória alapján…",
+      "urgency": "Sürgősség",
+      "all": "Összes",
+      "overdue": "Lejárt",
+      "week": "Ezen a héten",
+      "twoWeeks": "Két hét",
+      "month": "30 nap",
+      "category": "Kategória",
+      "allCategories": "Összes kategória",
+      "reset": "Visszaállítás"
+    },
+    "groups": {
+      "overdue": "Lejárt",
+      "thisWeek": "Ezen a héten",
+      "next30Days": "Következő 30 nap",
+      "later": "Később"
+    },
+    "noSchedules": "Nincsenek bejegyzések",
+    "noSchedulesDesc": "Ehhez a szűrőhöz nincs karbantartási feladat.",
+    "complete": "Megjelölés készként",
+    "completeBtn": "Befejezés",
+    "stats": {
+      "overdue": "Lejárt karbantartások",
+      "thisWeek": "Ezen a héten esedékes",
+      "thisMonth": "Ebben a hónapban esedékes",
+      "total": "Aktív intervallumok"
+    }
+  },
+  "organisation": {
+    "title": "Helyszínek & Struktúra",
+    "subtitle": "Működési struktúra kezelése",
+    "newLocation": "+ Helyszín",
+    "newHall": "+ Csarnok",
+    "newArea": "+ Terület",
+    "noLocations": "Még nincsenek helyszínek",
+    "noLocationsDesc": "Hozza létre az első helyszínt.",
+    "location": "Helyszín",
+    "hall": "Csarnok",
+    "area": "Terület",
+    "assetsHere": "{n} eszköz",
+    "fields": {
+      "name": "Név",
+      "description": "Leírás"
+    }
+  },
+  "teams": {
+    "title": "Csapatok",
+    "subtitle": "Tagok és szerepkörök kezelése",
+    "newTeam": "+ Csapat",
+    "inviteMember": "Tag meghívása",
+    "newMember": "Tag létrehozása",
+    "noTeams": "Még nincsenek csapatok",
+    "member": "Tag",
+    "members": "Tagok",
+    "role": "Szerepkör",
+    "roles": {
+      "admin": "Adminisztrátor",
+      "technician": "Technikus",
+      "viewer": "Olvasó"
+    },
+    "roleDesc": {
+      "admin": "Teljes hozzáférés + felhasználókezelés",
+      "technician": "Eszközök és szerviz szerkesztése",
+      "viewer": "Csak megtekintés"
+    },
+    "fields": {
+      "name": "Csapat neve",
+      "email": "E-mail cím",
+      "password": "Jelszó",
+      "fullName": "Teljes név"
+    },
+    "actions": {
+      "changeRole": "Szerepkör módosítása",
+      "removeMember": "Tag eltávolítása",
+      "confirmRemove": "Eltávolítja ezt a tagot?"
+    }
+  },
+  "settings": {
+    "title": "Beállítások",
+    "profile": {
+      "title": "Profil",
+      "subtitle": "Személyes adatok és beállítások",
+      "fullName": "Teljes név",
+      "email": "E-mail cím",
+      "language": "Nyelv",
+      "languageSubtitle": "Az alkalmazás nyelve a fiókjához",
+      "save": "Profil mentése",
+      "saved": "Mentve",
+      "changePassword": "Jelszó módosítása",
+      "currentPassword": "Jelenlegi jelszó",
+      "newPassword": "Új jelszó",
+      "passwordSaved": "Jelszó módosítva"
+    },
+    "eventTypes": {
+      "title": "Eseménytípusok",
+      "subtitle": "Egyéni kategóriák szerviznapló bejegyzésekhez",
+      "systemTypes": "Rendszertípusok",
+      "customTypes": "Egyéni típusok",
+      "newType": "+ Új",
+      "labelPlaceholder": "pl. Kalibrálás, TÜV, Ellenőrzés…",
+      "colorLabel": "Szín",
+      "preview": "Előnézet:",
+      "save": "Típus létrehozása",
+      "saving": "Mentés…",
+      "noCustomTypes": "Még nincsenek egyéni típusok.",
+      "systemBadge": "Rendszer"
+    },
+    "billing": {
+      "title": "Előfizetés",
+      "subtitle": "Terv és fizetések kezelése",
+      "currentPlan": "Jelenlegi terv",
+      "status": {
+        "active": "Aktív",
+        "inactive": "Inaktív",
+        "trial": "Próbaidőszak"
+      },
+      "changePlan": "Terv módosítása",
+      "activationCode": "Aktiválási kód beváltása",
+      "activationCodePlaceholder": "9 jegyű kód",
+      "activate": "Aktiválás",
+      "activating": "Aktiválás…",
+      "createInvoice": "Számla létrehozása",
+      "plans": {
+        "free": "Ingyenes",
+        "starter": "Starter",
+        "professional": "Professzionális",
+        "enterprise": "Vállalati"
+      }
+    },
+    "invite": {
+      "title": "Felhasználó létrehozása",
+      "subtitle": "Új tag hozzáadása a szervezethez",
+      "email": "E-mail cím",
+      "fullName": "Teljes név",
+      "password": "Jelszó",
+      "role": "Szerepkör",
+      "save": "Felhasználó létrehozása",
+      "success": "A felhasználó sikeresen létrehozva."
+    },
+    "statuses": {
+      "title": "Eszközállapotok",
+      "subtitle": "Egyéni állapotok definiálása",
+      "systemStatuses": "Rendszerállapotok",
+      "customStatuses": "Egyéni állapotok",
+      "newStatus": "+ Új"
+    }
+  },
+  "scan": {
+    "title": "Eszköz szkennelése",
+    "subtitle": "QR-kód vagy NFC szkennelése",
+    "startCamera": "Kamera indítása",
+    "scanning": "Szkennelés…",
+    "noPermission": "Kamera-hozzáférés nem engedélyezett",
+    "notFound": "Nem található eszköz",
+    "openAsset": "Eszköz megnyitása"
+  },
+  "docs": {
+    "title": "Dokumentáció",
+    "subtitle": "Minden, amit tudnia kell.",
+    "heroDesc": "Az INOid az Ön digitális eszközkezelője — az első regisztrációtól a kivonásig. 5 perc alatt kész.",
+    "stats": {
+      "firstAsset": "az első eszközig",
+      "featureAreas": "funkcionális területek",
+      "browserBased": "böngészőalapú"
+    },
+    "tabs": {
+      "quickstart": "Gyors kezdés",
+      "features": "Funkciók",
+      "roles": "Szerepkörök",
+      "plans": "Tervek és előfizetés",
+      "tips": "Tippek"
+    },
+    "quickstart": {
+      "intro": "Négy lépés, és megismeri az INOid lényegét.",
+      "openDirectly": "Közvetlen megnyitás",
+      "demoTour": "Demo túra",
+      "demoSoon": "Bemutató videó hamarosan"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Ellenőrzés",
+    "maintenance": "Karbantartás",
+    "repair": "Javítás",
+    "overhaul": "Nagyjavítás",
+    "coating": "Bevonat",
+    "cleaning": "Tisztítás",
+    "installation": "Telepítés/Összeszerelés",
+    "incident": "Incidens/Kár",
+    "decommission": "Kivonás",
+    "other": "Egyéb"
+  },
+  "intervalPresets": {
+    "weekly": "Heti",
+    "monthly": "Havi",
+    "quarterly": "Negyedéves",
+    "biannual": "Féléves",
+    "annual": "Éves",
+    "biennial": "Kétéves"
+  }
+}

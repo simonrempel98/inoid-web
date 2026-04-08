@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { PLANS } from '@/lib/plans'
+import { getTranslations, getLocale } from 'next-intl/server'
 import {
   Package, Users, Wrench, AlertTriangle, CheckCircle2,
   Clock, TrendingUp, FileText, CreditCard, Activity,
@@ -26,7 +27,7 @@ type ProgressBarProps = { value: number; max: number; color?: string }
 
 function StatCard({ label, value, sub, icon, color, accent, trend }: StatCardProps) {
   return (
-    <div style={{
+    <div className="db-stat-card" style={{
       background: 'white', borderRadius: 16, padding: '20px',
       border: '1px solid #e8edf5',
       boxShadow: '0 2px 8px rgba(0,51,102,0.06)',
@@ -52,7 +53,7 @@ function StatCard({ label, value, sub, icon, color, accent, trend }: StatCardPro
         )}
       </div>
       <div>
-        <div style={{ fontSize: 28, fontWeight: 800, color: accent ?? '#003366', lineHeight: 1 }}>
+        <div className="db-stat-val" style={{ fontSize: 28, fontWeight: 800, color: accent ?? '#003366', lineHeight: 1 }}>
           {value}
         </div>
         <div style={{ fontSize: 13, color: '#555', marginTop: 4, fontWeight: 600 }}>{label}</div>
@@ -187,114 +188,102 @@ export default async function DashboardPage() {
     overhaul: '⚙️', installation: '📦', incident: '⚠️', other: '📝',
   }
 
+  const t = await getTranslations()
+  const locale = await getLocale()
+
   const hour = now.getHours()
-  const greeting = hour < 12 ? 'Guten Morgen' : hour < 17 ? 'Guten Tag' : 'Guten Abend'
-  const firstName = profile?.full_name?.split(' ')[0] ?? 'da'
+  const greetingKey = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'
+  const greeting = t(`dashboard.greeting.${greetingKey}`)
+  const firstName = profile?.full_name?.split(' ')[0] ?? ''
 
   return (
-    <div style={{ padding: '28px 20px 40px', maxWidth: 1100, fontFamily: 'Arial, sans-serif' }}>
+    <div style={{ padding: '28px 20px 40px', maxWidth: 1100, fontFamily: 'Arial, sans-serif' }} className="db-wrap">
+    <style>{`
+      @media (max-width: 640px) {
+        .db-wrap { padding: 18px 14px 36px !important; }
+        .db-greeting { font-size: 20px !important; }
+        .db-kpi { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; margin-bottom: 18px !important; }
+        .db-stat-card { padding: 14px !important; gap: 8px !important; }
+        .db-stat-val { font-size: 22px !important; }
+        .db-mid { grid-template-columns: 1fr !important; margin-bottom: 14px !important; }
+        .db-bot { grid-template-columns: 1fr !important; margin-bottom: 14px !important; }
+        .db-bot-span2 { grid-column: span 1 !important; }
+        .db-plan { grid-template-columns: 1fr !important; }
+        .db-quicklinks { grid-template-columns: 1fr 1fr !important; }
+      }
+      @media (min-width: 641px) and (max-width: 960px) {
+        .db-kpi { grid-template-columns: repeat(3, 1fr) !important; }
+        .db-mid { grid-template-columns: 1fr !important; }
+        .db-bot { grid-template-columns: 1fr !important; }
+        .db-bot-span2 { grid-column: span 1 !important; }
+        .db-plan { grid-template-columns: 1fr !important; }
+      }
+    `}</style>
 
       {/* ── Begrüßung ─────────────────────────────────────────────────────── */}
       <div style={{ marginBottom: 28 }}>
-        <h1 style={{ fontSize: 24, fontWeight: 800, color: '#003366', margin: '0 0 4px' }}>
+        <h1 style={{ fontSize: 24, fontWeight: 800, color: '#003366', margin: '0 0 4px' }} className="db-greeting">
           {greeting}, {firstName}!
         </h1>
         <p style={{ fontSize: 14, color: '#96aed2', margin: 0 }}>
-          {now.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+          {now.toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
           {overdueSchedules > 0 && (
             <span style={{ marginLeft: 12, color: '#ef4444', fontWeight: 700 }}>
-              · {overdueSchedules} überfällige Wartung{overdueSchedules !== 1 ? 'en' : ''}
+              · {overdueSchedules > 1
+                  ? t('dashboard.overdueWarningPlural', { n: overdueSchedules })
+                  : t('dashboard.overdueWarning', { n: overdueSchedules })}
             </span>
           )}
         </p>
       </div>
 
       {/* ── Haupt-KPI-Grid ─────────────────────────────────────────────────── */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 14, marginBottom: 28 }}>
-        <StatCard
-          label="Assets gesamt"
-          value={totalAssets}
-          sub={`Limit: ${assetLimit}`}
-          icon={<Package size={20} />}
-          color="#003366"
-        />
-        <StatCard
-          label="Aktiv"
-          value={assetsActive}
-          sub={totalAssets > 0 ? `${Math.round((assetsActive / totalAssets) * 100)} % des Bestands` : '—'}
-          icon={<CheckCircle2 size={20} />}
-          color="#22c55e"
-          accent="#16a34a"
-        />
-        <StatCard
-          label="Im Service"
-          value={assetsInService}
-          sub={totalAssets > 0 ? `${Math.round((assetsInService / totalAssets) * 100)} % des Bestands` : '—'}
-          icon={<Wrench size={20} />}
-          color="#f59e0b"
-          accent="#d97706"
-        />
-        <StatCard
-          label="Außer Betrieb"
-          value={assetsDecommissioned}
-          sub={totalAssets > 0 ? `${Math.round((assetsDecommissioned / totalAssets) * 100)} % des Bestands` : '—'}
-          icon={<Package size={20} />}
-          color="#94a3b8"
-          accent="#64748b"
-        />
-        <StatCard
-          label="Nutzer"
-          value={totalMembers}
-          sub={plan.user_limit ? `Limit: ${plan.user_limit}` : 'Unbegrenzt'}
-          icon={<Users size={20} />}
-          color="#0099cc"
-        />
-        <StatCard
-          label="Überfällige Wartungen"
-          value={overdueSchedules}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: 14, marginBottom: 28 }} className="db-kpi">
+        <StatCard label={t('dashboard.stats.assetsTotal')} value={totalAssets}
+          sub={t('dashboard.stats.limit', { n: assetLimit })}
+          icon={<Package size={20} />} color="#003366" />
+        <StatCard label={t('dashboard.stats.active')} value={assetsActive}
+          sub={totalAssets > 0 ? t('dashboard.stats.percentOfStock', { n: Math.round((assetsActive / totalAssets) * 100) }) : '—'}
+          icon={<CheckCircle2 size={20} />} color="#22c55e" accent="#16a34a" />
+        <StatCard label={t('dashboard.stats.inService')} value={assetsInService}
+          sub={totalAssets > 0 ? t('dashboard.stats.percentOfStock', { n: Math.round((assetsInService / totalAssets) * 100) }) : '—'}
+          icon={<Wrench size={20} />} color="#f59e0b" accent="#d97706" />
+        <StatCard label={t('dashboard.stats.decommissioned')} value={assetsDecommissioned}
+          sub={totalAssets > 0 ? t('dashboard.stats.percentOfStock', { n: Math.round((assetsDecommissioned / totalAssets) * 100) }) : '—'}
+          icon={<Package size={20} />} color="#94a3b8" accent="#64748b" />
+        <StatCard label={t('dashboard.stats.users')} value={totalMembers}
+          sub={plan.user_limit ? t('dashboard.stats.limit', { n: plan.user_limit }) : t('dashboard.stats.unlimited')}
+          icon={<Users size={20} />} color="#0099cc" />
+        <StatCard label={t('dashboard.stats.overdueServices')} value={overdueSchedules}
           icon={<AlertTriangle size={20} />}
           color={overdueSchedules > 0 ? '#ef4444' : '#22c55e'}
           accent={overdueSchedules > 0 ? '#dc2626' : '#16a34a'}
-          trend={overdueSchedules === 0 ? { label: 'Alles erledigt', positive: true } : undefined}
-        />
-        <StatCard
-          label="Fällig diese Woche"
-          value={dueThisWeek}
-          icon={<Clock size={20} />}
-          color="#8b5cf6"
-          accent="#7c3aed"
-        />
-        <StatCard
-          label="Servicevorgänge (Monat)"
-          value={entriesThisMonth}
-          sub={`${totalServiceEntries} gesamt`}
-          icon={<Activity size={20} />}
-          color="#0099cc"
-        />
-        <StatCard
-          label="Wartungskosten (Jahr)"
-          value={`${costThisYear.toFixed(0)} €`}
-          sub={`${costThisMonth.toFixed(0)} € diesen Monat`}
-          icon={<TrendingUp size={20} />}
-          color="#003366"
-        />
+          trend={overdueSchedules === 0 ? { label: t('dashboard.stats.allDone'), positive: true } : undefined} />
+        <StatCard label={t('dashboard.stats.dueThisWeek')} value={dueThisWeek}
+          icon={<Clock size={20} />} color="#8b5cf6" accent="#7c3aed" />
+        <StatCard label={t('dashboard.stats.serviceEventsMonth')} value={entriesThisMonth}
+          sub={t('dashboard.stats.totalSub', { n: totalServiceEntries })}
+          icon={<Activity size={20} />} color="#0099cc" />
+        <StatCard label={t('dashboard.stats.maintenanceCostYear')} value={`${costThisYear.toFixed(0)} €`}
+          sub={t('dashboard.stats.monthSub', { n: costThisMonth.toFixed(0) })}
+          icon={<TrendingUp size={20} />} color="#003366" />
       </div>
 
       {/* ── Mittlere Reihe ─────────────────────────────────────────────────── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 28 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 28 }} className="db-mid">
 
         {/* Asset-Auslastung */}
         <div style={{
           background: 'white', borderRadius: 16, padding: '20px',
           border: '1px solid #e8edf5', boxShadow: '0 2px 8px rgba(0,51,102,0.06)',
         }}>
-          <SectionTitle>Asset-Auslastung</SectionTitle>
+          <SectionTitle>{t('dashboard.sections.assetUtilization')}</SectionTitle>
           <ProgressBar value={totalAssets} max={assetLimit} />
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 16 }}>
             {[
-              { label: 'Aktiv', count: assetsActive, color: '#22c55e' },
-              { label: 'Im Service', count: assetsInService, color: '#f59e0b' },
-              { label: 'Außer Betrieb', count: assetsDecommissioned, color: '#94a3b8' },
+              { label: t('dashboard.stats.active'), count: assetsActive, color: '#22c55e' },
+              { label: t('dashboard.stats.inService'), count: assetsInService, color: '#f59e0b' },
+              { label: t('dashboard.stats.decommissioned'), count: assetsDecommissioned, color: '#94a3b8' },
             ].map(s => {
               const pct = totalAssets > 0 ? Math.round((s.count / totalAssets) * 100) : 0
               return (
@@ -323,13 +312,13 @@ export default async function DashboardPage() {
           background: 'white', borderRadius: 16, padding: '20px',
           border: '1px solid #e8edf5', boxShadow: '0 2px 8px rgba(0,51,102,0.06)',
         }}>
-          <SectionTitle>Wartungs-Übersicht</SectionTitle>
+          <SectionTitle>{t('dashboard.sections.maintenanceOverview')}</SectionTitle>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {[
-              { label: 'Überfällig', count: overdueSchedules, color: '#ef4444', bg: '#fef2f2' },
-              { label: 'Diese Woche fällig', count: dueThisWeek, color: '#f59e0b', bg: '#fffbeb' },
-              { label: 'Nächste 30 Tage', count: dueThirtyDays, color: '#8b5cf6', bg: '#f5f3ff' },
-              { label: 'Aktive Intervalle gesamt', count: totalSchedules, color: '#0099cc', bg: '#f0f9ff' },
+              { label: t('dashboard.maintenance.overdue'), count: overdueSchedules, color: '#ef4444', bg: '#fef2f2' },
+              { label: t('dashboard.maintenance.thisWeek'), count: dueThisWeek, color: '#a855f7', bg: '#faf5ff' },
+              { label: t('dashboard.maintenance.next30Days'), count: dueThirtyDays, color: '#8b5cf6', bg: '#f5f3ff' },
+              { label: t('dashboard.maintenance.totalIntervals'), count: totalSchedules, color: '#0099cc', bg: '#f0f9ff' },
             ].map(row => (
               <a key={row.label} href="/wartung" style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -349,16 +338,16 @@ export default async function DashboardPage() {
       </div>
 
       {/* ── Untere Reihe ───────────────────────────────────────────────────── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 14, marginBottom: 28 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 14, marginBottom: 28 }} className="db-bot">
 
         {/* Top-Kategorien */}
         <div style={{
           background: 'white', borderRadius: 16, padding: '20px',
           border: '1px solid #e8edf5', boxShadow: '0 2px 8px rgba(0,51,102,0.06)',
         }}>
-          <SectionTitle>Assets nach Kategorie</SectionTitle>
+          <SectionTitle>{t('dashboard.sections.assetsByCategory')}</SectionTitle>
           {topCategories.length === 0 ? (
-            <p style={{ fontSize: 13, color: '#999', margin: 0 }}>Keine Kategorien</p>
+            <p style={{ fontSize: 13, color: '#999', margin: 0 }}>{t('dashboard.sections.noCategories')}</p>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {topCategories.map(([name, count]) => (
@@ -384,11 +373,11 @@ export default async function DashboardPage() {
         <div style={{
           background: 'white', borderRadius: 16, padding: '20px',
           border: '1px solid #e8edf5', boxShadow: '0 2px 8px rgba(0,51,102,0.06)',
-          gridColumn: 'span 2',
+          gridColumn: 'span 1',
         }}>
-          <SectionTitle>Letzte Aktivitäten</SectionTitle>
+          <SectionTitle>{t('dashboard.sections.recentActivity')}</SectionTitle>
           {!recentEvents || recentEvents.length === 0 ? (
-            <p style={{ fontSize: 13, color: '#999', margin: 0 }}>Noch keine Servicevorgänge</p>
+            <p style={{ fontSize: 13, color: '#999', margin: 0 }}>{t('dashboard.sections.noActivity')}</p>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
               {(recentEvents as Array<{
@@ -420,7 +409,7 @@ export default async function DashboardPage() {
                     </div>
                   </div>
                   <div style={{ fontSize: 11, color: '#aab8cc', flexShrink: 0 }}>
-                    {new Date(e.event_date).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' })}
+                    {new Date(e.event_date).toLocaleDateString(locale, { day: '2-digit', month: '2-digit' })}
                   </div>
                 </div>
               ))}
@@ -431,7 +420,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* ── Plan & System ─────────────────────────────────────────────────── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }} className="db-plan">
 
         {/* Abo-Karte */}
         <div style={{
@@ -449,7 +438,7 @@ export default async function DashboardPage() {
               <CreditCard size={18} color="white" />
             </div>
             <div>
-              <div style={{ fontSize: 11, opacity: 0.6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Aktueller Plan</div>
+              <div style={{ fontSize: 11, opacity: 0.6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{t('dashboard.sections.currentPlan')}</div>
               <div style={{ fontSize: 18, fontWeight: 800 }}>{planLabel[org?.plan ?? 'free'] ?? org?.plan}</div>
             </div>
             <div style={{ marginLeft: 'auto' }}>
@@ -457,14 +446,14 @@ export default async function DashboardPage() {
                 fontSize: 10, fontWeight: 700, padding: '3px 10px', borderRadius: 20,
                 backgroundColor: org?.subscription_status === 'active' ? '#0099cc' : '#6b7280',
               }}>
-                {org?.subscription_status === 'active' ? 'AKTIV' : 'INAKTIV'}
+                {org?.subscription_status === 'active' ? t('dashboard.plan.active') : t('dashboard.plan.inactive')}
               </span>
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             {[
-              { label: 'Assets', value: `${totalAssets} / ${assetLimit}` },
-              { label: 'Nutzer', value: plan.user_limit ? `${totalMembers} / ${plan.user_limit}` : `${totalMembers} ∞` },
+              { label: t('dashboard.plan.assets'), value: `${totalAssets} / ${assetLimit}` },
+              { label: t('dashboard.plan.users'), value: plan.user_limit ? `${totalMembers} / ${plan.user_limit}` : `${totalMembers} ∞` },
             ].map(f => (
               <div key={f.label} style={{ background: 'rgba(255,255,255,0.08)', borderRadius: 10, padding: '10px 14px' }}>
                 <div style={{ fontSize: 16, fontWeight: 800 }}>{f.value}</div>
@@ -480,7 +469,7 @@ export default async function DashboardPage() {
             fontSize: 12, fontWeight: 700, gap: 6,
             border: '1px solid rgba(255,255,255,0.2)',
           }}>
-            <Zap size={13} /> Abonnement verwalten
+            <Zap size={13} /> {t('dashboard.plan.manageBilling')}
           </a>
         </div>
 
@@ -489,15 +478,15 @@ export default async function DashboardPage() {
           background: 'white', borderRadius: 16, padding: '20px',
           border: '1px solid #e8edf5', boxShadow: '0 2px 8px rgba(0,51,102,0.06)',
         }}>
-          <SectionTitle>Schnellzugriff</SectionTitle>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+          <SectionTitle>{t('dashboard.sections.quickAccess')}</SectionTitle>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }} className="db-quicklinks">
             {[
-              { href: '/assets/neu', label: 'Asset anlegen', icon: <Package size={16} />, color: '#003366' },
-              { href: '/wartung', label: 'Wartung öffnen', icon: <Wrench size={16} />, color: '#f59e0b' },
-              { href: '/scan', label: 'Asset scannen', icon: <BarChart3 size={16} />, color: '#0099cc' },
-              { href: '/organisation', label: 'Standorte', icon: <MapPin size={16} />, color: '#8b5cf6' },
-              { href: '/settings/invite', label: 'Nutzer anlegen', icon: <Users size={16} />, color: '#22c55e' },
-              { href: '/docs', label: 'Dokumentation', icon: <FileText size={16} />, color: '#96aed2' },
+              { href: '/assets/neu', label: t('dashboard.quickLinks.createAsset'), icon: <Package size={16} />, color: '#003366' },
+              { href: '/wartung', label: t('dashboard.quickLinks.openMaintenance'), icon: <Wrench size={16} />, color: '#f59e0b' },
+              { href: '/scan', label: t('dashboard.quickLinks.scanAsset'), icon: <BarChart3 size={16} />, color: '#0099cc' },
+              { href: '/organisation', label: t('dashboard.quickLinks.locations'), icon: <MapPin size={16} />, color: '#8b5cf6' },
+              { href: '/settings/invite', label: t('dashboard.quickLinks.addUser'), icon: <Users size={16} />, color: '#22c55e' },
+              { href: '/docs', label: t('dashboard.quickLinks.documentation'), icon: <FileText size={16} />, color: '#96aed2' },
             ].map(l => (
               <a key={l.href} href={l.href} style={{
                 display: 'flex', alignItems: 'center', gap: 9,

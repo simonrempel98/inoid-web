@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Juhtpaneel",
+    "assets": "Varahaldus",
+    "scan": "Skannimine",
+    "wartung": "Hooldus & Teenindus",
+    "organisation": "Asukohad & Struktuur",
+    "teams": "Meeskonnad",
+    "billing": "Tellimus",
+    "profile": "Profiil & Seaded",
+    "docs": "Dokumentatsioon",
+    "logout": "Logi välja",
+    "orgManagement": "Organisatsiooni haldus",
+    "account": "Konto"
+  },
+  "common": {
+    "save": "Salvesta",
+    "cancel": "Tühista",
+    "delete": "Kustuta",
+    "edit": "Muuda",
+    "create": "Loo",
+    "back": "Tagasi",
+    "loading": "Laadimine…",
+    "saving": "Salvestamine…",
+    "error": "Viga",
+    "success": "Edu",
+    "confirm": "Kinnita",
+    "close": "Sulge",
+    "search": "Otsi",
+    "filter": "Filtreeri",
+    "all": "Kõik",
+    "none": "Pole",
+    "yes": "Jah",
+    "no": "Ei",
+    "optional": "valikuline",
+    "required": "Kohustuslik väli",
+    "new": "+ Uus",
+    "add": "Lisa",
+    "remove": "Eemalda",
+    "noData": "Andmed puuduvad",
+    "perPage": "lehel",
+    "page": "Leht",
+    "of": "/",
+    "entries": "Kirjed",
+    "reset": "Lähtesta",
+    "actions": "Toimingud",
+    "status": "Olek",
+    "date": "Kuupäev",
+    "name": "Nimi",
+    "description": "Kirjeldus",
+    "notes": "Märkused",
+    "cost": "Kulu",
+    "type": "Tüüp",
+    "category": "Kategooria",
+    "preview": "Eelvaade",
+    "upload": "Lae üles",
+    "download": "Lae alla",
+    "copy": "Kopeeri",
+    "duplicate": "Dubleeri",
+    "active": "Aktiivne",
+    "inactive": "Mitteaktiivne",
+    "system": "Süsteem",
+    "custom": "Kohandatud",
+    "label": "Silt",
+    "color": "Värv",
+    "unknown": "Tundmatu",
+    "today": "Täna",
+    "tomorrow": "Homme",
+    "yesterday": "Eile",
+    "daysAgo": "{n} päeva hilinenud",
+    "inDays": "{n} päeva pärast",
+    "months": ["Jaanuar","Veebruar","Märts","Aprill","Mai","Juuni","Juuli","August","September","Oktoober","November","Detsember"],
+    "noEntries": "Kirjeid pole",
+    "pagination": "Leht {current} / {total}"
+  },
+  "auth": {
+    "login": "Logi sisse",
+    "logout": "Logi välja",
+    "email": "E-posti aadress",
+    "password": "Parool",
+    "forgotPassword": "Unustasid parooli?",
+    "noAccount": "Pole kontot?",
+    "register": "Registreeru",
+    "loginError": "Sisselogimine ebaõnnestus. Kontrollige oma andmeid.",
+    "welcomeBack": "Tere tulemast tagasi"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Tere hommikust",
+      "afternoon": "Tere päevast",
+      "evening": "Tere õhtust"
+    },
+    "overdueWarning": "{n} hilinenud hooldus",
+    "overdueWarningPlural": "{n} hilinenud hooldust",
+    "stats": {
+      "assetsTotal": "Varasid kokku",
+      "active": "Aktiivne",
+      "inService": "Teeninduses",
+      "decommissioned": "Kasutusest kõrvaldatud",
+      "users": "Kasutajad",
+      "overdueServices": "Hilinenud hooldused",
+      "dueThisWeek": "Sel nädalal",
+      "serviceEventsMonth": "Teenindussündmused (kuu)",
+      "maintenanceCostYear": "Hoolduskulud (aasta)",
+      "allDone": "Kõik tehtud",
+      "limit": "Limiit: {n}",
+      "unlimited": "Piiramatu",
+      "percentOfStock": "{n} % laost",
+      "totalSub": "{n} kokku",
+      "monthSub": "{n} € sel kuul"
+    },
+    "sections": {
+      "assetUtilization": "Vara kasutamine",
+      "maintenanceOverview": "Hoolduse ülevaade",
+      "assetsByCategory": "Varad kategooriate järgi",
+      "recentActivity": "Viimane tegevus",
+      "currentPlan": "Praegune plaan",
+      "quickAccess": "Kiirpääs",
+      "noCategories": "Kategooriaid pole",
+      "noActivity": "Teenindussündmusi pole veel"
+    },
+    "maintenance": {
+      "overdue": "Hilinenud",
+      "thisWeek": "Sel nädalal",
+      "next30Days": "Järgmised 30 päeva",
+      "totalIntervals": "Aktiivseid intervalle kokku"
+    },
+    "quickLinks": {
+      "createAsset": "Loo vara",
+      "openMaintenance": "Ava hooldus",
+      "scanAsset": "Skanni vara",
+      "locations": "Asukohad",
+      "addUser": "Lisa kasutaja",
+      "documentation": "Dokumentatsioon"
+    },
+    "plan": {
+      "active": "AKTIIVNE",
+      "inactive": "MITTEAKTIIVNE",
+      "assets": "Varad",
+      "users": "Kasutajad",
+      "manageBilling": "Halda tellimust"
+    }
+  },
+  "assets": {
+    "title": "Varahaldus",
+    "subtitle": "Kõik seadmed ühe pilguga",
+    "new": "Uus vara",
+    "search": "Otsi varasid…",
+    "filter": {
+      "allCategories": "Kõik kategooriad",
+      "allStatuses": "Kõik olekud",
+      "allLocations": "Kõik asukohad"
+    },
+    "noAssets": "Varasid pole veel",
+    "noAssetsDesc": "Looge oma esimene seade.",
+    "noResults": "Varasid ei leitud",
+    "fields": {
+      "title": "Silt",
+      "category": "Kategooria",
+      "status": "Olek",
+      "serialNumber": "Seerianumber",
+      "articleNumber": "Artiklinumber",
+      "barcode": "Vöötkood / QR-kood",
+      "manufacturer": "Tootja",
+      "model": "Mudel",
+      "purchaseDate": "Ostukuupäev",
+      "purchasePrice": "Ostuhind (€)",
+      "location": "Asukoht",
+      "locationText": "Asukoht (vabatekst)",
+      "notes": "Märkused",
+      "photos": "Fotod",
+      "documents": "Dokumendid",
+      "technicalData": "Tehnilised andmed",
+      "commercialData": "Ärilised andmed"
+    },
+    "status": {
+      "active": "Aktiivne",
+      "in_service": "Teeninduses",
+      "decommissioned": "Kasutusest kõrvaldatud",
+      "defective": "Defektne"
+    },
+    "actions": {
+      "viewServiceLog": "Teenindusraamat",
+      "edit": "Muuda",
+      "duplicate": "Dubleeri",
+      "delete": "Kustuta",
+      "confirmDelete": "Kustutada see vara? Toimingut ei saa tagasi võtta.",
+      "duplicateSuccess": "Vara dubleeritud"
+    },
+    "new_page": {
+      "title": "Loo uus vara",
+      "edit_title": "Muuda vara",
+      "save": "Loo vara",
+      "saveEdit": "Salvesta muudatused",
+      "addTechField": "+ Lisa väli",
+      "fieldName": "Välja nimi",
+      "fieldValue": "Väärtus",
+      "addPhoto": "Lisa foto",
+      "photoHint": "Fotod salvestatakse otse pilve",
+      "selectLocation": "Vali asukoht",
+      "noLocation": "Asukoht puudub",
+      "errors": {
+        "titleRequired": "Sisesta silt.",
+        "saveFailed": "Salvestusviga"
+      }
+    },
+    "qr": {
+      "title": "QR-kood",
+      "download": "Laadi QR-kood alla",
+      "print": "Prindi"
+    },
+    "locationHistory": "Asukoha ajalugu",
+    "noLocationHistory": "Asukoha ajalugu puudub"
+  },
+  "service": {
+    "title": "Teenindusraamat",
+    "subtitle": "Kõigi sündmuste täielik dokumentatsioon",
+    "newEntry": "+ Kirje",
+    "entries": "Kirjed",
+    "totalCost": "Kogukulu",
+    "intervals": "Intervallid",
+    "noEntries": "Kirjeid pole veel",
+    "noEntriesDesc": "Dokumenteerige hooldused, remondid ja kontrollid.",
+    "entry": {
+      "title": "Pealkiri",
+      "titlePlaceholder": "nt {type} tehtud",
+      "type": "Tüüp",
+      "date": "Kuupäev ja kellaaeg",
+      "description": "Kirjeldus",
+      "descriptionPlaceholder": "Mida tehti?",
+      "performedBy": "Teostas",
+      "performedByPlaceholder": "Nimi",
+      "externalCompany": "Ettevõte / väline",
+      "externalCompanyPlaceholder": "nt TÜV",
+      "costEur": "Kulu (€)",
+      "nextDate": "Järgmine kuupäev",
+      "notes": "Märkused / kommentaarid",
+      "notesPlaceholder": "Sisemised märkused, leiud, soovitused…",
+      "photos": "Fotod",
+      "documents": "Dokumendid",
+      "addDocument": "+ Lisa dokument / PDF",
+      "save": "Salvesta kirje",
+      "saveEdit": "Salvesta muudatused",
+      "completeMaintenance": "Lõpeta hooldus",
+      "new": "Uus kirje",
+      "edit": "Muuda kirjet",
+      "customType": "+ Loo kohandatud",
+      "cancelCustomType": "× Tühista",
+      "newTypePlaceholder": "Silt, nt Kalibreerimine",
+      "createType": "Loo ja vali tüüp",
+      "nextDateAutoSet": "Järgmine kuupäev seatakse automaatselt",
+      "nextDateIntervalHint": "{n} päeva täitmise kuupäevast",
+      "errors": {
+        "titleRequired": "Sisesta pealkiri.",
+        "saveFailed": "Salvestusviga"
+      }
+    },
+    "checklist": {
+      "title": "Kontrollnimekiri",
+      "subtitle": "Märgi iga samm ja lisa soovi korral märkused",
+      "done": "tehtud",
+      "addNote": "+ Märkus",
+      "notePlaceholder": "Leid, mõõtmine, kommentaar selle sammu kohta…",
+      "resources": "Ressursid (valikuline): tööriistad, materjalid…"
+    },
+    "interval": {
+      "title": "Uus intervall",
+      "editTitle": "Muuda intervalli",
+      "subtitle": "Korduv ülesanne",
+      "name": "Silt *",
+      "namePlaceholder": "nt {type} iga 6 kuu järel",
+      "interval": "Intervall",
+      "intervalDays": "Iga {n} päeva järel",
+      "custom": "Kohandatud",
+      "customDays": "Päeva",
+      "customDaysPlaceholder": "nt 45",
+      "lastDone": "Viimati tehtud",
+      "lastDoneHint": "Valikuline – arvutab järgmise kuupäeva",
+      "nextDue": "Järgmine tähtaeg *",
+      "preview": "Eelvaade",
+      "previewDesc": "Iga {days} päeva järel · Tähtaeg: {date}",
+      "checklist": "Kontrollnimekiri",
+      "checklistSubtitle": "Nummerdatud sammud täitmise ajal märkimiseks",
+      "addStep": "+ Samm",
+      "stepPlaceholder": "Kirjelda {n}. sammu…",
+      "resourcesPlaceholder": "Ressursid (valikuline): tööriistad, materjalid…",
+      "noSteps": "Samme pole – puuduta \"+ Samm\"",
+      "save": "Loo intervall",
+      "saveEdit": "Salvesta muudatused",
+      "newType": "Loo uus tüüp",
+      "errors": {
+        "nameRequired": "Sisesta silt.",
+        "intervalRequired": "Sisesta kehtiv intervall.",
+        "nextDateRequired": "Määra järgmine tähtaeg."
+      }
+    },
+    "schedules": {
+      "title": "Hooldusintervallid",
+      "newInterval": "+ Intervall",
+      "noSchedules": "Hooldusintervalle pole veel",
+      "noSchedulesDesc": "Seadistage korduv hooldusplaan.",
+      "dueDate": "Tähtaeg {date}",
+      "overdue": "Hilinenud",
+      "dueIn": "{n} päeva pärast",
+      "dueToday": "Täna",
+      "complete": "Märgi tehtuks",
+      "completeShort": "Lõpeta",
+      "lastDone": "Viimati: {date}",
+      "interval": "Iga {n} päeva järel"
+    },
+    "timeline": {
+      "entry": "Kirje",
+      "entries": "Kirjed",
+      "noEntries": "Kirjeid pole veel",
+      "noEntriesDesc": "Dokumenteerige hooldused, remondid ja kontrollid.",
+      "nextDate": "Järgmine: {date}",
+      "editBtn": "Muuda",
+      "checklistSection": "Kontrollnimekiri",
+      "notesSection": "Märkused"
+    }
+  },
+  "wartung": {
+    "title": "Hooldus & Teenindus",
+    "subtitle": "Kõik saabuvad hooldusintervallid",
+    "tabs": {
+      "list": "Ülesannete nimekiri",
+      "gantt": "Gantti diagramm"
+    },
+    "filter": {
+      "search": "Otsi vara, seerianumbri, kategooria järgi…",
+      "urgency": "Kiireloomulisus",
+      "all": "Kõik",
+      "overdue": "Hilinenud",
+      "week": "Sel nädalal",
+      "twoWeeks": "Kaks nädalat",
+      "month": "30 päeva",
+      "category": "Kategooria",
+      "allCategories": "Kõik kategooriad",
+      "reset": "Lähtesta"
+    },
+    "groups": {
+      "overdue": "Hilinenud",
+      "thisWeek": "Sel nädalal",
+      "next30Days": "Järgmised 30 päeva",
+      "later": "Hiljem"
+    },
+    "noSchedules": "Kirjeid pole",
+    "noSchedulesDesc": "Selle filtri jaoks pole hooldusülesandeid.",
+    "complete": "Märgi tehtuks",
+    "completeBtn": "Lõpeta",
+    "stats": {
+      "overdue": "Hilinenud hooldused",
+      "thisWeek": "Sel nädalal",
+      "thisMonth": "Sel kuul",
+      "total": "Aktiivsed intervallid"
+    }
+  },
+  "organisation": {
+    "title": "Asukohad & Struktuur",
+    "subtitle": "Halda tegevusstruktuuri",
+    "newLocation": "+ Asukoht",
+    "newHall": "+ Hall",
+    "newArea": "+ Piirkond",
+    "noLocations": "Asukohti pole veel",
+    "noLocationsDesc": "Looge oma esimene asukoht.",
+    "location": "Asukoht",
+    "hall": "Hall",
+    "area": "Piirkond",
+    "assetsHere": "{n} vara",
+    "fields": {
+      "name": "Nimi",
+      "description": "Kirjeldus"
+    }
+  },
+  "teams": {
+    "title": "Meeskonnad",
+    "subtitle": "Halda liikmeid ja rolle",
+    "newTeam": "+ Meeskond",
+    "inviteMember": "Kutsu liige",
+    "newMember": "Loo liige",
+    "noTeams": "Meeskondi pole veel",
+    "member": "Liige",
+    "members": "Liikmed",
+    "role": "Roll",
+    "roles": {
+      "admin": "Administraator",
+      "technician": "Tehnik",
+      "viewer": "Lugeja"
+    },
+    "roleDesc": {
+      "admin": "Täielik juurdepääs + kasutajahaldus",
+      "technician": "Muuda varasid ja teenindust",
+      "viewer": "Ainult vaatamine"
+    },
+    "fields": {
+      "name": "Meeskonna nimi",
+      "email": "E-posti aadress",
+      "password": "Parool",
+      "fullName": "Täisnimi"
+    },
+    "actions": {
+      "changeRole": "Muuda rolli",
+      "removeMember": "Eemalda liige",
+      "confirmRemove": "Eemaldada see liige?"
+    }
+  },
+  "settings": {
+    "title": "Seaded",
+    "profile": {
+      "title": "Profiil",
+      "subtitle": "Isiklikud andmed ja seaded",
+      "fullName": "Täisnimi",
+      "email": "E-posti aadress",
+      "language": "Keel",
+      "languageSubtitle": "Rakenduse keel teie kontole",
+      "save": "Salvesta profiil",
+      "saved": "Salvestatud",
+      "changePassword": "Muuda parooli",
+      "currentPassword": "Praegune parool",
+      "newPassword": "Uus parool",
+      "passwordSaved": "Parool muudetud"
+    },
+    "eventTypes": {
+      "title": "Sündmuste tüübid",
+      "subtitle": "Kohandatud kategooriad teeninduskirjete jaoks",
+      "systemTypes": "Süsteemi tüübid",
+      "customTypes": "Kohandatud tüübid",
+      "newType": "+ Uus",
+      "labelPlaceholder": "nt Kalibreerimine, TÜV, Kontroll…",
+      "colorLabel": "Värv",
+      "preview": "Eelvaade:",
+      "save": "Loo tüüp",
+      "saving": "Salvestamine…",
+      "noCustomTypes": "Kohandatud tüüpe pole veel.",
+      "systemBadge": "Süsteem"
+    },
+    "billing": {
+      "title": "Tellimus",
+      "subtitle": "Halda plaani ja makseid",
+      "currentPlan": "Praegune plaan",
+      "status": {
+        "active": "Aktiivne",
+        "inactive": "Mitteaktiivne",
+        "trial": "Prooviperiood"
+      },
+      "changePlan": "Vaheta plaan",
+      "activationCode": "Lunasta aktiveerimiskood",
+      "activationCodePlaceholder": "9-kohaline kood",
+      "activate": "Aktiveeri",
+      "activating": "Aktiveerimine…",
+      "createInvoice": "Loo arve",
+      "plans": {
+        "free": "Tasuta",
+        "starter": "Starter",
+        "professional": "Professionaalne",
+        "enterprise": "Enterprise"
+      }
+    },
+    "invite": {
+      "title": "Loo kasutaja",
+      "subtitle": "Lisa uus liige organisatsiooni",
+      "email": "E-posti aadress",
+      "fullName": "Täisnimi",
+      "password": "Parool",
+      "role": "Roll",
+      "save": "Loo kasutaja",
+      "success": "Kasutaja loodi edukalt."
+    },
+    "statuses": {
+      "title": "Vara olekud",
+      "subtitle": "Määra kohandatud olekud",
+      "systemStatuses": "Süsteemi olekud",
+      "customStatuses": "Kohandatud olekud",
+      "newStatus": "+ Uus"
+    }
+  },
+  "scan": {
+    "title": "Skanni vara",
+    "subtitle": "Skanni QR-koodi või NFC",
+    "startCamera": "Käivita kaamera",
+    "scanning": "Skannimine…",
+    "noPermission": "Kaamera juurdepääs pole lubatud",
+    "notFound": "Vara ei leitud",
+    "openAsset": "Ava vara"
+  },
+  "docs": {
+    "title": "Dokumentatsioon",
+    "subtitle": "Kõik, mida pead teadma.",
+    "heroDesc": "INOid on teie digitaalne varahaldus — esimesest registreerimisest kasutusest kõrvaldamiseni. Valmis 5 minutiga.",
+    "stats": {
+      "firstAsset": "esimese varani",
+      "featureAreas": "funktsioonipiirkonnad",
+      "browserBased": "brauseripõhine"
+    },
+    "tabs": {
+      "quickstart": "Kiirkäivitus",
+      "features": "Funktsioonid",
+      "roles": "Rollid",
+      "plans": "Plaanid ja tellimus",
+      "tips": "Näpunäited"
+    },
+    "quickstart": {
+      "intro": "Neli sammu ja teate INOid olulist.",
+      "openDirectly": "Ava otse",
+      "demoTour": "Demo tuur",
+      "demoSoon": "Tutvustav video varsti"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Kontroll",
+    "maintenance": "Hooldus",
+    "repair": "Remont",
+    "overhaul": "Kapitaalremont",
+    "coating": "Katmine",
+    "cleaning": "Puhastus",
+    "installation": "Paigaldus/Monteerimine",
+    "incident": "Intsident/Kahju",
+    "decommission": "Kasutusest kõrvaldamine",
+    "other": "Muu"
+  },
+  "intervalPresets": {
+    "weekly": "Iganädalane",
+    "monthly": "Igakuine",
+    "quarterly": "Kvartaalne",
+    "biannual": "Poolaastane",
+    "annual": "Aastane",
+    "biennial": "Kaheaastane"
+  }
+}

@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Панель управления",
+    "assets": "Управление активами",
+    "scan": "Сканирование",
+    "wartung": "Техобслуживание & Сервис",
+    "organisation": "Местоположения & Структура",
+    "teams": "Команды",
+    "billing": "Подписка",
+    "profile": "Профиль & Настройки",
+    "docs": "Документация",
+    "logout": "Выйти",
+    "orgManagement": "Управление организацией",
+    "account": "Аккаунт"
+  },
+  "common": {
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "create": "Создать",
+    "back": "Назад",
+    "loading": "Загрузка…",
+    "saving": "Сохранение…",
+    "error": "Ошибка",
+    "success": "Успешно",
+    "confirm": "Подтвердить",
+    "close": "Закрыть",
+    "search": "Поиск",
+    "filter": "Фильтр",
+    "all": "Все",
+    "none": "Нет",
+    "yes": "Да",
+    "no": "Нет",
+    "optional": "необязательно",
+    "required": "Обязательное поле",
+    "new": "+ Новый",
+    "add": "Добавить",
+    "remove": "Удалить",
+    "noData": "Нет доступных данных",
+    "perPage": "на страницу",
+    "page": "Страница",
+    "of": "из",
+    "entries": "Записи",
+    "reset": "Сбросить",
+    "actions": "Действия",
+    "status": "Статус",
+    "date": "Дата",
+    "name": "Название",
+    "description": "Описание",
+    "notes": "Заметки",
+    "cost": "Стоимость",
+    "type": "Тип",
+    "category": "Категория",
+    "preview": "Предпросмотр",
+    "upload": "Загрузить",
+    "download": "Скачать",
+    "copy": "Копировать",
+    "duplicate": "Дублировать",
+    "active": "Активный",
+    "inactive": "Неактивный",
+    "system": "Система",
+    "custom": "Пользовательский",
+    "label": "Метка",
+    "color": "Цвет",
+    "unknown": "Неизвестно",
+    "today": "Сегодня",
+    "tomorrow": "Завтра",
+    "yesterday": "Вчера",
+    "daysAgo": "Просрочено на {n} дней",
+    "inDays": "через {n} дней",
+    "months": ["Январь","Февраль","Март","Апрель","Май","Июнь","Июль","Август","Сентябрь","Октябрь","Ноябрь","Декабрь"],
+    "noEntries": "Нет записей",
+    "pagination": "Страница {current} из {total}"
+  },
+  "auth": {
+    "login": "Войти",
+    "logout": "Выйти",
+    "email": "Адрес электронной почты",
+    "password": "Пароль",
+    "forgotPassword": "Забыли пароль?",
+    "noAccount": "Нет аккаунта?",
+    "register": "Зарегистрироваться",
+    "loginError": "Ошибка входа. Проверьте свои учётные данные.",
+    "welcomeBack": "Добро пожаловать обратно"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Доброе утро",
+      "afternoon": "Добрый день",
+      "evening": "Добрый вечер"
+    },
+    "overdueWarning": "{n} просроченное обслуживание",
+    "overdueWarningPlural": "{n} просроченных обслуживаний",
+    "stats": {
+      "assetsTotal": "Всего активов",
+      "active": "Активных",
+      "inService": "На обслуживании",
+      "decommissioned": "Выведено из эксплуатации",
+      "users": "Пользователи",
+      "overdueServices": "Просроченное обслуживание",
+      "dueThisWeek": "На этой неделе",
+      "serviceEventsMonth": "Сервисных событий (месяц)",
+      "maintenanceCostYear": "Затраты на обслуживание (год)",
+      "allDone": "Всё выполнено",
+      "limit": "Лимит: {n}",
+      "unlimited": "Неограниченно",
+      "percentOfStock": "{n} % запаса",
+      "totalSub": "Всего {n}",
+      "monthSub": "{n} € в этом месяце"
+    },
+    "sections": {
+      "assetUtilization": "Использование активов",
+      "maintenanceOverview": "Обзор обслуживания",
+      "assetsByCategory": "Активы по категориям",
+      "recentActivity": "Последняя активность",
+      "currentPlan": "Текущий план",
+      "quickAccess": "Быстрый доступ",
+      "noCategories": "Нет категорий",
+      "noActivity": "Нет сервисных событий"
+    },
+    "maintenance": {
+      "overdue": "Просрочено",
+      "thisWeek": "На этой неделе",
+      "next30Days": "Следующие 30 дней",
+      "totalIntervals": "Всего активных интервалов"
+    },
+    "quickLinks": {
+      "createAsset": "Создать актив",
+      "openMaintenance": "Открыть обслуживание",
+      "scanAsset": "Сканировать актив",
+      "locations": "Местоположения",
+      "addUser": "Добавить пользователя",
+      "documentation": "Документация"
+    },
+    "plan": {
+      "active": "АКТИВНЫЙ",
+      "inactive": "НЕАКТИВНЫЙ",
+      "assets": "Активы",
+      "users": "Пользователи",
+      "manageBilling": "Управление подпиской"
+    }
+  },
+  "assets": {
+    "title": "Управление активами",
+    "subtitle": "Всё оборудование с первого взгляда",
+    "new": "Новый актив",
+    "search": "Поиск активов…",
+    "filter": {
+      "allCategories": "Все категории",
+      "allStatuses": "Все статусы",
+      "allLocations": "Все местоположения"
+    },
+    "noAssets": "Активов пока нет",
+    "noAssetsDesc": "Создайте своё первое оборудование.",
+    "noResults": "Активы не найдены",
+    "fields": {
+      "title": "Метка",
+      "category": "Категория",
+      "status": "Статус",
+      "serialNumber": "Серийный номер",
+      "articleNumber": "Артикул",
+      "barcode": "Штрихкод / QR-код",
+      "manufacturer": "Производитель",
+      "model": "Модель",
+      "purchaseDate": "Дата покупки",
+      "purchasePrice": "Цена покупки (€)",
+      "location": "Местоположение",
+      "locationText": "Местоположение (текст)",
+      "notes": "Заметки",
+      "photos": "Фотографии",
+      "documents": "Документы",
+      "technicalData": "Технические данные",
+      "commercialData": "Коммерческие данные"
+    },
+    "status": {
+      "active": "Активный",
+      "in_service": "На обслуживании",
+      "decommissioned": "Выведен из эксплуатации",
+      "defective": "Неисправный"
+    },
+    "actions": {
+      "viewServiceLog": "Сервисный журнал",
+      "edit": "Редактировать",
+      "duplicate": "Дублировать",
+      "delete": "Удалить",
+      "confirmDelete": "Удалить этот актив? Это действие нельзя отменить.",
+      "duplicateSuccess": "Актив дублирован"
+    },
+    "new_page": {
+      "title": "Создать новый актив",
+      "edit_title": "Редактировать актив",
+      "save": "Создать актив",
+      "saveEdit": "Сохранить изменения",
+      "addTechField": "+ Добавить поле",
+      "fieldName": "Название поля",
+      "fieldValue": "Значение",
+      "addPhoto": "Добавить фото",
+      "photoHint": "Фотографии хранятся непосредственно в облаке",
+      "selectLocation": "Выбрать местоположение",
+      "noLocation": "Без местоположения",
+      "errors": {
+        "titleRequired": "Введите метку.",
+        "saveFailed": "Ошибка сохранения"
+      }
+    },
+    "qr": {
+      "title": "QR-код",
+      "download": "Скачать QR-код",
+      "print": "Печать"
+    },
+    "locationHistory": "История местоположений",
+    "noLocationHistory": "Нет истории местоположений"
+  },
+  "service": {
+    "title": "Сервисный журнал",
+    "subtitle": "Полная документация всех событий",
+    "newEntry": "+ Запись",
+    "entries": "Записи",
+    "totalCost": "Общая стоимость",
+    "intervals": "Интервалы",
+    "noEntries": "Записей пока нет",
+    "noEntriesDesc": "Документируйте обслуживание, ремонты и проверки.",
+    "entry": {
+      "title": "Заголовок",
+      "titlePlaceholder": "напр. {type} выполнено",
+      "type": "Тип",
+      "date": "Дата и время",
+      "description": "Описание",
+      "descriptionPlaceholder": "Что было сделано?",
+      "performedBy": "Выполнено",
+      "performedByPlaceholder": "Имя",
+      "externalCompany": "Компания / внешний",
+      "externalCompanyPlaceholder": "напр. TÜV",
+      "costEur": "Стоимость (€)",
+      "nextDate": "Следующая дата",
+      "notes": "Заметки / примечания",
+      "notesPlaceholder": "Внутренние заметки, результаты, рекомендации…",
+      "photos": "Фотографии",
+      "documents": "Документы",
+      "addDocument": "+ Добавить документ / PDF",
+      "save": "Сохранить запись",
+      "saveEdit": "Сохранить изменения",
+      "completeMaintenance": "Завершить обслуживание",
+      "new": "Новая запись",
+      "edit": "Редактировать запись",
+      "customType": "+ Создать пользовательский",
+      "cancelCustomType": "× Отмена",
+      "newTypePlaceholder": "Метка, напр. Калибровка",
+      "createType": "Создать и выбрать тип",
+      "nextDateAutoSet": "Следующая дата будет установлена автоматически",
+      "nextDateIntervalHint": "{n} дней с даты выполнения",
+      "errors": {
+        "titleRequired": "Введите заголовок.",
+        "saveFailed": "Ошибка сохранения"
+      }
+    },
+    "checklist": {
+      "title": "Контрольный список",
+      "subtitle": "Отметьте каждый шаг и при желании добавьте заметки",
+      "done": "выполнено",
+      "addNote": "+ Заметка",
+      "notePlaceholder": "Результат, измерение, замечание для этого шага…",
+      "resources": "Ресурсы (необязательно): инструменты, материалы…"
+    },
+    "interval": {
+      "title": "Новый интервал",
+      "editTitle": "Редактировать интервал",
+      "subtitle": "Повторяющаяся задача",
+      "name": "Метка *",
+      "namePlaceholder": "напр. {type} каждые 6 месяцев",
+      "interval": "Интервал",
+      "intervalDays": "Каждые {n} дней",
+      "custom": "Пользовательский",
+      "customDays": "Дней",
+      "customDaysPlaceholder": "напр. 45",
+      "lastDone": "Последнее выполнение",
+      "lastDoneHint": "Необязательно – вычисляет следующую дату",
+      "nextDue": "Следующий срок *",
+      "preview": "Предпросмотр",
+      "previewDesc": "Каждые {days} дней · Срок: {date}",
+      "checklist": "Контрольный список",
+      "checklistSubtitle": "Пронумерованные шаги для отметки при выполнении",
+      "addStep": "+ Шаг",
+      "stepPlaceholder": "Описать шаг {n}…",
+      "resourcesPlaceholder": "Ресурсы (необязательно): инструменты, материалы…",
+      "noSteps": "Нет шагов – нажмите \"+ Шаг\"",
+      "save": "Создать интервал",
+      "saveEdit": "Сохранить изменения",
+      "newType": "Создать новый тип",
+      "errors": {
+        "nameRequired": "Введите метку.",
+        "intervalRequired": "Введите допустимый интервал.",
+        "nextDateRequired": "Укажите следующий срок."
+      }
+    },
+    "schedules": {
+      "title": "Интервалы обслуживания",
+      "newInterval": "+ Интервал",
+      "noSchedules": "Интервалов обслуживания пока нет",
+      "noSchedulesDesc": "Настройте повторяющийся план обслуживания.",
+      "dueDate": "Срок {date}",
+      "overdue": "Просрочено",
+      "dueIn": "Через {n} дней",
+      "dueToday": "Срок сегодня",
+      "complete": "Отметить как выполненное",
+      "completeShort": "Завершить",
+      "lastDone": "Последнее: {date}",
+      "interval": "Каждые {n} дней"
+    },
+    "timeline": {
+      "entry": "Запись",
+      "entries": "Записи",
+      "noEntries": "Записей пока нет",
+      "noEntriesDesc": "Документируйте обслуживание, ремонты и проверки.",
+      "nextDate": "Следующее: {date}",
+      "editBtn": "Редактировать",
+      "checklistSection": "Контрольный список",
+      "notesSection": "Заметки"
+    }
+  },
+  "wartung": {
+    "title": "Техобслуживание & Сервис",
+    "subtitle": "Все предстоящие интервалы обслуживания",
+    "tabs": {
+      "list": "Список задач",
+      "gantt": "Диаграмма Ганта"
+    },
+    "filter": {
+      "search": "Поиск по активу, серийному №, категории…",
+      "urgency": "Срочность",
+      "all": "Все",
+      "overdue": "Просроченные",
+      "week": "Эта неделя",
+      "twoWeeks": "Две недели",
+      "month": "30 дней",
+      "category": "Категория",
+      "allCategories": "Все категории",
+      "reset": "Сбросить"
+    },
+    "groups": {
+      "overdue": "Просроченные",
+      "thisWeek": "На этой неделе",
+      "next30Days": "Следующие 30 дней",
+      "later": "Позже"
+    },
+    "noSchedules": "Нет записей",
+    "noSchedulesDesc": "Нет задач обслуживания для этого фильтра.",
+    "complete": "Отметить как выполненное",
+    "completeBtn": "Завершить",
+    "stats": {
+      "overdue": "Просроченное обслуживание",
+      "thisWeek": "На этой неделе",
+      "thisMonth": "В этом месяце",
+      "total": "Активные интервалы"
+    }
+  },
+  "organisation": {
+    "title": "Местоположения & Структура",
+    "subtitle": "Управление операционной структурой",
+    "newLocation": "+ Местоположение",
+    "newHall": "+ Цех",
+    "newArea": "+ Зона",
+    "noLocations": "Местоположений пока нет",
+    "noLocationsDesc": "Создайте первое местоположение.",
+    "location": "Местоположение",
+    "hall": "Цех",
+    "area": "Зона",
+    "assetsHere": "{n} активов",
+    "fields": {
+      "name": "Название",
+      "description": "Описание"
+    }
+  },
+  "teams": {
+    "title": "Команды",
+    "subtitle": "Управление участниками и ролями",
+    "newTeam": "+ Команда",
+    "inviteMember": "Пригласить участника",
+    "newMember": "Создать участника",
+    "noTeams": "Команд пока нет",
+    "member": "Участник",
+    "members": "Участники",
+    "role": "Роль",
+    "roles": {
+      "admin": "Администратор",
+      "technician": "Техник",
+      "viewer": "Читатель"
+    },
+    "roleDesc": {
+      "admin": "Полный доступ + управление пользователями",
+      "technician": "Редактирование активов и сервиса",
+      "viewer": "Только просмотр"
+    },
+    "fields": {
+      "name": "Название команды",
+      "email": "Адрес электронной почты",
+      "password": "Пароль",
+      "fullName": "Полное имя"
+    },
+    "actions": {
+      "changeRole": "Изменить роль",
+      "removeMember": "Удалить участника",
+      "confirmRemove": "Удалить этого участника?"
+    }
+  },
+  "settings": {
+    "title": "Настройки",
+    "profile": {
+      "title": "Профиль",
+      "subtitle": "Личные данные и настройки",
+      "fullName": "Полное имя",
+      "email": "Адрес электронной почты",
+      "language": "Язык",
+      "languageSubtitle": "Язык приложения для вашего аккаунта",
+      "save": "Сохранить профиль",
+      "saved": "Сохранено",
+      "changePassword": "Изменить пароль",
+      "currentPassword": "Текущий пароль",
+      "newPassword": "Новый пароль",
+      "passwordSaved": "Пароль изменён"
+    },
+    "eventTypes": {
+      "title": "Типы событий",
+      "subtitle": "Пользовательские категории для сервисных записей",
+      "systemTypes": "Системные типы",
+      "customTypes": "Пользовательские типы",
+      "newType": "+ Новый",
+      "labelPlaceholder": "напр. Калибровка, TÜV, Инспекция…",
+      "colorLabel": "Цвет",
+      "preview": "Предпросмотр:",
+      "save": "Создать тип",
+      "saving": "Сохранение…",
+      "noCustomTypes": "Пользовательских типов пока нет.",
+      "systemBadge": "Система"
+    },
+    "billing": {
+      "title": "Подписка",
+      "subtitle": "Управление планом и платежами",
+      "currentPlan": "Текущий план",
+      "status": {
+        "active": "Активный",
+        "inactive": "Неактивный",
+        "trial": "Пробный период"
+      },
+      "changePlan": "Сменить план",
+      "activationCode": "Активировать код",
+      "activationCodePlaceholder": "9-значный код",
+      "activate": "Активировать",
+      "activating": "Активация…",
+      "createInvoice": "Создать счёт",
+      "plans": {
+        "free": "Бесплатный",
+        "starter": "Стартовый",
+        "professional": "Профессиональный",
+        "enterprise": "Корпоративный"
+      }
+    },
+    "invite": {
+      "title": "Создать пользователя",
+      "subtitle": "Добавить нового участника в организацию",
+      "email": "Адрес электронной почты",
+      "fullName": "Полное имя",
+      "password": "Пароль",
+      "role": "Роль",
+      "save": "Создать пользователя",
+      "success": "Пользователь успешно создан."
+    },
+    "statuses": {
+      "title": "Статусы активов",
+      "subtitle": "Определить пользовательские статусы",
+      "systemStatuses": "Системные статусы",
+      "customStatuses": "Пользовательские статусы",
+      "newStatus": "+ Новый"
+    }
+  },
+  "scan": {
+    "title": "Сканировать актив",
+    "subtitle": "Сканировать QR-код или NFC",
+    "startCamera": "Запустить камеру",
+    "scanning": "Сканирование…",
+    "noPermission": "Доступ к камере не разрешён",
+    "notFound": "Актив не найден",
+    "openAsset": "Открыть актив"
+  },
+  "docs": {
+    "title": "Документация",
+    "subtitle": "Всё, что нужно знать.",
+    "heroDesc": "INOid — ваше цифровое управление активами: от первой регистрации до вывода из эксплуатации. Готово за 5 минут.",
+    "stats": {
+      "firstAsset": "до первого актива",
+      "featureAreas": "функциональных областей",
+      "browserBased": "на основе браузера"
+    },
+    "tabs": {
+      "quickstart": "Быстрый старт",
+      "features": "Функции",
+      "roles": "Роли",
+      "plans": "Планы и подписка",
+      "tips": "Советы"
+    },
+    "quickstart": {
+      "intro": "Четыре шага — и вы освоите главное в INOid.",
+      "openDirectly": "Открыть напрямую",
+      "demoTour": "Демо-тур",
+      "demoSoon": "Обучающее видео скоро появится"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Инспекция",
+    "maintenance": "Техобслуживание",
+    "repair": "Ремонт",
+    "overhaul": "Капитальный ремонт",
+    "coating": "Покрытие",
+    "cleaning": "Очистка",
+    "installation": "Установка/Монтаж",
+    "incident": "Инцидент/Повреждение",
+    "decommission": "Вывод из эксплуатации",
+    "other": "Прочее"
+  },
+  "intervalPresets": {
+    "weekly": "Еженедельно",
+    "monthly": "Ежемесячно",
+    "quarterly": "Ежеквартально",
+    "biannual": "Раз в полгода",
+    "annual": "Ежегодно",
+    "biennial": "Раз в два года"
+  }
+}

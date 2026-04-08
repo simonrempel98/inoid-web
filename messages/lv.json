@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Vadības panelis",
+    "assets": "Aktīvu pārvaldība",
+    "scan": "Skenēšana",
+    "wartung": "Apkope & Serviss",
+    "organisation": "Vietas & Struktūra",
+    "teams": "Komandas",
+    "billing": "Abonements",
+    "profile": "Profils & Iestatījumi",
+    "docs": "Dokumentācija",
+    "logout": "Izrakstīties",
+    "orgManagement": "Organizācijas pārvaldība",
+    "account": "Konts"
+  },
+  "common": {
+    "save": "Saglabāt",
+    "cancel": "Atcelt",
+    "delete": "Dzēst",
+    "edit": "Rediģēt",
+    "create": "Izveidot",
+    "back": "Atpakaļ",
+    "loading": "Ielādē…",
+    "saving": "Saglabā…",
+    "error": "Kļūda",
+    "success": "Veiksmīgi",
+    "confirm": "Apstiprināt",
+    "close": "Aizvērt",
+    "search": "Meklēt",
+    "filter": "Filtrēt",
+    "all": "Visi",
+    "none": "Nav",
+    "yes": "Jā",
+    "no": "Nē",
+    "optional": "neobligāts",
+    "required": "Obligāts lauks",
+    "new": "+ Jauns",
+    "add": "Pievienot",
+    "remove": "Noņemt",
+    "noData": "Nav pieejamu datu",
+    "perPage": "lapā",
+    "page": "Lapa",
+    "of": "no",
+    "entries": "Ieraksti",
+    "reset": "Atiestatīt",
+    "actions": "Darbības",
+    "status": "Statuss",
+    "date": "Datums",
+    "name": "Nosaukums",
+    "description": "Apraksts",
+    "notes": "Piezīmes",
+    "cost": "Izmaksas",
+    "type": "Tips",
+    "category": "Kategorija",
+    "preview": "Priekšskatījums",
+    "upload": "Augšupielādēt",
+    "download": "Lejupielādēt",
+    "copy": "Kopēt",
+    "duplicate": "Dublēt",
+    "active": "Aktīvs",
+    "inactive": "Neaktīvs",
+    "system": "Sistēma",
+    "custom": "Pielāgots",
+    "label": "Etiķete",
+    "color": "Krāsa",
+    "unknown": "Nezināms",
+    "today": "Šodien",
+    "tomorrow": "Rīt",
+    "yesterday": "Vakar",
+    "daysAgo": "{n} dienu kavējums",
+    "inDays": "pēc {n} dienām",
+    "months": ["Janvāris","Februāris","Marts","Aprīlis","Maijs","Jūnijs","Jūlijs","Augusts","Septembris","Oktobris","Novembris","Decembris"],
+    "noEntries": "Nav ierakstu",
+    "pagination": "Lapa {current} no {total}"
+  },
+  "auth": {
+    "login": "Pieteikties",
+    "logout": "Izrakstīties",
+    "email": "E-pasta adrese",
+    "password": "Parole",
+    "forgotPassword": "Aizmirsāt paroli?",
+    "noAccount": "Nav konta?",
+    "register": "Reģistrēties",
+    "loginError": "Pieteikšanās neizdevās. Pārbaudiet savus datus.",
+    "welcomeBack": "Laipni atpakaļ"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Labrīt",
+      "afternoon": "Labdien",
+      "evening": "Labvakar"
+    },
+    "overdueWarning": "{n} kavēta apkope",
+    "overdueWarningPlural": "{n} kavētas apkopes",
+    "stats": {
+      "assetsTotal": "Aktīvu kopā",
+      "active": "Aktīvs",
+      "inService": "Servisā",
+      "decommissioned": "Izslēgts",
+      "users": "Lietotāji",
+      "overdueServices": "Kavētas apkopes",
+      "dueThisWeek": "Šonedēļ",
+      "serviceEventsMonth": "Servisa notikumi (mēnesis)",
+      "maintenanceCostYear": "Apkopes izmaksas (gads)",
+      "allDone": "Viss izdarīts",
+      "limit": "Limits: {n}",
+      "unlimited": "Neierobežots",
+      "percentOfStock": "{n} % no krājuma",
+      "totalSub": "Kopā {n}",
+      "monthSub": "{n} € šomēnes"
+    },
+    "sections": {
+      "assetUtilization": "Aktīvu izmantojums",
+      "maintenanceOverview": "Apkopes pārskats",
+      "assetsByCategory": "Aktīvi pēc kategorijas",
+      "recentActivity": "Pēdējā aktivitāte",
+      "currentPlan": "Pašreizējais plāns",
+      "quickAccess": "Ātrā piekļuve",
+      "noCategories": "Nav kategoriju",
+      "noActivity": "Vēl nav servisa notikumu"
+    },
+    "maintenance": {
+      "overdue": "Kavēts",
+      "thisWeek": "Šonedēļ",
+      "next30Days": "Nākamās 30 dienas",
+      "totalIntervals": "Aktīvo intervālu kopā"
+    },
+    "quickLinks": {
+      "createAsset": "Izveidot aktīvu",
+      "openMaintenance": "Atvērt apkopi",
+      "scanAsset": "Skenēt aktīvu",
+      "locations": "Vietas",
+      "addUser": "Pievienot lietotāju",
+      "documentation": "Dokumentācija"
+    },
+    "plan": {
+      "active": "AKTĪVS",
+      "inactive": "NEAKTĪVS",
+      "assets": "Aktīvi",
+      "users": "Lietotāji",
+      "manageBilling": "Pārvaldīt abonementu"
+    }
+  },
+  "assets": {
+    "title": "Aktīvu pārvaldība",
+    "subtitle": "Viss aprīkojums vienā skatā",
+    "new": "Jauns aktīvs",
+    "search": "Meklēt aktīvus…",
+    "filter": {
+      "allCategories": "Visas kategorijas",
+      "allStatuses": "Visi statusi",
+      "allLocations": "Visas vietas"
+    },
+    "noAssets": "Aktīvu vēl nav",
+    "noAssetsDesc": "Izveidojiet savu pirmo aprīkojumu.",
+    "noResults": "Aktīvi nav atrasti",
+    "fields": {
+      "title": "Etiķete",
+      "category": "Kategorija",
+      "status": "Statuss",
+      "serialNumber": "Sērijas numurs",
+      "articleNumber": "Raksta numurs",
+      "barcode": "Svītrkods / QR kods",
+      "manufacturer": "Ražotājs",
+      "model": "Modelis",
+      "purchaseDate": "Iegādes datums",
+      "purchasePrice": "Iegādes cena (€)",
+      "location": "Vieta",
+      "locationText": "Vieta (brīvs teksts)",
+      "notes": "Piezīmes",
+      "photos": "Fotogrāfijas",
+      "documents": "Dokumenti",
+      "technicalData": "Tehniskie dati",
+      "commercialData": "Komerciālie dati"
+    },
+    "status": {
+      "active": "Aktīvs",
+      "in_service": "Servisā",
+      "decommissioned": "Izslēgts",
+      "defective": "Bojāts"
+    },
+    "actions": {
+      "viewServiceLog": "Servisa žurnāls",
+      "edit": "Rediģēt",
+      "duplicate": "Dublēt",
+      "delete": "Dzēst",
+      "confirmDelete": "Dzēst šo aktīvu? Darbību nevar atsaukt.",
+      "duplicateSuccess": "Aktīvs dublēts"
+    },
+    "new_page": {
+      "title": "Izveidot jaunu aktīvu",
+      "edit_title": "Rediģēt aktīvu",
+      "save": "Izveidot aktīvu",
+      "saveEdit": "Saglabāt izmaiņas",
+      "addTechField": "+ Pievienot lauku",
+      "fieldName": "Lauka nosaukums",
+      "fieldValue": "Vērtība",
+      "addPhoto": "Pievienot fotogrāfiju",
+      "photoHint": "Fotogrāfijas tiek glabātas tieši mākonī",
+      "selectLocation": "Izvēlēties vietu",
+      "noLocation": "Nav vietas",
+      "errors": {
+        "titleRequired": "Ievadiet etiķeti.",
+        "saveFailed": "Saglabāšanas kļūda"
+      }
+    },
+    "qr": {
+      "title": "QR kods",
+      "download": "Lejupielādēt QR kodu",
+      "print": "Drukāt"
+    },
+    "locationHistory": "Vietas vēsture",
+    "noLocationHistory": "Nav vietas vēstures"
+  },
+  "service": {
+    "title": "Servisa žurnāls",
+    "subtitle": "Pilna visu notikumu dokumentācija",
+    "newEntry": "+ Ieraksts",
+    "entries": "Ieraksti",
+    "totalCost": "Kopējās izmaksas",
+    "intervals": "Intervāli",
+    "noEntries": "Ierakstu vēl nav",
+    "noEntriesDesc": "Dokumentējiet apkopes, remontus un pārbaudes.",
+    "entry": {
+      "title": "Nosaukums",
+      "titlePlaceholder": "piem. {type} veikts",
+      "type": "Tips",
+      "date": "Datums un laiks",
+      "description": "Apraksts",
+      "descriptionPlaceholder": "Kas tika izdarīts?",
+      "performedBy": "Veica",
+      "performedByPlaceholder": "Vārds",
+      "externalCompany": "Uzņēmums / ārējs",
+      "externalCompanyPlaceholder": "piem. TÜV",
+      "costEur": "Izmaksas (€)",
+      "nextDate": "Nākamais datums",
+      "notes": "Piezīmes / komentāri",
+      "notesPlaceholder": "Iekšējās piezīmes, atradumi, ieteikumi…",
+      "photos": "Fotogrāfijas",
+      "documents": "Dokumenti",
+      "addDocument": "+ Pievienot dokumentu / PDF",
+      "save": "Saglabāt ierakstu",
+      "saveEdit": "Saglabāt izmaiņas",
+      "completeMaintenance": "Pabeigt apkopi",
+      "new": "Jauns ieraksts",
+      "edit": "Rediģēt ierakstu",
+      "customType": "+ Izveidot pielāgotu",
+      "cancelCustomType": "× Atcelt",
+      "newTypePlaceholder": "Etiķete, piem. Kalibrēšana",
+      "createType": "Izveidot un izvēlēties tipu",
+      "nextDateAutoSet": "Nākamais datums tiks iestatīts automātiski",
+      "nextDateIntervalHint": "{n} dienas no izpildes datuma",
+      "errors": {
+        "titleRequired": "Ievadiet nosaukumu.",
+        "saveFailed": "Saglabāšanas kļūda"
+      }
+    },
+    "checklist": {
+      "title": "Kontrolsaraksts",
+      "subtitle": "Atzīmējiet katru soli un pēc izvēles pievienojiet piezīmes",
+      "done": "izdarīts",
+      "addNote": "+ Piezīme",
+      "notePlaceholder": "Atradums, mērījums, komentārs šim solim…",
+      "resources": "Resursi (neobligāts): rīki, materiāli…"
+    },
+    "interval": {
+      "title": "Jauns intervāls",
+      "editTitle": "Rediģēt intervālu",
+      "subtitle": "Atkārtojošs uzdevums",
+      "name": "Etiķete *",
+      "namePlaceholder": "piem. {type} ik pēc 6 mēnešiem",
+      "interval": "Intervāls",
+      "intervalDays": "Ik pēc {n} dienām",
+      "custom": "Pielāgots",
+      "customDays": "Dienas",
+      "customDaysPlaceholder": "piem. 45",
+      "lastDone": "Pēdējoreiz veikts",
+      "lastDoneHint": "Neobligāts – aprēķina nākamo datumu",
+      "nextDue": "Nākamais termiņš *",
+      "preview": "Priekšskatījums",
+      "previewDesc": "Ik pēc {days} dienām · Termiņš: {date}",
+      "checklist": "Kontrolsaraksts",
+      "checklistSubtitle": "Numurēti soļi atzīmēšanai izpildes laikā",
+      "addStep": "+ Solis",
+      "stepPlaceholder": "Aprakstīt {n}. soli…",
+      "resourcesPlaceholder": "Resursi (neobligāts): rīki, materiāli…",
+      "noSteps": "Nav soļu – pieskarieties \"+ Solis\"",
+      "save": "Izveidot intervālu",
+      "saveEdit": "Saglabāt izmaiņas",
+      "newType": "Izveidot jaunu tipu",
+      "errors": {
+        "nameRequired": "Ievadiet etiķeti.",
+        "intervalRequired": "Ievadiet derīgu intervālu.",
+        "nextDateRequired": "Norādiet nākamo termiņu."
+      }
+    },
+    "schedules": {
+      "title": "Apkopes intervāli",
+      "newInterval": "+ Intervāls",
+      "noSchedules": "Apkopes intervālu vēl nav",
+      "noSchedulesDesc": "Konfigurējiet atkārtojošu apkopes plānu.",
+      "dueDate": "Termiņš {date}",
+      "overdue": "Kavēts",
+      "dueIn": "Pēc {n} dienām",
+      "dueToday": "Šodien",
+      "complete": "Atzīmēt kā izdarītu",
+      "completeShort": "Pabeigt",
+      "lastDone": "Pēdējais: {date}",
+      "interval": "Ik pēc {n} dienām"
+    },
+    "timeline": {
+      "entry": "Ieraksts",
+      "entries": "Ieraksti",
+      "noEntries": "Ierakstu vēl nav",
+      "noEntriesDesc": "Dokumentējiet apkopes, remontus un pārbaudes.",
+      "nextDate": "Nākamais: {date}",
+      "editBtn": "Rediģēt",
+      "checklistSection": "Kontrolsaraksts",
+      "notesSection": "Piezīmes"
+    }
+  },
+  "wartung": {
+    "title": "Apkope & Serviss",
+    "subtitle": "Visi gaidāmie apkopes intervāli",
+    "tabs": {
+      "list": "Uzdevumu saraksts",
+      "gantt": "Ganta diagramma"
+    },
+    "filter": {
+      "search": "Meklēt pēc aktīva, sēr. nr., kategorijas…",
+      "urgency": "Steidzamība",
+      "all": "Visi",
+      "overdue": "Kavēts",
+      "week": "Šonedēļ",
+      "twoWeeks": "Divas nedēļas",
+      "month": "30 dienas",
+      "category": "Kategorija",
+      "allCategories": "Visas kategorijas",
+      "reset": "Atiestatīt"
+    },
+    "groups": {
+      "overdue": "Kavēts",
+      "thisWeek": "Šonedēļ",
+      "next30Days": "Nākamās 30 dienas",
+      "later": "Vēlāk"
+    },
+    "noSchedules": "Nav ierakstu",
+    "noSchedulesDesc": "Nav apkopes uzdevumu šim filtram.",
+    "complete": "Atzīmēt kā izdarītu",
+    "completeBtn": "Pabeigt",
+    "stats": {
+      "overdue": "Kavētas apkopes",
+      "thisWeek": "Šonedēļ",
+      "thisMonth": "Šomēnes",
+      "total": "Aktīvie intervāli"
+    }
+  },
+  "organisation": {
+    "title": "Vietas & Struktūra",
+    "subtitle": "Pārvaldīt darbības struktūru",
+    "newLocation": "+ Vieta",
+    "newHall": "+ Halle",
+    "newArea": "+ Zona",
+    "noLocations": "Vietu vēl nav",
+    "noLocationsDesc": "Izveidojiet savu pirmo vietu.",
+    "location": "Vieta",
+    "hall": "Halle",
+    "area": "Zona",
+    "assetsHere": "{n} aktīvi",
+    "fields": {
+      "name": "Nosaukums",
+      "description": "Apraksts"
+    }
+  },
+  "teams": {
+    "title": "Komandas",
+    "subtitle": "Pārvaldīt locekļus un lomas",
+    "newTeam": "+ Komanda",
+    "inviteMember": "Uzaicināt locekli",
+    "newMember": "Izveidot locekli",
+    "noTeams": "Komandu vēl nav",
+    "member": "Loceklis",
+    "members": "Locekļi",
+    "role": "Loma",
+    "roles": {
+      "admin": "Administrators",
+      "technician": "Tehniķis",
+      "viewer": "Lasītājs"
+    },
+    "roleDesc": {
+      "admin": "Pilna piekļuve + lietotāju pārvaldība",
+      "technician": "Rediģēt aktīvus un servisu",
+      "viewer": "Tikai skatīšana"
+    },
+    "fields": {
+      "name": "Komandas nosaukums",
+      "email": "E-pasta adrese",
+      "password": "Parole",
+      "fullName": "Pilns vārds"
+    },
+    "actions": {
+      "changeRole": "Mainīt lomu",
+      "removeMember": "Noņemt locekli",
+      "confirmRemove": "Noņemt šo locekli?"
+    }
+  },
+  "settings": {
+    "title": "Iestatījumi",
+    "profile": {
+      "title": "Profils",
+      "subtitle": "Personiskā informācija un iestatījumi",
+      "fullName": "Pilns vārds",
+      "email": "E-pasta adrese",
+      "language": "Valoda",
+      "languageSubtitle": "Lietotnes valoda jūsu kontam",
+      "save": "Saglabāt profilu",
+      "saved": "Saglabāts",
+      "changePassword": "Mainīt paroli",
+      "currentPassword": "Pašreizējā parole",
+      "newPassword": "Jaunā parole",
+      "passwordSaved": "Parole mainīta"
+    },
+    "eventTypes": {
+      "title": "Notikumu tipi",
+      "subtitle": "Pielāgotas kategorijas servisa ierakstiem",
+      "systemTypes": "Sistēmas tipi",
+      "customTypes": "Pielāgotie tipi",
+      "newType": "+ Jauns",
+      "labelPlaceholder": "piem. Kalibrēšana, TÜV, Pārbaude…",
+      "colorLabel": "Krāsa",
+      "preview": "Priekšskatījums:",
+      "save": "Izveidot tipu",
+      "saving": "Saglabā…",
+      "noCustomTypes": "Pielāgotu tipu vēl nav.",
+      "systemBadge": "Sistēma"
+    },
+    "billing": {
+      "title": "Abonements",
+      "subtitle": "Pārvaldīt plānu un maksājumus",
+      "currentPlan": "Pašreizējais plāns",
+      "status": {
+        "active": "Aktīvs",
+        "inactive": "Neaktīvs",
+        "trial": "Izmēģinājuma periods"
+      },
+      "changePlan": "Mainīt plānu",
+      "activationCode": "Izmantot aktivācijas kodu",
+      "activationCodePlaceholder": "9 ciparu kods",
+      "activate": "Aktivizēt",
+      "activating": "Aktivizē…",
+      "createInvoice": "Izveidot rēķinu",
+      "plans": {
+        "free": "Bezmaksas",
+        "starter": "Sākuma",
+        "professional": "Profesionāls",
+        "enterprise": "Uzņēmuma"
+      }
+    },
+    "invite": {
+      "title": "Izveidot lietotāju",
+      "subtitle": "Pievienot jaunu locekli organizācijai",
+      "email": "E-pasta adrese",
+      "fullName": "Pilns vārds",
+      "password": "Parole",
+      "role": "Loma",
+      "save": "Izveidot lietotāju",
+      "success": "Lietotājs veiksmīgi izveidots."
+    },
+    "statuses": {
+      "title": "Aktīvu statusi",
+      "subtitle": "Definēt pielāgotus statusus",
+      "systemStatuses": "Sistēmas statusi",
+      "customStatuses": "Pielāgotie statusi",
+      "newStatus": "+ Jauns"
+    }
+  },
+  "scan": {
+    "title": "Skenēt aktīvu",
+    "subtitle": "Skenēt QR kodu vai NFC",
+    "startCamera": "Palaist kameru",
+    "scanning": "Skenē…",
+    "noPermission": "Piekļuve kamerai nav atļauta",
+    "notFound": "Aktīvs nav atrasts",
+    "openAsset": "Atvērt aktīvu"
+  },
+  "docs": {
+    "title": "Dokumentācija",
+    "subtitle": "Viss, kas jums jāzina.",
+    "heroDesc": "INOid ir jūsu digitālā aktīvu pārvaldība — no pirmās reģistrācijas līdz izslēgšanai. Gatavs 5 minūtēs.",
+    "stats": {
+      "firstAsset": "līdz pirmajam aktīvam",
+      "featureAreas": "funkciju jomas",
+      "browserBased": "pārlūkprogrammā balstīts"
+    },
+    "tabs": {
+      "quickstart": "Ātrā iedarbināšana",
+      "features": "Funkcijas",
+      "roles": "Lomas",
+      "plans": "Plāni un abonements",
+      "tips": "Padomi"
+    },
+    "quickstart": {
+      "intro": "Četri soļi un jūs uzzināsiet INOid būtību.",
+      "openDirectly": "Atvērt tieši",
+      "demoTour": "Demo tūre",
+      "demoSoon": "Apmācību video drīzumā"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Pārbaude",
+    "maintenance": "Apkope",
+    "repair": "Remonts",
+    "overhaul": "Ģenerālremonts",
+    "coating": "Pārklājums",
+    "cleaning": "Tīrīšana",
+    "installation": "Uzstādīšana/Montāža",
+    "incident": "Incidents/Bojājums",
+    "decommission": "Izslēgšana",
+    "other": "Cits"
+  },
+  "intervalPresets": {
+    "weekly": "Katru nedēļu",
+    "monthly": "Katru mēnesi",
+    "quarterly": "Katru ceturksni",
+    "biannual": "Reizi pusgadā",
+    "annual": "Katru gadu",
+    "biennial": "Reizi divos gados"
+  }
+}

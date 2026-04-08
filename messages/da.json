@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Instrumentbræt",
+    "assets": "Aktivstyring",
+    "scan": "Scan",
+    "wartung": "Vedligeholdelse & Service",
+    "organisation": "Steder & Struktur",
+    "teams": "Teams",
+    "billing": "Abonnement",
+    "profile": "Profil & Indstillinger",
+    "docs": "Dokumentation",
+    "logout": "Log ud",
+    "orgManagement": "Organisationsstyring",
+    "account": "Konto"
+  },
+  "common": {
+    "save": "Gem",
+    "cancel": "Annuller",
+    "delete": "Slet",
+    "edit": "Rediger",
+    "create": "Opret",
+    "back": "Tilbage",
+    "loading": "Indlæser…",
+    "saving": "Gemmer…",
+    "error": "Fejl",
+    "success": "Fuldført",
+    "confirm": "Bekræft",
+    "close": "Luk",
+    "search": "Søg",
+    "filter": "Filtrer",
+    "all": "Alle",
+    "none": "Ingen",
+    "yes": "Ja",
+    "no": "Nej",
+    "optional": "valgfrit",
+    "required": "Obligatorisk felt",
+    "new": "+ Ny",
+    "add": "Tilføj",
+    "remove": "Fjern",
+    "noData": "Ingen tilgængelige data",
+    "perPage": "pr. side",
+    "page": "Side",
+    "of": "af",
+    "entries": "Poster",
+    "reset": "Nulstil",
+    "actions": "Handlinger",
+    "status": "Status",
+    "date": "Dato",
+    "name": "Navn",
+    "description": "Beskrivelse",
+    "notes": "Noter",
+    "cost": "Omkostning",
+    "type": "Type",
+    "category": "Kategori",
+    "preview": "Forhåndsvisning",
+    "upload": "Upload",
+    "download": "Download",
+    "copy": "Kopier",
+    "duplicate": "Dupliker",
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "system": "System",
+    "custom": "Tilpasset",
+    "label": "Etiket",
+    "color": "Farve",
+    "unknown": "Ukendt",
+    "today": "I dag",
+    "tomorrow": "I morgen",
+    "yesterday": "I går",
+    "daysAgo": "{n} dage forsinket",
+    "inDays": "om {n} dage",
+    "months": ["Januar","Februar","Marts","April","Maj","Juni","Juli","August","September","Oktober","November","December"],
+    "noEntries": "Ingen poster",
+    "pagination": "Side {current} af {total}"
+  },
+  "auth": {
+    "login": "Log ind",
+    "logout": "Log ud",
+    "email": "E-mailadresse",
+    "password": "Adgangskode",
+    "forgotPassword": "Glemt adgangskode?",
+    "noAccount": "Har du ikke en konto?",
+    "register": "Registrer",
+    "loginError": "Login mislykkedes. Tjek dine loginoplysninger.",
+    "welcomeBack": "Velkommen tilbage"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Godmorgen",
+      "afternoon": "Goddag",
+      "evening": "Godaften"
+    },
+    "overdueWarning": "{n} forsinket vedligeholdelse",
+    "overdueWarningPlural": "{n} forsinkede vedligeholdelser",
+    "stats": {
+      "assetsTotal": "Aktiver i alt",
+      "active": "Aktiv",
+      "inService": "I service",
+      "decommissioned": "Taget ud af drift",
+      "users": "Brugere",
+      "overdueServices": "Forsinkede vedligeholdelser",
+      "dueThisWeek": "Forfalder denne uge",
+      "serviceEventsMonth": "Servicehændelser (måned)",
+      "maintenanceCostYear": "Vedligeholdelsesomkostninger (år)",
+      "allDone": "Alt færdigt",
+      "limit": "Grænse: {n}",
+      "unlimited": "Ubegrænset",
+      "percentOfStock": "{n} % af beholdningen",
+      "totalSub": "{n} i alt",
+      "monthSub": "{n} € denne måned"
+    },
+    "sections": {
+      "assetUtilization": "Aktivudnyttelse",
+      "maintenanceOverview": "Vedligeholdelsesoversigt",
+      "assetsByCategory": "Aktiver pr. kategori",
+      "recentActivity": "Nylig aktivitet",
+      "currentPlan": "Aktuel plan",
+      "quickAccess": "Hurtig adgang",
+      "noCategories": "Ingen kategorier",
+      "noActivity": "Ingen servicehændelser endnu"
+    },
+    "maintenance": {
+      "overdue": "Forsinket",
+      "thisWeek": "Denne uge",
+      "next30Days": "Næste 30 dage",
+      "totalIntervals": "Aktive intervaller i alt"
+    },
+    "quickLinks": {
+      "createAsset": "Opret aktiv",
+      "openMaintenance": "Åbn vedligeholdelse",
+      "scanAsset": "Scan aktiv",
+      "locations": "Steder",
+      "addUser": "Tilføj bruger",
+      "documentation": "Dokumentation"
+    },
+    "plan": {
+      "active": "AKTIV",
+      "inactive": "INAKTIV",
+      "assets": "Aktiver",
+      "users": "Brugere",
+      "manageBilling": "Administrer abonnement"
+    }
+  },
+  "assets": {
+    "title": "Aktivstyring",
+    "subtitle": "Alt udstyr på et øjeblik",
+    "new": "Nyt aktiv",
+    "search": "Søg aktiver…",
+    "filter": {
+      "allCategories": "Alle kategorier",
+      "allStatuses": "Alle statusser",
+      "allLocations": "Alle steder"
+    },
+    "noAssets": "Ingen aktiver endnu",
+    "noAssetsDesc": "Opret dit første udstyr.",
+    "noResults": "Ingen aktiver fundet",
+    "fields": {
+      "title": "Etiket",
+      "category": "Kategori",
+      "status": "Status",
+      "serialNumber": "Serienummer",
+      "articleNumber": "Artikelnummer",
+      "barcode": "Stregkode / QR-kode",
+      "manufacturer": "Producent",
+      "model": "Model",
+      "purchaseDate": "Købsdato",
+      "purchasePrice": "Købspris (€)",
+      "location": "Sted",
+      "locationText": "Sted (fritekst)",
+      "notes": "Noter",
+      "photos": "Fotos",
+      "documents": "Dokumenter",
+      "technicalData": "Tekniske data",
+      "commercialData": "Kommercielle data"
+    },
+    "status": {
+      "active": "Aktiv",
+      "in_service": "I service",
+      "decommissioned": "Taget ud af drift",
+      "defective": "Defekt"
+    },
+    "actions": {
+      "viewServiceLog": "Servicelogbog",
+      "edit": "Rediger",
+      "duplicate": "Dupliker",
+      "delete": "Slet",
+      "confirmDelete": "Slet dette aktiv? Handlingen kan ikke fortrydes.",
+      "duplicateSuccess": "Aktiv duplikeret"
+    },
+    "new_page": {
+      "title": "Opret nyt aktiv",
+      "edit_title": "Rediger aktiv",
+      "save": "Opret aktiv",
+      "saveEdit": "Gem ændringer",
+      "addTechField": "+ Tilføj felt",
+      "fieldName": "Feltnavn",
+      "fieldValue": "Værdi",
+      "addPhoto": "Tilføj foto",
+      "photoHint": "Fotos gemmes direkte i skyen",
+      "selectLocation": "Vælg sted",
+      "noLocation": "Intet sted",
+      "errors": {
+        "titleRequired": "Angiv en etiket.",
+        "saveFailed": "Fejl ved gemning"
+      }
+    },
+    "qr": {
+      "title": "QR-kode",
+      "download": "Download QR-kode",
+      "print": "Udskriv"
+    },
+    "locationHistory": "Stedshistorik",
+    "noLocationHistory": "Ingen stedshistorik tilgængelig"
+  },
+  "service": {
+    "title": "Servicelogbog",
+    "subtitle": "Komplet dokumentation af alle hændelser",
+    "newEntry": "+ Post",
+    "entries": "Poster",
+    "totalCost": "Total omkostning",
+    "intervals": "Intervaller",
+    "noEntries": "Ingen poster endnu",
+    "noEntriesDesc": "Dokumenter vedligeholdelse, reparationer og inspektioner.",
+    "entry": {
+      "title": "Titel",
+      "titlePlaceholder": "f.eks. {type} udført",
+      "type": "Type",
+      "date": "Dato & tid",
+      "description": "Beskrivelse",
+      "descriptionPlaceholder": "Hvad blev gjort?",
+      "performedBy": "Udført af",
+      "performedByPlaceholder": "Navn",
+      "externalCompany": "Virksomhed / ekstern",
+      "externalCompanyPlaceholder": "f.eks. TÜV",
+      "costEur": "Omkostning (€)",
+      "nextDate": "Næste dato",
+      "notes": "Noter / bemærkninger",
+      "notesPlaceholder": "Interne noter, fund, anbefalinger…",
+      "photos": "Fotos",
+      "documents": "Dokumenter",
+      "addDocument": "+ Tilføj dokument / PDF",
+      "save": "Gem post",
+      "saveEdit": "Gem ændringer",
+      "completeMaintenance": "Afslut vedligeholdelse",
+      "new": "Ny post",
+      "edit": "Rediger post",
+      "customType": "+ Opret tilpasset",
+      "cancelCustomType": "× Annuller",
+      "newTypePlaceholder": "Etiket, f.eks. Kalibrering",
+      "createType": "Opret & vælg type",
+      "nextDateAutoSet": "Næste dato indstilles automatisk",
+      "nextDateIntervalHint": "{n} dage fra udførelsesdatoen",
+      "errors": {
+        "titleRequired": "Angiv en titel.",
+        "saveFailed": "Fejl ved gemning"
+      }
+    },
+    "checklist": {
+      "title": "Tjekliste",
+      "subtitle": "Afkryds hvert trin og tilføj evt. noter",
+      "done": "udført",
+      "addNote": "+ Note",
+      "notePlaceholder": "Fund, måling, bemærkning til dette trin…",
+      "resources": "Ressourcer (valgfrit): værktøj, materialer…"
+    },
+    "interval": {
+      "title": "Nyt interval",
+      "editTitle": "Rediger interval",
+      "subtitle": "Tilbagevendende opgave",
+      "name": "Etiket *",
+      "namePlaceholder": "f.eks. {type} hver 6. måned",
+      "interval": "Interval",
+      "intervalDays": "Hver {n}. dag",
+      "custom": "Tilpasset",
+      "customDays": "Dage",
+      "customDaysPlaceholder": "f.eks. 45",
+      "lastDone": "Sidst udført",
+      "lastDoneHint": "Valgfrit – beregner næste dato",
+      "nextDue": "Næste forfaldsdato *",
+      "preview": "Forhåndsvisning",
+      "previewDesc": "Hver {days}. dag · Forfalder: {date}",
+      "checklist": "Tjekliste",
+      "checklistSubtitle": "Nummererede trin til afkrydsning ved udførelse",
+      "addStep": "+ Trin",
+      "stepPlaceholder": "Beskriv trin {n}…",
+      "resourcesPlaceholder": "Ressourcer (valgfrit): værktøj, materialer…",
+      "noSteps": "Ingen trin – tryk på \"+ Trin\"",
+      "save": "Opret interval",
+      "saveEdit": "Gem ændringer",
+      "newType": "Opret ny type",
+      "errors": {
+        "nameRequired": "Angiv en etiket.",
+        "intervalRequired": "Angiv et gyldigt interval.",
+        "nextDateRequired": "Angiv næste forfaldsdato."
+      }
+    },
+    "schedules": {
+      "title": "Vedligeholdelsesintervaller",
+      "newInterval": "+ Interval",
+      "noSchedules": "Ingen vedligeholdelsesintervaller endnu",
+      "noSchedulesDesc": "Konfigurer en tilbagevendende vedligeholdelsesplan.",
+      "dueDate": "Forfalder {date}",
+      "overdue": "Forsinket",
+      "dueIn": "Forfalder om {n} dage",
+      "dueToday": "Forfalder i dag",
+      "complete": "Markér som udført",
+      "completeShort": "Afslut",
+      "lastDone": "Sidst: {date}",
+      "interval": "Hver {n}. dag"
+    },
+    "timeline": {
+      "entry": "Post",
+      "entries": "Poster",
+      "noEntries": "Ingen poster endnu",
+      "noEntriesDesc": "Dokumenter vedligeholdelse, reparationer og inspektioner.",
+      "nextDate": "Næste: {date}",
+      "editBtn": "Rediger",
+      "checklistSection": "Tjekliste",
+      "notesSection": "Noter"
+    }
+  },
+  "wartung": {
+    "title": "Vedligeholdelse & Service",
+    "subtitle": "Alle forfaldende vedligeholdelsesintervaller",
+    "tabs": {
+      "list": "Opgaveliste",
+      "gantt": "Gantt-diagram"
+    },
+    "filter": {
+      "search": "Søg efter aktiv, serienr., kategori…",
+      "urgency": "Haster",
+      "all": "Alle",
+      "overdue": "Forsinket",
+      "week": "Denne uge",
+      "twoWeeks": "To uger",
+      "month": "30 dage",
+      "category": "Kategori",
+      "allCategories": "Alle kategorier",
+      "reset": "Nulstil"
+    },
+    "groups": {
+      "overdue": "Forsinket",
+      "thisWeek": "Denne uge",
+      "next30Days": "Næste 30 dage",
+      "later": "Senere"
+    },
+    "noSchedules": "Ingen poster",
+    "noSchedulesDesc": "Ingen vedligeholdelsesopgaver for dette filter.",
+    "complete": "Markér som udført",
+    "completeBtn": "Afslut",
+    "stats": {
+      "overdue": "Forsinkede vedligeholdelser",
+      "thisWeek": "Forfalder denne uge",
+      "thisMonth": "Forfalder denne måned",
+      "total": "Aktive intervaller"
+    }
+  },
+  "organisation": {
+    "title": "Steder & Struktur",
+    "subtitle": "Administrer driftsstruktur",
+    "newLocation": "+ Sted",
+    "newHall": "+ Hal",
+    "newArea": "+ Område",
+    "noLocations": "Ingen steder endnu",
+    "noLocationsDesc": "Opret dit første sted.",
+    "location": "Sted",
+    "hall": "Hal",
+    "area": "Område",
+    "assetsHere": "{n} aktiver",
+    "fields": {
+      "name": "Navn",
+      "description": "Beskrivelse"
+    }
+  },
+  "teams": {
+    "title": "Teams",
+    "subtitle": "Administrer medlemmer og roller",
+    "newTeam": "+ Team",
+    "inviteMember": "Inviter medlem",
+    "newMember": "Opret medlem",
+    "noTeams": "Ingen teams endnu",
+    "member": "Medlem",
+    "members": "Medlemmer",
+    "role": "Rolle",
+    "roles": {
+      "admin": "Administrator",
+      "technician": "Tekniker",
+      "viewer": "Læser"
+    },
+    "roleDesc": {
+      "admin": "Fuld adgang + brugerstyring",
+      "technician": "Rediger aktiver og service",
+      "viewer": "Kun visning"
+    },
+    "fields": {
+      "name": "Teamnavn",
+      "email": "E-mailadresse",
+      "password": "Adgangskode",
+      "fullName": "Fulde navn"
+    },
+    "actions": {
+      "changeRole": "Skift rolle",
+      "removeMember": "Fjern medlem",
+      "confirmRemove": "Fjern dette medlem?"
+    }
+  },
+  "settings": {
+    "title": "Indstillinger",
+    "profile": {
+      "title": "Profil",
+      "subtitle": "Personlige data og indstillinger",
+      "fullName": "Fulde navn",
+      "email": "E-mailadresse",
+      "language": "Sprog",
+      "languageSubtitle": "App-sprog for din konto",
+      "save": "Gem profil",
+      "saved": "Gemt",
+      "changePassword": "Skift adgangskode",
+      "currentPassword": "Nuværende adgangskode",
+      "newPassword": "Ny adgangskode",
+      "passwordSaved": "Adgangskode ændret"
+    },
+    "eventTypes": {
+      "title": "Hændelsestyper",
+      "subtitle": "Tilpassede kategorier for serviceposter",
+      "systemTypes": "Systemtyper",
+      "customTypes": "Tilpassede typer",
+      "newType": "+ Ny",
+      "labelPlaceholder": "f.eks. Kalibrering, TÜV, Inspektion…",
+      "colorLabel": "Farve",
+      "preview": "Forhåndsvisning:",
+      "save": "Opret type",
+      "saving": "Gemmer…",
+      "noCustomTypes": "Ingen tilpassede typer endnu.",
+      "systemBadge": "System"
+    },
+    "billing": {
+      "title": "Abonnement",
+      "subtitle": "Administrer plan og betalinger",
+      "currentPlan": "Aktuel plan",
+      "status": {
+        "active": "Aktiv",
+        "inactive": "Inaktiv",
+        "trial": "Prøveperiode"
+      },
+      "changePlan": "Skift plan",
+      "activationCode": "Indløs aktiveringskode",
+      "activationCodePlaceholder": "9-cifret kode",
+      "activate": "Aktivér",
+      "activating": "Aktiverer…",
+      "createInvoice": "Opret faktura",
+      "plans": {
+        "free": "Gratis",
+        "starter": "Starter",
+        "professional": "Professionel",
+        "enterprise": "Enterprise"
+      }
+    },
+    "invite": {
+      "title": "Opret bruger",
+      "subtitle": "Tilføj et nyt medlem til organisationen",
+      "email": "E-mailadresse",
+      "fullName": "Fulde navn",
+      "password": "Adgangskode",
+      "role": "Rolle",
+      "save": "Opret bruger",
+      "success": "Brugeren blev oprettet."
+    },
+    "statuses": {
+      "title": "Aktivstatusser",
+      "subtitle": "Definer tilpassede statusser",
+      "systemStatuses": "Systemstatusser",
+      "customStatuses": "Tilpassede statusser",
+      "newStatus": "+ Ny"
+    }
+  },
+  "scan": {
+    "title": "Scan aktiv",
+    "subtitle": "Scan QR-kode eller NFC",
+    "startCamera": "Start kamera",
+    "scanning": "Scanner…",
+    "noPermission": "Kameraadgang ikke tilladt",
+    "notFound": "Ingen aktiv fundet",
+    "openAsset": "Åbn aktiv"
+  },
+  "docs": {
+    "title": "Dokumentation",
+    "subtitle": "Alt hvad du behøver at vide.",
+    "heroDesc": "INOid er din digitale aktivstyring — fra første registrering til udfasning. Klar på 5 minutter.",
+    "stats": {
+      "firstAsset": "til første aktiv",
+      "featureAreas": "funktionsområder",
+      "browserBased": "browserbaseret"
+    },
+    "tabs": {
+      "quickstart": "Hurtig start",
+      "features": "Funktioner",
+      "roles": "Roller",
+      "plans": "Planer og abonnement",
+      "tips": "Tips"
+    },
+    "quickstart": {
+      "intro": "Fire trin og du kender det væsentlige i INOid.",
+      "openDirectly": "Åbn direkte",
+      "demoTour": "Demotur",
+      "demoSoon": "Introduktionsvideo kommer snart"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Inspektion",
+    "maintenance": "Vedligeholdelse",
+    "repair": "Reparation",
+    "overhaul": "Generaleftersyn",
+    "coating": "Overfladebehandling",
+    "cleaning": "Rengøring",
+    "installation": "Installation/Montering",
+    "incident": "Hændelse/Skade",
+    "decommission": "Udfasning",
+    "other": "Andet"
+  },
+  "intervalPresets": {
+    "weekly": "Ugentlig",
+    "monthly": "Månedlig",
+    "quarterly": "Kvartalsvis",
+    "biannual": "Halvårlig",
+    "annual": "Årlig",
+    "biennial": "Toårlig"
+  }
+}

@@ -1,28 +1,21 @@
-import {
-  Search, Wrench, Hammer, Settings2, Layers,
-  Sparkles, Package, AlertTriangle, Archive, FileText,
-  type LucideIcon,
-} from 'lucide-react'
-
 export type EventType = {
   value: string
   label: string
   color: string
-  icon: LucideIcon
 }
 
 // Alle Farben aus der INOMETA-Palette (Blautöne + neutrale Akzente)
 export const EVENT_TYPES: EventType[] = [
-  { value: 'inspection',   label: 'Inspektion',     color: '#0099cc', icon: Search        },
-  { value: 'maintenance',  label: 'Wartung',         color: '#003366', icon: Wrench        },
-  { value: 'repair',       label: 'Reparatur',       color: '#0077b6', icon: Hammer        },
-  { value: 'overhaul',     label: 'Überholung',      color: '#005c8a', icon: Settings2     },
-  { value: 'coating',      label: 'Beschichtung',    color: '#00a8c8', icon: Layers        },
-  { value: 'cleaning',     label: 'Reinigung',       color: '#38b2d4', icon: Sparkles      },
-  { value: 'installation', label: 'Einbau/Montage',  color: '#004e8c', icon: Package       },
-  { value: 'incident',     label: 'Vorfall/Schaden', color: '#cc4400', icon: AlertTriangle },
-  { value: 'decommission', label: 'Stilllegung',     color: '#6b7d99', icon: Archive       },
-  { value: 'other',        label: 'Sonstiges',       color: '#96aed2', icon: FileText      },
+  { value: 'inspection',   label: 'Inspektion',     color: '#0099cc' },
+  { value: 'maintenance',  label: 'Wartung',         color: '#003366' },
+  { value: 'repair',       label: 'Reparatur',       color: '#0077b6' },
+  { value: 'overhaul',     label: 'Überholung',      color: '#005c8a' },
+  { value: 'coating',      label: 'Beschichtung',    color: '#00a8c8' },
+  { value: 'cleaning',     label: 'Reinigung',       color: '#38b2d4' },
+  { value: 'installation', label: 'Einbau/Montage',  color: '#004e8c' },
+  { value: 'incident',     label: 'Vorfall/Schaden', color: '#cc4400' },
+  { value: 'decommission', label: 'Stilllegung',     color: '#6b7d99' },
+  { value: 'other',        label: 'Sonstiges',       color: '#96aed2' },
 ]
 
 export function getEventType(value: string): EventType {

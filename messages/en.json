@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "assets": "Asset Management",
+    "scan": "Scan",
+    "wartung": "Maintenance & Service",
+    "organisation": "Locations & Structure",
+    "teams": "Teams",
+    "billing": "Subscription",
+    "profile": "Profile & Settings",
+    "docs": "Documentation",
+    "logout": "Logout",
+    "orgManagement": "Organization Management",
+    "account": "Account"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "back": "Back",
+    "loading": "Loading…",
+    "saving": "Saving…",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "all": "All",
+    "none": "None",
+    "yes": "Yes",
+    "no": "No",
+    "optional": "optional",
+    "required": "Required",
+    "new": "+ New",
+    "add": "Add",
+    "remove": "Remove",
+    "noData": "No data available",
+    "perPage": "per page",
+    "page": "Page",
+    "of": "of",
+    "entries": "Entries",
+    "reset": "Reset",
+    "actions": "Actions",
+    "status": "Status",
+    "date": "Date",
+    "name": "Name",
+    "description": "Description",
+    "notes": "Notes",
+    "cost": "Cost",
+    "type": "Type",
+    "category": "Category",
+    "preview": "Preview",
+    "upload": "Upload",
+    "download": "Download",
+    "copy": "Copy",
+    "duplicate": "Duplicate",
+    "active": "Active",
+    "inactive": "Inactive",
+    "system": "System",
+    "custom": "Custom",
+    "label": "Label",
+    "color": "Color",
+    "unknown": "Unknown",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "yesterday": "Yesterday",
+    "daysAgo": "{n} days overdue",
+    "inDays": "in {n} days",
+    "months": ["January","February","March","April","May","June","July","August","September","October","November","December"],
+    "noEntries": "No entries",
+    "pagination": "Page {current} of {total}"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email address",
+    "password": "Password",
+    "forgotPassword": "Forgot password?",
+    "noAccount": "Don't have an account?",
+    "register": "Register",
+    "loginError": "Login failed. Please check your credentials.",
+    "welcomeBack": "Welcome back"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Good morning",
+      "afternoon": "Good afternoon",
+      "evening": "Good evening"
+    },
+    "overdueWarning": "{n} overdue maintenance",
+    "overdueWarningPlural": "{n} overdue maintenances",
+    "stats": {
+      "assetsTotal": "Total assets",
+      "active": "Active",
+      "inService": "In service",
+      "decommissioned": "Decommissioned",
+      "users": "Users",
+      "overdueServices": "Overdue maintenances",
+      "dueThisWeek": "Due this week",
+      "serviceEventsMonth": "Service events (month)",
+      "maintenanceCostYear": "Maintenance cost (year)",
+      "allDone": "All done",
+      "limit": "Limit: {n}",
+      "unlimited": "Unlimited",
+      "percentOfStock": "{n} % of stock",
+      "totalSub": "{n} total",
+      "monthSub": "{n} € this month"
+    },
+    "sections": {
+      "assetUtilization": "Asset utilization",
+      "maintenanceOverview": "Maintenance overview",
+      "assetsByCategory": "Assets by category",
+      "recentActivity": "Recent activity",
+      "currentPlan": "Current plan",
+      "quickAccess": "Quick access",
+      "noCategories": "No categories",
+      "noActivity": "No service events yet"
+    },
+    "maintenance": {
+      "overdue": "Overdue",
+      "thisWeek": "Due this week",
+      "next30Days": "Next 30 days",
+      "totalIntervals": "Total active intervals"
+    },
+    "quickLinks": {
+      "createAsset": "Create asset",
+      "openMaintenance": "Open maintenance",
+      "scanAsset": "Scan asset",
+      "locations": "Locations",
+      "addUser": "Add user",
+      "documentation": "Documentation"
+    },
+    "plan": {
+      "active": "ACTIVE",
+      "inactive": "INACTIVE",
+      "assets": "Assets",
+      "users": "Users",
+      "manageBilling": "Manage subscription"
+    }
+  },
+  "assets": {
+    "title": "Asset Management",
+    "subtitle": "All equipment at a glance",
+    "new": "New asset",
+    "search": "Search assets…",
+    "filter": {
+      "allCategories": "All categories",
+      "allStatuses": "All statuses",
+      "allLocations": "All locations"
+    },
+    "noAssets": "No assets yet",
+    "noAssetsDesc": "Create your first asset.",
+    "noResults": "No assets found",
+    "fields": {
+      "title": "Label",
+      "category": "Category",
+      "status": "Status",
+      "serialNumber": "Serial number",
+      "articleNumber": "Article number",
+      "barcode": "Barcode / QR code",
+      "manufacturer": "Manufacturer",
+      "model": "Model",
+      "purchaseDate": "Purchase date",
+      "purchasePrice": "Purchase price (€)",
+      "location": "Location",
+      "locationText": "Free-text location",
+      "notes": "Notes",
+      "photos": "Photos",
+      "documents": "Documents",
+      "technicalData": "Technical data",
+      "commercialData": "Commercial data"
+    },
+    "status": {
+      "active": "Active",
+      "in_service": "In service",
+      "decommissioned": "Decommissioned",
+      "defective": "Defective"
+    },
+    "actions": {
+      "viewServiceLog": "Service log",
+      "edit": "Edit",
+      "duplicate": "Duplicate",
+      "delete": "Delete",
+      "confirmDelete": "Really delete this asset? This action cannot be undone.",
+      "duplicateSuccess": "Asset duplicated"
+    },
+    "new_page": {
+      "title": "Create new asset",
+      "edit_title": "Edit asset",
+      "save": "Create asset",
+      "saveEdit": "Save changes",
+      "addTechField": "+ Add field",
+      "fieldName": "Field name",
+      "fieldValue": "Value",
+      "addPhoto": "Add photo",
+      "photoHint": "Photos are stored directly in the cloud",
+      "selectLocation": "Select location",
+      "noLocation": "No location",
+      "errors": {
+        "titleRequired": "Please enter a label.",
+        "saveFailed": "Error saving"
+      }
+    },
+    "qr": {
+      "title": "QR code",
+      "download": "Download QR code",
+      "print": "Print"
+    },
+    "locationHistory": "Location history",
+    "noLocationHistory": "No location history available"
+  },
+  "service": {
+    "title": "Service log",
+    "subtitle": "Complete documentation of all events",
+    "newEntry": "+ Entry",
+    "entries": "Entries",
+    "totalCost": "Total cost",
+    "intervals": "Intervals",
+    "noEntries": "No entries yet",
+    "noEntriesDesc": "Document maintenance, repairs and inspections.",
+    "entry": {
+      "title": "Title",
+      "titlePlaceholder": "e.g. {type} performed",
+      "type": "Type",
+      "date": "Date & time",
+      "description": "Description",
+      "descriptionPlaceholder": "What was done?",
+      "performedBy": "Performed by",
+      "performedByPlaceholder": "Name",
+      "externalCompany": "Company / external",
+      "externalCompanyPlaceholder": "e.g. TÜV",
+      "costEur": "Cost (€)",
+      "nextDate": "Next appointment",
+      "notes": "Notes / remarks",
+      "notesPlaceholder": "Internal notes, findings, recommendations…",
+      "photos": "Photos",
+      "documents": "Documents",
+      "addDocument": "+ Add document / PDF",
+      "save": "Save entry",
+      "saveEdit": "Save changes",
+      "completeMaintenance": "Complete maintenance",
+      "new": "New entry",
+      "edit": "Edit entry",
+      "customType": "+ Create custom",
+      "cancelCustomType": "× Cancel",
+      "newTypePlaceholder": "Label, e.g. Calibration",
+      "createType": "Create & select type",
+      "nextDateAutoSet": "Next appointment will be set automatically",
+      "nextDateIntervalHint": "{n} days from the date of execution",
+      "errors": {
+        "titleRequired": "Please enter a title.",
+        "saveFailed": "Error saving"
+      }
+    },
+    "checklist": {
+      "title": "Checklist",
+      "subtitle": "Check off each step and optionally add notes",
+      "done": "done",
+      "addNote": "+ Note",
+      "notePlaceholder": "Finding, measurement, remark for this step…",
+      "resources": "Resources (optional): tools, materials…"
+    },
+    "interval": {
+      "title": "New interval",
+      "editTitle": "Edit interval",
+      "subtitle": "Recurring appointment",
+      "name": "Label *",
+      "namePlaceholder": "e.g. {type} every 6 months",
+      "interval": "Interval",
+      "intervalDays": "Every {n} days",
+      "custom": "Custom",
+      "customDays": "Days",
+      "customDaysPlaceholder": "e.g. 45",
+      "lastDone": "Last performed",
+      "lastDoneHint": "Optional – calculates next due date",
+      "nextDue": "Next due date *",
+      "preview": "Preview",
+      "previewDesc": "Every {days} days · Due: {date}",
+      "checklist": "Checklist",
+      "checklistSubtitle": "Numbered steps to be checked off during execution",
+      "addStep": "+ Step",
+      "stepPlaceholder": "Describe step {n}…",
+      "resourcesPlaceholder": "Resources (optional): tools, materials…",
+      "noSteps": "No steps yet – tap \"+ Step\"",
+      "save": "Create interval",
+      "saveEdit": "Save changes",
+      "newType": "Create new type",
+      "errors": {
+        "nameRequired": "Please enter a label.",
+        "intervalRequired": "Please enter a valid interval.",
+        "nextDateRequired": "Please specify the next due date."
+      }
+    },
+    "schedules": {
+      "title": "Maintenance intervals",
+      "newInterval": "+ Interval",
+      "noSchedules": "No maintenance intervals yet",
+      "noSchedulesDesc": "Set up a recurring maintenance schedule.",
+      "dueDate": "Due on {date}",
+      "overdue": "Overdue",
+      "dueIn": "Due in {n} days",
+      "dueToday": "Due today",
+      "complete": "Mark as done",
+      "completeShort": "Complete",
+      "lastDone": "Last: {date}",
+      "interval": "Every {n} days"
+    },
+    "timeline": {
+      "entry": "Entry",
+      "entries": "Entries",
+      "noEntries": "No entries yet",
+      "noEntriesDesc": "Document maintenance, repairs and inspections.",
+      "nextDate": "Next: {date}",
+      "editBtn": "Edit",
+      "checklistSection": "Checklist",
+      "notesSection": "Notes"
+    }
+  },
+  "wartung": {
+    "title": "Maintenance & Service",
+    "subtitle": "All due maintenance intervals",
+    "tabs": {
+      "list": "Task list",
+      "gantt": "Gantt chart"
+    },
+    "filter": {
+      "search": "Search by asset, serial no., category…",
+      "urgency": "Urgency",
+      "all": "All",
+      "overdue": "Overdue",
+      "week": "This week",
+      "twoWeeks": "Two weeks",
+      "month": "30 days",
+      "category": "Category",
+      "allCategories": "All categories",
+      "reset": "Reset"
+    },
+    "groups": {
+      "overdue": "Overdue",
+      "thisWeek": "This week",
+      "next30Days": "Next 30 days",
+      "later": "Later"
+    },
+    "noSchedules": "No entries",
+    "noSchedulesDesc": "No maintenance tasks for this filter.",
+    "complete": "Mark as done",
+    "completeBtn": "Complete",
+    "stats": {
+      "overdue": "Overdue maintenances",
+      "thisWeek": "Due this week",
+      "thisMonth": "Due this month",
+      "total": "Active intervals"
+    }
+  },
+  "organisation": {
+    "title": "Locations & Structure",
+    "subtitle": "Manage operational structure",
+    "newLocation": "+ Location",
+    "newHall": "+ Hall",
+    "newArea": "+ Area",
+    "noLocations": "No locations yet",
+    "noLocationsDesc": "Create your first location.",
+    "location": "Location",
+    "hall": "Hall",
+    "area": "Area",
+    "assetsHere": "{n} assets",
+    "fields": {
+      "name": "Name",
+      "description": "Description"
+    }
+  },
+  "teams": {
+    "title": "Teams",
+    "subtitle": "Manage members & roles",
+    "newTeam": "+ Team",
+    "inviteMember": "Invite member",
+    "newMember": "Create member",
+    "noTeams": "No teams yet",
+    "member": "Member",
+    "members": "Members",
+    "role": "Role",
+    "roles": {
+      "admin": "Admin",
+      "technician": "Technician",
+      "viewer": "Viewer"
+    },
+    "roleDesc": {
+      "admin": "Full access + user management",
+      "technician": "Edit assets & service",
+      "viewer": "View only"
+    },
+    "fields": {
+      "name": "Team name",
+      "email": "Email address",
+      "password": "Password",
+      "fullName": "Full name"
+    },
+    "actions": {
+      "changeRole": "Change role",
+      "removeMember": "Remove member",
+      "confirmRemove": "Really remove this member?"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": {
+      "title": "Profile",
+      "subtitle": "Personal data & settings",
+      "fullName": "Full name",
+      "email": "Email address",
+      "language": "Language",
+      "languageSubtitle": "App language for your account",
+      "save": "Save profile",
+      "saved": "Saved",
+      "changePassword": "Change password",
+      "currentPassword": "Current password",
+      "newPassword": "New password",
+      "passwordSaved": "Password changed"
+    },
+    "eventTypes": {
+      "title": "Event types",
+      "subtitle": "Custom categories for service entries",
+      "systemTypes": "System types",
+      "customTypes": "Custom types",
+      "newType": "+ New",
+      "labelPlaceholder": "e.g. Calibration, Inspection, TÜV…",
+      "colorLabel": "Color",
+      "preview": "Preview:",
+      "save": "Create type",
+      "saving": "Saving…",
+      "noCustomTypes": "No custom types created yet.",
+      "systemBadge": "System"
+    },
+    "billing": {
+      "title": "Subscription",
+      "subtitle": "Manage plan & payments",
+      "currentPlan": "Current plan",
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive",
+        "trial": "Trial"
+      },
+      "changePlan": "Change plan",
+      "activationCode": "Redeem activation code",
+      "activationCodePlaceholder": "9-digit code",
+      "activate": "Activate",
+      "activating": "Activating…",
+      "createInvoice": "Create invoice",
+      "plans": {
+        "free": "Free",
+        "starter": "Starter",
+        "professional": "Professional",
+        "enterprise": "Enterprise"
+      }
+    },
+    "invite": {
+      "title": "Create user",
+      "subtitle": "Add a new member to the organization",
+      "email": "Email address",
+      "fullName": "Full name",
+      "password": "Password",
+      "role": "Role",
+      "save": "Create user",
+      "success": "User was created successfully."
+    },
+    "statuses": {
+      "title": "Asset statuses",
+      "subtitle": "Define custom statuses",
+      "systemStatuses": "System statuses",
+      "customStatuses": "Custom statuses",
+      "newStatus": "+ New"
+    }
+  },
+  "scan": {
+    "title": "Scan asset",
+    "subtitle": "Scan QR code or NFC",
+    "startCamera": "Start camera",
+    "scanning": "Scanning…",
+    "noPermission": "Camera access not allowed",
+    "notFound": "No asset found",
+    "openAsset": "Open asset"
+  },
+  "docs": {
+    "title": "Documentation",
+    "subtitle": "Everything you need to know.",
+    "heroDesc": "INOid is your digital asset management — from first registration to decommissioning. Ready in 5 minutes.",
+    "stats": {
+      "firstAsset": "to your first asset",
+      "featureAreas": "feature areas",
+      "browserBased": "browser-based"
+    },
+    "tabs": {
+      "quickstart": "Quick start",
+      "features": "Features",
+      "roles": "Roles",
+      "plans": "Plans & subscription",
+      "tips": "Tips"
+    },
+    "quickstart": {
+      "intro": "Four steps and you know the essentials of INOid.",
+      "openDirectly": "Open directly",
+      "demoTour": "Demo tour",
+      "demoSoon": "Walkthrough video coming soon"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Inspection",
+    "maintenance": "Maintenance",
+    "repair": "Repair",
+    "overhaul": "Overhaul",
+    "coating": "Coating",
+    "cleaning": "Cleaning",
+    "installation": "Installation/Assembly",
+    "incident": "Incident/Damage",
+    "decommission": "Decommission",
+    "other": "Other"
+  },
+  "intervalPresets": {
+    "weekly": "Weekly",
+    "monthly": "Monthly",
+    "quarterly": "Quarterly",
+    "biannual": "Semi-annual",
+    "annual": "Annual",
+    "biennial": "Biennial"
+  }
+}

@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Přehled",
+    "assets": "Správa aktiv",
+    "scan": "Skenování",
+    "wartung": "Údržba & Servis",
+    "organisation": "Místa & Struktura",
+    "teams": "Týmy",
+    "billing": "Předplatné",
+    "profile": "Profil & Nastavení",
+    "docs": "Dokumentace",
+    "logout": "Odhlásit se",
+    "orgManagement": "Správa organizace",
+    "account": "Účet"
+  },
+  "common": {
+    "save": "Uložit",
+    "cancel": "Zrušit",
+    "delete": "Smazat",
+    "edit": "Upravit",
+    "create": "Vytvořit",
+    "back": "Zpět",
+    "loading": "Načítání…",
+    "saving": "Ukládání…",
+    "error": "Chyba",
+    "success": "Úspěch",
+    "confirm": "Potvrdit",
+    "close": "Zavřít",
+    "search": "Hledat",
+    "filter": "Filtrovat",
+    "all": "Vše",
+    "none": "Žádné",
+    "yes": "Ano",
+    "no": "Ne",
+    "optional": "volitelné",
+    "required": "Povinné pole",
+    "new": "+ Nový",
+    "add": "Přidat",
+    "remove": "Odebrat",
+    "noData": "Žádná dostupná data",
+    "perPage": "na stránku",
+    "page": "Stránka",
+    "of": "z",
+    "entries": "Záznamy",
+    "reset": "Resetovat",
+    "actions": "Akce",
+    "status": "Stav",
+    "date": "Datum",
+    "name": "Název",
+    "description": "Popis",
+    "notes": "Poznámky",
+    "cost": "Náklady",
+    "type": "Typ",
+    "category": "Kategorie",
+    "preview": "Náhled",
+    "upload": "Nahrát",
+    "download": "Stáhnout",
+    "copy": "Kopírovat",
+    "duplicate": "Duplikovat",
+    "active": "Aktivní",
+    "inactive": "Neaktivní",
+    "system": "Systém",
+    "custom": "Vlastní",
+    "label": "Označení",
+    "color": "Barva",
+    "unknown": "Neznámý",
+    "today": "Dnes",
+    "tomorrow": "Zítra",
+    "yesterday": "Včera",
+    "daysAgo": "{n} dní po termínu",
+    "inDays": "za {n} dní",
+    "months": ["Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec"],
+    "noEntries": "Žádné záznamy",
+    "pagination": "Stránka {current} z {total}"
+  },
+  "auth": {
+    "login": "Přihlásit se",
+    "logout": "Odhlásit se",
+    "email": "E-mailová adresa",
+    "password": "Heslo",
+    "forgotPassword": "Zapomenuté heslo?",
+    "noAccount": "Nemáte účet?",
+    "register": "Registrovat se",
+    "loginError": "Přihlášení se nezdařilo. Zkontrolujte přihlašovací údaje.",
+    "welcomeBack": "Vítejte zpět"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Dobré ráno",
+      "afternoon": "Dobrý den",
+      "evening": "Dobrý večer"
+    },
+    "overdueWarning": "{n} zpožděná údržba",
+    "overdueWarningPlural": "{n} zpožděné údržby",
+    "stats": {
+      "assetsTotal": "Celkem aktiv",
+      "active": "Aktivní",
+      "inService": "V servisu",
+      "decommissioned": "Vyřazeno",
+      "users": "Uživatelé",
+      "overdueServices": "Zpožděné údržby",
+      "dueThisWeek": "Tento týden",
+      "serviceEventsMonth": "Servisní události (měsíc)",
+      "maintenanceCostYear": "Náklady na údržbu (rok)",
+      "allDone": "Vše hotovo",
+      "limit": "Limit: {n}",
+      "unlimited": "Neomezeno",
+      "percentOfStock": "{n} % zásoby",
+      "totalSub": "Celkem {n}",
+      "monthSub": "{n} € tento měsíc"
+    },
+    "sections": {
+      "assetUtilization": "Využití aktiv",
+      "maintenanceOverview": "Přehled údržby",
+      "assetsByCategory": "Aktiva podle kategorie",
+      "recentActivity": "Nedávná aktivita",
+      "currentPlan": "Aktuální plán",
+      "quickAccess": "Rychlý přístup",
+      "noCategories": "Žádné kategorie",
+      "noActivity": "Zatím žádné servisní události"
+    },
+    "maintenance": {
+      "overdue": "Po termínu",
+      "thisWeek": "Tento týden",
+      "next30Days": "Příštích 30 dní",
+      "totalIntervals": "Celkem aktivních intervalů"
+    },
+    "quickLinks": {
+      "createAsset": "Vytvořit aktivum",
+      "openMaintenance": "Otevřít údržbu",
+      "scanAsset": "Skenovat aktivum",
+      "locations": "Místa",
+      "addUser": "Přidat uživatele",
+      "documentation": "Dokumentace"
+    },
+    "plan": {
+      "active": "AKTIVNÍ",
+      "inactive": "NEAKTIVNÍ",
+      "assets": "Aktiva",
+      "users": "Uživatelé",
+      "manageBilling": "Spravovat předplatné"
+    }
+  },
+  "assets": {
+    "title": "Správa aktiv",
+    "subtitle": "Veškeré vybavení na první pohled",
+    "new": "Nové aktivum",
+    "search": "Hledat aktiva…",
+    "filter": {
+      "allCategories": "Všechny kategorie",
+      "allStatuses": "Všechny stavy",
+      "allLocations": "Všechna místa"
+    },
+    "noAssets": "Zatím žádná aktiva",
+    "noAssetsDesc": "Vytvořte své první zařízení.",
+    "noResults": "Žádná aktiva nenalezena",
+    "fields": {
+      "title": "Označení",
+      "category": "Kategorie",
+      "status": "Stav",
+      "serialNumber": "Sériové číslo",
+      "articleNumber": "Číslo artiklu",
+      "barcode": "Čárový kód / QR kód",
+      "manufacturer": "Výrobce",
+      "model": "Model",
+      "purchaseDate": "Datum nákupu",
+      "purchasePrice": "Nákupní cena (€)",
+      "location": "Místo",
+      "locationText": "Místo (volný text)",
+      "notes": "Poznámky",
+      "photos": "Fotografie",
+      "documents": "Dokumenty",
+      "technicalData": "Technická data",
+      "commercialData": "Obchodní data"
+    },
+    "status": {
+      "active": "Aktivní",
+      "in_service": "V servisu",
+      "decommissioned": "Vyřazeno",
+      "defective": "Vadné"
+    },
+    "actions": {
+      "viewServiceLog": "Servisní kniha",
+      "edit": "Upravit",
+      "duplicate": "Duplikovat",
+      "delete": "Smazat",
+      "confirmDelete": "Smazat toto aktivum? Tuto akci nelze vrátit zpět.",
+      "duplicateSuccess": "Aktivum zduplikováno"
+    },
+    "new_page": {
+      "title": "Vytvořit nové aktivum",
+      "edit_title": "Upravit aktivum",
+      "save": "Vytvořit aktivum",
+      "saveEdit": "Uložit změny",
+      "addTechField": "+ Přidat pole",
+      "fieldName": "Název pole",
+      "fieldValue": "Hodnota",
+      "addPhoto": "Přidat fotografii",
+      "photoHint": "Fotografie jsou ukládány přímo v cloudu",
+      "selectLocation": "Vybrat místo",
+      "noLocation": "Bez místa",
+      "errors": {
+        "titleRequired": "Zadejte označení.",
+        "saveFailed": "Chyba při ukládání"
+      }
+    },
+    "qr": {
+      "title": "QR kód",
+      "download": "Stáhnout QR kód",
+      "print": "Tisk"
+    },
+    "locationHistory": "Historie míst",
+    "noLocationHistory": "Žádná historie míst"
+  },
+  "service": {
+    "title": "Servisní kniha",
+    "subtitle": "Úplná dokumentace všech událostí",
+    "newEntry": "+ Záznam",
+    "entries": "Záznamy",
+    "totalCost": "Celkové náklady",
+    "intervals": "Intervaly",
+    "noEntries": "Zatím žádné záznamy",
+    "noEntriesDesc": "Dokumentujte údržby, opravy a inspekce.",
+    "entry": {
+      "title": "Nadpis",
+      "titlePlaceholder": "např. {type} provedeno",
+      "type": "Typ",
+      "date": "Datum a čas",
+      "description": "Popis",
+      "descriptionPlaceholder": "Co bylo provedeno?",
+      "performedBy": "Provedl",
+      "performedByPlaceholder": "Jméno",
+      "externalCompany": "Firma / externní",
+      "externalCompanyPlaceholder": "např. TÜV",
+      "costEur": "Náklady (€)",
+      "nextDate": "Příští termín",
+      "notes": "Poznámky / připomínky",
+      "notesPlaceholder": "Interní poznámky, zjištění, doporučení…",
+      "photos": "Fotografie",
+      "documents": "Dokumenty",
+      "addDocument": "+ Přidat dokument / PDF",
+      "save": "Uložit záznam",
+      "saveEdit": "Uložit změny",
+      "completeMaintenance": "Dokončit údržbu",
+      "new": "Nový záznam",
+      "edit": "Upravit záznam",
+      "customType": "+ Vytvořit vlastní",
+      "cancelCustomType": "× Zrušit",
+      "newTypePlaceholder": "Označení, např. Kalibrace",
+      "createType": "Vytvořit a vybrat typ",
+      "nextDateAutoSet": "Příští termín bude nastaven automaticky",
+      "nextDateIntervalHint": "{n} dní od data provedení",
+      "errors": {
+        "titleRequired": "Zadejte nadpis.",
+        "saveFailed": "Chyba při ukládání"
+      }
+    },
+    "checklist": {
+      "title": "Kontrolní seznam",
+      "subtitle": "Odškrtněte každý krok a volitelně přidejte poznámky",
+      "done": "hotovo",
+      "addNote": "+ Poznámka",
+      "notePlaceholder": "Zjištění, měření, poznámka k tomuto kroku…",
+      "resources": "Zdroje (volitelné): nástroje, materiály…"
+    },
+    "interval": {
+      "title": "Nový interval",
+      "editTitle": "Upravit interval",
+      "subtitle": "Opakující se úkol",
+      "name": "Označení *",
+      "namePlaceholder": "např. {type} každých 6 měsíců",
+      "interval": "Interval",
+      "intervalDays": "Každých {n} dní",
+      "custom": "Vlastní",
+      "customDays": "Dní",
+      "customDaysPlaceholder": "např. 45",
+      "lastDone": "Naposledy provedeno",
+      "lastDoneHint": "Volitelné – vypočítá příští datum",
+      "nextDue": "Příští termín *",
+      "preview": "Náhled",
+      "previewDesc": "Každých {days} dní · Termín: {date}",
+      "checklist": "Kontrolní seznam",
+      "checklistSubtitle": "Číslované kroky k odškrtnutí při provádění",
+      "addStep": "+ Krok",
+      "stepPlaceholder": "Popis kroku {n}…",
+      "resourcesPlaceholder": "Zdroje (volitelné): nástroje, materiály…",
+      "noSteps": "Žádné kroky – klepněte na \"+ Krok\"",
+      "save": "Vytvořit interval",
+      "saveEdit": "Uložit změny",
+      "newType": "Vytvořit nový typ",
+      "errors": {
+        "nameRequired": "Zadejte označení.",
+        "intervalRequired": "Zadejte platný interval.",
+        "nextDateRequired": "Zadejte příští termín."
+      }
+    },
+    "schedules": {
+      "title": "Intervaly údržby",
+      "newInterval": "+ Interval",
+      "noSchedules": "Zatím žádné intervaly údržby",
+      "noSchedulesDesc": "Nastavte opakující se plán údržby.",
+      "dueDate": "Termín {date}",
+      "overdue": "Po termínu",
+      "dueIn": "Za {n} dní",
+      "dueToday": "Dnes",
+      "complete": "Označit jako hotové",
+      "completeShort": "Dokončit",
+      "lastDone": "Naposledy: {date}",
+      "interval": "Každých {n} dní"
+    },
+    "timeline": {
+      "entry": "Záznam",
+      "entries": "Záznamy",
+      "noEntries": "Zatím žádné záznamy",
+      "noEntriesDesc": "Dokumentujte údržby, opravy a inspekce.",
+      "nextDate": "Příští: {date}",
+      "editBtn": "Upravit",
+      "checklistSection": "Kontrolní seznam",
+      "notesSection": "Poznámky"
+    }
+  },
+  "wartung": {
+    "title": "Údržba & Servis",
+    "subtitle": "Všechny splatné intervaly údržby",
+    "tabs": {
+      "list": "Seznam úkolů",
+      "gantt": "Ganttův diagram"
+    },
+    "filter": {
+      "search": "Hledat podle aktiva, sér. č., kategorie…",
+      "urgency": "Naléhavost",
+      "all": "Vše",
+      "overdue": "Po termínu",
+      "week": "Tento týden",
+      "twoWeeks": "Dva týdny",
+      "month": "30 dní",
+      "category": "Kategorie",
+      "allCategories": "Všechny kategorie",
+      "reset": "Resetovat"
+    },
+    "groups": {
+      "overdue": "Po termínu",
+      "thisWeek": "Tento týden",
+      "next30Days": "Příštích 30 dní",
+      "later": "Později"
+    },
+    "noSchedules": "Žádné záznamy",
+    "noSchedulesDesc": "Pro tento filtr nejsou žádné úkoly údržby.",
+    "complete": "Označit jako hotové",
+    "completeBtn": "Dokončit",
+    "stats": {
+      "overdue": "Zpožděné údržby",
+      "thisWeek": "Tento týden",
+      "thisMonth": "Tento měsíc",
+      "total": "Aktivní intervaly"
+    }
+  },
+  "organisation": {
+    "title": "Místa & Struktura",
+    "subtitle": "Spravovat provozní strukturu",
+    "newLocation": "+ Místo",
+    "newHall": "+ Hala",
+    "newArea": "+ Oblast",
+    "noLocations": "Zatím žádná místa",
+    "noLocationsDesc": "Vytvořte první místo.",
+    "location": "Místo",
+    "hall": "Hala",
+    "area": "Oblast",
+    "assetsHere": "{n} aktiv",
+    "fields": {
+      "name": "Název",
+      "description": "Popis"
+    }
+  },
+  "teams": {
+    "title": "Týmy",
+    "subtitle": "Spravovat členy a role",
+    "newTeam": "+ Tým",
+    "inviteMember": "Pozvat člena",
+    "newMember": "Vytvořit člena",
+    "noTeams": "Zatím žádné týmy",
+    "member": "Člen",
+    "members": "Členové",
+    "role": "Role",
+    "roles": {
+      "admin": "Správce",
+      "technician": "Technik",
+      "viewer": "Čtenář"
+    },
+    "roleDesc": {
+      "admin": "Plný přístup + správa uživatelů",
+      "technician": "Úprava aktiv a servisu",
+      "viewer": "Pouze zobrazení"
+    },
+    "fields": {
+      "name": "Název týmu",
+      "email": "E-mailová adresa",
+      "password": "Heslo",
+      "fullName": "Celé jméno"
+    },
+    "actions": {
+      "changeRole": "Změnit roli",
+      "removeMember": "Odebrat člena",
+      "confirmRemove": "Odebrat tohoto člena?"
+    }
+  },
+  "settings": {
+    "title": "Nastavení",
+    "profile": {
+      "title": "Profil",
+      "subtitle": "Osobní údaje a nastavení",
+      "fullName": "Celé jméno",
+      "email": "E-mailová adresa",
+      "language": "Jazyk",
+      "languageSubtitle": "Jazyk aplikace pro váš účet",
+      "save": "Uložit profil",
+      "saved": "Uloženo",
+      "changePassword": "Změnit heslo",
+      "currentPassword": "Aktuální heslo",
+      "newPassword": "Nové heslo",
+      "passwordSaved": "Heslo bylo změněno"
+    },
+    "eventTypes": {
+      "title": "Typy událostí",
+      "subtitle": "Vlastní kategorie pro servisní záznamy",
+      "systemTypes": "Systémové typy",
+      "customTypes": "Vlastní typy",
+      "newType": "+ Nový",
+      "labelPlaceholder": "např. Kalibrace, TÜV, Inspekce…",
+      "colorLabel": "Barva",
+      "preview": "Náhled:",
+      "save": "Vytvořit typ",
+      "saving": "Ukládání…",
+      "noCustomTypes": "Zatím žádné vlastní typy.",
+      "systemBadge": "Systém"
+    },
+    "billing": {
+      "title": "Předplatné",
+      "subtitle": "Spravovat plán a platby",
+      "currentPlan": "Aktuální plán",
+      "status": {
+        "active": "Aktivní",
+        "inactive": "Neaktivní",
+        "trial": "Zkušební období"
+      },
+      "changePlan": "Změnit plán",
+      "activationCode": "Uplatnit aktivační kód",
+      "activationCodePlaceholder": "9místný kód",
+      "activate": "Aktivovat",
+      "activating": "Aktivace…",
+      "createInvoice": "Vytvořit fakturu",
+      "plans": {
+        "free": "Zdarma",
+        "starter": "Starter",
+        "professional": "Profesionální",
+        "enterprise": "Enterprise"
+      }
+    },
+    "invite": {
+      "title": "Vytvořit uživatele",
+      "subtitle": "Přidat nového člena do organizace",
+      "email": "E-mailová adresa",
+      "fullName": "Celé jméno",
+      "password": "Heslo",
+      "role": "Role",
+      "save": "Vytvořit uživatele",
+      "success": "Uživatel byl úspěšně vytvořen."
+    },
+    "statuses": {
+      "title": "Stavy aktiv",
+      "subtitle": "Definovat vlastní stavy",
+      "systemStatuses": "Systémové stavy",
+      "customStatuses": "Vlastní stavy",
+      "newStatus": "+ Nový"
+    }
+  },
+  "scan": {
+    "title": "Skenovat aktivum",
+    "subtitle": "Skenovat QR kód nebo NFC",
+    "startCamera": "Spustit kameru",
+    "scanning": "Skenování…",
+    "noPermission": "Přístup ke kameře není povolen",
+    "notFound": "Žádné aktivum nenalezeno",
+    "openAsset": "Otevřít aktivum"
+  },
+  "docs": {
+    "title": "Dokumentace",
+    "subtitle": "Vše, co potřebujete vědět.",
+    "heroDesc": "INOid je vaše digitální správa aktiv — od první registrace po vyřazení. Připraveno za 5 minut.",
+    "stats": {
+      "firstAsset": "do prvního aktiva",
+      "featureAreas": "funkční oblasti",
+      "browserBased": "browserové řešení"
+    },
+    "tabs": {
+      "quickstart": "Rychlý start",
+      "features": "Funkce",
+      "roles": "Role",
+      "plans": "Plány a předplatné",
+      "tips": "Tipy"
+    },
+    "quickstart": {
+      "intro": "Čtyři kroky a poznáte podstatu INOid.",
+      "openDirectly": "Otevřít přímo",
+      "demoTour": "Demo prohlídka",
+      "demoSoon": "Instruktážní video brzy"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Inspekce",
+    "maintenance": "Údržba",
+    "repair": "Oprava",
+    "overhaul": "Generální oprava",
+    "coating": "Povrchová úprava",
+    "cleaning": "Čištění",
+    "installation": "Instalace/Montáž",
+    "incident": "Incident/Poškození",
+    "decommission": "Vyřazení",
+    "other": "Ostatní"
+  },
+  "intervalPresets": {
+    "weekly": "Týdně",
+    "monthly": "Měsíčně",
+    "quarterly": "Čtvrtletně",
+    "biannual": "Pololetně",
+    "annual": "Ročně",
+    "biennial": "Dvouletně"
+  }
+}

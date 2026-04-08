@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Instrumentpanel",
+    "assets": "Tillgångshantering",
+    "scan": "Skanna",
+    "wartung": "Underhåll & Service",
+    "organisation": "Platser & Struktur",
+    "teams": "Team",
+    "billing": "Prenumeration",
+    "profile": "Profil & Inställningar",
+    "docs": "Dokumentation",
+    "logout": "Logga ut",
+    "orgManagement": "Organisationshantering",
+    "account": "Konto"
+  },
+  "common": {
+    "save": "Spara",
+    "cancel": "Avbryt",
+    "delete": "Ta bort",
+    "edit": "Redigera",
+    "create": "Skapa",
+    "back": "Tillbaka",
+    "loading": "Laddar…",
+    "saving": "Sparar…",
+    "error": "Fel",
+    "success": "Klart",
+    "confirm": "Bekräfta",
+    "close": "Stäng",
+    "search": "Sök",
+    "filter": "Filtrera",
+    "all": "Alla",
+    "none": "Ingen",
+    "yes": "Ja",
+    "no": "Nej",
+    "optional": "valfritt",
+    "required": "Obligatoriskt fält",
+    "new": "+ Ny",
+    "add": "Lägg till",
+    "remove": "Ta bort",
+    "noData": "Inga tillgängliga data",
+    "perPage": "per sida",
+    "page": "Sida",
+    "of": "av",
+    "entries": "Poster",
+    "reset": "Återställ",
+    "actions": "Åtgärder",
+    "status": "Status",
+    "date": "Datum",
+    "name": "Namn",
+    "description": "Beskrivning",
+    "notes": "Anteckningar",
+    "cost": "Kostnad",
+    "type": "Typ",
+    "category": "Kategori",
+    "preview": "Förhandsvisning",
+    "upload": "Ladda upp",
+    "download": "Ladda ner",
+    "copy": "Kopiera",
+    "duplicate": "Duplicera",
+    "active": "Aktiv",
+    "inactive": "Inaktiv",
+    "system": "System",
+    "custom": "Anpassad",
+    "label": "Etikett",
+    "color": "Färg",
+    "unknown": "Okänd",
+    "today": "Idag",
+    "tomorrow": "Imorgon",
+    "yesterday": "Igår",
+    "daysAgo": "{n} dagar försenad",
+    "inDays": "om {n} dagar",
+    "months": ["Januari","Februari","Mars","April","Maj","Juni","Juli","Augusti","September","Oktober","November","December"],
+    "noEntries": "Inga poster",
+    "pagination": "Sida {current} av {total}"
+  },
+  "auth": {
+    "login": "Logga in",
+    "logout": "Logga ut",
+    "email": "E-postadress",
+    "password": "Lösenord",
+    "forgotPassword": "Glömt lösenordet?",
+    "noAccount": "Har du inget konto?",
+    "register": "Registrera dig",
+    "loginError": "Inloggningen misslyckades. Kontrollera dina uppgifter.",
+    "welcomeBack": "Välkommen tillbaka"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "God morgon",
+      "afternoon": "God dag",
+      "evening": "God kväll"
+    },
+    "overdueWarning": "{n} förfallet underhåll",
+    "overdueWarningPlural": "{n} förfallna underhåll",
+    "stats": {
+      "assetsTotal": "Totalt antal tillgångar",
+      "active": "Aktiv",
+      "inService": "Under service",
+      "decommissioned": "Avvecklad",
+      "users": "Användare",
+      "overdueServices": "Förfallna underhåll",
+      "dueThisWeek": "Förfaller denna vecka",
+      "serviceEventsMonth": "Servicehändelser (månad)",
+      "maintenanceCostYear": "Underhållskostnader (år)",
+      "allDone": "Allt klart",
+      "limit": "Gräns: {n}",
+      "unlimited": "Obegränsat",
+      "percentOfStock": "{n} % av beståndet",
+      "totalSub": "{n} totalt",
+      "monthSub": "{n} € denna månad"
+    },
+    "sections": {
+      "assetUtilization": "Tillgångsutnyttjande",
+      "maintenanceOverview": "Underhållsöversikt",
+      "assetsByCategory": "Tillgångar per kategori",
+      "recentActivity": "Senaste aktivitet",
+      "currentPlan": "Aktuell plan",
+      "quickAccess": "Snabbåtkomst",
+      "noCategories": "Inga kategorier",
+      "noActivity": "Inga servicehändelser än"
+    },
+    "maintenance": {
+      "overdue": "Förfallen",
+      "thisWeek": "Denna vecka",
+      "next30Days": "Nästa 30 dagar",
+      "totalIntervals": "Totalt aktiva intervall"
+    },
+    "quickLinks": {
+      "createAsset": "Skapa tillgång",
+      "openMaintenance": "Öppna underhåll",
+      "scanAsset": "Skanna tillgång",
+      "locations": "Platser",
+      "addUser": "Lägg till användare",
+      "documentation": "Dokumentation"
+    },
+    "plan": {
+      "active": "AKTIV",
+      "inactive": "INAKTIV",
+      "assets": "Tillgångar",
+      "users": "Användare",
+      "manageBilling": "Hantera prenumeration"
+    }
+  },
+  "assets": {
+    "title": "Tillgångshantering",
+    "subtitle": "All utrustning i en överblick",
+    "new": "Ny tillgång",
+    "search": "Sök tillgångar…",
+    "filter": {
+      "allCategories": "Alla kategorier",
+      "allStatuses": "Alla statusar",
+      "allLocations": "Alla platser"
+    },
+    "noAssets": "Inga tillgångar än",
+    "noAssetsDesc": "Skapa din första utrustning.",
+    "noResults": "Inga tillgångar hittades",
+    "fields": {
+      "title": "Etikett",
+      "category": "Kategori",
+      "status": "Status",
+      "serialNumber": "Serienummer",
+      "articleNumber": "Artikelnummer",
+      "barcode": "Streckkod / QR-kod",
+      "manufacturer": "Tillverkare",
+      "model": "Modell",
+      "purchaseDate": "Inköpsdatum",
+      "purchasePrice": "Inköpspris (€)",
+      "location": "Plats",
+      "locationText": "Plats (fritext)",
+      "notes": "Anteckningar",
+      "photos": "Foton",
+      "documents": "Dokument",
+      "technicalData": "Tekniska data",
+      "commercialData": "Kommersiella data"
+    },
+    "status": {
+      "active": "Aktiv",
+      "in_service": "Under service",
+      "decommissioned": "Avvecklad",
+      "defective": "Defekt"
+    },
+    "actions": {
+      "viewServiceLog": "Servicelogg",
+      "edit": "Redigera",
+      "duplicate": "Duplicera",
+      "delete": "Ta bort",
+      "confirmDelete": "Ta bort denna tillgång? Åtgärden kan inte ångras.",
+      "duplicateSuccess": "Tillgång duplicerad"
+    },
+    "new_page": {
+      "title": "Skapa ny tillgång",
+      "edit_title": "Redigera tillgång",
+      "save": "Skapa tillgång",
+      "saveEdit": "Spara ändringar",
+      "addTechField": "+ Lägg till fält",
+      "fieldName": "Fältnamn",
+      "fieldValue": "Värde",
+      "addPhoto": "Lägg till foto",
+      "photoHint": "Foton lagras direkt i molnet",
+      "selectLocation": "Välj plats",
+      "noLocation": "Ingen plats",
+      "errors": {
+        "titleRequired": "Ange en etikett.",
+        "saveFailed": "Fel vid sparande"
+      }
+    },
+    "qr": {
+      "title": "QR-kod",
+      "download": "Ladda ner QR-kod",
+      "print": "Skriv ut"
+    },
+    "locationHistory": "Platshistorik",
+    "noLocationHistory": "Ingen platshistorik tillgänglig"
+  },
+  "service": {
+    "title": "Servicelogg",
+    "subtitle": "Fullständig dokumentation av alla händelser",
+    "newEntry": "+ Post",
+    "entries": "Poster",
+    "totalCost": "Total kostnad",
+    "intervals": "Intervall",
+    "noEntries": "Inga poster än",
+    "noEntriesDesc": "Dokumentera underhåll, reparationer och inspektioner.",
+    "entry": {
+      "title": "Titel",
+      "titlePlaceholder": "t.ex. {type} utförd",
+      "type": "Typ",
+      "date": "Datum & tid",
+      "description": "Beskrivning",
+      "descriptionPlaceholder": "Vad gjordes?",
+      "performedBy": "Utförd av",
+      "performedByPlaceholder": "Namn",
+      "externalCompany": "Företag / externt",
+      "externalCompanyPlaceholder": "t.ex. TÜV",
+      "costEur": "Kostnad (€)",
+      "nextDate": "Nästa datum",
+      "notes": "Anteckningar / kommentarer",
+      "notesPlaceholder": "Interna anteckningar, fynd, rekommendationer…",
+      "photos": "Foton",
+      "documents": "Dokument",
+      "addDocument": "+ Lägg till dokument / PDF",
+      "save": "Spara post",
+      "saveEdit": "Spara ändringar",
+      "completeMaintenance": "Slutför underhåll",
+      "new": "Ny post",
+      "edit": "Redigera post",
+      "customType": "+ Skapa anpassad",
+      "cancelCustomType": "× Avbryt",
+      "newTypePlaceholder": "Etikett, t.ex. Kalibrering",
+      "createType": "Skapa & välj typ",
+      "nextDateAutoSet": "Nästa datum ställs in automatiskt",
+      "nextDateIntervalHint": "{n} dagar från utförandedatum",
+      "errors": {
+        "titleRequired": "Ange en titel.",
+        "saveFailed": "Fel vid sparande"
+      }
+    },
+    "checklist": {
+      "title": "Checklista",
+      "subtitle": "Bocka av varje steg och lägg eventuellt till anteckningar",
+      "done": "klar",
+      "addNote": "+ Anteckning",
+      "notePlaceholder": "Fynd, mätning, kommentar för detta steg…",
+      "resources": "Resurser (valfritt): verktyg, material…"
+    },
+    "interval": {
+      "title": "Nytt intervall",
+      "editTitle": "Redigera intervall",
+      "subtitle": "Återkommande uppgift",
+      "name": "Etikett *",
+      "namePlaceholder": "t.ex. {type} var 6:e månad",
+      "interval": "Intervall",
+      "intervalDays": "Var {n}:e dag",
+      "custom": "Anpassad",
+      "customDays": "Dagar",
+      "customDaysPlaceholder": "t.ex. 45",
+      "lastDone": "Senast utförd",
+      "lastDoneHint": "Valfritt – beräknar nästa datum",
+      "nextDue": "Nästa förfallodatum *",
+      "preview": "Förhandsvisning",
+      "previewDesc": "Var {days}:e dag · Förfaller: {date}",
+      "checklist": "Checklista",
+      "checklistSubtitle": "Numrerade steg att bocka av vid utförande",
+      "addStep": "+ Steg",
+      "stepPlaceholder": "Beskriv steg {n}…",
+      "resourcesPlaceholder": "Resurser (valfritt): verktyg, material…",
+      "noSteps": "Inga steg – tryck på \"+ Steg\"",
+      "save": "Skapa intervall",
+      "saveEdit": "Spara ändringar",
+      "newType": "Skapa ny typ",
+      "errors": {
+        "nameRequired": "Ange en etikett.",
+        "intervalRequired": "Ange ett giltigt intervall.",
+        "nextDateRequired": "Ange nästa förfallodatum."
+      }
+    },
+    "schedules": {
+      "title": "Underhållsintervall",
+      "newInterval": "+ Intervall",
+      "noSchedules": "Inga underhållsintervall än",
+      "noSchedulesDesc": "Konfigurera ett återkommande underhållsschema.",
+      "dueDate": "Förfaller {date}",
+      "overdue": "Förfallen",
+      "dueIn": "Förfaller om {n} dagar",
+      "dueToday": "Förfaller idag",
+      "complete": "Markera som klar",
+      "completeShort": "Slutför",
+      "lastDone": "Senast: {date}",
+      "interval": "Var {n}:e dag"
+    },
+    "timeline": {
+      "entry": "Post",
+      "entries": "Poster",
+      "noEntries": "Inga poster än",
+      "noEntriesDesc": "Dokumentera underhåll, reparationer och inspektioner.",
+      "nextDate": "Nästa: {date}",
+      "editBtn": "Redigera",
+      "checklistSection": "Checklista",
+      "notesSection": "Anteckningar"
+    }
+  },
+  "wartung": {
+    "title": "Underhåll & Service",
+    "subtitle": "Alla förfallande underhållsintervall",
+    "tabs": {
+      "list": "Uppgiftslista",
+      "gantt": "Gantt-schema"
+    },
+    "filter": {
+      "search": "Sök efter tillgång, serienr., kategori…",
+      "urgency": "Brådska",
+      "all": "Alla",
+      "overdue": "Förfallen",
+      "week": "Denna vecka",
+      "twoWeeks": "Två veckor",
+      "month": "30 dagar",
+      "category": "Kategori",
+      "allCategories": "Alla kategorier",
+      "reset": "Återställ"
+    },
+    "groups": {
+      "overdue": "Förfallen",
+      "thisWeek": "Denna vecka",
+      "next30Days": "Nästa 30 dagar",
+      "later": "Senare"
+    },
+    "noSchedules": "Inga poster",
+    "noSchedulesDesc": "Inga underhållsuppgifter för detta filter.",
+    "complete": "Markera som klar",
+    "completeBtn": "Slutför",
+    "stats": {
+      "overdue": "Förfallna underhåll",
+      "thisWeek": "Förfaller denna vecka",
+      "thisMonth": "Förfaller denna månad",
+      "total": "Aktiva intervall"
+    }
+  },
+  "organisation": {
+    "title": "Platser & Struktur",
+    "subtitle": "Hantera driftsstrukturen",
+    "newLocation": "+ Plats",
+    "newHall": "+ Hall",
+    "newArea": "+ Område",
+    "noLocations": "Inga platser än",
+    "noLocationsDesc": "Skapa din första plats.",
+    "location": "Plats",
+    "hall": "Hall",
+    "area": "Område",
+    "assetsHere": "{n} tillgångar",
+    "fields": {
+      "name": "Namn",
+      "description": "Beskrivning"
+    }
+  },
+  "teams": {
+    "title": "Team",
+    "subtitle": "Hantera medlemmar och roller",
+    "newTeam": "+ Team",
+    "inviteMember": "Bjud in medlem",
+    "newMember": "Skapa medlem",
+    "noTeams": "Inga team än",
+    "member": "Medlem",
+    "members": "Medlemmar",
+    "role": "Roll",
+    "roles": {
+      "admin": "Administratör",
+      "technician": "Tekniker",
+      "viewer": "Läsare"
+    },
+    "roleDesc": {
+      "admin": "Full åtkomst + användarhantering",
+      "technician": "Redigera tillgångar och service",
+      "viewer": "Visa endast"
+    },
+    "fields": {
+      "name": "Teamnamn",
+      "email": "E-postadress",
+      "password": "Lösenord",
+      "fullName": "Fullständigt namn"
+    },
+    "actions": {
+      "changeRole": "Ändra roll",
+      "removeMember": "Ta bort medlem",
+      "confirmRemove": "Ta bort denna medlem?"
+    }
+  },
+  "settings": {
+    "title": "Inställningar",
+    "profile": {
+      "title": "Profil",
+      "subtitle": "Personuppgifter och inställningar",
+      "fullName": "Fullständigt namn",
+      "email": "E-postadress",
+      "language": "Språk",
+      "languageSubtitle": "Appspråk för ditt konto",
+      "save": "Spara profil",
+      "saved": "Sparat",
+      "changePassword": "Ändra lösenord",
+      "currentPassword": "Nuvarande lösenord",
+      "newPassword": "Nytt lösenord",
+      "passwordSaved": "Lösenord ändrat"
+    },
+    "eventTypes": {
+      "title": "Händelsetyper",
+      "subtitle": "Anpassade kategorier för serviceposter",
+      "systemTypes": "Systemtyper",
+      "customTypes": "Anpassade typer",
+      "newType": "+ Ny",
+      "labelPlaceholder": "t.ex. Kalibrering, TÜV, Inspektion…",
+      "colorLabel": "Färg",
+      "preview": "Förhandsvisning:",
+      "save": "Skapa typ",
+      "saving": "Sparar…",
+      "noCustomTypes": "Inga anpassade typer än.",
+      "systemBadge": "System"
+    },
+    "billing": {
+      "title": "Prenumeration",
+      "subtitle": "Hantera plan och betalningar",
+      "currentPlan": "Aktuell plan",
+      "status": {
+        "active": "Aktiv",
+        "inactive": "Inaktiv",
+        "trial": "Provperiod"
+      },
+      "changePlan": "Byt plan",
+      "activationCode": "Lös in aktiveringskod",
+      "activationCodePlaceholder": "9-siffrig kod",
+      "activate": "Aktivera",
+      "activating": "Aktiverar…",
+      "createInvoice": "Skapa faktura",
+      "plans": {
+        "free": "Gratis",
+        "starter": "Starter",
+        "professional": "Professionell",
+        "enterprise": "Enterprise"
+      }
+    },
+    "invite": {
+      "title": "Skapa användare",
+      "subtitle": "Lägg till en ny medlem i organisationen",
+      "email": "E-postadress",
+      "fullName": "Fullständigt namn",
+      "password": "Lösenord",
+      "role": "Roll",
+      "save": "Skapa användare",
+      "success": "Användaren skapades framgångsrikt."
+    },
+    "statuses": {
+      "title": "Tillgångsstatus",
+      "subtitle": "Definiera anpassade statusar",
+      "systemStatuses": "Systemstatusar",
+      "customStatuses": "Anpassade statusar",
+      "newStatus": "+ Ny"
+    }
+  },
+  "scan": {
+    "title": "Skanna tillgång",
+    "subtitle": "Skanna QR-kod eller NFC",
+    "startCamera": "Starta kamera",
+    "scanning": "Skannar…",
+    "noPermission": "Kameraåtkomst inte tillåten",
+    "notFound": "Ingen tillgång hittades",
+    "openAsset": "Öppna tillgång"
+  },
+  "docs": {
+    "title": "Dokumentation",
+    "subtitle": "Allt du behöver veta.",
+    "heroDesc": "INOid är din digitala tillgångshantering — från första registreringen till avveckling. Redo på 5 minuter.",
+    "stats": {
+      "firstAsset": "till första tillgången",
+      "featureAreas": "funktionsområden",
+      "browserBased": "webbläsarbaserad"
+    },
+    "tabs": {
+      "quickstart": "Snabbstart",
+      "features": "Funktioner",
+      "roles": "Roller",
+      "plans": "Planer och prenumeration",
+      "tips": "Tips"
+    },
+    "quickstart": {
+      "intro": "Fyra steg och du känner till det väsentliga i INOid.",
+      "openDirectly": "Öppna direkt",
+      "demoTour": "Demotour",
+      "demoSoon": "Introduktionsvideo kommer snart"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Inspektion",
+    "maintenance": "Underhåll",
+    "repair": "Reparation",
+    "overhaul": "Översyn",
+    "coating": "Ytbehandling",
+    "cleaning": "Rengöring",
+    "installation": "Installation/Montering",
+    "incident": "Incident/Skada",
+    "decommission": "Avveckling",
+    "other": "Övrigt"
+  },
+  "intervalPresets": {
+    "weekly": "Veckovis",
+    "monthly": "Månadsvis",
+    "quarterly": "Kvartalsvis",
+    "biannual": "Halvårsvis",
+    "annual": "Årsvis",
+    "biennial": "Vartannat år"
+  }
+}

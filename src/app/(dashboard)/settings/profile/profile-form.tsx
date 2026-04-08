@@ -2,14 +2,16 @@
 
 import { useState } from 'react'
 import { updateProfile, changePassword } from './actions'
-import { Check, Loader, KeyRound, User } from 'lucide-react'
+import { Check, Loader, KeyRound, User, Globe } from 'lucide-react'
+import { LanguageSelector } from '@/components/language-selector'
+import { useTranslations } from 'next-intl'
 
 export function ProfileForm({ fullName, email }: { fullName: string; email: string }) {
+  const t = useTranslations('settings.profile')
   const [name, setName] = useState(fullName)
   const [savingName, setSavingName] = useState(false)
   const [nameSaved, setNameSaved] = useState(false)
 
-  const [currentPw, setCurrentPw] = useState('')
   const [newPw, setNewPw] = useState('')
   const [confirmPw, setConfirmPw] = useState('')
   const [savingPw, setSavingPw] = useState(false)
@@ -33,7 +35,7 @@ export function ProfileForm({ fullName, email }: { fullName: string; email: stri
     const result = await changePassword(newPw)
     setSavingPw(false)
     if (result.error) { setPwError(result.error); return }
-    setCurrentPw(''); setNewPw(''); setConfirmPw('')
+    setNewPw(''); setConfirmPw('')
     setPwSaved(true)
     setTimeout(() => setPwSaved(false), 2500)
   }
@@ -44,22 +46,32 @@ export function ProfileForm({ fullName, email }: { fullName: string; email: stri
     background: 'transparent', color: '#000',
   }
 
+  const sectionLabelStyle: React.CSSProperties = {
+    fontSize: 11, fontWeight: 700, color: '#666',
+    textTransform: 'uppercase', letterSpacing: '0.06em',
+    margin: '0 0 8px 2px', display: 'flex', alignItems: 'center', gap: 5,
+  }
+
   return (
     <div style={{ padding: '24px 16px', fontFamily: 'Arial, sans-serif', maxWidth: 480 }}>
-      <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 24px' }}>Mein Profil</h1>
+      <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 24px' }}>{t('title')}</h1>
 
-      {/* ── Profil ── */}
+      {/* ── Profildaten ── */}
       <div style={{ marginBottom: 24 }}>
-        <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 8px 2px', display: 'flex', alignItems: 'center', gap: 5 }}>
-          <User size={11} /> Profildaten
+        <p style={sectionLabelStyle}>
+          <User size={11} /> {t('title')}
         </p>
         <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
           <div style={{ padding: '13px 16px', borderBottom: '1px solid #e8eef6' }}>
-            <label style={{ display: 'block', fontSize: 11, color: '#96aed2', marginBottom: 4, fontWeight: 700 }}>E-MAIL</label>
+            <label style={{ display: 'block', fontSize: 11, color: '#96aed2', marginBottom: 4, fontWeight: 700 }}>
+              {t('email').toUpperCase()}
+            </label>
             <p style={{ margin: 0, fontSize: 15, color: '#666' }}>{email}</p>
           </div>
           <div style={{ padding: '13px 16px' }}>
-            <label style={{ display: 'block', fontSize: 11, color: '#96aed2', marginBottom: 4, fontWeight: 700 }}>NAME</label>
+            <label style={{ display: 'block', fontSize: 11, color: '#96aed2', marginBottom: 4, fontWeight: 700 }}>
+              {t('fullName').toUpperCase()}
+            </label>
             <input
               value={name}
               onChange={e => setName(e.target.value)}
@@ -79,19 +91,32 @@ export function ProfileForm({ fullName, email }: { fullName: string; email: stri
               fontFamily: 'Arial, sans-serif', transition: 'background 0.2s',
             }}>
             {savingName ? <Loader size={13} /> : <Check size={13} />}
-            {nameSaved ? 'Gespeichert!' : 'Speichern'}
+            {nameSaved ? t('saved') : t('save')}
           </button>
+        </div>
+      </div>
+
+      {/* ── Sprache ── */}
+      <div style={{ marginBottom: 24 }}>
+        <p style={sectionLabelStyle}>
+          <Globe size={11} /> {t('language')}
+        </p>
+        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '14px 16px' }}>
+          <p style={{ fontSize: 12, color: '#96aed2', margin: '0 0 10px' }}>{t('languageSubtitle')}</p>
+          <LanguageSelector />
         </div>
       </div>
 
       {/* ── Passwort ── */}
       <div>
-        <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 8px 2px', display: 'flex', alignItems: 'center', gap: 5 }}>
-          <KeyRound size={11} /> Passwort ändern
+        <p style={sectionLabelStyle}>
+          <KeyRound size={11} /> {t('changePassword')}
         </p>
         <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
           <div style={{ padding: '13px 16px', borderBottom: '1px solid #e8eef6' }}>
-            <label style={{ display: 'block', fontSize: 11, color: '#96aed2', marginBottom: 4, fontWeight: 700 }}>NEUES PASSWORT</label>
+            <label style={{ display: 'block', fontSize: 11, color: '#96aed2', marginBottom: 4, fontWeight: 700 }}>
+              {t('newPassword').toUpperCase()}
+            </label>
             <input
               type="password"
               value={newPw}
@@ -101,7 +126,9 @@ export function ProfileForm({ fullName, email }: { fullName: string; email: stri
             />
           </div>
           <div style={{ padding: '13px 16px' }}>
-            <label style={{ display: 'block', fontSize: 11, color: '#96aed2', marginBottom: 4, fontWeight: 700 }}>PASSWORT BESTÄTIGEN</label>
+            <label style={{ display: 'block', fontSize: 11, color: '#96aed2', marginBottom: 4, fontWeight: 700 }}>
+              PASSWORT BESTÄTIGEN
+            </label>
             <input
               type="password"
               value={confirmPw}
@@ -126,7 +153,7 @@ export function ProfileForm({ fullName, email }: { fullName: string; email: stri
               fontFamily: 'Arial, sans-serif', transition: 'background 0.2s',
             }}>
             {savingPw ? <Loader size={13} /> : <KeyRound size={13} />}
-            {pwSaved ? 'Geändert!' : 'Passwort ändern'}
+            {pwSaved ? t('passwordSaved') : t('changePassword')}
           </button>
         </div>
       </div>

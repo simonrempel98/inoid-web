@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Контролна табла",
+    "assets": "Управљање имовином",
+    "scan": "Скенирање",
+    "wartung": "Одржавање & Сервис",
+    "organisation": "Локације & Структура",
+    "teams": "Тимови",
+    "billing": "Претплата",
+    "profile": "Профил & Подешавања",
+    "docs": "Документација",
+    "logout": "Одјава",
+    "orgManagement": "Управљање организацијом",
+    "account": "Налог"
+  },
+  "common": {
+    "save": "Сачувај",
+    "cancel": "Откажи",
+    "delete": "Обриши",
+    "edit": "Уреди",
+    "create": "Креирај",
+    "back": "Назад",
+    "loading": "Учитавање…",
+    "saving": "Чување…",
+    "error": "Грешка",
+    "success": "Успех",
+    "confirm": "Потврди",
+    "close": "Затвори",
+    "search": "Тражи",
+    "filter": "Филтер",
+    "all": "Све",
+    "none": "Ништа",
+    "yes": "Да",
+    "no": "Не",
+    "optional": "опционално",
+    "required": "Обавезно поље",
+    "new": "+ Ново",
+    "add": "Додај",
+    "remove": "Уклони",
+    "noData": "Нема доступних података",
+    "perPage": "по страни",
+    "page": "Страна",
+    "of": "од",
+    "entries": "Уноси",
+    "reset": "Ресетуј",
+    "actions": "Акције",
+    "status": "Статус",
+    "date": "Датум",
+    "name": "Назив",
+    "description": "Опис",
+    "notes": "Белешке",
+    "cost": "Трошак",
+    "type": "Врста",
+    "category": "Категорија",
+    "preview": "Преглед",
+    "upload": "Учитај",
+    "download": "Преузми",
+    "copy": "Копирај",
+    "duplicate": "Дупликуј",
+    "active": "Активан",
+    "inactive": "Неактиван",
+    "system": "Систем",
+    "custom": "Прилагођено",
+    "label": "Ознака",
+    "color": "Боја",
+    "unknown": "Непознато",
+    "today": "Данас",
+    "tomorrow": "Сутра",
+    "yesterday": "Јуче",
+    "daysAgo": "{n} дана кашњења",
+    "inDays": "за {n} дана",
+    "months": ["Јануар","Фебруар","Март","Април","Мај","Јун","Јул","Август","Септембар","Октобар","Новембар","Децембар"],
+    "noEntries": "Нема уноса",
+    "pagination": "Страна {current} од {total}"
+  },
+  "auth": {
+    "login": "Пријава",
+    "logout": "Одјава",
+    "email": "Адреса е-поште",
+    "password": "Лозинка",
+    "forgotPassword": "Заборавили сте лозинку?",
+    "noAccount": "Немате налог?",
+    "register": "Регистрација",
+    "loginError": "Пријава није успела. Проверите своје податке.",
+    "welcomeBack": "Добродошли назад"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Добро јутро",
+      "afternoon": "Добар дан",
+      "evening": "Добро вече"
+    },
+    "overdueWarning": "{n} закаснело одржавање",
+    "overdueWarningPlural": "{n} закаснела одржавања",
+    "stats": {
+      "assetsTotal": "Укупно имовине",
+      "active": "Активно",
+      "inService": "У сервису",
+      "decommissioned": "Повучено",
+      "users": "Корисници",
+      "overdueServices": "Закаснела одржавања",
+      "dueThisWeek": "Ове недеље",
+      "serviceEventsMonth": "Сервисни догађаји (месец)",
+      "maintenanceCostYear": "Трошкови одржавања (година)",
+      "allDone": "Све завршено",
+      "limit": "Лимит: {n}",
+      "unlimited": "Неограничено",
+      "percentOfStock": "{n} % залихе",
+      "totalSub": "Укупно {n}",
+      "monthSub": "{n} € овог месеца"
+    },
+    "sections": {
+      "assetUtilization": "Искоришћеност имовине",
+      "maintenanceOverview": "Преглед одржавања",
+      "assetsByCategory": "Имовина по категорији",
+      "recentActivity": "Недавна активност",
+      "currentPlan": "Тренутни план",
+      "quickAccess": "Брзи приступ",
+      "noCategories": "Нема категорија",
+      "noActivity": "Нема сервисних догађаја"
+    },
+    "maintenance": {
+      "overdue": "Закаснило",
+      "thisWeek": "Ове недеље",
+      "next30Days": "Наредних 30 дана",
+      "totalIntervals": "Укупно активних интервала"
+    },
+    "quickLinks": {
+      "createAsset": "Креирај имовину",
+      "openMaintenance": "Отвори одржавање",
+      "scanAsset": "Скенирај имовину",
+      "locations": "Локације",
+      "addUser": "Додај корисника",
+      "documentation": "Документација"
+    },
+    "plan": {
+      "active": "АКТИВАН",
+      "inactive": "НЕАКТИВАН",
+      "assets": "Имовина",
+      "users": "Корисници",
+      "manageBilling": "Управљај претплатом"
+    }
+  },
+  "assets": {
+    "title": "Управљање имовином",
+    "subtitle": "Сва опрема на први поглед",
+    "new": "Нова имовина",
+    "search": "Тражи имовину…",
+    "filter": {
+      "allCategories": "Све категорије",
+      "allStatuses": "Сви статуси",
+      "allLocations": "Све локације"
+    },
+    "noAssets": "Нема имовине",
+    "noAssetsDesc": "Креирајте своју прву опрему.",
+    "noResults": "Није пронађена имовина",
+    "fields": {
+      "title": "Ознака",
+      "category": "Категорија",
+      "status": "Статус",
+      "serialNumber": "Серијски број",
+      "articleNumber": "Број артикла",
+      "barcode": "Бар-код / QR кôд",
+      "manufacturer": "Произвођач",
+      "model": "Модел",
+      "purchaseDate": "Датум куповине",
+      "purchasePrice": "Куповна цена (€)",
+      "location": "Локација",
+      "locationText": "Локација (слободни текст)",
+      "notes": "Белешке",
+      "photos": "Фотографије",
+      "documents": "Документи",
+      "technicalData": "Технички подаци",
+      "commercialData": "Комерцијални подаци"
+    },
+    "status": {
+      "active": "Активан",
+      "in_service": "У сервису",
+      "decommissioned": "Повучен",
+      "defective": "Неисправан"
+    },
+    "actions": {
+      "viewServiceLog": "Сервисна књига",
+      "edit": "Уреди",
+      "duplicate": "Дупликуј",
+      "delete": "Обриши",
+      "confirmDelete": "Обрисати ову имовину? Ова радња не може се поништити.",
+      "duplicateSuccess": "Имовина дупликована"
+    },
+    "new_page": {
+      "title": "Креирај нову имовину",
+      "edit_title": "Уреди имовину",
+      "save": "Креирај имовину",
+      "saveEdit": "Сачувај измене",
+      "addTechField": "+ Додај поље",
+      "fieldName": "Назив поља",
+      "fieldValue": "Вредност",
+      "addPhoto": "Додај фотографију",
+      "photoHint": "Фотографије се чувају директно у облаку",
+      "selectLocation": "Одабери локацију",
+      "noLocation": "Без локације",
+      "errors": {
+        "titleRequired": "Унесите ознаку.",
+        "saveFailed": "Грешка при чувању"
+      }
+    },
+    "qr": {
+      "title": "QR кôд",
+      "download": "Преузми QR кôд",
+      "print": "Штампај"
+    },
+    "locationHistory": "Историја локација",
+    "noLocationHistory": "Нема историје локација"
+  },
+  "service": {
+    "title": "Сервисна књига",
+    "subtitle": "Потпуна документација свих догађаја",
+    "newEntry": "+ Унос",
+    "entries": "Уноси",
+    "totalCost": "Укупни трошкови",
+    "intervals": "Интервали",
+    "noEntries": "Нема уноса",
+    "noEntriesDesc": "Документујте одржавања, поправке и инспекције.",
+    "entry": {
+      "title": "Наслов",
+      "titlePlaceholder": "нпр. {type} извршено",
+      "type": "Врста",
+      "date": "Датум и време",
+      "description": "Опис",
+      "descriptionPlaceholder": "Шта је урађено?",
+      "performedBy": "Извршио",
+      "performedByPlaceholder": "Ime",
+      "externalCompany": "Фирма / спољна",
+      "externalCompanyPlaceholder": "нпр. TÜV",
+      "costEur": "Трошак (€)",
+      "nextDate": "Следећи термин",
+      "notes": "Белешке / напомене",
+      "notesPlaceholder": "Интерне белешке, налазе, препоруке…",
+      "photos": "Фотографије",
+      "documents": "Документи",
+      "addDocument": "+ Додај документ / PDF",
+      "save": "Сачувај унос",
+      "saveEdit": "Сачувај измене",
+      "completeMaintenance": "Заврши одржавање",
+      "new": "Нови унос",
+      "edit": "Уреди унос",
+      "customType": "+ Креирај прилагођено",
+      "cancelCustomType": "× Откажи",
+      "newTypePlaceholder": "Ознака, нпр. Калибрација",
+      "createType": "Креирај и одабери врсту",
+      "nextDateAutoSet": "Следећи термин ће бити аутоматски постављен",
+      "nextDateIntervalHint": "{n} дана од датума извођења",
+      "errors": {
+        "titleRequired": "Унесите наслов.",
+        "saveFailed": "Грешка при чувању"
+      }
+    },
+    "checklist": {
+      "title": "Контролна листа",
+      "subtitle": "Означите сваки корак и по жељи додајте белешке",
+      "done": "готово",
+      "addNote": "+ Белешка",
+      "notePlaceholder": "Налаз, мерење, напомена за овај корак…",
+      "resources": "Ресурси (опционално): алати, материјали…"
+    },
+    "interval": {
+      "title": "Нови интервал",
+      "editTitle": "Уреди интервал",
+      "subtitle": "Понављајући задатак",
+      "name": "Ознака *",
+      "namePlaceholder": "нпр. {type} сваких 6 месеци",
+      "interval": "Интервал",
+      "intervalDays": "Сваки {n} дана",
+      "custom": "Прилагођено",
+      "customDays": "Дана",
+      "customDaysPlaceholder": "нпр. 45",
+      "lastDone": "Последњи пут извршено",
+      "lastDoneHint": "Опционално – израчунава следећи датум",
+      "nextDue": "Следећи рок *",
+      "preview": "Преглед",
+      "previewDesc": "Сваки {days} дана · Рок: {date}",
+      "checklist": "Контролна листа",
+      "checklistSubtitle": "Нумерисани кораци за означавање при извођењу",
+      "addStep": "+ Корак",
+      "stepPlaceholder": "Опишите корак {n}…",
+      "resourcesPlaceholder": "Ресурси (опционално): алати, материјали…",
+      "noSteps": "Нема корака – притисните \"+ Корак\"",
+      "save": "Креирај интервал",
+      "saveEdit": "Сачувај измене",
+      "newType": "Креирај нову врсту",
+      "errors": {
+        "nameRequired": "Унесите ознаку.",
+        "intervalRequired": "Унесите важећи интервал.",
+        "nextDateRequired": "Наведите следећи рок."
+      }
+    },
+    "schedules": {
+      "title": "Интервали одржавања",
+      "newInterval": "+ Интервал",
+      "noSchedules": "Нема интервала одржавања",
+      "noSchedulesDesc": "Поставите план понављајућег одржавања.",
+      "dueDate": "Рок {date}",
+      "overdue": "Закаснило",
+      "dueIn": "За {n} дана",
+      "dueToday": "Данас",
+      "complete": "Означи као готово",
+      "completeShort": "Заврши",
+      "lastDone": "Последњи: {date}",
+      "interval": "Сваки {n} дана"
+    },
+    "timeline": {
+      "entry": "Унос",
+      "entries": "Уноси",
+      "noEntries": "Нема уноса",
+      "noEntriesDesc": "Документујте одржавања, поправке и инспекције.",
+      "nextDate": "Следећи: {date}",
+      "editBtn": "Уреди",
+      "checklistSection": "Контролна листа",
+      "notesSection": "Белешке"
+    }
+  },
+  "wartung": {
+    "title": "Одржавање & Сервис",
+    "subtitle": "Сви доспели интервали одржавања",
+    "tabs": {
+      "list": "Листа задатака",
+      "gantt": "Гант дијаграм"
+    },
+    "filter": {
+      "search": "Тражи по имовини, сер. бр., категорији…",
+      "urgency": "Хитност",
+      "all": "Све",
+      "overdue": "Закаснило",
+      "week": "Ове недеље",
+      "twoWeeks": "Две недеље",
+      "month": "30 дана",
+      "category": "Категорија",
+      "allCategories": "Све категорије",
+      "reset": "Ресетуј"
+    },
+    "groups": {
+      "overdue": "Закаснило",
+      "thisWeek": "Ове недеље",
+      "next30Days": "Наредних 30 дана",
+      "later": "Касније"
+    },
+    "noSchedules": "Нема уноса",
+    "noSchedulesDesc": "Нема задатака одржавања за овај филтер.",
+    "complete": "Означи као готово",
+    "completeBtn": "Заврши",
+    "stats": {
+      "overdue": "Закаснела одржавања",
+      "thisWeek": "Ове недеље",
+      "thisMonth": "Овог месеца",
+      "total": "Активни интервали"
+    }
+  },
+  "organisation": {
+    "title": "Локације & Структура",
+    "subtitle": "Управљање оперативном структуром",
+    "newLocation": "+ Локација",
+    "newHall": "+ Хала",
+    "newArea": "+ Зона",
+    "noLocations": "Нема локација",
+    "noLocationsDesc": "Креирајте прву локацију.",
+    "location": "Локација",
+    "hall": "Хала",
+    "area": "Зона",
+    "assetsHere": "{n} имовине",
+    "fields": {
+      "name": "Назив",
+      "description": "Опис"
+    }
+  },
+  "teams": {
+    "title": "Тимови",
+    "subtitle": "Управљање члановима и улогама",
+    "newTeam": "+ Тим",
+    "inviteMember": "Позови члана",
+    "newMember": "Креирај члана",
+    "noTeams": "Нема тимова",
+    "member": "Члан",
+    "members": "Чланови",
+    "role": "Улога",
+    "roles": {
+      "admin": "Администратор",
+      "technician": "Техничар",
+      "viewer": "Читач"
+    },
+    "roleDesc": {
+      "admin": "Пун приступ + управљање корисницима",
+      "technician": "Уређивање имовине и сервиса",
+      "viewer": "Само преглед"
+    },
+    "fields": {
+      "name": "Назив тима",
+      "email": "Адреса е-поште",
+      "password": "Лозинка",
+      "fullName": "Пуно ime"
+    },
+    "actions": {
+      "changeRole": "Промени улогу",
+      "removeMember": "Уклони члана",
+      "confirmRemove": "Уклонити овог члана?"
+    }
+  },
+  "settings": {
+    "title": "Подешавања",
+    "profile": {
+      "title": "Профил",
+      "subtitle": "Лични подаци и подешавања",
+      "fullName": "Пуно ime",
+      "email": "Адреса е-поште",
+      "language": "Језик",
+      "languageSubtitle": "Језик апликације за ваш налог",
+      "save": "Сачувај профил",
+      "saved": "Сачувано",
+      "changePassword": "Промени лозинку",
+      "currentPassword": "Тренутна лозинка",
+      "newPassword": "Нова лозинка",
+      "passwordSaved": "Лозинка промењена"
+    },
+    "eventTypes": {
+      "title": "Врсте догађаја",
+      "subtitle": "Прилагођене категорије за сервисне уносе",
+      "systemTypes": "Системске врсте",
+      "customTypes": "Прилагођене врсте",
+      "newType": "+ Ново",
+      "labelPlaceholder": "нпр. Калибрација, TÜV, Инспекција…",
+      "colorLabel": "Боја",
+      "preview": "Преглед:",
+      "save": "Креирај врсту",
+      "saving": "Чување…",
+      "noCustomTypes": "Нема прилагођених врста.",
+      "systemBadge": "Систем"
+    },
+    "billing": {
+      "title": "Претплата",
+      "subtitle": "Управљање планом и плаћањима",
+      "currentPlan": "Тренутни план",
+      "status": {
+        "active": "Активан",
+        "inactive": "Неактиван",
+        "trial": "Пробни период"
+      },
+      "changePlan": "Промени план",
+      "activationCode": "Искористи активациони кôд",
+      "activationCodePlaceholder": "9-цифрени кôд",
+      "activate": "Активирај",
+      "activating": "Активирање…",
+      "createInvoice": "Креирај рачун",
+      "plans": {
+        "free": "Бесплатно",
+        "starter": "Стартни",
+        "professional": "Професионални",
+        "enterprise": "Корпоративни"
+      }
+    },
+    "invite": {
+      "title": "Креирај корисника",
+      "subtitle": "Додај новог члана у организацију",
+      "email": "Адреса е-поште",
+      "fullName": "Пуно ime",
+      "password": "Лозинка",
+      "role": "Улога",
+      "save": "Креирај корисника",
+      "success": "Корисник је успешно креиран."
+    },
+    "statuses": {
+      "title": "Статуси имовине",
+      "subtitle": "Дефинишите прилагођене статусе",
+      "systemStatuses": "Системски статуси",
+      "customStatuses": "Прилагођени статуси",
+      "newStatus": "+ Ново"
+    }
+  },
+  "scan": {
+    "title": "Скенирај имовину",
+    "subtitle": "Скенирај QR кôд или NFC",
+    "startCamera": "Покрени камеру",
+    "scanning": "Скенирање…",
+    "noPermission": "Приступ камери није дозвољен",
+    "notFound": "Није пронађена имовина",
+    "openAsset": "Отвори имовину"
+  },
+  "docs": {
+    "title": "Документација",
+    "subtitle": "Све што треба да знате.",
+    "heroDesc": "INOid је ваше дигитално управљање имовином — од прве регистрације до повлачења. Спреман за 5 минута.",
+    "stats": {
+      "firstAsset": "до прве имовине",
+      "featureAreas": "функционалне области",
+      "browserBased": "засновано на прегледачу"
+    },
+    "tabs": {
+      "quickstart": "Брзи почетак",
+      "features": "Функције",
+      "roles": "Улоге",
+      "plans": "Планови и претплата",
+      "tips": "Савети"
+    },
+    "quickstart": {
+      "intro": "Четири корака и упознате ћете суштину INOid-а.",
+      "openDirectly": "Отвори директно",
+      "demoTour": "Демо обилазак",
+      "demoSoon": "Видео презентација ускоро"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Инспекција",
+    "maintenance": "Одржавање",
+    "repair": "Поправка",
+    "overhaul": "Генерални ремонт",
+    "coating": "Премаз",
+    "cleaning": "Чишћење",
+    "installation": "Инсталација/Монтажа",
+    "incident": "Инцидент/Штета",
+    "decommission": "Повлачење",
+    "other": "Остало"
+  },
+  "intervalPresets": {
+    "weekly": "Недељно",
+    "monthly": "Месечно",
+    "quarterly": "Тромесечно",
+    "biannual": "Полугодишње",
+    "annual": "Годишње",
+    "biennial": "Двогодишње"
+  }
+}

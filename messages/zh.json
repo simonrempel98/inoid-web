@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "仪表板",
+    "assets": "资产管理",
+    "scan": "扫描",
+    "wartung": "维护与服务",
+    "organisation": "地点与组织结构",
+    "teams": "团队",
+    "billing": "订阅",
+    "profile": "个人资料与设置",
+    "docs": "文档",
+    "logout": "退出登录",
+    "orgManagement": "组织管理",
+    "account": "账户"
+  },
+  "common": {
+    "save": "保存",
+    "cancel": "取消",
+    "delete": "删除",
+    "edit": "编辑",
+    "create": "创建",
+    "back": "返回",
+    "loading": "加载中…",
+    "saving": "保存中…",
+    "error": "错误",
+    "success": "成功",
+    "confirm": "确认",
+    "close": "关闭",
+    "search": "搜索",
+    "filter": "筛选",
+    "all": "全部",
+    "none": "无",
+    "yes": "是",
+    "no": "否",
+    "optional": "可选",
+    "required": "必填",
+    "new": "+ 新建",
+    "add": "添加",
+    "remove": "移除",
+    "noData": "暂无数据",
+    "perPage": "条/页",
+    "page": "第",
+    "of": "/",
+    "entries": "条",
+    "reset": "重置",
+    "actions": "操作",
+    "status": "状态",
+    "date": "日期",
+    "name": "名称",
+    "description": "描述",
+    "notes": "备注",
+    "cost": "费用",
+    "type": "类型",
+    "category": "类别",
+    "preview": "预览",
+    "upload": "上传",
+    "download": "下载",
+    "copy": "复制",
+    "duplicate": "复制",
+    "active": "有效",
+    "inactive": "无效",
+    "system": "系统",
+    "custom": "自定义",
+    "label": "标签",
+    "color": "颜色",
+    "unknown": "未知",
+    "today": "今天",
+    "tomorrow": "明天",
+    "yesterday": "昨天",
+    "daysAgo": "逾期{n}天",
+    "inDays": "{n}天后",
+    "months": ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],
+    "noEntries": "无条目",
+    "pagination": "第{current}页，共{total}页"
+  },
+  "auth": {
+    "login": "登录",
+    "logout": "退出登录",
+    "email": "电子邮件地址",
+    "password": "密码",
+    "forgotPassword": "忘记密码？",
+    "noAccount": "没有账户？",
+    "register": "注册",
+    "loginError": "登录失败，请检查您的凭据。",
+    "welcomeBack": "欢迎回来"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "早上好",
+      "afternoon": "下午好",
+      "evening": "晚上好"
+    },
+    "overdueWarning": "{n}项逾期维护",
+    "overdueWarningPlural": "{n}项逾期维护",
+    "stats": {
+      "assetsTotal": "资产总数",
+      "active": "有效",
+      "inService": "维修中",
+      "decommissioned": "已报废",
+      "users": "用户",
+      "overdueServices": "逾期维护",
+      "dueThisWeek": "本周到期",
+      "serviceEventsMonth": "服务事件（月）",
+      "maintenanceCostYear": "维护费用（年）",
+      "allDone": "全部完成",
+      "limit": "上限：{n}",
+      "unlimited": "无限制",
+      "percentOfStock": "库存的{n}%",
+      "totalSub": "共{n}条",
+      "monthSub": "本月{n}€"
+    },
+    "sections": {
+      "assetUtilization": "资产利用率",
+      "maintenanceOverview": "维护概览",
+      "assetsByCategory": "按类别分类的资产",
+      "recentActivity": "最近活动",
+      "currentPlan": "当前套餐",
+      "quickAccess": "快速访问",
+      "noCategories": "无类别",
+      "noActivity": "暂无服务事件"
+    },
+    "maintenance": {
+      "overdue": "已逾期",
+      "thisWeek": "本周到期",
+      "next30Days": "未来30天",
+      "totalIntervals": "有效间隔总数"
+    },
+    "quickLinks": {
+      "createAsset": "创建资产",
+      "openMaintenance": "打开维护",
+      "scanAsset": "扫描资产",
+      "locations": "地点",
+      "addUser": "添加用户",
+      "documentation": "文档"
+    },
+    "plan": {
+      "active": "有效",
+      "inactive": "无效",
+      "assets": "资产",
+      "users": "用户",
+      "manageBilling": "管理订阅"
+    }
+  },
+  "assets": {
+    "title": "资产管理",
+    "subtitle": "一览所有设备",
+    "new": "新建资产",
+    "search": "搜索资产…",
+    "filter": {
+      "allCategories": "所有类别",
+      "allStatuses": "所有状态",
+      "allLocations": "所有地点"
+    },
+    "noAssets": "暂无资产",
+    "noAssetsDesc": "创建您的第一个资产。",
+    "noResults": "未找到资产",
+    "fields": {
+      "title": "标签",
+      "category": "类别",
+      "status": "状态",
+      "serialNumber": "序列号",
+      "articleNumber": "物品编号",
+      "barcode": "条形码 / 二维码",
+      "manufacturer": "制造商",
+      "model": "型号",
+      "purchaseDate": "购买日期",
+      "purchasePrice": "购买价格（€）",
+      "location": "地点",
+      "locationText": "自由文本地点",
+      "notes": "备注",
+      "photos": "照片",
+      "documents": "文件",
+      "technicalData": "技术数据",
+      "commercialData": "商业数据"
+    },
+    "status": {
+      "active": "有效",
+      "in_service": "维修中",
+      "decommissioned": "已报废",
+      "defective": "故障"
+    },
+    "actions": {
+      "viewServiceLog": "服务日志",
+      "edit": "编辑",
+      "duplicate": "复制",
+      "delete": "删除",
+      "confirmDelete": "确定要删除此资产吗？此操作无法撤销。",
+      "duplicateSuccess": "资产已复制"
+    },
+    "new_page": {
+      "title": "创建新资产",
+      "edit_title": "编辑资产",
+      "save": "创建资产",
+      "saveEdit": "保存更改",
+      "addTechField": "+ 添加字段",
+      "fieldName": "字段名称",
+      "fieldValue": "值",
+      "addPhoto": "添加照片",
+      "photoHint": "照片直接存储在云端",
+      "selectLocation": "选择地点",
+      "noLocation": "无地点",
+      "errors": {
+        "titleRequired": "请输入标签。",
+        "saveFailed": "保存失败"
+      }
+    },
+    "qr": {
+      "title": "二维码",
+      "download": "下载二维码",
+      "print": "打印"
+    },
+    "locationHistory": "地点历史",
+    "noLocationHistory": "无地点历史记录"
+  },
+  "service": {
+    "title": "服务日志",
+    "subtitle": "所有事件的完整记录",
+    "newEntry": "+ 条目",
+    "entries": "条目",
+    "totalCost": "总费用",
+    "intervals": "间隔",
+    "noEntries": "暂无条目",
+    "noEntriesDesc": "记录维护、维修和检查。",
+    "entry": {
+      "title": "标题",
+      "titlePlaceholder": "例如：执行{type}",
+      "type": "类型",
+      "date": "日期和时间",
+      "description": "描述",
+      "descriptionPlaceholder": "做了什么？",
+      "performedBy": "执行人",
+      "performedByPlaceholder": "姓名",
+      "externalCompany": "公司 / 外部",
+      "externalCompanyPlaceholder": "例如：TÜV",
+      "costEur": "费用（€）",
+      "nextDate": "下次预约",
+      "notes": "备注",
+      "notesPlaceholder": "内部备注、发现、建议…",
+      "photos": "照片",
+      "documents": "文件",
+      "addDocument": "+ 添加文件 / PDF",
+      "save": "保存条目",
+      "saveEdit": "保存更改",
+      "completeMaintenance": "完成维护",
+      "new": "新条目",
+      "edit": "编辑条目",
+      "customType": "+ 创建自定义",
+      "cancelCustomType": "× 取消",
+      "newTypePlaceholder": "标签，例如：校准",
+      "createType": "创建并选择类型",
+      "nextDateAutoSet": "下次预约日期将自动设置",
+      "nextDateIntervalHint": "执行日期后{n}天",
+      "errors": {
+        "titleRequired": "请输入标题。",
+        "saveFailed": "保存失败"
+      }
+    },
+    "checklist": {
+      "title": "检查清单",
+      "subtitle": "勾选每个步骤并可选择添加备注",
+      "done": "完成",
+      "addNote": "+ 备注",
+      "notePlaceholder": "此步骤的发现、测量值、备注…",
+      "resources": "资源（可选）：工具、材料…"
+    },
+    "interval": {
+      "title": "新建间隔",
+      "editTitle": "编辑间隔",
+      "subtitle": "定期预约",
+      "name": "标签 *",
+      "namePlaceholder": "例如：每6个月{type}",
+      "interval": "间隔",
+      "intervalDays": "每{n}天",
+      "custom": "自定义",
+      "customDays": "天数",
+      "customDaysPlaceholder": "例如：45",
+      "lastDone": "上次执行",
+      "lastDoneHint": "可选 – 计算下次到期日",
+      "nextDue": "下次到期日 *",
+      "preview": "预览",
+      "previewDesc": "每{days}天 · 到期：{date}",
+      "checklist": "检查清单",
+      "checklistSubtitle": "执行时需要检查的编号步骤",
+      "addStep": "+ 步骤",
+      "stepPlaceholder": "描述步骤{n}…",
+      "resourcesPlaceholder": "资源（可选）：工具、材料…",
+      "noSteps": "暂无步骤 – 点击\"+ 步骤\"",
+      "save": "创建间隔",
+      "saveEdit": "保存更改",
+      "newType": "创建新类型",
+      "errors": {
+        "nameRequired": "请输入标签。",
+        "intervalRequired": "请输入有效的间隔。",
+        "nextDateRequired": "请指定下次到期日。"
+      }
+    },
+    "schedules": {
+      "title": "维护间隔",
+      "newInterval": "+ 间隔",
+      "noSchedules": "暂无维护间隔",
+      "noSchedulesDesc": "设置定期维护计划。",
+      "dueDate": "到期：{date}",
+      "overdue": "已逾期",
+      "dueIn": "{n}天后到期",
+      "dueToday": "今天到期",
+      "complete": "标记为完成",
+      "completeShort": "完成",
+      "lastDone": "上次：{date}",
+      "interval": "每{n}天"
+    },
+    "timeline": {
+      "entry": "条目",
+      "entries": "条目",
+      "noEntries": "暂无条目",
+      "noEntriesDesc": "记录维护、维修和检查。",
+      "nextDate": "下次：{date}",
+      "editBtn": "编辑",
+      "checklistSection": "检查清单",
+      "notesSection": "备注"
+    }
+  },
+  "wartung": {
+    "title": "维护与服务",
+    "subtitle": "所有到期维护间隔",
+    "tabs": {
+      "list": "任务列表",
+      "gantt": "甘特图"
+    },
+    "filter": {
+      "search": "按资产、序列号、类别搜索…",
+      "urgency": "紧急程度",
+      "all": "全部",
+      "overdue": "已逾期",
+      "week": "本周",
+      "twoWeeks": "两周",
+      "month": "30天",
+      "category": "类别",
+      "allCategories": "所有类别",
+      "reset": "重置"
+    },
+    "groups": {
+      "overdue": "已逾期",
+      "thisWeek": "本周",
+      "next30Days": "未来30天",
+      "later": "之后"
+    },
+    "noSchedules": "无条目",
+    "noSchedulesDesc": "此筛选条件下没有维护任务。",
+    "complete": "标记为完成",
+    "completeBtn": "完成",
+    "stats": {
+      "overdue": "逾期维护",
+      "thisWeek": "本周到期",
+      "thisMonth": "本月到期",
+      "total": "有效间隔"
+    }
+  },
+  "organisation": {
+    "title": "地点与组织结构",
+    "subtitle": "管理运营结构",
+    "newLocation": "+ 地点",
+    "newHall": "+ 厂房",
+    "newArea": "+ 区域",
+    "noLocations": "暂无地点",
+    "noLocationsDesc": "创建您的第一个地点。",
+    "location": "地点",
+    "hall": "厂房",
+    "area": "区域",
+    "assetsHere": "{n}件资产",
+    "fields": {
+      "name": "名称",
+      "description": "描述"
+    }
+  },
+  "teams": {
+    "title": "团队",
+    "subtitle": "管理成员和角色",
+    "newTeam": "+ 团队",
+    "inviteMember": "邀请成员",
+    "newMember": "创建成员",
+    "noTeams": "暂无团队",
+    "member": "成员",
+    "members": "成员",
+    "role": "角色",
+    "roles": {
+      "admin": "管理员",
+      "technician": "技术员",
+      "viewer": "查看者"
+    },
+    "roleDesc": {
+      "admin": "完整访问权限 + 用户管理",
+      "technician": "编辑资产和服务",
+      "viewer": "仅查看"
+    },
+    "fields": {
+      "name": "团队名称",
+      "email": "电子邮件地址",
+      "password": "密码",
+      "fullName": "全名"
+    },
+    "actions": {
+      "changeRole": "更改角色",
+      "removeMember": "移除成员",
+      "confirmRemove": "确定要移除此成员吗？"
+    }
+  },
+  "settings": {
+    "title": "设置",
+    "profile": {
+      "title": "个人资料",
+      "subtitle": "个人数据与设置",
+      "fullName": "全名",
+      "email": "电子邮件地址",
+      "language": "语言",
+      "languageSubtitle": "账户的应用语言",
+      "save": "保存个人资料",
+      "saved": "已保存",
+      "changePassword": "更改密码",
+      "currentPassword": "当前密码",
+      "newPassword": "新密码",
+      "passwordSaved": "密码已更改"
+    },
+    "eventTypes": {
+      "title": "事件类型",
+      "subtitle": "服务条目的自定义类别",
+      "systemTypes": "系统类型",
+      "customTypes": "自定义类型",
+      "newType": "+ 新建",
+      "labelPlaceholder": "例如：校准、检查、TÜV…",
+      "colorLabel": "颜色",
+      "preview": "预览：",
+      "save": "创建类型",
+      "saving": "保存中…",
+      "noCustomTypes": "尚未创建自定义类型。",
+      "systemBadge": "系统"
+    },
+    "billing": {
+      "title": "订阅",
+      "subtitle": "管理套餐和付款",
+      "currentPlan": "当前套餐",
+      "status": {
+        "active": "有效",
+        "inactive": "无效",
+        "trial": "试用"
+      },
+      "changePlan": "更改套餐",
+      "activationCode": "兑换激活码",
+      "activationCodePlaceholder": "9位数代码",
+      "activate": "激活",
+      "activating": "激活中…",
+      "createInvoice": "创建发票",
+      "plans": {
+        "free": "免费",
+        "starter": "入门版",
+        "professional": "专业版",
+        "enterprise": "企业版"
+      }
+    },
+    "invite": {
+      "title": "创建用户",
+      "subtitle": "向组织添加新成员",
+      "email": "电子邮件地址",
+      "fullName": "全名",
+      "password": "密码",
+      "role": "角色",
+      "save": "创建用户",
+      "success": "用户已成功创建。"
+    },
+    "statuses": {
+      "title": "资产状态",
+      "subtitle": "定义自定义状态",
+      "systemStatuses": "系统状态",
+      "customStatuses": "自定义状态",
+      "newStatus": "+ 新建"
+    }
+  },
+  "scan": {
+    "title": "扫描资产",
+    "subtitle": "扫描二维码或NFC",
+    "startCamera": "启动相机",
+    "scanning": "扫描中…",
+    "noPermission": "相机访问未被允许",
+    "notFound": "未找到资产",
+    "openAsset": "打开资产"
+  },
+  "docs": {
+    "title": "文档",
+    "subtitle": "您需要了解的一切。",
+    "heroDesc": "INOid是您的数字资产管理系统 — 从首次登记到报废。5分钟即可上手。",
+    "stats": {
+      "firstAsset": "至您的第一个资产",
+      "featureAreas": "功能区域",
+      "browserBased": "基于浏览器"
+    },
+    "tabs": {
+      "quickstart": "快速入门",
+      "features": "功能",
+      "roles": "角色",
+      "plans": "套餐与订阅",
+      "tips": "提示"
+    },
+    "quickstart": {
+      "intro": "四个步骤让您了解INOid的基础知识。",
+      "openDirectly": "直接打开",
+      "demoTour": "演示导览",
+      "demoSoon": "演示视频即将推出"
+    }
+  },
+  "eventTypes": {
+    "inspection": "检查",
+    "maintenance": "维护",
+    "repair": "维修",
+    "overhaul": "大修",
+    "coating": "涂层",
+    "cleaning": "清洁",
+    "installation": "安装/组装",
+    "incident": "事故/损坏",
+    "decommission": "报废",
+    "other": "其他"
+  },
+  "intervalPresets": {
+    "weekly": "每周",
+    "monthly": "每月",
+    "quarterly": "每季度",
+    "biannual": "每半年",
+    "annual": "每年",
+    "biennial": "每两年"
+  }
+}

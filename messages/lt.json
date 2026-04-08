@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Valdymo skydelis",
+    "assets": "Turto valdymas",
+    "scan": "Nuskaitymas",
+    "wartung": "Techninė priežiūra & Servisas",
+    "organisation": "Vietos & Struktūra",
+    "teams": "Komandos",
+    "billing": "Prenumerata",
+    "profile": "Profilis & Nustatymai",
+    "docs": "Dokumentacija",
+    "logout": "Atsijungti",
+    "orgManagement": "Organizacijos valdymas",
+    "account": "Paskyra"
+  },
+  "common": {
+    "save": "Išsaugoti",
+    "cancel": "Atšaukti",
+    "delete": "Ištrinti",
+    "edit": "Redaguoti",
+    "create": "Kurti",
+    "back": "Atgal",
+    "loading": "Kraunama…",
+    "saving": "Saugoma…",
+    "error": "Klaida",
+    "success": "Sėkmingai",
+    "confirm": "Patvirtinti",
+    "close": "Uždaryti",
+    "search": "Ieškoti",
+    "filter": "Filtruoti",
+    "all": "Visi",
+    "none": "Nėra",
+    "yes": "Taip",
+    "no": "Ne",
+    "optional": "neprivaloma",
+    "required": "Privalomas laukas",
+    "new": "+ Naujas",
+    "add": "Pridėti",
+    "remove": "Pašalinti",
+    "noData": "Nėra duomenų",
+    "perPage": "puslapyje",
+    "page": "Puslapis",
+    "of": "iš",
+    "entries": "Įrašai",
+    "reset": "Atstatyti",
+    "actions": "Veiksmai",
+    "status": "Būsena",
+    "date": "Data",
+    "name": "Pavadinimas",
+    "description": "Aprašymas",
+    "notes": "Pastabos",
+    "cost": "Kaina",
+    "type": "Tipas",
+    "category": "Kategorija",
+    "preview": "Peržiūra",
+    "upload": "Įkelti",
+    "download": "Atsisiųsti",
+    "copy": "Kopijuoti",
+    "duplicate": "Dublikuoti",
+    "active": "Aktyvus",
+    "inactive": "Neaktyvus",
+    "system": "Sistema",
+    "custom": "Pasirinktinis",
+    "label": "Etiketė",
+    "color": "Spalva",
+    "unknown": "Nežinoma",
+    "today": "Šiandien",
+    "tomorrow": "Rytoj",
+    "yesterday": "Vakar",
+    "daysAgo": "{n} dienų vėlavimas",
+    "inDays": "po {n} dienų",
+    "months": ["Sausis","Vasaris","Kovas","Balandis","Gegužė","Birželis","Liepa","Rugpjūtis","Rugsėjis","Spalis","Lapkritis","Gruodis"],
+    "noEntries": "Nėra įrašų",
+    "pagination": "Puslapis {current} iš {total}"
+  },
+  "auth": {
+    "login": "Prisijungti",
+    "logout": "Atsijungti",
+    "email": "El. pašto adresas",
+    "password": "Slaptažodis",
+    "forgotPassword": "Pamiršote slaptažodį?",
+    "noAccount": "Neturite paskyros?",
+    "register": "Registruotis",
+    "loginError": "Prisijungti nepavyko. Patikrinkite savo duomenis.",
+    "welcomeBack": "Sveiki sugrįžę"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Labas rytas",
+      "afternoon": "Laba diena",
+      "evening": "Labas vakaras"
+    },
+    "overdueWarning": "{n} vėluojanti priežiūra",
+    "overdueWarningPlural": "{n} vėluojančios priežiūros",
+    "stats": {
+      "assetsTotal": "Turto iš viso",
+      "active": "Aktyvus",
+      "inService": "Servise",
+      "decommissioned": "Išregistruotas",
+      "users": "Vartotojai",
+      "overdueServices": "Vėluojančios priežiūros",
+      "dueThisWeek": "Šią savaitę",
+      "serviceEventsMonth": "Serviso įvykiai (mėnuo)",
+      "maintenanceCostYear": "Priežiūros kaštai (metai)",
+      "allDone": "Viskas atlikta",
+      "limit": "Limitas: {n}",
+      "unlimited": "Neribota",
+      "percentOfStock": "{n} % atsargų",
+      "totalSub": "Iš viso {n}",
+      "monthSub": "{n} € šį mėnesį"
+    },
+    "sections": {
+      "assetUtilization": "Turto panaudojimas",
+      "maintenanceOverview": "Priežiūros apžvalga",
+      "assetsByCategory": "Turtas pagal kategorijas",
+      "recentActivity": "Paskutinė veikla",
+      "currentPlan": "Dabartinis planas",
+      "quickAccess": "Greita prieiga",
+      "noCategories": "Nėra kategorijų",
+      "noActivity": "Dar nėra serviso įvykių"
+    },
+    "maintenance": {
+      "overdue": "Vėluoja",
+      "thisWeek": "Šią savaitę",
+      "next30Days": "Kitos 30 dienų",
+      "totalIntervals": "Aktyvių intervalų iš viso"
+    },
+    "quickLinks": {
+      "createAsset": "Kurti turtą",
+      "openMaintenance": "Atidaryti priežiūrą",
+      "scanAsset": "Nuskaityti turtą",
+      "locations": "Vietos",
+      "addUser": "Pridėti vartotoją",
+      "documentation": "Dokumentacija"
+    },
+    "plan": {
+      "active": "AKTYVUS",
+      "inactive": "NEAKTYVUS",
+      "assets": "Turtas",
+      "users": "Vartotojai",
+      "manageBilling": "Valdyti prenumeratą"
+    }
+  },
+  "assets": {
+    "title": "Turto valdymas",
+    "subtitle": "Visi įrenginiai vienu žvilgsniu",
+    "new": "Naujas turtas",
+    "search": "Ieškoti turto…",
+    "filter": {
+      "allCategories": "Visos kategorijos",
+      "allStatuses": "Visos būsenos",
+      "allLocations": "Visos vietos"
+    },
+    "noAssets": "Turto dar nėra",
+    "noAssetsDesc": "Sukurkite savo pirmąjį įrenginį.",
+    "noResults": "Turto nerasta",
+    "fields": {
+      "title": "Etiketė",
+      "category": "Kategorija",
+      "status": "Būsena",
+      "serialNumber": "Serijos numeris",
+      "articleNumber": "Straipsnio numeris",
+      "barcode": "Brūkšninis kodas / QR",
+      "manufacturer": "Gamintojas",
+      "model": "Modelis",
+      "purchaseDate": "Pirkimo data",
+      "purchasePrice": "Pirkimo kaina (€)",
+      "location": "Vieta",
+      "locationText": "Vieta (laisvas tekstas)",
+      "notes": "Pastabos",
+      "photos": "Nuotraukos",
+      "documents": "Dokumentai",
+      "technicalData": "Techniniai duomenys",
+      "commercialData": "Komerciniai duomenys"
+    },
+    "status": {
+      "active": "Aktyvus",
+      "in_service": "Servise",
+      "decommissioned": "Išregistruotas",
+      "defective": "Sugedęs"
+    },
+    "actions": {
+      "viewServiceLog": "Serviso žurnalas",
+      "edit": "Redaguoti",
+      "duplicate": "Dublikuoti",
+      "delete": "Ištrinti",
+      "confirmDelete": "Ištrinti šį turtą? Veiksmo negalima atšaukti.",
+      "duplicateSuccess": "Turtas dublikuotas"
+    },
+    "new_page": {
+      "title": "Kurti naują turtą",
+      "edit_title": "Redaguoti turtą",
+      "save": "Kurti turtą",
+      "saveEdit": "Išsaugoti pakeitimus",
+      "addTechField": "+ Pridėti lauką",
+      "fieldName": "Lauko pavadinimas",
+      "fieldValue": "Reikšmė",
+      "addPhoto": "Pridėti nuotrauką",
+      "photoHint": "Nuotraukos saugomos tiesiogiai debesyje",
+      "selectLocation": "Pasirinkti vietą",
+      "noLocation": "Nėra vietos",
+      "errors": {
+        "titleRequired": "Įveskite etiketę.",
+        "saveFailed": "Išsaugojimo klaida"
+      }
+    },
+    "qr": {
+      "title": "QR kodas",
+      "download": "Atsisiųsti QR kodą",
+      "print": "Spausdinti"
+    },
+    "locationHistory": "Vietos istorija",
+    "noLocationHistory": "Nėra vietos istorijos"
+  },
+  "service": {
+    "title": "Serviso žurnalas",
+    "subtitle": "Pilna visų įvykių dokumentacija",
+    "newEntry": "+ Įrašas",
+    "entries": "Įrašai",
+    "totalCost": "Bendra kaina",
+    "intervals": "Intervalai",
+    "noEntries": "Įrašų dar nėra",
+    "noEntriesDesc": "Dokumentuokite priežiūras, remontus ir patikrinimus.",
+    "entry": {
+      "title": "Pavadinimas",
+      "titlePlaceholder": "pvz. {type} atlikta",
+      "type": "Tipas",
+      "date": "Data ir laikas",
+      "description": "Aprašymas",
+      "descriptionPlaceholder": "Kas buvo padaryta?",
+      "performedBy": "Atliko",
+      "performedByPlaceholder": "Vardas",
+      "externalCompany": "Įmonė / išorinis",
+      "externalCompanyPlaceholder": "pvz. TÜV",
+      "costEur": "Kaina (€)",
+      "nextDate": "Kita data",
+      "notes": "Pastabos / komentarai",
+      "notesPlaceholder": "Vidinės pastabos, radiniai, rekomendacijos…",
+      "photos": "Nuotraukos",
+      "documents": "Dokumentai",
+      "addDocument": "+ Pridėti dokumentą / PDF",
+      "save": "Išsaugoti įrašą",
+      "saveEdit": "Išsaugoti pakeitimus",
+      "completeMaintenance": "Užbaigti priežiūrą",
+      "new": "Naujas įrašas",
+      "edit": "Redaguoti įrašą",
+      "customType": "+ Kurti pasirinktinį",
+      "cancelCustomType": "× Atšaukti",
+      "newTypePlaceholder": "Etiketė, pvz. Kalibravimas",
+      "createType": "Kurti ir pasirinkti tipą",
+      "nextDateAutoSet": "Kita data bus nustatyta automatiškai",
+      "nextDateIntervalHint": "{n} dienų nuo atlikimo datos",
+      "errors": {
+        "titleRequired": "Įveskite pavadinimą.",
+        "saveFailed": "Išsaugojimo klaida"
+      }
+    },
+    "checklist": {
+      "title": "Kontrolinis sąrašas",
+      "subtitle": "Pažymėkite kiekvieną žingsnį ir pasirinktinai pridėkite pastabas",
+      "done": "atlikta",
+      "addNote": "+ Pastaba",
+      "notePlaceholder": "Radinys, matavimas, komentaras šiam žingsniui…",
+      "resources": "Ištekliai (neprivaloma): įrankiai, medžiagos…"
+    },
+    "interval": {
+      "title": "Naujas intervalas",
+      "editTitle": "Redaguoti intervalą",
+      "subtitle": "Pasikartojanti užduotis",
+      "name": "Etiketė *",
+      "namePlaceholder": "pvz. {type} kas 6 mėnesius",
+      "interval": "Intervalas",
+      "intervalDays": "Kas {n} dienų",
+      "custom": "Pasirinktinis",
+      "customDays": "Dienų",
+      "customDaysPlaceholder": "pvz. 45",
+      "lastDone": "Paskutinį kartą atlikta",
+      "lastDoneHint": "Neprivaloma – apskaičiuoja kitą datą",
+      "nextDue": "Kita termino data *",
+      "preview": "Peržiūra",
+      "previewDesc": "Kas {days} dienų · Terminas: {date}",
+      "checklist": "Kontrolinis sąrašas",
+      "checklistSubtitle": "Sunumeruoti žingsniai pažymėjimui atliekant",
+      "addStep": "+ Žingsnis",
+      "stepPlaceholder": "Aprašyti {n} žingsnį…",
+      "resourcesPlaceholder": "Ištekliai (neprivaloma): įrankiai, medžiagos…",
+      "noSteps": "Žingsnių nėra – bakstelėkite \"+ Žingsnis\"",
+      "save": "Kurti intervalą",
+      "saveEdit": "Išsaugoti pakeitimus",
+      "newType": "Kurti naują tipą",
+      "errors": {
+        "nameRequired": "Įveskite etiketę.",
+        "intervalRequired": "Įveskite galiojantį intervalą.",
+        "nextDateRequired": "Nurodykite kitą termino datą."
+      }
+    },
+    "schedules": {
+      "title": "Priežiūros intervalai",
+      "newInterval": "+ Intervalas",
+      "noSchedules": "Priežiūros intervalų dar nėra",
+      "noSchedulesDesc": "Sukonfigūruokite pasikartojantį priežiūros planą.",
+      "dueDate": "Terminas {date}",
+      "overdue": "Vėluoja",
+      "dueIn": "Po {n} dienų",
+      "dueToday": "Šiandien",
+      "complete": "Pažymėti kaip atliktą",
+      "completeShort": "Užbaigti",
+      "lastDone": "Paskutinis: {date}",
+      "interval": "Kas {n} dienų"
+    },
+    "timeline": {
+      "entry": "Įrašas",
+      "entries": "Įrašai",
+      "noEntries": "Įrašų dar nėra",
+      "noEntriesDesc": "Dokumentuokite priežiūras, remontus ir patikrinimus.",
+      "nextDate": "Kitas: {date}",
+      "editBtn": "Redaguoti",
+      "checklistSection": "Kontrolinis sąrašas",
+      "notesSection": "Pastabos"
+    }
+  },
+  "wartung": {
+    "title": "Techninė priežiūra & Servisas",
+    "subtitle": "Visi artėjantys priežiūros intervalai",
+    "tabs": {
+      "list": "Užduočių sąrašas",
+      "gantt": "Ganto diagrama"
+    },
+    "filter": {
+      "search": "Ieškoti turto, ser. nr., kategorijos…",
+      "urgency": "Skubumas",
+      "all": "Visi",
+      "overdue": "Vėluoja",
+      "week": "Šią savaitę",
+      "twoWeeks": "Dvi savaitės",
+      "month": "30 dienų",
+      "category": "Kategorija",
+      "allCategories": "Visos kategorijos",
+      "reset": "Atstatyti"
+    },
+    "groups": {
+      "overdue": "Vėluoja",
+      "thisWeek": "Šią savaitę",
+      "next30Days": "Kitos 30 dienų",
+      "later": "Vėliau"
+    },
+    "noSchedules": "Nėra įrašų",
+    "noSchedulesDesc": "Nėra priežiūros užduočių šiam filtrui.",
+    "complete": "Pažymėti kaip atliktą",
+    "completeBtn": "Užbaigti",
+    "stats": {
+      "overdue": "Vėluojančios priežiūros",
+      "thisWeek": "Šią savaitę",
+      "thisMonth": "Šį mėnesį",
+      "total": "Aktyvūs intervalai"
+    }
+  },
+  "organisation": {
+    "title": "Vietos & Struktūra",
+    "subtitle": "Valdyti veiklos struktūrą",
+    "newLocation": "+ Vieta",
+    "newHall": "+ Salė",
+    "newArea": "+ Zona",
+    "noLocations": "Vietų dar nėra",
+    "noLocationsDesc": "Sukurkite savo pirmąją vietą.",
+    "location": "Vieta",
+    "hall": "Salė",
+    "area": "Zona",
+    "assetsHere": "{n} turto",
+    "fields": {
+      "name": "Pavadinimas",
+      "description": "Aprašymas"
+    }
+  },
+  "teams": {
+    "title": "Komandos",
+    "subtitle": "Valdyti narius ir vaidmenis",
+    "newTeam": "+ Komanda",
+    "inviteMember": "Pakviesti narį",
+    "newMember": "Kurti narį",
+    "noTeams": "Komandų dar nėra",
+    "member": "Narys",
+    "members": "Nariai",
+    "role": "Vaidmuo",
+    "roles": {
+      "admin": "Administratorius",
+      "technician": "Technikas",
+      "viewer": "Skaitytojas"
+    },
+    "roleDesc": {
+      "admin": "Pilna prieiga + vartotojų valdymas",
+      "technician": "Redaguoti turtą ir servisą",
+      "viewer": "Tik peržiūra"
+    },
+    "fields": {
+      "name": "Komandos pavadinimas",
+      "email": "El. pašto adresas",
+      "password": "Slaptažodis",
+      "fullName": "Pilnas vardas"
+    },
+    "actions": {
+      "changeRole": "Keisti vaidmenį",
+      "removeMember": "Pašalinti narį",
+      "confirmRemove": "Pašalinti šį narį?"
+    }
+  },
+  "settings": {
+    "title": "Nustatymai",
+    "profile": {
+      "title": "Profilis",
+      "subtitle": "Asmeniniai duomenys ir nustatymai",
+      "fullName": "Pilnas vardas",
+      "email": "El. pašto adresas",
+      "language": "Kalba",
+      "languageSubtitle": "Programėlės kalba jūsų paskyrai",
+      "save": "Išsaugoti profilį",
+      "saved": "Išsaugota",
+      "changePassword": "Keisti slaptažodį",
+      "currentPassword": "Dabartinis slaptažodis",
+      "newPassword": "Naujas slaptažodis",
+      "passwordSaved": "Slaptažodis pakeistas"
+    },
+    "eventTypes": {
+      "title": "Įvykių tipai",
+      "subtitle": "Pasirinktinės kategorijos serviso įrašams",
+      "systemTypes": "Sistemos tipai",
+      "customTypes": "Pasirinktiniai tipai",
+      "newType": "+ Naujas",
+      "labelPlaceholder": "pvz. Kalibravimas, TÜV, Patikrinimas…",
+      "colorLabel": "Spalva",
+      "preview": "Peržiūra:",
+      "save": "Kurti tipą",
+      "saving": "Saugoma…",
+      "noCustomTypes": "Pasirinktinių tipų dar nėra.",
+      "systemBadge": "Sistema"
+    },
+    "billing": {
+      "title": "Prenumerata",
+      "subtitle": "Valdyti planą ir mokėjimus",
+      "currentPlan": "Dabartinis planas",
+      "status": {
+        "active": "Aktyvus",
+        "inactive": "Neaktyvus",
+        "trial": "Bandomasis laikotarpis"
+      },
+      "changePlan": "Keisti planą",
+      "activationCode": "Panaudoti aktyvavimo kodą",
+      "activationCodePlaceholder": "9 skaitmenų kodas",
+      "activate": "Aktyvuoti",
+      "activating": "Aktyvuojama…",
+      "createInvoice": "Kurti sąskaitą",
+      "plans": {
+        "free": "Nemokamas",
+        "starter": "Pradinis",
+        "professional": "Profesionalus",
+        "enterprise": "Verslo"
+      }
+    },
+    "invite": {
+      "title": "Kurti vartotoją",
+      "subtitle": "Pridėti naują narį į organizaciją",
+      "email": "El. pašto adresas",
+      "fullName": "Pilnas vardas",
+      "password": "Slaptažodis",
+      "role": "Vaidmuo",
+      "save": "Kurti vartotoją",
+      "success": "Vartotojas sėkmingai sukurtas."
+    },
+    "statuses": {
+      "title": "Turto būsenos",
+      "subtitle": "Apibrėžti pasirinktines būsenas",
+      "systemStatuses": "Sistemos būsenos",
+      "customStatuses": "Pasirinktinės būsenos",
+      "newStatus": "+ Naujas"
+    }
+  },
+  "scan": {
+    "title": "Nuskaityti turtą",
+    "subtitle": "Nuskaityti QR kodą arba NFC",
+    "startCamera": "Paleisti kamerą",
+    "scanning": "Nuskaitoma…",
+    "noPermission": "Prieiga prie kameros neleistina",
+    "notFound": "Turto nerasta",
+    "openAsset": "Atidaryti turtą"
+  },
+  "docs": {
+    "title": "Dokumentacija",
+    "subtitle": "Viskas, ką reikia žinoti.",
+    "heroDesc": "INOid – jūsų skaitmeninis turto valdymas: nuo pirmosios registracijos iki nurašymo. Paruošta per 5 minutes.",
+    "stats": {
+      "firstAsset": "iki pirmojo turto",
+      "featureAreas": "funkcijų sritys",
+      "browserBased": "naršyklėje veikiantis"
+    },
+    "tabs": {
+      "quickstart": "Greitas pradžios vadovas",
+      "features": "Funkcijos",
+      "roles": "Vaidmenys",
+      "plans": "Planai ir prenumerata",
+      "tips": "Patarimai"
+    },
+    "quickstart": {
+      "intro": "Keturi žingsniai ir pažinsite INOid esmę.",
+      "openDirectly": "Atidaryti tiesiogiai",
+      "demoTour": "Demo turas",
+      "demoSoon": "Mokomasis vaizdo įrašas netrukus"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Patikrinimas",
+    "maintenance": "Techninė priežiūra",
+    "repair": "Remontas",
+    "overhaul": "Kapitalinis remontas",
+    "coating": "Dangos uždėjimas",
+    "cleaning": "Valymas",
+    "installation": "Montavimas/Instaliavimas",
+    "incident": "Incidentas/Žala",
+    "decommission": "Nurašymas",
+    "other": "Kita"
+  },
+  "intervalPresets": {
+    "weekly": "Kas savaitę",
+    "monthly": "Kas mėnesį",
+    "quarterly": "Kas ketvirtį",
+    "biannual": "Kas pusmetį",
+    "annual": "Kas metus",
+    "biennial": "Kas dvejus metus"
+  }
+}

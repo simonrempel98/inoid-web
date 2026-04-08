@@ -1,0 +1,529 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "assets": "Gestione asset",
+    "scan": "Scansione",
+    "wartung": "Manutenzione & Servizio",
+    "organisation": "Sedi & Struttura",
+    "teams": "Team",
+    "billing": "Abbonamento",
+    "profile": "Profilo & Impostazioni",
+    "docs": "Documentazione",
+    "logout": "Disconnetti",
+    "orgManagement": "Gestione organizzazione",
+    "account": "Account"
+  },
+  "common": {
+    "save": "Salva",
+    "cancel": "Annulla",
+    "delete": "Elimina",
+    "edit": "Modifica",
+    "create": "Crea",
+    "back": "Indietro",
+    "loading": "Caricamento…",
+    "saving": "Salvataggio…",
+    "error": "Errore",
+    "success": "Successo",
+    "confirm": "Conferma",
+    "close": "Chiudi",
+    "search": "Cerca",
+    "filter": "Filtra",
+    "all": "Tutti",
+    "none": "Nessuno",
+    "yes": "Sì",
+    "no": "No",
+    "optional": "opzionale",
+    "required": "Campo obbligatorio",
+    "new": "+ Nuovo",
+    "add": "Aggiungi",
+    "remove": "Rimuovi",
+    "noData": "Nessun dato disponibile",
+    "perPage": "per pagina",
+    "page": "Pagina",
+    "of": "di",
+    "entries": "Voci",
+    "reset": "Reimposta",
+    "actions": "Azioni",
+    "status": "Stato",
+    "date": "Data",
+    "name": "Nome",
+    "description": "Descrizione",
+    "notes": "Note",
+    "cost": "Costo",
+    "type": "Tipo",
+    "category": "Categoria",
+    "preview": "Anteprima",
+    "upload": "Carica",
+    "download": "Scarica",
+    "copy": "Copia",
+    "duplicate": "Duplica",
+    "active": "Attivo",
+    "inactive": "Inattivo",
+    "system": "Sistema",
+    "custom": "Personalizzato",
+    "label": "Etichetta",
+    "color": "Colore",
+    "unknown": "Sconosciuto",
+    "today": "Oggi",
+    "tomorrow": "Domani",
+    "yesterday": "Ieri",
+    "daysAgo": "{n} giorni di ritardo",
+    "inDays": "tra {n} giorni",
+    "months": ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"],
+    "noEntries": "Nessuna voce",
+    "pagination": "Pagina {current} di {total}"
+  },
+  "auth": {
+    "login": "Accedi",
+    "logout": "Disconnetti",
+    "email": "Indirizzo e-mail",
+    "password": "Password",
+    "forgotPassword": "Password dimenticata?",
+    "noAccount": "Non hai ancora un account?",
+    "register": "Registrati",
+    "loginError": "Accesso fallito. Controlla le tue credenziali.",
+    "welcomeBack": "Bentornato"
+  },
+  "dashboard": {
+    "greeting": {
+      "morning": "Buongiorno",
+      "afternoon": "Buon pomeriggio",
+      "evening": "Buonasera"
+    },
+    "overdueWarning": "{n} manutenzione scaduta",
+    "overdueWarningPlural": "{n} manutenzioni scadute",
+    "stats": {
+      "assetsTotal": "Asset totali",
+      "active": "Attivo",
+      "inService": "In servizio",
+      "decommissioned": "Fuori servizio",
+      "users": "Utenti",
+      "overdueServices": "Manutenzioni scadute",
+      "dueThisWeek": "In scadenza questa settimana",
+      "serviceEventsMonth": "Interventi di servizio (mese)",
+      "maintenanceCostYear": "Costi di manutenzione (anno)",
+      "allDone": "Tutto completato",
+      "limit": "Limite: {n}",
+      "unlimited": "Illimitato",
+      "percentOfStock": "{n} % del parco",
+      "totalSub": "{n} in totale",
+      "monthSub": "{n} € questo mese"
+    },
+    "sections": {
+      "assetUtilization": "Utilizzo asset",
+      "maintenanceOverview": "Panoramica manutenzione",
+      "assetsByCategory": "Asset per categoria",
+      "recentActivity": "Attività recente",
+      "currentPlan": "Piano attuale",
+      "quickAccess": "Accesso rapido",
+      "noCategories": "Nessuna categoria",
+      "noActivity": "Nessun intervento ancora"
+    },
+    "maintenance": {
+      "overdue": "Scaduto",
+      "thisWeek": "Questa settimana",
+      "next30Days": "Prossimi 30 giorni",
+      "totalIntervals": "Intervalli attivi totali"
+    },
+    "quickLinks": {
+      "createAsset": "Crea asset",
+      "openMaintenance": "Apri manutenzione",
+      "scanAsset": "Scansiona asset",
+      "locations": "Sedi",
+      "addUser": "Aggiungi utente",
+      "documentation": "Documentazione"
+    },
+    "plan": {
+      "active": "ATTIVO",
+      "inactive": "INATTIVO",
+      "assets": "Asset",
+      "users": "Utenti",
+      "manageBilling": "Gestisci abbonamento"
+    }
+  },
+  "assets": {
+    "title": "Gestione asset",
+    "subtitle": "Tutti i macchinari a colpo d'occhio",
+    "new": "Nuovo asset",
+    "search": "Cerca asset…",
+    "filter": {
+      "allCategories": "Tutte le categorie",
+      "allStatuses": "Tutti gli stati",
+      "allLocations": "Tutte le sedi"
+    },
+    "noAssets": "Nessun asset ancora",
+    "noAssetsDesc": "Crea il tuo primo macchinario.",
+    "noResults": "Nessun asset trovato",
+    "fields": {
+      "title": "Etichetta",
+      "category": "Categoria",
+      "status": "Stato",
+      "serialNumber": "Numero di serie",
+      "articleNumber": "Numero articolo",
+      "barcode": "Codice a barre / QR",
+      "manufacturer": "Produttore",
+      "model": "Modello",
+      "purchaseDate": "Data di acquisto",
+      "purchasePrice": "Prezzo di acquisto (€)",
+      "location": "Sede",
+      "locationText": "Sede testo libero",
+      "notes": "Note",
+      "photos": "Foto",
+      "documents": "Documenti",
+      "technicalData": "Dati tecnici",
+      "commercialData": "Dati commerciali"
+    },
+    "status": {
+      "active": "Attivo",
+      "in_service": "In servizio",
+      "decommissioned": "Fuori servizio",
+      "defective": "Difettoso"
+    },
+    "actions": {
+      "viewServiceLog": "Libretto di servizio",
+      "edit": "Modifica",
+      "duplicate": "Duplica",
+      "delete": "Elimina",
+      "confirmDelete": "Eliminare questo asset? Questa azione non può essere annullata.",
+      "duplicateSuccess": "Asset duplicato"
+    },
+    "new_page": {
+      "title": "Crea nuovo asset",
+      "edit_title": "Modifica asset",
+      "save": "Crea asset",
+      "saveEdit": "Salva modifiche",
+      "addTechField": "+ Aggiungi campo",
+      "fieldName": "Nome campo",
+      "fieldValue": "Valore",
+      "addPhoto": "Aggiungi foto",
+      "photoHint": "Le foto sono archiviate direttamente nel cloud",
+      "selectLocation": "Seleziona sede",
+      "noLocation": "Nessuna sede",
+      "errors": {
+        "titleRequired": "Inserisci un'etichetta.",
+        "saveFailed": "Errore durante il salvataggio"
+      }
+    },
+    "qr": {
+      "title": "Codice QR",
+      "download": "Scarica codice QR",
+      "print": "Stampa"
+    },
+    "locationHistory": "Storico sedi",
+    "noLocationHistory": "Nessuno storico sedi disponibile"
+  },
+  "service": {
+    "title": "Libretto di servizio",
+    "subtitle": "Documentazione completa di tutti gli eventi",
+    "newEntry": "+ Voce",
+    "entries": "Voci",
+    "totalCost": "Costo totale",
+    "intervals": "Intervalli",
+    "noEntries": "Nessuna voce ancora",
+    "noEntriesDesc": "Documenta manutenzioni, riparazioni e ispezioni.",
+    "entry": {
+      "title": "Titolo",
+      "titlePlaceholder": "es. {type} eseguito",
+      "type": "Tipo",
+      "date": "Data & ora",
+      "description": "Descrizione",
+      "descriptionPlaceholder": "Cosa è stato fatto?",
+      "performedBy": "Eseguito da",
+      "performedByPlaceholder": "Nome",
+      "externalCompany": "Azienda / esterno",
+      "externalCompanyPlaceholder": "es. TÜV",
+      "costEur": "Costo (€)",
+      "nextDate": "Prossimo appuntamento",
+      "notes": "Note / osservazioni",
+      "notesPlaceholder": "Note interne, risultati, raccomandazioni…",
+      "photos": "Foto",
+      "documents": "Documenti",
+      "addDocument": "+ Aggiungi documento / PDF",
+      "save": "Salva voce",
+      "saveEdit": "Salva modifiche",
+      "completeMaintenance": "Completa manutenzione",
+      "new": "Nuova voce",
+      "edit": "Modifica voce",
+      "customType": "+ Crea personalizzato",
+      "cancelCustomType": "× Annulla",
+      "newTypePlaceholder": "Etichetta, es. Calibrazione",
+      "createType": "Crea & seleziona tipo",
+      "nextDateAutoSet": "Il prossimo appuntamento verrà impostato automaticamente",
+      "nextDateIntervalHint": "{n} giorni dalla data di esecuzione",
+      "errors": {
+        "titleRequired": "Inserisci un titolo.",
+        "saveFailed": "Errore durante il salvataggio"
+      }
+    },
+    "checklist": {
+      "title": "Lista di controllo",
+      "subtitle": "Spunta ogni passaggio e aggiungi note opzionali",
+      "done": "fatto",
+      "addNote": "+ Nota",
+      "notePlaceholder": "Risultato, misurazione, osservazione per questo passaggio…",
+      "resources": "Risorse (opzionale): strumenti, materiali…"
+    },
+    "interval": {
+      "title": "Nuovo intervallo",
+      "editTitle": "Modifica intervallo",
+      "subtitle": "Appuntamento ricorrente",
+      "name": "Etichetta *",
+      "namePlaceholder": "es. {type} ogni 6 mesi",
+      "interval": "Intervallo",
+      "intervalDays": "Ogni {n} giorni",
+      "custom": "Personalizzato",
+      "customDays": "Giorni",
+      "customDaysPlaceholder": "es. 45",
+      "lastDone": "Ultima esecuzione",
+      "lastDoneHint": "Opzionale – calcola la prossima scadenza",
+      "nextDue": "Prossima scadenza *",
+      "preview": "Anteprima",
+      "previewDesc": "Ogni {days} giorni · Scadenza: {date}",
+      "checklist": "Lista di controllo",
+      "checklistSubtitle": "Passaggi numerati da spuntare durante l'esecuzione",
+      "addStep": "+ Passaggio",
+      "stepPlaceholder": "Descrivi il passaggio {n}…",
+      "resourcesPlaceholder": "Risorse (opzionale): strumenti, materiali…",
+      "noSteps": "Nessun passaggio – tocca \"+ Passaggio\"",
+      "save": "Crea intervallo",
+      "saveEdit": "Salva modifiche",
+      "newType": "Crea nuovo tipo",
+      "errors": {
+        "nameRequired": "Inserisci un'etichetta.",
+        "intervalRequired": "Inserisci un intervallo valido.",
+        "nextDateRequired": "Specifica la prossima data di scadenza."
+      }
+    },
+    "schedules": {
+      "title": "Intervalli di manutenzione",
+      "newInterval": "+ Intervallo",
+      "noSchedules": "Nessun intervallo di manutenzione ancora",
+      "noSchedulesDesc": "Imposta un piano di manutenzione ricorrente.",
+      "dueDate": "Scadenza il {date}",
+      "overdue": "Scaduto",
+      "dueIn": "Scade tra {n} giorni",
+      "dueToday": "Scade oggi",
+      "complete": "Segna come completato",
+      "completeShort": "Completa",
+      "lastDone": "Ultimo: {date}",
+      "interval": "Ogni {n} giorni"
+    },
+    "timeline": {
+      "entry": "Voce",
+      "entries": "Voci",
+      "noEntries": "Nessuna voce ancora",
+      "noEntriesDesc": "Documenta manutenzioni, riparazioni e ispezioni.",
+      "nextDate": "Prossimo: {date}",
+      "editBtn": "Modifica",
+      "checklistSection": "Lista di controllo",
+      "notesSection": "Note"
+    }
+  },
+  "wartung": {
+    "title": "Manutenzione & Servizio",
+    "subtitle": "Tutti gli intervalli di manutenzione in scadenza",
+    "tabs": {
+      "list": "Lista attività",
+      "gantt": "Diagramma di Gantt"
+    },
+    "filter": {
+      "search": "Cerca per asset, n. serie, categoria…",
+      "urgency": "Urgenza",
+      "all": "Tutti",
+      "overdue": "Scaduto",
+      "week": "Questa settimana",
+      "twoWeeks": "Due settimane",
+      "month": "30 giorni",
+      "category": "Categoria",
+      "allCategories": "Tutte le categorie",
+      "reset": "Reimposta"
+    },
+    "groups": {
+      "overdue": "Scaduto",
+      "thisWeek": "Questa settimana",
+      "next30Days": "Prossimi 30 giorni",
+      "later": "Più tardi"
+    },
+    "noSchedules": "Nessuna voce",
+    "noSchedulesDesc": "Nessuna attività di manutenzione per questo filtro.",
+    "complete": "Segna come completato",
+    "completeBtn": "Completa",
+    "stats": {
+      "overdue": "Manutenzioni scadute",
+      "thisWeek": "In scadenza questa settimana",
+      "thisMonth": "In scadenza questo mese",
+      "total": "Intervalli attivi"
+    }
+  },
+  "organisation": {
+    "title": "Sedi & Struttura",
+    "subtitle": "Gestisci la struttura operativa",
+    "newLocation": "+ Sede",
+    "newHall": "+ Capannone",
+    "newArea": "+ Area",
+    "noLocations": "Nessuna sede ancora",
+    "noLocationsDesc": "Crea la tua prima sede.",
+    "location": "Sede",
+    "hall": "Capannone",
+    "area": "Area",
+    "assetsHere": "{n} asset",
+    "fields": {
+      "name": "Nome",
+      "description": "Descrizione"
+    }
+  },
+  "teams": {
+    "title": "Team",
+    "subtitle": "Gestisci membri & ruoli",
+    "newTeam": "+ Team",
+    "inviteMember": "Invita membro",
+    "newMember": "Crea membro",
+    "noTeams": "Nessun team ancora",
+    "member": "Membro",
+    "members": "Membri",
+    "role": "Ruolo",
+    "roles": {
+      "admin": "Amministratore",
+      "technician": "Tecnico",
+      "viewer": "Lettore"
+    },
+    "roleDesc": {
+      "admin": "Accesso completo + gestione utenti",
+      "technician": "Modifica asset & servizio",
+      "viewer": "Solo visualizzazione"
+    },
+    "fields": {
+      "name": "Nome del team",
+      "email": "Indirizzo e-mail",
+      "password": "Password",
+      "fullName": "Nome completo"
+    },
+    "actions": {
+      "changeRole": "Cambia ruolo",
+      "removeMember": "Rimuovi membro",
+      "confirmRemove": "Rimuovere questo membro?"
+    }
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "profile": {
+      "title": "Profilo",
+      "subtitle": "Dati personali & impostazioni",
+      "fullName": "Nome completo",
+      "email": "Indirizzo e-mail",
+      "language": "Lingua",
+      "languageSubtitle": "Lingua dell'app per il tuo account",
+      "save": "Salva profilo",
+      "saved": "Salvato",
+      "changePassword": "Cambia password",
+      "currentPassword": "Password attuale",
+      "newPassword": "Nuova password",
+      "passwordSaved": "Password cambiata"
+    },
+    "eventTypes": {
+      "title": "Tipi di evento",
+      "subtitle": "Categorie personalizzate per le voci di servizio",
+      "systemTypes": "Tipi di sistema",
+      "customTypes": "Tipi personalizzati",
+      "newType": "+ Nuovo",
+      "labelPlaceholder": "es. Calibrazione, TÜV, Ispezione…",
+      "colorLabel": "Colore",
+      "preview": "Anteprima:",
+      "save": "Crea tipo",
+      "saving": "Salvataggio…",
+      "noCustomTypes": "Nessun tipo personalizzato ancora.",
+      "systemBadge": "Sistema"
+    },
+    "billing": {
+      "title": "Abbonamento",
+      "subtitle": "Gestisci piano & pagamenti",
+      "currentPlan": "Piano attuale",
+      "status": {
+        "active": "Attivo",
+        "inactive": "Inattivo",
+        "trial": "Prova"
+      },
+      "changePlan": "Cambia piano",
+      "activationCode": "Riscatta codice di attivazione",
+      "activationCodePlaceholder": "Codice a 9 cifre",
+      "activate": "Attiva",
+      "activating": "Attivazione…",
+      "createInvoice": "Crea fattura",
+      "plans": {
+        "free": "Gratuito",
+        "starter": "Starter",
+        "professional": "Professionale",
+        "enterprise": "Enterprise"
+      }
+    },
+    "invite": {
+      "title": "Crea utente",
+      "subtitle": "Aggiungi un nuovo membro all'organizzazione",
+      "email": "Indirizzo e-mail",
+      "fullName": "Nome completo",
+      "password": "Password",
+      "role": "Ruolo",
+      "save": "Crea utente",
+      "success": "L'utente è stato creato con successo."
+    },
+    "statuses": {
+      "title": "Stati asset",
+      "subtitle": "Definisci stati personalizzati",
+      "systemStatuses": "Stati di sistema",
+      "customStatuses": "Stati personalizzati",
+      "newStatus": "+ Nuovo"
+    }
+  },
+  "scan": {
+    "title": "Scansiona asset",
+    "subtitle": "Scansiona QR code o NFC",
+    "startCamera": "Avvia fotocamera",
+    "scanning": "Scansione in corso…",
+    "noPermission": "Accesso alla fotocamera non consentito",
+    "notFound": "Nessun asset trovato",
+    "openAsset": "Apri asset"
+  },
+  "docs": {
+    "title": "Documentazione",
+    "subtitle": "Tutto quello che devi sapere.",
+    "heroDesc": "INOid è la tua gestione digitale degli asset — dalla prima registrazione alla dismissione. Pronto in 5 minuti.",
+    "stats": {
+      "firstAsset": "fino al primo asset",
+      "featureAreas": "aree funzionali",
+      "browserBased": "basato su browser"
+    },
+    "tabs": {
+      "quickstart": "Avvio rapido",
+      "features": "Funzionalità",
+      "roles": "Ruoli",
+      "plans": "Piani & abbonamento",
+      "tips": "Suggerimenti"
+    },
+    "quickstart": {
+      "intro": "Quattro passaggi e conoscerai l'essenziale di INOid.",
+      "openDirectly": "Apri direttamente",
+      "demoTour": "Tour dimostrativo",
+      "demoSoon": "Video di presentazione in arrivo"
+    }
+  },
+  "eventTypes": {
+    "inspection": "Ispezione",
+    "maintenance": "Manutenzione",
+    "repair": "Riparazione",
+    "overhaul": "Revisione generale",
+    "coating": "Rivestimento",
+    "cleaning": "Pulizia",
+    "installation": "Installazione/Montaggio",
+    "incident": "Incidente/Danno",
+    "decommission": "Dismissione",
+    "other": "Altro"
+  },
+  "intervalPresets": {
+    "weekly": "Settimanale",
+    "monthly": "Mensile",
+    "quarterly": "Trimestrale",
+    "biannual": "Semestrale",
+    "annual": "Annuale",
+    "biennial": "Biennale"
+  }
+}
