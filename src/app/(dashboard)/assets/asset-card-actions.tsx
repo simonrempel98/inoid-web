@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { useTranslations } from 'next-intl'
 
 type Props = {
   assetId: string
@@ -20,6 +21,7 @@ type Props = {
 }
 
 export function AssetCardActions(props: Props) {
+  const t = useTranslations('assets.cardActions')
   const router = useRouter()
   const supabase = createClient()
   const [duplicating, setDuplicating] = useState(false)
@@ -81,7 +83,7 @@ export function AssetCardActions(props: Props) {
       {/* Duplizieren */}
       <button
         type="button"
-        title="Duplizieren"
+        title={t('duplicateTitle')}
         onClick={handleDuplicate}
         disabled={duplicating}
         style={{ ...btnStyle, opacity: duplicating ? 0.5 : 1 }}
@@ -101,7 +103,7 @@ export function AssetCardActions(props: Props) {
       {/* Bearbeiten */}
       <button
         type="button"
-        title="Bearbeiten"
+        title={t('editTitle')}
         onClick={handleEdit}
         style={btnStyle}
       >
