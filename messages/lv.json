@@ -320,7 +320,14 @@
       "completeShort": "Pabeigt",
       "lastDone": "Pēdējais: {date}",
       "interval": "Ik pēc {n} dienām",
-      "createFirst": "+ Pievienot pirmo intervālu"
+      "createFirst": "+ Pievienot pirmo intervālu",
+      "intervalShort": "every {n}d",
+      "overdueShort": "{days}d overdue",
+      "dueInShort": "in {n}d",
+      "deleteConfirmTitle": "Delete interval?",
+      "deleteConfirmBody": "\"{name}\" will be permanently deleted.",
+      "deleting": "Deleting…",
+      "confirmDelete": "Yes, delete"
     },
     "timeline": {
       "entry": "Ieraksts",

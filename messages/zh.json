@@ -320,7 +320,14 @@
       "completeShort": "完成",
       "lastDone": "上次：{date}",
       "interval": "每{n}天",
-      "createFirst": "+ 添加第一个间隔"
+      "createFirst": "+ 添加第一个间隔",
+      "intervalShort": "每{n}天",
+      "overdueShort": "逾期{days}天",
+      "dueInShort": "{n}天后",
+      "deleteConfirmTitle": "删除周期？",
+      "deleteConfirmBody": "\"{name}\"将被永久删除。",
+      "deleting": "删除中…",
+      "confirmDelete": "是，删除"
     },
     "timeline": {
       "entry": "条目",

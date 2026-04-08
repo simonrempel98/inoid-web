@@ -320,7 +320,14 @@
       "completeShort": "Viimeistele",
       "lastDone": "Viimeksi: {date}",
       "interval": "Joka {n}. päivä",
-      "createFirst": "+ Lisää ensimmäinen väli"
+      "createFirst": "+ Lisää ensimmäinen väli",
+      "intervalShort": "joka {n}p",
+      "overdueShort": "{days}p myöhässä",
+      "dueInShort": "{n}p kuluttua",
+      "deleteConfirmTitle": "Poistetaanko väli?",
+      "deleteConfirmBody": "\"{name}\" poistetaan pysyvästi.",
+      "deleting": "Poistetaan…",
+      "confirmDelete": "Kyllä, poista"
     },
     "timeline": {
       "entry": "Merkintä",

@@ -320,7 +320,14 @@
       "completeShort": "Завершить",
       "lastDone": "Последнее: {date}",
       "interval": "Каждые {n} дней",
-      "createFirst": "+ Добавить первый интервал"
+      "createFirst": "+ Добавить первый интервал",
+      "intervalShort": "каждые {n}д",
+      "overdueShort": "{days}д просрочено",
+      "dueInShort": "через {n}д",
+      "deleteConfirmTitle": "Удалить интервал?",
+      "deleteConfirmBody": "\"{name}\" будет удалён навсегда.",
+      "deleting": "Удаление…",
+      "confirmDelete": "Да, удалить"
     },
     "timeline": {
       "entry": "Запись",

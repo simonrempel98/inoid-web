@@ -320,7 +320,14 @@
       "completeShort": "完了",
       "lastDone": "最終：{date}",
       "interval": "{n}日ごと",
-      "createFirst": "+ 最初のインターバルを追加"
+      "createFirst": "+ 最初のインターバルを追加",
+      "intervalShort": "{n}日ごと",
+      "overdueShort": "{days}日超過",
+      "dueInShort": "{n}日後",
+      "deleteConfirmTitle": "間隔を削除しますか？",
+      "deleteConfirmBody": "\"{name}\"は完全に削除されます。",
+      "deleting": "削除中…",
+      "confirmDelete": "はい、削除"
     },
     "timeline": {
       "entry": "エントリ",

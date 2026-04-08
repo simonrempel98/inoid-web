@@ -320,7 +320,14 @@
       "completeShort": "Dokončit",
       "lastDone": "Naposledy: {date}",
       "interval": "Každých {n} dní",
-      "createFirst": "+ Přidat první interval"
+      "createFirst": "+ Přidat první interval",
+      "intervalShort": "každých {n}d",
+      "overdueShort": "{days}d po termínu",
+      "dueInShort": "za {n}d",
+      "deleteConfirmTitle": "Smazat interval?",
+      "deleteConfirmBody": "\"{name}\" bude trvale smazán.",
+      "deleting": "Mazání…",
+      "confirmDelete": "Ano, smazat"
     },
     "timeline": {
       "entry": "Záznam",

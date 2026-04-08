@@ -320,7 +320,14 @@
       "completeShort": "Completar",
       "lastDone": "Último: {date}",
       "interval": "Cada {n} días",
-      "createFirst": "+ Añadir primer intervalo"
+      "createFirst": "+ Añadir primer intervalo",
+      "intervalShort": "cada {n}d",
+      "overdueShort": "{days}d de retraso",
+      "dueInShort": "en {n}d",
+      "deleteConfirmTitle": "¿Eliminar intervalo?",
+      "deleteConfirmBody": "\"{name}\" se eliminará permanentemente.",
+      "deleting": "Eliminando…",
+      "confirmDelete": "Sí, eliminar"
     },
     "timeline": {
       "entry": "Entrada",

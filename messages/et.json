@@ -320,7 +320,14 @@
       "completeShort": "Lõpeta",
       "lastDone": "Viimati: {date}",
       "interval": "Iga {n} päeva järel",
-      "createFirst": "+ Lisa esimene intervall"
+      "createFirst": "+ Lisa esimene intervall",
+      "intervalShort": "every {n}d",
+      "overdueShort": "{days}d overdue",
+      "dueInShort": "in {n}d",
+      "deleteConfirmTitle": "Delete interval?",
+      "deleteConfirmBody": "\"{name}\" will be permanently deleted.",
+      "deleting": "Deleting…",
+      "confirmDelete": "Yes, delete"
     },
     "timeline": {
       "entry": "Kirje",

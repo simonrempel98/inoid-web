@@ -320,7 +320,14 @@
       "completeShort": "Slutför",
       "lastDone": "Senast: {date}",
       "interval": "Var {n}:e dag",
-      "createFirst": "+ Lägg till första interval"
+      "createFirst": "+ Lägg till första interval",
+      "intervalShort": "var {n}d",
+      "overdueShort": "{days}d försenad",
+      "dueInShort": "om {n}d",
+      "deleteConfirmTitle": "Ta bort intervall?",
+      "deleteConfirmBody": "\"{name}\" tas bort permanent.",
+      "deleting": "Tar bort…",
+      "confirmDelete": "Ja, ta bort"
     },
     "timeline": {
       "entry": "Post",

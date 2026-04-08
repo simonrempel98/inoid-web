@@ -320,7 +320,14 @@
       "completeShort": "Terminer",
       "lastDone": "Dernier : {date}",
       "interval": "Tous les {n} jours",
-      "createFirst": "+ Ajouter le premier intervalle"
+      "createFirst": "+ Ajouter le premier intervalle",
+      "intervalShort": "ts les {n}j",
+      "overdueShort": "{days}j de retard",
+      "dueInShort": "dans {n}j",
+      "deleteConfirmTitle": "Supprimer l'intervalle?",
+      "deleteConfirmBody": "\"{name}\" sera définitivement supprimé.",
+      "deleting": "Suppression…",
+      "confirmDelete": "Oui, supprimer"
     },
     "timeline": {
       "entry": "Entrée",

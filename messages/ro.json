@@ -320,7 +320,14 @@
       "completeShort": "Finalizare",
       "lastDone": "Ultima dată: {date}",
       "interval": "La fiecare {n} zile",
-      "createFirst": "+ Adăugați primul interval"
+      "createFirst": "+ Adăugați primul interval",
+      "intervalShort": "la fiecare {n}z",
+      "overdueShort": "{days}z întârziat",
+      "dueInShort": "în {n}z",
+      "deleteConfirmTitle": "Ștergeți intervalul?",
+      "deleteConfirmBody": "\"{name}\" va fi șters permanent.",
+      "deleting": "Se șterge…",
+      "confirmDelete": "Da, ștergeți"
     },
     "timeline": {
       "entry": "Intrare",

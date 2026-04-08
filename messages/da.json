@@ -320,7 +320,14 @@
       "completeShort": "Afslut",
       "lastDone": "Sidst: {date}",
       "interval": "Hver {n}. dag",
-      "createFirst": "+ Tilføj første interval"
+      "createFirst": "+ Tilføj første interval",
+      "intervalShort": "hver {n}d",
+      "overdueShort": "{days}d overskredet",
+      "dueInShort": "om {n}d",
+      "deleteConfirmTitle": "Slet interval?",
+      "deleteConfirmBody": "\"{name}\" slettes permanent.",
+      "deleting": "Sletter…",
+      "confirmDelete": "Ja, slet"
     },
     "timeline": {
       "entry": "Post",

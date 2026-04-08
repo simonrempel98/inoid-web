@@ -320,7 +320,14 @@
       "completeShort": "Zakończ",
       "lastDone": "Ostatnie: {date}",
       "interval": "Co {n} dni",
-      "createFirst": "+ Dodaj pierwszy interwał"
+      "createFirst": "+ Dodaj pierwszy interwał",
+      "intervalShort": "co {n}d",
+      "overdueShort": "{days}d po terminie",
+      "dueInShort": "za {n}d",
+      "deleteConfirmTitle": "Usunąć interwał?",
+      "deleteConfirmBody": "\"{name}\" zostanie trwale usunięty.",
+      "deleting": "Usuwanie…",
+      "confirmDelete": "Tak, usuń"
     },
     "timeline": {
       "entry": "Wpis",

@@ -320,7 +320,14 @@
       "completeShort": "Užbaigti",
       "lastDone": "Paskutinis: {date}",
       "interval": "Kas {n} dienų",
-      "createFirst": "+ Pridėti pirmą intervalą"
+      "createFirst": "+ Pridėti pirmą intervalą",
+      "intervalShort": "every {n}d",
+      "overdueShort": "{days}d overdue",
+      "dueInShort": "in {n}d",
+      "deleteConfirmTitle": "Delete interval?",
+      "deleteConfirmBody": "\"{name}\" will be permanently deleted.",
+      "deleting": "Deleting…",
+      "confirmDelete": "Yes, delete"
     },
     "timeline": {
       "entry": "Įrašas",

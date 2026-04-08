@@ -320,7 +320,14 @@
       "completeShort": "Tamamla",
       "lastDone": "Son: {date}",
       "interval": "Her {n} günde bir",
-      "createFirst": "+ İlk aralık ekle"
+      "createFirst": "+ İlk aralık ekle",
+      "intervalShort": "her {n}g",
+      "overdueShort": "{days}g gecikmiş",
+      "dueInShort": "{n}g sonra",
+      "deleteConfirmTitle": "Aralık silinsin mi?",
+      "deleteConfirmBody": "\"{name}\" kalıcı olarak silinecek.",
+      "deleting": "Siliniyor…",
+      "confirmDelete": "Evet, sil"
     },
     "timeline": {
       "entry": "Kayıt",

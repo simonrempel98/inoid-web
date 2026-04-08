@@ -320,7 +320,14 @@
       "completeShort": "Ολοκλήρωση",
       "lastDone": "Τελευταίο: {date}",
       "interval": "Κάθε {n} ημέρες",
-      "createFirst": "+ Προσθήκη πρώτου διαστήματος"
+      "createFirst": "+ Προσθήκη πρώτου διαστήματος",
+      "intervalShort": "κάθε {n}η",
+      "overdueShort": "{days}η καθυστέρηση",
+      "dueInShort": "σε {n}η",
+      "deleteConfirmTitle": "Διαγραφή διαστήματος;",
+      "deleteConfirmBody": "Το \"{name}\" θα διαγραφεί μόνιμα.",
+      "deleting": "Διαγραφή…",
+      "confirmDelete": "Ναι, διαγραφή"
     },
     "timeline": {
       "entry": "Εγγραφή",

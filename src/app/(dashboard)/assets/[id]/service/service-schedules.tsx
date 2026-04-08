@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations, useLocale } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 
 type Schedule = {
@@ -15,6 +16,8 @@ type Schedule = {
 
 export function ServiceSchedules({ schedules, assetId }: { schedules: Schedule[]; assetId: string }) {
   const router = useRouter()
+  const t = useTranslations()
+  const locale = useLocale()
   const supabase = createClient()
   const [deleting, setDeleting] = useState<string | null>(null)
   const [confirmId, setConfirmId] = useState<string | null>(null)
@@ -38,7 +41,7 @@ export function ServiceSchedules({ schedules, assetId }: { schedules: Schedule[]
     <>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {schedules.map(s => {
-          const next = s.next_service_date ? new Date(s.next_service_date) : null
+          const next = s.next_service_date ? new Date(s.next_service_date + 'T00:00:00') : null
           const days = next ? Math.ceil((next.getTime() - Date.now()) / 86400000) : null
           const color =
             days === null ? '#96aed2' :
@@ -47,9 +50,9 @@ export function ServiceSchedules({ schedules, assetId }: { schedules: Schedule[]
             days <= 30 ? '#a855f7' : '#27AE60'
           const urgencyLabel =
             days === null ? '' :
-            days < 0 ? `${Math.abs(days)}T überfällig` :
-            days === 0 ? 'heute fällig' :
-            `in ${days}T`
+            days < 0 ? t('service.schedules.overdueShort', { days: Math.abs(days) }) :
+            days === 0 ? t('service.schedules.dueToday') :
+            t('service.schedules.dueInShort', { n: days })
 
           const pct = (s.last_service_date && s.interval_days > 0)
             ? Math.max(0, Math.min(100,
@@ -74,13 +77,13 @@ export function ServiceSchedules({ schedules, assetId }: { schedules: Schedule[]
                     overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                   }}>{s.name}</p>
                   <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
-                    <span style={{ fontSize: 11, color: '#96aed2' }}>alle {s.interval_days}d</span>
+                    <span style={{ fontSize: 11, color: '#96aed2' }}>{t('service.schedules.intervalShort', { n: s.interval_days })}</span>
                     {next && (
                       <>
                         <span style={{ fontSize: 11, color: '#c8d4e8' }}>·</span>
                         <span style={{ fontSize: 11, fontWeight: 700, color }}>{urgencyLabel}</span>
                         <span style={{ fontSize: 11, color: '#96aed2' }}>
-                          {next.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })}
+                          {next.toLocaleDateString(locale, { day: '2-digit', month: '2-digit', year: 'numeric' })}
                         </span>
                       </>
                     )}
@@ -90,7 +93,7 @@ export function ServiceSchedules({ schedules, assetId }: { schedules: Schedule[]
                 {/* Bearbeiten */}
                 <button
                   type="button"
-                  title="Bearbeiten"
+                  title={t('common.edit')}
                   onClick={() => router.push(`/assets/${assetId}/service/intervall?edit=${s.id}`)}
                   style={btnStyle}
                 >
@@ -103,7 +106,7 @@ export function ServiceSchedules({ schedules, assetId }: { schedules: Schedule[]
                 {/* Löschen */}
                 <button
                   type="button"
-                  title="Löschen"
+                  title={t('common.delete')}
                   onClick={() => setConfirmId(s.id)}
                   disabled={deleting === s.id}
                   style={{ ...btnStyle, opacity: deleting === s.id ? 0.4 : 1 }}
@@ -140,10 +143,10 @@ export function ServiceSchedules({ schedules, assetId }: { schedules: Schedule[]
             width: '100%', maxWidth: 420, fontFamily: 'Arial, sans-serif',
           }}>
             <p style={{ fontWeight: 700, fontSize: 16, color: '#000', margin: '0 0 8px' }}>
-              Intervall löschen?
+              {t('service.schedules.deleteConfirmTitle')}
             </p>
             <p style={{ color: '#666', fontSize: 14, margin: '0 0 20px', lineHeight: 1.5 }}>
-              <strong>„{schedules.find(s => s.id === confirmId)?.name}"</strong> wird unwiderruflich gelöscht.
+              {t('service.schedules.deleteConfirmBody', { name: schedules.find(s => s.id === confirmId)?.name ?? '' })}
             </p>
             <div style={{ display: 'flex', gap: 10 }}>
               <button
@@ -155,7 +158,7 @@ export function ServiceSchedules({ schedules, assetId }: { schedules: Schedule[]
                   color: '#666', fontSize: 14, fontWeight: 700, cursor: 'pointer',
                 }}
               >
-                Abbrechen
+                {t('common.cancel')}
               </button>
               <button
                 type="button"
@@ -168,7 +171,7 @@ export function ServiceSchedules({ schedules, assetId }: { schedules: Schedule[]
                   cursor: deleting ? 'default' : 'pointer',
                 }}
               >
-                {deleting ? 'Wird gelöscht…' : 'Ja, löschen'}
+                {deleting ? t('service.schedules.deleting') : t('service.schedules.confirmDelete')}
               </button>
             </div>
           </div>

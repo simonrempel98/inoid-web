@@ -320,7 +320,14 @@
       "completeShort": "Завершити",
       "lastDone": "Останнє: {date}",
       "interval": "Кожні {n} днів",
-      "createFirst": "+ Додати перший інтервал"
+      "createFirst": "+ Додати перший інтервал",
+      "intervalShort": "кожні {n}д",
+      "overdueShort": "{days}д прострочено",
+      "dueInShort": "через {n}д",
+      "deleteConfirmTitle": "Видалити інтервал?",
+      "deleteConfirmBody": "\"{name}\" буде видалено назавжди.",
+      "deleting": "Видалення…",
+      "confirmDelete": "Так, видалити"
     },
     "timeline": {
       "entry": "Запис",

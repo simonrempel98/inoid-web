@@ -320,7 +320,14 @@
       "completeShort": "Befejezés",
       "lastDone": "Utoljára: {date}",
       "interval": "Minden {n} napban",
-      "createFirst": "+ Első intervallum hozzáadása"
+      "createFirst": "+ Első intervallum hozzáadása",
+      "intervalShort": "minden {n}n",
+      "overdueShort": "{days}n késve",
+      "dueInShort": "{n}n múlva",
+      "deleteConfirmTitle": "Törölje az intervallumot?",
+      "deleteConfirmBody": "\"{name}\" véglegesen törlésre kerül.",
+      "deleting": "Törlés…",
+      "confirmDelete": "Igen, törlés"
     },
     "timeline": {
       "entry": "Bejegyzés",

@@ -320,7 +320,14 @@
       "completeShort": "Afronden",
       "lastDone": "Laatste: {date}",
       "interval": "Elke {n} dagen",
-      "createFirst": "+ Eerste interval toevoegen"
+      "createFirst": "+ Eerste interval toevoegen",
+      "intervalShort": "elke {n}d",
+      "overdueShort": "{days}d te laat",
+      "dueInShort": "over {n}d",
+      "deleteConfirmTitle": "Interval verwijderen?",
+      "deleteConfirmBody": "\"{name}\" wordt definitief verwijderd.",
+      "deleting": "Verwijderen…",
+      "confirmDelete": "Ja, verwijderen"
     },
     "timeline": {
       "entry": "Vermelding",

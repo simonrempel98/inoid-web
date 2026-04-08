@@ -320,7 +320,14 @@
       "completeShort": "Erledigen",
       "lastDone": "Zuletzt: {date}",
       "interval": "Alle {n} Tage",
-      "createFirst": "+ Erstes Intervall anlegen"
+      "createFirst": "+ Erstes Intervall anlegen",
+      "intervalShort": "alle {n}T",
+      "overdueShort": "{days}T überfällig",
+      "dueInShort": "in {n}T",
+      "deleteConfirmTitle": "Intervall löschen?",
+      "deleteConfirmBody": "\"{name}\" wird unwiderruflich gelöscht.",
+      "deleting": "Wird gelöscht…",
+      "confirmDelete": "Ja, löschen"
     },
     "timeline": {
       "entry": "Eintrag",

@@ -320,7 +320,14 @@
       "completeShort": "Fullfør",
       "lastDone": "Sist: {date}",
       "interval": "Hver {n}. dag",
-      "createFirst": "+ Legg til første intervall"
+      "createFirst": "+ Legg til første intervall",
+      "intervalShort": "every {n}d",
+      "overdueShort": "{days}d overdue",
+      "dueInShort": "in {n}d",
+      "deleteConfirmTitle": "Delete interval?",
+      "deleteConfirmBody": "\"{name}\" will be permanently deleted.",
+      "deleting": "Deleting…",
+      "confirmDelete": "Yes, delete"
     },
     "timeline": {
       "entry": "Oppføring",
