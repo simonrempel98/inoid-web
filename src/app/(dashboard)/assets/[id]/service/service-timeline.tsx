@@ -48,23 +48,19 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
   const months = [...grouped.keys()].sort((a, b) => b.localeCompare(a)) // neueste zuerst
 
   // Erster Monat standardmäßig offen
-  const [openMonths, setOpenMonths] = useState<Set<string>>(() => new Set(months.slice(0, 1)))
-  const [openEvents, setOpenEvents] = useState<Set<string>>(new Set())
+  const [openMonths, setOpenMonths] = useState<Record<string, boolean>>(() => {
+    const init: Record<string, boolean> = {}
+    if (months.length > 0) init[months[0]] = true
+    return init
+  })
+  const [openEvents, setOpenEvents] = useState<Record<string, boolean>>({})
 
   function toggleMonth(key: string) {
-    setOpenMonths(prev => {
-      const next = new Set(prev)
-      next.has(key) ? next.delete(key) : next.add(key)
-      return next
-    })
+    setOpenMonths(prev => ({ ...prev, [key]: !prev[key] }))
   }
 
   function toggleEvent(id: string) {
-    setOpenEvents(prev => {
-      const next = new Set(prev)
-      next.has(id) ? next.delete(id) : next.add(id)
-      return next
-    })
+    setOpenEvents(prev => ({ ...prev, [id]: !prev[id] }))
   }
 
   if (events.length === 0) {
@@ -85,7 +81,7 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
       {months.map(monthKey => {
         const [year, month] = monthKey.split('-')
         const monthEvents = grouped.get(monthKey)!
-        const isOpen = openMonths.has(monthKey)
+        const isOpen = !!openMonths[monthKey]
         const monthCost = monthEvents.reduce((s, e) => s + (e.cost_eur ?? 0), 0)
 
         return (
@@ -142,7 +138,7 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
                 {monthEvents.map((event, i) => {
                   const et = getEventType(event.event_type)
                   const date = new Date(event.event_date)
-                  const isEventOpen = openEvents.has(event.id)
+                  const isEventOpen = !!openEvents[event.id]
                   const attachments = Array.isArray(event.attachments) ? event.attachments as string[] : []
                   const photos = attachments.filter(a => a.includes('|photo|'))
                   const docs = attachments.filter(a => a.includes('|doc|'))
