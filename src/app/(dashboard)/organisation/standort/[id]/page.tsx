@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { MapPin, Building2, ChevronRight, Package } from 'lucide-react'
 import { getStatusConfig } from '@/lib/asset-statuses'
+import { getTranslations } from 'next-intl/server'
 
 export default async function StandortDetailPage({
   params,
@@ -11,6 +12,7 @@ export default async function StandortDetailPage({
 }) {
   const { id } = await params
   const supabase = await createClient()
+  const t = await getTranslations('organisation.standort')
 
   const { data: location } = await supabase
     .from('locations')
@@ -55,7 +57,6 @@ export default async function StandortDetailPage({
     .is('deleted_at', null)
     .order('title')
 
-  // Anzahl Assets pro Halle (inkl. deren Bereiche)
   const areasByHall: Record<string, string[]> = {}
   for (const a of areas ?? []) {
     if (!areasByHall[a.hall_id]) areasByHall[a.hall_id] = []
@@ -88,7 +89,7 @@ export default async function StandortDetailPage({
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6"/>
             </svg>
-            <span style={{ color: 'white', fontSize: 12, fontWeight: 700 }}>Organisation</span>
+            <span style={{ color: 'white', fontSize: 12, fontWeight: 700 }}>{t('back')}</span>
           </Link>
         </div>
       </div>
@@ -108,15 +109,15 @@ export default async function StandortDetailPage({
         {/* Übersicht-Karten */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, marginTop: 16 }}>
           <div style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid #e8eef6' }}>
-            <p style={{ margin: 0, fontSize: 10, color: '#96aed2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Assets</p>
+            <p style={{ margin: 0, fontSize: 10, color: '#96aed2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{t('assetsLabel')}</p>
             <p style={{ margin: '4px 0 0', fontSize: 24, fontWeight: 700, color: '#003366' }}>{totalCount}</p>
           </div>
           <div style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid #e8eef6' }}>
-            <p style={{ margin: 0, fontSize: 10, color: '#96aed2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Hallen</p>
+            <p style={{ margin: 0, fontSize: 10, color: '#96aed2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{t('hallsLabel')}</p>
             <p style={{ margin: '4px 0 0', fontSize: 24, fontWeight: 700, color: '#003366' }}>{halls?.length ?? 0}</p>
           </div>
           <div style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid #e8eef6' }}>
-            <p style={{ margin: 0, fontSize: 10, color: '#96aed2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>Bereiche</p>
+            <p style={{ margin: 0, fontSize: 10, color: '#96aed2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{t('areasLabel')}</p>
             <p style={{ margin: '4px 0 0', fontSize: 24, fontWeight: 700, color: '#003366' }}>{areaIds.length}</p>
           </div>
         </div>
@@ -126,7 +127,7 @@ export default async function StandortDetailPage({
       {(halls ?? []).length > 0 && (
         <div style={{ padding: '0 16px 16px' }}>
           <p style={{ fontSize: 12, fontWeight: 700, color: '#96aed2', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 10px' }}>
-            Hallen
+            {t('halls')}
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {(halls ?? []).map(hall => {
@@ -146,7 +147,7 @@ export default async function StandortDetailPage({
                       <div>
                         <span style={{ fontSize: 15, fontWeight: 600, color: '#000' }}>{hall.name}</span>
                         {hallAreaCount > 0 && (
-                          <p style={{ margin: 0, fontSize: 11, color: '#96aed2' }}>{hallAreaCount} Bereich{hallAreaCount !== 1 ? 'e' : ''}</p>
+                          <p style={{ margin: 0, fontSize: 11, color: '#96aed2' }}>{hallAreaCount} {t('areas')}</p>
                         )}
                       </div>
                     </div>
@@ -157,7 +158,7 @@ export default async function StandortDetailPage({
                         </span>
                       )}
                       {count === 0 && (
-                        <span style={{ fontSize: 12, color: '#bbb' }}>Leer</span>
+                        <span style={{ fontSize: 12, color: '#bbb' }}>{t('leer')}</span>
                       )}
                       <ChevronRight size={15} color="#c8d4e8" />
                     </div>
@@ -173,7 +174,7 @@ export default async function StandortDetailPage({
       {directAssets.length > 0 && (
         <div style={{ padding: '0 16px 16px' }}>
           <p style={{ fontSize: 12, fontWeight: 700, color: '#96aed2', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 10px' }}>
-            Direkt am Standort
+            {t('directTitle')}
           </p>
           {directAssets.map(a => {
             const sc = getStatusConfig(a.status, customStatuses)
@@ -206,7 +207,7 @@ export default async function StandortDetailPage({
       {totalCount === 0 && (halls ?? []).length === 0 && (
         <div style={{ padding: '32px 16px', textAlign: 'center' }}>
           <Package size={32} color="#c8d4e8" style={{ marginBottom: 10 }} />
-          <p style={{ color: '#aaa', fontSize: 14, margin: 0 }}>Noch keine Assets an diesem Standort</p>
+          <p style={{ color: '#aaa', fontSize: 14, margin: 0 }}>{t('empty')}</p>
         </div>
       )}
     </div>

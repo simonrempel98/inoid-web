@@ -307,6 +307,27 @@
       "updateFailed": "Error saving",
       "deleteFailed": "Error deleting",
       "statusDecommissioned": "Decommissioned"
+    },
+    "statusActions": {
+      "changeStatus": "Change status",
+      "custom": "Custom",
+      "addCustomStatus": "Add custom status",
+      "deleteAsset": "Delete asset",
+      "deleteTitle": "Permanently delete?",
+      "deleteDesc": "The asset will be irreversibly deleted.",
+      "deleteWarning": "This action cannot be undone.",
+      "deleteConfirm": "Yes, delete"
+    },
+    "duplicate": {
+      "button": "Duplicate",
+      "title": "Duplicate asset?",
+      "desc": "A copy of \"{title}\" will be created. Serial number, photos, QR code and NFC tag will not be copied.",
+      "confirm": "Yes, duplicate",
+      "copying": "Copying..."
+    },
+    "cardActions": {
+      "duplicateTitle": "Duplicate",
+      "editTitle": "Edit"
     }
   },
   "service": {
@@ -425,7 +446,12 @@
     },
     "maintenancePlan": "Huoltosuunnitelma",
     "history": "Historia",
-    "createFirstEntry": "+ Lisää ensimmäinen merkintä"
+    "createFirstEntry": "+ Lisää ensimmäinen merkintä",
+    "verlauf": {
+      "list": "List",
+      "gantt": "Gantt",
+      "noSchedules": "No active maintenance intervals for the Gantt chart."
+    }
   },
   "wartung": {
     "title": "Huolto & Palvelu",
@@ -524,6 +550,40 @@
     "fields": {
       "name": "Nimi",
       "description": "Kuvaus"
+    },
+    "tree": {
+      "confirmDelete": "Really delete? All subordinate entries will also be deleted.",
+      "editLocation": "Edit location",
+      "editHall": "Edit hall",
+      "deleteLocation": "Delete location",
+      "deleteHall": "Delete hall",
+      "deleteArea": "Delete area",
+      "addressOptional": "Address (optional)",
+      "locationPlaceholder": "Location name e.g. Plant Bocholt",
+      "hallPlaceholder": "Hall name e.g. Hall 1",
+      "areaPlaceholder": "Area name e.g. Printing Zone A",
+      "addLocation": "Add location",
+      "addHall": "Add hall",
+      "addArea": "Add area",
+      "noLocationsHint": "No locations yet. Add your first location."
+    },
+    "standort": {
+      "back": "Organisation",
+      "halls": "Halls",
+      "areas": "Areas",
+      "assetsLabel": "Assets",
+      "hallsLabel": "Halls",
+      "areasLabel": "Areas",
+      "directTitle": "Directly at location",
+      "empty": "No assets at this location yet",
+      "leer": "Empty"
+    },
+    "halle": {
+      "assetsTotal": "Total assets",
+      "areas": "Areas",
+      "directTitle": "Directly in hall",
+      "empty": "No assets in this hall yet",
+      "leer": "Empty"
     }
   },
   "teams": {
@@ -894,5 +954,104 @@
     "tooShort": "Password must be at least 8 characters.",
     "loading": "Setting up…",
     "submit": "Set up account & get started"
+  },
+  "area": {
+    "badge": "Area",
+    "processType": "Process type",
+    "shiftModel": "Shift model",
+    "responsible": "Responsible",
+    "areaSqm": "Area",
+    "areaSqmLabel": "Area (m²)",
+    "machines": "Machines",
+    "machinesLabel": "Number of machines/systems",
+    "hinweise": "Notes & hints",
+    "notesLabel": "Notes / safety instructions",
+    "notesPlaceholder": "e.g. PPE required, noise protection, access regulations...",
+    "docs": "Documents",
+    "uploadDoc": "Upload",
+    "uploading": "Loading...",
+    "uploadingImage": "Uploading...",
+    "addImage": "Add image",
+    "typicalDocs": "Typical documents for this area:",
+    "noAssets": "No assets in this area yet",
+    "selectProcess": "- Select -",
+    "responsiblePlaceholder": "John Doe",
+    "areaSqmPlaceholder": "350",
+    "machinesPlaceholder": "4",
+    "saveError": "Error: {msg}",
+    "dbError": "DB error: {msg}"
+  },
+  "vorlagen": {
+    "title": "Templates",
+    "new": "New",
+    "info": "Templates define fields and default values for new assets. When creating an asset, you can select a template and the form will be automatically filled in.",
+    "noTitle": "No templates yet",
+    "noDesc": "Create your first template for an asset category.",
+    "noAction": "+ Create first template",
+    "noCategory": "No category",
+    "techFields": "{count} tech. fields",
+    "commFields": "{count} comm. fields",
+    "usedCount": "{count}x used",
+    "form": {
+      "title": "New template",
+      "basics": "Basic data",
+      "iconLabel": "Icon",
+      "iconSearch": "Search icon... (e.g. Wrench, Gauge)",
+      "nameLabel": "Name *",
+      "namePlaceholder": "e.g. PDC drill bit",
+      "descLabel": "Description",
+      "descPlaceholder": "Optional description...",
+      "categoryLabel": "Category",
+      "categoryPlaceholder": "e.g. Drill bits",
+      "manufacturerLabel": "Manufacturer",
+      "manufacturerPlaceholder": "e.g. Hilti",
+      "techFieldsTitle": "Technical fields",
+      "techFieldsDesc": "Define which parameters should be recorded for this asset type.",
+      "commFieldsTitle": "Commercial fields",
+      "commFieldsDesc": "Purchase prices, supplier, warranty etc.",
+      "fieldName": "Label",
+      "unit": "Unit",
+      "unitPlaceholder": "mm",
+      "addField": "+ Add field",
+      "defaultValuePlaceholder": "Default value for \"{label}\"{unit} (optional)",
+      "commDefaultPlaceholder": "Default value for \"{label}\" (optional)",
+      "save": "Save template",
+      "saving": "Saving...",
+      "nameRequired": "Please enter a name."
+    }
+  },
+  "invoice": {
+    "back": "Back",
+    "print": "Print / PDF",
+    "recipient": "Invoice recipient",
+    "number": "Invoice number",
+    "date": "Invoice date",
+    "dueDate": "Due date",
+    "statusLabel": "Status",
+    "statusPaid": "Paid",
+    "statusCancelled": "Cancelled",
+    "statusPending": "Pending",
+    "title": "Invoice",
+    "descCol": "Description",
+    "amountCol": "Amount (net)",
+    "planDesc": "INOid {plan} - Monthly license",
+    "planSubDesc": "Access to the INOid asset management platform, {plan} plan, cancellable monthly",
+    "netAmount": "Net amount",
+    "vatAmount": "plus {rate}% VAT",
+    "grossAmount": "Total amount",
+    "bankTitle": "Bank details",
+    "bankRecipient": "Recipient",
+    "bankName": "Bank",
+    "bankIBAN": "IBAN",
+    "bankBIC": "BIC",
+    "bankRef": "Reference",
+    "activationTitle": "Activation code",
+    "activationDesc": "Enter this code under Subscription - Activation code to activate your plan.",
+    "footer1": "This invoice was issued in accordance with §14 UStG. The invoice issuer is registered in the German commercial register.",
+    "footer2": "For questions please contact: {email}",
+    "vatId": "VAT ID",
+    "taxNumber": "Tax no.",
+    "defaultCountry": "Germany",
+    "companyTag": "Inomet GmbH"
   }
 }

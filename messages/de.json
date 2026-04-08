@@ -307,6 +307,27 @@
       "updateFailed": "Fehler beim Speichern",
       "deleteFailed": "Fehler beim Löschen",
       "statusDecommissioned": "Außer Betrieb"
+    },
+    "statusActions": {
+      "changeStatus": "Status ändern",
+      "custom": "Eigene",
+      "addCustomStatus": "Eigenen Status anlegen",
+      "deleteAsset": "Asset löschen",
+      "deleteTitle": "Endgültig löschen?",
+      "deleteDesc": "Das Asset wird unwiderruflich gelöscht.",
+      "deleteWarning": "Diese Aktion kann nicht rückgängig gemacht werden.",
+      "deleteConfirm": "Ja, löschen"
+    },
+    "duplicate": {
+      "button": "Duplizieren",
+      "title": "Asset duplizieren?",
+      "desc": "Eine Kopie von \"{title}\" wird angelegt. Seriennummer, Fotos, QR-Code und NFC-Tag werden nicht übernommen.",
+      "confirm": "Ja, duplizieren",
+      "copying": "Wird kopiert..."
+    },
+    "cardActions": {
+      "duplicateTitle": "Duplizieren",
+      "editTitle": "Bearbeiten"
     }
   },
   "service": {
@@ -425,7 +446,12 @@
     },
     "maintenancePlan": "Wartungsplan",
     "history": "Verlauf",
-    "createFirstEntry": "+ Ersten Eintrag anlegen"
+    "createFirstEntry": "+ Ersten Eintrag anlegen",
+    "verlauf": {
+      "list": "Liste",
+      "gantt": "Gantt",
+      "noSchedules": "Keine aktiven Wartungsintervalle für den Gantt-Chart."
+    }
   },
   "wartung": {
     "title": "Wartung & Service",
@@ -524,6 +550,40 @@
     "fields": {
       "name": "Name",
       "description": "Beschreibung"
+    },
+    "tree": {
+      "confirmDelete": "Wirklich löschen? Alle untergeordneten Einträge werden ebenfalls gelöscht.",
+      "editLocation": "Standort bearbeiten",
+      "editHall": "Halle bearbeiten",
+      "deleteLocation": "Standort löschen",
+      "deleteHall": "Halle löschen",
+      "deleteArea": "Bereich löschen",
+      "addressOptional": "Adresse (optional)",
+      "locationPlaceholder": "Standortname z.B. Werk Bocholt",
+      "hallPlaceholder": "Hallenname z.B. Halle 1",
+      "areaPlaceholder": "Bereichsname z.B. Druckzone A",
+      "addLocation": "Standort hinzufügen",
+      "addHall": "Halle hinzufügen",
+      "addArea": "Bereich hinzufügen",
+      "noLocationsHint": "Noch keine Standorte angelegt. Füge deinen ersten Standort hinzu."
+    },
+    "standort": {
+      "back": "Organisation",
+      "halls": "Hallen",
+      "areas": "Bereiche",
+      "assetsLabel": "Assets",
+      "hallsLabel": "Hallen",
+      "areasLabel": "Bereiche",
+      "directTitle": "Direkt am Standort",
+      "empty": "Noch keine Assets an diesem Standort",
+      "leer": "Leer"
+    },
+    "halle": {
+      "assetsTotal": "Assets gesamt",
+      "areas": "Bereiche",
+      "directTitle": "Direkt in der Halle",
+      "empty": "Noch keine Assets in dieser Halle",
+      "leer": "Leer"
     }
   },
   "teams": {
@@ -894,5 +954,104 @@
     "tooShort": "Passwort muss mindestens 8 Zeichen haben.",
     "loading": "Wird eingerichtet…",
     "submit": "Konto einrichten & loslegen"
+  },
+  "area": {
+    "badge": "Bereich",
+    "processType": "Prozesstyp",
+    "shiftModel": "Schichtmodell",
+    "responsible": "Verantwortlicher",
+    "areaSqm": "Fläche",
+    "areaSqmLabel": "Fläche (m²)",
+    "machines": "Maschinen",
+    "machinesLabel": "Anzahl Maschinen/Anlagen",
+    "hinweise": "Hinweise & Notizen",
+    "notesLabel": "Notizen / Sicherheitshinweise",
+    "notesPlaceholder": "z.B. PSA erforderlich, Lärmschutz, Zutrittsregelung...",
+    "docs": "Dokumente",
+    "uploadDoc": "Hochladen",
+    "uploading": "Lädt...",
+    "uploadingImage": "Lädt hoch...",
+    "addImage": "Bild hinzufügen",
+    "typicalDocs": "Typische Dokumente für diesen Bereich:",
+    "noAssets": "Noch keine Assets in diesem Bereich",
+    "selectProcess": "- Auswählen -",
+    "responsiblePlaceholder": "Max Mustermann",
+    "areaSqmPlaceholder": "350",
+    "machinesPlaceholder": "4",
+    "saveError": "Fehler: {msg}",
+    "dbError": "DB-Fehler: {msg}"
+  },
+  "vorlagen": {
+    "title": "Vorlagen",
+    "new": "Neu",
+    "info": "Vorlagen definieren Felder und Standardwerte für neue Assets. Beim Anlegen eines Assets kannst du eine Vorlage auswählen und das Formular wird automatisch ausgefüllt.",
+    "noTitle": "Noch keine Vorlagen",
+    "noDesc": "Erstelle deine erste Vorlage für eine Asset-Kategorie.",
+    "noAction": "+ Erste Vorlage erstellen",
+    "noCategory": "Keine Kategorie",
+    "techFields": "{count} techn. Felder",
+    "commFields": "{count} komm. Felder",
+    "usedCount": "{count}x verwendet",
+    "form": {
+      "title": "Neue Vorlage",
+      "basics": "Grunddaten",
+      "iconLabel": "Icon",
+      "iconSearch": "Icon suchen... (z.B. Wrench, Gauge)",
+      "nameLabel": "Name *",
+      "namePlaceholder": "z.B. Bohrkrone PDC",
+      "descLabel": "Beschreibung",
+      "descPlaceholder": "Optionale Beschreibung...",
+      "categoryLabel": "Kategorie",
+      "categoryPlaceholder": "z.B. Bohrkronen",
+      "manufacturerLabel": "Hersteller",
+      "manufacturerPlaceholder": "z.B. Hilti",
+      "techFieldsTitle": "Technische Felder",
+      "techFieldsDesc": "Definiere welche Kennwerte bei diesem Asset-Typ erfasst werden sollen.",
+      "commFieldsTitle": "Kommerzielle Felder",
+      "commFieldsDesc": "Einkaufspreise, Lieferant, Garantie usw.",
+      "fieldName": "Bezeichnung",
+      "unit": "Einheit",
+      "unitPlaceholder": "mm",
+      "addField": "+ Feld hinzufügen",
+      "defaultValuePlaceholder": "Standardwert für \"{label}\"{unit} (optional)",
+      "commDefaultPlaceholder": "Standardwert für \"{label}\" (optional)",
+      "save": "Vorlage speichern",
+      "saving": "Wird gespeichert...",
+      "nameRequired": "Bitte einen Namen eingeben."
+    }
+  },
+  "invoice": {
+    "back": "Zurück",
+    "print": "Drucken / PDF",
+    "recipient": "Rechnungsempfänger",
+    "number": "Rechnungsnummer",
+    "date": "Rechnungsdatum",
+    "dueDate": "Zahlungsziel",
+    "statusLabel": "Status",
+    "statusPaid": "Bezahlt",
+    "statusCancelled": "Storniert",
+    "statusPending": "Ausstehend",
+    "title": "Rechnung",
+    "descCol": "Beschreibung",
+    "amountCol": "Betrag (netto)",
+    "planDesc": "INOid {plan} - Monatslizenz",
+    "planSubDesc": "Zugang zur INOid Asset-Management-Plattform, {plan}-Plan, monatlich kündbar",
+    "netAmount": "Nettobetrag",
+    "vatAmount": "zzgl. {rate} % MwSt.",
+    "grossAmount": "Gesamtbetrag",
+    "bankTitle": "Bankverbindung",
+    "bankRecipient": "Empfänger",
+    "bankName": "Bank",
+    "bankIBAN": "IBAN",
+    "bankBIC": "BIC",
+    "bankRef": "Verwendungszweck",
+    "activationTitle": "Aktivierungscode",
+    "activationDesc": "Geben Sie diesen Code unter Abonnement - Aktivierungscode ein, um Ihren Plan zu aktivieren.",
+    "footer1": "Diese Rechnung wurde gemäß §14 UStG ausgestellt. Der Rechnungsaussteller ist im deutschen Handelsregister eingetragen.",
+    "footer2": "Bei Fragen wenden Sie sich bitte an: {email}",
+    "vatId": "USt-ID",
+    "taxNumber": "St-Nr.",
+    "defaultCountry": "Deutschland",
+    "companyTag": "Inomet GmbH"
   }
 }
