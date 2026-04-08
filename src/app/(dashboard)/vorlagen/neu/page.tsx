@@ -3,12 +3,14 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { useTranslations } from 'next-intl'
 import { ICON_MAP, ICON_GROUPS, TemplateIcon } from '@/components/template-icon'
 import { ClipboardList, Settings2, Briefcase } from 'lucide-react'
 
 type Field = { label: string; unit: string }
 
 export default function NeueVorlagePage() {
+  const t = useTranslations('vorlagen.form')
   const router = useRouter()
   const supabase = createClient()
 
@@ -75,7 +77,7 @@ export default function NeueVorlagePage() {
   }
 
   async function handleSave() {
-    if (!name.trim()) { setError('Bitte einen Namen eingeben.'); return }
+    if (!name.trim()) { setError(t('nameRequired')); return }
     setLoading(true)
     setError(null)
     try {
@@ -111,7 +113,7 @@ export default function NeueVorlagePage() {
       router.push('/vorlagen')
       router.refresh()
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : 'Fehler beim Speichern')
+      setError(e instanceof Error ? e.message : t('nameRequired'))
     } finally {
       setLoading(false)
     }
@@ -141,7 +143,7 @@ export default function NeueVorlagePage() {
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </button>
-        <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>Neue Vorlage</h1>
+        <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>{t('title')}</h1>
       </div>
 
       <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -154,13 +156,13 @@ export default function NeueVorlagePage() {
           </div>
         )}
 
-        {/* ─ Grunddaten ─ */}
+        {/* Grunddaten */}
         <div style={{ background: 'white', borderRadius: 14, padding: 16, border: '1px solid #c8d4e8', display: 'flex', flexDirection: 'column', gap: 14 }}>
-          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><ClipboardList size={15} /> Grunddaten</p>
+          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><ClipboardList size={15} /> {t('basics')}</p>
 
           {/* Icon Picker */}
           <div>
-            <label style={labelStyle}>Icon</label>
+            <label style={labelStyle}>{t('iconLabel')}</label>
             <button type="button" onClick={() => setShowIconPicker(v => !v)}
               style={{
                 width: 56, height: 56, borderRadius: 12, border: `2px solid ${showIconPicker ? '#003366' : '#c8d4e8'}`,
@@ -175,11 +177,10 @@ export default function NeueVorlagePage() {
                 marginTop: 8, background: 'white', borderRadius: 14, padding: 14,
                 border: '1px solid #c8d4e8', boxShadow: '0 4px 20px rgba(0,51,102,0.12)',
               }}>
-                {/* Suche */}
                 <input
                   value={iconSearch}
                   onChange={e => setIconSearch(e.target.value)}
-                  placeholder="Icon suchen… (z.B. Wrench, Gauge)"
+                  placeholder={t('iconSearch')}
                   autoFocus
                   style={{
                     width: '100%', padding: '8px 12px', borderRadius: 8,
@@ -188,7 +189,6 @@ export default function NeueVorlagePage() {
                   }}
                 />
 
-                {/* Gefilterte Ergebnisse oder Gruppen */}
                 {iconSearch.trim() ? (
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 6 }}>
                     {Object.keys(ICON_MAP)
@@ -221,48 +221,48 @@ export default function NeueVorlagePage() {
           </div>
 
           <div>
-            <label style={labelStyle}>Name *</label>
+            <label style={labelStyle}>{t('nameLabel')}</label>
             <input value={name} onChange={e => setName(e.target.value)}
-              style={inputStyle} placeholder="z.B. Bohrkrone PDC" />
+              style={inputStyle} placeholder={t('namePlaceholder')} />
           </div>
           <div>
-            <label style={labelStyle}>Beschreibung</label>
+            <label style={labelStyle}>{t('descLabel')}</label>
             <textarea value={description} onChange={e => setDescription(e.target.value)}
-              rows={2} style={{ ...inputStyle, resize: 'none' }} placeholder="Optionale Beschreibung…" />
+              rows={2} style={{ ...inputStyle, resize: 'none' }} placeholder={t('descPlaceholder')} />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
-              <label style={labelStyle}>Kategorie</label>
+              <label style={labelStyle}>{t('categoryLabel')}</label>
               <input value={category} onChange={e => setCategory(e.target.value)}
-                style={inputStyle} placeholder="z.B. Bohrkronen" />
+                style={inputStyle} placeholder={t('categoryPlaceholder')} />
             </div>
             <div>
-              <label style={labelStyle}>Hersteller</label>
+              <label style={labelStyle}>{t('manufacturerLabel')}</label>
               <input value={manufacturer} onChange={e => setManufacturer(e.target.value)}
-                style={inputStyle} placeholder="z.B. Hilti" />
+                style={inputStyle} placeholder={t('manufacturerPlaceholder')} />
             </div>
           </div>
         </div>
 
-        {/* ─ Technische Felder ─ */}
+        {/* Technische Felder */}
         <div style={{ background: 'white', borderRadius: 14, padding: 16, border: '1px solid #c8d4e8' }}>
-          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Settings2 size={15} /> Technische Felder</p>
+          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Settings2 size={15} /> {t('techFieldsTitle')}</p>
           <p style={{ fontSize: 12, color: '#666', margin: '0 0 12px' }}>
-            Definiere welche Kennwerte bei diesem Asset-Typ erfasst werden sollen.
+            {t('techFieldsDesc')}
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {techFields.map((f, i) => (
               <div key={i}>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
                   <div style={{ flex: 2 }}>
-                    {i === 0 && <label style={labelStyle}>Bezeichnung</label>}
+                    {i === 0 && <label style={labelStyle}>{t('fieldName')}</label>}
                     <input value={f.label} onChange={e => updateTechField(i, 'label', e.target.value)}
                       style={inputStyle} placeholder="z.B. Durchmesser" />
                   </div>
                   <div style={{ flex: 1 }}>
-                    {i === 0 && <label style={labelStyle}>Einheit</label>}
+                    {i === 0 && <label style={labelStyle}>{t('unit')}</label>}
                     <input value={f.unit} onChange={e => updateTechField(i, 'unit', e.target.value)}
-                      style={inputStyle} placeholder="mm" />
+                      style={inputStyle} placeholder={t('unitPlaceholder')} />
                   </div>
                   <div style={{ paddingTop: i === 0 ? 20 : 0 }}>
                     <button type="button" onClick={() => removeTechField(i)}
@@ -271,14 +271,13 @@ export default function NeueVorlagePage() {
                     </button>
                   </div>
                 </div>
-                {/* Standardwert */}
                 {f.label && (
-                  <div style={{ marginTop: 4, paddingLeft: 0 }}>
+                  <div style={{ marginTop: 4 }}>
                     <input
                       value={defaultValues[f.label] ?? ''}
                       onChange={e => setDefaultValues({ ...defaultValues, [f.label]: e.target.value })}
                       style={{ ...inputStyle, fontSize: 12, padding: '7px 10px', backgroundColor: '#f9fbff' }}
-                      placeholder={`Standardwert für „${f.label}"${f.unit ? ` (${f.unit})` : ''} (optional)`}
+                      placeholder={t('defaultValuePlaceholder', { label: f.label, unit: f.unit ? ` (${f.unit})` : '' })}
                     />
                   </div>
                 )}
@@ -289,23 +288,23 @@ export default function NeueVorlagePage() {
                 border: '1px dashed #c8d4e8', background: 'none', borderRadius: 10,
                 padding: '8px 16px', color: '#003366', fontSize: 13, cursor: 'pointer', fontWeight: 600,
               }}>
-              + Feld hinzufügen
+              {t('addField')}
             </button>
           </div>
         </div>
 
-        {/* ─ Kommerzielle Felder ─ */}
+        {/* Kommerzielle Felder */}
         <div style={{ background: 'white', borderRadius: 14, padding: 16, border: '1px solid #c8d4e8' }}>
-          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Briefcase size={15} /> Kommerzielle Felder</p>
+          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Briefcase size={15} /> {t('commFieldsTitle')}</p>
           <p style={{ fontSize: 12, color: '#666', margin: '0 0 12px' }}>
-            Einkaufspreise, Lieferant, Garantie usw.
+            {t('commFieldsDesc')}
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {commFields.map((f, i) => (
               <div key={i}>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
                   <div style={{ flex: 1 }}>
-                    {i === 0 && <label style={labelStyle}>Bezeichnung</label>}
+                    {i === 0 && <label style={labelStyle}>{t('fieldName')}</label>}
                     <input value={f.label} onChange={e => updateCommField(i, e.target.value)}
                       style={inputStyle} placeholder="z.B. Lieferant" />
                   </div>
@@ -322,7 +321,7 @@ export default function NeueVorlagePage() {
                       value={defaultValues[f.label] ?? ''}
                       onChange={e => setDefaultValues({ ...defaultValues, [f.label]: e.target.value })}
                       style={{ ...inputStyle, fontSize: 12, padding: '7px 10px', backgroundColor: '#f9fbff' }}
-                      placeholder={`Standardwert für „${f.label}" (optional)`}
+                      placeholder={t('commDefaultPlaceholder', { label: f.label })}
                     />
                   </div>
                 )}
@@ -333,12 +332,12 @@ export default function NeueVorlagePage() {
                 border: '1px dashed #c8d4e8', background: 'none', borderRadius: 10,
                 padding: '8px 16px', color: '#003366', fontSize: 13, cursor: 'pointer', fontWeight: 600,
               }}>
-              + Feld hinzufügen
+              {t('addField')}
             </button>
           </div>
         </div>
 
-        {/* ─ Speichern ─ */}
+        {/* Speichern */}
         <button type="button" onClick={handleSave} disabled={loading}
           style={{
             padding: '14px', borderRadius: 50, border: 'none',
@@ -346,14 +345,13 @@ export default function NeueVorlagePage() {
             color: 'white', fontSize: 15, fontWeight: 700,
             cursor: loading ? 'default' : 'pointer', fontFamily: 'Arial, sans-serif',
           }}>
-          {loading ? 'Wird gespeichert…' : 'Vorlage speichern'}
+          {loading ? t('saving') : t('save')}
         </button>
       </div>
     </div>
   )
 }
 
-// ─── Icon Picker Button ────────────────────────────────────────────────────
 function IconPickerBtn({ name, selected, onSelect }: { name: string; selected: boolean; onSelect: () => void }) {
   return (
     <button

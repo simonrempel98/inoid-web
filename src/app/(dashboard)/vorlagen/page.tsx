@@ -2,9 +2,11 @@ import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { TemplateIcon } from '@/components/template-icon'
 import { ClipboardList } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 
 export default async function VorlagenPage() {
   const supabase = await createClient()
+  const t = await getTranslations('vorlagen')
 
   const { data: templates } = await supabase
     .from('asset_templates')
@@ -19,9 +21,9 @@ export default async function VorlagenPage() {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 2px' }}>Vorlagen</h1>
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 2px' }}>{t('title')}</h1>
           <p style={{ fontSize: 13, color: '#666', margin: 0 }}>
-            {templates?.length ?? 0} Vorlage{templates?.length !== 1 ? 'n' : ''}
+            {templates?.length ?? 0} {templates?.length === 1 ? t('title').replace('n', '') : t('title')}
           </p>
         </div>
         <Link href="/vorlagen/neu" style={{
@@ -30,7 +32,7 @@ export default async function VorlagenPage() {
           textDecoration: 'none', fontSize: 14, fontWeight: 700,
           display: 'flex', alignItems: 'center', gap: 6,
         }}>
-          <span style={{ fontSize: 18, lineHeight: 1 }}>+</span> Neu
+          <span style={{ fontSize: 18, lineHeight: 1 }}>+</span> {t('new')}
         </Link>
       </div>
 
@@ -41,7 +43,7 @@ export default async function VorlagenPage() {
           border: '1px solid #c8d4e8',
         }}>
           <p style={{ fontSize: 13, color: '#003366', margin: 0, lineHeight: 1.5 }}>
-            Vorlagen definieren Felder und Standardwerte für neue Assets. Beim Anlegen eines Assets kannst du eine Vorlage auswählen und das Formular wird automatisch ausgefüllt.
+            {t('info')}
           </p>
         </div>
       </div>
@@ -55,17 +57,17 @@ export default async function VorlagenPage() {
           }}>
             <div style={{ marginBottom: 12 }}><ClipboardList size={40} style={{ color: '#96aed2' }} /></div>
             <p style={{ fontWeight: 700, color: '#000', fontSize: 16, margin: '0 0 8px' }}>
-              Noch keine Vorlagen
+              {t('noTitle')}
             </p>
             <p style={{ color: '#666', fontSize: 14, margin: '0 0 20px' }}>
-              Erstelle deine erste Vorlage für eine Asset-Kategorie.
+              {t('noDesc')}
             </p>
             <Link href="/vorlagen/neu" style={{
               backgroundColor: '#003366', color: 'white',
               padding: '12px 24px', borderRadius: 50,
               textDecoration: 'none', fontSize: 14, fontWeight: 700,
             }}>
-              + Erste Vorlage erstellen
+              {t('noAction')}
             </Link>
           </div>
         ) : (
@@ -96,14 +98,14 @@ export default async function VorlagenPage() {
                         {tpl.name}
                       </p>
                       <p style={{ color: '#666', fontSize: 12, margin: '0 0 5px' }}>
-                        {[tpl.category, tpl.manufacturer].filter(Boolean).join(' · ') || 'Keine Kategorie'}
+                        {[tpl.category, tpl.manufacturer].filter(Boolean).join(' · ') || t('noCategory')}
                       </p>
                       <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                        <span style={tagStyle}>{techFields.length} techn. Felder</span>
-                        <span style={tagStyle}>{commFields.length} komm. Felder</span>
+                        <span style={tagStyle}>{t('techFields', { count: techFields.length })}</span>
+                        <span style={tagStyle}>{t('commFields', { count: commFields.length })}</span>
                         {tpl.usage_count > 0 && (
                           <span style={{ ...tagStyle, backgroundColor: '#f0fdf4', color: '#27AE60', borderColor: '#bbf7d0' }}>
-                            {tpl.usage_count}× verwendet
+                            {t('usedCount', { count: tpl.usage_count })}
                           </span>
                         )}
                       </div>
