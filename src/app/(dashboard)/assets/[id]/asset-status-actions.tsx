@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { useTranslations } from 'next-intl'
 import { SYSTEM_STATUSES, type StatusConfig, statusBadgeStyle } from '@/lib/asset-statuses'
 import { Trash2 } from 'lucide-react'
 
@@ -13,6 +14,8 @@ type Props = {
 }
 
 export function AssetStatusActions({ assetId, currentStatus, customStatuses }: Props) {
+  const t = useTranslations('assets.statusActions')
+  const tc = useTranslations('common')
   const router = useRouter()
   const supabase = createClient()
   const [loading, setLoading] = useState(false)
@@ -67,7 +70,7 @@ export function AssetStatusActions({ assetId, currentStatus, customStatuses }: P
             boxShadow: '0 8px 32px rgba(0,51,102,0.15)', overflow: 'hidden',
           }}>
             <p style={{ fontSize: 11, fontWeight: 700, color: '#96aed2', padding: '12px 16px 6px', margin: 0, textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'Arial, sans-serif' }}>
-              Status ändern
+              {t('changeStatus')}
             </p>
 
             {/* System-Statuses */}
@@ -96,7 +99,7 @@ export function AssetStatusActions({ assetId, currentStatus, customStatuses }: P
             {customStatuses.length > 0 && (
               <>
                 <p style={{ fontSize: 11, fontWeight: 700, color: '#96aed2', padding: '10px 16px 6px', margin: 0, textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'Arial, sans-serif' }}>
-                  Eigene
+                  {t('custom')}
                 </p>
                 {customStatuses.map(s => (
                   <button key={s.value} type="button" onClick={() => changeStatus(s.value)}
@@ -126,16 +129,16 @@ export function AssetStatusActions({ assetId, currentStatus, customStatuses }: P
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#96aed2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
               </svg>
-              <span style={{ fontSize: 13, color: '#96aed2', fontFamily: 'Arial, sans-serif' }}>Eigenen Status anlegen</span>
+              <span style={{ fontSize: 13, color: '#96aed2', fontFamily: 'Arial, sans-serif' }}>{t('addCustomStatus')}</span>
             </button>
           </div>
         )}
       </div>
 
-      {/* Endgültig löschen */}
+      {/* Löschen Button */}
       <button type="button" onClick={() => setDeleteModal(true)}
         style={{ width: '100%', padding: '13px', borderRadius: 50, border: '1px solid #fecaca', background: 'white', color: '#dc2626', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
-        Asset löschen
+        {t('deleteAsset')}
       </button>
 
       {/* Overlay zum Schließen */}
@@ -146,12 +149,18 @@ export function AssetStatusActions({ assetId, currentStatus, customStatuses }: P
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', zIndex: 100, padding: '0 16px 32px' }}>
           <div style={{ background: 'white', borderRadius: 20, padding: 24, width: '100%', maxWidth: 420, fontFamily: 'Arial, sans-serif' }}>
             <div style={{ marginBottom: 12, textAlign: 'center', display: 'flex', justifyContent: 'center' }}><Trash2 size={32} style={{ color: '#E74C3C' }} /></div>
-            <p style={{ fontWeight: 700, fontSize: 16, color: '#dc2626', margin: '0 0 8px', textAlign: 'center' }}>Endgültig löschen?</p>
-            <p style={{ color: '#666', fontSize: 14, margin: '0 0 8px', textAlign: 'center', lineHeight: 1.5 }}>Das Asset wird <strong>unwiderruflich</strong> gelöscht.</p>
-            <p style={{ color: '#dc2626', fontSize: 13, fontWeight: 700, margin: '0 0 20px', textAlign: 'center' }}>Diese Aktion kann nicht rückgängig gemacht werden.</p>
+            <p style={{ fontWeight: 700, fontSize: 16, color: '#dc2626', margin: '0 0 8px', textAlign: 'center' }}>{t('deleteTitle')}</p>
+            <p style={{ color: '#666', fontSize: 14, margin: '0 0 8px', textAlign: 'center', lineHeight: 1.5 }}>
+              {t('deleteDesc')}
+            </p>
+            <p style={{ color: '#dc2626', fontSize: 13, fontWeight: 700, margin: '0 0 20px', textAlign: 'center' }}>{t('deleteWarning')}</p>
             <div style={{ display: 'flex', gap: 10 }}>
-              <button onClick={() => setDeleteModal(false)} style={{ flex: 1, padding: '13px', borderRadius: 50, border: '1px solid #c8d4e8', background: 'white', color: '#666', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>Abbrechen</button>
-              <button onClick={handleDelete} disabled={loading} style={{ flex: 1, padding: '13px', borderRadius: 50, border: 'none', background: '#dc2626', color: 'white', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>{loading ? '…' : 'Ja, löschen'}</button>
+              <button onClick={() => setDeleteModal(false)} style={{ flex: 1, padding: '13px', borderRadius: 50, border: '1px solid #c8d4e8', background: 'white', color: '#666', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
+                {tc('cancel')}
+              </button>
+              <button onClick={handleDelete} disabled={loading} style={{ flex: 1, padding: '13px', borderRadius: 50, border: 'none', background: '#dc2626', color: 'white', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
+                {loading ? '…' : t('deleteConfirm')}
+              </button>
             </div>
           </div>
         </div>

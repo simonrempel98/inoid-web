@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { List, BarChart2 } from 'lucide-react'
+import { useTranslations } from 'next-intl'
 import { ServiceTimeline } from './service-timeline'
 import { WartungTimeline, type ScheduleWithAsset } from '@/app/(dashboard)/wartung/wartung-timeline'
 
@@ -26,6 +27,7 @@ type Props = {
 }
 
 export function ServiceVerlaufTabs({ events, assetId, schedules }: Props) {
+  const t = useTranslations('service.verlauf')
   const [tab, setTab] = useState<'list' | 'gantt'>('list')
 
   return (
@@ -36,24 +38,24 @@ export function ServiceVerlaufTabs({ events, assetId, schedules }: Props) {
         padding: '3px', marginBottom: 14, gap: 2,
       }}>
         {([
-          { key: 'list', label: 'Liste', icon: <List size={13} /> },
-          { key: 'gantt', label: 'Gantt', icon: <BarChart2 size={13} /> },
-        ] as const).map(t => (
+          { key: 'list', label: t('list'), icon: <List size={13} /> },
+          { key: 'gantt', label: t('gantt'), icon: <BarChart2 size={13} /> },
+        ] as const).map(tb => (
           <button
-            key={t.key}
+            key={tb.key}
             type="button"
-            onClick={() => setTab(t.key)}
+            onClick={() => setTab(tb.key)}
             style={{
               display: 'flex', alignItems: 'center', gap: 5,
               padding: '6px 14px', borderRadius: 8, border: 'none', cursor: 'pointer',
               fontSize: 12, fontWeight: 700,
-              background: tab === t.key ? 'white' : 'transparent',
-              color: tab === t.key ? '#003366' : '#96aed2',
-              boxShadow: tab === t.key ? '0 1px 4px rgba(0,0,0,0.1)' : 'none',
+              background: tab === tb.key ? 'white' : 'transparent',
+              color: tab === tb.key ? '#003366' : '#96aed2',
+              boxShadow: tab === tb.key ? '0 1px 4px rgba(0,0,0,0.1)' : 'none',
               transition: 'all 0.15s',
             }}
           >
-            {t.icon} {t.label}
+            {tb.icon} {tb.label}
           </button>
         ))}
       </div>
@@ -74,7 +76,7 @@ export function ServiceVerlaufTabs({ events, assetId, schedules }: Props) {
         }}>
           <BarChart2 size={28} color="#c8d4e8" style={{ marginBottom: 10 }} />
           <p style={{ fontSize: 13, color: '#96aed2', margin: 0, fontFamily: 'Arial, sans-serif' }}>
-            Keine aktiven Wartungsintervalle für den Gantt-Chart.
+            {t('noSchedules')}
           </p>
         </div>
       )}

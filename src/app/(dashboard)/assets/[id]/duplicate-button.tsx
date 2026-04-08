@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
+import { useTranslations } from 'next-intl'
 
 type Asset = {
   id: string
@@ -21,6 +22,8 @@ type Asset = {
 }
 
 export function DuplicateButton({ asset }: { asset: Asset }) {
+  const t = useTranslations('assets.duplicate')
+  const tc = useTranslations('common')
   const router = useRouter()
   const supabase = createClient()
   const [loading, setLoading] = useState(false)
@@ -52,7 +55,6 @@ export function DuplicateButton({ asset }: { asset: Asset }) {
           commercial_data: asset.commercial_data,
           qr_code: `https://inoid.app/assets/${newId}`,
           created_by: user.id,
-          // Bilder + NFC bewusst nicht kopieren
         })
         .select('id')
         .single()
@@ -61,7 +63,7 @@ export function DuplicateButton({ asset }: { asset: Asset }) {
       router.push(`/assets/${data.id}/bearbeiten`)
       router.refresh()
     } catch {
-      // silent – user bleibt auf der Seite
+      // silent
     } finally {
       setLoading(false)
       setConfirm(false)
@@ -80,7 +82,7 @@ export function DuplicateButton({ asset }: { asset: Asset }) {
           cursor: 'pointer', fontFamily: 'Arial, sans-serif',
         }}
       >
-        Duplizieren
+        {t('button')}
       </button>
     )
   }
@@ -96,10 +98,10 @@ export function DuplicateButton({ asset }: { asset: Asset }) {
         fontFamily: 'Arial, sans-serif',
       }}>
         <p style={{ fontWeight: 700, fontSize: 16, color: '#000', margin: '0 0 8px' }}>
-          Asset duplizieren?
+          {t('title')}
         </p>
         <p style={{ color: '#666', fontSize: 14, margin: '0 0 20px', lineHeight: 1.5 }}>
-          Eine Kopie von <strong>„{asset.title}"</strong> wird angelegt. Seriennummer, Fotos, QR-Code und NFC-Tag werden nicht übernommen.
+          {t('desc', { title: asset.title })}
         </p>
         <div style={{ display: 'flex', gap: 10 }}>
           <button
@@ -111,7 +113,7 @@ export function DuplicateButton({ asset }: { asset: Asset }) {
               color: '#666', fontSize: 14, fontWeight: 700, cursor: 'pointer',
             }}
           >
-            Abbrechen
+            {tc('cancel')}
           </button>
           <button
             type="button"
@@ -124,7 +126,7 @@ export function DuplicateButton({ asset }: { asset: Asset }) {
               cursor: loading ? 'default' : 'pointer',
             }}
           >
-            {loading ? 'Wird kopiert…' : 'Ja, duplizieren'}
+            {loading ? t('copying') : t('confirm')}
           </button>
         </div>
       </div>
