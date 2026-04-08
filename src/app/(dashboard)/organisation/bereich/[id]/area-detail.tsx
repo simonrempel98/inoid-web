@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
+import { useTranslations } from 'next-intl'
 import { AssetImageGallery } from '@/app/(dashboard)/assets/[id]/asset-image-gallery'
 import {
   Grid3x3, User, Maximize2, Clock, Wrench,
@@ -30,6 +31,9 @@ export function AreaDetail({ area, assets, customStatuses }: {
   assets: AssetItem[]
   customStatuses: { value: string; label: string; color: string }[]
 }) {
+  const t = useTranslations('area')
+  const tc = useTranslations('common')
+  const to = useTranslations('organisation')
   const router = useRouter()
   const [editing, setEditing] = useState(false)
   const [saving, setSaving] = useState(false)
@@ -75,11 +79,11 @@ export function AreaDetail({ area, assets, customStatuses }: {
     const path = `areas/${area.id}/${Date.now()}_${file.name}`
     const { data, error } = await supabase.storage.from('org-files').upload(path, file, { upsert: true })
     if (error) {
-      setUploadError(`Fehler: ${error.message}`)
+      setUploadError(t('saveError', { msg: error.message }))
     } else if (data) {
       const { data: { publicUrl } } = supabase.storage.from('org-files').getPublicUrl(path)
       const { error: dbError } = await supabase.from('areas').update({ image_urls: [...(area.image_urls ?? []), publicUrl] }).eq('id', area.id)
-      if (dbError) setUploadError(`DB-Fehler: ${dbError.message}`)
+      if (dbError) setUploadError(t('dbError', { msg: dbError.message }))
       else router.refresh()
     }
     setUploading(false)
@@ -93,11 +97,11 @@ export function AreaDetail({ area, assets, customStatuses }: {
     const path = `areas/${area.id}/docs/${Date.now()}_${file.name}`
     const { data, error } = await supabase.storage.from('org-files').upload(path, file, { upsert: true })
     if (error) {
-      setUploadError(`Fehler: ${error.message}`)
+      setUploadError(t('saveError', { msg: error.message }))
     } else if (data) {
       const { data: { publicUrl } } = supabase.storage.from('org-files').getPublicUrl(path)
       const { error: dbError } = await supabase.from('areas').update({ document_urls: [...(area.document_urls ?? []), publicUrl] }).eq('id', area.id)
-      if (dbError) setUploadError(`DB-Fehler: ${dbError.message}`)
+      if (dbError) setUploadError(t('dbError', { msg: dbError.message }))
       else router.refresh()
     }
     setUploading(false)
@@ -118,7 +122,6 @@ export function AreaDetail({ area, assets, customStatuses }: {
     notes: area.notes ?? '',
   })
 
-  // Breadcrumb: Standort > Halle > Bereich
   const locationName = area.halls?.locations?.name
   const locationId = area.halls?.locations?.id
   const hallName = area.halls?.name
@@ -135,14 +138,14 @@ export function AreaDetail({ area, assets, customStatuses }: {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="15 18 9 12 15 6"/>
             </svg>
-            <span style={{ color: 'white', fontSize: 12, fontWeight: 700 }}>Organisation</span>
+            <span style={{ color: 'white', fontSize: 12, fontWeight: 700 }}>{to('title')}</span>
           </Link>
           <div style={{
             height: 28, borderRadius: 20, backgroundColor: 'rgba(139,92,246,0.75)',
             display: 'flex', alignItems: 'center', gap: 5, padding: '0 12px',
           }}>
             <Grid3x3 size={12} color="white" />
-            <span style={{ color: 'white', fontSize: 11, fontWeight: 700 }}>Bereich</span>
+            <span style={{ color: 'white', fontSize: 11, fontWeight: 700 }}>{t('badge')}</span>
           </div>
         </div>
       </div>
@@ -177,10 +180,10 @@ export function AreaDetail({ area, assets, customStatuses }: {
       {/* Info-Karten */}
       {!editing && (
         <div style={{ padding: '0 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
-          {area.responsible_name && <InfoCard icon={<User size={14} />} label="Verantwortlicher" value={area.responsible_name} />}
-          {area.shift_model && <InfoCard icon={<Clock size={14} />} label="Schichtmodell" value={area.shift_model} />}
-          {area.area_sqm && <InfoCard icon={<Maximize2 size={14} />} label="Fläche" value={`${area.area_sqm.toLocaleString('de-DE')} m²`} />}
-          {area.machine_count != null && <InfoCard icon={<Wrench size={14} />} label="Maschinen" value={`${area.machine_count}`} />}
+          {area.responsible_name && <InfoCard icon={<User size={14} />} label={t('responsible')} value={area.responsible_name} />}
+          {area.shift_model && <InfoCard icon={<Clock size={14} />} label={t('shiftModel')} value={area.shift_model} />}
+          {area.area_sqm && <InfoCard icon={<Maximize2 size={14} />} label={t('areaSqm')} value={`${area.area_sqm.toLocaleString('de-DE')} m²`} />}
+          {area.machine_count != null && <InfoCard icon={<Wrench size={14} />} label={t('machines')} value={`${area.machine_count}`} />}
         </div>
       )}
 
@@ -189,24 +192,24 @@ export function AreaDetail({ area, assets, customStatuses }: {
         <div style={{ padding: '0 16px 16px' }}>
           <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden', marginBottom: 12 }}>
             <div style={{ padding: '12px 14px' }}>
-              <label style={{ display: 'block', fontSize: 11, color: '#666', marginBottom: 3 }}>Prozesstyp</label>
+              <label style={{ display: 'block', fontSize: 11, color: '#666', marginBottom: 3 }}>{t('processType')}</label>
               <select value={form.process_type} onChange={set('process_type')} style={{ width: '100%', border: 'none', outline: 'none', fontSize: 14, fontFamily: 'Arial, sans-serif', background: 'transparent' }}>
-                <option value="">– Auswählen –</option>
-                {PROCESS_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+                <option value="">{t('selectProcess')}</option>
+                {PROCESS_TYPES.map(pt => <option key={pt} value={pt}>{pt}</option>)}
               </select>
             </div>
             <div style={{ height: 1, background: '#c8d4e8' }} />
             <div style={{ padding: '12px 14px' }}>
-              <label style={{ display: 'block', fontSize: 11, color: '#666', marginBottom: 3 }}>Schichtmodell</label>
+              <label style={{ display: 'block', fontSize: 11, color: '#666', marginBottom: 3 }}>{t('shiftModel')}</label>
               <select value={form.shift_model} onChange={set('shift_model')} style={{ width: '100%', border: 'none', outline: 'none', fontSize: 14, fontFamily: 'Arial, sans-serif', background: 'transparent' }}>
-                <option value="">– Auswählen –</option>
+                <option value="">{t('selectProcess')}</option>
                 {SHIFT_MODELS.map(s => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
             {[
-              { k: 'responsible_name', label: 'Verantwortlicher', placeholder: 'Max Mustermann' },
-              { k: 'area_sqm', label: 'Fläche (m²)', placeholder: '350' },
-              { k: 'machine_count', label: 'Anzahl Maschinen/Anlagen', placeholder: '4' },
+              { k: 'responsible_name', label: t('responsible'), placeholder: t('responsiblePlaceholder') },
+              { k: 'area_sqm', label: t('areaSqmLabel'), placeholder: t('areaSqmPlaceholder') },
+              { k: 'machine_count', label: t('machinesLabel'), placeholder: t('machinesPlaceholder') },
             ].map(f => (
               <div key={f.k}>
                 <div style={{ height: 1, background: '#c8d4e8' }} />
@@ -219,9 +222,9 @@ export function AreaDetail({ area, assets, customStatuses }: {
             ))}
             <div style={{ height: 1, background: '#c8d4e8' }} />
             <div style={{ padding: '12px 14px' }}>
-              <label style={{ display: 'block', fontSize: 11, color: '#666', marginBottom: 3 }}>Notizen / Sicherheitshinweise</label>
+              <label style={{ display: 'block', fontSize: 11, color: '#666', marginBottom: 3 }}>{t('notesLabel')}</label>
               <textarea value={form.notes} onChange={set('notes')} rows={4}
-                placeholder="z.B. PSA erforderlich, Lärmschutz, Zutrittsregelung…"
+                placeholder={t('notesPlaceholder')}
                 style={{ width: '100%', border: 'none', outline: 'none', fontSize: 14, fontFamily: 'Arial, sans-serif', background: 'transparent', resize: 'vertical' }} />
             </div>
           </div>
@@ -232,7 +235,7 @@ export function AreaDetail({ area, assets, customStatuses }: {
       {!editing && area.notes && (
         <div style={{ padding: '0 16px 16px' }}>
           <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: 6 }}>
-            <ShieldAlert size={14} /> Hinweise & Notizen
+            <ShieldAlert size={14} /> {t('hinweise')}
           </h2>
           <div style={{ background: 'white', borderRadius: 12, padding: '14px', border: '1px solid #c8d4e8' }}>
             <p style={{ fontSize: 14, color: '#444', margin: 0, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{area.notes}</p>
@@ -249,7 +252,7 @@ export function AreaDetail({ area, assets, customStatuses }: {
           </h2>
           {assets.length === 0 ? (
             <div style={{ background: 'white', borderRadius: 12, padding: '20px 16px', border: '1px solid #e8eef6', textAlign: 'center' }}>
-              <p style={{ color: '#aaa', fontSize: 13, margin: 0 }}>Noch keine Assets in diesem Bereich</p>
+              <p style={{ color: '#aaa', fontSize: 13, margin: 0 }}>{t('noAssets')}</p>
             </div>
           ) : (
             <div>
@@ -284,22 +287,21 @@ export function AreaDetail({ area, assets, customStatuses }: {
         </div>
       )}
 
-      {/* Typische Dokumente für Bereiche */}
+      {/* Dokumente */}
       <div style={{ padding: '0 16px 16px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
           <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
-            <FileText size={14} /> Dokumente
+            <FileText size={14} /> {t('docs')}
           </h2>
           <label style={{ display: 'flex', alignItems: 'center', gap: 5, cursor: 'pointer', fontSize: 13, color: '#0099cc', fontWeight: 600 }}>
-            <Upload size={13} /> {uploading ? 'Lädt…' : 'Hochladen'}
+            <Upload size={13} /> {uploading ? t('uploading') : t('uploadDoc')}
             <input type="file" style={{ display: 'none' }} onChange={uploadDocument} accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.dwg" />
           </label>
         </div>
 
-        {/* Hinweis auf typische Dokumente */}
         {(area.document_urls ?? []).length === 0 && (
           <div style={{ marginBottom: 10 }}>
-            <p style={{ color: '#aaa', fontSize: 12, margin: '0 0 6px' }}>Typische Dokumente für diesen Bereich:</p>
+            <p style={{ color: '#aaa', fontSize: 12, margin: '0 0 6px' }}>{t('typicalDocs')}</p>
             {['Risikobeurteilung', 'Betriebsanweisung', 'Prüfprotokoll', 'Hallenlayout / Maschinenaufstellung', 'Gefährdungsbeurteilung', 'Wartungsplan'].map(d => (
               <span key={d} style={{ display: 'inline-block', fontSize: 11, padding: '3px 9px', borderRadius: 20, background: '#f4f6f9', color: '#888', border: '1px solid #c8d4e8', margin: '0 4px 4px 0' }}>
                 {d}
@@ -333,7 +335,7 @@ export function AreaDetail({ area, assets, customStatuses }: {
           </p>
         )}
         <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, border: '2px dashed #c8d4e8', borderRadius: 12, padding: '14px', cursor: 'pointer', fontSize: 13, color: '#96aed2', background: 'white' }}>
-          <Upload size={15} /> {uploading ? 'Lädt hoch…' : 'Bild hinzufügen'}
+          <Upload size={15} /> {uploading ? t('uploadingImage') : t('addImage')}
           <input type="file" accept="image/*" style={{ display: 'none' }} onChange={uploadImage} />
         </label>
       </div>
@@ -343,15 +345,15 @@ export function AreaDetail({ area, assets, customStatuses }: {
         {editing ? (
           <>
             <button onClick={() => { setEditing(false); resetForm() }} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, background: 'white', color: '#003366', padding: '13px', borderRadius: 50, border: '2px solid #003366', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
-              <X size={15} /> Abbrechen
+              <X size={15} /> {tc('cancel')}
             </button>
             <button onClick={save} disabled={saving} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, background: '#003366', color: 'white', padding: '13px', borderRadius: 50, border: 'none', fontSize: 14, fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.6 : 1 }}>
-              <Check size={15} /> Speichern
+              <Check size={15} /> {tc('save')}
             </button>
           </>
         ) : (
           <button onClick={() => setEditing(true)} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, background: '#003366', color: 'white', padding: '13px', borderRadius: 50, border: 'none', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
-            <Pencil size={15} /> Bearbeiten
+            <Pencil size={15} /> {tc('edit')}
           </button>
         )}
       </div>
