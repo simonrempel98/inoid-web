@@ -577,11 +577,15 @@
       "success": "Gebruiker succesvol aangemaakt."
     },
     "statuses": {
-      "title": "Activastatussen",
-      "subtitle": "Aangepaste statussen definiëren",
-      "systemStatuses": "Systeemstatussen",
-      "customStatuses": "Aangepaste statussen",
-      "newStatus": "+ Nieuw"
+      "title": "Asset Status",
+      "subtitle": "Define custom statuses",
+      "systemStatuses": "System statuses",
+      "customStatuses": "Custom statuses",
+      "newStatus": "+ New",
+      "noCustom": "No custom statuses yet",
+      "createFirst": "+ Create first",
+      "saveStatus": "Create status",
+      "statusPlaceholder": "e.g. In use"
     }
   },
   "scan": {
@@ -647,5 +651,13 @@
   },
   "roles": {
     "subtitle": "Define who can do what in your organization."
+  },
+  "assetStatus": {
+    "active": "Active",
+    "in_service": "In maintenance",
+    "maintenance_due": "Maintenance due",
+    "offsite": "Offsite",
+    "blocked": "Blocked",
+    "decommissioned": "Decommissioned"
   }
 }

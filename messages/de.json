@@ -579,9 +579,13 @@
     "statuses": {
       "title": "Asset-Status",
       "subtitle": "Eigene Status definieren",
-      "systemStatuses": "System-Status",
-      "customStatuses": "Eigene Status",
-      "newStatus": "+ Neu"
+      "systemStatuses": "System-Statuses",
+      "customStatuses": "Eigene Statuses",
+      "newStatus": "+ Neu",
+      "noCustom": "Noch keine eigenen Statuses",
+      "createFirst": "+ Ersten anlegen",
+      "saveStatus": "Status anlegen",
+      "statusPlaceholder": "z.B. Im Einsatz"
     }
   },
   "scan": {
@@ -647,5 +651,13 @@
   },
   "roles": {
     "subtitle": "Lege fest, wer was in der Organisation darf."
+  },
+  "assetStatus": {
+    "active": "Aktiv",
+    "in_service": "In Wartung",
+    "maintenance_due": "Fällig für Wartung",
+    "offsite": "Außer Haus",
+    "blocked": "Gesperrt",
+    "decommissioned": "Stillgelegt"
   }
 }

@@ -577,11 +577,15 @@
       "success": "L'utente è stato creato con successo."
     },
     "statuses": {
-      "title": "Stati asset",
-      "subtitle": "Definisci stati personalizzati",
+      "title": "Stato degli asset",
+      "subtitle": "Definire stati personalizzati",
       "systemStatuses": "Stati di sistema",
       "customStatuses": "Stati personalizzati",
-      "newStatus": "+ Nuovo"
+      "newStatus": "+ Nuovo",
+      "noCustom": "Nessuno stato personalizzato",
+      "createFirst": "+ Crea il primo",
+      "saveStatus": "Crea stato",
+      "statusPlaceholder": "es. In uso"
     }
   },
   "scan": {
@@ -647,5 +651,13 @@
   },
   "roles": {
     "subtitle": "Define who can do what in your organization."
+  },
+  "assetStatus": {
+    "active": "Attivo",
+    "in_service": "In manutenzione",
+    "maintenance_due": "Manutenzione scaduta",
+    "offsite": "Fuori sede",
+    "blocked": "Bloccato",
+    "decommissioned": "Dismesso"
   }
 }

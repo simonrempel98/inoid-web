@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { EVENT_TYPES, type EventType } from '@/lib/service-types'
 import { Trash2 } from 'lucide-react'
@@ -13,6 +14,7 @@ const PRESET_COLORS = [
 ]
 
 export default function EventTypesPage() {
+  const t = useTranslations()
   const router = useRouter()
   const supabase = createClient()
 
@@ -27,8 +29,7 @@ export default function EventTypesPage() {
   useEffect(() => {
     supabase.from('organizations').select('settings').single().then(({ data }) => {
       const raw = (data?.settings as { custom_event_types?: unknown[] })?.custom_event_types ?? []
-      // Alte Einträge mit Emoji-icon bereinigen
-      const cleaned = raw.map((t: any) => ({ value: t.value, label: t.label, color: t.color }))
+      const cleaned = raw.map((et: any) => ({ value: et.value, label: et.label, color: et.color }))
       setCustomTypes(cleaned as EventType[])
       setLoading(false)
     })
@@ -48,7 +49,7 @@ export default function EventTypesPage() {
   async function addType() {
     if (!newLabel.trim()) return
     const value = newLabel.trim().toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')
-    if (customTypes.some(t => t.value === value)) return
+    if (customTypes.some(et => et.value === value)) return
     const updated = [...customTypes, { value, label: newLabel.trim(), color: newColor }]
     await save(updated)
     setNewLabel('')
@@ -57,7 +58,7 @@ export default function EventTypesPage() {
   }
 
   async function removeType(value: string) {
-    await save(customTypes.filter(t => t.value !== value))
+    await save(customTypes.filter(et => et.value !== value))
   }
 
   return (
@@ -70,8 +71,8 @@ export default function EventTypesPage() {
           </svg>
         </button>
         <div>
-          <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>Event-Typen</h1>
-          <p style={{ fontSize: 12, color: '#96aed2', margin: 0 }}>Eigene Kategorien für Serviceeinträge</p>
+          <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>{t('settings.eventTypes.title')}</h1>
+          <p style={{ fontSize: 12, color: '#96aed2', margin: 0 }}>{t('settings.eventTypes.subtitle')}</p>
         </div>
       </div>
 
@@ -80,16 +81,18 @@ export default function EventTypesPage() {
         {/* System-Typen */}
         <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
           <p style={{ fontSize: 11, fontWeight: 700, color: '#96aed2', padding: '12px 16px 8px', margin: 0, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-            System-Typen
+            {t('settings.eventTypes.systemTypes')}
           </p>
-          {EVENT_TYPES.map((t, i) => (
-            <div key={t.value} style={{
+          {EVENT_TYPES.map((et, i) => (
+            <div key={et.value} style={{
               display: 'flex', alignItems: 'center', gap: 12, padding: '11px 16px',
               borderTop: i > 0 ? '1px solid #f4f6f9' : 'none',
             }}>
-              <div style={{ width: 10, height: 10, borderRadius: '50%', background: t.color, flexShrink: 0 }} />
-              <span style={{ flex: 1, fontSize: 14, color: '#000', fontWeight: 600 }}>{t.label}</span>
-              <span style={{ fontSize: 11, color: '#96aed2', background: '#f4f6f9', padding: '2px 8px', borderRadius: 6 }}>System</span>
+              <div style={{ width: 10, height: 10, borderRadius: '50%', background: et.color, flexShrink: 0 }} />
+              <span style={{ flex: 1, fontSize: 14, color: '#000', fontWeight: 600 }}>
+                {t(`eventTypes.${et.value}` as any) || et.label}
+              </span>
+              <span style={{ fontSize: 11, color: '#96aed2', background: '#f4f6f9', padding: '2px 8px', borderRadius: 6 }}>{t('settings.eventTypes.systemBadge')}</span>
             </div>
           ))}
         </div>
@@ -97,10 +100,10 @@ export default function EventTypesPage() {
         {/* Eigene Typen */}
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-            <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: 0 }}>Eigene Typen</h2>
+            <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: 0 }}>{t('settings.eventTypes.customTypes')}</h2>
             <button type="button" onClick={() => setShowForm(v => !v)}
               style={{ padding: '8px 16px', borderRadius: 50, border: 'none', background: '#003366', color: 'white', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-              + Neu
+              {t('settings.eventTypes.newType')}
             </button>
           </div>
 
@@ -108,22 +111,20 @@ export default function EventTypesPage() {
           {showForm && (
             <div style={{ background: 'white', borderRadius: 14, padding: 16, border: '1px solid #c8d4e8', marginBottom: 12, display: 'flex', flexDirection: 'column', gap: 14 }}>
 
-              {/* Bezeichnung */}
               <div>
-                <label style={labelStyle}>Bezeichnung</label>
+                <label style={labelStyle}>{t('common.label')}</label>
                 <input
                   value={newLabel}
                   onChange={e => setNewLabel(e.target.value)}
                   style={inputStyle}
-                  placeholder="z.B. Kalibrierung, TÜV, Inspektion…"
+                  placeholder={t('settings.eventTypes.labelPlaceholder')}
                   autoFocus
                   onKeyDown={e => e.key === 'Enter' && addType()}
                 />
               </div>
 
-              {/* Farbe */}
               <div>
-                <label style={labelStyle}>Farbe</label>
+                <label style={labelStyle}>{t('common.color')}</label>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
                   {PRESET_COLORS.map(c => (
                     <button key={c} type="button" onClick={() => setNewColor(c)}
@@ -137,10 +138,9 @@ export default function EventTypesPage() {
                 </div>
               </div>
 
-              {/* Vorschau */}
               {newLabel && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ fontSize: 12, color: '#96aed2' }}>Vorschau:</span>
+                  <span style={{ fontSize: 12, color: '#96aed2' }}>{t('settings.eventTypes.preview')}</span>
                   <span style={{
                     fontSize: 12, fontWeight: 700, padding: '4px 12px', borderRadius: 20,
                     backgroundColor: `${newColor}20`, color: newColor,
@@ -150,41 +150,39 @@ export default function EventTypesPage() {
                 </div>
               )}
 
-              {/* Buttons */}
               <div style={{ display: 'flex', gap: 8 }}>
                 <button onClick={() => setShowForm(false)}
                   style={{ flex: 1, padding: '10px', borderRadius: 50, border: '1px solid #c8d4e8', background: 'white', color: '#666', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-                  Abbrechen
+                  {t('common.cancel')}
                 </button>
                 <button onClick={addType} disabled={!newLabel.trim() || saving}
                   style={{ flex: 2, padding: '10px', borderRadius: 50, border: 'none', background: !newLabel.trim() ? '#c8d4e8' : '#003366', color: 'white', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-                  {saving ? 'Wird gespeichert…' : 'Typ anlegen'}
+                  {saving ? t('common.saving') : t('settings.eventTypes.save')}
                 </button>
               </div>
             </div>
           )}
 
-          {/* Liste */}
           {loading ? (
-            <p style={{ color: '#96aed2', fontSize: 13 }}>Lädt…</p>
+            <p style={{ color: '#96aed2', fontSize: 13 }}>{t('common.loading')}</p>
           ) : customTypes.length === 0 ? (
             <div style={{ background: 'white', borderRadius: 14, border: '1px dashed #c8d4e8', padding: '24px', textAlign: 'center' }}>
-              <p style={{ color: '#96aed2', fontSize: 13, margin: 0 }}>Noch keine eigenen Typen angelegt.</p>
+              <p style={{ color: '#96aed2', fontSize: 13, margin: 0 }}>{t('settings.eventTypes.noCustomTypes')}</p>
             </div>
           ) : (
             <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
-              {customTypes.map((t, i) => (
-                <div key={t.value} style={{
+              {customTypes.map((et, i) => (
+                <div key={et.value} style={{
                   display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px',
                   borderTop: i > 0 ? '1px solid #f4f6f9' : 'none',
                 }}>
-                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: t.color, flexShrink: 0 }} />
-                  <span style={{ flex: 1, fontSize: 14, color: '#000', fontWeight: 600 }}>{t.label}</span>
+                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: et.color, flexShrink: 0 }} />
+                  <span style={{ flex: 1, fontSize: 14, color: '#000', fontWeight: 600 }}>{et.label}</span>
                   <span style={{
                     fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 10,
-                    backgroundColor: `${t.color}20`, color: t.color,
-                  }}>{t.label}</span>
-                  <button onClick={() => removeType(t.value)}
+                    backgroundColor: `${et.color}20`, color: et.color,
+                  }}>{et.label}</span>
+                  <button onClick={() => removeType(et.value)}
                     style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#c8d4e8', padding: 4, display: 'flex' }}>
                     <Trash2 size={15} />
                   </button>

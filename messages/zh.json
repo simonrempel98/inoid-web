@@ -577,11 +577,15 @@
       "success": "用户已成功创建。"
     },
     "statuses": {
-      "title": "资产状态",
-      "subtitle": "定义自定义状态",
-      "systemStatuses": "系统状态",
-      "customStatuses": "自定义状态",
-      "newStatus": "+ 新建"
+      "title": "Asset Status",
+      "subtitle": "Define custom statuses",
+      "systemStatuses": "System statuses",
+      "customStatuses": "Custom statuses",
+      "newStatus": "+ New",
+      "noCustom": "No custom statuses yet",
+      "createFirst": "+ Create first",
+      "saveStatus": "Create status",
+      "statusPlaceholder": "e.g. In use"
     }
   },
   "scan": {
@@ -647,5 +651,13 @@
   },
   "roles": {
     "subtitle": "Define who can do what in your organization."
+  },
+  "assetStatus": {
+    "active": "Active",
+    "in_service": "In maintenance",
+    "maintenance_due": "Maintenance due",
+    "offsite": "Offsite",
+    "blocked": "Blocked",
+    "decommissioned": "Decommissioned"
   }
 }

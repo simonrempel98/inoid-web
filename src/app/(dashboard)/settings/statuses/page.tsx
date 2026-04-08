@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { SYSTEM_STATUSES, type StatusConfig } from '@/lib/asset-statuses'
 
@@ -12,6 +13,7 @@ const PRESET_COLORS = [
 ]
 
 export default function StatusesPage() {
+  const t = useTranslations()
   const router = useRouter()
   const supabase = createClient()
 
@@ -19,7 +21,6 @@ export default function StatusesPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
 
-  // Neu anlegen
   const [newLabel, setNewLabel] = useState('')
   const [newColor, setNewColor] = useState('#2980B9')
   const [showForm, setShowForm] = useState(false)
@@ -70,7 +71,10 @@ export default function StatusesPage() {
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </button>
-        <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>Asset-Status</h1>
+        <div>
+          <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>{t('settings.statuses.title')}</h1>
+          <p style={{ fontSize: 12, color: '#96aed2', margin: 0 }}>{t('settings.statuses.subtitle')}</p>
+        </div>
       </div>
 
       <div style={{ padding: 20, display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -78,7 +82,7 @@ export default function StatusesPage() {
         {/* System-Statuses */}
         <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
           <p style={{ fontSize: 11, fontWeight: 700, color: '#96aed2', padding: '12px 16px 8px', margin: 0, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-            System-Statuses
+            {t('settings.statuses.systemStatuses')}
           </p>
           {SYSTEM_STATUSES.map((s, i) => (
             <div key={s.value} style={{
@@ -87,9 +91,11 @@ export default function StatusesPage() {
               borderTop: i > 0 ? '1px solid #f4f6f9' : 'none',
             }}>
               <span style={{ width: 12, height: 12, borderRadius: '50%', background: s.color, flexShrink: 0 }} />
-              <span style={{ flex: 1, fontSize: 14, color: '#000', fontWeight: 600 }}>{s.label}</span>
+              <span style={{ flex: 1, fontSize: 14, color: '#000', fontWeight: 600 }}>
+                {t(`assetStatus.${s.value}` as any) || s.label}
+              </span>
               <span style={{ fontSize: 11, color: '#96aed2', fontFamily: 'monospace' }}>{s.value}</span>
-              <span style={{ fontSize: 11, color: '#96aed2', background: '#f4f6f9', padding: '2px 8px', borderRadius: 6 }}>System</span>
+              <span style={{ fontSize: 11, color: '#96aed2', background: '#f4f6f9', padding: '2px 8px', borderRadius: 6 }}>{t('common.system')}</span>
             </div>
           ))}
         </div>
@@ -97,24 +103,23 @@ export default function StatusesPage() {
         {/* Eigene Statuses */}
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-            <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: 0 }}>Eigene Statuses</h2>
+            <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: 0 }}>{t('settings.statuses.customStatuses')}</h2>
             <button type="button" onClick={() => setShowForm(v => !v)}
               style={{ padding: '8px 16px', borderRadius: 50, border: 'none', background: '#003366', color: 'white', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-              + Neu
+              {t('settings.statuses.newStatus')}
             </button>
           </div>
 
-          {/* Neu-Formular */}
           {showForm && (
             <div style={{ background: 'white', borderRadius: 14, padding: 16, border: '1px solid #c8d4e8', marginBottom: 12, display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div>
-                <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#003366', marginBottom: 4 }}>Bezeichnung</label>
+                <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#003366', marginBottom: 4 }}>{t('common.label')}</label>
                 <input value={newLabel} onChange={e => setNewLabel(e.target.value)}
-                  style={inputStyle} placeholder="z.B. Im Einsatz" autoFocus
+                  style={inputStyle} placeholder={t('settings.statuses.statusPlaceholder')} autoFocus
                   onKeyDown={e => e.key === 'Enter' && addStatus()} />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#003366', marginBottom: 8 }}>Farbe</label>
+                <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#003366', marginBottom: 8 }}>{t('common.color')}</label>
                 <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignItems: 'center' }}>
                   {PRESET_COLORS.map(c => (
                     <button key={c} type="button" onClick={() => setNewColor(c)}
@@ -127,7 +132,6 @@ export default function StatusesPage() {
                   <input type="color" value={newColor} onChange={e => setNewColor(e.target.value)}
                     style={{ width: 28, height: 28, borderRadius: '50%', border: '1px solid #c8d4e8', padding: 2, cursor: 'pointer', background: 'none' }} />
                 </div>
-                {/* Vorschau */}
                 {newLabel && (
                   <div style={{ marginTop: 10 }}>
                     <span style={{
@@ -142,25 +146,24 @@ export default function StatusesPage() {
               <div style={{ display: 'flex', gap: 8 }}>
                 <button onClick={() => setShowForm(false)}
                   style={{ flex: 1, padding: '10px', borderRadius: 50, border: '1px solid #c8d4e8', background: 'white', color: '#666', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-                  Abbrechen
+                  {t('common.cancel')}
                 </button>
                 <button onClick={addStatus} disabled={!newLabel.trim() || saving}
                   style={{ flex: 2, padding: '10px', borderRadius: 50, border: 'none', background: !newLabel.trim() ? '#c8d4e8' : '#003366', color: 'white', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-                  {saving ? 'Wird gespeichert…' : 'Status anlegen'}
+                  {saving ? t('common.saving') : t('settings.statuses.saveStatus')}
                 </button>
               </div>
             </div>
           )}
 
-          {/* Liste eigener Statuses */}
           {loading ? (
-            <p style={{ color: '#96aed2', fontSize: 13, textAlign: 'center' }}>Lädt…</p>
+            <p style={{ color: '#96aed2', fontSize: 13, textAlign: 'center' }}>{t('common.loading')}</p>
           ) : customStatuses.length === 0 && !showForm ? (
             <div style={{ background: 'white', borderRadius: 14, padding: 32, border: '1px solid #c8d4e8', textAlign: 'center' }}>
-              <p style={{ color: '#666', fontSize: 14, margin: '0 0 12px' }}>Noch keine eigenen Statuses</p>
+              <p style={{ color: '#666', fontSize: 14, margin: '0 0 12px' }}>{t('settings.statuses.noCustom')}</p>
               <button onClick={() => setShowForm(true)}
                 style={{ padding: '10px 20px', borderRadius: 50, border: 'none', background: '#003366', color: 'white', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-                + Ersten anlegen
+                {t('settings.statuses.createFirst')}
               </button>
             </div>
           ) : (

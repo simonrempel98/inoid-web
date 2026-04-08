@@ -577,11 +577,15 @@
       "success": "L'utilisateur a été créé avec succès."
     },
     "statuses": {
-      "title": "Statuts des actifs",
+      "title": "Statut des actifs",
       "subtitle": "Définir des statuts personnalisés",
       "systemStatuses": "Statuts système",
       "customStatuses": "Statuts personnalisés",
-      "newStatus": "+ Nouveau"
+      "newStatus": "+ Nouveau",
+      "noCustom": "Aucun statut personnalisé",
+      "createFirst": "+ Créer le premier",
+      "saveStatus": "Créer le statut",
+      "statusPlaceholder": "p.ex. En service"
     }
   },
   "scan": {
@@ -647,5 +651,13 @@
   },
   "roles": {
     "subtitle": "Définissez qui peut faire quoi dans votre organisation."
+  },
+  "assetStatus": {
+    "active": "Actif",
+    "in_service": "En maintenance",
+    "maintenance_due": "Maintenance due",
+    "offsite": "Hors site",
+    "blocked": "Bloqué",
+    "decommissioned": "Désactivé"
   }
 }
