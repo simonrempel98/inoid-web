@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { Mail, Copy, Check, Trash2, Clock } from 'lucide-react'
 
 type Invitation = {
@@ -27,17 +28,8 @@ function isExpired(inv: Invitation) {
   return new Date(inv.invitation_expires_at) < new Date()
 }
 
-function timeLeft(inv: Invitation) {
-  if (inv.invitation_accepted_at) return 'Angenommen'
-  if (!inv.invitation_expires_at) return ''
-  const diff = new Date(inv.invitation_expires_at).getTime() - Date.now()
-  if (diff <= 0) return 'Abgelaufen'
-  const h = Math.floor(diff / 3600000)
-  const m = Math.floor((diff % 3600000) / 60000)
-  return `${h}h ${m}m verbleibend`
-}
-
 export function InviteManager({ organizationId, invitations }: { organizationId: string; invitations: Invitation[] }) {
+  const t = useTranslations('settings.invite')
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
@@ -45,8 +37,17 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
   const [copied, setCopied] = useState<string | null>(null)
 
   const origin = typeof window !== 'undefined' ? window.location.origin : 'https://www.inoid.app'
-
   const inviteLink = (token: string) => `${origin}/invite/${token}`
+
+  function getTimeLeft(inv: Invitation): string {
+    if (inv.invitation_accepted_at) return t('accepted')
+    if (!inv.invitation_expires_at) return ''
+    const diff = new Date(inv.invitation_expires_at).getTime() - Date.now()
+    if (diff <= 0) return t('expired')
+    const h = Math.floor(diff / 3600000)
+    const m = Math.floor((diff % 3600000) / 60000)
+    return t('timeLeft', { h, m })
+  }
 
   const copyLink = async (token: string) => {
     await navigator.clipboard.writeText(inviteLink(token))
@@ -62,7 +63,6 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
     const token = randomToken()
     const expiresAt = new Date(Date.now() + 12 * 60 * 60 * 1000).toISOString()
 
-    // Check if member already exists
     const { data: existing } = await supabase
       .from('organization_members')
       .select('id, invitation_accepted_at')
@@ -71,12 +71,11 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
       .single()
 
     if (existing?.invitation_accepted_at) {
-      setError('Diese E-Mail-Adresse ist bereits Mitglied.')
+      setError(t('alreadyMember'))
       setLoading(false)
       return
     }
 
-    // Get default role (admin or first available)
     const { data: roles } = await supabase
       .from('roles')
       .select('id')
@@ -84,13 +83,12 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
       .limit(1)
 
     if (!roles || roles.length === 0) {
-      setError('Keine Rolle gefunden. Bitte zuerst eine Rolle anlegen.')
+      setError(t('noRole'))
       setLoading(false)
       return
     }
 
     if (existing) {
-      // Update existing pending invite
       await supabase
         .from('organization_members')
         .update({ invitation_token: token, invitation_expires_at: expiresAt })
@@ -107,7 +105,7 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
         })
 
       if (insertError) {
-        setError('Fehler beim Erstellen der Einladung.')
+        setError(t('inviteError'))
         setLoading(false)
         return
       }
@@ -135,7 +133,7 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
         padding: '14px 16px', marginBottom: 24,
       }}>
         <label style={{ display: 'block', fontSize: 11, color: '#666', marginBottom: 6, fontFamily: 'Arial, sans-serif' }}>
-          E-Mail-Adresse des neuen Mitglieds
+          {t('emailLabel')}
         </label>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
           <input
@@ -160,7 +158,7 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
             }}
           >
             <Mail size={14} />
-            Anlegen
+            {t('create')}
           </button>
         </div>
         {error && <p style={{ color: '#E74C3C', fontSize: 13, marginTop: 8, margin: '8px 0 0' }}>{error}</p>}
@@ -173,7 +171,7 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
             fontSize: 11, fontWeight: 700, color: '#666666',
             textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 8px 4px',
           }}>
-            Ausstehend
+            {t('pending')}
           </p>
           <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
             {pending.map((inv, i) => (
@@ -185,14 +183,13 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
                       {inv.email}
                     </p>
                     <p style={{ margin: 0, fontSize: 11, display: 'flex', alignItems: 'center', gap: 4, color: isExpired(inv) ? '#E74C3C' : '#0099cc' }}>
-                      <Clock size={11} /> {timeLeft(inv)}
+                      <Clock size={11} /> {getTimeLeft(inv)}
                     </p>
                   </div>
                   <div style={{ display: 'flex', gap: 6 }}>
                     {inv.invitation_token && !isExpired(inv) && (
                       <button
                         onClick={() => copyLink(inv.invitation_token!)}
-                        title="Link kopieren"
                         style={{
                           background: copied === inv.invitation_token ? '#f0fff4' : '#f5f8fc',
                           border: '1px solid #c8d4e8', borderRadius: 7, padding: '6px 10px',
@@ -202,12 +199,11 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
                         }}
                       >
                         {copied === inv.invitation_token ? <Check size={13} /> : <Copy size={13} />}
-                        {copied === inv.invitation_token ? 'Kopiert' : 'Link'}
+                        {copied === inv.invitation_token ? t('copied') : t('copyLink')}
                       </button>
                     )}
                     <button
                       onClick={() => deleteInvite(inv.id)}
-                      title="Eintrag löschen"
                       style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: '#c0ccda', display: 'flex' }}
                     >
                       <Trash2 size={15} />
@@ -227,7 +223,7 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
             fontSize: 11, fontWeight: 700, color: '#666666',
             textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 8px 4px',
           }}>
-            Mitglieder
+            {t('members')}
           </p>
           <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
             {accepted.map((inv, i) => (
@@ -243,7 +239,7 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
                   </div>
                   <div>
                     <p style={{ margin: '0 0 1px', fontSize: 14, color: '#000' }}>{inv.email}</p>
-                    <p style={{ margin: 0, fontSize: 11, color: '#27AE60' }}>Aktiv</p>
+                    <p style={{ margin: 0, fontSize: 11, color: '#27AE60' }}>{t('active')}</p>
                   </div>
                 </div>
               </div>
@@ -254,7 +250,7 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
 
       {invitations.length === 0 && (
         <p style={{ textAlign: 'center', color: '#aaa', fontSize: 13, marginTop: 16 }}>
-          Noch keine Mitglieder angelegt.
+          {t('noMembers')}
         </p>
       )}
     </div>

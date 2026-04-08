@@ -643,7 +643,21 @@
       "password": "Password",
       "role": "Ruolo",
       "save": "Crea utente",
-      "success": "L'utente è stato creato con successo."
+      "success": "L'utente è stato creato con successo.",
+      "emailLabel": "Indirizzo e-mail del nuovo membro",
+      "create": "Crea",
+      "pending": "In attesa",
+      "members": "Membri",
+      "accepted": "Accettato",
+      "expired": "Scaduto",
+      "timeLeft": "{h}h {m}m rimanente",
+      "copyLink": "Link",
+      "copied": "Copiato",
+      "alreadyMember": "Questo indirizzo e-mail è già membro.",
+      "noRole": "Nessun ruolo trovato. Crea prima un ruolo.",
+      "inviteError": "Errore nella creazione dell'invito.",
+      "noMembers": "Nessun membro ancora.",
+      "active": "Attivo"
     },
     "statuses": {
       "title": "Stato degli asset",
@@ -719,7 +733,22 @@
     "help": "Aiuto"
   },
   "roles": {
-    "subtitle": "Define who can do what in your organization."
+    "subtitle": "Define who can do what in your organization.",
+    "you": "tu",
+    "membersCount": "Membri · {count}",
+    "onlyAdmins": "Solo gli admin possono cambiare i ruoli.",
+    "admin": {
+      "label": "Admin",
+      "description": "Accesso completo: gestire asset, servizio, struttura org, team e membri"
+    },
+    "techniker": {
+      "label": "Tecnico",
+      "description": "Modifica asset e servizio, struttura org in sola lettura"
+    },
+    "leser": {
+      "label": "Lettore",
+      "description": "Solo lettura, nessuna modifica o creazione"
+    }
   },
   "assetStatus": {
     "active": "Attivo",

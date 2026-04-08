@@ -643,7 +643,21 @@
       "password": "Heslo",
       "role": "Role",
       "save": "Vytvořit uživatele",
-      "success": "Uživatel byl úspěšně vytvořen."
+      "success": "Uživatel byl úspěšně vytvořen.",
+      "emailLabel": "Email address of the new member",
+      "create": "Create",
+      "pending": "Pending",
+      "members": "Members",
+      "accepted": "Accepted",
+      "expired": "Expired",
+      "timeLeft": "{h}h {m}m remaining",
+      "copyLink": "Link",
+      "copied": "Copied",
+      "alreadyMember": "This email address is already a member.",
+      "noRole": "No role found. Please create a role first.",
+      "inviteError": "Error creating invitation.",
+      "noMembers": "No members yet.",
+      "active": "Active"
     },
     "statuses": {
       "title": "Asset Status",
@@ -719,7 +733,22 @@
     "help": "Nápověda"
   },
   "roles": {
-    "subtitle": "Define who can do what in your organization."
+    "subtitle": "Define who can do what in your organization.",
+    "you": "you",
+    "membersCount": "Members · {count}",
+    "onlyAdmins": "Only admins can change roles.",
+    "admin": {
+      "label": "Admin",
+      "description": "Full access: manage assets, service, org structure, teams & members"
+    },
+    "techniker": {
+      "label": "Technician",
+      "description": "Edit assets & service, read-only org structure"
+    },
+    "leser": {
+      "label": "Reader",
+      "description": "Read-only access, no editing or creation"
+    }
   },
   "assetStatus": {
     "active": "Active",

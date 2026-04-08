@@ -643,7 +643,21 @@
       "password": "Mot de passe",
       "role": "Rôle",
       "save": "Créer l'utilisateur",
-      "success": "L'utilisateur a été créé avec succès."
+      "success": "L'utilisateur a été créé avec succès.",
+      "emailLabel": "Adresse e-mail du nouveau membre",
+      "create": "Créer",
+      "pending": "En attente",
+      "members": "Membres",
+      "accepted": "Accepté",
+      "expired": "Expiré",
+      "timeLeft": "{h}h {m}m restant",
+      "copyLink": "Lien",
+      "copied": "Copié",
+      "alreadyMember": "Cette adresse e-mail est déjà membre.",
+      "noRole": "Aucun rôle trouvé. Veuillez d'abord créer un rôle.",
+      "inviteError": "Erreur lors de la création de l'invitation.",
+      "noMembers": "Aucun membre encore.",
+      "active": "Actif"
     },
     "statuses": {
       "title": "Statut des actifs",
@@ -719,7 +733,22 @@
     "help": "Aide"
   },
   "roles": {
-    "subtitle": "Définissez qui peut faire quoi dans votre organisation."
+    "subtitle": "Définissez qui peut faire quoi dans votre organisation.",
+    "you": "vous",
+    "membersCount": "Membres · {count}",
+    "onlyAdmins": "Seuls les admins peuvent modifier les rôles.",
+    "admin": {
+      "label": "Admin",
+      "description": "Accès complet: gérer les actifs, service, structure org, équipes & membres"
+    },
+    "techniker": {
+      "label": "Technicien",
+      "description": "Modifier les actifs & service, structure org en lecture seule"
+    },
+    "leser": {
+      "label": "Lecteur",
+      "description": "Accès lecture seule, pas de modification ou création"
+    }
   },
   "assetStatus": {
     "active": "Actif",

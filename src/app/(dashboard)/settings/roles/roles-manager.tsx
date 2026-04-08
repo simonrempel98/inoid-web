@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useTransition } from 'react'
+import { useTranslations } from 'next-intl'
 import { setMemberRole } from '../../teams/actions'
-import { ROLE_LABELS, ROLE_COLORS, ROLE_BG, ROLE_DESCRIPTIONS, type AppRole } from '@/lib/permissions'
+import { ROLE_COLORS, ROLE_BG, type AppRole } from '@/lib/permissions'
 import { Shield, ChevronDown } from 'lucide-react'
 
 type Member = {
@@ -11,6 +12,8 @@ type Member = {
   email: string
   app_role: AppRole
 }
+
+const APP_ROLES: AppRole[] = ['admin', 'techniker', 'leser']
 
 function initials(m: Member) {
   const name = m.full_name?.trim()
@@ -22,22 +25,24 @@ function initials(m: Member) {
   return m.email[0].toUpperCase()
 }
 
-function RoleBadge({ role }: { role: AppRole }) {
+function RoleBadge({ role, label }: { role: AppRole; label: string }) {
   return (
     <span style={{
       fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 20,
       backgroundColor: ROLE_BG[role], color: ROLE_COLORS[role],
       display: 'inline-block',
     }}>
-      {ROLE_LABELS[role]}
+      {label}
     </span>
   )
 }
 
-function RoleSelector({ memberId, currentRole, isCurrentUser }: {
+function RoleSelector({ memberId, currentRole, isCurrentUser, roleLabels, youLabel }: {
   memberId: string
   currentRole: AppRole
   isCurrentUser: boolean
+  roleLabels: Record<AppRole, string>
+  youLabel: string
 }) {
   const [role, setRole] = useState<AppRole>(currentRole)
   const [isPending, startTransition] = useTransition()
@@ -57,8 +62,8 @@ function RoleSelector({ memberId, currentRole, isCurrentUser }: {
   if (isCurrentUser) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <RoleBadge role={role} />
-        <span style={{ fontSize: 11, color: '#96aed2' }}>(du)</span>
+        <RoleBadge role={role} label={roleLabels[role]} />
+        <span style={{ fontSize: 11, color: '#96aed2' }}>({youLabel})</span>
       </div>
     )
   }
@@ -85,8 +90,8 @@ function RoleSelector({ memberId, currentRole, isCurrentUser }: {
             opacity: isPending ? 0.6 : 1,
           }}
         >
-          {(Object.keys(ROLE_LABELS) as AppRole[]).map(r => (
-            <option key={r} value={r}>{ROLE_LABELS[r]}</option>
+          {APP_ROLES.map(r => (
+            <option key={r} value={r}>{roleLabels[r]}</option>
           ))}
         </select>
         <ChevronDown size={11} color={ROLE_COLORS[role]} style={{
@@ -104,12 +109,26 @@ export function RolesManager({ members, currentUserId, isAdmin }: {
   currentUserId: string
   isAdmin: boolean
 }) {
+  const t = useTranslations('roles')
+
+  const roleLabels: Record<AppRole, string> = {
+    admin: t('admin.label'),
+    techniker: t('techniker.label'),
+    leser: t('leser.label'),
+  }
+
+  const roleDescriptions: Record<AppRole, string> = {
+    admin: t('admin.description'),
+    techniker: t('techniker.description'),
+    leser: t('leser.description'),
+  }
+
   return (
     <div style={{ fontFamily: 'Arial, sans-serif' }}>
 
       {/* Rollen-Erklärung */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 24 }}>
-        {(Object.keys(ROLE_LABELS) as AppRole[]).map(role => (
+        {APP_ROLES.map(role => (
           <div key={role} style={{
             display: 'flex', alignItems: 'flex-start', gap: 12,
             background: 'white', borderRadius: 12, padding: '12px 16px',
@@ -124,10 +143,10 @@ export function RolesManager({ members, currentUserId, isAdmin }: {
             </div>
             <div>
               <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: ROLE_COLORS[role] }}>
-                {ROLE_LABELS[role]}
+                {roleLabels[role]}
               </p>
               <p style={{ margin: '2px 0 0', fontSize: 12, color: '#666' }}>
-                {ROLE_DESCRIPTIONS[role]}
+                {roleDescriptions[role]}
               </p>
             </div>
           </div>
@@ -136,7 +155,7 @@ export function RolesManager({ members, currentUserId, isAdmin }: {
 
       {/* Mitgliederliste */}
       <p style={{ fontSize: 12, fontWeight: 700, color: '#96aed2', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 10px' }}>
-        Mitglieder · {members.length}
+        {t('membersCount', { count: members.length })}
       </p>
       <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
         {members.map((m, i) => (
@@ -159,7 +178,7 @@ export function RolesManager({ members, currentUserId, isAdmin }: {
                   overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {m.full_name || m.email}
                   {m.id === currentUserId && (
-                    <span style={{ fontSize: 11, color: '#96aed2', fontWeight: 400, marginLeft: 6 }}>du</span>
+                    <span style={{ fontSize: 11, color: '#96aed2', fontWeight: 400, marginLeft: 6 }}>{t('you')}</span>
                   )}
                 </p>
                 <p style={{ margin: '1px 0 0', fontSize: 12, color: '#888',
@@ -174,9 +193,11 @@ export function RolesManager({ members, currentUserId, isAdmin }: {
                   memberId={m.id}
                   currentRole={m.app_role}
                   isCurrentUser={m.id === currentUserId}
+                  roleLabels={roleLabels}
+                  youLabel={t('you')}
                 />
               ) : (
-                <RoleBadge role={m.app_role} />
+                <RoleBadge role={m.app_role} label={roleLabels[m.app_role]} />
               )}
             </div>
           </div>
@@ -185,7 +206,7 @@ export function RolesManager({ members, currentUserId, isAdmin }: {
 
       {!isAdmin && (
         <p style={{ fontSize: 12, color: '#96aed2', textAlign: 'center', marginTop: 16 }}>
-          Nur Admins können Rollen ändern.
+          {t('onlyAdmins')}
         </p>
       )}
     </div>

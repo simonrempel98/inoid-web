@@ -643,7 +643,21 @@
       "password": "Passwort",
       "role": "Rolle",
       "save": "Nutzer anlegen",
-      "success": "Nutzer wurde erfolgreich angelegt."
+      "success": "Nutzer wurde erfolgreich angelegt.",
+      "emailLabel": "E-Mail-Adresse des neuen Mitglieds",
+      "create": "Anlegen",
+      "pending": "Ausstehend",
+      "members": "Mitglieder",
+      "accepted": "Angenommen",
+      "expired": "Abgelaufen",
+      "timeLeft": "{h}h {m}m verbleibend",
+      "copyLink": "Link",
+      "copied": "Kopiert",
+      "alreadyMember": "Diese E-Mail-Adresse ist bereits Mitglied.",
+      "noRole": "Keine Rolle gefunden. Bitte zuerst eine Rolle anlegen.",
+      "inviteError": "Fehler beim Erstellen der Einladung.",
+      "noMembers": "Noch keine Mitglieder angelegt.",
+      "active": "Aktiv"
     },
     "statuses": {
       "title": "Asset-Status",
@@ -719,7 +733,22 @@
     "help": "Hilfe"
   },
   "roles": {
-    "subtitle": "Lege fest, wer was in der Organisation darf."
+    "subtitle": "Lege fest, wer was in der Organisation darf.",
+    "you": "du",
+    "membersCount": "Mitglieder · {count}",
+    "onlyAdmins": "Nur Admins können Rollen ändern.",
+    "admin": {
+      "label": "Admin",
+      "description": "Vollzugriff: Assets, Service, Org-Struktur, Teams & Mitglieder verwalten"
+    },
+    "techniker": {
+      "label": "Techniker",
+      "description": "Assets & Service bearbeiten, Org-Struktur nur lesen"
+    },
+    "leser": {
+      "label": "Leser",
+      "description": "Alles nur lesen, nichts bearbeiten oder anlegen"
+    }
   },
   "assetStatus": {
     "active": "Aktiv",
