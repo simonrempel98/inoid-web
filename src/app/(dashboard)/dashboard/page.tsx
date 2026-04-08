@@ -71,7 +71,7 @@ function ProgressBar({ value, max, color = '#0099cc' }: ProgressBarProps) {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5, fontSize: 12 }}>
-        <span style={{ color: '#555', fontWeight: 600 }}>{value} von {max} genutzt</span>
+        <span style={{ color: '#555', fontWeight: 600 }}>{value} / {max}</span>
         <span style={{ fontWeight: 700, color: barColor }}>{pct} %</span>
       </div>
       <div style={{ height: 8, borderRadius: 8, backgroundColor: '#e8edf5', overflow: 'hidden' }}>
@@ -121,10 +121,13 @@ export default async function DashboardPage() {
   ])
 
   const now = new Date()
-  const weekFromNow = new Date(now); weekFromNow.setDate(now.getDate() + 7)
-  const thirtyFromNow = new Date(now); thirtyFromNow.setDate(now.getDate() + 30)
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1)
   const startOfYear = new Date(now.getFullYear(), 0, 1)
+
+  // Date strings for consistent comparison (same logic as WartungTaskList)
+  const nowStr      = now.toISOString().slice(0, 10)
+  const weekStr     = new Date(now.getTime() + 7  * 86400000).toISOString().slice(0, 10)
+  const thirtyStr   = new Date(now.getTime() + 30 * 86400000).toISOString().slice(0, 10)
 
   // ── KPI-Berechnungen ───────────────────────────────────────────────────────
   const totalAssets = assets?.length ?? 0
@@ -136,25 +139,17 @@ export default async function DashboardPage() {
   // Kategorie-Aufteilung
   const categoryMap: Record<string, number> = {}
   assets?.forEach(a => {
-    const k = a.category ?? 'Ohne Kategorie'
+    const k = a.category ?? '–'
     categoryMap[k] = (categoryMap[k] ?? 0) + 1
   })
   const topCategories = Object.entries(categoryMap).sort((a, b) => b[1] - a[1]).slice(0, 5)
 
   const totalMembers = members?.length ?? 0
 
-  // Wartung
-  const overdueSchedules = schedules?.filter(s => s.next_service_date && new Date(s.next_service_date) < now).length ?? 0
-  const dueThisWeek = schedules?.filter(s => {
-    if (!s.next_service_date) return false
-    const d = new Date(s.next_service_date)
-    return d >= now && d <= weekFromNow
-  }).length ?? 0
-  const dueThirtyDays = schedules?.filter(s => {
-    if (!s.next_service_date) return false
-    const d = new Date(s.next_service_date)
-    return d >= now && d <= thirtyFromNow
-  }).length ?? 0
+  // Wartung — string comparison to match WartungTaskList behavior
+  const overdueSchedules = schedules?.filter(s => s.next_service_date && s.next_service_date < nowStr).length ?? 0
+  const dueThisWeek = schedules?.filter(s => s.next_service_date && s.next_service_date >= nowStr && s.next_service_date <= weekStr).length ?? 0
+  const dueThirtyDays = schedules?.filter(s => s.next_service_date && s.next_service_date >= nowStr && s.next_service_date <= thirtyStr).length ?? 0
   const totalSchedules = schedules?.length ?? 0
 
   // Kosten
