@@ -214,8 +214,9 @@ export default function NeuerServiceEintragPage() {
         newAttachments.push(`${data.publicUrl}|doc|${file.name}`)
       }
 
+      const ALLOWED = ['maintenance','overhaul','coating','repair','cleaning','incident','inspection','installation','decommission','other']
       const payload = {
-        event_type: eventType,
+        event_type: ALLOWED.includes(eventType) ? eventType : 'other',
         title: title.trim(),
         event_date: eventDate,
         description: description.trim() || null,

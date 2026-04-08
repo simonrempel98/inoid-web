@@ -7,6 +7,8 @@ import { createClient } from '@/lib/supabase/client'
 import { CheckCircle2, X } from 'lucide-react'
 import type { ScheduleWithAsset } from './wartung-timeline'
 
+const ALLOWED_EVENT_TYPES = ['maintenance','overhaul','coating','repair','cleaning','incident','inspection','installation','decommission','other']
+
 export type LifecycleEventItem = {
   id: string
   asset_id: string
@@ -92,7 +94,7 @@ function CompleteModal({
       asset_id: schedule.asset_id,
       organization_id: profile.organization_id,
       title: schedule.name ?? schedule.title ?? 'Wartung',
-      event_type: schedule.event_type ?? 'maintenance',
+      event_type: ALLOWED_EVENT_TYPES.includes(schedule.event_type ?? '') ? schedule.event_type : 'maintenance',
       event_date: date,
       notes: notes || null,
     })
