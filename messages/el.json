@@ -441,7 +441,7 @@
     }
   },
   "organisation": {
-    "title": "Τοποθεσίες & Δομή",
+    "title": "Organisation",
     "subtitle": "Διαχείριση λειτουργικής δομής",
     "newLocation": "+ Τοποθεσία",
     "newHall": "+ Αίθουσα",
@@ -591,7 +591,13 @@
     "scanning": "Σάρωση…",
     "noPermission": "Η πρόσβαση στην κάμερα δεν επιτρέπεται",
     "notFound": "Δεν βρέθηκε στοιχείο",
-    "openAsset": "Άνοιγμα στοιχείου"
+    "openAsset": "Άνοιγμα στοιχείου",
+    "cameraLabel": "Camera {n}",
+    "cameraError": "Could not start camera",
+    "permDeniedTitle": "Camera access denied",
+    "permDeniedHint": "Please allow camera access in browser settings and reload the page.",
+    "reload": "Reload",
+    "hint": "Point the camera at an INOid QR code"
   },
   "docs": {
     "title": "Τεκμηρίωση",

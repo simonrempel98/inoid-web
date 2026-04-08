@@ -441,7 +441,7 @@
     }
   },
   "organisation": {
-    "title": "Sites & Structure",
+    "title": "Organisation",
     "subtitle": "Gérer la structure opérationnelle",
     "newLocation": "+ Site",
     "newHall": "+ Hall",
@@ -591,7 +591,13 @@
     "scanning": "Scan en cours…",
     "noPermission": "Accès à la caméra refusé",
     "notFound": "Aucun actif trouvé",
-    "openAsset": "Ouvrir l'actif"
+    "openAsset": "Ouvrir l'actif",
+    "cameraLabel": "Caméra {n}",
+    "cameraError": "Impossible de démarrer la caméra",
+    "permDeniedTitle": "Accès caméra refusé",
+    "permDeniedHint": "Veuillez autoriser l'accès à la caméra dans les paramètres du navigateur et recharger la page.",
+    "reload": "Recharger",
+    "hint": "Pointez la caméra sur un code QR INOid"
   },
   "docs": {
     "title": "Documentation",

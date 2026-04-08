@@ -441,7 +441,7 @@
     }
   },
   "organisation": {
-    "title": "Standorte & Struktur",
+    "title": "Organisation",
     "subtitle": "Betriebsstruktur verwalten",
     "newLocation": "+ Standort",
     "newHall": "+ Halle",
@@ -591,7 +591,13 @@
     "scanning": "Wird gescannt…",
     "noPermission": "Kamera-Zugriff nicht erlaubt",
     "notFound": "Kein Asset gefunden",
-    "openAsset": "Asset öffnen"
+    "openAsset": "Asset öffnen",
+    "cameraLabel": "Kamera {n}",
+    "cameraError": "Kamera konnte nicht gestartet werden",
+    "permDeniedTitle": "Kamerazugriff verweigert",
+    "permDeniedHint": "Bitte erlaube den Kamerazugriff in den Browser-Einstellungen und lade die Seite neu.",
+    "reload": "Neu laden",
+    "hint": "Richte die Kamera auf einen INOid QR-Code"
   },
   "docs": {
     "title": "Dokumentation",

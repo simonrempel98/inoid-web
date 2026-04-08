@@ -441,7 +441,7 @@
     }
   },
   "organisation": {
-    "title": "Vietas & Struktūra",
+    "title": "Organisation",
     "subtitle": "Pārvaldīt darbības struktūru",
     "newLocation": "+ Vieta",
     "newHall": "+ Halle",
@@ -591,7 +591,13 @@
     "scanning": "Skenē…",
     "noPermission": "Piekļuve kamerai nav atļauta",
     "notFound": "Aktīvs nav atrasts",
-    "openAsset": "Atvērt aktīvu"
+    "openAsset": "Atvērt aktīvu",
+    "cameraLabel": "Camera {n}",
+    "cameraError": "Could not start camera",
+    "permDeniedTitle": "Camera access denied",
+    "permDeniedHint": "Please allow camera access in browser settings and reload the page.",
+    "reload": "Reload",
+    "hint": "Point the camera at an INOid QR code"
   },
   "docs": {
     "title": "Dokumentācija",

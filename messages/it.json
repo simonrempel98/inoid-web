@@ -441,7 +441,7 @@
     }
   },
   "organisation": {
-    "title": "Sedi & Struttura",
+    "title": "Organizzazione",
     "subtitle": "Gestisci la struttura operativa",
     "newLocation": "+ Sede",
     "newHall": "+ Capannone",
@@ -591,7 +591,13 @@
     "scanning": "Scansione in corso…",
     "noPermission": "Accesso alla fotocamera non consentito",
     "notFound": "Nessun asset trovato",
-    "openAsset": "Apri asset"
+    "openAsset": "Apri asset",
+    "cameraLabel": "Fotocamera {n}",
+    "cameraError": "Impossibile avviare la fotocamera",
+    "permDeniedTitle": "Accesso fotocamera negato",
+    "permDeniedHint": "Consenti l'accesso alla fotocamera nelle impostazioni del browser e ricarica la pagina.",
+    "reload": "Ricarica",
+    "hint": "Punta la fotocamera su un codice QR INOid"
   },
   "docs": {
     "title": "Documentazione",

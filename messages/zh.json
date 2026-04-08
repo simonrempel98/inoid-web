@@ -441,7 +441,7 @@
     }
   },
   "organisation": {
-    "title": "地点与组织结构",
+    "title": "Organisation",
     "subtitle": "管理运营结构",
     "newLocation": "+ 地点",
     "newHall": "+ 厂房",
@@ -591,7 +591,13 @@
     "scanning": "扫描中…",
     "noPermission": "相机访问未被允许",
     "notFound": "未找到资产",
-    "openAsset": "打开资产"
+    "openAsset": "打开资产",
+    "cameraLabel": "Camera {n}",
+    "cameraError": "Could not start camera",
+    "permDeniedTitle": "Camera access denied",
+    "permDeniedHint": "Please allow camera access in browser settings and reload the page.",
+    "reload": "Reload",
+    "hint": "Point the camera at an INOid QR code"
   },
   "docs": {
     "title": "文档",

@@ -441,7 +441,7 @@
     }
   },
   "organisation": {
-    "title": "Steder & Struktur",
+    "title": "Organisation",
     "subtitle": "Administrer driftsstruktur",
     "newLocation": "+ Sted",
     "newHall": "+ Hal",
@@ -591,7 +591,13 @@
     "scanning": "Scanner…",
     "noPermission": "Kameraadgang ikke tilladt",
     "notFound": "Ingen aktiv fundet",
-    "openAsset": "Åbn aktiv"
+    "openAsset": "Åbn aktiv",
+    "cameraLabel": "Camera {n}",
+    "cameraError": "Could not start camera",
+    "permDeniedTitle": "Camera access denied",
+    "permDeniedHint": "Please allow camera access in browser settings and reload the page.",
+    "reload": "Reload",
+    "hint": "Point the camera at an INOid QR code"
   },
   "docs": {
     "title": "Dokumentation",

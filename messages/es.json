@@ -441,7 +441,7 @@
     }
   },
   "organisation": {
-    "title": "Ubicaciones & Estructura",
+    "title": "Organización",
     "subtitle": "Gestionar la estructura operativa",
     "newLocation": "+ Ubicación",
     "newHall": "+ Nave",
@@ -591,7 +591,13 @@
     "scanning": "Escaneando…",
     "noPermission": "Acceso a la cámara no permitido",
     "notFound": "No se encontró ningún activo",
-    "openAsset": "Abrir activo"
+    "openAsset": "Abrir activo",
+    "cameraLabel": "Cámara {n}",
+    "cameraError": "No se pudo iniciar la cámara",
+    "permDeniedTitle": "Acceso a la cámara denegado",
+    "permDeniedHint": "Por favor, permite el acceso a la cámara en la configuración del navegador y recarga la página.",
+    "reload": "Recargar",
+    "hint": "Apunta la cámara a un código QR de INOid"
   },
   "docs": {
     "title": "Documentación",

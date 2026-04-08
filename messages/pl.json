@@ -441,7 +441,7 @@
     }
   },
   "organisation": {
-    "title": "Lokalizacje & Struktura",
+    "title": "Organizacja",
     "subtitle": "Zarządzanie strukturą operacyjną",
     "newLocation": "+ Lokalizacja",
     "newHall": "+ Hala",
@@ -591,7 +591,13 @@
     "scanning": "Skanowanie…",
     "noPermission": "Brak dostępu do kamery",
     "notFound": "Nie znaleziono aktywa",
-    "openAsset": "Otwórz aktywo"
+    "openAsset": "Otwórz aktywo",
+    "cameraLabel": "Kamera {n}",
+    "cameraError": "Nie można uruchomić kamery",
+    "permDeniedTitle": "Dostęp do kamery odrzucony",
+    "permDeniedHint": "Zezwól na dostęp do kamery w ustawieniach przeglądarki i odśwież stronę.",
+    "reload": "Odśwież",
+    "hint": "Skieruj kamerę na kod QR INOid"
   },
   "docs": {
     "title": "Dokumentacja",

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import jsQR from 'jsqr'
 import {
   SwitchCamera, ZoomIn, ZoomOut, Flashlight, FlashlightOff, X, CheckCircle2
@@ -19,6 +20,7 @@ type Capabilities = {
 }
 
 export function QrScanner() {
+  const t = useTranslations()
   const router = useRouter()
   const videoRef = useRef<HTMLVideoElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -48,7 +50,7 @@ export function QrScanner() {
         .filter(d => d.kind === 'videoinput')
         .map((d, i) => ({
           deviceId: d.deviceId,
-          label: d.label || `Kamera ${i + 1}`,
+          label: d.label || t('scan.cameraLabel', { n: i + 1 }),
           facingMode: d.label.toLowerCase().includes('front') || d.label.toLowerCase().includes('vorder') ? 'user' : 'environment',
         }))
       setCameras(videoDevices)
@@ -111,7 +113,7 @@ export function QrScanner() {
       setScanning(true)
       setError(null)
     } catch (e: any) {
-      setError(`Kamera konnte nicht gestartet werden: ${e.message}`)
+      setError(`${t('scan.cameraError')}: ${e.message}`)
     }
   }, [])
 
@@ -253,13 +255,13 @@ export function QrScanner() {
     return (
       <div style={{ padding: '40px 20px', textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
         <div style={{ fontSize: 40, marginBottom: 16 }}>📷</div>
-        <h2 style={{ fontSize: 18, fontWeight: 700, color: '#000', margin: '0 0 8px' }}>Kamerazugriff verweigert</h2>
+        <h2 style={{ fontSize: 18, fontWeight: 700, color: '#000', margin: '0 0 8px' }}>{t('scan.permDeniedTitle')}</h2>
         <p style={{ fontSize: 14, color: '#666', margin: '0 0 20px' }}>
-          Bitte erlaube den Kamerazugriff in den Browser-Einstellungen und lade die Seite neu.
+          {t('scan.permDeniedHint')}
         </p>
         <button onClick={() => window.location.reload()}
           style={{ background: '#003366', color: 'white', border: 'none', borderRadius: 50, padding: '12px 28px', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
-          Neu laden
+          {t('scan.reload')}
         </button>
       </div>
     )
@@ -427,7 +429,7 @@ export function QrScanner() {
 
         {/* Hinweis */}
         <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11, textAlign: 'center', margin: 0 }}>
-          Richte die Kamera auf einen INOid QR-Code
+          {t('scan.hint')}
         </p>
       </div>
 

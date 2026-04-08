@@ -441,7 +441,7 @@
     }
   },
   "organisation": {
-    "title": "Miesta & Štruktúra",
+    "title": "Organisation",
     "subtitle": "Spravovať prevádzkovú štruktúru",
     "newLocation": "+ Miesto",
     "newHall": "+ Hala",
@@ -591,7 +591,13 @@
     "scanning": "Skenovanie…",
     "noPermission": "Prístup ku kamere nie je povolený",
     "notFound": "Žiadne aktívum nenájdené",
-    "openAsset": "Otvoriť aktívum"
+    "openAsset": "Otvoriť aktívum",
+    "cameraLabel": "Camera {n}",
+    "cameraError": "Could not start camera",
+    "permDeniedTitle": "Camera access denied",
+    "permDeniedHint": "Please allow camera access in browser settings and reload the page.",
+    "reload": "Reload",
+    "hint": "Point the camera at an INOid QR code"
   },
   "docs": {
     "title": "Dokumentácia",

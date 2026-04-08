@@ -441,7 +441,7 @@
     }
   },
   "organisation": {
-    "title": "拠点・組織構造",
+    "title": "Organisation",
     "subtitle": "運営構造を管理",
     "newLocation": "+ 拠点",
     "newHall": "+ ホール",
@@ -591,7 +591,13 @@
     "scanning": "スキャン中…",
     "noPermission": "カメラのアクセスが許可されていません",
     "notFound": "資産が見つかりません",
-    "openAsset": "資産を開く"
+    "openAsset": "資産を開く",
+    "cameraLabel": "Camera {n}",
+    "cameraError": "Could not start camera",
+    "permDeniedTitle": "Camera access denied",
+    "permDeniedHint": "Please allow camera access in browser settings and reload the page.",
+    "reload": "Reload",
+    "hint": "Point the camera at an INOid QR code"
   },
   "docs": {
     "title": "ドキュメント",

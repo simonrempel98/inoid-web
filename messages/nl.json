@@ -441,7 +441,7 @@
     }
   },
   "organisation": {
-    "title": "Locaties & Structuur",
+    "title": "Organisatie",
     "subtitle": "Operationele structuur beheren",
     "newLocation": "+ Locatie",
     "newHall": "+ Hal",
@@ -591,7 +591,13 @@
     "scanning": "Scannen…",
     "noPermission": "Cameratoegang niet toegestaan",
     "notFound": "Geen activum gevonden",
-    "openAsset": "Activum openen"
+    "openAsset": "Activum openen",
+    "cameraLabel": "Camera {n}",
+    "cameraError": "Kan camera niet starten",
+    "permDeniedTitle": "Cameratoegang geweigerd",
+    "permDeniedHint": "Sta cameratoegang toe in de browserinstellingen en herlaad de pagina.",
+    "reload": "Herladen",
+    "hint": "Richt de camera op een INOid QR-code"
   },
   "docs": {
     "title": "Documentatie",

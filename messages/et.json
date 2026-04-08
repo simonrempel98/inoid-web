@@ -441,7 +441,7 @@
     }
   },
   "organisation": {
-    "title": "Asukohad & Struktuur",
+    "title": "Organisation",
     "subtitle": "Halda tegevusstruktuuri",
     "newLocation": "+ Asukoht",
     "newHall": "+ Hall",
@@ -591,7 +591,13 @@
     "scanning": "Skannimine…",
     "noPermission": "Kaamera juurdepääs pole lubatud",
     "notFound": "Vara ei leitud",
-    "openAsset": "Ava vara"
+    "openAsset": "Ava vara",
+    "cameraLabel": "Camera {n}",
+    "cameraError": "Could not start camera",
+    "permDeniedTitle": "Camera access denied",
+    "permDeniedHint": "Please allow camera access in browser settings and reload the page.",
+    "reload": "Reload",
+    "hint": "Point the camera at an INOid QR code"
   },
   "docs": {
     "title": "Dokumentatsioon",

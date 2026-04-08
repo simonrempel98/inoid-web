@@ -441,7 +441,7 @@
     }
   },
   "organisation": {
-    "title": "Konumlar & Yapı",
+    "title": "Organizasyon",
     "subtitle": "Operasyonel yapıyı yönet",
     "newLocation": "+ Konum",
     "newHall": "+ Salon",
@@ -591,7 +591,13 @@
     "scanning": "Taranıyor…",
     "noPermission": "Kamera erişimine izin verilmedi",
     "notFound": "Varlık bulunamadı",
-    "openAsset": "Varlığı aç"
+    "openAsset": "Varlığı aç",
+    "cameraLabel": "Kamera {n}",
+    "cameraError": "Kamera başlatılamadı",
+    "permDeniedTitle": "Kamera erişimi reddedildi",
+    "permDeniedHint": "Tarayıcı ayarlarından kamera erişimine izin verin ve sayfayı yenileyin.",
+    "reload": "Yenile",
+    "hint": "Kamerayı bir INOid QR koduna yöneltin"
   },
   "docs": {
     "title": "Belgeler",
