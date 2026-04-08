@@ -139,7 +139,7 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
               <div style={{ borderTop: '1px solid #f4f6f9' }}>
                 {monthEvents.map((event, i) => {
                   const et = getEventType(event.event_type)
-                  const date = new Date(event.event_date + 'T00:00:00')
+                  const date = new Date(event.event_date)
                   const isEventOpen = !!openEvents[event.id]
                   const attachments = Array.isArray(event.attachments) ? event.attachments as string[] : []
                   const photos = attachments.filter(a => a.includes('|photo|'))
