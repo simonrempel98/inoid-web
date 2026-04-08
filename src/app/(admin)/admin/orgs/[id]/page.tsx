@@ -1,0 +1,127 @@
+import { createAdminClient } from '@/lib/supabase/admin'
+import Link from 'next/link'
+import { notFound } from 'next/navigation'
+import { OrgEditForm } from './org-edit-form'
+
+export default async function AdminOrgDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const supabase = createAdminClient()
+
+  const [{ data: org }, { data: members }, { data: assets }] = await Promise.all([
+    supabase
+      .from('organizations')
+      .select('id, name, slug, plan, asset_limit, user_limit, is_active, contact_email, notes, created_at')
+      .eq('id', id)
+      .single(),
+    supabase
+      .from('organization_members')
+      .select('id, email, user_id, created_at, roles(name)')
+      .eq('organization_id', id)
+      .order('created_at'),
+    supabase
+      .from('assets')
+      .select('id, name, status, created_at')
+      .eq('organization_id', id)
+      .is('deleted_at', null)
+      .order('created_at', { ascending: false })
+      .limit(10),
+  ])
+
+  if (!org) notFound()
+
+  const { data: userProfiles } = await supabase
+    .from('profiles')
+    .select('id, email, full_name, is_active, must_change_password, last_seen_at')
+    .eq('organization_id', id)
+
+  const profileMap: Record<string, { full_name: string | null; is_active: boolean | null; must_change_password: boolean | null; last_seen_at: string | null }> = {}
+  for (const p of userProfiles ?? []) {
+    profileMap[p.id] = { full_name: p.full_name, is_active: p.is_active, must_change_password: p.must_change_password, last_seen_at: p.last_seen_at }
+  }
+
+  return (
+    <div>
+      {/* Header */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 28 }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
+            <Link href="/admin/orgs" style={{ color: '#6b7280', fontSize: 13, textDecoration: 'none' }}>
+              ← Organisationen
+            </Link>
+          </div>
+          <h1 style={{ fontSize: 22, fontWeight: 900, color: 'white', margin: '0 0 4px' }}>{org.name}</h1>
+          <p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>Slug: {org.slug}</p>
+        </div>
+        <a href={`/admin/view/${id}`} style={{
+          background: '#374151', color: '#d1d5db',
+          padding: '10px 18px', borderRadius: 50, textDecoration: 'none',
+          fontSize: 13, fontWeight: 600, border: '1px solid #4b5563',
+        }}>
+          Als Kunde ansehen →
+        </a>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+        {/* Org bearbeiten */}
+        <div>
+          <OrgEditForm org={org} />
+        </div>
+
+        {/* Nutzer */}
+        <div>
+          <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden', marginBottom: 20 }}>
+            <div style={{ padding: '16px 20px', borderBottom: '1px solid #1f2937', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h2 style={{ fontSize: 14, fontWeight: 700, color: 'white', margin: 0 }}>Nutzer ({(members ?? []).length})</h2>
+              <Link href={`/admin/orgs/${id}/nutzer-anlegen`} style={{ fontSize: 12, color: '#0099cc', textDecoration: 'none' }}>+ Anlegen</Link>
+            </div>
+            {(members ?? []).map(m => {
+              const p = m.user_id ? profileMap[m.user_id] : null
+              return (
+                <div key={m.id} style={{ padding: '12px 20px', borderBottom: '1px solid #1f2937', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <div>
+                    <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'white' }}>{p?.full_name ?? m.email}</p>
+                    <p style={{ margin: 0, fontSize: 11, color: '#6b7280' }}>{m.email}</p>
+                    {p?.must_change_password && (
+                      <span style={{ fontSize: 10, background: '#451a03', color: '#f59e0b', padding: '1px 6px', borderRadius: 4, fontWeight: 700 }}>
+                        PW-Änderung ausstehend
+                      </span>
+                    )}
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
+                    <span style={{ fontSize: 10, color: '#6b7280' }}>
+                      {(m.roles as { name?: string } | null)?.name ?? '–'}
+                    </span>
+                    {m.user_id && (
+                      <Link href={`/admin/users/${m.user_id}`} style={{ fontSize: 11, color: '#0099cc', textDecoration: 'none' }}>
+                        Verwalten
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+            {(members ?? []).length === 0 && (
+              <p style={{ padding: '20px', color: '#6b7280', fontSize: 13, textAlign: 'center', margin: 0 }}>Keine Nutzer</p>
+            )}
+          </div>
+
+          {/* Assets */}
+          <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden' }}>
+            <div style={{ padding: '16px 20px', borderBottom: '1px solid #1f2937' }}>
+              <h2 style={{ fontSize: 14, fontWeight: 700, color: 'white', margin: 0 }}>Letzte Assets ({(assets ?? []).length})</h2>
+            </div>
+            {(assets ?? []).map(a => (
+              <div key={a.id} style={{ padding: '10px 20px', borderBottom: '1px solid #1f2937', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <p style={{ margin: 0, fontSize: 13, color: 'white' }}>{a.name}</p>
+                <span style={{ fontSize: 11, color: '#6b7280' }}>{a.status}</span>
+              </div>
+            ))}
+            {(assets ?? []).length === 0 && (
+              <p style={{ padding: '20px', color: '#6b7280', fontSize: 13, textAlign: 'center', margin: 0 }}>Keine Assets</p>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
