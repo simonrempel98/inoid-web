@@ -28,7 +28,7 @@ function LoginForm() {
     setError(null)
 
     const supabase = createClient()
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email, password,
       options: { captchaToken },
     })
@@ -38,6 +38,21 @@ function LoginForm() {
       setCaptchaToken(null)
       setLoading(false)
       return
+    }
+
+    // Prüfen ob Passwort-Änderung erzwungen wird
+    if (data.user) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('must_change_password')
+        .eq('id', data.user.id)
+        .single()
+
+      if (profile?.must_change_password) {
+        router.push('/passwort-aendern')
+        router.refresh()
+        return
+      }
     }
 
     router.push(redirectTo)
@@ -112,17 +127,12 @@ function LoginForm() {
         </button>
       </form>
 
-      <div style={{ marginTop: 12 }}>
-        <Link href="/register" style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          padding: '14px 0', borderRadius: 50,
-          border: '2px solid #003366', color: '#003366',
-          fontWeight: 700, fontSize: 16, textDecoration: 'none',
-          fontFamily: 'Arial, sans-serif',
-        }}>
-          {t('register')}
-        </Link>
-      </div>
+      <p style={{ textAlign: 'center', marginTop: 20, fontSize: 12, color: '#96aed2' }}>
+        Noch kein Account?{' '}
+        <a href="mailto:srl@inometa.de" style={{ color: '#0099cc', textDecoration: 'none', fontWeight: 600 }}>
+          srl@inometa.de
+        </a>
+      </p>
 
     </div>
   )
