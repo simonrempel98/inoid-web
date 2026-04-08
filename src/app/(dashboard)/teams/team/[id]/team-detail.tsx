@@ -3,13 +3,14 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { updateMember, removeMember, addMemberWithPassword, setMemberRole } from '../../actions'
 import {
   Users, MapPin, Pencil, X, Check, Trash2,
   UserPlus, KeyRound, Loader, Shield
 } from 'lucide-react'
-import { ROLE_LABELS, ROLE_COLORS, ROLE_BG, type AppRole } from '@/lib/permissions'
+import { ROLE_COLORS, ROLE_BG, type AppRole } from '@/lib/permissions'
 
 type Team = {
   id: string; name: string
@@ -30,6 +31,8 @@ type Location = { id: string; name: string }
 type Hall     = { id: string; name: string; location_id: string; locations: { name: string } | null }
 type Area     = { id: string; name: string; hall_id: string; halls: { name: string } | null }
 type Role     = { id: string; name: string }
+
+const APP_ROLES: AppRole[] = ['admin', 'techniker', 'leser']
 
 function encodeRef(team: Team) {
   if (team.area_id) return `area:${team.area_id}`
@@ -58,21 +61,26 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
   organizationId: string
   currentUserRole: AppRole
 }) {
+  const t = useTranslations('teams')
+  const tRoles = useTranslations('roles')
   const isAdmin = currentUserRole === 'admin'
   const router = useRouter()
 
-  // Team bearbeiten
+  const roleLabels: Record<AppRole, string> = {
+    admin: tRoles('admin.label'),
+    techniker: tRoles('techniker.label'),
+    leser: tRoles('leser.label'),
+  }
+
   const [editingTeam, setEditingTeam] = useState(false)
   const [teamName, setTeamName] = useState(team.name)
   const [orgRef, setOrgRef] = useState(encodeRef(team))
   const [savingTeam, setSavingTeam] = useState(false)
 
-  // Mitglied bearbeiten
   const [editingMemberId, setEditingMemberId] = useState<string | null>(null)
   const [editForm, setEditForm] = useState({ first_name: '', last_name: '', app_role: 'leser' as AppRole })
   const [savingMember, setSavingMember] = useState(false)
 
-  // Mitglied einladen
   const [showInvite, setShowInvite] = useState(false)
   const [inviteFirst, setInviteFirst] = useState('')
   const [inviteLast, setInviteLast] = useState('')
@@ -121,7 +129,7 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
   }
 
   async function handleRemove(memberId: string, name: string) {
-    if (!confirm(`${name} aus dem Team entfernen?`)) return
+    if (!confirm(t('removeConfirm', { name }))) return
     await removeMember(memberId)
     router.refresh()
   }
@@ -177,22 +185,22 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
             <input value={teamName} onChange={e => setTeamName(e.target.value)} autoFocus
               style={{ fontSize: 22, fontWeight: 700, color: 'white', background: 'transparent', border: 'none', borderBottom: '2px solid rgba(255,255,255,0.4)', outline: 'none', width: '100%', marginBottom: 12, fontFamily: 'Arial, sans-serif' }} />
             <div style={{ marginBottom: 12 }}>
-              <label style={{ display: 'block', fontSize: 11, color: 'rgba(255,255,255,0.55)', marginBottom: 5, fontWeight: 700 }}>STANDORT-ZUORDNUNG</label>
+              <label style={{ display: 'block', fontSize: 11, color: 'rgba(255,255,255,0.55)', marginBottom: 5, fontWeight: 700 }}>{t('locationLabel')}</label>
               <select value={orgRef} onChange={e => setOrgRef(e.target.value)}
                 style={{ background: 'rgba(255,255,255,0.12)', color: 'white', border: '1px solid rgba(255,255,255,0.25)', borderRadius: 8, padding: '7px 10px', fontSize: 13, outline: 'none', width: '100%' }}>
-                <option value="">– Keine Zuordnung –</option>
-                {locations.length > 0 && <optgroup label="Standorte">{locations.map(l => <option key={l.id} value={`location:${l.id}`}>{l.name}</option>)}</optgroup>}
-                {halls.length > 0 && <optgroup label="Hallen">{halls.map(h => <option key={h.id} value={`hall:${h.id}`}>{h.locations?.name ? `${h.locations.name} › ` : ''}{h.name}</option>)}</optgroup>}
-                {areas.length > 0 && <optgroup label="Bereiche">{areas.map(a => <option key={a.id} value={`area:${a.id}`}>{a.halls?.name ? `${a.halls.name} › ` : ''}{a.name}</option>)}</optgroup>}
+                <option value="">{t('locationNone')}</option>
+                {locations.length > 0 && <optgroup label={t('locationsGroup')}>{locations.map(l => <option key={l.id} value={`location:${l.id}`}>{l.name}</option>)}</optgroup>}
+                {halls.length > 0 && <optgroup label={t('hallsGroup')}>{halls.map(h => <option key={h.id} value={`hall:${h.id}`}>{h.locations?.name ? `${h.locations.name} › ` : ''}{h.name}</option>)}</optgroup>}
+                {areas.length > 0 && <optgroup label={t('areasGroup')}>{areas.map(a => <option key={a.id} value={`area:${a.id}`}>{a.halls?.name ? `${a.halls.name} › ` : ''}{a.name}</option>)}</optgroup>}
               </select>
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
               <button onClick={saveTeam} disabled={savingTeam} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'white', color: '#003366', border: 'none', borderRadius: 20, padding: '8px 18px', fontSize: 13, cursor: 'pointer', fontWeight: 700 }}>
-                <Check size={13} /> Speichern
+                <Check size={13} /> {t('save')}
               </button>
               <button onClick={() => { setEditingTeam(false); setTeamName(team.name); setOrgRef(encodeRef(team)) }}
                 style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'transparent', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: 20, padding: '8px 18px', fontSize: 13, cursor: 'pointer' }}>
-                <X size={13} /> Abbrechen
+                <X size={13} /> {t('cancel')}
               </button>
             </div>
           </div>
@@ -204,7 +212,7 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.12)', borderRadius: 20, padding: '5px 12px' }}>
                   <Users size={13} color="rgba(255,255,255,0.7)" />
-                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>{accepted.length} Mitglied{accepted.length !== 1 ? 'er' : ''}</span>
+                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>{t('memberCount', { count: accepted.length })}</span>
                 </div>
                 {label && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.12)', borderRadius: 20, padding: '5px 12px' }}>
@@ -216,7 +224,7 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
             </div>
             <button onClick={() => setEditingTeam(true)}
               style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 10, padding: '8px 10px', cursor: 'pointer', color: 'white', display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}>
-              <Pencil size={14} /> Bearbeiten
+              <Pencil size={14} /> {t('edit')}
             </button>
           </div>
         )}
@@ -224,20 +232,18 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
 
       <div style={{ padding: '20px 16px 0' }}>
 
-        {/* ── Mitglied hinzufügen Button (nur Admin) ─────────────── */}
         {isAdmin && !showInvite && (
           <button onClick={() => setShowInvite(true)}
             style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: '#003366', color: 'white', border: 'none', borderRadius: 50, padding: '13px', fontSize: 14, fontWeight: 700, cursor: 'pointer', marginBottom: 20, fontFamily: 'Arial, sans-serif' }}>
-            <UserPlus size={15} /> Mitglied anlegen
+            <UserPlus size={15} /> {t('addMember')}
           </button>
         )}
 
-        {/* ── Einlade-Formular ───────────────────────────────────── */}
         {showInvite && (
           <div style={{ background: 'white', borderRadius: 14, border: '1px solid #0099cc', overflow: 'hidden', marginBottom: 20 }}>
             <div style={{ padding: '12px 16px', background: '#f0f8ff', borderBottom: '1px solid #c8d4e8', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 13, fontWeight: 700, color: '#003366', display: 'flex', alignItems: 'center', gap: 6 }}>
-                <UserPlus size={14} /> Neues Mitglied anlegen
+                <UserPlus size={14} /> {t('newMemberTitle')}
               </span>
               <button onClick={() => { setShowInvite(false); setInviteError(null) }}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#96aed2', display: 'flex' }}>
@@ -246,12 +252,12 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0 }}>
               <div style={{ padding: '11px 14px', borderRight: '1px solid #e8eef6' }}>
-                <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>VORNAME</label>
+                <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>{t('colFirstName')}</label>
                 <input value={inviteFirst} onChange={e => setInviteFirst(e.target.value)} placeholder="Max"
                   style={{ ...inputStyle, fontSize: 14 }} />
               </div>
               <div style={{ padding: '11px 14px' }}>
-                <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>NACHNAME</label>
+                <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>{t('colLastName')}</label>
                 <input value={inviteLast} onChange={e => setInviteLast(e.target.value)} placeholder="Mustermann"
                   style={{ ...inputStyle, fontSize: 14 }} />
               </div>
@@ -259,24 +265,24 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
             <div style={{ height: 1, background: '#e8eef6' }} />
             <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 0 }}>
               <div style={{ padding: '11px 14px', borderRight: '1px solid #e8eef6' }}>
-                <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>E-MAIL *</label>
+                <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>{t('colEmailRequired')}</label>
                 <input type="email" value={inviteEmail} onChange={e => setInviteEmail(e.target.value)}
                   onKeyDown={e => e.key === 'Enter' && handleInvite()}
                   placeholder="max@firma.de"
                   style={{ ...inputStyle, fontSize: 14 }} />
               </div>
               <div style={{ padding: '11px 14px' }}>
-                <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>ROLLE</label>
+                <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>{t('colRoleLabel')}</label>
                 <select value={inviteAppRole} onChange={e => setInviteAppRole(e.target.value as AppRole)} style={{ ...selectStyle, fontSize: 14 }}>
-                  {(Object.keys(ROLE_LABELS) as AppRole[]).map(r => (
-                    <option key={r} value={r}>{ROLE_LABELS[r]}</option>
+                  {APP_ROLES.map(r => (
+                    <option key={r} value={r}>{roleLabels[r]}</option>
                   ))}
                 </select>
               </div>
             </div>
             <div style={{ height: 1, background: '#e8eef6' }} />
             <div style={{ padding: '11px 14px' }}>
-              <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>TEMPORÄRES PASSWORT *</label>
+              <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>{t('tempPassword')}</label>
               <input value={invitePassword} onChange={e => setInvitePassword(e.target.value)}
                 placeholder="z.B. Firma2024!"
                 style={{ ...inputStyle, fontSize: 14 }} />
@@ -286,7 +292,7 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
               <button onClick={handleInvite} disabled={inviting || !inviteEmail.trim() || !invitePassword}
                 style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#003366', color: 'white', border: 'none', borderRadius: 8, padding: '9px 18px', fontSize: 13, cursor: 'pointer', fontWeight: 700, opacity: inviting || !inviteEmail.trim() || !invitePassword ? 0.5 : 1 }}>
                 {inviting ? <Loader size={13} /> : <UserPlus size={13} />}
-                {inviting ? 'Wird angelegt…' : 'Benutzer anlegen'}
+                {inviting ? t('creating2') : t('createUser')}
               </button>
             </div>
           </div>
@@ -298,11 +304,10 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
           </div>
         )}
 
-        {/* ── Aktive Mitglieder ──────────────────────────────────── */}
         {accepted.length > 0 && (
           <div style={{ marginBottom: 20 }}>
             <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 8px 2px' }}>
-              Mitglieder · {accepted.length}
+              {t('membersSection', { count: accepted.length })}
             </p>
             <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
               {accepted.map((m, i) => (
@@ -312,30 +317,30 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
                     <div style={{ padding: '12px 16px' }}>
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 10 }}>
                         <div>
-                          <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>VORNAME</label>
+                          <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>{t('colFirstName')}</label>
                           <input value={editForm.first_name} onChange={e => setEditForm(f => ({ ...f, first_name: e.target.value }))} style={inputStyle} />
                         </div>
                         <div>
-                          <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>NACHNAME</label>
+                          <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>{t('colLastName')}</label>
                           <input value={editForm.last_name} onChange={e => setEditForm(f => ({ ...f, last_name: e.target.value }))} style={inputStyle} />
                         </div>
                       </div>
                       <div style={{ marginBottom: 10 }}>
-                        <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>ROLLE</label>
+                        <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>{t('colRoleLabel')}</label>
                         <select value={editForm.app_role} onChange={e => setEditForm(f => ({ ...f, app_role: e.target.value as AppRole }))} style={selectStyle}>
-                          {(Object.keys(ROLE_LABELS) as AppRole[]).map(r => (
-                            <option key={r} value={r}>{ROLE_LABELS[r]}</option>
+                          {APP_ROLES.map(r => (
+                            <option key={r} value={r}>{roleLabels[r]}</option>
                           ))}
                         </select>
                       </div>
                       <div style={{ display: 'flex', gap: 8 }}>
                         <button onClick={saveMember} disabled={savingMember}
                           style={{ display: 'flex', alignItems: 'center', gap: 5, background: '#003366', color: 'white', border: 'none', borderRadius: 7, padding: '7px 14px', fontSize: 12, cursor: 'pointer', fontWeight: 700 }}>
-                          <Check size={12} /> Speichern
+                          <Check size={12} /> {t('save')}
                         </button>
                         <button onClick={() => setEditingMemberId(null)}
                           style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'transparent', color: '#666', border: '1px solid #c8d4e8', borderRadius: 7, padding: '7px 14px', fontSize: 12, cursor: 'pointer' }}>
-                          <X size={12} /> Abbrechen
+                          <X size={12} /> {t('cancel')}
                         </button>
                       </div>
                     </div>
@@ -352,16 +357,16 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
                           color: ROLE_COLORS[m.app_role], background: ROLE_BG[m.app_role],
                           borderRadius: 20, padding: '2px 8px', marginTop: 3
                         }}>
-                          {ROLE_LABELS[m.app_role]}
+                          {roleLabels[m.app_role]}
                         </span>
                       </div>
                       {isAdmin && (
                         <div style={{ display: 'flex', gap: 4 }}>
-                          <button onClick={() => startEditMember(m)} title="Bearbeiten"
+                          <button onClick={() => startEditMember(m)}
                             style={{ background: '#f5f8fc', border: '1px solid #c8d4e8', borderRadius: 7, padding: '6px 8px', cursor: 'pointer', color: '#003366', display: 'flex' }}>
                             <Pencil size={14} />
                           </button>
-                          <button onClick={() => handleRemove(m.id, displayName(m))} title="Entfernen"
+                          <button onClick={() => handleRemove(m.id, displayName(m))}
                             style={{ background: '#fff5f5', border: '1px solid #fcc', borderRadius: 7, padding: '6px 8px', cursor: 'pointer', color: '#E74C3C', display: 'flex' }}>
                             <Trash2 size={14} />
                           </button>
@@ -375,20 +380,18 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
           </div>
         )}
 
-
         {members.length === 0 && (
           <div style={{ textAlign: 'center', padding: '32px 16px', background: 'white', borderRadius: 14, border: '1px solid #c8d4e8' }}>
             <Users size={32} color="#c8d4e8" style={{ marginBottom: 10 }} />
-            <p style={{ color: '#aaa', fontSize: 14, margin: '0 0 4px', fontWeight: 600 }}>Noch keine Mitglieder</p>
-            <p style={{ color: '#c0ccda', fontSize: 12, margin: 0 }}>Lade dein erstes Teammitglied ein.</p>
+            <p style={{ color: '#aaa', fontSize: 14, margin: '0 0 4px', fontWeight: 600 }}>{t('noMembers')}</p>
+            <p style={{ color: '#c0ccda', fontSize: 12, margin: 0 }}>{t('inviteFirst')}</p>
           </div>
         )}
 
-        {/* ── Rollen & Rechte Link ──────────────────────────────── */}
         <Link href="/settings/roles" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '14px 16px', textDecoration: 'none', color: '#000', marginTop: 8 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <KeyRound size={16} color="#003366" />
-            <span style={{ fontSize: 15, fontWeight: 600 }}>Rollen & Rechte</span>
+            <span style={{ fontSize: 15, fontWeight: 600 }}>{t('rolesAndPermissions')}</span>
           </div>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#96aed2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
         </Link>

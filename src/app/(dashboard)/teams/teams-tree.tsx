@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { Users, MapPin, ChevronRight } from 'lucide-react'
 
 type Team = {
@@ -22,6 +23,8 @@ function orgLabel(team: Team): string | null {
 }
 
 export function TeamsTree({ teams }: { teams: Team[] }) {
+  const t = useTranslations('teams')
+
   if (teams.length === 0) {
     return (
       <div style={{
@@ -29,8 +32,8 @@ export function TeamsTree({ teams }: { teams: Team[] }) {
         padding: '48px 24px', textAlign: 'center',
       }}>
         <Users size={32} color="#c8d4e8" style={{ marginBottom: 12 }} />
-        <p style={{ fontSize: 15, fontWeight: 600, color: '#666', margin: '0 0 6px' }}>Noch keine Teams angelegt</p>
-        <p style={{ fontSize: 13, color: '#aaa', margin: 0 }}>Erstelle dein erstes Team über den Button oben rechts.</p>
+        <p style={{ fontSize: 15, fontWeight: 600, color: '#666', margin: '0 0 6px' }}>{t('noTeams')}</p>
+        <p style={{ fontSize: 13, color: '#aaa', margin: 0 }}>{t('createFirst')}</p>
       </div>
     )
   }

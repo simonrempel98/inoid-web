@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 import { createTeamWithMembers } from './actions'
 import { Plus, Trash2, Users, MapPin, Check, AlertCircle, Loader, ChevronRight, ChevronDown, X } from 'lucide-react'
 
@@ -17,12 +18,7 @@ const emptyRow = (defaultRoleId = ''): MemberRow => ({
   first_name: '', last_name: '', email: '', role_id: defaultRoleId, password: '',
 })
 
-function getOrgRefLabel(
-  orgRef: string,
-  locations: Location[],
-  halls: Hall[],
-  areas: Area[],
-): string {
+function getOrgRefLabel(orgRef: string, locations: Location[], halls: Hall[], areas: Area[]): string {
   if (!orgRef) return ''
   const [type, id] = orgRef.split(':')
   if (type === 'location') return locations.find(l => l.id === id)?.name ?? ''
@@ -43,12 +39,13 @@ function getOrgRefLabel(
   return ''
 }
 
-function OrgTreePicker({ locations, halls, areas, value, onChange }: {
+function OrgTreePicker({ locations, halls, areas, value, onChange, noDataLabel }: {
   locations: Location[]
   halls: Hall[]
   areas: Area[]
   value: string
   onChange: (v: string) => void
+  noDataLabel: string
 }) {
   const [expanded, setExpanded] = useState<Set<string>>(() => {
     const s = new Set<string>()
@@ -84,13 +81,10 @@ function OrgTreePicker({ locations, halls, areas, value, onChange }: {
 
   const nodeStyle = (ref: string): React.CSSProperties => ({
     display: 'flex', alignItems: 'center', gap: 7,
-    padding: '7px 10px',
-    borderRadius: 8,
-    cursor: 'pointer',
+    padding: '7px 10px', borderRadius: 8, cursor: 'pointer',
     background: value === ref ? '#e6f0ff' : 'transparent',
     color: value === ref ? '#003366' : '#222',
-    fontWeight: value === ref ? 700 : 400,
-    userSelect: 'none',
+    fontWeight: value === ref ? 700 : 400, userSelect: 'none',
   })
 
   const renderAreas = (hallId: string, depth: number) => {
@@ -142,18 +136,11 @@ function OrgTreePicker({ locations, halls, areas, value, onChange }: {
   }
 
   if (locations.length === 0 && halls.length === 0 && areas.length === 0) {
-    return (
-      <p style={{ fontSize: 13, color: '#96aed2', margin: '4px 0 0', fontStyle: 'italic' }}>
-        Noch keine Standorte oder Bereiche angelegt.
-      </p>
-    )
+    return <p style={{ fontSize: 13, color: '#96aed2', margin: '4px 0 0', fontStyle: 'italic' }}>{noDataLabel}</p>
   }
 
   return (
-    <div style={{
-      border: '1px solid #c8d4e8', borderRadius: 10, background: '#f8fafd',
-      maxHeight: 220, overflowY: 'auto', padding: '6px',
-    }}>
+    <div style={{ border: '1px solid #c8d4e8', borderRadius: 10, background: '#f8fafd', maxHeight: 220, overflowY: 'auto', padding: '6px' }}>
       {locations.map(l => {
         const ref = `location:${l.id}`
         const key = `loc-${l.id}`
@@ -184,6 +171,7 @@ function OrgTreePicker({ locations, halls, areas, value, onChange }: {
 export function CreateTeamForm({ locations, halls, areas, roles }: {
   locations: Location[]; halls: Hall[]; areas: Area[]; roles: Role[]
 }) {
+  const t = useTranslations('teams')
   const defaultRoleId = roles[0]?.id ?? ''
 
   const [teamName, setTeamName] = useState('')
@@ -203,7 +191,7 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
   const filledMembers = members.filter(r => r.email.trim() && r.password)
 
   async function handleSubmit() {
-    if (!teamName.trim()) { setFormError('Bitte einen Teamnamen eingeben.'); return }
+    if (!teamName.trim()) { setFormError(t('nameRequired')); return }
     setFormError(null)
     setSubmitting(true)
 
@@ -224,12 +212,11 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
     })
 
     setSubmitting(false)
-
     if (result.error) { setFormError(result.error); return }
     if (result.teamId) { setTeamId(result.teamId); setResults(result.results ?? []) }
   }
 
-  // ── Erfolgsmeldung ──────────────────────────────────────────────
+  // ── Success screen ──────────────────────────────────────────────
   if (results !== null) {
     const ok  = results.filter(r => r.success)
     const err = results.filter(r => !r.success)
@@ -238,17 +225,17 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
         <div style={{ background: '#f0fff4', border: '1px solid #27AE60', borderRadius: 14, padding: '20px', marginBottom: 20 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
             <Check size={20} color="#27AE60" />
-            <h2 style={{ fontSize: 17, fontWeight: 700, color: '#1a5c3a', margin: 0 }}>Team erstellt!</h2>
+            <h2 style={{ fontSize: 17, fontWeight: 700, color: '#1a5c3a', margin: 0 }}>{t('created')}</h2>
           </div>
           <p style={{ fontSize: 14, color: '#2d7a4f', margin: 0 }}>
-            {ok.length > 0 ? `${ok.length} Benutzer${ok.length > 1 ? '' : ''} erfolgreich angelegt.` : 'Team wurde angelegt.'}
+            {ok.length > 0 ? t('membersCreated', { count: ok.length }) : t('teamCreated')}
           </p>
         </div>
 
         {err.length > 0 && (
           <div style={{ background: '#fff5f5', border: '1px solid #E74C3C', borderRadius: 14, padding: '16px', marginBottom: 20 }}>
             <p style={{ fontSize: 13, fontWeight: 700, color: '#E74C3C', margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <AlertCircle size={14} /> Fehler bei {err.length} Mitglied{err.length > 1 ? 'ern' : ''}:
+              <AlertCircle size={14} /> {t('errorsFor', { count: err.length })}
             </p>
             {err.map(e => (
               <p key={e.email} style={{ fontSize: 12, color: '#c0392b', margin: '4px 0' }}>
@@ -264,14 +251,14 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
             background: '#003366', color: 'white', borderRadius: 50, padding: '13px',
             textDecoration: 'none', fontSize: 14, fontWeight: 700,
           }}>
-            <Users size={15} /> Team öffnen
+            <Users size={15} /> {t('openTeam')}
           </Link>
           <Link href="/teams" style={{
             flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
             background: 'white', color: '#003366', borderRadius: 50, padding: '13px',
             border: '2px solid #003366', textDecoration: 'none', fontSize: 14, fontWeight: 700,
           }}>
-            Zur Übersicht
+            {t('toOverview')}
           </Link>
         </div>
       </div>
@@ -280,7 +267,7 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
 
   const orgRefLabel = getOrgRefLabel(orgRef, locations, halls, areas)
 
-  // ── Formular ────────────────────────────────────────────────────
+  // ── Form ────────────────────────────────────────────────────────
   return (
     <div style={{ padding: '24px 16px', fontFamily: 'Arial, sans-serif', maxWidth: 600 }}>
       {/* Header */}
@@ -290,29 +277,28 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </Link>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: 0 }}>Neues Team</h1>
+        <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: 0 }}>{t('newTeam')}</h1>
       </div>
 
       {/* Team-Info */}
       <div style={{ marginBottom: 20 }}>
-        <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 8px 2px' }}>Team-Informationen</p>
+        <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 8px 2px' }}>{t('teamInfo')}</p>
         <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
           <div style={{ padding: '13px 16px' }}>
-            <label style={{ display: 'block', fontSize: 11, color: '#96aed2', marginBottom: 4, fontWeight: 700 }}>TEAMNAME *</label>
+            <label style={{ display: 'block', fontSize: 11, color: '#96aed2', marginBottom: 4, fontWeight: 700 }}>{t('teamNameLabel')}</label>
             <input value={teamName} onChange={e => setTeamName(e.target.value)}
-              placeholder="z.B. Instandhaltung Halle 2"
+              placeholder={t('teamNamePlaceholder')}
               style={{ width: '100%', outline: 'none', border: 'none', fontSize: 15, fontWeight: 600, fontFamily: 'Arial, sans-serif', background: 'transparent', color: '#000' }} />
           </div>
-
         </div>
       </div>
 
-      {/* Standort-Zuordnung */}
+      {/* Location */}
       <div style={{ marginBottom: 20 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '0 0 8px 2px' }}>
           <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0, display: 'flex', alignItems: 'center', gap: 5 }}>
-            <MapPin size={11} color="#666" /> Standort-Zuordnung
-            <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: '#aaa', fontSize: 11 }}>(optional)</span>
+            <MapPin size={11} color="#666" /> {t('locationAssignment')}
+            <span style={{ fontWeight: 400, textTransform: 'none', letterSpacing: 0, color: '#aaa', fontSize: 11 }}>{t('optional')}</span>
           </p>
           {orgRef && (
             <button onClick={() => setOrgRef('')} style={{
@@ -328,33 +314,28 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
         <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '12px 14px' }}>
           {!orgRef && (
             <p style={{ fontSize: 12, color: '#96aed2', margin: '0 0 10px', fontStyle: 'italic' }}>
-              Kein Standort ausgewählt — Team wird ohne Zuordnung angelegt.
+              {t('noLocationSelected')}
             </p>
           )}
           <OrgTreePicker
-            locations={locations}
-            halls={halls}
-            areas={areas}
-            value={orgRef}
-            onChange={setOrgRef}
+            locations={locations} halls={halls} areas={areas}
+            value={orgRef} onChange={setOrgRef} noDataLabel={t('noOrgData')}
           />
         </div>
       </div>
 
-      {/* Mitglieder-Tabelle */}
+      {/* Members table */}
       <div style={{ marginBottom: 24 }}>
         <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 8px 2px' }}>
-          Mitglieder anlegen
+          {t('createMembers')}
         </p>
         <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
-          {/* Tabellen-Header */}
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1.5fr 1fr 1fr 36px', gap: 0, padding: '8px 14px', borderBottom: '1px solid #c8d4e8', background: '#f8fafd' }}>
-            {['Vorname', 'Nachname', 'E-Mail', 'Rolle', 'Passwort', ''].map((h, i) => (
+            {[t('colFirst'), t('colLast'), t('colEmail'), t('colRole'), t('colPassword'), ''].map((h, i) => (
               <span key={i} style={{ fontSize: 10, fontWeight: 700, color: '#96aed2', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</span>
             ))}
           </div>
 
-          {/* Zeilen */}
           {members.map((row, idx) => (
             <div key={row.id}>
               {idx > 0 && <div style={{ height: 1, background: '#e8eef6' }} />}
@@ -383,17 +364,16 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
             </div>
           ))}
 
-          {/* Zeile hinzufügen */}
           <div style={{ borderTop: '1px solid #e8eef6' }}>
             <button onClick={addRow}
               style={{ display: 'flex', alignItems: 'center', gap: 7, width: '100%', padding: '11px 14px', background: 'none', border: 'none', cursor: 'pointer', color: '#0099cc', fontSize: 13, fontFamily: 'Arial, sans-serif' }}>
-              <Plus size={14} /> Zeile hinzufügen
+              <Plus size={14} /> {t('addRow')}
             </button>
           </div>
         </div>
         {filledMembers.length > 0 && (
           <p style={{ fontSize: 12, color: '#96aed2', margin: '6px 0 0 2px' }}>
-            {filledMembers.length} Benutzer werden direkt angelegt. Bitte Zugangsdaten weitergeben.
+            {t('membersToCreate', { count: filledMembers.length })}
           </p>
         )}
       </div>
@@ -405,16 +385,14 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
         </div>
       )}
 
-      {/* Submit */}
       <button onClick={handleSubmit} disabled={submitting || !teamName.trim()}
         style={{
           width: '100%', background: '#003366', color: 'white', border: 'none', borderRadius: 50,
           padding: '15px', fontSize: 15, fontWeight: 700, cursor: 'pointer',
           display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-          opacity: submitting || !teamName.trim() ? 0.5 : 1,
-          fontFamily: 'Arial, sans-serif',
+          opacity: submitting || !teamName.trim() ? 0.5 : 1, fontFamily: 'Arial, sans-serif',
         }}>
-        {submitting ? <><Loader size={16} /> Wird erstellt…</> : <><Users size={16} /> Team erstellen & Mitglieder anlegen</>}
+        {submitting ? <><Loader size={16} /> {t('creating')}</> : <><Users size={16} /> {t('createSubmit')}</>}
       </button>
     </div>
   )
