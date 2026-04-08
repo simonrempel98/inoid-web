@@ -1,6 +1,9 @@
 'use client'
 
+import { useTranslations } from 'next-intl'
+
 export function PrintButton() {
+  const t = useTranslations('invoice')
   return (
     <button
       onClick={() => window.print()}
@@ -11,7 +14,7 @@ export function PrintButton() {
         fontSize: 13, fontWeight: 700,
       }}
     >
-      Drucken / PDF
+      {t('print')}
     </button>
   )
 }
