@@ -319,7 +319,8 @@
       "complete": "Merk som fullført",
       "completeShort": "Fullfør",
       "lastDone": "Sist: {date}",
-      "interval": "Hver {n}. dag"
+      "interval": "Hver {n}. dag",
+      "createFirst": "+ Legg til første intervall"
     },
     "timeline": {
       "entry": "Oppføring",
@@ -330,7 +331,10 @@
       "editBtn": "Rediger",
       "checklistSection": "Sjekkliste",
       "notesSection": "Notater"
-    }
+    },
+    "maintenancePlan": "Vedlikeholdsplan",
+    "history": "Historikk",
+    "createFirstEntry": "+ Legg til første oppføring"
   },
   "wartung": {
     "title": "Vedlikehold & Service",

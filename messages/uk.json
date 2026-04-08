@@ -319,7 +319,8 @@
       "complete": "Відмітити як виконане",
       "completeShort": "Завершити",
       "lastDone": "Останнє: {date}",
-      "interval": "Кожні {n} днів"
+      "interval": "Кожні {n} днів",
+      "createFirst": "+ Додати перший інтервал"
     },
     "timeline": {
       "entry": "Запис",
@@ -330,7 +331,10 @@
       "editBtn": "Редагувати",
       "checklistSection": "Контрольний список",
       "notesSection": "Нотатки"
-    }
+    },
+    "maintenancePlan": "План обслуговування",
+    "history": "Історія",
+    "createFirstEntry": "+ Додати перший запис"
   },
   "wartung": {
     "title": "Технічне обслуговування & Сервіс",

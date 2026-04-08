@@ -319,7 +319,8 @@
       "complete": "Märgi tehtuks",
       "completeShort": "Lõpeta",
       "lastDone": "Viimati: {date}",
-      "interval": "Iga {n} päeva järel"
+      "interval": "Iga {n} päeva järel",
+      "createFirst": "+ Lisa esimene intervall"
     },
     "timeline": {
       "entry": "Kirje",
@@ -330,7 +331,10 @@
       "editBtn": "Muuda",
       "checklistSection": "Kontrollnimekiri",
       "notesSection": "Märkused"
-    }
+    },
+    "maintenancePlan": "Hooldusplaan",
+    "history": "Ajalugu",
+    "createFirstEntry": "+ Lisa esimene kirje"
   },
   "wartung": {
     "title": "Hooldus & Teenindus",

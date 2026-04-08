@@ -319,7 +319,8 @@
       "complete": "Merkitse valmiiksi",
       "completeShort": "Viimeistele",
       "lastDone": "Viimeksi: {date}",
-      "interval": "Joka {n}. päivä"
+      "interval": "Joka {n}. päivä",
+      "createFirst": "+ Lisää ensimmäinen väli"
     },
     "timeline": {
       "entry": "Merkintä",
@@ -330,7 +331,10 @@
       "editBtn": "Muokkaa",
       "checklistSection": "Tarkistuslista",
       "notesSection": "Muistiinpanot"
-    }
+    },
+    "maintenancePlan": "Huoltosuunnitelma",
+    "history": "Historia",
+    "createFirstEntry": "+ Lisää ensimmäinen merkintä"
   },
   "wartung": {
     "title": "Huolto & Palvelu",

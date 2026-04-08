@@ -319,7 +319,8 @@
       "complete": "Megjelölés készként",
       "completeShort": "Befejezés",
       "lastDone": "Utoljára: {date}",
-      "interval": "Minden {n} napban"
+      "interval": "Minden {n} napban",
+      "createFirst": "+ Első intervallum hozzáadása"
     },
     "timeline": {
       "entry": "Bejegyzés",
@@ -330,7 +331,10 @@
       "editBtn": "Szerkesztés",
       "checklistSection": "Ellenőrzőlista",
       "notesSection": "Megjegyzések"
-    }
+    },
+    "maintenancePlan": "Karbantartási terv",
+    "history": "Előzmények",
+    "createFirstEntry": "+ Első bejegyzés hozzáadása"
   },
   "wartung": {
     "title": "Karbantartás & Szerviz",

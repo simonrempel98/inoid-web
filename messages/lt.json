@@ -319,7 +319,8 @@
       "complete": "Pažymėti kaip atliktą",
       "completeShort": "Užbaigti",
       "lastDone": "Paskutinis: {date}",
-      "interval": "Kas {n} dienų"
+      "interval": "Kas {n} dienų",
+      "createFirst": "+ Pridėti pirmą intervalą"
     },
     "timeline": {
       "entry": "Įrašas",
@@ -330,7 +331,10 @@
       "editBtn": "Redaguoti",
       "checklistSection": "Kontrolinis sąrašas",
       "notesSection": "Pastabos"
-    }
+    },
+    "maintenancePlan": "Techninės priežiūros planas",
+    "history": "Istorija",
+    "createFirstEntry": "+ Pridėti pirmą įrašą"
   },
   "wartung": {
     "title": "Techninė priežiūra & Servisas",

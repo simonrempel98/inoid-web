@@ -319,7 +319,8 @@
       "complete": "Označiť ako hotové",
       "completeShort": "Dokončiť",
       "lastDone": "Naposledy: {date}",
-      "interval": "Každých {n} dní"
+      "interval": "Každých {n} dní",
+      "createFirst": "+ Pridať prvý interval"
     },
     "timeline": {
       "entry": "Záznam",
@@ -330,7 +331,10 @@
       "editBtn": "Upraviť",
       "checklistSection": "Kontrolný zoznam",
       "notesSection": "Poznámky"
-    }
+    },
+    "maintenancePlan": "Plán údržby",
+    "history": "História",
+    "createFirstEntry": "+ Pridať prvý záznam"
   },
   "wartung": {
     "title": "Údržba & Servis",

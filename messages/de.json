@@ -319,7 +319,8 @@
       "complete": "Als erledigt markieren",
       "completeShort": "Erledigen",
       "lastDone": "Zuletzt: {date}",
-      "interval": "Alle {n} Tage"
+      "interval": "Alle {n} Tage",
+      "createFirst": "+ Erstes Intervall anlegen"
     },
     "timeline": {
       "entry": "Eintrag",
@@ -330,7 +331,10 @@
       "editBtn": "Bearbeiten",
       "checklistSection": "Checkliste",
       "notesSection": "Notizen"
-    }
+    },
+    "maintenancePlan": "Wartungsplan",
+    "history": "Verlauf",
+    "createFirstEntry": "+ Ersten Eintrag anlegen"
   },
   "wartung": {
     "title": "Wartung & Service",

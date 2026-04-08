@@ -319,7 +319,8 @@
       "complete": "Tamamlandı olarak işaretle",
       "completeShort": "Tamamla",
       "lastDone": "Son: {date}",
-      "interval": "Her {n} günde bir"
+      "interval": "Her {n} günde bir",
+      "createFirst": "+ İlk aralık ekle"
     },
     "timeline": {
       "entry": "Kayıt",
@@ -330,7 +331,10 @@
       "editBtn": "Düzenle",
       "checklistSection": "Kontrol listesi",
       "notesSection": "Notlar"
-    }
+    },
+    "maintenancePlan": "Bakım planı",
+    "history": "Geçmiş",
+    "createFirstEntry": "+ İlk giriş ekle"
   },
   "wartung": {
     "title": "Bakım & Servis",

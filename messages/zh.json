@@ -319,7 +319,8 @@
       "complete": "标记为完成",
       "completeShort": "完成",
       "lastDone": "上次：{date}",
-      "interval": "每{n}天"
+      "interval": "每{n}天",
+      "createFirst": "+ 添加第一个间隔"
     },
     "timeline": {
       "entry": "条目",
@@ -330,7 +331,10 @@
       "editBtn": "编辑",
       "checklistSection": "检查清单",
       "notesSection": "备注"
-    }
+    },
+    "maintenancePlan": "维护计划",
+    "history": "历史记录",
+    "createFirstEntry": "+ 添加第一条记录"
   },
   "wartung": {
     "title": "维护与服务",

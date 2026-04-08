@@ -319,7 +319,8 @@
       "complete": "Marcați ca finalizat",
       "completeShort": "Finalizare",
       "lastDone": "Ultima dată: {date}",
-      "interval": "La fiecare {n} zile"
+      "interval": "La fiecare {n} zile",
+      "createFirst": "+ Adăugați primul interval"
     },
     "timeline": {
       "entry": "Intrare",
@@ -330,7 +331,10 @@
       "editBtn": "Editare",
       "checklistSection": "Listă de verificare",
       "notesSection": "Note"
-    }
+    },
+    "maintenancePlan": "Plan de service",
+    "history": "Istoric",
+    "createFirstEntry": "+ Adăugați prima intrare"
   },
   "wartung": {
     "title": "Mentenanță & Service",

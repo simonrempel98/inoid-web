@@ -319,7 +319,8 @@
       "complete": "Markera som klar",
       "completeShort": "Slutför",
       "lastDone": "Senast: {date}",
-      "interval": "Var {n}:e dag"
+      "interval": "Var {n}:e dag",
+      "createFirst": "+ Lägg till första interval"
     },
     "timeline": {
       "entry": "Post",
@@ -330,7 +331,10 @@
       "editBtn": "Redigera",
       "checklistSection": "Checklista",
       "notesSection": "Anteckningar"
-    }
+    },
+    "maintenancePlan": "Underhållsplan",
+    "history": "Historik",
+    "createFirstEntry": "+ Lägg till första posten"
   },
   "wartung": {
     "title": "Underhåll & Service",

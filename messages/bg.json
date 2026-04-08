@@ -319,7 +319,8 @@
       "complete": "Отбелязване като готово",
       "completeShort": "Завърши",
       "lastDone": "Последно: {date}",
-      "interval": "На всеки {n} дни"
+      "interval": "На всеки {n} дни",
+      "createFirst": "+ Добавяне на първи интервал"
     },
     "timeline": {
       "entry": "Запис",
@@ -330,7 +331,10 @@
       "editBtn": "Редактиране",
       "checklistSection": "Контролен списък",
       "notesSection": "Бележки"
-    }
+    },
+    "maintenancePlan": "План за поддръжка",
+    "history": "История",
+    "createFirstEntry": "+ Добавяне на първи запис"
   },
   "wartung": {
     "title": "Поддръжка & Сервиз",

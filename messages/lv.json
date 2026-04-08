@@ -319,7 +319,8 @@
       "complete": "Atzīmēt kā izdarītu",
       "completeShort": "Pabeigt",
       "lastDone": "Pēdējais: {date}",
-      "interval": "Ik pēc {n} dienām"
+      "interval": "Ik pēc {n} dienām",
+      "createFirst": "+ Pievienot pirmo intervālu"
     },
     "timeline": {
       "entry": "Ieraksts",
@@ -330,7 +331,10 @@
       "editBtn": "Rediģēt",
       "checklistSection": "Kontrolsaraksts",
       "notesSection": "Piezīmes"
-    }
+    },
+    "maintenancePlan": "Apkopes plāns",
+    "history": "Vēsture",
+    "createFirstEntry": "+ Pievienot pirmo ierakstu"
   },
   "wartung": {
     "title": "Apkope & Serviss",

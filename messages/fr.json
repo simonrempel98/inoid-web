@@ -319,7 +319,8 @@
       "complete": "Marquer comme fait",
       "completeShort": "Terminer",
       "lastDone": "Dernier : {date}",
-      "interval": "Tous les {n} jours"
+      "interval": "Tous les {n} jours",
+      "createFirst": "+ Ajouter le premier intervalle"
     },
     "timeline": {
       "entry": "Entrée",
@@ -330,7 +331,10 @@
       "editBtn": "Modifier",
       "checklistSection": "Liste de contrôle",
       "notesSection": "Notes"
-    }
+    },
+    "maintenancePlan": "Plan de maintenance",
+    "history": "Historique",
+    "createFirstEntry": "+ Ajouter la première entrée"
   },
   "wartung": {
     "title": "Maintenance & Service",

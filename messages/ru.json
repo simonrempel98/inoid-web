@@ -319,7 +319,8 @@
       "complete": "Отметить как выполненное",
       "completeShort": "Завершить",
       "lastDone": "Последнее: {date}",
-      "interval": "Каждые {n} дней"
+      "interval": "Каждые {n} дней",
+      "createFirst": "+ Добавить первый интервал"
     },
     "timeline": {
       "entry": "Запись",
@@ -330,7 +331,10 @@
       "editBtn": "Редактировать",
       "checklistSection": "Контрольный список",
       "notesSection": "Заметки"
-    }
+    },
+    "maintenancePlan": "Plan obsluzhivaniya",
+    "history": "История",
+    "createFirstEntry": "+ Добавить первую запись"
   },
   "wartung": {
     "title": "Техобслуживание & Сервис",

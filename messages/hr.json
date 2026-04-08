@@ -319,7 +319,8 @@
       "complete": "Označi kao gotovo",
       "completeShort": "Završi",
       "lastDone": "Zadnji: {date}",
-      "interval": "Svaki {n} dana"
+      "interval": "Svaki {n} dana",
+      "createFirst": "+ Dodaj prvi interval"
     },
     "timeline": {
       "entry": "Unos",
@@ -330,7 +331,10 @@
       "editBtn": "Uredi",
       "checklistSection": "Kontrolni popis",
       "notesSection": "Bilješke"
-    }
+    },
+    "maintenancePlan": "Plan održavanja",
+    "history": "Povijest",
+    "createFirstEntry": "+ Dodaj prvi zapis"
   },
   "wartung": {
     "title": "Održavanje & Servis",

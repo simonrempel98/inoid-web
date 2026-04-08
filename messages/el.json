@@ -319,7 +319,8 @@
       "complete": "Επισήμανση ως ολοκληρωμένο",
       "completeShort": "Ολοκλήρωση",
       "lastDone": "Τελευταίο: {date}",
-      "interval": "Κάθε {n} ημέρες"
+      "interval": "Κάθε {n} ημέρες",
+      "createFirst": "+ Προσθήκη πρώτου διαστήματος"
     },
     "timeline": {
       "entry": "Εγγραφή",
@@ -330,7 +331,10 @@
       "editBtn": "Επεξεργασία",
       "checklistSection": "Λίστα ελέγχου",
       "notesSection": "Σημειώσεις"
-    }
+    },
+    "maintenancePlan": "Σχέδιο συντήρησης",
+    "history": "Ιστορικό",
+    "createFirstEntry": "+ Προσθήκη πρώτης καταχώρησης"
   },
   "wartung": {
     "title": "Συντήρηση & Σέρβις",

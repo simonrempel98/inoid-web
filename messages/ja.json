@@ -319,7 +319,8 @@
       "complete": "完了にする",
       "completeShort": "完了",
       "lastDone": "最終：{date}",
-      "interval": "{n}日ごと"
+      "interval": "{n}日ごと",
+      "createFirst": "+ 最初のインターバルを追加"
     },
     "timeline": {
       "entry": "エントリ",
@@ -330,7 +331,10 @@
       "editBtn": "編集",
       "checklistSection": "チェックリスト",
       "notesSection": "メモ"
-    }
+    },
+    "maintenancePlan": "メンテナンスプラン",
+    "history": "履歴",
+    "createFirstEntry": "+ 最初のエントリを追加"
   },
   "wartung": {
     "title": "メンテナンス・サービス",
