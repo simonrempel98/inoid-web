@@ -11,7 +11,11 @@
     "docs": "Dokumentatsioon",
     "logout": "Logi välja",
     "orgManagement": "Organisatsiooni haldus",
-    "account": "Konto"
+    "account": "Konto",
+    "assetsShort": "Assets",
+    "wartungShort": "Maintenance",
+    "more": "More",
+    "roles": "Roles & Permissions"
   },
   "common": {
     "save": "Salvesta",

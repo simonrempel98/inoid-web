@@ -11,7 +11,11 @@
     "docs": "Документација",
     "logout": "Одјава",
     "orgManagement": "Управљање организацијом",
-    "account": "Налог"
+    "account": "Налог",
+    "assetsShort": "Assets",
+    "wartungShort": "Maintenance",
+    "more": "More",
+    "roles": "Roles & Permissions"
   },
   "common": {
     "save": "Сачувај",

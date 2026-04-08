@@ -3,136 +3,138 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { LogoutButton } from './logout-button'
-
-const SECTIONS = [
-  {
-    items: [
-      {
-        href: '/dashboard',
-        label: 'Dashboard',
-        icon: (active: boolean) => (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-            stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="3" width="7" height="7" rx="1"/>
-            <rect x="14" y="3" width="7" height="7" rx="1"/>
-            <rect x="3" y="14" width="7" height="7" rx="1"/>
-            <rect x="14" y="14" width="7" height="7" rx="1"/>
-          </svg>
-        ),
-      },
-      {
-        href: '/assets',
-        label: 'Asset-Management',
-        icon: (active: boolean) => (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-            stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
-            <rect x="8" y="2" width="8" height="4" rx="1"/>
-            <line x1="9" y1="12" x2="15" y2="12"/>
-            <line x1="9" y1="16" x2="15" y2="16"/>
-          </svg>
-        ),
-      },
-      {
-        href: '/scan',
-        label: 'Scannen',
-        icon: (active: boolean) => (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-            stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
-            <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
-            <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
-            <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
-            <rect x="7" y="7" width="10" height="10" rx="1"/>
-          </svg>
-        ),
-      },
-      {
-        href: '/wartung',
-        label: 'Wartung & Service',
-        icon: (active: boolean) => (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-            stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-          </svg>
-        ),
-      },
-    ],
-  },
-  {
-    label: 'Organisationsverwaltung',
-    items: [
-      {
-        href: '/organisation',
-        label: 'Standorte & Struktur',
-        icon: (active: boolean) => (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-            stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-            <circle cx="12" cy="10" r="3"/>
-          </svg>
-        ),
-      },
-      {
-        href: '/teams',
-        label: 'Teams',
-        icon: (active: boolean) => (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-            stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
-        ),
-        children: [
-          {
-            href: '/settings/roles',
-            label: 'Rollen & Rechte',
-            icon: (active: boolean) => (
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="11" width="18" height="11" rx="2"/>
-                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-              </svg>
-            ),
-          },
-        ],
-      },
-      {
-        href: '/settings/billing',
-        label: 'Abonnement',
-        icon: (active: boolean) => (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-            stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="1" y="4" width="22" height="16" rx="2"/>
-            <line x1="1" y1="10" x2="23" y2="10"/>
-          </svg>
-        ),
-      },
-    ],
-  },
-  {
-    label: 'Konto',
-    items: [
-      {
-        href: '/mehr',
-        label: 'Profil & Einstellungen',
-        icon: (active: boolean) => (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-            stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <circle cx="12" cy="8" r="4"/>
-            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
-          </svg>
-        ),
-      },
-    ],
-  },
-]
 
 export function Sidebar({ userEmail, userName }: { userEmail: string; userName?: string }) {
   const pathname = usePathname()
+  const t = useTranslations()
+
+  const SECTIONS = [
+    {
+      items: [
+        {
+          href: '/dashboard',
+          label: t('nav.dashboard'),
+          icon: (active: boolean) => (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="3" width="7" height="7" rx="1"/>
+              <rect x="14" y="3" width="7" height="7" rx="1"/>
+              <rect x="3" y="14" width="7" height="7" rx="1"/>
+              <rect x="14" y="14" width="7" height="7" rx="1"/>
+            </svg>
+          ),
+        },
+        {
+          href: '/assets',
+          label: t('nav.assets'),
+          icon: (active: boolean) => (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+              <rect x="8" y="2" width="8" height="4" rx="1"/>
+              <line x1="9" y1="12" x2="15" y2="12"/>
+              <line x1="9" y1="16" x2="15" y2="16"/>
+            </svg>
+          ),
+        },
+        {
+          href: '/scan',
+          label: t('nav.scan'),
+          icon: (active: boolean) => (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M3 7V5a2 2 0 0 1 2-2h2"/>
+              <path d="M17 3h2a2 2 0 0 1 2 2v2"/>
+              <path d="M21 17v2a2 2 0 0 1-2 2h-2"/>
+              <path d="M7 21H5a2 2 0 0 1-2-2v-2"/>
+              <rect x="7" y="7" width="10" height="10" rx="1"/>
+            </svg>
+          ),
+        },
+        {
+          href: '/wartung',
+          label: t('nav.wartung'),
+          icon: (active: boolean) => (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+          ),
+        },
+      ],
+    },
+    {
+      label: t('nav.orgManagement'),
+      items: [
+        {
+          href: '/organisation',
+          label: t('nav.organisation'),
+          icon: (active: boolean) => (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+          ),
+        },
+        {
+          href: '/teams',
+          label: t('nav.teams'),
+          icon: (active: boolean) => (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          ),
+          children: [
+            {
+              href: '/settings/roles',
+              label: t('nav.roles'),
+              icon: (active: boolean) => (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              ),
+            },
+          ],
+        },
+        {
+          href: '/settings/billing',
+          label: t('nav.billing'),
+          icon: (active: boolean) => (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2"/>
+              <line x1="1" y1="10" x2="23" y2="10"/>
+            </svg>
+          ),
+        },
+      ],
+    },
+    {
+      label: t('nav.account'),
+      items: [
+        {
+          href: '/mehr',
+          label: t('nav.profile'),
+          icon: (active: boolean) => (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="8" r="4"/>
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+            </svg>
+          ),
+        },
+      ],
+    },
+  ]
 
   const isActive = (href: string) => {
     if (href === '/assets') return pathname === '/assets' || pathname.startsWith('/assets/')
@@ -171,7 +173,7 @@ export function Sidebar({ userEmail, userName }: { userEmail: string; userName?:
             {section.label && (
               <p style={{
                 fontSize: 10, fontWeight: 700, letterSpacing: '0.08em',
-                color: '#96aed2', padding: '16px 20px 6px',
+                color: '#96aed2', padding: '28px 20px 6px',
                 fontFamily: 'Arial, sans-serif', textTransform: 'uppercase',
               }}>
                 {section.label}
@@ -252,7 +254,7 @@ export function Sidebar({ userEmail, userName }: { userEmail: string; userName?:
             <line x1="12" y1="8" x2="12" y2="12"/>
             <line x1="12" y1="16" x2="12.01" y2="16"/>
           </svg>
-          Dokumentation
+          {t('nav.docs')}
         </Link>
         <LogoutButton />
       </div>

@@ -11,7 +11,11 @@
     "docs": "ドキュメント",
     "logout": "ログアウト",
     "orgManagement": "組織管理",
-    "account": "アカウント"
+    "account": "アカウント",
+    "assetsShort": "資産",
+    "wartungShort": "メンテ",
+    "more": "もっと",
+    "roles": "ロールと権限"
   },
   "common": {
     "save": "保存",

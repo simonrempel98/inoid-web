@@ -11,7 +11,11 @@
     "docs": "Dokumentacija",
     "logout": "Atsijungti",
     "orgManagement": "Organizacijos valdymas",
-    "account": "Paskyra"
+    "account": "Paskyra",
+    "assetsShort": "Assets",
+    "wartungShort": "Maintenance",
+    "more": "More",
+    "roles": "Roles & Permissions"
   },
   "common": {
     "save": "Išsaugoti",

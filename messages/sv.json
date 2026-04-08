@@ -11,7 +11,11 @@
     "docs": "Dokumentation",
     "logout": "Logga ut",
     "orgManagement": "Organisationshantering",
-    "account": "Konto"
+    "account": "Konto",
+    "assetsShort": "Tillgångar",
+    "wartungShort": "Underhåll",
+    "more": "Mer",
+    "roles": "Roller & Behörigheter"
   },
   "common": {
     "save": "Spara",

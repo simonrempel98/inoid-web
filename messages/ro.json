@@ -11,7 +11,11 @@
     "docs": "Documentație",
     "logout": "Deconectare",
     "orgManagement": "Gestionare organizație",
-    "account": "Cont"
+    "account": "Cont",
+    "assetsShort": "Active",
+    "wartungShort": "Mentenanță",
+    "more": "Mai mult",
+    "roles": "Roluri & Permisiuni"
   },
   "common": {
     "save": "Salvare",

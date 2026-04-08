@@ -11,7 +11,11 @@
     "docs": "Documentation",
     "logout": "Déconnexion",
     "orgManagement": "Gestion de l'organisation",
-    "account": "Compte"
+    "account": "Compte",
+    "assetsShort": "Assets",
+    "wartungShort": "Maintenance",
+    "more": "Plus",
+    "roles": "Rôles & Droits"
   },
   "common": {
     "save": "Enregistrer",

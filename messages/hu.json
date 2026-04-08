@@ -11,7 +11,11 @@
     "docs": "Dokumentáció",
     "logout": "Kijelentkezés",
     "orgManagement": "Szervezetkezelés",
-    "account": "Fiók"
+    "account": "Fiók",
+    "assetsShort": "Eszközök",
+    "wartungShort": "Karbantartás",
+    "more": "Több",
+    "roles": "Szerepek & Jogosultságok"
   },
   "common": {
     "save": "Mentés",

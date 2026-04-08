@@ -11,7 +11,11 @@
     "docs": "Dokumentacja",
     "logout": "Wyloguj",
     "orgManagement": "Zarządzanie organizacją",
-    "account": "Konto"
+    "account": "Konto",
+    "assetsShort": "Zasoby",
+    "wartungShort": "Serwis",
+    "more": "Więcej",
+    "roles": "Role i Uprawnienia"
   },
   "common": {
     "save": "Zapisz",

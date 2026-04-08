@@ -11,7 +11,11 @@
     "docs": "Belgeler",
     "logout": "Çıkış Yap",
     "orgManagement": "Organizasyon Yönetimi",
-    "account": "Hesap"
+    "account": "Hesap",
+    "assetsShort": "Varlıklar",
+    "wartungShort": "Bakım",
+    "more": "Daha",
+    "roles": "Roller & İzinler"
   },
   "common": {
     "save": "Kaydet",

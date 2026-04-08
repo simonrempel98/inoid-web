@@ -2,9 +2,11 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 export function BottomNav() {
   const pathname = usePathname()
+  const t = useTranslations()
 
   const isActive = (href: string) => {
     if (href === '/assets') return pathname.startsWith('/assets')
@@ -23,7 +25,7 @@ export function BottomNav() {
     }}>
 
       {/* Dashboard */}
-      <NavItem href="/dashboard" label="Dashboard" active={isActive('/dashboard')}>
+      <NavItem href="/dashboard" label={t('nav.dashboard')} active={isActive('/dashboard')}>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
           stroke={isActive('/dashboard') ? '#003366' : '#96aed2'}
           strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -35,7 +37,7 @@ export function BottomNav() {
       </NavItem>
 
       {/* Asset-Management */}
-      <NavItem href="/assets" label="Assets" active={isActive('/assets')}>
+      <NavItem href="/assets" label={t('nav.assetsShort')} active={isActive('/assets')}>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
           stroke={isActive('/assets') ? '#003366' : '#96aed2'}
           strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -69,12 +71,12 @@ export function BottomNav() {
           <span style={{
             fontSize: 10, fontFamily: 'Arial, sans-serif', fontWeight: 700,
             color: '#003366',
-          }}>Scannen</span>
+          }}>{t('nav.scan')}</span>
         </Link>
       </div>
 
       {/* Wartung */}
-      <NavItem href="/wartung" label="Wartung" active={isActive('/wartung')}>
+      <NavItem href="/wartung" label={t('nav.wartungShort')} active={isActive('/wartung')}>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
           stroke={isActive('/wartung') ? '#003366' : '#96aed2'}
           strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -83,7 +85,7 @@ export function BottomNav() {
       </NavItem>
 
       {/* Mehr */}
-      <NavItem href="/mehr" label="Mehr" active={isActive('/mehr')}>
+      <NavItem href="/mehr" label={t('nav.more')} active={isActive('/mehr')}>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
           stroke={isActive('/mehr') ? '#003366' : '#96aed2'}
           strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

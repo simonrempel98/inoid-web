@@ -11,7 +11,11 @@
     "docs": "Dokumentaatio",
     "logout": "Kirjaudu ulos",
     "orgManagement": "Organisaatiohallinta",
-    "account": "Tili"
+    "account": "Tili",
+    "assetsShort": "Kalusto",
+    "wartungShort": "Huolto",
+    "more": "Lisää",
+    "roles": "Roolit & Oikeudet"
   },
   "common": {
     "save": "Tallenna",

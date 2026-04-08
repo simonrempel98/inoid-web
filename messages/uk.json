@@ -11,7 +11,11 @@
     "docs": "Документація",
     "logout": "Вийти",
     "orgManagement": "Управління організацією",
-    "account": "Акаунт"
+    "account": "Акаунт",
+    "assetsShort": "Активи",
+    "wartungShort": "Обслуговування",
+    "more": "Більше",
+    "roles": "Ролі & Права"
   },
   "common": {
     "save": "Зберегти",

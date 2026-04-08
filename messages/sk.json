@@ -11,7 +11,11 @@
     "docs": "Dokumentácia",
     "logout": "Odhlásiť sa",
     "orgManagement": "Správa organizácie",
-    "account": "Účet"
+    "account": "Účet",
+    "assetsShort": "Majetok",
+    "wartungShort": "Servis",
+    "more": "Viac",
+    "roles": "Role & Oprávnenia"
   },
   "common": {
     "save": "Uložiť",

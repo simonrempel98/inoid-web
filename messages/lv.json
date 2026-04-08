@@ -11,7 +11,11 @@
     "docs": "Dokumentācija",
     "logout": "Izrakstīties",
     "orgManagement": "Organizācijas pārvaldība",
-    "account": "Konts"
+    "account": "Konts",
+    "assetsShort": "Assets",
+    "wartungShort": "Maintenance",
+    "more": "More",
+    "roles": "Roles & Permissions"
   },
   "common": {
     "save": "Saglabāt",

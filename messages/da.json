@@ -11,7 +11,11 @@
     "docs": "Dokumentation",
     "logout": "Log ud",
     "orgManagement": "Organisationsstyring",
-    "account": "Konto"
+    "account": "Konto",
+    "assetsShort": "Aktiver",
+    "wartungShort": "Vedligehold",
+    "more": "Mere",
+    "roles": "Roller & Tilladelser"
   },
   "common": {
     "save": "Gem",

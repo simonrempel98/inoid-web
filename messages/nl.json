@@ -11,7 +11,11 @@
     "docs": "Documentatie",
     "logout": "Uitloggen",
     "orgManagement": "Organisatiebeheer",
-    "account": "Account"
+    "account": "Account",
+    "assetsShort": "Assets",
+    "wartungShort": "Onderhoud",
+    "more": "Meer",
+    "roles": "Rollen & Rechten"
   },
   "common": {
     "save": "Opslaan",

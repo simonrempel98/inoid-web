@@ -11,7 +11,11 @@
     "docs": "文档",
     "logout": "退出登录",
     "orgManagement": "组织管理",
-    "account": "账户"
+    "account": "账户",
+    "assetsShort": "资产",
+    "wartungShort": "维护",
+    "more": "更多",
+    "roles": "角色与权限"
   },
   "common": {
     "save": "保存",
