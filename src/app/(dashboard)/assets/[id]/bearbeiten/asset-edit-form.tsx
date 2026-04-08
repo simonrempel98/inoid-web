@@ -153,17 +153,14 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
 
   async function handleDelete() {
     setLoading(true)
-    try {
-      await supabase
-        .from('assets')
-        .update({ deleted_at: new Date().toISOString() })
-        .eq('id', asset.id)
-      router.push('/assets')
-      router.refresh()
-    } catch {
+    const res = await fetch(`/api/assets/${asset.id}/delete`, { method: 'DELETE' })
+    if (!res.ok) {
       setError(t('assets.form.deleteFailed'))
       setLoading(false)
+      return
     }
+    router.push('/assets')
+    router.refresh()
   }
 
   const inputStyle: React.CSSProperties = {

@@ -36,7 +36,11 @@ export function AssetStatusActions({ assetId, currentStatus, customStatuses }: P
 
   async function handleDelete() {
     setLoading(true)
-    await supabase.from('assets').update({ deleted_at: new Date().toISOString() }).eq('id', assetId)
+    const res = await fetch(`/api/assets/${assetId}/delete`, { method: 'DELETE' })
+    if (!res.ok) {
+      setLoading(false)
+      return
+    }
     router.push('/assets')
     router.refresh()
   }
