@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations, useLocale } from 'next-intl'
 import { getEventType } from '@/lib/service-types'
 import { Wrench, User, Building2, Calendar } from 'lucide-react'
 
@@ -39,11 +40,10 @@ function groupByMonth(events: Event[]) {
   return map
 }
 
-const MONTH_NAMES = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-  'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
-
 export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId: string }) {
   const router = useRouter()
+  const t = useTranslations()
+  const locale = useLocale()
   const grouped = groupByMonth(events)
   const months = [...grouped.keys()].sort((a, b) => b.localeCompare(a)) // neueste zuerst
 
@@ -70,8 +70,8 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
         border: '1px solid #c8d4e8', textAlign: 'center',
       }}>
         <div style={{ marginBottom: 12 }}><Wrench size={32} style={{ color: '#96aed2' }} /></div>
-        <p style={{ fontWeight: 700, color: '#000', fontSize: 15, margin: '0 0 8px' }}>Noch keine Einträge</p>
-        <p style={{ color: '#666', fontSize: 13, margin: 0 }}>Dokumentiere Wartungen, Reparaturen und Inspektionen.</p>
+        <p style={{ fontWeight: 700, color: '#000', fontSize: 15, margin: '0 0 8px' }}>{t('service.timeline.noEntries')}</p>
+        <p style={{ color: '#666', fontSize: 13, margin: 0 }}>{t('service.timeline.noEntriesDesc')}</p>
       </div>
     )
   }
@@ -80,6 +80,8 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       {months.map(monthKey => {
         const [year, month] = monthKey.split('-')
+        const headerDate = new Date(parseInt(year), parseInt(month) - 1, 1)
+        const monthLabel = headerDate.toLocaleDateString(locale, { month: 'long', year: 'numeric' })
         const monthEvents = grouped.get(monthKey)!
         const isOpen = !!openMonths[monthKey]
         const monthCost = monthEvents.reduce((s, e) => s + (e.cost_eur ?? 0), 0)
@@ -112,7 +114,7 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
 
               {/* Monat + Jahr */}
               <span style={{ fontWeight: 700, fontSize: 14, color: '#000', flex: 1 }}>
-                {MONTH_NAMES[parseInt(month) - 1]} {year}
+                {monthLabel}
               </span>
 
               {/* Badges */}
@@ -120,14 +122,14 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
                 fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 10,
                 background: '#f4f6f9', color: '#666',
               }}>
-                {monthEvents.length} {monthEvents.length === 1 ? 'Eintrag' : 'Einträge'}
+                {monthEvents.length} {monthEvents.length === 1 ? t('service.timeline.entry') : t('service.timeline.entries')}
               </span>
               {monthCost > 0 && (
                 <span style={{
                   fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 10,
                   background: '#f3f0ff', color: '#8B5CF6',
                 }}>
-                  {monthCost.toLocaleString('de-DE')} €
+                  {monthCost.toLocaleString(locale)} €
                 </span>
               )}
             </button>
@@ -137,7 +139,7 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
               <div style={{ borderTop: '1px solid #f4f6f9' }}>
                 {monthEvents.map((event, i) => {
                   const et = getEventType(event.event_type)
-                  const date = new Date(event.event_date)
+                  const date = new Date(event.event_date + 'T00:00:00')
                   const isEventOpen = !!openEvents[event.id]
                   const attachments = Array.isArray(event.attachments) ? event.attachments as string[] : []
                   const photos = attachments.filter(a => a.includes('|photo|'))
@@ -176,7 +178,7 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
 
                         {/* Datum */}
                         <span style={{ fontSize: 11, color: '#96aed2', flexShrink: 0 }}>
-                          {date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' })}
+                          {date.toLocaleDateString(locale, { day: '2-digit', month: '2-digit' })}
                         </span>
 
                         {/* Kosten */}
@@ -184,7 +186,7 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
                           <span style={{
                             fontSize: 11, fontWeight: 700, color: '#8B5CF6',
                             flexShrink: 0,
-                          }}>{Number(event.cost_eur).toLocaleString('de-DE')} €</span>
+                          }}>{Number(event.cost_eur).toLocaleString(locale)} €</span>
                         ) : null}
 
                         {/* Expand-Chevron */}
@@ -212,7 +214,7 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
                                 backgroundColor: `${et.color}20`, color: et.color,
                               }}>{et.label}</span>
                               <span style={{ fontSize: 11, color: '#96aed2' }}>
-                                {date.toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' })}
+                                {date.toLocaleDateString(locale, { day: '2-digit', month: 'long', year: 'numeric' })}
                               </span>
                             </div>
                             <button
@@ -230,7 +232,7 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
                                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
                               </svg>
-                              Bearbeiten
+                              {t('service.timeline.editBtn')}
                             </button>
                           </div>
 
@@ -245,7 +247,7 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
                             {event.performed_by && <Chip icon={<User size={12} />} label={event.performed_by} />}
                             {event.external_company && <Chip icon={<Building2 size={12} />} label={event.external_company} />}
                             {event.next_service_date && (
-                              <Chip icon={<Calendar size={12} />} label={`Nächste: ${new Date(event.next_service_date).toLocaleDateString('de-DE')}`} highlight />
+                              <Chip icon={<Calendar size={12} />} label={t('service.timeline.nextDate', { date: new Date(event.next_service_date + 'T00:00:00').toLocaleDateString(locale) })} highlight />
                             )}
                           </div>
 
@@ -254,7 +256,7 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
                               background: '#f9fbff', borderRadius: 8, padding: '8px 10px',
                               border: '1px solid #e8eef8',
                             }}>
-                              <p style={{ fontSize: 10, fontWeight: 700, color: '#96aed2', margin: '0 0 3px' }}>NOTIZEN</p>
+                              <p style={{ fontSize: 10, fontWeight: 700, color: '#96aed2', margin: '0 0 3px' }}>{t('service.timeline.notesSection')}</p>
                               <p style={{ fontSize: 12, color: '#444', margin: 0, lineHeight: 1.5, whiteSpace: 'pre-wrap' }}>{event.notes}</p>
                             </div>
                           )}
@@ -266,9 +268,9 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
                               border: '1px solid #e8eef8',
                             }}>
                               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 }}>
-                                <p style={{ fontSize: 10, fontWeight: 700, color: '#96aed2', margin: 0 }}>CHECKLISTE</p>
+                                <p style={{ fontSize: 10, fontWeight: 700, color: '#96aed2', margin: 0 }}>{t('service.timeline.checklistSection')}</p>
                                 <span style={{ fontSize: 10, fontWeight: 700, color: '#22c55e' }}>
-                                  {checklist.filter(c => c.checked).length}/{checklist.length} erledigt
+                                  {checklist.filter(c => c.checked).length}/{checklist.length} {t('service.checklist.done')}
                                 </span>
                               </div>
                               <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
