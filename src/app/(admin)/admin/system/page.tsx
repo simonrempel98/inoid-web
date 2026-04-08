@@ -1,4 +1,5 @@
 import { createAdminClient } from '@/lib/supabase/admin'
+import { CleanupButton } from './cleanup-button'
 
 export default async function AdminSystemPage() {
   const supabase = createAdminClient()
@@ -11,6 +12,7 @@ export default async function AdminSystemPage() {
     { count: totalDocs },
     { count: totalServiceEntries },
     { count: pendingPwChange },
+    { count: softDeletedAssets },
     { data: recentLogs },
   ] = await Promise.all([
     supabase.from('organizations').select('*', { count: 'exact', head: true }).is('deleted_at', null),
@@ -20,6 +22,7 @@ export default async function AdminSystemPage() {
     supabase.from('asset_documents').select('*', { count: 'exact', head: true }),
     supabase.from('service_entries').select('*', { count: 'exact', head: true }),
     supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('must_change_password', true),
+    supabase.from('assets').select('*', { count: 'exact', head: true }).not('deleted_at', 'is', null),
     supabase.from('admin_audit_log')
       .select('admin_id, action, target_type, created_at')
       .order('created_at', { ascending: false })
@@ -50,6 +53,25 @@ export default async function AdminSystemPage() {
         </p>
       </div>
 
+      {/* Wartung / Cleanup */}
+      {(softDeletedAssets ?? 0) > 0 && (
+        <div style={{
+          background: '#451a03', borderRadius: 12, border: '1px solid #92400e',
+          padding: '16px 20px', marginBottom: 24,
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        }}>
+          <div>
+            <p style={{ margin: '0 0 4px', fontWeight: 700, color: '#fbbf24', fontSize: 14 }}>
+              {softDeletedAssets} soft-gelöschte Assets gefunden
+            </p>
+            <p style={{ margin: 0, fontSize: 12, color: '#d97706' }}>
+              Diese zeigen noch Kosten &amp; Wartungsvorgänge im Dashboard. Bereinigung löscht sie unwiderruflich.
+            </p>
+          </div>
+          <CleanupButton count={softDeletedAssets ?? 0} />
+        </div>
+      )}
+
       {/* DB Stats */}
       <h2 style={{ fontSize: 12, fontWeight: 700, color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 12px' }}>
         Datenbank
@@ -57,7 +79,7 @@ export default async function AdminSystemPage() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10, marginBottom: 28 }}>
         {statRow('Organisationen', totalOrgs, `${activeOrgs} aktiv`)}
         {statRow('Nutzer', totalUsers)}
-        {statRow('Assets', totalAssets)}
+        {statRow('Assets (aktiv)', totalAssets)}
         {statRow('Service-Einträge', totalServiceEntries)}
       </div>
 
@@ -65,7 +87,7 @@ export default async function AdminSystemPage() {
         {statRow('Dokumente', totalDocs)}
         {statRow('PW-Änderung ausstehend', pendingPwChange, 'Nutzer müssen PW ändern', true)}
         {statRow('Inaktive Orgs', (totalOrgs ?? 0) - (activeOrgs ?? 0), 'gesperrt oder inaktiv')}
-        {statRow('Gelöschte Assets', 0, 'hard-deleted (kein Zähler)')}
+        {statRow('Soft-deleted Assets', softDeletedAssets, 'noch nicht bereinigt', true)}
       </div>
 
       {/* Audit Log */}
