@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "дн. пр.",
       "inDaysAbbr": "ч/з {days}д"
+    },
+    "scheduleList": {
+      "noEntries": "Немає записів",
+      "entries": "{n} записів",
+      "open": "відкрито",
+      "done": "виконано",
+      "weekAbbr": "Тиж",
+      "badgeDone": "Виконано",
+      "badgeOverdue": "Прострочено",
+      "badgeThisWeek": "Цього тижня",
+      "badgePlanned": "Заплановано",
+      "markDone": "Позначити як виконане",
+      "performedOn": "Виконано",
+      "note": "Примітка (необов'язково)",
+      "notePlaceholder": "напр. Виконав Іван Петренко…",
+      "nextDate": "НАСТУПНА ДАТА",
+      "nextDateIn": "через {n} днів",
+      "saving": "Збереження…",
+      "confirmBtn": "Позначити як виконане",
+      "doneBtn": "Виконано"
     }
   },
   "organisation": {

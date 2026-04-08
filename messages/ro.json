@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "z înt.",
       "inDaysAbbr": "în {days}z"
+    },
+    "scheduleList": {
+      "noEntries": "Nicio intrare disponibilă",
+      "entries": "{n} intrări",
+      "open": "deschis",
+      "done": "efectuat",
+      "weekAbbr": "S",
+      "badgeDone": "Efectuat",
+      "badgeOverdue": "Întârziat",
+      "badgeThisWeek": "Săptămâna aceasta",
+      "badgePlanned": "Planificat",
+      "markDone": "Marchează ca efectuat",
+      "performedOn": "Efectuat la",
+      "note": "Notă (opțională)",
+      "notePlaceholder": "ex. Efectuat de Ion Popescu…",
+      "nextDate": "URMĂTOAREA DATĂ",
+      "nextDateIn": "în {n} zile",
+      "saving": "Se salvează…",
+      "confirmBtn": "Marchează ca efectuat",
+      "doneBtn": "Efectuat"
     }
   },
   "organisation": {

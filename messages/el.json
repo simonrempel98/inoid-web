@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "ημ. κ.",
       "inDaysAbbr": "σε {days}η"
+    },
+    "scheduleList": {
+      "noEntries": "Δεν υπάρχουν εγγραφές",
+      "entries": "{n} εγγραφές",
+      "open": "ανοιχτό",
+      "done": "ολοκληρώθηκε",
+      "weekAbbr": "Εβδ",
+      "badgeDone": "Ολοκληρώθηκε",
+      "badgeOverdue": "Εκπρόθεσμο",
+      "badgeThisWeek": "Αυτή την εβδομάδα",
+      "badgePlanned": "Προγραμματισμένο",
+      "markDone": "Επισήμανση ως ολοκληρωμένο",
+      "performedOn": "Εκτελέστηκε",
+      "note": "Σημείωση (προαιρετική)",
+      "notePlaceholder": "π.χ. Εκτελέστηκε από τον Γιώργο…",
+      "nextDate": "ΕΠΌΜΕΝΗ ΗΜΕΡΟΜΗΝΊΑ",
+      "nextDateIn": "σε {n} ημέρες",
+      "saving": "Αποθήκευση…",
+      "confirmBtn": "Επισήμανση ως ολοκληρωμένο",
+      "doneBtn": "Ολοκληρώθηκε"
     }
   },
   "organisation": {

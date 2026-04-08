@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "дн. пр.",
       "inDaysAbbr": "ч/з {days}д"
+    },
+    "scheduleList": {
+      "noEntries": "Нет записей",
+      "entries": "{n} записей",
+      "open": "открыто",
+      "done": "выполнено",
+      "weekAbbr": "Нед",
+      "badgeDone": "Выполнено",
+      "badgeOverdue": "Просрочено",
+      "badgeThisWeek": "На этой неделе",
+      "badgePlanned": "Запланировано",
+      "markDone": "Отметить как выполненное",
+      "performedOn": "Выполнено",
+      "note": "Примечание (необязательно)",
+      "notePlaceholder": "напр. Выполнено Иваном Петровым…",
+      "nextDate": "СЛЕДУЮЩАЯ ДАТА",
+      "nextDateIn": "через {n} дней",
+      "saving": "Сохранение…",
+      "confirmBtn": "Отметить как выполненное",
+      "doneBtn": "Выполнено"
     }
   },
   "organisation": {

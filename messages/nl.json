@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "d over",
       "inDaysAbbr": "over {days}d"
+    },
+    "scheduleList": {
+      "noEntries": "Geen items beschikbaar",
+      "entries": "{n} items",
+      "open": "open",
+      "done": "klaar",
+      "weekAbbr": "W",
+      "badgeDone": "Klaar",
+      "badgeOverdue": "Achterstallig",
+      "badgeThisWeek": "Deze week",
+      "badgePlanned": "Gepland",
+      "markDone": "Markeren als klaar",
+      "performedOn": "Uitgevoerd op",
+      "note": "Opmerking (optioneel)",
+      "notePlaceholder": "bijv. Uitgevoerd door Jan Jansen…",
+      "nextDate": "VOLGENDE DATUM",
+      "nextDateIn": "over {n} dagen",
+      "saving": "Opslaan…",
+      "confirmBtn": "Markeren als klaar",
+      "doneBtn": "Klaar"
     }
   },
   "organisation": {

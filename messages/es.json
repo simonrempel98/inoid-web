@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "d pas.",
       "inDaysAbbr": "en {days}d"
+    },
+    "scheduleList": {
+      "noEntries": "No hay entradas disponibles",
+      "entries": "{n} entradas",
+      "open": "pendiente",
+      "done": "realizado",
+      "weekAbbr": "S",
+      "badgeDone": "Realizado",
+      "badgeOverdue": "Atrasado",
+      "badgeThisWeek": "Esta semana",
+      "badgePlanned": "Planificado",
+      "markDone": "Marcar como realizado",
+      "performedOn": "Realizado el",
+      "note": "Nota (opcional)",
+      "notePlaceholder": "ej. Realizado por Juan García…",
+      "nextDate": "PRÓXIMA FECHA",
+      "nextDateIn": "en {n} días",
+      "saving": "Guardando…",
+      "confirmBtn": "Marcar como realizado",
+      "doneBtn": "Realizado"
     }
   },
   "organisation": {

@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "n lej.",
       "inDaysAbbr": "{days}n múlva"
+    },
+    "scheduleList": {
+      "noEntries": "Nincs bejegyzés",
+      "entries": "{n} bejegyzés",
+      "open": "nyitott",
+      "done": "kész",
+      "weekAbbr": "H",
+      "badgeDone": "Kész",
+      "badgeOverdue": "Lejárt",
+      "badgeThisWeek": "Ezen a héten",
+      "badgePlanned": "Tervezett",
+      "markDone": "Megjelölés készként",
+      "performedOn": "Elvégezve",
+      "note": "Megjegyzés (opcionális)",
+      "notePlaceholder": "pl. Elvégezte Kovács János…",
+      "nextDate": "KÖVETKEZŐ DÁTUM",
+      "nextDateIn": "{n} nap múlva",
+      "saving": "Mentés…",
+      "confirmBtn": "Megjelölés készként",
+      "doneBtn": "Kész"
     }
   },
   "organisation": {

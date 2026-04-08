@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "日超",
       "inDaysAbbr": "{days}日後"
+    },
+    "scheduleList": {
+      "noEntries": "記録がありません",
+      "entries": "{n}件",
+      "open": "未処理",
+      "done": "完了",
+      "weekAbbr": "週",
+      "badgeDone": "完了",
+      "badgeOverdue": "超過",
+      "badgeThisWeek": "今週",
+      "badgePlanned": "予定",
+      "markDone": "完了としてマーク",
+      "performedOn": "実施日",
+      "note": "メモ（任意）",
+      "notePlaceholder": "例：田中太郎が実施…",
+      "nextDate": "次回日程",
+      "nextDateIn": "{n}日後",
+      "saving": "保存中…",
+      "confirmBtn": "完了としてマーク",
+      "doneBtn": "完了"
     }
   },
   "organisation": {

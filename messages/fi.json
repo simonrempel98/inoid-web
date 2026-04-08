@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "pv yli",
       "inDaysAbbr": "{days}pv:ssä"
+    },
+    "scheduleList": {
+      "noEntries": "Ei merkintöjä",
+      "entries": "{n} merkintää",
+      "open": "avoin",
+      "done": "tehty",
+      "weekAbbr": "VK",
+      "badgeDone": "Tehty",
+      "badgeOverdue": "Myöhässä",
+      "badgeThisWeek": "Tällä viikolla",
+      "badgePlanned": "Suunniteltu",
+      "markDone": "Merkitse tehdyksi",
+      "performedOn": "Suoritettu",
+      "note": "Huomautus (valinnainen)",
+      "notePlaceholder": "esim. Suoritti Matti Meikäläinen…",
+      "nextDate": "SEURAAVA PÄIVÄ",
+      "nextDateIn": "{n} päivän kuluttua",
+      "saving": "Tallennetaan…",
+      "confirmBtn": "Merkitse tehdyksi",
+      "doneBtn": "Tehty"
     }
   },
   "organisation": {

@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "d over",
       "inDaysAbbr": "om {days}d"
+    },
+    "scheduleList": {
+      "noEntries": "Ingen oppføringer",
+      "entries": "{n} oppføringer",
+      "open": "åpen",
+      "done": "utført",
+      "weekAbbr": "U",
+      "badgeDone": "Utført",
+      "badgeOverdue": "Forsinket",
+      "badgeThisWeek": "Denne uken",
+      "badgePlanned": "Planlagt",
+      "markDone": "Merk som utført",
+      "performedOn": "Utført den",
+      "note": "Notat (valgfritt)",
+      "notePlaceholder": "f.eks. Utført av Ola Nordmann…",
+      "nextDate": "NESTE DATO",
+      "nextDateIn": "om {n} dager",
+      "saving": "Lagrer…",
+      "confirmBtn": "Merk som utført",
+      "doneBtn": "Utført"
     }
   },
   "organisation": {

@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "d. kav.",
       "inDaysAbbr": "pēc {days}d"
+    },
+    "scheduleList": {
+      "noEntries": "Nav ierakstu",
+      "entries": "{n} ieraksti",
+      "open": "atvērts",
+      "done": "pabeigts",
+      "weekAbbr": "Ned",
+      "badgeDone": "Pabeigts",
+      "badgeOverdue": "Kavējas",
+      "badgeThisWeek": "Šajā nedēļā",
+      "badgePlanned": "Plānots",
+      "markDone": "Atzīmēt kā pabeigtu",
+      "performedOn": "Izpildīts",
+      "note": "Piezīme (neobligāta)",
+      "notePlaceholder": "piem. Izpildīja Jānis Bērziņš…",
+      "nextDate": "NĀKAMAIS DATUMS",
+      "nextDateIn": "pēc {n} dienām",
+      "saving": "Saglabā…",
+      "confirmBtn": "Atzīmēt kā pabeigtu",
+      "doneBtn": "Pabeigts"
     }
   },
   "organisation": {

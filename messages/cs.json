@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "d po",
       "inDaysAbbr": "za {days}d"
+    },
+    "scheduleList": {
+      "noEntries": "Žádné záznamy",
+      "entries": "{n} záznamy",
+      "open": "otevřeno",
+      "done": "hotovo",
+      "weekAbbr": "T",
+      "badgeDone": "Hotovo",
+      "badgeOverdue": "Po termínu",
+      "badgeThisWeek": "Tento týden",
+      "badgePlanned": "Naplánováno",
+      "markDone": "Označit jako hotové",
+      "performedOn": "Provedeno dne",
+      "note": "Poznámka (volitelná)",
+      "notePlaceholder": "např. Provedl Jan Novák…",
+      "nextDate": "PŘÍŠTÍ DATUM",
+      "nextDateIn": "za {n} dní",
+      "saving": "Ukládání…",
+      "confirmBtn": "Označit jako hotové",
+      "doneBtn": "Hotovo"
     }
   },
   "organisation": {

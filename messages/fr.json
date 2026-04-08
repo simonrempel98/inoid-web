@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "j dép.",
       "inDaysAbbr": "dans {days}j"
+    },
+    "scheduleList": {
+      "noEntries": "Aucune entrée disponible",
+      "entries": "{n} entrées",
+      "open": "en cours",
+      "done": "effectué",
+      "weekAbbr": "S",
+      "badgeDone": "Effectué",
+      "badgeOverdue": "En retard",
+      "badgeThisWeek": "Cette semaine",
+      "badgePlanned": "Planifié",
+      "markDone": "Marquer comme effectué",
+      "performedOn": "Effectué le",
+      "note": "Note (optionnelle)",
+      "notePlaceholder": "ex. Effectué par Jean Dupont…",
+      "nextDate": "PROCHAINE DATE",
+      "nextDateIn": "dans {n} jours",
+      "saving": "Enregistrement…",
+      "confirmBtn": "Marquer comme effectué",
+      "doneBtn": "Effectué"
     }
   },
   "organisation": {

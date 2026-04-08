@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "д зак.",
       "inDaysAbbr": "за {days}д"
+    },
+    "scheduleList": {
+      "noEntries": "Нема записа",
+      "entries": "{n} записа",
+      "open": "отворено",
+      "done": "завршено",
+      "weekAbbr": "Нед",
+      "badgeDone": "Завршено",
+      "badgeOverdue": "Закашњело",
+      "badgeThisWeek": "Ове недеље",
+      "badgePlanned": "Планирано",
+      "markDone": "Означи као завршено",
+      "performedOn": "Извршено",
+      "note": "Напомена (необавезно)",
+      "notePlaceholder": "нпр. Извршио Пера Перић…",
+      "nextDate": "СЛЕДЕЋИ ДАТУМ",
+      "nextDateIn": "за {n} дана",
+      "saving": "Чување…",
+      "confirmBtn": "Означи као завршено",
+      "doneBtn": "Завршено"
     }
   },
   "organisation": {

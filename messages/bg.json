@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "д. пр.",
       "inDaysAbbr": "сл. {days}д"
+    },
+    "scheduleList": {
+      "noEntries": "Няма записи",
+      "entries": "{n} записа",
+      "open": "отворено",
+      "done": "изпълнено",
+      "weekAbbr": "С",
+      "badgeDone": "Изпълнено",
+      "badgeOverdue": "Просрочено",
+      "badgeThisWeek": "Тази седмица",
+      "badgePlanned": "Планирано",
+      "markDone": "Отбележи като изпълнено",
+      "performedOn": "Изпълнено на",
+      "note": "Бележка (по избор)",
+      "notePlaceholder": "напр. Изпълнено от Иван Иванов…",
+      "nextDate": "СЛЕДВАЩА ДАТА",
+      "nextDateIn": "след {n} дни",
+      "saving": "Запазване…",
+      "confirmBtn": "Отбележи като изпълнено",
+      "doneBtn": "Изпълнено"
     }
   },
   "organisation": {

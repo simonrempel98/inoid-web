@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "d over",
       "inDaysAbbr": "om {days}d"
+    },
+    "scheduleList": {
+      "noEntries": "Ingen poster",
+      "entries": "{n} poster",
+      "open": "åben",
+      "done": "udført",
+      "weekAbbr": "U",
+      "badgeDone": "Udført",
+      "badgeOverdue": "Forsinket",
+      "badgeThisWeek": "Denne uge",
+      "badgePlanned": "Planlagt",
+      "markDone": "Markér som udført",
+      "performedOn": "Udført den",
+      "note": "Note (valgfri)",
+      "notePlaceholder": "f.eks. Udført af Hans Hansen…",
+      "nextDate": "NÆSTE DATO",
+      "nextDateIn": "om {n} dage",
+      "saving": "Gemmer…",
+      "confirmBtn": "Markér som udført",
+      "doneBtn": "Udført"
     }
   },
   "organisation": {

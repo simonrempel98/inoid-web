@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "天超",
       "inDaysAbbr": "{days}天后"
+    },
+    "scheduleList": {
+      "noEntries": "暂无记录",
+      "entries": "{n}条",
+      "open": "未完成",
+      "done": "已完成",
+      "weekAbbr": "周",
+      "badgeDone": "已完成",
+      "badgeOverdue": "逾期",
+      "badgeThisWeek": "本周",
+      "badgePlanned": "计划中",
+      "markDone": "标记为完成",
+      "performedOn": "执行日期",
+      "note": "备注（可选）",
+      "notePlaceholder": "例：由张三执行…",
+      "nextDate": "下次日期",
+      "nextDateIn": "{n}天后",
+      "saving": "保存中…",
+      "confirmBtn": "标记为完成",
+      "doneBtn": "已完成"
     }
   },
   "organisation": {

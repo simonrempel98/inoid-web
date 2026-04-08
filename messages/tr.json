@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "g geç",
       "inDaysAbbr": "{days}g içinde"
+    },
+    "scheduleList": {
+      "noEntries": "Kayıt yok",
+      "entries": "{n} kayıt",
+      "open": "açık",
+      "done": "tamamlandı",
+      "weekAbbr": "H",
+      "badgeDone": "Tamamlandı",
+      "badgeOverdue": "Gecikmiş",
+      "badgeThisWeek": "Bu hafta",
+      "badgePlanned": "Planlandı",
+      "markDone": "Tamamlandı olarak işaretle",
+      "performedOn": "Gerçekleştirme tarihi",
+      "note": "Not (isteğe bağlı)",
+      "notePlaceholder": "örn. Ahmet Yılmaz tarafından yapıldı…",
+      "nextDate": "SONRAKİ TARİH",
+      "nextDateIn": "{n} gün içinde",
+      "saving": "Kaydediliyor…",
+      "confirmBtn": "Tamamlandı olarak işaretle",
+      "doneBtn": "Tamamlandı"
     }
   },
   "organisation": {

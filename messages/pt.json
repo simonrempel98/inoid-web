@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "d at.",
       "inDaysAbbr": "em {days}d"
+    },
+    "scheduleList": {
+      "noEntries": "Nenhuma entrada disponível",
+      "entries": "{n} entradas",
+      "open": "aberto",
+      "done": "concluído",
+      "weekAbbr": "S",
+      "badgeDone": "Concluído",
+      "badgeOverdue": "Atrasado",
+      "badgeThisWeek": "Esta semana",
+      "badgePlanned": "Planeado",
+      "markDone": "Marcar como concluído",
+      "performedOn": "Realizado em",
+      "note": "Nota (opcional)",
+      "notePlaceholder": "ex. Realizado por João Silva…",
+      "nextDate": "PRÓXIMA DATA",
+      "nextDateIn": "em {n} dias",
+      "saving": "A guardar…",
+      "confirmBtn": "Marcar como concluído",
+      "doneBtn": "Concluído"
     }
   },
   "organisation": {

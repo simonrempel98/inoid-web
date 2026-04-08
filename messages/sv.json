@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "d för.",
       "inDaysAbbr": "om {days}d"
+    },
+    "scheduleList": {
+      "noEntries": "Inga poster",
+      "entries": "{n} poster",
+      "open": "öppen",
+      "done": "klar",
+      "weekAbbr": "V",
+      "badgeDone": "Klar",
+      "badgeOverdue": "Försenad",
+      "badgeThisWeek": "Denna vecka",
+      "badgePlanned": "Planerad",
+      "markDone": "Markera som klar",
+      "performedOn": "Utförd",
+      "note": "Notering (valfri)",
+      "notePlaceholder": "t.ex. Utförd av Johan Svensson…",
+      "nextDate": "NÄSTA DATUM",
+      "nextDateIn": "om {n} dagar",
+      "saving": "Sparar…",
+      "confirmBtn": "Markera som klar",
+      "doneBtn": "Klar"
     }
   },
   "organisation": {

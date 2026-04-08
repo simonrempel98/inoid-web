@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "gg sc.",
       "inDaysAbbr": "tra {days}g"
+    },
+    "scheduleList": {
+      "noEntries": "Nessuna voce disponibile",
+      "entries": "{n} voci",
+      "open": "aperto",
+      "done": "eseguito",
+      "weekAbbr": "S",
+      "badgeDone": "Eseguito",
+      "badgeOverdue": "Scaduto",
+      "badgeThisWeek": "Questa settimana",
+      "badgePlanned": "Pianificato",
+      "markDone": "Segna come eseguito",
+      "performedOn": "Eseguito il",
+      "note": "Nota (opzionale)",
+      "notePlaceholder": "es. Eseguito da Mario Rossi…",
+      "nextDate": "PROSSIMA DATA",
+      "nextDateIn": "tra {n} giorni",
+      "saving": "Salvataggio…",
+      "confirmBtn": "Segna come eseguito",
+      "doneBtn": "Eseguito"
     }
   },
   "organisation": {

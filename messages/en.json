@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "d over",
       "inDaysAbbr": "in {days}d"
+    },
+    "scheduleList": {
+      "noEntries": "No entries available",
+      "entries": "{n} entries",
+      "open": "open",
+      "done": "done",
+      "weekAbbr": "W",
+      "badgeDone": "Done",
+      "badgeOverdue": "Overdue",
+      "badgeThisWeek": "This week",
+      "badgePlanned": "Planned",
+      "markDone": "Mark as done",
+      "performedOn": "Performed on",
+      "note": "Note (optional)",
+      "notePlaceholder": "e.g. Performed by John Doe…",
+      "nextDate": "NEXT DATE",
+      "nextDateIn": "in {n} days",
+      "saving": "Saving…",
+      "confirmBtn": "Mark as done",
+      "doneBtn": "Done"
     }
   },
   "organisation": {

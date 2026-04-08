@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "T über",
       "inDaysAbbr": "in {days}T"
+    },
+    "scheduleList": {
+      "noEntries": "Keine Einträge vorhanden",
+      "entries": "{n} Einträge",
+      "open": "offen",
+      "done": "erledigt",
+      "weekAbbr": "KW",
+      "badgeDone": "Erledigt",
+      "badgeOverdue": "Überfällig",
+      "badgeThisWeek": "Diese Woche",
+      "badgePlanned": "Geplant",
+      "markDone": "Als erledigt markieren",
+      "performedOn": "Durchgeführt am",
+      "note": "Notiz (optional)",
+      "notePlaceholder": "z.B. Durchgeführt von Max Mustermann…",
+      "nextDate": "NÄCHSTER TERMIN",
+      "nextDateIn": "in {n} Tagen",
+      "saving": "Wird gespeichert…",
+      "confirmBtn": "Erledigt markieren",
+      "doneBtn": "Erledigt"
     }
   },
   "organisation": {

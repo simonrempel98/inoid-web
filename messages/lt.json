@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "d. vėl.",
       "inDaysAbbr": "po {days}d"
+    },
+    "scheduleList": {
+      "noEntries": "Nėra įrašų",
+      "entries": "{n} įrašai",
+      "open": "atvira",
+      "done": "atlikta",
+      "weekAbbr": "Sav",
+      "badgeDone": "Atlikta",
+      "badgeOverdue": "Vėluoja",
+      "badgeThisWeek": "Šią savaitę",
+      "badgePlanned": "Suplanuota",
+      "markDone": "Pažymėti kaip atliktą",
+      "performedOn": "Atlikta",
+      "note": "Pastaba (neprivaloma)",
+      "notePlaceholder": "pvz. Atliko Jonas Jonaitis…",
+      "nextDate": "KITA DATA",
+      "nextDateIn": "po {n} dienų",
+      "saving": "Išsaugoma…",
+      "confirmBtn": "Pažymėti kaip atliktą",
+      "doneBtn": "Atlikta"
     }
   },
   "organisation": {

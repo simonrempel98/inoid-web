@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations, useLocale } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { CheckCircle2, X } from 'lucide-react'
 import type { ScheduleWithAsset } from './wartung-timeline'
@@ -18,11 +19,6 @@ export type LifecycleEventItem = {
 type ScheduleItem = ScheduleWithAsset & { _type: 'schedule' }
 type EventItem = LifecycleEventItem & { _type: 'event' }
 type ListItem = ScheduleItem | EventItem
-
-const MONTH_NAMES = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-  'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
-
-const WEEK_DAYS = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']
 
 function getWeekNumber(d: Date) {
   const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
@@ -58,33 +54,6 @@ function groupItems(items: ListItem[]) {
   return byYear
 }
 
-function getDayItems(item: ListItem, today: string) {
-  const isEvent = item._type === 'event'
-  const isOverdue = !isEvent && item.next_service_date && item.next_service_date < today
-  const isThisWeek = !isEvent && item.next_service_date &&
-    item.next_service_date >= today &&
-    item.next_service_date <= new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10)
-
-  const dotColor = isEvent ? '#27AE60'
-    : isOverdue ? '#E74C3C'
-    : isThisWeek ? '#a855f7'
-    : '#0099cc'
-
-  const badge = isEvent
-    ? { label: 'Erledigt', bg: '#e8f5e9', color: '#27AE60' }
-    : isOverdue
-    ? { label: 'Überfällig', bg: '#fef2f2', color: '#E74C3C' }
-    : isThisWeek
-    ? { label: 'Diese Woche', bg: '#faf5ff', color: '#a855f7' }
-    : { label: 'Geplant', bg: '#e8f4ff', color: '#0099cc' }
-
-  const assetTitle = item.assets?.title ?? '–'
-  const name = isEvent ? item.title : (item as ScheduleItem).name
-  const assetId = item.asset_id
-
-  return { dotColor, badge, assetTitle, name, assetId, isEvent }
-}
-
 // ─── Complete Modal ────────────────────────────────────────────────────────────
 
 function CompleteModal({
@@ -96,6 +65,8 @@ function CompleteModal({
   onClose: () => void
   onDone: () => void
 }) {
+  const t = useTranslations()
+  const locale = useLocale()
   const today = new Date().toISOString().slice(0, 10)
   const [date, setDate] = useState(today)
   const [notes, setNotes] = useState('')
@@ -107,19 +78,16 @@ function CompleteModal({
     setError(null)
     const supabase = createClient()
 
-    // organization_id holen (für RLS)
     const { data: { user } } = await supabase.auth.getUser()
-    if (!user) { setError('Nicht eingeloggt'); setSaving(false); return }
+    if (!user) { setError(t('common.error')); setSaving(false); return }
     const { data: profile } = await supabase.from('profiles').select('organization_id').eq('id', user.id).single()
-    if (!profile?.organization_id) { setError('Keine Organisation gefunden'); setSaving(false); return }
+    if (!profile?.organization_id) { setError(t('common.error')); setSaving(false); return }
 
-    // Nächsten Termin berechnen
     const done = new Date(date)
     const next = new Date(done)
     next.setDate(done.getDate() + (schedule.interval_days ?? 365))
     const nextStr = next.toISOString().slice(0, 10)
 
-    // 1. Serviceeintrag erstellen
     const { error: insertErr } = await supabase.from('asset_lifecycle_events').insert({
       asset_id: schedule.asset_id,
       organization_id: profile.organization_id,
@@ -130,7 +98,6 @@ function CompleteModal({
     })
     if (insertErr) { setError(insertErr.message); setSaving(false); return }
 
-    // 2. Intervall vorrücken
     const { error: updateErr } = await supabase.from('maintenance_schedules').update({
       last_service_date: date,
       next_service_date: nextStr,
@@ -168,7 +135,7 @@ function CompleteModal({
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20, paddingTop: 8 }}>
           <div>
-            <p style={{ fontSize: 18, fontWeight: 700, color: '#000', margin: '0 0 3px' }}>Als erledigt markieren</p>
+            <p style={{ fontSize: 18, fontWeight: 700, color: '#000', margin: '0 0 3px' }}>{t('wartung.scheduleList.markDone')}</p>
             <p style={{ fontSize: 13, color: '#96aed2', margin: 0 }}>
               {schedule.assets?.title} · {schedule.name ?? schedule.title}
             </p>
@@ -180,7 +147,7 @@ function CompleteModal({
 
         {/* Datum */}
         <div style={{ marginBottom: 16 }}>
-          <label style={labelStyle}>Durchgeführt am</label>
+          <label style={labelStyle}>{t('wartung.scheduleList.performedOn')}</label>
           <input
             type="date"
             value={date}
@@ -192,11 +159,11 @@ function CompleteModal({
 
         {/* Notiz */}
         <div style={{ marginBottom: 20 }}>
-          <label style={labelStyle}>Notiz (optional)</label>
+          <label style={labelStyle}>{t('wartung.scheduleList.note')}</label>
           <textarea
             value={notes}
             onChange={e => setNotes(e.target.value)}
-            placeholder="z.B. Durchgeführt von Max Mustermann…"
+            placeholder={t('wartung.scheduleList.notePlaceholder')}
             rows={2}
             style={{ ...inputStyle, resize: 'none', height: 'auto' }}
           />
@@ -208,15 +175,15 @@ function CompleteModal({
             background: '#f0f7ff', borderRadius: 12, padding: '10px 14px',
             marginBottom: 20, border: '1px solid #c8d4e8',
           }}>
-            <p style={{ fontSize: 11, fontWeight: 700, color: '#96aed2', margin: '0 0 2px' }}>NÄCHSTER TERMIN</p>
+            <p style={{ fontSize: 11, fontWeight: 700, color: '#96aed2', margin: '0 0 2px' }}>{t('wartung.scheduleList.nextDate')}</p>
             <p style={{ fontSize: 14, fontWeight: 700, color: '#003366', margin: 0 }}>
               {(() => {
                 const d = new Date(date)
                 d.setDate(d.getDate() + schedule.interval_days)
-                return d.toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' })
+                return d.toLocaleDateString(locale, { day: '2-digit', month: 'long', year: 'numeric' })
               })()}
               <span style={{ fontSize: 12, fontWeight: 400, color: '#96aed2', marginLeft: 6 }}>
-                (in {schedule.interval_days} Tagen)
+                ({t('wartung.scheduleList.nextDateIn', { n: schedule.interval_days })})
               </span>
             </p>
           </div>
@@ -240,7 +207,7 @@ function CompleteModal({
           }}
         >
           <CheckCircle2 size={18} />
-          {saving ? 'Wird gespeichert…' : 'Erledigt markieren'}
+          {saving ? t('wartung.scheduleList.saving') : t('wartung.scheduleList.confirmBtn')}
         </button>
       </div>
     </>
@@ -256,6 +223,8 @@ export function WartungScheduleList({
   schedules: ScheduleWithAsset[]
   events: LifecycleEventItem[]
 }) {
+  const t = useTranslations()
+  const locale = useLocale()
   const router = useRouter()
   const today = new Date().toISOString().slice(0, 10)
   const [completing, setCompleting] = useState<ScheduleWithAsset | null>(null)
@@ -273,15 +242,9 @@ export function WartungScheduleList({
   const currentMonth = String(nowDate.getMonth())
   const currentWeek = String(getWeekNumber(nowDate))
 
-  const [openYears, setOpenYears] = useState<Set<string>>(() => new Set([currentYear]))
-  const [openMonths, setOpenMonths] = useState<Set<string>>(() => new Set([`${currentYear}-${currentMonth}`]))
-  const [openWeeks, setOpenWeeks] = useState<Set<string>>(() => new Set([`${currentYear}-${currentMonth}-${currentWeek}`]))
-
-  function toggle<T>(set: Set<T>, val: T): Set<T> {
-    const next = new Set(set)
-    next.has(val) ? next.delete(val) : next.add(val)
-    return next
-  }
+  const [openYears, setOpenYears] = useState<Record<string, boolean>>(() => ({ [currentYear]: true }))
+  const [openMonths, setOpenMonths] = useState<Record<string, boolean>>(() => ({ [`${currentYear}-${currentMonth}`]: true }))
+  const [openWeeks, setOpenWeeks] = useState<Record<string, boolean>>(() => ({ [`${currentYear}-${currentMonth}-${currentWeek}`]: true }))
 
   if (allItems.length === 0) {
     return (
@@ -289,7 +252,7 @@ export function WartungScheduleList({
         background: 'white', borderRadius: 14, padding: '32px 20px',
         border: '1px solid #c8d4e8', textAlign: 'center', color: '#96aed2', fontSize: 13,
       }}>
-        Keine Einträge vorhanden
+        {t('wartung.scheduleList.noEntries')}
       </div>
     )
   }
@@ -299,14 +262,14 @@ export function WartungScheduleList({
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
         {years.map(year => {
           const months = grouped.get(year)!
-          const yearOpen = openYears.has(year)
+          const yearOpen = !!openYears[year]
           const totalInYear = [...months.values()].flatMap(w => [...w.values()].flatMap(d => [...d.values()].flat())).length
 
           return (
             <div key={year} style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
 
               {/* Jahr-Header */}
-              <button type="button" onClick={() => setOpenYears(toggle(openYears, year))} style={{
+              <button type="button" onClick={() => setOpenYears(prev => ({ ...prev, [year]: !prev[year] }))} style={{
                 width: '100%', padding: '12px 16px', background: '#f8fafd',
                 border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left',
               }}>
@@ -317,22 +280,25 @@ export function WartungScheduleList({
                 </svg>
                 <span style={{ fontWeight: 700, fontSize: 15, color: '#000', flex: 1 }}>{year}</span>
                 <span style={{ fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 10, background: '#f0f4ff', color: '#003366' }}>
-                  {totalInYear} Einträge
+                  {t('wartung.scheduleList.entries', { n: totalInYear })}
                 </span>
               </button>
 
               {yearOpen && [...months.entries()].sort((a, b) => b[0].localeCompare(a[0])).map(([monthIdx, weeks]) => {
                 const monthKey = `${year}-${monthIdx}`
-                const monthOpen = openMonths.has(monthKey)
+                const monthOpen = !!openMonths[monthKey]
                 const monthItems = [...weeks.values()].flatMap(d => [...d.values()].flat())
                 const doneInMonth = monthItems.filter(i => i._type === 'event').length
                 const openInMonth = monthItems.length - doneInMonth
+
+                const monthDate = new Date(parseInt(year), parseInt(monthIdx), 1)
+                const monthLabel = monthDate.toLocaleDateString(locale, { month: 'long' })
 
                 return (
                   <div key={monthKey} style={{ borderTop: '1px solid #f0f4f9' }}>
 
                     {/* Monat-Header */}
-                    <button type="button" onClick={() => setOpenMonths(toggle(openMonths, monthKey))} style={{
+                    <button type="button" onClick={() => setOpenMonths(prev => ({ ...prev, [monthKey]: !prev[monthKey] }))} style={{
                       width: '100%', padding: '10px 16px 10px 28px',
                       background: 'none', border: 'none', cursor: 'pointer',
                       display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left',
@@ -343,17 +309,17 @@ export function WartungScheduleList({
                         <polyline points="9 18 15 12 9 6"/>
                       </svg>
                       <span style={{ fontWeight: 700, fontSize: 13, color: '#333', flex: 1 }}>
-                        {MONTH_NAMES[parseInt(monthIdx)]}
+                        {monthLabel}
                       </span>
                       <div style={{ display: 'flex', gap: 5 }}>
                         {openInMonth > 0 && (
                           <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 10, background: '#fef2f2', color: '#E74C3C' }}>
-                            {openInMonth} offen
+                            {openInMonth} {t('wartung.scheduleList.open')}
                           </span>
                         )}
                         {doneInMonth > 0 && (
                           <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 10, background: '#e8f5e9', color: '#27AE60' }}>
-                            {doneInMonth} erledigt
+                            {doneInMonth} {t('wartung.scheduleList.done')}
                           </span>
                         )}
                       </div>
@@ -361,14 +327,14 @@ export function WartungScheduleList({
 
                     {monthOpen && [...weeks.entries()].sort((a, b) => b[0].localeCompare(a[0])).map(([weekNum, days]) => {
                       const weekKey = `${monthKey}-${weekNum}`
-                      const weekOpen = openWeeks.has(weekKey)
+                      const weekOpen = !!openWeeks[weekKey]
                       const weekItems = [...days.values()].flat()
 
                       return (
                         <div key={weekKey} style={{ borderTop: '1px solid #f8f9fb' }}>
 
                           {/* Woche-Header */}
-                          <button type="button" onClick={() => setOpenWeeks(toggle(openWeeks, weekKey))} style={{
+                          <button type="button" onClick={() => setOpenWeeks(prev => ({ ...prev, [weekKey]: !prev[weekKey] }))} style={{
                             width: '100%', padding: '8px 16px 8px 44px',
                             background: 'none', border: 'none', cursor: 'pointer',
                             display: 'flex', alignItems: 'center', gap: 8, textAlign: 'left',
@@ -378,13 +344,19 @@ export function WartungScheduleList({
                               style={{ flexShrink: 0, transition: 'transform 0.2s', transform: weekOpen ? 'rotate(90deg)' : 'none' }}>
                               <polyline points="9 18 15 12 9 6"/>
                             </svg>
-                            <span style={{ fontSize: 11, fontWeight: 700, color: '#96aed2' }}>KW {weekNum}</span>
-                            <span style={{ fontSize: 11, color: '#c8d4e8' }}>· {weekItems.length} Einträge</span>
+                            <span style={{ fontSize: 11, fontWeight: 700, color: '#96aed2' }}>{t('wartung.scheduleList.weekAbbr')} {weekNum}</span>
+                            <span style={{ fontSize: 11, color: '#c8d4e8' }}>· {t('wartung.scheduleList.entries', { n: weekItems.length })}</span>
                           </button>
 
                           {weekOpen && [...days.entries()].sort((a, b) => b[0].localeCompare(a[0])).map(([dayStr, dayItems]) => {
-                            const d = new Date(dayStr)
-                            const dayLabel = `${WEEK_DAYS[d.getDay()]}, ${d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' })}`
+                            const d = new Date(dayStr + 'T00:00:00')
+                            const isEvent = (item: ListItem) => item._type === 'event'
+                            const isOverdue = (item: ListItem) => !isEvent(item) && (item as ScheduleItem).next_service_date && (item as ScheduleItem).next_service_date! < today
+                            const isThisWeek = (item: ListItem) => !isEvent(item) && (item as ScheduleItem).next_service_date &&
+                              (item as ScheduleItem).next_service_date! >= today &&
+                              (item as ScheduleItem).next_service_date! <= new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10)
+
+                            const dayLabel = d.toLocaleDateString(locale, { weekday: 'short', day: '2-digit', month: '2-digit' })
 
                             return (
                               <div key={dayStr}>
@@ -397,7 +369,23 @@ export function WartungScheduleList({
 
                                 {/* Items des Tages */}
                                 {dayItems.map(item => {
-                                  const { dotColor, badge, assetTitle, name, assetId, isEvent } = getDayItems(item, today)
+                                  const ev = isEvent(item)
+                                  const ov = isOverdue(item)
+                                  const tw = isThisWeek(item)
+
+                                  const dotColor = ev ? '#27AE60' : ov ? '#E74C3C' : tw ? '#a855f7' : '#0099cc'
+                                  const badge = ev
+                                    ? { label: t('wartung.scheduleList.badgeDone'), bg: '#e8f5e9', color: '#27AE60' }
+                                    : ov
+                                    ? { label: t('wartung.scheduleList.badgeOverdue'), bg: '#fef2f2', color: '#E74C3C' }
+                                    : tw
+                                    ? { label: t('wartung.scheduleList.badgeThisWeek'), bg: '#faf5ff', color: '#a855f7' }
+                                    : { label: t('wartung.scheduleList.badgePlanned'), bg: '#e8f4ff', color: '#0099cc' }
+
+                                  const assetTitle = item.assets?.title ?? '–'
+                                  const name = ev ? (item as EventItem).title : (item as ScheduleItem).name
+                                  const assetId = item.asset_id
+
                                   return (
                                     <div
                                       key={item.id}
@@ -425,8 +413,7 @@ export function WartungScheduleList({
                                         {badge.label}
                                       </span>
 
-                                      {/* Erledigt-Button – nur für offene Intervalle */}
-                                      {!isEvent ? (
+                                      {!ev ? (
                                         <button
                                           type="button"
                                           onClick={e => { e.stopPropagation(); setCompleting(item as ScheduleWithAsset) }}
@@ -439,7 +426,7 @@ export function WartungScheduleList({
                                           }}
                                         >
                                           <CheckCircle2 size={13} color="#27AE60" />
-                                          Erledigt
+                                          {t('wartung.scheduleList.doneBtn')}
                                         </button>
                                       ) : (
                                         <span style={{
@@ -449,7 +436,7 @@ export function WartungScheduleList({
                                           fontSize: 12, fontWeight: 700,
                                         }}>
                                           <CheckCircle2 size={13} color="#27AE60" />
-                                          Erledigt
+                                          {t('wartung.scheduleList.doneBtn')}
                                         </span>
                                       )}
                                     </div>

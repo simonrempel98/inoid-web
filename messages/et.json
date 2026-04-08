@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "p hil.",
       "inDaysAbbr": "{days}p pärast"
+    },
+    "scheduleList": {
+      "noEntries": "Ühtegi kirjet ei ole",
+      "entries": "{n} kirjet",
+      "open": "avatud",
+      "done": "tehtud",
+      "weekAbbr": "N",
+      "badgeDone": "Tehtud",
+      "badgeOverdue": "Hilinenud",
+      "badgeThisWeek": "Sel nädalal",
+      "badgePlanned": "Planeeritud",
+      "markDone": "Märgi tehtuks",
+      "performedOn": "Teostatud",
+      "note": "Märkus (valikuline)",
+      "notePlaceholder": "nt. Teostas Jaan Tamm…",
+      "nextDate": "JÄRGMINE KUUPÄEV",
+      "nextDateIn": "{n} päeva pärast",
+      "saving": "Salvestamine…",
+      "confirmBtn": "Märgi tehtuks",
+      "doneBtn": "Tehtud"
     }
   },
   "organisation": {

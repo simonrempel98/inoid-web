@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "d po",
       "inDaysAbbr": "za {days}d"
+    },
+    "scheduleList": {
+      "noEntries": "Brak wpisów",
+      "entries": "{n} wpisy",
+      "open": "otwarte",
+      "done": "wykonane",
+      "weekAbbr": "TW",
+      "badgeDone": "Wykonane",
+      "badgeOverdue": "Zaległe",
+      "badgeThisWeek": "Ten tydzień",
+      "badgePlanned": "Zaplanowane",
+      "markDone": "Oznacz jako wykonane",
+      "performedOn": "Wykonano dnia",
+      "note": "Notatka (opcjonalna)",
+      "notePlaceholder": "np. Wykonał Jan Kowalski…",
+      "nextDate": "NASTĘPNY TERMIN",
+      "nextDateIn": "za {n} dni",
+      "saving": "Zapisywanie…",
+      "confirmBtn": "Oznacz jako wykonane",
+      "doneBtn": "Wykonane"
     }
   },
   "organisation": {

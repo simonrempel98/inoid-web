@@ -418,6 +418,26 @@
       "legendOk": "OK",
       "daysOverAbbr": "d zak.",
       "inDaysAbbr": "za {days}d"
+    },
+    "scheduleList": {
+      "noEntries": "Nema zapisa",
+      "entries": "{n} zapisa",
+      "open": "otvoreno",
+      "done": "dovršeno",
+      "weekAbbr": "T",
+      "badgeDone": "Dovršeno",
+      "badgeOverdue": "Zakašnjelo",
+      "badgeThisWeek": "Ovaj tjedan",
+      "badgePlanned": "Planirano",
+      "markDone": "Označi kao dovršeno",
+      "performedOn": "Izvršeno",
+      "note": "Napomena (neobavezno)",
+      "notePlaceholder": "npr. Izvršio Pero Perić…",
+      "nextDate": "SLJEDEĆI DATUM",
+      "nextDateIn": "za {n} dana",
+      "saving": "Spremanje…",
+      "confirmBtn": "Označi kao dovršeno",
+      "doneBtn": "Dovršeno"
     }
   },
   "organisation": {
