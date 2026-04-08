@@ -2,12 +2,11 @@
 
 import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { CheckCircle2, Smartphone, Tag } from 'lucide-react'
 import { OrgTreePicker, getOrgRefLabel, type OrgLocation, type OrgHall, type OrgArea } from '@/components/org-tree-picker'
 import { CategoryCombobox } from '@/components/category-combobox'
-
-const STEPS = ['Basisdaten', 'Fotos', 'Technik', 'Kommerziell', 'QR / NFC']
 
 export function AssetForm({ locations = [], halls = [], areas = [], categories = [] }: {
   locations?: OrgLocation[]
@@ -15,9 +14,18 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
   areas?: OrgArea[]
   categories?: string[]
 }) {
+  const t = useTranslations()
   const router = useRouter()
   const supabase = createClient()
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const STEPS = [
+    t('assets.form.steps.basisdaten'),
+    t('assets.form.steps.fotos'),
+    t('assets.form.steps.technik'),
+    t('assets.form.steps.kommerziell'),
+    t('assets.form.steps.qrNfc'),
+  ]
 
   const [assetId] = useState<string>(() => crypto.randomUUID())
   const [step, setStep] = useState(0)
@@ -73,7 +81,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
       const ext = file.name.split('.').pop()
       const path = `${assetId}/${Date.now()}.${ext}`
       const { error } = await supabase.storage.from('asset-images').upload(path, file, { upsert: false })
-      if (error) throw new Error('Bild-Upload fehlgeschlagen: ' + error.message)
+      if (error) throw new Error(t('assets.form.uploadFailed') + ': ' + error.message)
       const { data } = supabase.storage.from('asset-images').getPublicUrl(path)
       urls.push(data.publicUrl)
     }
@@ -100,14 +108,14 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
     setError(null)
     try {
       const { data: { user } } = await supabase.auth.getUser()
-      if (!user) throw new Error('Nicht eingeloggt')
+      if (!user) throw new Error(t('assets.form.notLoggedIn'))
 
       const { data: profile } = await supabase
         .from('profiles')
         .select('organization_id')
         .eq('id', user.id)
         .single()
-      if (!profile?.organization_id) throw new Error('Keine Organisation gefunden')
+      if (!profile?.organization_id) throw new Error(t('assets.form.noOrg'))
 
       const { data: asset, error: insertError } = await supabase
         .from('assets')
@@ -131,7 +139,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
         .select('id')
         .single()
 
-      if (insertError || !asset) throw new Error(insertError?.message ?? 'Asset konnte nicht gespeichert werden')
+      if (insertError || !asset) throw new Error(insertError?.message ?? t('assets.form.saveFailed'))
 
       const imageUrls = await uploadImages()
       const qrUrl = await generateQR()
@@ -143,9 +151,9 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
       }).eq('id', assetId)
 
       setSavedAssetId(assetId)
-      setStep(5) // Fertig-Screen
+      setStep(5)
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : 'Unbekannter Fehler')
+      setError(e instanceof Error ? e.message : t('assets.form.saveFailed'))
     } finally {
       setLoading(false)
     }
@@ -179,7 +187,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
                 })
               }}
               style={{ ...inputStyle, flex: 1 }}
-              placeholder="Bezeichnung"
+              placeholder={t('assets.form.fieldName')}
             />
             <input
               value={data[key] ?? ''}
@@ -188,7 +196,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
                 setData(prev => ({ ...prev, [key]: val }))
               }}
               style={{ ...inputStyle, flex: 1 }}
-              placeholder="Wert"
+              placeholder={t('assets.form.fieldValue')}
             />
             <button
               type="button"
@@ -211,7 +219,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
             border: '1px dashed #c8d4e8', background: 'none', borderRadius: 10,
             padding: '8px 16px', color: '#003366', fontSize: 13, cursor: 'pointer', fontWeight: 600,
           }}
-        >+ Feld hinzufügen</button>
+        >{t('assets.form.addField')}</button>
       </div>
     )
   }
@@ -226,6 +234,12 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
     marginBottom: 4, fontFamily: 'Arial, sans-serif',
   }
 
+  const STATUS_OPTIONS = [
+    { value: 'active' as const, color: '#27AE60' },
+    { value: 'in_service' as const, color: '#F39C12' },
+    { value: 'decommissioned' as const, color: '#666666' },
+  ]
+
   function renderStep() {
     // Fertig
     if (step === 5 && savedAssetId) {
@@ -233,10 +247,10 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
         <div style={{ textAlign: 'center', padding: '20px 0' }}>
           <div style={{ marginBottom: 12, color: '#003366' }}><CheckCircle2 size={48} style={{ color: '#003366' }} /></div>
           <h2 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: '0 0 8px', fontFamily: 'Arial, sans-serif' }}>
-            Asset angelegt!
+            {t('assets.form.saved')}
           </h2>
           <p style={{ color: '#666', fontSize: 14, marginBottom: 24, fontFamily: 'Arial, sans-serif' }}>
-            „{title}" wurde erfolgreich gespeichert.
+            {t('assets.form.savedDesc', { title })}
           </p>
           {qrDataUrl && (
             <div style={{ display: 'inline-block', padding: 16, background: 'white', borderRadius: 16, border: '1px solid #c8d4e8', marginBottom: 24 }}>
@@ -254,7 +268,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
                 borderRadius: 50, border: 'none', fontSize: 14, fontWeight: 700,
                 cursor: 'pointer', fontFamily: 'Arial, sans-serif',
               }}
-            >Asset öffnen</button>
+            >{t('assets.form.openAsset')}</button>
             <button
               onClick={() => router.push('/assets')}
               style={{
@@ -262,7 +276,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
                 borderRadius: 50, border: '1px solid #c8d4e8', fontSize: 14, fontWeight: 700,
                 cursor: 'pointer', fontFamily: 'Arial, sans-serif',
               }}
-            >Zur Übersicht</button>
+            >{t('assets.form.toOverview')}</button>
           </div>
         </div>
       )
@@ -273,61 +287,57 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
       return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div>
-            <label style={labelStyle}>Bezeichnung *</label>
+            <label style={labelStyle}>{t('assets.form.nameRequired')}</label>
             <input value={title} onChange={e => setTitle(e.target.value)}
-              style={inputStyle} placeholder="z.B. Bohrkrone PDC 125mm" autoFocus />
+              style={inputStyle} placeholder={t('assets.form.namePlaceholder')} autoFocus />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
-              <label style={labelStyle}>Artikelnummer</label>
+              <label style={labelStyle}>{t('assets.form.articleNumber')}</label>
               <input value={articleNumber} onChange={e => setArticleNumber(e.target.value)}
                 style={inputStyle} placeholder="ART-001" />
             </div>
             <div>
-              <label style={labelStyle}>Seriennummer</label>
+              <label style={labelStyle}>{t('assets.form.serialNumber')}</label>
               <input value={serialNumber} onChange={e => setSerialNumber(e.target.value)}
                 style={inputStyle} placeholder="SN-12345" />
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
-              <label style={labelStyle}>Bestellnummer</label>
+              <label style={labelStyle}>{t('assets.form.orderNumber')}</label>
               <input value={orderNumber} onChange={e => setOrderNumber(e.target.value)}
                 style={inputStyle} placeholder="ORD-2024-001" />
             </div>
             <div>
-              <label style={labelStyle}>Kategorie</label>
+              <label style={labelStyle}>{t('assets.form.category')}</label>
               <CategoryCombobox value={category} onChange={setCategory} categories={categories} inputStyle={inputStyle} />
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
-              <label style={labelStyle}>Hersteller</label>
+              <label style={labelStyle}>{t('assets.form.manufacturer')}</label>
               <input value={manufacturer} onChange={e => setManufacturer(e.target.value)}
                 style={inputStyle} placeholder="z.B. Hilti" />
             </div>
             <div>
-              <label style={labelStyle}>Standort</label>
+              <label style={labelStyle}>{t('assets.form.location')}</label>
               {locations.length > 0
                 ? <OrgTreePicker locations={locations} halls={halls} areas={areas} value={locationRef} onChange={setLocationRef} inputStyle={inputStyle} />
-                : <input value={location} onChange={e => setLocation(e.target.value)} style={inputStyle} placeholder="z.B. Lager A" />
+                : <input value={location} onChange={e => setLocation(e.target.value)} style={inputStyle} placeholder={t('assets.form.locationPlaceholder')} />
               }
             </div>
           </div>
           <div>
-            <label style={labelStyle}>Beschreibung</label>
+            <label style={labelStyle}>{t('assets.form.description')}</label>
             <textarea value={description} onChange={e => setDescription(e.target.value)}
               rows={3} style={{ ...inputStyle, resize: 'none' }}
-              placeholder="Optionale Beschreibung…" />
+              placeholder={t('assets.form.descriptionPlaceholder')} />
           </div>
           <div>
-            <label style={labelStyle}>Status</label>
+            <label style={labelStyle}>{t('assets.form.status')}</label>
             <div style={{ display: 'flex', gap: 8 }}>
-              {([
-                { value: 'active', label: 'Aktiv', color: '#27AE60' },
-                { value: 'in_service', label: 'In Wartung', color: '#F39C12' },
-                { value: 'decommissioned', label: 'Außer Betrieb', color: '#666666' },
-              ] as const).map(s => (
+              {STATUS_OPTIONS.map(s => (
                 <button key={s.value} type="button" onClick={() => setStatus(s.value)}
                   style={{
                     flex: 1, padding: '8px 4px', borderRadius: 10, border: 'none',
@@ -336,7 +346,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
                     color: status === s.value ? s.color : '#666',
                     outline: status === s.value ? `2px solid ${s.color}` : 'none',
                   }}
-                >{s.label}</button>
+                >{s.value === 'decommissioned' ? t('assets.form.statusDecommissioned') : t(`assetStatus.${s.value}` as any)}</button>
               ))}
             </div>
           </div>
@@ -349,7 +359,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
       return (
         <div>
           <p style={{ color: '#666', fontSize: 13, marginBottom: 16, fontFamily: 'Arial, sans-serif' }}>
-            Bis zu 10 Fotos. Das erste Bild wird als Titelbild verwendet.
+            {t('assets.form.photosHint')}
           </p>
           <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleImageSelect} style={{ display: 'none' }} />
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 12 }}>
@@ -367,7 +377,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
                     background: 'rgba(0,51,102,0.7)', color: 'white',
                     fontSize: 10, textAlign: 'center', padding: '2px 0',
                     fontFamily: 'Arial, sans-serif', fontWeight: 700,
-                  }}>Titelbild</div>
+                  }}>{t('assets.form.coverPhoto')}</div>
                 )}
               </div>
             ))}
@@ -382,7 +392,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
                   <polyline points="17 8 12 3 7 8"/>
                   <line x1="12" y1="3" x2="12" y2="15"/>
                 </svg>
-                <span style={{ fontSize: 11, color: '#96aed2', fontFamily: 'Arial, sans-serif' }}>Foto</span>
+                <span style={{ fontSize: 11, color: '#96aed2', fontFamily: 'Arial, sans-serif' }}>{t('assets.form.photo')}</span>
               </button>
             )}
           </div>
@@ -395,7 +405,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
       return (
         <div>
           <p style={{ color: '#666', fontSize: 13, marginBottom: 16, fontFamily: 'Arial, sans-serif' }}>
-            Füge technische Kennwerte hinzu (z.B. Gewicht, Leistung, Maße).
+            {t('assets.form.techHint')}
           </p>
           {renderDynamicFields(technicalData, setTechnicalData, techFreeKeys, setTechFreeKeys)}
         </div>
@@ -407,7 +417,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
       return (
         <div>
           <p style={{ color: '#666', fontSize: 13, marginBottom: 16, fontFamily: 'Arial, sans-serif' }}>
-            Füge kommerzielle Informationen hinzu (z.B. Kaufpreis, Lieferant, Garantie).
+            {t('assets.form.commHint')}
           </p>
           {renderDynamicFields(commercialData, setCommercialData, commFreeKeys, setCommFreeKeys)}
         </div>
@@ -435,10 +445,10 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
           </svg>
         </button>
         <div>
-          <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>Neues Asset</h1>
+          <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>{t('assets.form.newAsset')}</h1>
           {step < 5 && (
             <p style={{ fontSize: 12, color: '#96aed2', margin: 0 }}>
-              Schritt {step + 1} von {STEPS.length} · {STEPS[step]}
+              {t('assets.form.stepOf', { step: step + 1, total: STEPS.length, name: STEPS[step] })}
             </p>
           )}
         </div>
@@ -487,7 +497,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
               border: '1px solid #c8d4e8', background: 'white',
               color: '#003366', fontSize: 14, fontWeight: 700,
               cursor: 'pointer', fontFamily: 'Arial, sans-serif',
-            }}>Zurück</button>
+            }}>{t('assets.form.back')}</button>
           )}
 
           {!isLastStep && (
@@ -496,7 +506,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
               border: 'none', background: canProceed ? '#003366' : '#c8d4e8',
               color: 'white', fontSize: 14, fontWeight: 700,
               cursor: canProceed ? 'pointer' : 'default', fontFamily: 'Arial, sans-serif',
-            }}>Weiter</button>
+            }}>{t('assets.form.next')}</button>
           )}
 
           {isLastStep && (
@@ -505,7 +515,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
               border: 'none', background: loading ? '#c8d4e8' : '#003366',
               color: 'white', fontSize: 14, fontWeight: 700,
               cursor: loading ? 'default' : 'pointer', fontFamily: 'Arial, sans-serif',
-            }}>{loading ? 'Wird gespeichert…' : 'Asset speichern ✓'}</button>
+            }}>{loading ? t('assets.form.saving') : t('assets.form.saveAsset')}</button>
           )}
         </div>
       )}
@@ -514,6 +524,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
 }
 
 function UuidCopyStep({ assetId }: { assetId: string }) {
+  const t = useTranslations()
   const [copied, setCopied] = useState(false)
   function copy() {
     navigator.clipboard.writeText(assetId)
@@ -524,10 +535,10 @@ function UuidCopyStep({ assetId }: { assetId: string }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div style={{ background: '#f0f4ff', borderRadius: 14, padding: 20, border: '1px solid #c8d4e8' }}>
         <p style={{ fontWeight: 700, fontSize: 14, color: '#003366', margin: '0 0 6px', fontFamily: 'Arial, sans-serif', display: 'flex', alignItems: 'center', gap: 6 }}>
-          <Smartphone size={14} /> Asset-UUID
+          <Smartphone size={14} /> {t('assets.form.uuidTitle')}
         </p>
         <p style={{ fontSize: 12, color: '#666', margin: '0 0 12px', fontFamily: 'Arial, sans-serif', lineHeight: 1.5 }}>
-          Diese UUID wird automatisch für QR-Code <strong>und</strong> NFC-Tag verwendet. Sie kann nicht manuell geändert werden.
+          {t('assets.form.uuidDesc')}
         </p>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
           <p style={{
@@ -542,16 +553,16 @@ function UuidCopyStep({ assetId }: { assetId: string }) {
             color: copied ? '#2e7d32' : '#003366', fontSize: 12, fontWeight: 700,
             cursor: 'pointer', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap',
           }}>
-            {copied ? '✓ Kopiert' : 'Kopieren'}
+            {copied ? t('assets.form.copied') : t('assets.form.copy')}
           </button>
         </div>
       </div>
       <div style={{ background: 'white', borderRadius: 14, padding: 16, border: '1px solid #c8d4e8' }}>
         <p style={{ fontWeight: 700, fontSize: 13, color: '#000', margin: '0 0 8px', fontFamily: 'Arial, sans-serif', display: 'flex', alignItems: 'center', gap: 6 }}>
-          <Tag size={13} /> NFC-Tag programmieren
+          <Tag size={13} /> {t('assets.form.nfcTitle')}
         </p>
         <p style={{ fontSize: 12, color: '#666', margin: 0, fontFamily: 'Arial, sans-serif', lineHeight: 1.5 }}>
-          Kopiere die UUID oben und schreibe sie auf deinen NFC-Tag – z.B. mit einer NFC-Schreib-App auf dem Smartphone.
+          {t('assets.form.nfcDesc')}
         </p>
       </div>
     </div>

@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { ClipboardList, Settings2, Briefcase, Camera, Smartphone, Tag } from 'lucide-react'
 import { OrgTreePicker, getOrgRefLabel, type OrgLocation, type OrgHall, type OrgArea } from '@/components/org-tree-picker'
@@ -33,6 +34,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
   areas?: OrgArea[]
   categories?: string[]
 }) {
+  const t = useTranslations()
   const router = useRouter()
   const supabase = createClient()
 
@@ -43,7 +45,6 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
 
   const qrUrl = `https://inoid.app/assets/${asset.id}`
 
-  // Bilder: bestehende URLs + neue Dateien
   const [existingUrls, setExistingUrls] = useState<string[]>(asset.image_urls ?? [])
   const [newFiles, setNewFiles] = useState<File[]>([])
   const [newPreviews, setNewPreviews] = useState<string[]>([])
@@ -66,7 +67,6 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
   const [description, setDescription] = useState(asset.description ?? '')
   const [status, setStatus] = useState(asset.status as 'active' | 'in_service' | 'decommissioned')
 
-  // Dynamische Felder als editierbare Liste
   const [techEntries, setTechEntries] = useState<[string, string][]>(
     Object.entries(asset.technical_data ?? {})
   )
@@ -102,7 +102,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
       const ext = file.name.split('.').pop()
       const path = `${asset.id}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
       const { error } = await supabase.storage.from('asset-images').upload(path, file)
-      if (error) throw new Error('Bild-Upload fehlgeschlagen: ' + error.message)
+      if (error) throw new Error(t('assets.form.uploadFailed') + ': ' + error.message)
       const { data } = supabase.storage.from('asset-images').getPublicUrl(path)
       urls.push(data.publicUrl)
     }
@@ -110,7 +110,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
   }
 
   async function handleSave() {
-    if (!title.trim()) { setError('Bezeichnung darf nicht leer sein.'); return }
+    if (!title.trim()) { setError(t('assets.form.nameEmpty')); return }
     setLoading(true)
     setError(null)
     try {
@@ -145,7 +145,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
       router.push(`/assets/${asset.id}`)
       router.refresh()
     } catch (e: unknown) {
-      setError(e instanceof Error ? e.message : 'Fehler beim Speichern')
+      setError(e instanceof Error ? e.message : t('assets.form.updateFailed'))
     } finally {
       setLoading(false)
     }
@@ -161,7 +161,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
       router.push('/assets')
       router.refresh()
     } catch {
-      setError('Fehler beim Löschen')
+      setError(t('assets.form.deleteFailed'))
       setLoading(false)
     }
   }
@@ -183,6 +183,12 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
     fontSize: 15, fontWeight: 700, color: '#000', margin: '0 0 4px', fontFamily: 'Arial, sans-serif',
   }
 
+  const STATUS_OPTIONS = [
+    { value: 'active' as const, color: '#27AE60' },
+    { value: 'in_service' as const, color: '#F39C12' },
+    { value: 'decommissioned' as const, color: '#666666' },
+  ]
+
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', maxWidth: 600, margin: '0 auto' }}>
       {/* Header */}
@@ -194,7 +200,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
           </svg>
         </button>
         <div>
-          <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>Asset bearbeiten</h1>
+          <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>{t('assets.form.editAsset')}</h1>
           <p style={{ fontSize: 12, color: '#96aed2', margin: 0 }}>{asset.title}</p>
         </div>
       </div>
@@ -211,57 +217,53 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
 
         {/* ─ Basisdaten ─ */}
         <div style={sectionStyle}>
-          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><ClipboardList size={15} /> Basisdaten</p>
+          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><ClipboardList size={15} /> {t('assets.form.steps.basisdaten')}</p>
           <div>
-            <label style={labelStyle}>Bezeichnung *</label>
+            <label style={labelStyle}>{t('assets.form.nameRequired')}</label>
             <input value={title} onChange={e => setTitle(e.target.value)} style={inputStyle} />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
-              <label style={labelStyle}>Artikelnummer</label>
+              <label style={labelStyle}>{t('assets.form.articleNumber')}</label>
               <input value={articleNumber} onChange={e => setArticleNumber(e.target.value)} style={inputStyle} placeholder="ART-001" />
             </div>
             <div>
-              <label style={labelStyle}>Seriennummer</label>
+              <label style={labelStyle}>{t('assets.form.serialNumber')}</label>
               <input value={serialNumber} onChange={e => setSerialNumber(e.target.value)} style={inputStyle} placeholder="SN-12345" />
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
-              <label style={labelStyle}>Bestellnummer</label>
+              <label style={labelStyle}>{t('assets.form.orderNumber')}</label>
               <input value={orderNumber} onChange={e => setOrderNumber(e.target.value)} style={inputStyle} />
             </div>
             <div>
-              <label style={labelStyle}>Kategorie</label>
+              <label style={labelStyle}>{t('assets.form.category')}</label>
               <CategoryCombobox value={category} onChange={setCategory} categories={categories} inputStyle={inputStyle} />
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
-              <label style={labelStyle}>Hersteller</label>
+              <label style={labelStyle}>{t('assets.form.manufacturer')}</label>
               <input value={manufacturer} onChange={e => setManufacturer(e.target.value)} style={inputStyle} />
             </div>
             <div>
-              <label style={labelStyle}>Standort</label>
+              <label style={labelStyle}>{t('assets.form.location')}</label>
               {locations.length > 0
                 ? <OrgTreePicker locations={locations} halls={halls} areas={areas} value={locationRef} onChange={setLocationRef} inputStyle={inputStyle} />
-                : <input value={location} onChange={e => setLocation(e.target.value)} style={inputStyle} placeholder="z.B. Lager A" />
+                : <input value={location} onChange={e => setLocation(e.target.value)} style={inputStyle} placeholder={t('assets.form.locationPlaceholder')} />
               }
             </div>
           </div>
           <div>
-            <label style={labelStyle}>Beschreibung</label>
+            <label style={labelStyle}>{t('assets.form.description')}</label>
             <textarea value={description} onChange={e => setDescription(e.target.value)}
               rows={3} style={{ ...inputStyle, resize: 'none' }} />
           </div>
           <div>
-            <label style={labelStyle}>Status</label>
+            <label style={labelStyle}>{t('assets.form.status')}</label>
             <div style={{ display: 'flex', gap: 8 }}>
-              {([
-                { value: 'active', label: 'Aktiv', color: '#27AE60' },
-                { value: 'in_service', label: 'In Wartung', color: '#F39C12' },
-                { value: 'decommissioned', label: 'Außer Betrieb', color: '#666666' },
-              ] as const).map(s => (
+              {STATUS_OPTIONS.map(s => (
                 <button key={s.value} type="button" onClick={() => setStatus(s.value)}
                   style={{
                     flex: 1, padding: '8px 4px', borderRadius: 10, border: 'none',
@@ -270,7 +272,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
                     color: status === s.value ? s.color : '#666',
                     outline: status === s.value ? `2px solid ${s.color}` : 'none',
                   }}>
-                  {s.label}
+                  {s.value === 'decommissioned' ? t('assets.form.statusDecommissioned') : t(`assetStatus.${s.value}` as any)}
                 </button>
               ))}
             </div>
@@ -279,19 +281,19 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
 
         {/* ─ Technische Daten ─ */}
         <div style={sectionStyle}>
-          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Settings2 size={15} /> Technische Daten</p>
+          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Settings2 size={15} /> {t('assets.form.techSection')}</p>
           {techEntries.map(([k, v], i) => (
             <div key={i} style={{ display: 'flex', gap: 8 }}>
               <input value={k} onChange={e => {
                 const updated = [...techEntries]
                 updated[i] = [e.target.value, updated[i][1]]
                 setTechEntries(updated)
-              }} style={{ ...inputStyle, flex: 1 }} placeholder="Bezeichnung" />
+              }} style={{ ...inputStyle, flex: 1 }} placeholder={t('assets.form.fieldName')} />
               <input value={v} onChange={e => {
                 const updated = [...techEntries]
                 updated[i] = [updated[i][0], e.target.value]
                 setTechEntries(updated)
-              }} style={{ ...inputStyle, flex: 1 }} placeholder="Wert" />
+              }} style={{ ...inputStyle, flex: 1 }} placeholder={t('assets.form.fieldValue')} />
               <button type="button" onClick={() => setTechEntries(techEntries.filter((_, j) => j !== i))}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#999', fontSize: 20 }}>
                 ×
@@ -300,25 +302,25 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
           ))}
           <button type="button" onClick={() => setTechEntries([...techEntries, ['', '']])}
             style={{ border: '1px dashed #c8d4e8', background: 'none', borderRadius: 10, padding: '8px 16px', color: '#003366', fontSize: 13, cursor: 'pointer', fontWeight: 600 }}>
-            + Feld hinzufügen
+            {t('assets.form.addField')}
           </button>
         </div>
 
         {/* ─ Kommerzielle Daten ─ */}
         <div style={sectionStyle}>
-          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Briefcase size={15} /> Kommerzielle Daten</p>
+          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Briefcase size={15} /> {t('assets.form.commSection')}</p>
           {commEntries.map(([k, v], i) => (
             <div key={i} style={{ display: 'flex', gap: 8 }}>
               <input value={k} onChange={e => {
                 const updated = [...commEntries]
                 updated[i] = [e.target.value, updated[i][1]]
                 setCommEntries(updated)
-              }} style={{ ...inputStyle, flex: 1 }} placeholder="Bezeichnung" />
+              }} style={{ ...inputStyle, flex: 1 }} placeholder={t('assets.form.fieldName')} />
               <input value={v} onChange={e => {
                 const updated = [...commEntries]
                 updated[i] = [updated[i][0], e.target.value]
                 setCommEntries(updated)
-              }} style={{ ...inputStyle, flex: 1 }} placeholder="Wert" />
+              }} style={{ ...inputStyle, flex: 1 }} placeholder={t('assets.form.fieldValue')} />
               <button type="button" onClick={() => setCommEntries(commEntries.filter((_, j) => j !== i))}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#999', fontSize: 20 }}>
                 ×
@@ -327,23 +329,22 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
           ))}
           <button type="button" onClick={() => setCommEntries([...commEntries, ['', '']])}
             style={{ border: '1px dashed #c8d4e8', background: 'none', borderRadius: 10, padding: '8px 16px', color: '#003366', fontSize: 13, cursor: 'pointer', fontWeight: 600 }}>
-            + Feld hinzufügen
+            {t('assets.form.addField')}
           </button>
         </div>
 
         {/* ─ Fotos ─ */}
         <div style={sectionStyle}>
-          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Camera size={15} /> Fotos</p>
+          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Camera size={15} /> {t('assets.form.steps.fotos')}</p>
           <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleFileSelect} style={{ display: 'none' }} />
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
-            {/* Bestehende Bilder */}
             {existingUrls.map((url, i) => (
               <div key={url} style={{ position: 'relative', aspectRatio: '1', borderRadius: 10, overflow: 'hidden', border: '1px solid #c8d4e8' }}>
                 <img src={url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 {i === 0 && (
                   <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,51,102,0.7)', color: 'white', fontSize: 10, textAlign: 'center', padding: '2px 0', fontFamily: 'Arial, sans-serif', fontWeight: 700 }}>
-                    Titelbild
+                    {t('assets.form.coverPhoto')}
                   </div>
                 )}
                 <button type="button" onClick={() => removeExisting(url)}
@@ -353,7 +354,6 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
               </div>
             ))}
 
-            {/* Neue Bilder (Vorschau) */}
             {newPreviews.map((src, i) => (
               <div key={i} style={{ position: 'relative', aspectRatio: '1', borderRadius: 10, overflow: 'hidden', border: '2px dashed #0099cc' }}>
                 <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -365,7 +365,6 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
               </div>
             ))}
 
-            {/* Upload-Button */}
             {existingUrls.length + newFiles.length < 10 && (
               <button type="button" onClick={() => fileInputRef.current?.click()}
                 style={{ aspectRatio: '1', borderRadius: 10, border: '2px dashed #c8d4e8', background: '#f4f6f9', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
@@ -374,36 +373,36 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
                   <polyline points="17 8 12 3 7 8"/>
                   <line x1="12" y1="3" x2="12" y2="15"/>
                 </svg>
-                <span style={{ fontSize: 10, color: '#96aed2', fontFamily: 'Arial, sans-serif' }}>Foto</span>
+                <span style={{ fontSize: 10, color: '#96aed2', fontFamily: 'Arial, sans-serif' }}>{t('assets.form.photo')}</span>
               </button>
             )}
           </div>
 
           {existingUrls.length + newFiles.length === 0 && (
             <p style={{ fontSize: 12, color: '#999', margin: '4px 0 0', fontFamily: 'Arial, sans-serif' }}>
-              Noch keine Fotos. Bis zu 10 möglich.
+              {t('assets.form.noPhotos')}
             </p>
           )}
         </div>
 
         {/* ─ QR-Code ─ */}
         <div style={sectionStyle}>
-          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Smartphone size={15} /> QR-Code</p>
+          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Smartphone size={15} /> {t('assets.form.qrTitle')}</p>
           <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
             <div style={{
               width: 120, height: 120, borderRadius: 12, border: '1px solid #c8d4e8',
               background: '#f4f6f9', flexShrink: 0, overflow: 'hidden',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
-              <QrPreview url={qrUrl} />
+              <QrPreview url={qrUrl} loadingText={t('assets.form.loading')} />
             </div>
             <div style={{ flex: 1, minWidth: 160 }}>
-              <p style={{ fontSize: 11, color: '#96aed2', fontWeight: 700, margin: '0 0 4px', fontFamily: 'Arial, sans-serif' }}>QR-Link</p>
+              <p style={{ fontSize: 11, color: '#96aed2', fontWeight: 700, margin: '0 0 4px', fontFamily: 'Arial, sans-serif' }}>{t('assets.form.qrLink')}</p>
               <p style={{ fontSize: 11, color: '#003366', margin: 0, fontFamily: 'monospace', wordBreak: 'break-all' }}>
                 {qrUrl}
               </p>
               <p style={{ fontSize: 11, color: '#999', margin: '8px 0 0', fontFamily: 'Arial, sans-serif' }}>
-                Der QR-Code ist fest mit der UUID verknüpft und kann nicht geändert werden.
+                {t('assets.form.qrFixed')}
               </p>
             </div>
           </div>
@@ -411,9 +410,9 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
 
         {/* ─ NFC / UUID ─ */}
         <div style={sectionStyle}>
-          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Tag size={15} /> NFC-Tag & UUID</p>
+          <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Tag size={15} /> {t('assets.form.nfcUuid')}</p>
           <p style={{ fontSize: 12, color: '#666', margin: 0, fontFamily: 'Arial, sans-serif', lineHeight: 1.5 }}>
-            Die UUID ist fest mit diesem Asset verknüpft und kann nicht geändert werden. Kopiere sie, um deinen NFC-Tag zu programmieren.
+            {t('assets.form.nfcUuidDesc')}
           </p>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             <p style={{
@@ -428,7 +427,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
               color: uuidCopied ? '#2e7d32' : '#003366', fontSize: 12, fontWeight: 700,
               cursor: 'pointer', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap',
             }}>
-              {uuidCopied ? '✓ Kopiert' : 'Kopieren'}
+              {uuidCopied ? t('assets.form.copied') : t('assets.form.copy')}
             </button>
           </div>
         </div>
@@ -441,7 +440,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
             color: 'white', fontSize: 15, fontWeight: 700,
             cursor: loading ? 'default' : 'pointer', fontFamily: 'Arial, sans-serif',
           }}>
-          {loading ? 'Wird gespeichert…' : 'Änderungen speichern'}
+          {loading ? t('assets.form.saving') : t('assets.form.saveChanges')}
         </button>
 
         {/* ─ Löschen ─ */}
@@ -454,7 +453,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
                 color: '#dc2626', fontSize: 14, fontWeight: 700,
                 cursor: 'pointer', fontFamily: 'Arial, sans-serif',
               }}>
-              Asset löschen
+              {t('assets.form.deleteAsset')}
             </button>
           ) : (
             <div style={{
@@ -462,19 +461,19 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
               border: '1px solid #fecaca', textAlign: 'center',
             }}>
               <p style={{ fontWeight: 700, color: '#dc2626', margin: '0 0 12px', fontSize: 14 }}>
-                Wirklich löschen?
+                {t('assets.form.deleteConfirm')}
               </p>
               <p style={{ color: '#666', fontSize: 13, margin: '0 0 16px' }}>
-                Das Asset wird ausgeblendet und kann nicht mehr gefunden werden.
+                {t('assets.form.deleteDesc')}
               </p>
               <div style={{ display: 'flex', gap: 10 }}>
                 <button onClick={() => setDeleteConfirm(false)}
                   style={{ flex: 1, padding: '11px', borderRadius: 50, border: '1px solid #c8d4e8', background: 'white', color: '#666', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
-                  Abbrechen
+                  {t('common.cancel')}
                 </button>
                 <button onClick={handleDelete} disabled={loading}
                   style={{ flex: 1, padding: '11px', borderRadius: 50, border: 'none', background: '#dc2626', color: 'white', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
-                  Ja, löschen
+                  {t('assets.form.yesDelete')}
                 </button>
               </div>
             </div>
@@ -485,8 +484,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
   )
 }
 
-// Rendert QR-Code aus URL (gleiche Logik wie AssetQrDisplay)
-function QrPreview({ url }: { url: string }) {
+function QrPreview({ url, loadingText }: { url: string; loadingText: string }) {
   const [src, setSrc] = useState<string | null>(null)
   useEffect(() => {
     import('qrcode').then(mod => {
@@ -494,6 +492,6 @@ function QrPreview({ url }: { url: string }) {
         .then(setSrc)
     })
   }, [url])
-  if (!src) return <span style={{ fontSize: 10, color: '#96aed2', fontFamily: 'Arial, sans-serif' }}>Lädt…</span>
+  if (!src) return <span style={{ fontSize: 10, color: '#96aed2', fontFamily: 'Arial, sans-serif' }}>{loadingText}</span>
   return <img src={src} alt="QR" style={{ width: '100%', height: '100%' }} />
 }
