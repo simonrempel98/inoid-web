@@ -503,7 +503,11 @@
       "changePassword": "Wachtwoord wijzigen",
       "currentPassword": "Huidig wachtwoord",
       "newPassword": "Nieuw wachtwoord",
-      "passwordSaved": "Wachtwoord gewijzigd"
+      "passwordSaved": "Wachtwoord gewijzigd",
+      "minChars": "Minimaal 8 tekens",
+      "confirmPassword": "Wachtwoord bevestigen",
+      "pwTooShort": "Wachtwoord moet minimaal 8 tekens hebben.",
+      "pwMismatch": "Wachtwoorden komen niet overeen."
     },
     "eventTypes": {
       "title": "Gebeurtenistypen",
@@ -610,5 +614,8 @@
     "biannual": "Halfjaarlijks",
     "annual": "Jaarlijks",
     "biennial": "Tweejaarlijks"
+  },
+  "mehr": {
+    "help": "Help"
   }
 }

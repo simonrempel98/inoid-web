@@ -503,7 +503,11 @@
       "changePassword": "Schimbare parolă",
       "currentPassword": "Parola curentă",
       "newPassword": "Parolă nouă",
-      "passwordSaved": "Parola a fost schimbată"
+      "passwordSaved": "Parola a fost schimbată",
+      "minChars": "Minim 8 caractere",
+      "confirmPassword": "Confirmă parola",
+      "pwTooShort": "Parola trebuie să aibă cel puțin 8 caractere.",
+      "pwMismatch": "Parolele nu se potrivesc."
     },
     "eventTypes": {
       "title": "Tipuri de evenimente",
@@ -610,5 +614,8 @@
     "biannual": "Semestrial",
     "annual": "Anual",
     "biennial": "Bianual"
+  },
+  "mehr": {
+    "help": "Ajutor"
   }
 }

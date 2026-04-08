@@ -503,7 +503,11 @@
       "changePassword": "Изменить пароль",
       "currentPassword": "Текущий пароль",
       "newPassword": "Новый пароль",
-      "passwordSaved": "Пароль изменён"
+      "passwordSaved": "Пароль изменён",
+      "minChars": "Не менее 8 символов",
+      "confirmPassword": "Подтвердите пароль",
+      "pwTooShort": "Пароль должен содержать не менее 8 символов.",
+      "pwMismatch": "Пароли не совпадают."
     },
     "eventTypes": {
       "title": "Типы событий",
@@ -610,5 +614,8 @@
     "biannual": "Раз в полгода",
     "annual": "Ежегодно",
     "biennial": "Раз в два года"
+  },
+  "mehr": {
+    "help": "Помощь"
   }
 }

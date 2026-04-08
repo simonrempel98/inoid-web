@@ -503,7 +503,11 @@
       "changePassword": "Змінити пароль",
       "currentPassword": "Поточний пароль",
       "newPassword": "Новий пароль",
-      "passwordSaved": "Пароль змінено"
+      "passwordSaved": "Пароль змінено",
+      "minChars": "Не менше 8 символів",
+      "confirmPassword": "Підтвердіть пароль",
+      "pwTooShort": "Пароль повинен містити не менше 8 символів.",
+      "pwMismatch": "Паролі не збігаються."
     },
     "eventTypes": {
       "title": "Типи подій",
@@ -610,5 +614,8 @@
     "biannual": "Раз на півроку",
     "annual": "Щорічно",
     "biennial": "Раз на два роки"
+  },
+  "mehr": {
+    "help": "Допомога"
   }
 }

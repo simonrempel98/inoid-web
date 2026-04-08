@@ -503,7 +503,11 @@
       "changePassword": "Zmeniť heslo",
       "currentPassword": "Aktuálne heslo",
       "newPassword": "Nové heslo",
-      "passwordSaved": "Heslo bolo zmenené"
+      "passwordSaved": "Heslo bolo zmenené",
+      "minChars": "Aspoň 8 znakov",
+      "confirmPassword": "Potvrdiť heslo",
+      "pwTooShort": "Heslo musí mať aspoň 8 znakov.",
+      "pwMismatch": "Heslá sa nezhodujú."
     },
     "eventTypes": {
       "title": "Typy udalostí",
@@ -610,5 +614,8 @@
     "biannual": "Polročne",
     "annual": "Ročne",
     "biennial": "Dvojročne"
+  },
+  "mehr": {
+    "help": "Pomoc"
   }
 }

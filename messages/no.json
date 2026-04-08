@@ -503,7 +503,11 @@
       "changePassword": "Endre passord",
       "currentPassword": "Gjeldende passord",
       "newPassword": "Nytt passord",
-      "passwordSaved": "Passord endret"
+      "passwordSaved": "Passord endret",
+      "minChars": "Minst 8 tegn",
+      "confirmPassword": "Bekreft passord",
+      "pwTooShort": "Passordet må ha minst 8 tegn.",
+      "pwMismatch": "Passordene stemmer ikke overens."
     },
     "eventTypes": {
       "title": "Hendelsestyper",
@@ -610,5 +614,8 @@
     "biannual": "Halvårlig",
     "annual": "Årlig",
     "biennial": "Annethvert år"
+  },
+  "mehr": {
+    "help": "Hjelp"
   }
 }

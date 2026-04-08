@@ -503,7 +503,11 @@
       "changePassword": "Cambiar contraseña",
       "currentPassword": "Contraseña actual",
       "newPassword": "Nueva contraseña",
-      "passwordSaved": "Contraseña cambiada"
+      "passwordSaved": "Contraseña cambiada",
+      "minChars": "Mínimo 8 caracteres",
+      "confirmPassword": "Confirmar contraseña",
+      "pwTooShort": "La contraseña debe tener al menos 8 caracteres.",
+      "pwMismatch": "Las contraseñas no coinciden."
     },
     "eventTypes": {
       "title": "Tipos de eventos",
@@ -610,5 +614,8 @@
     "biannual": "Semestral",
     "annual": "Anual",
     "biennial": "Bienal"
+  },
+  "mehr": {
+    "help": "Ayuda"
   }
 }

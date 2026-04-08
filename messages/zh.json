@@ -503,7 +503,11 @@
       "changePassword": "更改密码",
       "currentPassword": "当前密码",
       "newPassword": "新密码",
-      "passwordSaved": "密码已更改"
+      "passwordSaved": "密码已更改",
+      "minChars": "至少8个字符",
+      "confirmPassword": "确认密码",
+      "pwTooShort": "密码至少需要8个字符。",
+      "pwMismatch": "密码不匹配。"
     },
     "eventTypes": {
       "title": "事件类型",
@@ -610,5 +614,8 @@
     "biannual": "每半年",
     "annual": "每年",
     "biennial": "每两年"
+  },
+  "mehr": {
+    "help": "帮助"
   }
 }

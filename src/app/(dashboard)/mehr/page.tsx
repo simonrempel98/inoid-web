@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { LogoutButton } from '@/components/logout-button'
 import { User, KeyRound, CreditCard, LogOut, BookOpen } from 'lucide-react'
+import { getTranslations } from 'next-intl/server'
 
 const chevron = (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -50,6 +51,7 @@ function SectionLabel({ label }: { label: string }) {
 
 export default async function MehrPage() {
   const supabase = await createClient()
+  const t = await getTranslations()
   const { data: { user } } = await supabase.auth.getUser()
 
   const { data: profile } = await supabase
@@ -87,7 +89,7 @@ export default async function MehrPage() {
           </div>
           <div>
             <p style={{ fontWeight: 700, fontSize: 16, margin: '0 0 2px' }}>
-              {profile?.full_name ?? 'Kein Name'}
+              {profile?.full_name ?? user?.email}
             </p>
             <p style={{ fontSize: 12, opacity: 0.7, margin: 0 }}>{user?.email}</p>
           </div>
@@ -111,19 +113,19 @@ export default async function MehrPage() {
 
       {/* Einstellungen */}
       <div style={{ marginBottom: 20 }}>
-        <SectionLabel label="Einstellungen" />
+        <SectionLabel label={t('settings.title')} />
         <MenuCard items={[
-          { href: '/settings/profile', label: 'Mein Profil', icon: <User size={18} /> },
-          { href: '/settings/roles', label: 'Rollen & Rechte', icon: <KeyRound size={18} /> },
-          { href: '/settings/billing', label: 'Abonnement', icon: <CreditCard size={18} /> },
+          { href: '/settings/profile', label: t('settings.profile.title'), icon: <User size={18} /> },
+          { href: '/settings/roles', label: t('nav.roles'), icon: <KeyRound size={18} /> },
+          { href: '/settings/billing', label: t('settings.billing.title'), icon: <CreditCard size={18} /> },
         ]} />
       </div>
 
       {/* Hilfe */}
       <div style={{ marginBottom: 20 }}>
-        <SectionLabel label="Hilfe" />
+        <SectionLabel label={t('mehr.help')} />
         <MenuCard items={[
-          { href: '/docs', label: 'Dokumentation', icon: <BookOpen size={18} /> },
+          { href: '/docs', label: t('docs.title'), icon: <BookOpen size={18} /> },
         ]} />
       </div>
 

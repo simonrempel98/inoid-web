@@ -503,7 +503,11 @@
       "changePassword": "Vaihda salasana",
       "currentPassword": "Nykyinen salasana",
       "newPassword": "Uusi salasana",
-      "passwordSaved": "Salasana vaihdettu"
+      "passwordSaved": "Salasana vaihdettu",
+      "minChars": "Vähintään 8 merkkiä",
+      "confirmPassword": "Vahvista salasana",
+      "pwTooShort": "Salasanan on oltava vähintään 8 merkkiä pitkä.",
+      "pwMismatch": "Salasanat eivät täsmää."
     },
     "eventTypes": {
       "title": "Tapahtumatyypit",
@@ -610,5 +614,8 @@
     "biannual": "Puolivuosittain",
     "annual": "Vuosittain",
     "biennial": "Kahden vuoden välein"
+  },
+  "mehr": {
+    "help": "Ohje"
   }
 }

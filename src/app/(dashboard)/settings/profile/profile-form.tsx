@@ -29,8 +29,8 @@ export function ProfileForm({ fullName, email }: { fullName: string; email: stri
 
   async function handleChangePw() {
     setPwError(null)
-    if (newPw.length < 8) { setPwError('Passwort muss mindestens 8 Zeichen haben.'); return }
-    if (newPw !== confirmPw) { setPwError('Passwörter stimmen nicht überein.'); return }
+    if (newPw.length < 8) { setPwError(t('pwTooShort')); return }
+    if (newPw !== confirmPw) { setPwError(t('pwMismatch')); return }
     setSavingPw(true)
     const result = await changePassword(newPw)
     setSavingPw(false)
@@ -121,13 +121,13 @@ export function ProfileForm({ fullName, email }: { fullName: string; email: stri
               type="password"
               value={newPw}
               onChange={e => setNewPw(e.target.value)}
-              placeholder="Mindestens 8 Zeichen"
+              placeholder={t('minChars')}
               style={inputStyle}
             />
           </div>
           <div style={{ padding: '13px 16px' }}>
             <label style={{ display: 'block', fontSize: 11, color: '#96aed2', marginBottom: 4, fontWeight: 700 }}>
-              PASSWORT BESTÄTIGEN
+              {t('confirmPassword').toUpperCase()}
             </label>
             <input
               type="password"

@@ -503,7 +503,11 @@
       "changePassword": "Keisti slaptažodį",
       "currentPassword": "Dabartinis slaptažodis",
       "newPassword": "Naujas slaptažodis",
-      "passwordSaved": "Slaptažodis pakeistas"
+      "passwordSaved": "Slaptažodis pakeistas",
+      "minChars": "Mažiausiai 8 simboliai",
+      "confirmPassword": "Patvirtinti slaptažodį",
+      "pwTooShort": "Slaptažodis turi būti bent 8 simbolių.",
+      "pwMismatch": "Slaptažodžiai nesutampa."
     },
     "eventTypes": {
       "title": "Įvykių tipai",
@@ -610,5 +614,8 @@
     "biannual": "Kas pusmetį",
     "annual": "Kas metus",
     "biennial": "Kas dvejus metus"
+  },
+  "mehr": {
+    "help": "Pagalba"
   }
 }

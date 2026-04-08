@@ -503,7 +503,11 @@
       "changePassword": "Промени лозинку",
       "currentPassword": "Тренутна лозинка",
       "newPassword": "Нова лозинка",
-      "passwordSaved": "Лозинка промењена"
+      "passwordSaved": "Лозинка промењена",
+      "minChars": "Najmanje 8 znakova",
+      "confirmPassword": "Potvrdi lozinku",
+      "pwTooShort": "Lozinka mora imati najmanje 8 znakova.",
+      "pwMismatch": "Lozinke se ne podudaraju."
     },
     "eventTypes": {
       "title": "Врсте догађаја",
@@ -610,5 +614,8 @@
     "biannual": "Полугодишње",
     "annual": "Годишње",
     "biennial": "Двогодишње"
+  },
+  "mehr": {
+    "help": "Помоћ"
   }
 }

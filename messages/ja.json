@@ -503,7 +503,11 @@
       "changePassword": "パスワードを変更",
       "currentPassword": "現在のパスワード",
       "newPassword": "新しいパスワード",
-      "passwordSaved": "パスワードを変更しました"
+      "passwordSaved": "パスワードを変更しました",
+      "minChars": "8文字以上",
+      "confirmPassword": "パスワード確認",
+      "pwTooShort": "パスワードは8文字以上必要です。",
+      "pwMismatch": "パスワードが一致しません。"
     },
     "eventTypes": {
       "title": "イベント種類",
@@ -610,5 +614,8 @@
     "biannual": "半年ごと",
     "annual": "毎年",
     "biennial": "2年ごと"
+  },
+  "mehr": {
+    "help": "ヘルプ"
   }
 }

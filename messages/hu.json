@@ -503,7 +503,11 @@
       "changePassword": "Jelszó módosítása",
       "currentPassword": "Jelenlegi jelszó",
       "newPassword": "Új jelszó",
-      "passwordSaved": "Jelszó módosítva"
+      "passwordSaved": "Jelszó módosítva",
+      "minChars": "Legalább 8 karakter",
+      "confirmPassword": "Jelszó megerősítése",
+      "pwTooShort": "A jelszónak legalább 8 karakternek kell lennie.",
+      "pwMismatch": "A jelszavak nem egyeznek."
     },
     "eventTypes": {
       "title": "Eseménytípusok",
@@ -610,5 +614,8 @@
     "biannual": "Féléves",
     "annual": "Éves",
     "biennial": "Kétéves"
+  },
+  "mehr": {
+    "help": "Súgó"
   }
 }

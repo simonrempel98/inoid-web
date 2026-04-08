@@ -503,7 +503,11 @@
       "changePassword": "Αλλαγή κωδικού",
       "currentPassword": "Τρέχων κωδικός",
       "newPassword": "Νέος κωδικός",
-      "passwordSaved": "Ο κωδικός άλλαξε"
+      "passwordSaved": "Ο κωδικός άλλαξε",
+      "minChars": "Τουλάχιστον 8 χαρακτήρες",
+      "confirmPassword": "Επιβεβαίωση κωδικού",
+      "pwTooShort": "Ο κωδικός πρέπει να έχει τουλάχιστον 8 χαρακτήρες.",
+      "pwMismatch": "Οι κωδικοί δεν ταιριάζουν."
     },
     "eventTypes": {
       "title": "Τύποι συμβάντων",
@@ -610,5 +614,8 @@
     "biannual": "Εξαμηνιαία",
     "annual": "Ετήσια",
     "biennial": "Διετής"
+  },
+  "mehr": {
+    "help": "Βοήθεια"
   }
 }

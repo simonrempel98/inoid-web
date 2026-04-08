@@ -503,7 +503,11 @@
       "changePassword": "Zmień hasło",
       "currentPassword": "Aktualne hasło",
       "newPassword": "Nowe hasło",
-      "passwordSaved": "Hasło zostało zmienione"
+      "passwordSaved": "Hasło zostało zmienione",
+      "minChars": "Minimum 8 znaków",
+      "confirmPassword": "Potwierdź hasło",
+      "pwTooShort": "Hasło musi mieć co najmniej 8 znaków.",
+      "pwMismatch": "Hasła nie są zgodne."
     },
     "eventTypes": {
       "title": "Typy zdarzeń",
@@ -610,5 +614,8 @@
     "biannual": "Co pół roku",
     "annual": "Co rok",
     "biennial": "Co dwa lata"
+  },
+  "mehr": {
+    "help": "Pomoc"
   }
 }

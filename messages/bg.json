@@ -503,7 +503,11 @@
       "changePassword": "Промяна на паролата",
       "currentPassword": "Текуща парола",
       "newPassword": "Нова парола",
-      "passwordSaved": "Паролата е променена"
+      "passwordSaved": "Паролата е променена",
+      "minChars": "Поне 8 символа",
+      "confirmPassword": "Потвърдете паролата",
+      "pwTooShort": "Паролата трябва да има поне 8 символа.",
+      "pwMismatch": "Паролите не съвпадат."
     },
     "eventTypes": {
       "title": "Типове събития",
@@ -610,5 +614,8 @@
     "biannual": "Полугодишно",
     "annual": "Годишно",
     "biennial": "Двегодишно"
+  },
+  "mehr": {
+    "help": "Помощ"
   }
 }

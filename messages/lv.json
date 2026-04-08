@@ -503,7 +503,11 @@
       "changePassword": "Mainīt paroli",
       "currentPassword": "Pašreizējā parole",
       "newPassword": "Jaunā parole",
-      "passwordSaved": "Parole mainīta"
+      "passwordSaved": "Parole mainīta",
+      "minChars": "Vismaz 8 simboli",
+      "confirmPassword": "Apstiprināt paroli",
+      "pwTooShort": "Parolei jābūt vismaz 8 simboliem.",
+      "pwMismatch": "Paroles nesakrīt."
     },
     "eventTypes": {
       "title": "Notikumu tipi",
@@ -610,5 +614,8 @@
     "biannual": "Reizi pusgadā",
     "annual": "Katru gadu",
     "biennial": "Reizi divos gados"
+  },
+  "mehr": {
+    "help": "Palīdzība"
   }
 }

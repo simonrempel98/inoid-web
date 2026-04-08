@@ -503,7 +503,11 @@
       "changePassword": "Ändra lösenord",
       "currentPassword": "Nuvarande lösenord",
       "newPassword": "Nytt lösenord",
-      "passwordSaved": "Lösenord ändrat"
+      "passwordSaved": "Lösenord ändrat",
+      "minChars": "Minst 8 tecken",
+      "confirmPassword": "Bekräfta lösenord",
+      "pwTooShort": "Lösenordet måste ha minst 8 tecken.",
+      "pwMismatch": "Lösenorden stämmer inte överens."
     },
     "eventTypes": {
       "title": "Händelsetyper",
@@ -610,5 +614,8 @@
     "biannual": "Halvårsvis",
     "annual": "Årsvis",
     "biennial": "Vartannat år"
+  },
+  "mehr": {
+    "help": "Hjälp"
   }
 }

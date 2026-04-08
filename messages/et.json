@@ -503,7 +503,11 @@
       "changePassword": "Muuda parooli",
       "currentPassword": "Praegune parool",
       "newPassword": "Uus parool",
-      "passwordSaved": "Parool muudetud"
+      "passwordSaved": "Parool muudetud",
+      "minChars": "Vähemalt 8 märki",
+      "confirmPassword": "Kinnita salasõna",
+      "pwTooShort": "Parool peab olema vähemalt 8 märki pikk.",
+      "pwMismatch": "Salasõnad ei ühti."
     },
     "eventTypes": {
       "title": "Sündmuste tüübid",
@@ -610,5 +614,8 @@
     "biannual": "Poolaastane",
     "annual": "Aastane",
     "biennial": "Kaheaastane"
+  },
+  "mehr": {
+    "help": "Abi"
   }
 }

@@ -503,7 +503,11 @@
       "changePassword": "Şifre değiştir",
       "currentPassword": "Mevcut şifre",
       "newPassword": "Yeni şifre",
-      "passwordSaved": "Şifre değiştirildi"
+      "passwordSaved": "Şifre değiştirildi",
+      "minChars": "En az 8 karakter",
+      "confirmPassword": "Şifreyi onayla",
+      "pwTooShort": "Şifre en az 8 karakter olmalıdır.",
+      "pwMismatch": "Şifreler eşleşmiyor."
     },
     "eventTypes": {
       "title": "Etkinlik türleri",
@@ -610,5 +614,8 @@
     "biannual": "Altı aylık",
     "annual": "Yıllık",
     "biennial": "İki yıllık"
+  },
+  "mehr": {
+    "help": "Yardım"
   }
 }
