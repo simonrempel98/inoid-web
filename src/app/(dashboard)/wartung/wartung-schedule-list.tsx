@@ -67,7 +67,7 @@ function getDayItems(item: ListItem, today: string) {
 
   const dotColor = isEvent ? '#27AE60'
     : isOverdue ? '#E74C3C'
-    : isThisWeek ? '#F39C12'
+    : isThisWeek ? '#a855f7'
     : '#0099cc'
 
   const badge = isEvent
@@ -75,7 +75,7 @@ function getDayItems(item: ListItem, today: string) {
     : isOverdue
     ? { label: 'Überfällig', bg: '#fef2f2', color: '#E74C3C' }
     : isThisWeek
-    ? { label: 'Diese Woche', bg: '#fff8e6', color: '#F39C12' }
+    ? { label: 'Diese Woche', bg: '#faf5ff', color: '#a855f7' }
     : { label: 'Geplant', bg: '#e8f4ff', color: '#0099cc' }
 
   const assetTitle = item.assets?.title ?? '–'

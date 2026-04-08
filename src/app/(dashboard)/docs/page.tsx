@@ -6,6 +6,7 @@ import {
   ClipboardList, ScanLine, Wrench, CalendarClock, MapPin, Users,
   FileText, QrCode, CheckCircle2, ChevronDown, ChevronRight,
   Zap, ShieldCheck, Smartphone, Upload, Bell, ArrowRight,
+  CreditCard, Receipt, KeyRound, Check, ListChecks,
 } from 'lucide-react'
 
 // ─── Daten ────────────────────────────────────────────────────────────────────
@@ -63,27 +64,42 @@ const FEATURES = [
     badge: 'Kern',
     desc: 'Lückenlose Dokumentation aller Ereignisse am Asset – von der Inspektion bis zum Vorfall. Fotos und Dokumente direkt anhängen.',
     points: [
-      '10 Ereignistypen: Wartung, Inspektion, Reparatur, …',
+      '10 Systemtypen + eigene Typen (Einstellungen → Event-Typen)',
       'Fotos & PDF-Dokumente anhängen',
       'Kosten, Durchführender, externes Unternehmen',
       'Monatsweise gruppierte Timeline',
-      'Eigene Ereignistypen in den Einstellungen',
+      'Wartungsplan als Gantt-Chart direkt im Serviceheft',
     ],
   },
   {
     icon: CalendarClock,
     color: '#005c8a',
-    title: 'Wartungsintervalle',
+    title: 'Wartungsintervalle & Checklisten',
     badge: 'Planung',
-    desc: 'Wiederkehrende Termine nie vergessen. Definiere Intervalle pro Asset und behalte alle Fälligkeiten im Wartungs-Dashboard im Blick.',
+    desc: 'Wiederkehrende Termine nie vergessen. Definiere Intervalle pro Asset, hinterlege Schritt-für-Schritt-Checklisten und behalte alle Fälligkeiten im Blick.',
     points: [
       'Vorgaben: wöchentlich, monatlich, vierteljährlich, …',
       'Individuelles Intervall in Tagen',
-      'Automatische Berechnung aus letztem Termin',
-      'Überfällige Termine sofort sichtbar',
-      'Intervalle pro Asset beliebig kombinierbar',
-      'Wartung direkt als erledigt markieren – auch vor Fälligkeit',
-      'Nächster Termin wird beim Abhaken automatisch vorgerückt',
+      'Automatische Berechnung des nächsten Termins',
+      'Checkliste pro Intervall anlegen (beliebig viele Schritte)',
+      'Checkliste erscheint beim Abschließen zum Abhaken',
+      'Wartung direkt als erledigt markieren – aus Liste oder Gantt',
+      'Nächster Termin wird beim Abschließen automatisch vorgerückt',
+    ],
+  },
+  {
+    icon: ListChecks,
+    color: '#7c3aed',
+    title: 'Wartungs-Dashboard',
+    badge: 'Planung',
+    desc: 'Alle fälligen Wartungen auf einen Blick. Filter, Suche und Gantt-Chart für die komplette Übersicht über alle Assets.',
+    points: [
+      'Aufgabenliste: gruppiert nach Überfällig / Diese Woche / 30 Tage / Später',
+      'Gantt-Chart mit Heatmap-Verlauf (intensiver je näher der Termin)',
+      'Suche über alle Asset-Merkmale (Name, Seriennr., Kategorie, …)',
+      'Filter: Dringlichkeit, Kategorie, Einträge pro Seite',
+      'Zeitraum-Filter steuert gleichzeitig Gantt-Ansicht',
+      'Pagination für große Mengen',
     ],
   },
   {
@@ -164,6 +180,79 @@ const ROLES = [
   { role: 'Leser', color: '#6b7d99', bg: '#f4f6f9', points: ['Alle Assets sehen', 'Serviceheft lesen', 'Keine Bearbeitungsrechte', 'Kein Anlegen/Löschen', 'Ideal für Prüfer & Externe'] },
 ]
 
+const PLAN_TIERS = [
+  {
+    id: 'free',
+    name: 'Free',
+    price: '0 €',
+    color: '#6b7d99',
+    bg: '#f4f6f9',
+    points: ['5 Assets', '1 Benutzer', 'Serviceheft', 'QR-Scanner'],
+  },
+  {
+    id: 'starter',
+    name: 'Starter',
+    price: '50 €',
+    color: '#0099cc',
+    bg: '#e6f9ff',
+    points: ['50 Assets', 'Bis 5 Benutzer', 'Wartungsintervalle', 'Standortverwaltung', 'Dokument-Upload'],
+  },
+  {
+    id: 'professional',
+    name: 'Professional',
+    price: '100 €',
+    color: '#003366',
+    bg: '#e8f0f8',
+    points: ['200 Assets', 'Bis 20 Benutzer', 'Alle Starter-Features', 'Teams & Rollen', 'Erweiterte Auswertungen'],
+  },
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    price: '329 €',
+    color: '#7c3aed',
+    bg: '#f3f0ff',
+    points: ['Unbegrenzte Assets', 'Unbegrenzte Benutzer', 'Alle Professional-Features', 'Priority-Support', 'Individuelle Anpassungen'],
+  },
+]
+
+const BILLING_STEPS = [
+  {
+    step: '01',
+    icon: CreditCard,
+    color: '#003366',
+    title: 'Plan wählen',
+    desc: 'Gehe zu Abonnement (Sidebar → Organisationsverwaltung). Wähle den gewünschten Plan und klicke auf „Rechnung erstellen".',
+  },
+  {
+    step: '02',
+    icon: Receipt,
+    color: '#0077b6',
+    title: 'Rechnung ausfüllen & herunterladen',
+    desc: 'Fülle die Rechnungsadresse aus (Name/Firma, Straße, PLZ/Ort, Land, USt-ID optional). Die Rechnung mit allen gesetzlichen Pflichtangaben (§ 14 UStG) wird sofort angezeigt und kann gedruckt werden.',
+  },
+  {
+    step: '03',
+    icon: ArrowRight,
+    color: '#0099cc',
+    title: 'Überweisen',
+    desc: 'Überweise den Rechnungsbetrag auf das angegebene Bankkonto (Inomet GmbH). Verwende die Rechnungsnummer als Verwendungszweck.',
+  },
+  {
+    step: '04',
+    icon: KeyRound,
+    color: '#00a8c8',
+    title: 'Aktivierungscode erhalten',
+    desc: 'Nach Zahlungseingang erhältst du automatisch einen 9-stelligen Aktivierungscode per E-Mail an alle Admins deiner Organisation.',
+  },
+  {
+    step: '05',
+    icon: Check,
+    color: '#059669',
+    title: 'Code einlösen & Plan aktivieren',
+    desc: 'Gehe zurück zu Abonnement, trage den Code im Feld „Aktivierungscode einlösen" ein und klicke auf „Aktivieren". Der Plan ist sofort aktiv.',
+  },
+]
+
 const TIPS = [
   { icon: Zap, text: 'Asset duplizieren spart Zeit bei der Erfassung gleicher Geräte.' },
   { icon: CheckCircle2, text: 'Wartung früh erledigt? Einfach den grünen ✓-Button im Wartungs-Dashboard tippen – der nächste Termin wird automatisch berechnet.' },
@@ -233,7 +322,7 @@ function FeatureCard({ f }: { f: typeof FEATURES[number] }) {
 
 export default function DocsPage() {
   const router = useRouter()
-  const [activeSection, setActiveSection] = useState<'start' | 'features' | 'roles' | 'tips'>('start')
+  const [activeSection, setActiveSection] = useState<'start' | 'features' | 'roles' | 'plans' | 'tips'>('start')
 
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', paddingBottom: 60 }}>
@@ -302,6 +391,7 @@ export default function DocsPage() {
           { key: 'start', label: 'Schnellstart' },
           { key: 'features', label: 'Features' },
           { key: 'roles', label: 'Rollen' },
+          { key: 'plans', label: 'Pläne & Abo' },
           { key: 'tips', label: 'Tipps' },
         ] as const).map(t => (
           <button
@@ -444,6 +534,116 @@ export default function DocsPage() {
                 Rollen verwaltest du unter <strong>Teams → Mitglied auswählen → Rolle ändern</strong>. Neue Mitglieder anlegst du über <strong>Teams → Team öffnen → Mitglied anlegen</strong>.
               </p>
             </div>
+          </div>
+        )}
+
+        {/* ── Pläne & Abo ── */}
+        {activeSection === 'plans' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+            {/* Intro */}
+            <p style={{ fontSize: 13, color: '#666', margin: 0, lineHeight: 1.6 }}>
+              INOid bietet vier Pläne. Bezahlt wird per Überweisung – kein Abo-Abo, kein Kreditkartenzwang. Nach Zahlungseingang erhältst du per E-Mail einen Code, den du direkt einlöst.
+            </p>
+
+            {/* Pläne */}
+            <div>
+              <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 10px' }}>
+                Verfügbare Pläne
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {PLAN_TIERS.map(plan => (
+                  <div key={plan.id} style={{
+                    background: 'white', borderRadius: 14,
+                    border: `1px solid ${plan.color}33`,
+                    overflow: 'hidden',
+                  }}>
+                    <div style={{
+                      background: plan.bg, padding: '12px 16px',
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                      borderBottom: `1px solid ${plan.color}22`,
+                    }}>
+                      <span style={{ fontSize: 15, fontWeight: 800, color: plan.color }}>{plan.name}</span>
+                      <span style={{ fontSize: 14, fontWeight: 700, color: plan.color }}>
+                        {plan.price} <span style={{ fontSize: 11, fontWeight: 400, color: '#888' }}>zzgl. MwSt./Monat</span>
+                      </span>
+                    </div>
+                    <div style={{ padding: '10px 16px', display: 'flex', flexWrap: 'wrap', gap: '6px 16px' }}>
+                      {plan.points.map((p, i) => (
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                          <Check size={12} color={plan.color} />
+                          <span style={{ fontSize: 12, color: '#444' }}>{p}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Wie läuft die Buchung ab */}
+            <div>
+              <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 10px' }}>
+                So funktioniert die Buchung
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {BILLING_STEPS.map((s) => {
+                  const Icon = s.icon
+                  return (
+                    <div key={s.step} style={{
+                      background: 'white', borderRadius: 14, padding: '14px 16px',
+                      border: '1px solid #c8d4e8',
+                      display: 'flex', gap: 14, alignItems: 'flex-start',
+                      position: 'relative', overflow: 'hidden',
+                    }}>
+                      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 4, background: s.color }} />
+                      <div style={{
+                        width: 38, height: 38, borderRadius: 10, flexShrink: 0,
+                        background: `${s.color}15`,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      }}>
+                        <Icon size={18} color={s.color} />
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
+                          <span style={{ fontSize: 10, fontWeight: 700, color: s.color, background: `${s.color}18`, padding: '1px 6px', borderRadius: 6 }}>{s.step}</span>
+                          <span style={{ fontSize: 14, fontWeight: 700, color: '#000' }}>{s.title}</span>
+                        </div>
+                        <p style={{ fontSize: 13, color: '#555', margin: 0, lineHeight: 1.5 }}>{s.desc}</p>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Hinweis-Box */}
+            <div style={{
+              background: '#fffbe6', border: '1px solid #fde68a',
+              borderRadius: 14, padding: '14px 16px',
+              display: 'flex', gap: 10, alignItems: 'flex-start',
+            }}>
+              <span style={{ fontSize: 18, flexShrink: 0 }}>💡</span>
+              <div style={{ fontSize: 13, color: '#555', lineHeight: 1.6 }}>
+                <strong>Aktivierungscode:</strong> Der Code wird nach Zahlungseingang automatisch per E-Mail an alle <strong>Admins</strong> der Organisation gesendet – nicht an den zahlenden Nutzer persönlich. Stelle sicher, dass mindestens ein Admin eine erreichbare E-Mail-Adresse hinterlegt hat.
+              </div>
+            </div>
+
+            {/* CTA */}
+            <button
+              type="button"
+              onClick={() => router.push('/settings/billing')}
+              style={{
+                width: '100%', padding: '14px',
+                background: 'linear-gradient(135deg, #003366, #0099cc)',
+                border: 'none', borderRadius: 14, cursor: 'pointer',
+                color: 'white', fontSize: 14, fontWeight: 700,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+              }}
+            >
+              <CreditCard size={16} />
+              Zum Abonnement
+            </button>
           </div>
         )}
 

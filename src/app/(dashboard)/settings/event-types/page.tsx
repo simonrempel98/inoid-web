@@ -4,16 +4,12 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { EVENT_TYPES, type EventType } from '@/lib/service-types'
+import { Trash2 } from 'lucide-react'
 
 const PRESET_COLORS = [
-  '#2980B9', '#27AE60', '#F39C12', '#E74C3C', '#8E44AD',
-  '#16A085', '#E67E22', '#1ABC9C', '#34495E', '#C0392B',
-]
-
-const EMOJI_SUGGESTIONS = [
-  '🔧', '🔍', '🛠️', '⚙️', '🎨', '🧹', '🏗️', '⚠️', '🔒', '📝',
-  '🔬', '💡', '🔌', '📐', '🏷️', '🚧', '🧪', '📦', '🔋', '💧',
-  '🌡️', '🔑', '📋', '🛡️', '🔦', '🧲', '⚡', '🌀', '🔩', '🪛',
+  '#2980B9', '#27AE60', '#E74C3C', '#8E44AD',
+  '#16A085', '#E67E22', '#1ABC9C', '#34495E',
+  '#0099cc', '#003366', '#005c8a', '#00a8c8',
 ]
 
 export default function EventTypesPage() {
@@ -27,19 +23,19 @@ export default function EventTypesPage() {
 
   const [newLabel, setNewLabel] = useState('')
   const [newColor, setNewColor] = useState('#2980B9')
-  const [newIcon, setNewIcon] = useState('🔧')
 
   useEffect(() => {
     supabase.from('organizations').select('settings').single().then(({ data }) => {
-      const ct = (data?.settings as { custom_event_types?: EventType[] })?.custom_event_types ?? []
-      setCustomTypes(ct)
+      const raw = (data?.settings as { custom_event_types?: unknown[] })?.custom_event_types ?? []
+      // Alte Einträge mit Emoji-icon bereinigen
+      const cleaned = raw.map((t: any) => ({ value: t.value, label: t.label, color: t.color }))
+      setCustomTypes(cleaned as EventType[])
       setLoading(false)
     })
   }, [])
 
   async function save(updated: EventType[]) {
     setSaving(true)
-    // Bestehende settings lesen um andere keys nicht zu überschreiben
     const { data: org } = await supabase.from('organizations').select('settings').single()
     const existing = (org?.settings as Record<string, unknown>) ?? {}
     await supabase.from('organizations').update({
@@ -53,11 +49,10 @@ export default function EventTypesPage() {
     if (!newLabel.trim()) return
     const value = newLabel.trim().toLowerCase().replace(/\s+/g, '_').replace(/[^a-z0-9_]/g, '')
     if (customTypes.some(t => t.value === value)) return
-    const updated = [...customTypes, { value, label: newLabel.trim(), color: newColor, icon: newIcon }]
+    const updated = [...customTypes, { value, label: newLabel.trim(), color: newColor }]
     await save(updated)
     setNewLabel('')
     setNewColor('#2980B9')
-    setNewIcon('🔧')
     setShowForm(false)
   }
 
@@ -74,7 +69,10 @@ export default function EventTypesPage() {
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </button>
-        <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>Event-Typen</h1>
+        <div>
+          <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>Event-Typen</h1>
+          <p style={{ fontSize: 12, color: '#96aed2', margin: 0 }}>Eigene Kategorien für Serviceeinträge</p>
+        </div>
       </div>
 
       <div style={{ padding: 20, display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -89,14 +87,8 @@ export default function EventTypesPage() {
               display: 'flex', alignItems: 'center', gap: 12, padding: '11px 16px',
               borderTop: i > 0 ? '1px solid #f4f6f9' : 'none',
             }}>
-              <span style={{ width: 24, height: 24, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                <t.icon size={18} color={t.color} />
-              </span>
+              <div style={{ width: 10, height: 10, borderRadius: '50%', background: t.color, flexShrink: 0 }} />
               <span style={{ flex: 1, fontSize: 14, color: '#000', fontWeight: 600 }}>{t.label}</span>
-              <span style={{
-                fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 10,
-                backgroundColor: `${t.color}20`, color: t.color,
-              }}>{t.label}</span>
               <span style={{ fontSize: 11, color: '#96aed2', background: '#f4f6f9', padding: '2px 8px', borderRadius: 6 }}>System</span>
             </div>
           ))}
@@ -129,36 +121,6 @@ export default function EventTypesPage() {
                 />
               </div>
 
-              {/* Icon wählen */}
-              <div>
-                <label style={labelStyle}>Icon</label>
-                <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 8 }}>
-                  {EMOJI_SUGGESTIONS.map(emoji => (
-                    <button
-                      key={emoji}
-                      type="button"
-                      onClick={() => setNewIcon(emoji)}
-                      style={{
-                        width: 36, height: 36, borderRadius: 8, border: 'none',
-                        background: newIcon === emoji ? '#f0f4ff' : '#f4f6f9',
-                        cursor: 'pointer', fontSize: 18,
-                        outline: newIcon === emoji ? '2px solid #003366' : 'none',
-                        outlineOffset: 1,
-                      }}
-                    >{emoji}</button>
-                  ))}
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ fontSize: 12, color: '#96aed2' }}>oder eingeben:</span>
-                  <input
-                    value={newIcon}
-                    onChange={e => setNewIcon(e.target.value)}
-                    style={{ ...inputStyle, width: 64, textAlign: 'center', fontSize: 18 }}
-                    maxLength={2}
-                  />
-                </div>
-              </div>
-
               {/* Farbe */}
               <div>
                 <label style={labelStyle}>Farbe</label>
@@ -183,7 +145,7 @@ export default function EventTypesPage() {
                     fontSize: 12, fontWeight: 700, padding: '4px 12px', borderRadius: 20,
                     backgroundColor: `${newColor}20`, color: newColor,
                   }}>
-                    {newIcon} {newLabel}
+                    {newLabel}
                   </span>
                 </div>
               )}
@@ -204,37 +166,34 @@ export default function EventTypesPage() {
 
           {/* Liste */}
           {loading ? (
-            <p style={{ color: '#96aed2', fontSize: 13, textAlign: 'center' }}>Lädt…</p>
-          ) : customTypes.length === 0 && !showForm ? (
-            <div style={{ background: 'white', borderRadius: 14, padding: 32, border: '1px solid #c8d4e8', textAlign: 'center' }}>
-              <p style={{ color: '#666', fontSize: 14, margin: '0 0 12px' }}>Noch keine eigenen Typen</p>
-              <button onClick={() => setShowForm(true)}
-                style={{ padding: '10px 20px', borderRadius: 50, border: 'none', background: '#003366', color: 'white', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
-                + Ersten anlegen
-              </button>
+            <p style={{ color: '#96aed2', fontSize: 13 }}>Lädt…</p>
+          ) : customTypes.length === 0 ? (
+            <div style={{ background: 'white', borderRadius: 14, border: '1px dashed #c8d4e8', padding: '24px', textAlign: 'center' }}>
+              <p style={{ color: '#96aed2', fontSize: 13, margin: 0 }}>Noch keine eigenen Typen angelegt.</p>
             </div>
           ) : (
             <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
               {customTypes.map((t, i) => (
                 <div key={t.value} style={{
-                  display: 'flex', alignItems: 'center', gap: 12, padding: '11px 16px',
+                  display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px',
                   borderTop: i > 0 ? '1px solid #f4f6f9' : 'none',
                 }}>
-                  <span style={{ fontSize: 18, width: 24, textAlign: 'center' }}>{t.icon as unknown as string}</span>
+                  <div style={{ width: 10, height: 10, borderRadius: '50%', background: t.color, flexShrink: 0 }} />
                   <span style={{ flex: 1, fontSize: 14, color: '#000', fontWeight: 600 }}>{t.label}</span>
                   <span style={{
                     fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 10,
                     backgroundColor: `${t.color}20`, color: t.color,
                   }}>{t.label}</span>
-                  <button type="button" onClick={() => removeType(t.value)}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#dc2626', fontSize: 18, padding: '0 4px' }}>
-                    ×
+                  <button onClick={() => removeType(t.value)}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#c8d4e8', padding: 4, display: 'flex' }}>
+                    <Trash2 size={15} />
                   </button>
                 </div>
               ))}
             </div>
           )}
         </div>
+
       </div>
     </div>
   )
@@ -242,11 +201,11 @@ export default function EventTypesPage() {
 
 const labelStyle: React.CSSProperties = {
   display: 'block', fontSize: 12, fontWeight: 700,
-  color: '#003366', marginBottom: 6,
+  color: '#003366', marginBottom: 6, fontFamily: 'Arial, sans-serif',
 }
 
 const inputStyle: React.CSSProperties = {
-  width: '100%', padding: '10px 12px', borderRadius: 10,
+  width: '100%', padding: '11px 12px', borderRadius: 10,
   border: '1px solid #c8d4e8', fontSize: 14, fontFamily: 'Arial, sans-serif',
   backgroundColor: 'white', color: '#000', outline: 'none', boxSizing: 'border-box',
 }
