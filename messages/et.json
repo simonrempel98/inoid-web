@@ -69,7 +69,20 @@
     "yesterday": "Eile",
     "daysAgo": "{n} päeva hilinenud",
     "inDays": "{n} päeva pärast",
-    "months": ["Jaanuar","Veebruar","Märts","Aprill","Mai","Juuni","Juuli","August","September","Oktoober","November","Detsember"],
+    "months": [
+      "Jaanuar",
+      "Veebruar",
+      "Märts",
+      "Aprill",
+      "Mai",
+      "Juuni",
+      "Juuli",
+      "August",
+      "September",
+      "Oktoober",
+      "November",
+      "Detsember"
+    ],
     "noEntries": "Kirjeid pole",
     "pagination": "Leht {current} / {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Kõik saabuvad hooldusintervallid",
     "tabs": {
       "list": "Ülesannete nimekiri",
-      "gantt": "Gantti diagramm"
+      "gantt": "Gantti diagramm",
+      "tasks": "Ülesanded"
     },
     "filter": {
       "search": "Otsi vara, seerianumbri, kategooria järgi…",
@@ -336,7 +350,11 @@
       "month": "30 päeva",
       "category": "Kategooria",
       "allCategories": "Kõik kategooriad",
-      "reset": "Lähtesta"
+      "reset": "Lähtesta",
+      "searchPlaceholder": "Otsi vara, intervalli, seerianr., vöötkoodi järgi…",
+      "noResults": "Tulemusi ei leitud",
+      "resultSingular": "kirje",
+      "resultPlural": "kirjet"
     },
     "groups": {
       "overdue": "Hilinenud",
@@ -353,6 +371,27 @@
       "thisWeek": "Sel nädalal",
       "thisMonth": "Sel kuul",
       "total": "Aktiivsed intervallid"
+    },
+    "urgency": {
+      "today": "täna",
+      "tomorrow": "homme",
+      "yesterday": "eile",
+      "overdueDays": "{days} päeva hilinenud",
+      "inDays": "{days} päeva pärast"
+    },
+    "gantt": {
+      "today": "Täna",
+      "clickHint": "Klõps → Hooldusraamat",
+      "twoWeeks": "2 nädalat",
+      "fourWeeks": "4 nädalat",
+      "eightWeeks": "8 nädalat",
+      "sixMonths": "6 kuud",
+      "legendOverdue": "Hilinenud",
+      "legend7days": "≤ 7 päeva",
+      "legend21days": "≤ 21 päeva",
+      "legendOk": "OK",
+      "daysOverAbbr": "p hil.",
+      "inDaysAbbr": "{days}p pärast"
     }
   },
   "organisation": {

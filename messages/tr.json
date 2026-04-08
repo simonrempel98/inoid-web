@@ -69,7 +69,20 @@
     "yesterday": "Dün",
     "daysAgo": "{n} gün gecikmiş",
     "inDays": "{n} gün içinde",
-    "months": ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"],
+    "months": [
+      "Ocak",
+      "Şubat",
+      "Mart",
+      "Nisan",
+      "Mayıs",
+      "Haziran",
+      "Temmuz",
+      "Ağustos",
+      "Eylül",
+      "Ekim",
+      "Kasım",
+      "Aralık"
+    ],
     "noEntries": "Kayıt yok",
     "pagination": "Sayfa {current} / {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Tüm vadesi gelen bakım aralıkları",
     "tabs": {
       "list": "Görev listesi",
-      "gantt": "Gantt şeması"
+      "gantt": "Gantt şeması",
+      "tasks": "Görevler"
     },
     "filter": {
       "search": "Varlık, seri no., kategori ile ara…",
@@ -336,7 +350,11 @@
       "month": "30 gün",
       "category": "Kategori",
       "allCategories": "Tüm kategoriler",
-      "reset": "Sıfırla"
+      "reset": "Sıfırla",
+      "searchPlaceholder": "Varlık, aralık, seri no., barkoda göre ara…",
+      "noResults": "Sonuç yok",
+      "resultSingular": "kayıt",
+      "resultPlural": "kayıtlar"
     },
     "groups": {
       "overdue": "Gecikmiş",
@@ -353,6 +371,27 @@
       "thisWeek": "Bu hafta vadesi doluyor",
       "thisMonth": "Bu ay vadesi doluyor",
       "total": "Aktif aralıklar"
+    },
+    "urgency": {
+      "today": "bugün",
+      "tomorrow": "yarın",
+      "yesterday": "dün",
+      "overdueDays": "{days} gün gecikmiş",
+      "inDays": "{days} gün içinde"
+    },
+    "gantt": {
+      "today": "Bugün",
+      "clickHint": "Tıkla → Servis defteri",
+      "twoWeeks": "2 hafta",
+      "fourWeeks": "4 hafta",
+      "eightWeeks": "8 hafta",
+      "sixMonths": "6 ay",
+      "legendOverdue": "Gecikmiş",
+      "legend7days": "≤ 7 gün",
+      "legend21days": "≤ 21 gün",
+      "legendOk": "OK",
+      "daysOverAbbr": "g geç",
+      "inDaysAbbr": "{days}g içinde"
     }
   },
   "organisation": {

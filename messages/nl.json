@@ -69,7 +69,20 @@
     "yesterday": "Gisteren",
     "daysAgo": "{n} dagen achterstallig",
     "inDays": "over {n} dagen",
-    "months": ["Januari","Februari","Maart","April","Mei","Juni","Juli","Augustus","September","Oktober","November","December"],
+    "months": [
+      "Januari",
+      "Februari",
+      "Maart",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Augustus",
+      "September",
+      "Oktober",
+      "November",
+      "December"
+    ],
     "noEntries": "Geen vermeldingen",
     "pagination": "Pagina {current} van {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Alle vervallende onderhoudsintervallen",
     "tabs": {
       "list": "Takenlijst",
-      "gantt": "Gantt-diagram"
+      "gantt": "Gantt-diagram",
+      "tasks": "Taken"
     },
     "filter": {
       "search": "Zoeken op activum, serienr., categorie…",
@@ -336,7 +350,11 @@
       "month": "30 dagen",
       "category": "Categorie",
       "allCategories": "Alle categorieën",
-      "reset": "Opnieuw instellen"
+      "reset": "Opnieuw instellen",
+      "searchPlaceholder": "Zoek op asset, interval, serienr., barcode…",
+      "noResults": "Geen resultaten",
+      "resultSingular": "item",
+      "resultPlural": "items"
     },
     "groups": {
       "overdue": "Achterstallig",
@@ -353,6 +371,27 @@
       "thisWeek": "Deze week te doen",
       "thisMonth": "Deze maand te doen",
       "total": "Actieve intervallen"
+    },
+    "urgency": {
+      "today": "vandaag",
+      "tomorrow": "morgen",
+      "yesterday": "gisteren",
+      "overdueDays": "{days} dagen te laat",
+      "inDays": "over {days} dagen"
+    },
+    "gantt": {
+      "today": "Vandaag",
+      "clickHint": "Klik → Servicelogboek",
+      "twoWeeks": "2 weken",
+      "fourWeeks": "4 weken",
+      "eightWeeks": "8 weken",
+      "sixMonths": "6 maanden",
+      "legendOverdue": "Achterstallig",
+      "legend7days": "≤ 7 dagen",
+      "legend21days": "≤ 21 dagen",
+      "legendOk": "OK",
+      "daysOverAbbr": "d over",
+      "inDaysAbbr": "over {days}d"
     }
   },
   "organisation": {

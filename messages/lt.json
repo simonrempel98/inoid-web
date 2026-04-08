@@ -69,7 +69,20 @@
     "yesterday": "Vakar",
     "daysAgo": "{n} dienų vėlavimas",
     "inDays": "po {n} dienų",
-    "months": ["Sausis","Vasaris","Kovas","Balandis","Gegužė","Birželis","Liepa","Rugpjūtis","Rugsėjis","Spalis","Lapkritis","Gruodis"],
+    "months": [
+      "Sausis",
+      "Vasaris",
+      "Kovas",
+      "Balandis",
+      "Gegužė",
+      "Birželis",
+      "Liepa",
+      "Rugpjūtis",
+      "Rugsėjis",
+      "Spalis",
+      "Lapkritis",
+      "Gruodis"
+    ],
     "noEntries": "Nėra įrašų",
     "pagination": "Puslapis {current} iš {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Visi artėjantys priežiūros intervalai",
     "tabs": {
       "list": "Užduočių sąrašas",
-      "gantt": "Ganto diagrama"
+      "gantt": "Ganto diagrama",
+      "tasks": "Užduotys"
     },
     "filter": {
       "search": "Ieškoti turto, ser. nr., kategorijos…",
@@ -336,7 +350,11 @@
       "month": "30 dienų",
       "category": "Kategorija",
       "allCategories": "Visos kategorijos",
-      "reset": "Atstatyti"
+      "reset": "Atstatyti",
+      "searchPlaceholder": "Ieškoti pagal turtą, intervalą, ser. nr., kodą…",
+      "noResults": "Nėra rezultatų",
+      "resultSingular": "įrašas",
+      "resultPlural": "įrašai"
     },
     "groups": {
       "overdue": "Vėluoja",
@@ -353,6 +371,27 @@
       "thisWeek": "Šią savaitę",
       "thisMonth": "Šį mėnesį",
       "total": "Aktyvūs intervalai"
+    },
+    "urgency": {
+      "today": "šiandien",
+      "tomorrow": "rytoj",
+      "yesterday": "vakar",
+      "overdueDays": "{days} dienas vėluoja",
+      "inDays": "po {days} dienų"
+    },
+    "gantt": {
+      "today": "Šiandien",
+      "clickHint": "Spustelėkite → Techninė knyga",
+      "twoWeeks": "2 savaitės",
+      "fourWeeks": "4 savaitės",
+      "eightWeeks": "8 savaitės",
+      "sixMonths": "6 mėnesiai",
+      "legendOverdue": "Vėluoja",
+      "legend7days": "≤ 7 dienos",
+      "legend21days": "≤ 21 diena",
+      "legendOk": "OK",
+      "daysOverAbbr": "d. vėl.",
+      "inDaysAbbr": "po {days}d"
     }
   },
   "organisation": {

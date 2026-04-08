@@ -69,7 +69,20 @@
     "yesterday": "Wczoraj",
     "daysAgo": "{n} dni po terminie",
     "inDays": "za {n} dni",
-    "months": ["Styczeń","Luty","Marzec","Kwiecień","Maj","Czerwiec","Lipiec","Sierpień","Wrzesień","Październik","Listopad","Grudzień"],
+    "months": [
+      "Styczeń",
+      "Luty",
+      "Marzec",
+      "Kwiecień",
+      "Maj",
+      "Czerwiec",
+      "Lipiec",
+      "Sierpień",
+      "Wrzesień",
+      "Październik",
+      "Listopad",
+      "Grudzień"
+    ],
     "noEntries": "Brak wpisów",
     "pagination": "Strona {current} z {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Wszystkie zaległe interwały konserwacji",
     "tabs": {
       "list": "Lista zadań",
-      "gantt": "Wykres Gantta"
+      "gantt": "Wykres Gantta",
+      "tasks": "Zadania"
     },
     "filter": {
       "search": "Szukaj po aktywie, nr. ser., kategorii…",
@@ -336,7 +350,11 @@
       "month": "30 dni",
       "category": "Kategoria",
       "allCategories": "Wszystkie kategorie",
-      "reset": "Resetuj"
+      "reset": "Resetuj",
+      "searchPlaceholder": "Szukaj wg zasobu, interwału, nr seryjnego, kodu…",
+      "noResults": "Brak wyników",
+      "resultSingular": "wpis",
+      "resultPlural": "wpisy"
     },
     "groups": {
       "overdue": "Po terminie",
@@ -353,6 +371,27 @@
       "thisWeek": "W tym tygodniu",
       "thisMonth": "W tym miesiącu",
       "total": "Aktywne interwały"
+    },
+    "urgency": {
+      "today": "dzisiaj",
+      "tomorrow": "jutro",
+      "yesterday": "wczoraj",
+      "overdueDays": "{days} dni po terminie",
+      "inDays": "za {days} dni"
+    },
+    "gantt": {
+      "today": "Dziś",
+      "clickHint": "Kliknij → Dziennik serwisu",
+      "twoWeeks": "2 tygodnie",
+      "fourWeeks": "4 tygodnie",
+      "eightWeeks": "8 tygodni",
+      "sixMonths": "6 miesięcy",
+      "legendOverdue": "Zaległe",
+      "legend7days": "≤ 7 dni",
+      "legend21days": "≤ 21 dni",
+      "legendOk": "OK",
+      "daysOverAbbr": "d po",
+      "inDaysAbbr": "za {days}d"
     }
   },
   "organisation": {

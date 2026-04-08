@@ -69,7 +69,20 @@
     "yesterday": "Ayer",
     "daysAgo": "{n} días de retraso",
     "inDays": "en {n} días",
-    "months": ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"],
+    "months": [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ],
     "noEntries": "Sin entradas",
     "pagination": "Página {current} de {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Todos los intervalos de mantenimiento pendientes",
     "tabs": {
       "list": "Lista de tareas",
-      "gantt": "Diagrama de Gantt"
+      "gantt": "Diagrama de Gantt",
+      "tasks": "Tareas"
     },
     "filter": {
       "search": "Buscar por activo, n.º de serie, categoría…",
@@ -336,7 +350,11 @@
       "month": "30 días",
       "category": "Categoría",
       "allCategories": "Todas las categorías",
-      "reset": "Restablecer"
+      "reset": "Restablecer",
+      "searchPlaceholder": "Buscar por activo, intervalo, nº serie, código de barras…",
+      "noResults": "Sin resultados",
+      "resultSingular": "entrada",
+      "resultPlural": "entradas"
     },
     "groups": {
       "overdue": "Vencido",
@@ -353,6 +371,27 @@
       "thisWeek": "Vence esta semana",
       "thisMonth": "Vence este mes",
       "total": "Intervalos activos"
+    },
+    "urgency": {
+      "today": "hoy",
+      "tomorrow": "mañana",
+      "yesterday": "ayer",
+      "overdueDays": "{days} días de retraso",
+      "inDays": "en {days} días"
+    },
+    "gantt": {
+      "today": "Hoy",
+      "clickHint": "Clic → Historial de servicio",
+      "twoWeeks": "2 semanas",
+      "fourWeeks": "4 semanas",
+      "eightWeeks": "8 semanas",
+      "sixMonths": "6 meses",
+      "legendOverdue": "Atrasado",
+      "legend7days": "≤ 7 días",
+      "legend21days": "≤ 21 días",
+      "legendOk": "OK",
+      "daysOverAbbr": "d pas.",
+      "inDaysAbbr": "en {days}d"
     }
   },
   "organisation": {

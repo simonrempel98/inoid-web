@@ -69,7 +69,20 @@
     "yesterday": "Igår",
     "daysAgo": "{n} dagar försenad",
     "inDays": "om {n} dagar",
-    "months": ["Januari","Februari","Mars","April","Maj","Juni","Juli","Augusti","September","Oktober","November","December"],
+    "months": [
+      "Januari",
+      "Februari",
+      "Mars",
+      "April",
+      "Maj",
+      "Juni",
+      "Juli",
+      "Augusti",
+      "September",
+      "Oktober",
+      "November",
+      "December"
+    ],
     "noEntries": "Inga poster",
     "pagination": "Sida {current} av {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Alla förfallande underhållsintervall",
     "tabs": {
       "list": "Uppgiftslista",
-      "gantt": "Gantt-schema"
+      "gantt": "Gantt-schema",
+      "tasks": "Uppgifter"
     },
     "filter": {
       "search": "Sök efter tillgång, serienr., kategori…",
@@ -336,7 +350,11 @@
       "month": "30 dagar",
       "category": "Kategori",
       "allCategories": "Alla kategorier",
-      "reset": "Återställ"
+      "reset": "Återställ",
+      "searchPlaceholder": "Sök efter tillgång, intervall, serienr., streckkod…",
+      "noResults": "Inga resultat",
+      "resultSingular": "post",
+      "resultPlural": "poster"
     },
     "groups": {
       "overdue": "Förfallen",
@@ -353,6 +371,27 @@
       "thisWeek": "Förfaller denna vecka",
       "thisMonth": "Förfaller denna månad",
       "total": "Aktiva intervall"
+    },
+    "urgency": {
+      "today": "idag",
+      "tomorrow": "imorgon",
+      "yesterday": "igår",
+      "overdueDays": "{days} dagar försenad",
+      "inDays": "om {days} dagar"
+    },
+    "gantt": {
+      "today": "Idag",
+      "clickHint": "Klicka → Servicebok",
+      "twoWeeks": "2 veckor",
+      "fourWeeks": "4 veckor",
+      "eightWeeks": "8 veckor",
+      "sixMonths": "6 månader",
+      "legendOverdue": "Försenad",
+      "legend7days": "≤ 7 dagar",
+      "legend21days": "≤ 21 dagar",
+      "legendOk": "OK",
+      "daysOverAbbr": "d för.",
+      "inDaysAbbr": "om {days}d"
     }
   },
   "organisation": {

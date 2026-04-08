@@ -69,7 +69,20 @@
     "yesterday": "Yesterday",
     "daysAgo": "{n} days overdue",
     "inDays": "in {n} days",
-    "months": ["January","February","March","April","May","June","July","August","September","October","November","December"],
+    "months": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
     "noEntries": "No entries",
     "pagination": "Page {current} of {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "All due maintenance intervals",
     "tabs": {
       "list": "Task list",
-      "gantt": "Gantt chart"
+      "gantt": "Gantt chart",
+      "tasks": "Tasks"
     },
     "filter": {
       "search": "Search by asset, serial no., category…",
@@ -336,7 +350,11 @@
       "month": "30 days",
       "category": "Category",
       "allCategories": "All categories",
-      "reset": "Reset"
+      "reset": "Reset",
+      "searchPlaceholder": "Search by asset, interval, serial no., barcode…",
+      "noResults": "No results",
+      "resultSingular": "entry",
+      "resultPlural": "entries"
     },
     "groups": {
       "overdue": "Overdue",
@@ -353,6 +371,27 @@
       "thisWeek": "Due this week",
       "thisMonth": "Due this month",
       "total": "Active intervals"
+    },
+    "urgency": {
+      "today": "today",
+      "tomorrow": "tomorrow",
+      "yesterday": "yesterday",
+      "overdueDays": "{days} days overdue",
+      "inDays": "in {days} days"
+    },
+    "gantt": {
+      "today": "Today",
+      "clickHint": "Click → Service log",
+      "twoWeeks": "2 weeks",
+      "fourWeeks": "4 weeks",
+      "eightWeeks": "8 weeks",
+      "sixMonths": "6 months",
+      "legendOverdue": "Overdue",
+      "legend7days": "≤ 7 days",
+      "legend21days": "≤ 21 days",
+      "legendOk": "OK",
+      "daysOverAbbr": "d over",
+      "inDaysAbbr": "in {days}d"
     }
   },
   "organisation": {

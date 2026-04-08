@@ -69,7 +69,20 @@
     "yesterday": "Tegnap",
     "daysAgo": "{n} napja lejárt",
     "inDays": "{n} nap múlva",
-    "months": ["Január","Február","Március","Április","Május","Június","Július","Augusztus","Szeptember","Október","November","December"],
+    "months": [
+      "Január",
+      "Február",
+      "Március",
+      "Április",
+      "Május",
+      "Június",
+      "Július",
+      "Augusztus",
+      "Szeptember",
+      "Október",
+      "November",
+      "December"
+    ],
     "noEntries": "Nincsenek bejegyzések",
     "pagination": "{current}. oldal / {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Az összes esedékes karbantartási intervallum",
     "tabs": {
       "list": "Feladatlista",
-      "gantt": "Gantt-diagram"
+      "gantt": "Gantt-diagram",
+      "tasks": "Feladatok"
     },
     "filter": {
       "search": "Keresés eszköz, sorozatszám, kategória alapján…",
@@ -336,7 +350,11 @@
       "month": "30 nap",
       "category": "Kategória",
       "allCategories": "Összes kategória",
-      "reset": "Visszaállítás"
+      "reset": "Visszaállítás",
+      "searchPlaceholder": "Keresés eszköz, intervallum, sorozatszám szerint…",
+      "noResults": "Nincs találat",
+      "resultSingular": "bejegyzés",
+      "resultPlural": "bejegyzés"
     },
     "groups": {
       "overdue": "Lejárt",
@@ -353,6 +371,27 @@
       "thisWeek": "Ezen a héten esedékes",
       "thisMonth": "Ebben a hónapban esedékes",
       "total": "Aktív intervallumok"
+    },
+    "urgency": {
+      "today": "ma",
+      "tomorrow": "holnap",
+      "yesterday": "tegnap",
+      "overdueDays": "{days} napja lejárt",
+      "inDays": "{days} nap múlva"
+    },
+    "gantt": {
+      "today": "Ma",
+      "clickHint": "Katt → Szerviznapló",
+      "twoWeeks": "2 hét",
+      "fourWeeks": "4 hét",
+      "eightWeeks": "8 hét",
+      "sixMonths": "6 hónap",
+      "legendOverdue": "Lejárt",
+      "legend7days": "≤ 7 nap",
+      "legend21days": "≤ 21 nap",
+      "legendOk": "OK",
+      "daysOverAbbr": "n lej.",
+      "inDaysAbbr": "{days}n múlva"
     }
   },
   "organisation": {

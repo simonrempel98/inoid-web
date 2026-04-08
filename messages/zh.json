@@ -69,7 +69,20 @@
     "yesterday": "昨天",
     "daysAgo": "逾期{n}天",
     "inDays": "{n}天后",
-    "months": ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],
+    "months": [
+      "一月",
+      "二月",
+      "三月",
+      "四月",
+      "五月",
+      "六月",
+      "七月",
+      "八月",
+      "九月",
+      "十月",
+      "十一月",
+      "十二月"
+    ],
     "noEntries": "无条目",
     "pagination": "第{current}页，共{total}页"
   },
@@ -324,7 +337,8 @@
     "subtitle": "所有到期维护间隔",
     "tabs": {
       "list": "任务列表",
-      "gantt": "甘特图"
+      "gantt": "甘特图",
+      "tasks": "任务"
     },
     "filter": {
       "search": "按资产、序列号、类别搜索…",
@@ -336,7 +350,11 @@
       "month": "30天",
       "category": "类别",
       "allCategories": "所有类别",
-      "reset": "重置"
+      "reset": "重置",
+      "searchPlaceholder": "按资产、间隔、序列号、条形码搜索…",
+      "noResults": "无结果",
+      "resultSingular": "条",
+      "resultPlural": "条"
     },
     "groups": {
       "overdue": "已逾期",
@@ -353,6 +371,27 @@
       "thisWeek": "本周到期",
       "thisMonth": "本月到期",
       "total": "有效间隔"
+    },
+    "urgency": {
+      "today": "今天",
+      "tomorrow": "明天",
+      "yesterday": "昨天",
+      "overdueDays": "逾期{days}天",
+      "inDays": "{days}天后"
+    },
+    "gantt": {
+      "today": "今天",
+      "clickHint": "点击 → 服务记录",
+      "twoWeeks": "2周",
+      "fourWeeks": "4周",
+      "eightWeeks": "8周",
+      "sixMonths": "6个月",
+      "legendOverdue": "逾期",
+      "legend7days": "≤ 7天",
+      "legend21days": "≤ 21天",
+      "legendOk": "OK",
+      "daysOverAbbr": "天超",
+      "inDaysAbbr": "{days}天后"
     }
   },
   "organisation": {

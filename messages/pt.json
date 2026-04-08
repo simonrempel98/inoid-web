@@ -69,7 +69,20 @@
     "yesterday": "Ontem",
     "daysAgo": "{n} dias em atraso",
     "inDays": "em {n} dias",
-    "months": ["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"],
+    "months": [
+      "Janeiro",
+      "Fevereiro",
+      "Março",
+      "Abril",
+      "Maio",
+      "Junho",
+      "Julho",
+      "Agosto",
+      "Setembro",
+      "Outubro",
+      "Novembro",
+      "Dezembro"
+    ],
     "noEntries": "Sem entradas",
     "pagination": "Página {current} de {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Todos os intervalos de manutenção pendentes",
     "tabs": {
       "list": "Lista de tarefas",
-      "gantt": "Diagrama de Gantt"
+      "gantt": "Diagrama de Gantt",
+      "tasks": "Tarefas"
     },
     "filter": {
       "search": "Pesquisar por ativo, n.º de série, categoria…",
@@ -336,7 +350,11 @@
       "month": "30 dias",
       "category": "Categoria",
       "allCategories": "Todas as categorias",
-      "reset": "Redefinir"
+      "reset": "Redefinir",
+      "searchPlaceholder": "Pesquisar por ativo, intervalo, nº série, código de barras…",
+      "noResults": "Sem resultados",
+      "resultSingular": "entrada",
+      "resultPlural": "entradas"
     },
     "groups": {
       "overdue": "Em atraso",
@@ -353,6 +371,27 @@
       "thisWeek": "A vencer esta semana",
       "thisMonth": "A vencer este mês",
       "total": "Intervalos ativos"
+    },
+    "urgency": {
+      "today": "hoje",
+      "tomorrow": "amanhã",
+      "yesterday": "ontem",
+      "overdueDays": "{days} dias em atraso",
+      "inDays": "em {days} dias"
+    },
+    "gantt": {
+      "today": "Hoje",
+      "clickHint": "Clique → Histórico de serviço",
+      "twoWeeks": "2 semanas",
+      "fourWeeks": "4 semanas",
+      "eightWeeks": "8 semanas",
+      "sixMonths": "6 meses",
+      "legendOverdue": "Atrasado",
+      "legend7days": "≤ 7 dias",
+      "legend21days": "≤ 21 dias",
+      "legendOk": "OK",
+      "daysOverAbbr": "d at.",
+      "inDaysAbbr": "em {days}d"
     }
   },
   "organisation": {

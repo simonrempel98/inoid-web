@@ -69,7 +69,20 @@
     "yesterday": "Jučer",
     "daysAgo": "{n} dana zakašnjenja",
     "inDays": "za {n} dana",
-    "months": ["Siječanj","Veljača","Ožujak","Travanj","Svibanj","Lipanj","Srpanj","Kolovoz","Rujan","Listopad","Studeni","Prosinac"],
+    "months": [
+      "Siječanj",
+      "Veljača",
+      "Ožujak",
+      "Travanj",
+      "Svibanj",
+      "Lipanj",
+      "Srpanj",
+      "Kolovoz",
+      "Rujan",
+      "Listopad",
+      "Studeni",
+      "Prosinac"
+    ],
     "noEntries": "Nema unosa",
     "pagination": "Stranica {current} od {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Svi dospjeli intervali održavanja",
     "tabs": {
       "list": "Popis zadataka",
-      "gantt": "Gantt dijagram"
+      "gantt": "Gantt dijagram",
+      "tasks": "Zadaci"
     },
     "filter": {
       "search": "Traži po imovini, ser. br., kategoriji…",
@@ -336,7 +350,11 @@
       "month": "30 dana",
       "category": "Kategorija",
       "allCategories": "Sve kategorije",
-      "reset": "Resetiraj"
+      "reset": "Resetiraj",
+      "searchPlaceholder": "Pretraži po imovini, intervalu, ser. broju, barkodu…",
+      "noResults": "Nema rezultata",
+      "resultSingular": "zapis",
+      "resultPlural": "zapisi"
     },
     "groups": {
       "overdue": "Zakasnilo",
@@ -353,6 +371,27 @@
       "thisWeek": "Ovaj tjedan",
       "thisMonth": "Ovaj mjesec",
       "total": "Aktivni intervali"
+    },
+    "urgency": {
+      "today": "danas",
+      "tomorrow": "sutra",
+      "yesterday": "jučer",
+      "overdueDays": "{days} dana zakašnjenja",
+      "inDays": "za {days} dana"
+    },
+    "gantt": {
+      "today": "Danas",
+      "clickHint": "Klik → Servisna knjiga",
+      "twoWeeks": "2 tjedna",
+      "fourWeeks": "4 tjedna",
+      "eightWeeks": "8 tjedana",
+      "sixMonths": "6 mjeseci",
+      "legendOverdue": "Zakašnjelo",
+      "legend7days": "≤ 7 dana",
+      "legend21days": "≤ 21 dana",
+      "legendOk": "OK",
+      "daysOverAbbr": "d zak.",
+      "inDaysAbbr": "za {days}d"
     }
   },
   "organisation": {

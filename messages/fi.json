@@ -69,7 +69,20 @@
     "yesterday": "Eilen",
     "daysAgo": "{n} päivää myöhässä",
     "inDays": "{n} päivän kuluttua",
-    "months": ["Tammikuu","Helmikuu","Maaliskuu","Huhtikuu","Toukokuu","Kesäkuu","Heinäkuu","Elokuu","Syyskuu","Lokakuu","Marraskuu","Joulukuu"],
+    "months": [
+      "Tammikuu",
+      "Helmikuu",
+      "Maaliskuu",
+      "Huhtikuu",
+      "Toukokuu",
+      "Kesäkuu",
+      "Heinäkuu",
+      "Elokuu",
+      "Syyskuu",
+      "Lokakuu",
+      "Marraskuu",
+      "Joulukuu"
+    ],
     "noEntries": "Ei merkintöjä",
     "pagination": "Sivu {current} / {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Kaikki erääntyvät huoltovälit",
     "tabs": {
       "list": "Tehtävälista",
-      "gantt": "Gantt-kaavio"
+      "gantt": "Gantt-kaavio",
+      "tasks": "Tehtävät"
     },
     "filter": {
       "search": "Hae omaisuuden, sarjanumeron, kategorian mukaan…",
@@ -336,7 +350,11 @@
       "month": "30 päivää",
       "category": "Kategoria",
       "allCategories": "Kaikki kategoriat",
-      "reset": "Nollaa"
+      "reset": "Nollaa",
+      "searchPlaceholder": "Hae omaisuuserän, välin, sarjanumeron mukaan…",
+      "noResults": "Ei tuloksia",
+      "resultSingular": "merkintä",
+      "resultPlural": "merkintää"
     },
     "groups": {
       "overdue": "Myöhässä",
@@ -353,6 +371,27 @@
       "thisWeek": "Tällä viikolla",
       "thisMonth": "Tässä kuussa",
       "total": "Aktiiviset välit"
+    },
+    "urgency": {
+      "today": "tänään",
+      "tomorrow": "huomenna",
+      "yesterday": "eilen",
+      "overdueDays": "{days} päivää myöhässä",
+      "inDays": "{days} päivän kuluttua"
+    },
+    "gantt": {
+      "today": "Tänään",
+      "clickHint": "Klikkaa → Huoltokirja",
+      "twoWeeks": "2 viikkoa",
+      "fourWeeks": "4 viikkoa",
+      "eightWeeks": "8 viikkoa",
+      "sixMonths": "6 kuukautta",
+      "legendOverdue": "Myöhässä",
+      "legend7days": "≤ 7 päivää",
+      "legend21days": "≤ 21 päivää",
+      "legendOk": "OK",
+      "daysOverAbbr": "pv yli",
+      "inDaysAbbr": "{days}pv:ssä"
     }
   },
   "organisation": {

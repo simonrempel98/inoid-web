@@ -69,7 +69,20 @@
     "yesterday": "I går",
     "daysAgo": "{n} dager forsinket",
     "inDays": "om {n} dager",
-    "months": ["Januar","Februar","Mars","April","Mai","Juni","Juli","August","September","Oktober","November","Desember"],
+    "months": [
+      "Januar",
+      "Februar",
+      "Mars",
+      "April",
+      "Mai",
+      "Juni",
+      "Juli",
+      "August",
+      "September",
+      "Oktober",
+      "November",
+      "Desember"
+    ],
     "noEntries": "Ingen oppføringer",
     "pagination": "Side {current} av {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Alle forfallende vedlikeholdsintervaller",
     "tabs": {
       "list": "Oppgaveliste",
-      "gantt": "Gantt-diagram"
+      "gantt": "Gantt-diagram",
+      "tasks": "Oppgaver"
     },
     "filter": {
       "search": "Søk etter aktiv, serienr., kategori…",
@@ -336,7 +350,11 @@
       "month": "30 dager",
       "category": "Kategori",
       "allCategories": "Alle kategorier",
-      "reset": "Tilbakestill"
+      "reset": "Tilbakestill",
+      "searchPlaceholder": "Søk etter aktiva, intervall, serienr., strekkode…",
+      "noResults": "Ingen resultater",
+      "resultSingular": "oppføring",
+      "resultPlural": "oppføringer"
     },
     "groups": {
       "overdue": "Forsinket",
@@ -353,6 +371,27 @@
       "thisWeek": "Forfaller denne uken",
       "thisMonth": "Forfaller denne måneden",
       "total": "Aktive intervaller"
+    },
+    "urgency": {
+      "today": "i dag",
+      "tomorrow": "i morgen",
+      "yesterday": "i går",
+      "overdueDays": "{days} dager forsinket",
+      "inDays": "om {days} dager"
+    },
+    "gantt": {
+      "today": "I dag",
+      "clickHint": "Klikk → Servicebok",
+      "twoWeeks": "2 uker",
+      "fourWeeks": "4 uker",
+      "eightWeeks": "8 uker",
+      "sixMonths": "6 måneder",
+      "legendOverdue": "Forsinket",
+      "legend7days": "≤ 7 dager",
+      "legend21days": "≤ 21 dager",
+      "legendOk": "OK",
+      "daysOverAbbr": "d over",
+      "inDaysAbbr": "om {days}d"
     }
   },
   "organisation": {

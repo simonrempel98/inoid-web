@@ -69,7 +69,20 @@
     "yesterday": "Ieri",
     "daysAgo": "{n} zile întârziere",
     "inDays": "în {n} zile",
-    "months": ["Ianuarie","Februarie","Martie","Aprilie","Mai","Iunie","Iulie","August","Septembrie","Octombrie","Noiembrie","Decembrie"],
+    "months": [
+      "Ianuarie",
+      "Februarie",
+      "Martie",
+      "Aprilie",
+      "Mai",
+      "Iunie",
+      "Iulie",
+      "August",
+      "Septembrie",
+      "Octombrie",
+      "Noiembrie",
+      "Decembrie"
+    ],
     "noEntries": "Nicio intrare",
     "pagination": "Pagina {current} din {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Toate intervalele de mentenanță scadente",
     "tabs": {
       "list": "Listă sarcini",
-      "gantt": "Diagramă Gantt"
+      "gantt": "Diagramă Gantt",
+      "tasks": "Sarcini"
     },
     "filter": {
       "search": "Căutare după activ, nr. serie, categorie…",
@@ -336,7 +350,11 @@
       "month": "30 zile",
       "category": "Categorie",
       "allCategories": "Toate categoriile",
-      "reset": "Resetare"
+      "reset": "Resetare",
+      "searchPlaceholder": "Căutare după activ, interval, nr. serie, cod de bare…",
+      "noResults": "Niciun rezultat",
+      "resultSingular": "intrare",
+      "resultPlural": "intrări"
     },
     "groups": {
       "overdue": "Restante",
@@ -353,6 +371,27 @@
       "thisWeek": "Scadent această săptămână",
       "thisMonth": "Scadent luna aceasta",
       "total": "Intervale active"
+    },
+    "urgency": {
+      "today": "azi",
+      "tomorrow": "mâine",
+      "yesterday": "ieri",
+      "overdueDays": "{days} zile întârziere",
+      "inDays": "în {days} zile"
+    },
+    "gantt": {
+      "today": "Azi",
+      "clickHint": "Click → Registru de service",
+      "twoWeeks": "2 săpt.",
+      "fourWeeks": "4 săpt.",
+      "eightWeeks": "8 săpt.",
+      "sixMonths": "6 luni",
+      "legendOverdue": "Întârziat",
+      "legend7days": "≤ 7 zile",
+      "legend21days": "≤ 21 zile",
+      "legendOk": "OK",
+      "daysOverAbbr": "z înt.",
+      "inDaysAbbr": "în {days}z"
     }
   },
   "organisation": {

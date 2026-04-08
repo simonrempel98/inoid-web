@@ -69,7 +69,20 @@
     "yesterday": "昨日",
     "daysAgo": "{n}日超過",
     "inDays": "{n}日後",
-    "months": ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"],
+    "months": [
+      "1月",
+      "2月",
+      "3月",
+      "4月",
+      "5月",
+      "6月",
+      "7月",
+      "8月",
+      "9月",
+      "10月",
+      "11月",
+      "12月"
+    ],
     "noEntries": "エントリなし",
     "pagination": "{current} / {total} ページ"
   },
@@ -324,7 +337,8 @@
     "subtitle": "すべての期限メンテナンスインターバル",
     "tabs": {
       "list": "タスクリスト",
-      "gantt": "ガントチャート"
+      "gantt": "ガントチャート",
+      "tasks": "タスク"
     },
     "filter": {
       "search": "資産、シリアル番号、カテゴリで検索…",
@@ -336,7 +350,11 @@
       "month": "30日",
       "category": "カテゴリ",
       "allCategories": "すべてのカテゴリ",
-      "reset": "リセット"
+      "reset": "リセット",
+      "searchPlaceholder": "資産、インターバル、シリアル番号、バーコードで検索…",
+      "noResults": "結果なし",
+      "resultSingular": "件",
+      "resultPlural": "件"
     },
     "groups": {
       "overdue": "期限超過",
@@ -353,6 +371,27 @@
       "thisWeek": "今週の期限",
       "thisMonth": "今月の期限",
       "total": "有効インターバル"
+    },
+    "urgency": {
+      "today": "今日",
+      "tomorrow": "明日",
+      "yesterday": "昨日",
+      "overdueDays": "{days}日超過",
+      "inDays": "{days}日後"
+    },
+    "gantt": {
+      "today": "今日",
+      "clickHint": "クリック → サービスログ",
+      "twoWeeks": "2週間",
+      "fourWeeks": "4週間",
+      "eightWeeks": "8週間",
+      "sixMonths": "6ヶ月",
+      "legendOverdue": "超過",
+      "legend7days": "≤ 7日",
+      "legend21days": "≤ 21日",
+      "legendOk": "OK",
+      "daysOverAbbr": "日超",
+      "inDaysAbbr": "{days}日後"
     }
   },
   "organisation": {

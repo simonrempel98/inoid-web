@@ -69,7 +69,20 @@
     "yesterday": "Gestern",
     "daysAgo": "{n} Tage überfällig",
     "inDays": "in {n} Tagen",
-    "months": ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"],
+    "months": [
+      "Januar",
+      "Februar",
+      "März",
+      "April",
+      "Mai",
+      "Juni",
+      "Juli",
+      "August",
+      "September",
+      "Oktober",
+      "November",
+      "Dezember"
+    ],
     "noEntries": "Keine Einträge",
     "pagination": "Seite {current} von {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Alle fälligen Wartungsintervalle",
     "tabs": {
       "list": "Aufgabenliste",
-      "gantt": "Gantt-Chart"
+      "gantt": "Gantt-Chart",
+      "tasks": "Aufgaben"
     },
     "filter": {
       "search": "Suche nach Asset, Seriennr., Kategorie…",
@@ -336,7 +350,11 @@
       "month": "30 Tage",
       "category": "Kategorie",
       "allCategories": "Alle Kategorien",
-      "reset": "Zurücksetzen"
+      "reset": "Zurücksetzen",
+      "searchPlaceholder": "Suche nach Asset, Intervall, Seriennr., Barcode…",
+      "noResults": "Keine Treffer",
+      "resultSingular": "Eintrag",
+      "resultPlural": "Einträge"
     },
     "groups": {
       "overdue": "Überfällig",
@@ -353,6 +371,27 @@
       "thisWeek": "Diese Woche fällig",
       "thisMonth": "Diesen Monat fällig",
       "total": "Aktive Intervalle"
+    },
+    "urgency": {
+      "today": "heute",
+      "tomorrow": "morgen",
+      "yesterday": "gestern",
+      "overdueDays": "{days} Tage überfällig",
+      "inDays": "in {days} Tagen"
+    },
+    "gantt": {
+      "today": "Heute",
+      "clickHint": "Klick → Serviceheft",
+      "twoWeeks": "2 Wochen",
+      "fourWeeks": "4 Wochen",
+      "eightWeeks": "8 Wochen",
+      "sixMonths": "6 Monate",
+      "legendOverdue": "Überfällig",
+      "legend7days": "≤ 7 Tage",
+      "legend21days": "≤ 21 Tage",
+      "legendOk": "OK",
+      "daysOverAbbr": "T über",
+      "inDaysAbbr": "in {days}T"
     }
   },
   "organisation": {

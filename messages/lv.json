@@ -69,7 +69,20 @@
     "yesterday": "Vakar",
     "daysAgo": "{n} dienu kavējums",
     "inDays": "pēc {n} dienām",
-    "months": ["Janvāris","Februāris","Marts","Aprīlis","Maijs","Jūnijs","Jūlijs","Augusts","Septembris","Oktobris","Novembris","Decembris"],
+    "months": [
+      "Janvāris",
+      "Februāris",
+      "Marts",
+      "Aprīlis",
+      "Maijs",
+      "Jūnijs",
+      "Jūlijs",
+      "Augusts",
+      "Septembris",
+      "Oktobris",
+      "Novembris",
+      "Decembris"
+    ],
     "noEntries": "Nav ierakstu",
     "pagination": "Lapa {current} no {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Visi gaidāmie apkopes intervāli",
     "tabs": {
       "list": "Uzdevumu saraksts",
-      "gantt": "Ganta diagramma"
+      "gantt": "Ganta diagramma",
+      "tasks": "Uzdevumi"
     },
     "filter": {
       "search": "Meklēt pēc aktīva, sēr. nr., kategorijas…",
@@ -336,7 +350,11 @@
       "month": "30 dienas",
       "category": "Kategorija",
       "allCategories": "Visas kategorijas",
-      "reset": "Atiestatīt"
+      "reset": "Atiestatīt",
+      "searchPlaceholder": "Meklēt pēc aktīva, intervāla, sēr. nr., svītrkoda…",
+      "noResults": "Nav rezultātu",
+      "resultSingular": "ieraksts",
+      "resultPlural": "ieraksti"
     },
     "groups": {
       "overdue": "Kavēts",
@@ -353,6 +371,27 @@
       "thisWeek": "Šonedēļ",
       "thisMonth": "Šomēnes",
       "total": "Aktīvie intervāli"
+    },
+    "urgency": {
+      "today": "šodien",
+      "tomorrow": "rīt",
+      "yesterday": "vakar",
+      "overdueDays": "{days} dienas kavējas",
+      "inDays": "pēc {days} dienām"
+    },
+    "gantt": {
+      "today": "Šodien",
+      "clickHint": "Klikšķis → Servisa žurnāls",
+      "twoWeeks": "2 nedēļas",
+      "fourWeeks": "4 nedēļas",
+      "eightWeeks": "8 nedēļas",
+      "sixMonths": "6 mēneši",
+      "legendOverdue": "Kavējas",
+      "legend7days": "≤ 7 dienas",
+      "legend21days": "≤ 21 diena",
+      "legendOk": "OK",
+      "daysOverAbbr": "d. kav.",
+      "inDaysAbbr": "pēc {days}d"
     }
   },
   "organisation": {

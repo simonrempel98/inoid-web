@@ -69,7 +69,20 @@
     "yesterday": "Včera",
     "daysAgo": "{n} dní po termínu",
     "inDays": "za {n} dní",
-    "months": ["Leden","Únor","Březen","Duben","Květen","Červen","Červenec","Srpen","Září","Říjen","Listopad","Prosinec"],
+    "months": [
+      "Leden",
+      "Únor",
+      "Březen",
+      "Duben",
+      "Květen",
+      "Červen",
+      "Červenec",
+      "Srpen",
+      "Září",
+      "Říjen",
+      "Listopad",
+      "Prosinec"
+    ],
     "noEntries": "Žádné záznamy",
     "pagination": "Stránka {current} z {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Všechny splatné intervaly údržby",
     "tabs": {
       "list": "Seznam úkolů",
-      "gantt": "Ganttův diagram"
+      "gantt": "Ganttův diagram",
+      "tasks": "Úkoly"
     },
     "filter": {
       "search": "Hledat podle aktiva, sér. č., kategorie…",
@@ -336,7 +350,11 @@
       "month": "30 dní",
       "category": "Kategorie",
       "allCategories": "Všechny kategorie",
-      "reset": "Resetovat"
+      "reset": "Resetovat",
+      "searchPlaceholder": "Hledat dle aktiva, intervalu, sér. čísla…",
+      "noResults": "Žádné výsledky",
+      "resultSingular": "záznam",
+      "resultPlural": "záznamy"
     },
     "groups": {
       "overdue": "Po termínu",
@@ -353,6 +371,27 @@
       "thisWeek": "Tento týden",
       "thisMonth": "Tento měsíc",
       "total": "Aktivní intervaly"
+    },
+    "urgency": {
+      "today": "dnes",
+      "tomorrow": "zítra",
+      "yesterday": "včera",
+      "overdueDays": "{days} dní po termínu",
+      "inDays": "za {days} dní"
+    },
+    "gantt": {
+      "today": "Dnes",
+      "clickHint": "Klik → Servisní deník",
+      "twoWeeks": "2 týdny",
+      "fourWeeks": "4 týdny",
+      "eightWeeks": "8 týdnů",
+      "sixMonths": "6 měsíců",
+      "legendOverdue": "Po termínu",
+      "legend7days": "≤ 7 dní",
+      "legend21days": "≤ 21 dní",
+      "legendOk": "OK",
+      "daysOverAbbr": "d po",
+      "inDaysAbbr": "za {days}d"
     }
   },
   "organisation": {

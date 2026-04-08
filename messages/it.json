@@ -69,7 +69,20 @@
     "yesterday": "Ieri",
     "daysAgo": "{n} giorni di ritardo",
     "inDays": "tra {n} giorni",
-    "months": ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"],
+    "months": [
+      "Gennaio",
+      "Febbraio",
+      "Marzo",
+      "Aprile",
+      "Maggio",
+      "Giugno",
+      "Luglio",
+      "Agosto",
+      "Settembre",
+      "Ottobre",
+      "Novembre",
+      "Dicembre"
+    ],
     "noEntries": "Nessuna voce",
     "pagination": "Pagina {current} di {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Tutti gli intervalli di manutenzione in scadenza",
     "tabs": {
       "list": "Lista attività",
-      "gantt": "Diagramma di Gantt"
+      "gantt": "Diagramma di Gantt",
+      "tasks": "Attività"
     },
     "filter": {
       "search": "Cerca per asset, n. serie, categoria…",
@@ -336,7 +350,11 @@
       "month": "30 giorni",
       "category": "Categoria",
       "allCategories": "Tutte le categorie",
-      "reset": "Reimposta"
+      "reset": "Reimposta",
+      "searchPlaceholder": "Cerca per asset, intervallo, n° serie, codice a barre…",
+      "noResults": "Nessun risultato",
+      "resultSingular": "voce",
+      "resultPlural": "voci"
     },
     "groups": {
       "overdue": "Scaduto",
@@ -353,6 +371,27 @@
       "thisWeek": "In scadenza questa settimana",
       "thisMonth": "In scadenza questo mese",
       "total": "Intervalli attivi"
+    },
+    "urgency": {
+      "today": "oggi",
+      "tomorrow": "domani",
+      "yesterday": "ieri",
+      "overdueDays": "{days} giorni in ritardo",
+      "inDays": "tra {days} giorni"
+    },
+    "gantt": {
+      "today": "Oggi",
+      "clickHint": "Clicca → Registro di servizio",
+      "twoWeeks": "2 settimane",
+      "fourWeeks": "4 settimane",
+      "eightWeeks": "8 settimane",
+      "sixMonths": "6 mesi",
+      "legendOverdue": "Scaduto",
+      "legend7days": "≤ 7 giorni",
+      "legend21days": "≤ 21 giorni",
+      "legendOk": "OK",
+      "daysOverAbbr": "gg sc.",
+      "inDaysAbbr": "tra {days}g"
     }
   },
   "organisation": {

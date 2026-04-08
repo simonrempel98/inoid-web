@@ -69,7 +69,20 @@
     "yesterday": "I går",
     "daysAgo": "{n} dage forsinket",
     "inDays": "om {n} dage",
-    "months": ["Januar","Februar","Marts","April","Maj","Juni","Juli","August","September","Oktober","November","December"],
+    "months": [
+      "Januar",
+      "Februar",
+      "Marts",
+      "April",
+      "Maj",
+      "Juni",
+      "Juli",
+      "August",
+      "September",
+      "Oktober",
+      "November",
+      "December"
+    ],
     "noEntries": "Ingen poster",
     "pagination": "Side {current} af {total}"
   },
@@ -324,7 +337,8 @@
     "subtitle": "Alle forfaldende vedligeholdelsesintervaller",
     "tabs": {
       "list": "Opgaveliste",
-      "gantt": "Gantt-diagram"
+      "gantt": "Gantt-diagram",
+      "tasks": "Opgaver"
     },
     "filter": {
       "search": "Søg efter aktiv, serienr., kategori…",
@@ -336,7 +350,11 @@
       "month": "30 dage",
       "category": "Kategori",
       "allCategories": "Alle kategorier",
-      "reset": "Nulstil"
+      "reset": "Nulstil",
+      "searchPlaceholder": "Søg efter aktiv, interval, serienr., stregkode…",
+      "noResults": "Ingen resultater",
+      "resultSingular": "post",
+      "resultPlural": "poster"
     },
     "groups": {
       "overdue": "Forsinket",
@@ -353,6 +371,27 @@
       "thisWeek": "Forfalder denne uge",
       "thisMonth": "Forfalder denne måned",
       "total": "Aktive intervaller"
+    },
+    "urgency": {
+      "today": "i dag",
+      "tomorrow": "i morgen",
+      "yesterday": "i går",
+      "overdueDays": "{days} dage forsinket",
+      "inDays": "om {days} dage"
+    },
+    "gantt": {
+      "today": "I dag",
+      "clickHint": "Klik → Servicebog",
+      "twoWeeks": "2 uger",
+      "fourWeeks": "4 uger",
+      "eightWeeks": "8 uger",
+      "sixMonths": "6 måneder",
+      "legendOverdue": "Forsinket",
+      "legend7days": "≤ 7 dage",
+      "legend21days": "≤ 21 dage",
+      "legendOk": "OK",
+      "daysOverAbbr": "d over",
+      "inDaysAbbr": "om {days}d"
     }
   },
   "organisation": {
