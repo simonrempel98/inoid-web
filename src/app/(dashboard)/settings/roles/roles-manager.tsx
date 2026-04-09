@@ -153,57 +153,6 @@ export function RolesManager({ members, currentUserId, isAdmin }: {
         ))}
       </div>
 
-      {/* Mitgliederliste */}
-      <p style={{ fontSize: 12, fontWeight: 700, color: '#96aed2', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 10px' }}>
-        {t('membersCount', { count: members.length })}
-      </p>
-      <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
-        {members.map((m, i) => (
-          <div key={m.id}>
-            {i > 0 && <div style={{ height: 1, background: '#e8eef6', margin: '0 16px' }} />}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px' }}>
-              {/* Avatar */}
-              <div style={{
-                width: 40, height: 40, borderRadius: '50%', flexShrink: 0,
-                background: `linear-gradient(135deg, ${ROLE_COLORS[m.app_role]}, ${ROLE_COLORS[m.app_role]}99)`,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 14, fontWeight: 700, color: 'white',
-              }}>
-                {initials(m)}
-              </div>
-
-              {/* Name + Email */}
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: '#000',
-                  overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {m.full_name || m.email}
-                  {m.id === currentUserId && (
-                    <span style={{ fontSize: 11, color: '#96aed2', fontWeight: 400, marginLeft: 6 }}>{t('you')}</span>
-                  )}
-                </p>
-                <p style={{ margin: '1px 0 0', fontSize: 12, color: '#888',
-                  overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                  {m.email}
-                </p>
-              </div>
-
-              {/* Rolle */}
-              {isAdmin ? (
-                <RoleSelector
-                  memberId={m.id}
-                  currentRole={m.app_role}
-                  isCurrentUser={m.id === currentUserId}
-                  roleLabels={roleLabels}
-                  youLabel={t('you')}
-                />
-              ) : (
-                <RoleBadge role={m.app_role} label={roleLabels[m.app_role]} />
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-
       {!isAdmin && (
         <p style={{ fontSize: 12, color: '#96aed2', textAlign: 'center', marginTop: 16 }}>
           {t('onlyAdmins')}
