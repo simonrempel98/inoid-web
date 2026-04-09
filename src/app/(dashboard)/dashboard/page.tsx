@@ -187,7 +187,7 @@ export default async function DashboardPage() {
   const locale = await getLocale()
 
   const roleLabel = profile?.is_platform_admin
-    ? 'Platform Admin'
+    ? 'Superadmin'
     : profile?.app_role === 'superadmin' ? 'Superadmin'
     : profile?.app_role === 'admin' ? 'Admin'
     : 'Member'
