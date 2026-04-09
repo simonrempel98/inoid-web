@@ -845,6 +845,10 @@
     "you": "you",
     "membersCount": "Members · {count}",
     "onlyAdmins": "Only admins can change roles.",
+    "superadmin": {
+      "label": "Superadmin",
+      "description": "Full access over all areas – role cannot be changed by other admins"
+    },
     "admin": {
       "label": "Admin",
       "description": "Full access: manage assets, service, org structure, teams & members"

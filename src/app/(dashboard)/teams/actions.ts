@@ -232,12 +232,29 @@ export async function setMemberRole(userId: string, appRole: AppRole) {
   const supabase = await createClient()
   const admin = createAdminClient()
 
-  // Nur Admins dürfen Rollen ändern
+  // Nur Admins & Superadmins dürfen Rollen ändern
   const currentRole = await getCurrentAppRole()
-  if (currentRole !== 'admin') return { error: 'Keine Berechtigung' }
+  if (currentRole !== 'admin' && currentRole !== 'superadmin') return { error: 'Keine Berechtigung' }
 
   const orgId = await getOrgId()
   if (!orgId) return { error: 'Keine Organisation' }
+
+  // Zielnutzer laden – Superadmin darf nur von Superadmin geändert werden
+  const { data: target } = await admin
+    .from('profiles')
+    .select('app_role')
+    .eq('id', userId)
+    .eq('organization_id', orgId)
+    .single()
+
+  if (target?.app_role === 'superadmin' && currentRole !== 'superadmin') {
+    return { error: 'Superadmin-Rolle kann nur von einem anderen Superadmin geändert werden' }
+  }
+
+  // Normale Admins dürfen keine superadmin-Rolle vergeben
+  if (appRole === 'superadmin' && currentRole !== 'superadmin') {
+    return { error: 'Nur ein Superadmin darf die Superadmin-Rolle vergeben' }
+  }
 
   const { error } = await admin
     .from('profiles')

@@ -6,6 +6,8 @@ import { useTranslations, useLocale } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { EVENT_TYPES, type EventType } from '@/lib/service-types'
 import { Camera, Paperclip, Calendar, RefreshCw, X } from 'lucide-react'
+import { compressImage, checkDocSize } from '@/lib/compress-image'
+import { CompressionInfo } from '@/components/compression-info'
 
 const TYPE_COLORS = ['#2980B9', '#27AE60', '#E74C3C', '#8E44AD', '#16A085', '#E67E22', '#0099cc', '#003366']
 
@@ -63,6 +65,9 @@ export default function NeuerServiceEintragPage() {
   // Fotos
   const [photoFiles, setPhotoFiles] = useState<File[]>([])
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([])
+  const [photoCompressionStats, setPhotoCompressionStats] = useState<{ name: string; originalSize: number; compressedSize: number }[]>([])
+  const [photoCompressing, setPhotoCompressing] = useState(false)
+  const [docSizeError, setDocSizeError] = useState<string | null>(null)
   const photoInputRef = useRef<HTMLInputElement>(null)
 
   // Dokumente
@@ -144,25 +149,42 @@ export default function NeuerServiceEintragPage() {
     setNextServiceDate(base.toISOString().slice(0, 10))
   }
 
-  function addPhotos(files: FileList | null) {
+  async function addPhotos(files: FileList | null) {
     if (!files) return
     const arr = Array.from(files).filter(f => f.type.startsWith('image/'))
-    setPhotoFiles(prev => [...prev, ...arr])
-    arr.forEach(f => {
+    if (arr.length === 0) return
+    setPhotoCompressing(true)
+    const results = await Promise.all(arr.map(f => compressImage(f)))
+    const compressed = results.map(r => r.file)
+    const newStats = results.map((r, i) => ({ name: arr[i].name, originalSize: r.originalSize, compressedSize: r.compressedSize }))
+    setPhotoFiles(prev => [...prev, ...compressed])
+    setPhotoCompressionStats(prev => [...prev, ...newStats])
+    compressed.forEach(f => {
       const reader = new FileReader()
       reader.onload = e => setPhotoPreviews(prev => [...prev, e.target?.result as string])
       reader.readAsDataURL(f)
     })
+    setPhotoCompressing(false)
   }
 
   function removePhoto(i: number) {
     setPhotoFiles(prev => prev.filter((_, j) => j !== i))
     setPhotoPreviews(prev => prev.filter((_, j) => j !== i))
+    setPhotoCompressionStats(prev => prev.filter((_, j) => j !== i))
   }
 
   function addDocs(files: FileList | null) {
     if (!files) return
-    setDocFiles(prev => [...prev, ...Array.from(files)])
+    setDocSizeError(null)
+    const errors: string[] = []
+    const valid: File[] = []
+    for (const f of Array.from(files)) {
+      const check = checkDocSize(f)
+      if (!check.ok) { errors.push(check.message!); continue }
+      valid.push(f)
+    }
+    if (errors.length > 0) setDocSizeError(errors.join(' '))
+    setDocFiles(prev => [...prev, ...valid])
   }
 
   function removeDoc(i: number) {
@@ -727,6 +749,10 @@ export default function NeuerServiceEintragPage() {
             </button>
             <input ref={photoInputRef} type="file" accept="image/*" multiple style={{ display: 'none' }} onChange={e => addPhotos(e.target.files)} />
           </div>
+          {photoCompressing && (
+            <p style={{ fontSize: 12, color: '#0099cc', margin: '8px 0 0', fontFamily: 'Arial, sans-serif' }}>Wird komprimiert…</p>
+          )}
+          <CompressionInfo stats={photoCompressionStats} />
         </div>
 
         {/* Dokumente */}
@@ -771,6 +797,11 @@ export default function NeuerServiceEintragPage() {
             </button>
             <input ref={docInputRef} type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.txt" multiple style={{ display: 'none' }} onChange={e => addDocs(e.target.files)} />
           </div>
+          {docSizeError && (
+            <div style={{ fontSize: 12, color: '#dc2626', marginTop: 6, padding: '8px 10px', background: '#fef2f2', borderRadius: 8, border: '1px solid #fecaca' }}>
+              {docSizeError}
+            </div>
+          )}
         </div>
 
         {error && (

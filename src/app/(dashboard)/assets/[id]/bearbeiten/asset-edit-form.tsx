@@ -7,6 +7,8 @@ import { createClient } from '@/lib/supabase/client'
 import { ClipboardList, Settings2, Briefcase, Camera, Smartphone, Tag } from 'lucide-react'
 import { OrgTreePicker, getOrgRefLabel, type OrgLocation, type OrgHall, type OrgArea } from '@/components/org-tree-picker'
 import { CategoryCombobox } from '@/components/category-combobox'
+import { compressImage } from '@/lib/compress-image'
+import { CompressionInfo } from '@/components/compression-info'
 
 type Asset = {
   id: string
@@ -48,6 +50,8 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
   const [existingUrls, setExistingUrls] = useState<string[]>(asset.image_urls ?? [])
   const [newFiles, setNewFiles] = useState<File[]>([])
   const [newPreviews, setNewPreviews] = useState<string[]>([])
+  const [compressionStats, setCompressionStats] = useState<{ name: string; originalSize: number; compressedSize: number }[]>([])
+  const [compressing, setCompressing] = useState(false)
 
   const [uuidCopied, setUuidCopied] = useState(false)
   function copyUuid() {
@@ -74,17 +78,26 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
     Object.entries(asset.commercial_data ?? {})
   )
 
-  function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? [])
     const remaining = 10 - existingUrls.length - newFiles.length
     const toAdd = files.slice(0, remaining)
-    setNewFiles(prev => [...prev, ...toAdd])
-    toAdd.forEach(f => {
+    if (toAdd.length === 0) return
+    e.target.value = ''
+
+    setCompressing(true)
+    const results = await Promise.all(toAdd.map(f => compressImage(f)))
+    const compressed = results.map(r => r.file)
+    const newStats = results.map((r, i) => ({ name: toAdd[i].name, originalSize: r.originalSize, compressedSize: r.compressedSize }))
+
+    setNewFiles(prev => [...prev, ...compressed])
+    setCompressionStats(prev => [...prev, ...newStats])
+    compressed.forEach(f => {
       const reader = new FileReader()
       reader.onload = ev => setNewPreviews(prev => [...prev, ev.target?.result as string])
       reader.readAsDataURL(f)
     })
-    e.target.value = ''
+    setCompressing(false)
   }
 
   function removeExisting(url: string) {
@@ -375,6 +388,10 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
             )}
           </div>
 
+          {compressing && (
+            <p style={{ fontSize: 12, color: '#0099cc', margin: '8px 0 0', fontFamily: 'Arial, sans-serif' }}>Wird komprimiert…</p>
+          )}
+          <CompressionInfo stats={compressionStats} />
           {existingUrls.length + newFiles.length === 0 && (
             <p style={{ fontSize: 12, color: '#999', margin: '4px 0 0', fontFamily: 'Arial, sans-serif' }}>
               {t('assets.form.noPhotos')}

@@ -1,45 +1,54 @@
-export type AppRole = 'admin' | 'techniker' | 'leser'
+export type AppRole = 'superadmin' | 'admin' | 'techniker' | 'leser'
 
 export const ROLE_LABELS: Record<AppRole, string> = {
-  admin:     'Admin',
-  techniker: 'Techniker',
-  leser:     'Leser',
+  superadmin: 'Superadmin',
+  admin:      'Admin',
+  techniker:  'Techniker',
+  leser:      'Leser',
 }
 
 export const ROLE_COLORS: Record<AppRole, string> = {
-  admin:     '#003366',
-  techniker: '#0099cc',
-  leser:     '#96aed2',
+  superadmin: '#7c3aed',
+  admin:      '#003366',
+  techniker:  '#0099cc',
+  leser:      '#96aed2',
 }
 
 export const ROLE_BG: Record<AppRole, string> = {
-  admin:     '#e8f0ff',
-  techniker: '#e6f6ff',
-  leser:     '#f4f6f9',
+  superadmin: '#f3eeff',
+  admin:      '#e8f0ff',
+  techniker:  '#e6f6ff',
+  leser:      '#f4f6f9',
 }
 
 export const ROLE_DESCRIPTIONS: Record<AppRole, string> = {
-  admin:     'Vollzugriff: Assets, Service, Org-Struktur, Teams & Mitglieder verwalten',
-  techniker: 'Assets & Service bearbeiten, Org-Struktur nur lesen',
-  leser:     'Alles nur lesen, nichts bearbeiten oder anlegen',
+  superadmin: 'Vollzugriff über alle Bereiche – kann keine Rechte entzogen werden, auch nicht von anderen Admins',
+  admin:      'Vollzugriff: Assets, Service, Org-Struktur, Teams & Mitglieder verwalten',
+  techniker:  'Assets & Service bearbeiten, Org-Struktur nur lesen',
+  leser:      'Alles nur lesen, nichts bearbeiten oder anlegen',
+}
+
+export function isSuperOrAdmin(role: AppRole) {
+  return role === 'superadmin' || role === 'admin'
 }
 
 export function can(role: AppRole) {
+  const isAdmin = role === 'admin' || role === 'superadmin'
   return {
     // Assets
-    editAssets:   role === 'admin' || role === 'techniker',
-    deleteAssets: role === 'admin',
+    editAssets:   isAdmin || role === 'techniker',
+    deleteAssets: isAdmin,
     // Service
-    editService:  role === 'admin' || role === 'techniker',
+    editService:  isAdmin || role === 'techniker',
     // Org-Struktur
-    editOrgStructure: role === 'admin',
+    editOrgStructure: isAdmin,
     // Teams & Mitglieder
-    manageTeams:   role === 'admin',
-    manageMembers: role === 'admin',
-    manageRoles:   role === 'admin',
+    manageTeams:   isAdmin,
+    manageMembers: isAdmin,
+    manageRoles:   isAdmin,
     // Einstellungen
-    editSettings: role === 'admin',
+    editSettings: isAdmin,
     // Vorlagen
-    editTemplates: role === 'admin' || role === 'techniker',
+    editTemplates: isAdmin || role === 'techniker',
   }
 }

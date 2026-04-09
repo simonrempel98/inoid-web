@@ -7,6 +7,8 @@ import { createClient } from '@/lib/supabase/client'
 import { CheckCircle2, Smartphone, Tag, Star, FileText, X, Upload } from 'lucide-react'
 import { OrgTreePicker, getOrgRefLabel, type OrgLocation, type OrgHall, type OrgArea } from '@/components/org-tree-picker'
 import { CategoryCombobox } from '@/components/category-combobox'
+import { compressImage, checkDocSize, formatBytes } from '@/lib/compress-image'
+import { CompressionInfo } from '@/components/compression-info'
 
 const DOC_TYPES = [
   { value: 'manual', label: 'Handbuch' },
@@ -67,9 +69,12 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
   const [imageFiles, setImageFiles] = useState<File[]>([])
   const [imagePreviews, setImagePreviews] = useState<string[]>([])
   const [coverIndex, setCoverIndex] = useState(0)
+  const [compressionStats, setCompressionStats] = useState<{ name: string; originalSize: number; compressedSize: number }[]>([])
+  const [compressing, setCompressing] = useState(false)
 
   // Step 1 – Dokumente
   const [docs, setDocs] = useState<DocEntry[]>([])
+  const [docError, setDocError] = useState<string | null>(null)
 
   // Step 2 – Technische Daten
   const [techFreeKeys, setTechFreeKeys] = useState<string[]>([])
@@ -79,36 +84,52 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
   const [commFreeKeys, setCommFreeKeys] = useState<string[]>([])
   const [commercialData, setCommercialData] = useState<Record<string, string>>({})
 
-  function handleImageSelect(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleImageSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? [])
     const remaining = 10 - imageFiles.length
     const toAdd = files.slice(0, remaining)
+    if (toAdd.length === 0) return
+    e.target.value = ''
+
+    setCompressing(true)
     const startIdx = imageFiles.length
-    setImageFiles(prev => [...prev, ...toAdd])
-    toAdd.forEach((f, i) => {
+
+    const results = await Promise.all(toAdd.map(f => compressImage(f)))
+    const compressed = results.map(r => r.file)
+    const newStats = results.map((r, i) => ({ name: toAdd[i].name, originalSize: r.originalSize, compressedSize: r.compressedSize }))
+
+    setImageFiles(prev => [...prev, ...compressed])
+    setCompressionStats(prev => [...prev, ...newStats])
+
+    compressed.forEach((f, i) => {
       const reader = new FileReader()
       reader.onload = ev => setImagePreviews(prev => [...prev, ev.target?.result as string])
       reader.readAsDataURL(f)
-      // Erstes Bild automatisch als Cover setzen
       if (startIdx === 0 && i === 0) setCoverIndex(0)
     })
+    setCompressing(false)
   }
 
   function removeImage(index: number) {
     setImageFiles(prev => prev.filter((_, i) => i !== index))
     setImagePreviews(prev => prev.filter((_, i) => i !== index))
+    setCompressionStats(prev => prev.filter((_, i) => i !== index))
     if (coverIndex >= index && coverIndex > 0) setCoverIndex(c => c - 1)
     else if (coverIndex === index) setCoverIndex(0)
   }
 
   function handleDocSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? [])
-    const toAdd: DocEntry[] = files.map(f => ({
-      file: f,
-      name: f.name.replace(/\.[^/.]+$/, ''), // Dateiname ohne Endung als Default-Name
-      document_type: 'other',
-    }))
-    setDocs(prev => [...prev, ...toAdd])
+    setDocError(null)
+    const errors: string[] = []
+    const valid: DocEntry[] = []
+    for (const f of files) {
+      const check = checkDocSize(f)
+      if (!check.ok) { errors.push(check.message!); continue }
+      valid.push({ file: f, name: f.name.replace(/\.[^/.]+$/, ''), document_type: 'other' })
+    }
+    if (errors.length > 0) setDocError(errors.join(' '))
+    setDocs(prev => [...prev, ...valid])
     e.target.value = ''
   }
 
@@ -393,6 +414,14 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
               {t('assets.form.photosHint')} · Stern-Klick = Titelbild
             </p>
             <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleImageSelect} style={{ display: 'none' }} />
+            {compressing && (
+              <div style={{ fontSize: 12, color: '#0099cc', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'Arial, sans-serif' }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ animation: 'spin 1s linear infinite' }}>
+                  <path d="M21 12a9 9 0 1 1-6.219-8.56"/>
+                </svg>
+                Wird komprimiert…
+              </div>
+            )}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 4 }}>
               {imagePreviews.map((src, i) => (
                 <div key={i} style={{
@@ -444,6 +473,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
                 </button>
               )}
             </div>
+            <CompressionInfo stats={compressionStats} />
           </div>
 
           {/* ── Dokumente ── */}
@@ -501,14 +531,17 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
               </div>
             )}
 
-            <button type="button" onClick={() => docInputRef.current?.click()} style={{
+            {docError && (
+              <p style={{ color: '#dc2626', fontSize: 12, margin: '0 0 8px', fontFamily: 'Arial, sans-serif' }}>{docError}</p>
+            )}
+            <button type="button" onClick={() => { setDocError(null); docInputRef.current?.click() }} style={{
               width: '100%', padding: '12px', borderRadius: 10, border: '2px dashed #c8d4e8',
               background: '#f4f6f9', cursor: 'pointer', color: '#96aed2',
               fontSize: 13, fontWeight: 600, fontFamily: 'Arial, sans-serif',
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
             }}>
               <Upload size={14} />
-              Dokument hinzufügen
+              Dokument hinzufügen <span style={{ fontSize: 11, fontWeight: 400 }}>(max. 10 MB)</span>
             </button>
           </div>
         </div>

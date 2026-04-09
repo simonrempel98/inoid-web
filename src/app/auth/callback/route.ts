@@ -171,7 +171,7 @@ export async function GET(request: Request) {
       full_name: fullName,
       preferred_language: 'de',
       is_platform_admin: false,
-      app_role: 'admin',
+      app_role: 'superadmin',
     })
 
     // User als OWNER eintragen

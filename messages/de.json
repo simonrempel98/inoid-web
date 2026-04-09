@@ -845,6 +845,10 @@
     "you": "du",
     "membersCount": "Mitglieder · {count}",
     "onlyAdmins": "Nur Admins können Rollen ändern.",
+    "superadmin": {
+      "label": "Superadmin",
+      "description": "Vollzugriff über alle Bereiche – kann keine Rechte entzogen werden, auch nicht von anderen Admins"
+    },
     "admin": {
       "label": "Admin",
       "description": "Vollzugriff: Assets, Service, Org-Struktur, Teams & Mitglieder verwalten"
