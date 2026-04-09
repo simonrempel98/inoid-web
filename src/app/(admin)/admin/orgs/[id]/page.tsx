@@ -42,10 +42,10 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
   }
 
   const ROLE_LABELS: Record<string, { label: string; color: string }> = {
-    superadmin:  { label: 'Superadmin', color: '#34d399' },
-    admin:       { label: 'Admin',      color: '#60a5fa' },
-    technician:  { label: 'Techniker',  color: '#f59e0b' },
-    viewer:      { label: 'Leser',      color: '#9ca3af' },
+    superadmin:  { label: 'Superadmin', color: '#a78bfa' },
+    admin:       { label: 'Admin',      color: '#ffd700' },
+    technician:  { label: 'Techniker',  color: '#a8b2c0' },
+    viewer:      { label: 'Leser',      color: '#cd7f32' },
     member:      { label: 'Member',     color: '#9ca3af' },
   }
 
