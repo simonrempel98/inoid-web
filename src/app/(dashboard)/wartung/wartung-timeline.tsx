@@ -165,8 +165,8 @@ export function WartungTimeline({
                 {t('wartung.filter.noResults')}
               </div>
             ) : displayed.map((s, rowIdx) => {
-              const next = s.next_service_date ? new Date(s.next_service_date) : null
-              const last = s.last_service_date ? new Date(s.last_service_date) : null
+              const next = s.next_service_date ? new Date(s.next_service_date.slice(0, 10) + 'T00:00:00') : null
+              const last = s.last_service_date ? new Date(s.last_service_date.slice(0, 10) + 'T00:00:00') : null
               const daysToNext = next ? Math.ceil((next.getTime() - today.getTime()) / 86400000) : null
               const color = urgencyColor(daysToNext)
               const isOverdue = daysToNext !== null && daysToNext < 0

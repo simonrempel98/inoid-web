@@ -41,7 +41,7 @@ export function ServiceSchedules({ schedules, assetId }: { schedules: Schedule[]
     <>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {schedules.map(s => {
-          const next = s.next_service_date ? new Date(s.next_service_date + 'T00:00:00') : null
+          const next = s.next_service_date ? new Date(s.next_service_date.slice(0, 10) + 'T00:00:00') : null
           const days = next ? Math.ceil((next.getTime() - Date.now()) / 86400000) : null
           const color =
             days === null ? '#96aed2' :

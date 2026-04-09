@@ -247,7 +247,7 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
                             {event.performed_by && <Chip icon={<User size={12} />} label={event.performed_by} />}
                             {event.external_company && <Chip icon={<Building2 size={12} />} label={event.external_company} />}
                             {event.next_service_date && (
-                              <Chip icon={<Calendar size={12} />} label={t('service.timeline.nextDate', { date: new Date(event.next_service_date + 'T00:00:00').toLocaleDateString(locale) })} highlight />
+                              <Chip icon={<Calendar size={12} />} label={t('service.timeline.nextDate', { date: new Date(event.next_service_date.slice(0, 10) + 'T00:00:00').toLocaleDateString(locale) })} highlight />
                             )}
                           </div>
 

@@ -41,7 +41,7 @@ export function WartungTaskList({ schedules }: { schedules: ScheduleWithAsset[] 
   const in30  = new Date(Date.now() + 30 * 86400000).toISOString().slice(0, 10)
 
   function daysLabel(dateStr: string): string {
-    const diff = Math.ceil((new Date(dateStr).getTime() - new Date(today).getTime()) / 86400000)
+    const diff = Math.ceil((new Date(dateStr.slice(0, 10) + 'T00:00:00').getTime() - new Date(today + 'T00:00:00').getTime()) / 86400000)
     if (diff === 0)  return t('wartung.urgency.today')
     if (diff === 1)  return t('wartung.urgency.tomorrow')
     if (diff === -1) return t('wartung.urgency.yesterday')
