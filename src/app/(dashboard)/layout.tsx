@@ -62,7 +62,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
       {/* Bottom Nav – nur Mobile */}
       <div className="md:hidden">
-        <BottomNav features={features} />
+        <BottomNav
+          features={features}
+          userEmail={user.email ?? undefined}
+          userName={profile?.full_name ?? undefined}
+        />
       </div>
 
     </div>
