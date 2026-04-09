@@ -48,7 +48,11 @@ export default function NeuerServiceEintragPage() {
   // Felder
   const [eventType, setEventType] = useState('maintenance')
   const [title, setTitle] = useState('')
-  const [eventDate, setEventDate] = useState(() => new Date().toISOString().slice(0, 16))
+  const [eventDate, setEventDate] = useState(() => {
+    const now = new Date()
+    const offset = now.getTimezoneOffset() * 60000
+    return new Date(now.getTime() - offset).toISOString().slice(0, 16)
+  })
   const [description, setDescription] = useState('')
   const [performedBy, setPerformedBy] = useState('')
   const [externalCompany, setExternalCompany] = useState('')
@@ -218,7 +222,7 @@ export default function NeuerServiceEintragPage() {
       const payload = {
         event_type: ALLOWED.includes(eventType) ? eventType : 'other',
         title: title.trim(),
-        event_date: eventDate,
+        event_date: eventDate ? new Date(eventDate).toISOString() : new Date().toISOString(),
         description: description.trim() || null,
         performed_by: performedBy.trim() || null,
         external_company: externalCompany.trim() || null,
