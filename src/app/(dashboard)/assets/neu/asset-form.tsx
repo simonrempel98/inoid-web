@@ -373,7 +373,9 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
               <label style={labelStyle}>{t('assets.form.location')}</label>
               {locations.length > 0
                 ? <OrgTreePicker locations={locations} halls={halls} areas={areas} value={locationRef} onChange={setLocationRef} inputStyle={inputStyle} />
-                : <input value={location} onChange={e => setLocation(e.target.value)} style={inputStyle} placeholder={t('assets.form.locationPlaceholder')} />
+                : <div style={{ ...inputStyle, color: '#aab2bf', cursor: 'not-allowed', padding: '2px 0' }}>
+                    Keine Standorte angelegt
+                  </div>
               }
             </div>
           </div>

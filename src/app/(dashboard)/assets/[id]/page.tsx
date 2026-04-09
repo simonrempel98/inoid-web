@@ -144,17 +144,15 @@ export default async function AssetDetailPage({
         {asset.manufacturer && (
           <InfoCard icon={<Factory size={14} />} label={t('assets.fields.manufacturer')} value={asset.manufacturer} />
         )}
-        {asset.location && (
-          <LocationHistory
-            current={asset.location}
-            history={locationHistory ?? []}
-            assetId={id}
-            locationRef={(asset as any).location_ref ?? null}
-            locations={locations ?? []}
-            halls={(halls ?? []) as any}
-            areas={(areas ?? []) as any}
-          />
-        )}
+        <LocationHistory
+          current={asset.location ?? null}
+          history={locationHistory ?? []}
+          assetId={id}
+          locationRef={(asset as any).location_ref ?? null}
+          locations={locations ?? []}
+          halls={(halls ?? []) as any}
+          areas={(areas ?? []) as any}
+        />
         {asset.created_at && (
           <InfoCard icon={<Calendar size={14} />} label={t('assets.detail.createdAt')} value={new Date(asset.created_at).toLocaleDateString(locale)} />
         )}

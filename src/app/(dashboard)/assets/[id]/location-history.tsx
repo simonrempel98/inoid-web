@@ -15,7 +15,7 @@ type HistoryEntry = {
 }
 
 export function LocationHistory({ current, history, assetId, locationRef: initialLocationRef, locations, halls, areas }: {
-  current: string
+  current: string | null
   history: HistoryEntry[]
   assetId: string
   locationRef: string | null
@@ -87,9 +87,10 @@ export function LocationHistory({ current, history, assetId, locationRef: initia
                 />
               </div>
             ) : (
-              <p style={{ margin: '2px 0 0', fontSize: 14, fontWeight: 600, color: '#000',
+              <p style={{ margin: '2px 0 0', fontSize: 14, fontWeight: 600,
+                color: current ? '#000' : '#aab2bf',
                 overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                {current}
+                {current ?? '–'}
               </p>
             )}
           </div>
@@ -146,7 +147,7 @@ export function LocationHistory({ current, history, assetId, locationRef: initia
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 16px' }}>
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#27AE60', flexShrink: 0, marginLeft: 3 }} />
             <div style={{ flex: 1 }}>
-              <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: '#000' }}>{current}</p>
+              <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: current ? '#000' : '#aab2bf' }}>{current ?? '–'}</p>
               <p style={{ margin: 0, fontSize: 11, color: '#96aed2' }}>{t('common.active')}</p>
             </div>
           </div>
