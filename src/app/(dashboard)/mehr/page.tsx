@@ -98,7 +98,7 @@ export default async function MehrPage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <div style={{
             width: 48, height: 48, borderRadius: '50%',
-            backgroundColor: appRole === 'superadmin' ? '#7c3aed' : '#0099cc',
+            backgroundColor: ROLE_COLORS[appRole] ?? '#0099cc',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 20, fontWeight: 700,
           }}>

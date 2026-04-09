@@ -8,17 +8,17 @@ export const ROLE_LABELS: Record<AppRole, string> = {
 }
 
 export const ROLE_COLORS: Record<AppRole, string> = {
-  superadmin: '#7c3aed',
-  admin:      '#003366',
-  techniker:  '#0099cc',
-  leser:      '#96aed2',
+  superadmin: '#7c3aed',   // Violett
+  admin:      '#b45309',   // Gold/Amber
+  techniker:  '#475569',   // Silber/Slate
+  leser:      '#92400e',   // Bronze
 }
 
 export const ROLE_BG: Record<AppRole, string> = {
-  superadmin: '#f3eeff',
-  admin:      '#e8f0ff',
-  techniker:  '#e6f6ff',
-  leser:      '#f4f6f9',
+  superadmin: '#ede9fe',
+  admin:      '#fef3c7',
+  techniker:  '#f1f5f9',
+  leser:      '#fef6ee',
 }
 
 export const ROLE_DESCRIPTIONS: Record<AppRole, string> = {

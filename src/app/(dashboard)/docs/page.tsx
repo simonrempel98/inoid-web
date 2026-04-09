@@ -107,9 +107,10 @@ export default function DocsPage() {
   ]
 
   const ROLES = [
-    { role: t('roles.r1.name'), color: '#003366', bg: '#e8f0f8', points: t.raw('roles.r1.points') as string[] },
-    { role: t('roles.r2.name'), color: '#0077b6', bg: '#e6f4fb', points: t.raw('roles.r2.points') as string[] },
-    { role: t('roles.r3.name'), color: '#6b7d99', bg: '#f4f6f9', points: t.raw('roles.r3.points') as string[] },
+    { role: 'Superadmin',        color: '#7c3aed', bg: '#ede9fe', points: ['Vollzugriff über alle Bereiche', 'Assets, Service & Teams verwalten', 'Mitglieder anlegen & Rollen vergeben', 'Einstellungen & Org-Struktur ändern'] },
+    { role: t('roles.r1.name'), color: '#b45309', bg: '#fef3c7', points: t.raw('roles.r1.points') as string[] },
+    { role: t('roles.r2.name'), color: '#475569', bg: '#f1f5f9', points: t.raw('roles.r2.points') as string[] },
+    { role: t('roles.r3.name'), color: '#92400e', bg: '#fef6ee', points: t.raw('roles.r3.points') as string[] },
   ]
 
   const TIPS_LIST = [

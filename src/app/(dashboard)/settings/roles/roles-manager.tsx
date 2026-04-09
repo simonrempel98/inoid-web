@@ -197,9 +197,9 @@ export function RolesManager({ members, currentUserId, isAdmin, isSuperadmin }: 
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <div style={{
                   width: 34, height: 34, borderRadius: '50%', flexShrink: 0,
-                  background: m.app_role === 'superadmin' ? ROLE_BG.superadmin : '#003366',
+                  background: ROLE_BG[m.app_role] ?? '#e8edf5',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: m.app_role === 'superadmin' ? ROLE_COLORS.superadmin : 'white',
+                  color: ROLE_COLORS[m.app_role] ?? '#003366',
                   fontSize: 13, fontWeight: 700,
                 }}>
                   {initials(m)}

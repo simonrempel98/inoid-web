@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { PLANS } from '@/lib/plans'
+import { ROLE_COLORS, ROLE_BG, type AppRole } from '@/lib/permissions'
 import { getTranslations, getLocale } from 'next-intl/server'
 import {
   Package, Users, Wrench, AlertTriangle, CheckCircle2,
@@ -186,11 +187,14 @@ export default async function DashboardPage() {
   const t = await getTranslations()
   const locale = await getLocale()
 
-  const roleLabel = profile?.is_platform_admin
-    ? 'Superadmin'
-    : profile?.app_role === 'superadmin' ? 'Superadmin'
-    : profile?.app_role === 'admin' ? 'Admin'
-    : 'Member'
+  const appRole = (profile?.app_role ?? 'leser') as AppRole
+  const ROLE_LABEL_MAP: Record<AppRole, string> = {
+    superadmin: 'Superadmin',
+    admin: 'Admin',
+    techniker: 'Techniker',
+    leser: 'Leser',
+  }
+  const roleLabel = profile?.is_platform_admin ? 'Superadmin' : (ROLE_LABEL_MAP[appRole] ?? appRole)
 
   return (
     <div style={{ padding: '28px 20px 40px', maxWidth: 1100, fontFamily: 'Arial, sans-serif' }} className="db-wrap">
@@ -225,8 +229,8 @@ export default async function DashboardPage() {
             </span>
             <span style={{
               fontSize: 11, fontWeight: 700,
-              background: profile?.is_platform_admin ? '#0099cc' : '#e8edf5',
-              color: profile?.is_platform_admin ? 'white' : '#003366',
+              background: profile?.is_platform_admin ? '#0099cc' : (ROLE_BG[appRole] ?? '#e8edf5'),
+              color: profile?.is_platform_admin ? 'white' : (ROLE_COLORS[appRole] ?? '#003366'),
               padding: '3px 9px', borderRadius: 20, letterSpacing: '0.04em',
             }}>
               {roleLabel}
