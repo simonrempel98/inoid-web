@@ -27,21 +27,24 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (!user) return NextResponse.json({ error: 'Kein Zugriff' }, { status: 403 })
 
   const body = await req.json()
-  const { name, plan, assetLimit, userLimit, isActive, contactEmail, notes } = body
+  const { name, plan, assetLimit, userLimit, isActive, contactEmail, notes, features } = body
 
   const admin = createAdminClient()
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const updateData: Record<string, any> = { updated_at: new Date().toISOString() }
+  if (name !== undefined)        updateData.name = name
+  if (plan !== undefined)        updateData.plan = plan
+  if (assetLimit !== undefined)  updateData.asset_limit = assetLimit
+  if (userLimit !== undefined)   updateData.user_limit = userLimit
+  if (isActive !== undefined)    updateData.is_active = isActive
+  if (contactEmail !== undefined) updateData.contact_email = contactEmail ?? null
+  if (notes !== undefined)       updateData.notes = notes ?? null
+  if (features !== undefined)    updateData.features = features
+
   const { error } = await admin
     .from('organizations')
-    .update({
-      name,
-      plan,
-      asset_limit: assetLimit,
-      user_limit: userLimit,
-      is_active: isActive,
-      contact_email: contactEmail ?? null,
-      notes: notes ?? null,
-      updated_at: new Date().toISOString(),
-    })
+    .update(updateData)
     .eq('id', id)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { OrgEditForm } from './org-edit-form'
 import { DeleteOrgButton } from './delete-org-button'
+import { FeatureToggles } from './feature-toggles'
 
 export default async function AdminOrgDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -11,7 +12,7 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
   const [{ data: org }, { data: members }, { data: assets }] = await Promise.all([
     supabase
       .from('organizations')
-      .select('id, name, slug, plan, asset_limit, user_limit, is_active, contact_email, notes, created_at')
+      .select('id, name, slug, plan, asset_limit, user_limit, is_active, contact_email, notes, created_at, features')
       .eq('id', id)
       .single(),
     supabase
@@ -69,6 +70,10 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
         {/* Org bearbeiten */}
         <div>
           <OrgEditForm org={org} />
+          <FeatureToggles
+            orgId={id}
+            features={(org.features as Record<string, boolean>) ?? { serviceheft: true, wartung: true }}
+          />
         </div>
 
         {/* Nutzer */}
