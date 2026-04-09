@@ -2,6 +2,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { OrgEditForm } from './org-edit-form'
+import { DeleteOrgButton } from './delete-org-button'
 
 export default async function AdminOrgDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -52,13 +53,16 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
           <h1 style={{ fontSize: 22, fontWeight: 900, color: 'white', margin: '0 0 4px' }}>{org.name}</h1>
           <p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>Slug: {org.slug}</p>
         </div>
-        <a href={`/admin/view/${id}`} style={{
-          background: '#374151', color: '#d1d5db',
-          padding: '10px 18px', borderRadius: 50, textDecoration: 'none',
-          fontSize: 13, fontWeight: 600, border: '1px solid #4b5563',
-        }}>
-          Als Kunde ansehen →
-        </a>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+          <a href={`/admin/view/${id}`} style={{
+            background: '#374151', color: '#d1d5db',
+            padding: '10px 18px', borderRadius: 50, textDecoration: 'none',
+            fontSize: 13, fontWeight: 600, border: '1px solid #4b5563',
+          }}>
+            Als Kunde ansehen →
+          </a>
+          <DeleteOrgButton orgId={id} orgName={org.name} />
+        </div>
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
