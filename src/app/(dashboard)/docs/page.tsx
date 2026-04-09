@@ -7,7 +7,7 @@ import {
   ClipboardList, ScanLine, CalendarClock, MapPin, Users,
   FileText, QrCode, CheckCircle2, ChevronDown,
   Zap, ShieldCheck, Smartphone, Upload, Bell, ArrowRight,
-  CreditCard, Receipt, KeyRound, Check, ListChecks,
+  ListChecks,
 } from 'lucide-react'
 
 // ─── Feature card ─────────────────────────────────────────────────────────────
@@ -85,7 +85,7 @@ function FeatureCard({ f }: { f: FeatureItem }) {
 export default function DocsPage() {
   const router = useRouter()
   const t = useTranslations('docs')
-  const [activeSection, setActiveSection] = useState<'start' | 'features' | 'roles' | 'plans' | 'tips'>('start')
+  const [activeSection, setActiveSection] = useState<'start' | 'features' | 'roles' | 'tips'>('start')
 
   const QUICKSTART = [
     { step: '01', title: t('qs.s1title'), desc: t('qs.s1desc'), href: '/assets', color: '#0099cc' },
@@ -110,21 +110,6 @@ export default function DocsPage() {
     { role: t('roles.r1.name'), color: '#003366', bg: '#e8f0f8', points: t.raw('roles.r1.points') as string[] },
     { role: t('roles.r2.name'), color: '#0077b6', bg: '#e6f4fb', points: t.raw('roles.r2.points') as string[] },
     { role: t('roles.r3.name'), color: '#6b7d99', bg: '#f4f6f9', points: t.raw('roles.r3.points') as string[] },
-  ]
-
-  const PLAN_TIERS = [
-    { id: 'free', name: 'Free', price: '0 €', color: '#6b7d99', bg: '#f4f6f9', points: t.raw('plans.t1.points') as string[] },
-    { id: 'starter', name: 'Starter', price: '50 €', color: '#0099cc', bg: '#e6f9ff', points: t.raw('plans.t2.points') as string[] },
-    { id: 'professional', name: 'Professional', price: '100 €', color: '#003366', bg: '#e8f0f8', points: t.raw('plans.t3.points') as string[] },
-    { id: 'enterprise', name: 'Enterprise', price: '329 €', color: '#7c3aed', bg: '#f3f0ff', points: t.raw('plans.t4.points') as string[] },
-  ]
-
-  const BILLING_STEPS = [
-    { step: '01', icon: CreditCard, color: '#003366', title: t('plans.bs1.title'), desc: t('plans.bs1.desc') },
-    { step: '02', icon: Receipt, color: '#0077b6', title: t('plans.bs2.title'), desc: t('plans.bs2.desc') },
-    { step: '03', icon: ArrowRight, color: '#0099cc', title: t('plans.bs3.title'), desc: t('plans.bs3.desc') },
-    { step: '04', icon: KeyRound, color: '#00a8c8', title: t('plans.bs4.title'), desc: t('plans.bs4.desc') },
-    { step: '05', icon: Check, color: '#059669', title: t('plans.bs5.title'), desc: t('plans.bs5.desc') },
   ]
 
   const TIPS_LIST = [
@@ -204,7 +189,6 @@ export default function DocsPage() {
           { key: 'start', label: t('tabs.start') },
           { key: 'features', label: t('tabs.features') },
           { key: 'roles', label: t('tabs.roles') },
-          { key: 'plans', label: t('tabs.plans') },
           { key: 'tips', label: t('tabs.tips') },
         ] as const).map(tab => (
           <button
@@ -345,114 +329,6 @@ export default function DocsPage() {
                 {t('roles.tip')}
               </p>
             </div>
-          </div>
-        )}
-
-        {/* ── Plans & Billing ── */}
-        {activeSection === 'plans' && (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <p style={{ fontSize: 13, color: '#666', margin: 0, lineHeight: 1.6 }}>
-              {t('plans.intro')}
-            </p>
-
-            {/* Plans */}
-            <div>
-              <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 10px' }}>
-                {t('plans.h1')}
-              </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {PLAN_TIERS.map(plan => (
-                  <div key={plan.id} style={{
-                    background: 'white', borderRadius: 14,
-                    border: `1px solid ${plan.color}33`,
-                    overflow: 'hidden',
-                  }}>
-                    <div style={{
-                      background: plan.bg, padding: '12px 16px',
-                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                      borderBottom: `1px solid ${plan.color}22`,
-                    }}>
-                      <span style={{ fontSize: 15, fontWeight: 800, color: plan.color }}>{plan.name}</span>
-                      <span style={{ fontSize: 14, fontWeight: 700, color: plan.color }}>
-                        {plan.price} <span style={{ fontSize: 11, fontWeight: 400, color: '#888' }}>{t('plans.perMonth')}</span>
-                      </span>
-                    </div>
-                    <div style={{ padding: '10px 16px', display: 'flex', flexWrap: 'wrap', gap: '6px 16px' }}>
-                      {plan.points.map((p, i) => (
-                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                          <Check size={12} color={plan.color} />
-                          <span style={{ fontSize: 12, color: '#444' }}>{p}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Billing steps */}
-            <div>
-              <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 10px' }}>
-                {t('plans.h2')}
-              </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {BILLING_STEPS.map((s) => {
-                  const Icon = s.icon
-                  return (
-                    <div key={s.step} style={{
-                      background: 'white', borderRadius: 14, padding: '14px 16px',
-                      border: '1px solid #c8d4e8',
-                      display: 'flex', gap: 14, alignItems: 'flex-start',
-                      position: 'relative', overflow: 'hidden',
-                    }}>
-                      <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 4, background: s.color }} />
-                      <div style={{
-                        width: 38, height: 38, borderRadius: 10, flexShrink: 0,
-                        background: `${s.color}15`,
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      }}>
-                        <Icon size={18} color={s.color} />
-                      </div>
-                      <div style={{ flex: 1 }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
-                          <span style={{ fontSize: 10, fontWeight: 700, color: s.color, background: `${s.color}18`, padding: '1px 6px', borderRadius: 6 }}>{s.step}</span>
-                          <span style={{ fontSize: 14, fontWeight: 700, color: '#000' }}>{s.title}</span>
-                        </div>
-                        <p style={{ fontSize: 13, color: '#555', margin: 0, lineHeight: 1.5 }}>{s.desc}</p>
-                      </div>
-                    </div>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* Hint box */}
-            <div style={{
-              background: '#fffbe6', border: '1px solid #fde68a',
-              borderRadius: 14, padding: '14px 16px',
-              display: 'flex', gap: 10, alignItems: 'flex-start',
-            }}>
-              <span style={{ fontSize: 18, flexShrink: 0 }}>💡</span>
-              <div style={{ fontSize: 13, color: '#555', lineHeight: 1.6 }}>
-                {t('plans.tip')}
-              </div>
-            </div>
-
-            {/* CTA */}
-            <button
-              type="button"
-              onClick={() => router.push('/settings/billing')}
-              style={{
-                width: '100%', padding: '14px',
-                background: 'linear-gradient(135deg, #003366, #0099cc)',
-                border: 'none', borderRadius: 14, cursor: 'pointer',
-                color: 'white', fontSize: 14, fontWeight: 700,
-                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-              }}
-            >
-              <CreditCard size={16} />
-              {t('plans.cta')}
-            </button>
           </div>
         )}
 
