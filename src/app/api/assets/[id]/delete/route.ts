@@ -24,10 +24,10 @@ export async function DELETE(
     return NextResponse.json({ error: 'Keine Organisation' }, { status: 403 })
   }
 
-  // Asset laden (image_urls + org check)
+  // Asset laden (image_urls + document_urls + org check)
   const { data: asset, error: fetchError } = await supabase
     .from('assets')
-    .select('id, image_urls, organization_id')
+    .select('id, image_urls, document_urls, organization_id')
     .eq('id', assetId)
     .single()
 
@@ -41,18 +41,24 @@ export async function DELETE(
 
   const admin = createAdminClient()
 
-  // Storage-Dateien löschen
+  // Bilder aus asset-images löschen
   const imageUrls: string[] = Array.isArray(asset.image_urls) ? asset.image_urls : []
   if (imageUrls.length > 0) {
     const paths = imageUrls.map(url => {
-      // URL-Format: .../storage/v1/object/public/asset-images/assets/{id}/...
-      const match = url.match(/asset-images\/(.+)$/)
+      const match = url.match(/\/asset-images\/(.+)$/)
       return match ? match[1] : null
     }).filter((p): p is string => p !== null)
+    if (paths.length > 0) await admin.storage.from('asset-images').remove(paths)
+  }
 
-    if (paths.length > 0) {
-      await admin.storage.from('asset-images').remove(paths)
-    }
+  // Dokumente aus org-files löschen
+  const docUrls: string[] = Array.isArray((asset as any).document_urls) ? (asset as any).document_urls : []
+  if (docUrls.length > 0) {
+    const paths = docUrls.map(url => {
+      const match = url.match(/\/org-files\/(.+)$/)
+      return match ? match[1] : null
+    }).filter((p): p is string => p !== null)
+    if (paths.length > 0) await admin.storage.from('org-files').remove(paths)
   }
 
   // Hard-Delete: CASCADE löscht service_entries, documents, maintenance_schedules, tags usw.
