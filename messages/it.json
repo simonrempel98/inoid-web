@@ -845,6 +845,10 @@
     "you": "tu",
     "membersCount": "Membri · {count}",
     "onlyAdmins": "Solo gli admin possono cambiare i ruoli.",
+    "superadmin": {
+      "label": "Superadmin",
+      "description": "Accesso completo a tutte le aree – i permessi non possono essere revocati da altri admin"
+    },
     "admin": {
       "label": "Admin",
       "description": "Accesso completo: gestire asset, servizio, struttura org, team e membri"

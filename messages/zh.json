@@ -845,6 +845,10 @@
     "you": "you",
     "membersCount": "Members · {count}",
     "onlyAdmins": "Only admins can change roles.",
+    "superadmin": {
+      "label": "超级管理员",
+      "description": "完整访问所有区域 – 其他管理员无法剥夺权限"
+    },
     "admin": {
       "label": "Admin",
       "description": "Full access: manage assets, service, org structure, teams & members"

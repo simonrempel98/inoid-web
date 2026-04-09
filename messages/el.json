@@ -845,6 +845,10 @@
     "you": "you",
     "membersCount": "Members · {count}",
     "onlyAdmins": "Only admins can change roles.",
+    "superadmin": {
+      "label": "Υπεραδμίν",
+      "description": "Πλήρης πρόσβαση σε όλους τους τομείς – τα δικαιώματα δεν μπορούν να αφαιρεθούν από άλλους διαχειριστές"
+    },
     "admin": {
       "label": "Admin",
       "description": "Full access: manage assets, service, org structure, teams & members"

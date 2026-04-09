@@ -845,6 +845,10 @@
     "you": "vous",
     "membersCount": "Membres · {count}",
     "onlyAdmins": "Seuls les admins peuvent modifier les rôles.",
+    "superadmin": {
+      "label": "Superadmin",
+      "description": "Accès complet à toutes les zones – les droits ne peuvent pas être révoqués par d'autres admins"
+    },
     "admin": {
       "label": "Admin",
       "description": "Accès complet: gérer les actifs, service, structure org, équipes & membres"
