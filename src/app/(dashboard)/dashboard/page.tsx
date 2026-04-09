@@ -100,7 +100,7 @@ export default async function DashboardPage() {
   if (!user) redirect('/login')
 
   const { data: profile } = await supabase
-    .from('profiles').select('organization_id, full_name').eq('id', user.id).single()
+    .from('profiles').select('organization_id, full_name, app_role, is_platform_admin').eq('id', user.id).single()
   const orgId = profile?.organization_id
 
   // ── Alle Daten parallel laden ──────────────────────────────────────────────
@@ -186,10 +186,11 @@ export default async function DashboardPage() {
   const t = await getTranslations()
   const locale = await getLocale()
 
-  const hour = now.getHours()
-  const greetingKey = hour < 12 ? 'morning' : hour < 17 ? 'afternoon' : 'evening'
-  const greeting = t(`dashboard.greeting.${greetingKey}`)
-  const firstName = profile?.full_name?.split(' ')[0] ?? ''
+  const roleLabel = profile?.is_platform_admin
+    ? 'Platform Admin'
+    : profile?.app_role === 'superadmin' ? 'Superadmin'
+    : profile?.app_role === 'admin' ? 'Admin'
+    : 'Member'
 
   return (
     <div style={{ padding: '28px 20px 40px', maxWidth: 1100, fontFamily: 'Arial, sans-serif' }} className="db-wrap">
@@ -215,21 +216,35 @@ export default async function DashboardPage() {
       }
     `}</style>
 
-      {/* ── Begrüßung ─────────────────────────────────────────────────────── */}
-      <div style={{ marginBottom: 28 }}>
-        <h1 style={{ fontSize: 24, fontWeight: 800, color: '#003366', margin: '0 0 4px' }} className="db-greeting">
-          {greeting}, {firstName}!
-        </h1>
-        <p style={{ fontSize: 14, color: '#96aed2', margin: 0 }}>
-          {now.toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
-          {overdueSchedules > 0 && (
-            <span style={{ marginLeft: 12, color: '#ef4444', fontWeight: 700 }}>
-              · {overdueSchedules > 1
-                  ? t('dashboard.overdueWarningPlural', { n: overdueSchedules })
-                  : t('dashboard.overdueWarning', { n: overdueSchedules })}
+      {/* ── Header ────────────────────────────────────────────────────────── */}
+      <div style={{ marginBottom: 28, display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+            <span style={{ fontSize: 18, fontWeight: 700, color: '#1a2940' }} className="db-greeting">
+              {profile?.full_name ?? user.email}
             </span>
-          )}
-        </p>
+            <span style={{
+              fontSize: 11, fontWeight: 700,
+              background: profile?.is_platform_admin ? '#0099cc' : '#e8edf5',
+              color: profile?.is_platform_admin ? 'white' : '#003366',
+              padding: '3px 9px', borderRadius: 20, letterSpacing: '0.04em',
+            }}>
+              {roleLabel}
+            </span>
+          </div>
+          <p style={{ fontSize: 12, color: '#96aed2', margin: '4px 0 0' }}>
+            {now.toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+            {' · '}
+            {now.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })}
+            {overdueSchedules > 0 && (
+              <span style={{ marginLeft: 10, color: '#ef4444', fontWeight: 700 }}>
+                · {overdueSchedules > 1
+                    ? t('dashboard.overdueWarningPlural', { n: overdueSchedules })
+                    : t('dashboard.overdueWarning', { n: overdueSchedules })}
+              </span>
+            )}
+          </p>
+        </div>
       </div>
 
       {/* ── Haupt-KPI-Grid ─────────────────────────────────────────────────── */}

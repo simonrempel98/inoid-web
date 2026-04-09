@@ -52,11 +52,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                 padding: '6px 14px', borderRadius: 8,
                 color: '#9ca3af', fontSize: 13, fontWeight: 600,
                 textDecoration: 'none',
-                transition: 'color 0.15s',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.color = 'white')}
-              onMouseLeave={e => (e.currentTarget.style.color = '#9ca3af')}
-              >
+              }}>
                 {item.label}
               </a>
             ))}
