@@ -176,23 +176,17 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
     return urls
   }
 
-  async function uploadDocs(orgId: string): Promise<void> {
+  async function uploadDocs(): Promise<string[]> {
+    const urls: string[] = []
     for (const doc of docs) {
-      const ext = doc.file.name.split('.').pop()
-      const path = `asset-docs/${assetId}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`
-      const { error: upErr } = await supabase.storage.from('service-files').upload(path, doc.file)
+      const safeName = doc.file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')
+      const path = `assets/${assetId}/docs/${Date.now()}_${safeName}`
+      const { error: upErr } = await supabase.storage.from('org-files').upload(path, doc.file, { upsert: true })
       if (upErr) throw new Error('Dokument-Upload fehlgeschlagen: ' + upErr.message)
-      const { data } = supabase.storage.from('service-files').getPublicUrl(path)
-
-      await supabase.from('asset_documents').insert({
-        asset_id: assetId,
-        organization_id: orgId,
-        name: doc.name || doc.file.name,
-        file_url: data.publicUrl,
-        file_type: doc.file.type || null,
-        file_size_bytes: doc.file.size,
-      })
+      const { data } = supabase.storage.from('org-files').getPublicUrl(path)
+      urls.push(data.publicUrl)
     }
+    return urls
   }
 
   async function generateQR(): Promise<string> {
@@ -253,11 +247,12 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
       if (insertError || !asset) throw new Error(insertError?.message ?? t('assets.form.saveFailed'))
 
       const imageUrls = await uploadImages()
-      await uploadDocs(profile.organization_id)
+      const docUrls = await uploadDocs()
       const qrUrl = await generateQR()
 
       await supabase.from('assets').update({
         image_urls: imageUrls,
+        document_urls: docUrls.length > 0 ? docUrls : null,
         qr_code: qrUrl,
         nfc_uid: assetId,
       }).eq('id', assetId)
