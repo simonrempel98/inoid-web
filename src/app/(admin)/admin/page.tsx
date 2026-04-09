@@ -166,22 +166,6 @@ export default async function AdminDashboardPage() {
         }}>
           + Neue Organisation anlegen
         </Link>
-        <Link href="/admin/users" style={{
-          display: 'inline-flex', alignItems: 'center', gap: 8,
-          background: '#111827', color: '#9ca3af',
-          padding: '12px 20px', borderRadius: 50, textDecoration: 'none',
-          fontSize: 14, fontWeight: 600, border: '1px solid #1f2937',
-        }}>
-          Nutzer verwalten
-        </Link>
-        <Link href="/admin/system" style={{
-          display: 'inline-flex', alignItems: 'center', gap: 8,
-          background: '#111827', color: '#9ca3af',
-          padding: '12px 20px', borderRadius: 50, textDecoration: 'none',
-          fontSize: 14, fontWeight: 600, border: '1px solid #1f2937',
-        }}>
-          System-Status
-        </Link>
       </div>
     </div>
   )

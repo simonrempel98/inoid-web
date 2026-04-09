@@ -5,7 +5,7 @@ import { CleanupButton } from './cleanup-button'
 
 type SupabaseStatus = { status: { indicator: string; description: string } }
 type VercelStatus   = { status: { indicator: string; description: string } }
-type OrgStorageRow  = { organization_id: string; organization_name: string; image_count: number; document_count: number }
+type OrgStorageRow  = { organization_id: string; organization_name: string; org_slug: string; image_count: number; document_count: number; storage_bytes: number }
 type BucketRow      = { bucket_id: string; file_count: number; total_bytes: number }
 
 // ── Hilfsfunktionen ───────────────────────────────────────────────────────────
@@ -284,14 +284,14 @@ export default async function AdminSystemPage() {
       <SectionTitle>Speicher & Uploads pro Organisation</SectionTitle>
       {orgStorage && orgStorage.length > 0 ? (
         <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden', marginBottom: 32 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', padding: '10px 20px', borderBottom: '1px solid #1f2937' }}>
-            {['Organisation', 'Bilder', 'Dokumente'].map(h => (
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', padding: '10px 20px', borderBottom: '1px solid #1f2937' }}>
+            {['Organisation', 'Bilder', 'Dokumente', 'Speicher'].map(h => (
               <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>
             ))}
           </div>
           {orgStorage.map((row, i) => (
             <div key={row.organization_id} style={{
-              display: 'grid', gridTemplateColumns: '2fr 1fr 1fr',
+              display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr',
               padding: '12px 20px', borderBottom: i < orgStorage.length - 1 ? '1px solid #1f2937' : 'none',
               alignItems: 'center',
             }}>
@@ -318,6 +318,9 @@ export default async function AdminSystemPage() {
                   </div>
                 )}
               </div>
+              <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: '#34d399' }}>
+                {formatBytes(row.storage_bytes ?? 0)}
+              </p>
             </div>
           ))}
         </div>
