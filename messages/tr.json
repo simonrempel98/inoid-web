@@ -798,16 +798,16 @@
     "title": "Belgeler",
     "back": "Geri",
     "hero": {
-      "eyebrow": "INOid · Documentation",
-      "h1a": "Everything you",
-      "h1b": "need to know.",
-      "sub": "INOid is your digital asset management system — from commissioning to decommissioning. Ready in 5 minutes.",
+      "eyebrow": "INOid · Dokümantasyon",
+      "h1a": "Bilmeniz gereken",
+      "h1b": "her şey.",
+      "sub": "INOid, dijital varlık yönetim sisteminizdir — devreye almadan hizmetten çıkarmaya kadar. 5 dakikada hazır.",
       "s1val": "5 min",
-      "s1label": "to the first asset",
+      "s1label": "ilk varlığa",
       "s2val": "8+",
-      "s2label": "feature areas",
+      "s2label": "özellik alanları",
       "s3val": "100%",
-      "s3label": "browser-based"
+      "s3label": "tarayıcı tabanlı"
     },
     "tabs": {
       "start": "Hızlı başlangıç",
@@ -817,258 +817,258 @@
       "tips": "İpuçları"
     },
     "qs": {
-      "intro": "Four steps to master the essentials of INOid.",
+      "intro": "INOid'in temellerini öğrenmek için dört adım.",
       "open": "Aç",
       "demoTitle": "Demo Tour",
-      "demoSub": "Walkthrough video coming soon",
-      "s1title": "Create asset",
-      "s1desc": "Go to Assets → tap \"+ New\". Add title, category, photos and technical data.",
-      "s2title": "Scan QR code",
-      "s2desc": "Press the scan button in the center of the navigation. The camera opens immediately.",
-      "s3title": "Create service entry",
-      "s3desc": "Open an asset → Service log → \"+ Entry\". Document maintenance, repairs and inspections.",
-      "s4title": "Set up maintenance interval",
-      "s4desc": "In the service log → \"+ Interval\". Choose an interval (weekly to 2-yearly) and set the next due date."
+      "demoSub": "Tanıtım videosu yakında",
+      "s1title": "Varlık oluştur",
+      "s1desc": "Varlıklar'a gidin → \"+ Yeni\"ye dokunun. Başlık, kategori, fotoğraf ve teknik veriler ekleyin.",
+      "s2title": "QR kodu tara",
+      "s2desc": "Navigasyonun ortasındaki tarama düğmesine basın. Kamera hemen açılır.",
+      "s3title": "Servis kaydı oluştur",
+      "s3desc": "Bir varlık açın → Servis günlüğü → \"+ Kayıt\". Bakım, onarım ve denetimleri belgeleyin.",
+      "s4title": "Bakım aralığı ayarla",
+      "s4desc": "Servis günlüğünde → \"+ Aralık\". Bir aralık seçin (haftalıktan 2 yıllığa) ve bir sonraki tarihi belirleyin."
     },
     "feat": {
-      "intro": "Tap a feature to see details.",
+      "intro": "Ayrıntıları görmek için bir özelliğe dokunun.",
       "f1": {
-        "title": "Asset Management",
-        "badge": "Core",
-        "desc": "All equipment in one place. Each asset gets a unique ID, photos, technical & commercial master data, and an automatically generated QR code.",
+        "title": "Varlık Yönetimi",
+        "badge": "Temel",
+        "desc": "Tüm ekipmanlar tek bir yerde. Her varlık benzersiz bir kimlik, fotoğraflar, teknik ve ticari ana veriler ile otomatik olarak oluşturulmuş bir QR kodu alır.",
         "points": [
-          "Photos, serial number, article number",
-          "Technical & commercial data freely definable",
-          "Status: Active, Defective, In Maintenance, Decommissioned + custom",
-          "Duplicate asset for fast serial entry",
-          "Location assignment with full history"
+          "Fotoğraflar, seri numarası, madde numarası",
+          "Teknik ve ticari veriler serbestçe tanımlanabilir",
+          "Durum: Aktif, Arızalı, Bakımda, Hizmetten çıkarıldı + özel",
+          "Hızlı seri kayıt için varlık kopyalama",
+          "Tam geçmişle konum atama"
         ]
       },
       "f2": {
-        "title": "Service Log",
-        "badge": "Core",
-        "desc": "Complete documentation of all events on the asset – from inspection to incident. Attach photos and documents directly.",
+        "title": "Servis Günlüğü",
+        "badge": "Temel",
+        "desc": "Varlıktaki tüm olayların eksiksiz belgelenmesi — denetimden olaya kadar. Fotoğraf ve belgeleri doğrudan ekleyin.",
         "points": [
-          "10 system types + custom types (Settings → Event Types)",
-          "Attach photos & PDF documents",
-          "Costs, performed by, external company",
-          "Monthly grouped timeline",
-          "Maintenance plan as Gantt chart in service log"
+          "10 sistem türü + özel türler (Ayarlar → Olay türleri)",
+          "Fotoğraf ve PDF belgeler ekleme",
+          "Maliyetler, gerçekleştiren, dış şirket",
+          "Aylık gruplandırılmış zaman çizelgesi",
+          "Servis günlüğünde Gantt grafiği olarak bakım planı"
         ]
       },
       "f3": {
-        "title": "Maintenance Intervals & Checklists",
-        "badge": "Planning",
-        "desc": "Never miss recurring appointments. Define intervals per asset, add step-by-step checklists and keep track of all due dates.",
+        "title": "Bakım Aralıkları ve Kontrol Listeleri",
+        "badge": "Planlama",
+        "desc": "Tekrarlayan görevleri asla unutmayın. Varlık başına aralıklar tanımlayın, adım adım kontrol listeleri ekleyin ve tüm son tarihleri takip edin.",
         "points": [
-          "Presets: weekly, monthly, quarterly, …",
-          "Custom interval in days",
-          "Automatic calculation of next date",
-          "Create checklist per interval (unlimited steps)",
-          "Checklist appears on completion for ticking off",
-          "Mark maintenance as done from list or Gantt",
-          "Next date automatically advanced on completion"
+          "Ön ayarlar: haftalık, aylık, üç aylık, …",
+          "Gün cinsinden özel aralık",
+          "Sonraki tarihin otomatik hesaplanması",
+          "Aralık başına kontrol listesi oluşturma (sınırsız adım)",
+          "Kontrol listesi tamamlandığında işaretleme için görünür",
+          "Bakımı listeden veya Gantt'tan tamamlandı olarak işaretle",
+          "Tamamlandığında sonraki tarih otomatik olarak ilerler"
         ]
       },
       "f4": {
-        "title": "Maintenance Dashboard",
-        "badge": "Planning",
-        "desc": "All due maintenance at a glance. Filter, search and Gantt chart for a complete overview of all assets.",
+        "title": "Bakım Panosu",
+        "badge": "Planlama",
+        "desc": "Tüm vadesi geçmiş bakımlar bir bakışta. Tüm varlıkların tam genel bakışı için filtre, arama ve Gantt grafiği.",
         "points": [
-          "Task list: grouped by Overdue / This Week / 30 Days / Later",
-          "Gantt chart with heatmap (more intense the closer the date)",
-          "Search across all asset attributes (name, serial no., category, …)",
-          "Filter: urgency, category, entries per page",
-          "Time range filter controls Gantt view simultaneously",
-          "Pagination for large quantities"
+          "Görev listesi: Vadesi Geçmiş / Bu Hafta / 30 Gün / Sonrası'na göre gruplandırılmış",
+          "Isı haritasıyla Gantt grafiği (tarih yaklaştıkça daha yoğun)",
+          "Tüm varlık özelliklerinde arama (ad, seri no., kategori, …)",
+          "Filtre: aciliyet, kategori, sayfa başına giriş",
+          "Zaman aralığı filtresi Gantt görünümünü aynı anda kontrol eder",
+          "Büyük miktarlar için sayfalama"
         ]
       },
       "f5": {
-        "title": "QR & NFC Scanner",
-        "badge": "Mobile",
-        "desc": "Access any asset instantly by scanning – no searching, no typing. Works with the browser camera, no app download needed.",
+        "title": "QR ve NFC Tarayıcı",
+        "badge": "Mobil",
+        "desc": "Tarayarak herhangi bir varlığa anında erişin — arama yok, yazma yok. Tarayıcı kamerasıyla çalışır, uygulama indirmeye gerek yok.",
         "points": [
-          "Scan QR code → open asset directly",
-          "Automatically generated QR code per asset",
-          "NFC tag UUID as fallback",
-          "Optimized for smartphone camera",
-          "QR code exportable as PDF/image"
+          "QR kodu tara → varlığı doğrudan aç",
+          "Varlık başına otomatik oluşturulan QR kodu",
+          "Yedek olarak NFC etiketi UUID",
+          "Akıllı telefon kamerası için optimize edilmiş",
+          "QR kodu PDF/görüntü olarak dışa aktarılabilir"
         ]
       },
       "f6": {
-        "title": "Locations & Structure",
-        "badge": "Organization",
-        "desc": "Map your operational structure exactly: Location → Hall → Area. Each asset can be assigned to an area.",
+        "title": "Konumlar ve Yapı",
+        "badge": "Organizasyon",
+        "desc": "Operasyonel yapınızı tam olarak eşleyin: Konum → Salon → Alan. Her varlık bir alana atanabilir.",
         "points": [
-          "3-level hierarchy: Location / Hall / Area",
-          "Any number of locations & halls",
-          "Complete location history",
-          "Free text input as alternative",
-          "Management under Organization"
+          "3 seviyeli hiyerarşi: Konum / Salon / Alan",
+          "Sınırsız konum ve salon",
+          "Tam konum geçmişi",
+          "Alternatif olarak serbest metin girişi",
+          "Organizasyon altında yönetim"
         ]
       },
       "f7": {
-        "title": "Teams & Roles",
-        "badge": "Access",
-        "desc": "Multiple employees, clear responsibilities. Invite colleagues and assign roles – each role sees and can do exactly what it should.",
+        "title": "Ekipler ve Roller",
+        "badge": "Erişim",
+        "desc": "Birden fazla çalışan, net sorumluluklar. Meslektaşlarınızı davet edin ve roller atayın — her rol tam olarak yapması gerekeni görür ve yapabilir.",
         "points": [
-          "Admin: full access + user management",
-          "Technician: edit assets & service",
-          "Reader: view only, no changes",
-          "Create members directly (email + password)",
-          "Roles changeable at any time"
+          "Yönetici: tam erişim + kullanıcı yönetimi",
+          "Teknisyen: varlıkları ve servisi düzenle",
+          "Okuyucu: yalnızca görüntüleme, değişiklik yok",
+          "Üyeleri doğrudan oluştur (e-posta + şifre)",
+          "Roller istediğiniz zaman değiştirilebilir"
         ]
       },
       "f8": {
-        "title": "Documents",
-        "badge": "Data",
-        "desc": "Manuals, inspection reports, certificates – stored directly on the asset. Photos in the service log for complete documentation.",
+        "title": "Belgeler",
+        "badge": "Veri",
+        "desc": "Kılavuzlar, denetim raporları, sertifikalar — doğrudan varlıkta depolanır. Tam dokümantasyon için servis günlüğünde fotoğraflar.",
         "points": [
-          "PDF, images and other formats",
-          "Documents directly on the asset",
-          "Photos in service entry",
-          "Secure upload via Supabase Storage",
-          "Direct download link"
+          "PDF, resimler ve diğer formatlar",
+          "Belgeler doğrudan varlıkta",
+          "Servis kaydında fotoğraflar",
+          "Supabase Storage üzerinden güvenli yükleme",
+          "Doğrudan indirme bağlantısı"
         ]
       },
       "f9": {
-        "title": "QR Codes & NFC",
-        "badge": "Identification",
-        "desc": "Every asset automatically gets a unique QR code. Stick it on the device and scan it anytime for instant access.",
+        "title": "QR Kodları ve NFC",
+        "badge": "Tanımlama",
+        "desc": "Her varlık otomatik olarak benzersiz bir QR kodu alır. Cihaza yapıştırın ve anında erişim için istediğiniz zaman tarayın.",
         "points": [
-          "Automatic generation on creation",
+          "Oluşturmada otomatik üretim",
           "Format: inoid.app/assets/{id}",
-          "QR code displayed directly in the app",
-          "UUID usable for NFC chips",
-          "Accessible without app via browser link"
+          "QR kodu doğrudan uygulamada görüntülenir",
+          "UUID, NFC çipleri için kullanılabilir",
+          "Tarayıcı bağlantısı üzerinden uygulama olmadan erişilebilir"
         ]
       }
     },
     "roles": {
-      "intro": "INOid uses three roles. Assign each employee the most restrictive appropriate role.",
-      "tip": "Manage roles under Teams → select member → change role. Add new members via Teams → open team → add member.",
+      "intro": "INOid üç rol kullanır. Her çalışana en kısıtlayıcı uygun rolü atayın.",
+      "tip": "Rolleri Ekipler → üye seç → rol değiştir altında yönetin. Ekipler → ekibi aç → üye ekle aracılığıyla yeni üyeler ekleyin.",
       "r1": {
-        "name": "Admin",
+        "name": "Yönetici",
         "points": [
-          "Read & edit everything",
-          "Create & delete assets",
-          "Create & manage members",
-          "Assign roles",
-          "Change settings"
+          "Her şeyi oku ve düzenle",
+          "Varlık oluştur ve sil",
+          "Üye oluştur ve yönet",
+          "Roller ata",
+          "Ayarları değiştir"
         ]
       },
       "r2": {
-        "name": "Technician",
+        "name": "Teknisyen",
         "points": [
-          "View all assets",
-          "Edit assets & service log",
-          "Create service entries",
-          "Maintain intervals",
-          "No team management"
+          "Tüm varlıkları görüntüle",
+          "Varlıkları ve servis günlüğünü düzenle",
+          "Servis kayıtları oluştur",
+          "Aralıkları yönet",
+          "Ekip yönetimi yok"
         ]
       },
       "r3": {
-        "name": "Reader",
+        "name": "Okuyucu",
         "points": [
-          "View all assets",
-          "Read service log",
-          "No editing rights",
-          "No create/delete",
-          "Ideal for auditors & external parties"
+          "Tüm varlıkları görüntüle",
+          "Servis günlüğünü oku",
+          "Düzenleme hakları yok",
+          "Oluşturma/silme yok",
+          "Denetçiler ve harici kişiler için ideal"
         ]
       }
     },
     "plans": {
-      "intro": "INOid offers four plans. Payment is by bank transfer – no subscription trap, no credit card required. After payment you receive a code by email that you redeem directly.",
-      "h1": "Available Plans",
-      "h2": "How booking works",
-      "perMonth": "excl. VAT/month",
-      "tip": "Activation code: The code is automatically sent by email to all Admins after payment. Make sure at least one admin has a reachable email address.",
+      "intro": "INOid dört plan sunar. Ödeme banka havalesiyle yapılır — abonelik tuzağı yok, kredi kartı zorunluluğu yok. Ödemeden sonra e-posta ile bir kod alırsınız ve hemen kullanırsınız.",
+      "h1": "Mevcut planlar",
+      "h2": "Sipariş nasıl çalışır",
+      "perMonth": "KDV hariç/ay",
+      "tip": "Etkinleştirme kodu: Kod, ödemeden sonra tüm yöneticilere otomatik olarak e-posta ile gönderilir. En az bir yöneticinin erişilebilir bir e-posta adresine sahip olduğundan emin olun.",
       "cta": "Aboneliğe git",
       "t1": {
         "points": [
-          "5 Assets",
-          "1 User",
-          "Service Log",
-          "QR Scanner"
+          "5 Varlık",
+          "1 kullanıcı",
+          "Servis günlüğü",
+          "QR tarayıcı"
         ]
       },
       "t2": {
         "points": [
-          "50 Assets",
-          "Up to 5 users",
-          "Maintenance intervals",
-          "Location management",
-          "Document upload"
+          "50 Varlık",
+          "5 kullanıcıya kadar",
+          "Bakım aralıkları",
+          "Konum yönetimi",
+          "Belge yükleme"
         ]
       },
       "t3": {
         "points": [
-          "200 Assets",
-          "Up to 20 users",
-          "All Starter features",
-          "Teams & Roles",
-          "Advanced analytics"
+          "200 Varlık",
+          "20 kullanıcıya kadar",
+          "Tüm Starter özellikleri",
+          "Ekipler ve roller",
+          "Gelişmiş analitik"
         ]
       },
       "t4": {
         "points": [
-          "Unlimited Assets",
-          "Unlimited users",
-          "All Professional features",
-          "Priority Support",
-          "Custom adaptations"
+          "Sınırsız Varlık",
+          "Sınırsız kullanıcı",
+          "Tüm Professional özellikleri",
+          "Öncelikli destek",
+          "Bireysel özelleştirmeler"
         ]
       },
       "bs1": {
-        "title": "Choose plan",
-        "desc": "Go to Subscription (Sidebar → Organization). Choose your plan and click \"Create Invoice\"."
+        "title": "Plan seçin",
+        "desc": "Abonelik'e gidin (Yan çubuk → Organizasyon). İstediğiniz planı seçin ve \"Fatura oluştur\"a tıklayın."
       },
       "bs2": {
-        "title": "Fill in & download invoice",
-        "desc": "Fill in the billing address (name/company, street, postcode/city, country, VAT ID optional). The invoice is shown immediately and can be printed."
+        "title": "Faturayı doldurun ve indirin",
+        "desc": "Fatura adresini doldurun (ad/şirket, sokak, posta kodu/şehir, ülke, KDV kimliği isteğe bağlı). Fatura hemen görüntülenir ve yazdırılabilir."
       },
       "bs3": {
-        "title": "Transfer payment",
-        "desc": "Transfer the invoice amount to the specified bank account (Inomet GmbH). Use the invoice number as payment reference."
+        "title": "Havale yapın",
+        "desc": "Fatura tutarını belirtilen banka hesabına (Inomet GmbH) havale edin. Ödeme açıklaması olarak fatura numarasını kullanın."
       },
       "bs4": {
-        "title": "Receive activation code",
-        "desc": "After payment you automatically receive a 9-digit activation code by email to all admins of your organization."
+        "title": "Etkinleştirme kodu alın",
+        "desc": "Ödemeden sonra organizasyonunuzdaki tüm yöneticilere e-posta ile otomatik olarak 9 haneli bir etkinleştirme kodu alacaksınız."
       },
       "bs5": {
-        "title": "Redeem code & activate plan",
-        "desc": "Go back to Subscription, enter the code in the \"Redeem activation code\" field and click \"Activate\". The plan is active immediately."
+        "title": "Kodu kullanın ve planı etkinleştirin",
+        "desc": "Abonelik'e geri dönün, \"Etkinleştirme kodunu kullan\" alanına kodu girin ve \"Etkinleştir\"e tıklayın. Plan hemen aktif olur."
       }
     },
     "tips": {
-      "intro": "Pro tips for getting the most out of INOid.",
-      "t1": "Duplicating assets saves time when recording identical devices.",
-      "t2": "Done early? Just tap the green checkmark button in the maintenance dashboard – the next date is calculated automatically.",
-      "t3": "Assign each employee the most restrictive role – Reader for external auditors.",
-      "t4": "INOid runs as a PWA: add a home screen link on your smartphone for an app-like feel.",
-      "t5": "Check the maintenance dashboard daily – overdue intervals are marked in red.",
+      "intro": "INOid'den maksimum verim almak için profesyonel ipuçları.",
+      "t1": "Varlıkları kopyalamak, aynı cihazları kaydederken zaman kazandırır.",
+      "t2": "Erken tamamladınız mı? Bakım panosundaki yeşil onay işareti düğmesine dokunmanız yeterli — bir sonraki tarih otomatik olarak hesaplanır.",
+      "t3": "Her çalışana en kısıtlayıcı rolü atayın — harici denetçiler için Okuyucu.",
+      "t4": "INOid bir PWA olarak çalışır: uygulama hissi için akıllı telefonunuzun ana ekranına bir bağlantı ekleyin.",
+      "t5": "Bakım panosunu her gün kontrol edin — vadesi geçmiş aralıklar kırmızıyla işaretlenir.",
       "navTitle": "Masaüstü gezintisi",
       "nav": [
         {
-          "a": "Assets",
-          "b": "Left sidebar → Assets"
+          "a": "Varlıklar",
+          "b": "Sol yan çubuk → Varlıklar"
         },
         {
-          "a": "Scan",
-          "b": "Left sidebar → Scan"
+          "a": "Tara",
+          "b": "Sol yan çubuk → Tara"
         },
         {
-          "a": "Maintenance",
-          "b": "Left sidebar → Maintenance & Service"
+          "a": "Bakım",
+          "b": "Sol yan çubuk → Bakım ve Servis"
         },
         {
-          "a": "Profile",
-          "b": "Left sidebar → Profile & Settings"
+          "a": "Profil",
+          "b": "Sol yan çubuk → Profil ve Ayarlar"
         }
       ],
       "contactTitle": "Daha fazla sorunuz var mı?",
-      "contactDesc": "Contact your administrator or reach INOid support directly via Inomet GmbH."
+      "contactDesc": "Yöneticinizle iletişime geçin veya Inomet GmbH aracılığıyla doğrudan INOid desteğine ulaşın."
     }
   },
   "eventTypes": {

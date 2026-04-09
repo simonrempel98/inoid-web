@@ -798,16 +798,16 @@
     "title": "Dokumentaatio",
     "back": "Takaisin",
     "hero": {
-      "eyebrow": "INOid · Documentation",
-      "h1a": "Everything you",
-      "h1b": "need to know.",
-      "sub": "INOid is your digital asset management system — from commissioning to decommissioning. Ready in 5 minutes.",
+      "eyebrow": "INOid · Dokumentaatio",
+      "h1a": "Kaikki mitä",
+      "h1b": "sinun tulee tietää.",
+      "sub": "INOid on digitaalinen resurssinhallintajärjestelmäsi — käyttöönotosta käytöstäpoistoon. Valmis 5 minuutissa.",
       "s1val": "5 min",
-      "s1label": "to the first asset",
+      "s1label": "ensimmäiseen resurssiin",
       "s2val": "8+",
-      "s2label": "feature areas",
+      "s2label": "toimintoaluetta",
       "s3val": "100%",
-      "s3label": "browser-based"
+      "s3label": "selainpohjainen"
     },
     "tabs": {
       "start": "Pikaopas",
@@ -817,258 +817,258 @@
       "tips": "Vinkit"
     },
     "qs": {
-      "intro": "Four steps to master the essentials of INOid.",
+      "intro": "Neljä vaihetta INOidin perusteiden hallitsemiseksi.",
       "open": "Avaa",
       "demoTitle": "Demo Tour",
-      "demoSub": "Walkthrough video coming soon",
-      "s1title": "Create asset",
-      "s1desc": "Go to Assets → tap \"+ New\". Add title, category, photos and technical data.",
-      "s2title": "Scan QR code",
-      "s2desc": "Press the scan button in the center of the navigation. The camera opens immediately.",
-      "s3title": "Create service entry",
-      "s3desc": "Open an asset → Service log → \"+ Entry\". Document maintenance, repairs and inspections.",
-      "s4title": "Set up maintenance interval",
-      "s4desc": "In the service log → \"+ Interval\". Choose an interval (weekly to 2-yearly) and set the next due date."
+      "demoSub": "Läpikäyntivideo tulossa pian",
+      "s1title": "Luo resurssi",
+      "s1desc": "Siirry Resursseihin → napauta \"+ Uusi\". Lisää otsikko, kategoria, kuvat ja tekniset tiedot.",
+      "s2title": "Skannaa QR-koodi",
+      "s2desc": "Paina navigaation keskellä olevaa skannauspainiketta. Kamera avautuu välittömästi.",
+      "s3title": "Luo huoltomerkintä",
+      "s3desc": "Avaa resurssi → Huoltoloki → \"+ Merkintä\". Dokumentoi huollot, korjaukset ja tarkastukset.",
+      "s4title": "Aseta huoltoväli",
+      "s4desc": "Huoltologissa → \"+ Väli\". Valitse väli (viikoittain 2 vuoteen) ja aseta seuraava eräpäivä."
     },
     "feat": {
-      "intro": "Tap a feature to see details.",
+      "intro": "Napauta toimintoa nähdäksesi tiedot.",
       "f1": {
-        "title": "Asset Management",
-        "badge": "Core",
-        "desc": "All equipment in one place. Each asset gets a unique ID, photos, technical & commercial master data, and an automatically generated QR code.",
+        "title": "Resurssinhallinta",
+        "badge": "Ydin",
+        "desc": "Kaikki laitteet yhdessä paikassa. Jokainen resurssi saa yksilöllisen tunnuksen, kuvat, tekniset ja kaupalliset perustiedot sekä automaattisesti luodun QR-koodin.",
         "points": [
-          "Photos, serial number, article number",
-          "Technical & commercial data freely definable",
-          "Status: Active, Defective, In Maintenance, Decommissioned + custom",
-          "Duplicate asset for fast serial entry",
-          "Location assignment with full history"
+          "Kuvat, sarjanumero, tuotenumero",
+          "Tekniset ja kaupalliset tiedot vapaasti määriteltävissä",
+          "Tila: Aktiivinen, Viallinen, Huollossa, Poistettu käytöstä + omat",
+          "Kopioi resurssi nopeaa sarjarekisteröintiä varten",
+          "Sijaintitieto täydellisellä historiatiedolla"
         ]
       },
       "f2": {
-        "title": "Service Log",
-        "badge": "Core",
-        "desc": "Complete documentation of all events on the asset – from inspection to incident. Attach photos and documents directly.",
+        "title": "Huoltoloki",
+        "badge": "Ydin",
+        "desc": "Täydellinen dokumentaatio kaikista resurssin tapahtumista — tarkastuksesta häiriöön. Liitä kuvat ja asiakirjat suoraan.",
         "points": [
-          "10 system types + custom types (Settings → Event Types)",
-          "Attach photos & PDF documents",
-          "Costs, performed by, external company",
-          "Monthly grouped timeline",
-          "Maintenance plan as Gantt chart in service log"
+          "10 järjestelmätyyppiä + omat tyypit (Asetukset → Tapahtumatyypit)",
+          "Liitä kuvia ja PDF-asiakirjoja",
+          "Kulut, suorittaja, ulkoinen yritys",
+          "Kuukausittain ryhmitelty aikajana",
+          "Huoltosuunnitelma Gantt-kaaviona huoltologissa"
         ]
       },
       "f3": {
-        "title": "Maintenance Intervals & Checklists",
-        "badge": "Planning",
-        "desc": "Never miss recurring appointments. Define intervals per asset, add step-by-step checklists and keep track of all due dates.",
+        "title": "Huoltovälit ja tarkistuslistat",
+        "badge": "Suunnittelu",
+        "desc": "Älä koskaan unohda toistuvia tehtäviä. Määritä välit resurssille, lisää vaiheistettuja tarkistuslistoja ja seuraa kaikkia eräpäiviä.",
         "points": [
-          "Presets: weekly, monthly, quarterly, …",
-          "Custom interval in days",
-          "Automatic calculation of next date",
-          "Create checklist per interval (unlimited steps)",
-          "Checklist appears on completion for ticking off",
-          "Mark maintenance as done from list or Gantt",
-          "Next date automatically advanced on completion"
+          "Esiasetukset: viikoittain, kuukausittain, neljännesvuosittain, …",
+          "Mukautettu väli päivinä",
+          "Seuraavan päivän automaattinen laskenta",
+          "Luo tarkistuslista per väli (rajoittamaton määrä vaiheita)",
+          "Tarkistuslista näytetään valmistumisessa rastittamista varten",
+          "Merkitse huolto tehdyksi listasta tai Gantt-kaaviosta",
+          "Seuraava päivä siirtyy automaattisesti eteenpäin valmistumisessa"
         ]
       },
       "f4": {
-        "title": "Maintenance Dashboard",
-        "badge": "Planning",
-        "desc": "All due maintenance at a glance. Filter, search and Gantt chart for a complete overview of all assets.",
+        "title": "Huoltotaulu",
+        "badge": "Suunnittelu",
+        "desc": "Kaikki erääntyneet huollot yhdellä silmäyksellä. Suodatin, haku ja Gantt-kaavio täydelliseen yleiskatsaukseen kaikista resursseista.",
         "points": [
-          "Task list: grouped by Overdue / This Week / 30 Days / Later",
-          "Gantt chart with heatmap (more intense the closer the date)",
-          "Search across all asset attributes (name, serial no., category, …)",
-          "Filter: urgency, category, entries per page",
-          "Time range filter controls Gantt view simultaneously",
-          "Pagination for large quantities"
+          "Tehtävälista: ryhmitelty Erääntynyt / Tämä viikko / 30 päivää / Myöhemmin",
+          "Gantt-kaavio lämpökartalla (voimakkaampi mitä lähempänä päivämäärä on)",
+          "Hae kaikista resurssimääritteistä (nimi, sarjanro., kategoria, …)",
+          "Suodatin: kiireellisyys, kategoria, merkintöjä per sivu",
+          "Aikavälisuodatin ohjaa Gantt-näkymää samanaikaisesti",
+          "Sivutus suurille määrille"
         ]
       },
       "f5": {
-        "title": "QR & NFC Scanner",
-        "badge": "Mobile",
-        "desc": "Access any asset instantly by scanning – no searching, no typing. Works with the browser camera, no app download needed.",
+        "title": "QR- ja NFC-skanneri",
+        "badge": "Mobiili",
+        "desc": "Käytä mitä tahansa resurssia välittömästi skannaamalla — ei hakua, ei näppäilyjä. Toimii selaimen kameralla, ei sovelluslatausta tarvita.",
         "points": [
-          "Scan QR code → open asset directly",
-          "Automatically generated QR code per asset",
-          "NFC tag UUID as fallback",
-          "Optimized for smartphone camera",
-          "QR code exportable as PDF/image"
+          "Skannaa QR-koodi → avaa resurssi suoraan",
+          "Automaattisesti luotu QR-koodi per resurssi",
+          "NFC-tagin UUID varavaihtoehtona",
+          "Optimoitu älypuhelimen kameralle",
+          "QR-koodi vietävissä PDF/kuvamuodossa"
         ]
       },
       "f6": {
-        "title": "Locations & Structure",
-        "badge": "Organization",
-        "desc": "Map your operational structure exactly: Location → Hall → Area. Each asset can be assigned to an area.",
+        "title": "Sijainnit ja rakenne",
+        "badge": "Organisaatio",
+        "desc": "Kartoita toimintarakenteesi tarkasti: Sijainti → Halli → Alue. Jokainen resurssi voidaan sijoittaa alueelle.",
         "points": [
-          "3-level hierarchy: Location / Hall / Area",
-          "Any number of locations & halls",
-          "Complete location history",
-          "Free text input as alternative",
-          "Management under Organization"
+          "3-tasoinen hierarkia: Sijainti / Halli / Alue",
+          "Rajoittamaton määrä sijainteja ja halleja",
+          "Täydellinen sijaintihistoria",
+          "Vapaa tekstisyöttö vaihtoehtona",
+          "Hallinta Organisaation alla"
         ]
       },
       "f7": {
-        "title": "Teams & Roles",
-        "badge": "Access",
-        "desc": "Multiple employees, clear responsibilities. Invite colleagues and assign roles – each role sees and can do exactly what it should.",
+        "title": "Tiimit ja roolit",
+        "badge": "Pääsy",
+        "desc": "Useita työntekijöitä, selkeät vastuualueet. Kutsu kollegoita ja määritä roolit — jokainen rooli näkee ja voi tehdä tasan sen, mitä pitää.",
         "points": [
-          "Admin: full access + user management",
-          "Technician: edit assets & service",
-          "Reader: view only, no changes",
-          "Create members directly (email + password)",
-          "Roles changeable at any time"
+          "Järjestelmänvalvoja: täysi pääsy + käyttäjähallinta",
+          "Teknikko: muokkaa resursseja ja huoltoa",
+          "Lukija: vain katselu, ei muutoksia",
+          "Luo jäseniä suoraan (sähköposti + salasana)",
+          "Roolit muutettavissa milloin tahansa"
         ]
       },
       "f8": {
-        "title": "Documents",
+        "title": "Asiakirjat",
         "badge": "Data",
-        "desc": "Manuals, inspection reports, certificates – stored directly on the asset. Photos in the service log for complete documentation.",
+        "desc": "Käyttöohjeet, tarkastusraportit, sertifikaatit — tallennettu suoraan resurssille. Kuvat huoltologissa täydelliseen dokumentaatioon.",
         "points": [
-          "PDF, images and other formats",
-          "Documents directly on the asset",
-          "Photos in service entry",
-          "Secure upload via Supabase Storage",
-          "Direct download link"
+          "PDF, kuvat ja muut formaatit",
+          "Asiakirjat suoraan resurssilla",
+          "Kuvat huoltomerkinnässä",
+          "Turvallinen lataus Supabase Storagen kautta",
+          "Suora latauslinkki"
         ]
       },
       "f9": {
-        "title": "QR Codes & NFC",
-        "badge": "Identification",
-        "desc": "Every asset automatically gets a unique QR code. Stick it on the device and scan it anytime for instant access.",
+        "title": "QR-koodit ja NFC",
+        "badge": "Tunnistus",
+        "desc": "Jokainen resurssi saa automaattisesti yksilöllisen QR-koodin. Kiinnitä se laitteeseen ja skannaa se milloin tahansa välittömään pääsyyn.",
         "points": [
-          "Automatic generation on creation",
-          "Format: inoid.app/assets/{id}",
-          "QR code displayed directly in the app",
-          "UUID usable for NFC chips",
-          "Accessible without app via browser link"
+          "Automaattinen luonti luomisen yhteydessä",
+          "Muoto: inoid.app/assets/{id}",
+          "QR-koodi näytetään suoraan sovelluksessa",
+          "UUID käytettävissä NFC-siruille",
+          "Käytettävissä ilman sovellusta selainklinkin kautta"
         ]
       }
     },
     "roles": {
-      "intro": "INOid uses three roles. Assign each employee the most restrictive appropriate role.",
-      "tip": "Manage roles under Teams → select member → change role. Add new members via Teams → open team → add member.",
+      "intro": "INOid käyttää kolmea roolia. Määritä jokaiselle työntekijälle rajoittavin sopiva rooli.",
+      "tip": "Hallitse rooleja kohdassa Tiimit → valitse jäsen → vaihda rooli. Lisää uusia jäseniä kohdassa Tiimit → avaa tiimi → lisää jäsen.",
       "r1": {
-        "name": "Admin",
+        "name": "Järjestelmänvalvoja",
         "points": [
-          "Read & edit everything",
-          "Create & delete assets",
-          "Create & manage members",
-          "Assign roles",
-          "Change settings"
+          "Lue ja muokkaa kaikkea",
+          "Luo ja poista resursseja",
+          "Luo ja hallinnoi jäseniä",
+          "Määritä roolit",
+          "Muuta asetuksia"
         ]
       },
       "r2": {
-        "name": "Technician",
+        "name": "Teknikko",
         "points": [
-          "View all assets",
-          "Edit assets & service log",
-          "Create service entries",
-          "Maintain intervals",
-          "No team management"
+          "Katso kaikki resurssit",
+          "Muokkaa resursseja ja huoltolokia",
+          "Luo huoltomerkintöjä",
+          "Ylläpidä välejä",
+          "Ei tiiminhallintaa"
         ]
       },
       "r3": {
-        "name": "Reader",
+        "name": "Lukija",
         "points": [
-          "View all assets",
-          "Read service log",
-          "No editing rights",
-          "No create/delete",
-          "Ideal for auditors & external parties"
+          "Katso kaikki resurssit",
+          "Lue huoltoloki",
+          "Ei muokkausoikeuksia",
+          "Ei luontia/poistoa",
+          "Ihanteellinen tarkastajille ja ulkoisille"
         ]
       }
     },
     "plans": {
-      "intro": "INOid offers four plans. Payment is by bank transfer – no subscription trap, no credit card required. After payment you receive a code by email that you redeem directly.",
-      "h1": "Available Plans",
-      "h2": "How booking works",
-      "perMonth": "excl. VAT/month",
-      "tip": "Activation code: The code is automatically sent by email to all Admins after payment. Make sure at least one admin has a reachable email address.",
+      "intro": "INOid tarjoaa neljä suunnitelmaa. Maksaminen tapahtuu pankkisiirrolla — ei tilausansaa, ei luottokorttipakkoa. Maksun jälkeen saat koodin sähköpostitse, jonka lunastet suoraan.",
+      "h1": "Saatavilla olevat suunnitelmat",
+      "h2": "Näin varaaminen toimii",
+      "perMonth": "alv. 0%/kk",
+      "tip": "Aktivointikoodi: Koodi lähetetään automaattisesti sähköpostitse kaikille järjestelmänvalvojille maksun jälkeen. Varmista, että vähintään yhdellä järjestelmänvalvojalla on tavoitettava sähköpostiosoite.",
       "cta": "Tilaukseen",
       "t1": {
         "points": [
-          "5 Assets",
-          "1 User",
-          "Service Log",
-          "QR Scanner"
+          "5 resurssia",
+          "1 käyttäjä",
+          "Huoltoloki",
+          "QR-skanneri"
         ]
       },
       "t2": {
         "points": [
-          "50 Assets",
-          "Up to 5 users",
-          "Maintenance intervals",
-          "Location management",
-          "Document upload"
+          "50 resurssia",
+          "Enintään 5 käyttäjää",
+          "Huoltovälit",
+          "Sijaintihallinta",
+          "Asiakirjojen lataus"
         ]
       },
       "t3": {
         "points": [
-          "200 Assets",
-          "Up to 20 users",
-          "All Starter features",
-          "Teams & Roles",
-          "Advanced analytics"
+          "200 resurssia",
+          "Enintään 20 käyttäjää",
+          "Kaikki Starter-ominaisuudet",
+          "Tiimit ja roolit",
+          "Edistynyt analytiikka"
         ]
       },
       "t4": {
         "points": [
-          "Unlimited Assets",
-          "Unlimited users",
-          "All Professional features",
-          "Priority Support",
-          "Custom adaptations"
+          "Rajoittamaton määrä resursseja",
+          "Rajoittamaton määrä käyttäjiä",
+          "Kaikki Professional-ominaisuudet",
+          "Prioriteettituki",
+          "Yksilölliset mukautukset"
         ]
       },
       "bs1": {
-        "title": "Choose plan",
-        "desc": "Go to Subscription (Sidebar → Organization). Choose your plan and click \"Create Invoice\"."
+        "title": "Valitse suunnitelma",
+        "desc": "Siirry kohtaan Tilaus (Sivupalkki → Organisaatio). Valitse haluamasi suunnitelma ja napsauta \"Luo lasku\"."
       },
       "bs2": {
-        "title": "Fill in & download invoice",
-        "desc": "Fill in the billing address (name/company, street, postcode/city, country, VAT ID optional). The invoice is shown immediately and can be printed."
+        "title": "Täytä ja lataa lasku",
+        "desc": "Täytä laskutusosoite (nimi/yritys, katu, postinumero/kaupunki, maa, ALV-tunnus valinnainen). Lasku näytetään heti ja se voidaan tulostaa."
       },
       "bs3": {
-        "title": "Transfer payment",
-        "desc": "Transfer the invoice amount to the specified bank account (Inomet GmbH). Use the invoice number as payment reference."
+        "title": "Suorita siirto",
+        "desc": "Siirrä laskun summa ilmoitetulle pankkitilille (Inomet GmbH). Käytä laskun numeroa maksuviitteenä."
       },
       "bs4": {
-        "title": "Receive activation code",
-        "desc": "After payment you automatically receive a 9-digit activation code by email to all admins of your organization."
+        "title": "Vastaanota aktivointikoodi",
+        "desc": "Maksun jälkeen saat automaattisesti 9-numeroisen aktivointikoodin sähköpostitse kaikille organisaatiosi järjestelmänvalvojille."
       },
       "bs5": {
-        "title": "Redeem code & activate plan",
-        "desc": "Go back to Subscription, enter the code in the \"Redeem activation code\" field and click \"Activate\". The plan is active immediately."
+        "title": "Lunasta koodi ja aktivoi suunnitelma",
+        "desc": "Siirry takaisin kohtaan Tilaus, syötä koodi kenttään \"Lunasta aktivointikoodi\" ja napsauta \"Aktivoi\". Suunnitelma on heti aktiivinen."
       }
     },
     "tips": {
-      "intro": "Pro tips for getting the most out of INOid.",
-      "t1": "Duplicating assets saves time when recording identical devices.",
-      "t2": "Done early? Just tap the green checkmark button in the maintenance dashboard – the next date is calculated automatically.",
-      "t3": "Assign each employee the most restrictive role – Reader for external auditors.",
-      "t4": "INOid runs as a PWA: add a home screen link on your smartphone for an app-like feel.",
-      "t5": "Check the maintenance dashboard daily – overdue intervals are marked in red.",
+      "intro": "Profivinkkejä INOidin maksimaalista hyödyntämistä varten.",
+      "t1": "Resurssien kopioiminen säästää aikaa identtisten laitteiden rekisteröinnissä.",
+      "t2": "Valmistunut aikaisin? Napauta vain vihreää valintamerkki-painiketta huoltotaulussa — seuraava päivä lasketaan automaattisesti.",
+      "t3": "Määritä jokaiselle työntekijälle rajoittavin rooli — Lukija ulkoisille tarkastajille.",
+      "t4": "INOid toimii PWA:na: lisää aloitusnäyttölinkki älypuhelimellesi sovelluksen tuntua varten.",
+      "t5": "Tarkista huoltotaulu päivittäin — erääntyneet välit merkitään punaisella.",
       "navTitle": "Työpöytänavigaatio",
       "nav": [
         {
-          "a": "Assets",
-          "b": "Left sidebar → Assets"
+          "a": "Resurssit",
+          "b": "Vasen sivupalkki → Resurssit"
         },
         {
-          "a": "Scan",
-          "b": "Left sidebar → Scan"
+          "a": "Skannaa",
+          "b": "Vasen sivupalkki → Skannaa"
         },
         {
-          "a": "Maintenance",
-          "b": "Left sidebar → Maintenance & Service"
+          "a": "Huolto",
+          "b": "Vasen sivupalkki → Huolto ja Palvelu"
         },
         {
-          "a": "Profile",
-          "b": "Left sidebar → Profile & Settings"
+          "a": "Profiili",
+          "b": "Vasen sivupalkki → Profiili ja Asetukset"
         }
       ],
       "contactTitle": "Onko lisäkysymyksiä?",
-      "contactDesc": "Contact your administrator or reach INOid support directly via Inomet GmbH."
+      "contactDesc": "Ota yhteyttä järjestelmänvalvojaasi tai tavoita INOid-tuki suoraan Inomet GmbH:n kautta."
     }
   },
   "eventTypes": {

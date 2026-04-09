@@ -798,16 +798,16 @@
     "title": "Документація",
     "back": "Назад",
     "hero": {
-      "eyebrow": "INOid · Documentation",
-      "h1a": "Everything you",
-      "h1b": "need to know.",
-      "sub": "INOid is your digital asset management system — from commissioning to decommissioning. Ready in 5 minutes.",
+      "eyebrow": "INOid · Документація",
+      "h1a": "Все, що вам",
+      "h1b": "потрібно знати.",
+      "sub": "INOid — ваша цифрова система управління активами — від введення в експлуатацію до списання. Готово за 5 хвилин.",
       "s1val": "5 min",
-      "s1label": "to the first asset",
+      "s1label": "до першого активу",
       "s2val": "8+",
-      "s2label": "feature areas",
+      "s2label": "функціональних галузі",
       "s3val": "100%",
-      "s3label": "browser-based"
+      "s3label": "на основі браузера"
     },
     "tabs": {
       "start": "Швидкий старт",
@@ -817,258 +817,258 @@
       "tips": "Поради"
     },
     "qs": {
-      "intro": "Four steps to master the essentials of INOid.",
+      "intro": "Чотири кроки для освоєння основ INOid.",
       "open": "Відкрити",
       "demoTitle": "Demo Tour",
-      "demoSub": "Walkthrough video coming soon",
-      "s1title": "Create asset",
-      "s1desc": "Go to Assets → tap \"+ New\". Add title, category, photos and technical data.",
-      "s2title": "Scan QR code",
-      "s2desc": "Press the scan button in the center of the navigation. The camera opens immediately.",
-      "s3title": "Create service entry",
-      "s3desc": "Open an asset → Service log → \"+ Entry\". Document maintenance, repairs and inspections.",
-      "s4title": "Set up maintenance interval",
-      "s4desc": "In the service log → \"+ Interval\". Choose an interval (weekly to 2-yearly) and set the next due date."
+      "demoSub": "Відео-посібник незабаром",
+      "s1title": "Створити актив",
+      "s1desc": "Перейдіть до Активів → натисніть «+ Новий». Додайте назву, категорію, фото та технічні дані.",
+      "s2title": "Сканувати QR-код",
+      "s2desc": "Натисніть кнопку сканування в центрі навігації. Камера відкриється негайно.",
+      "s3title": "Створити запис обслуговування",
+      "s3desc": "Відкрийте актив → Журнал обслуговування → «+ Запис». Документуйте технічне обслуговування, ремонт та інспекції.",
+      "s4title": "Налаштувати інтервал обслуговування",
+      "s4desc": "У журналі обслуговування → «+ Інтервал». Виберіть інтервал (щотижня до 2 років) і встановіть наступну дату."
     },
     "feat": {
-      "intro": "Tap a feature to see details.",
+      "intro": "Натисніть на функцію, щоб побачити деталі.",
       "f1": {
-        "title": "Asset Management",
-        "badge": "Core",
-        "desc": "All equipment in one place. Each asset gets a unique ID, photos, technical & commercial master data, and an automatically generated QR code.",
+        "title": "Управління активами",
+        "badge": "Ядро",
+        "desc": "Все обладнання в одному місці. Кожен актив отримує унікальний ідентифікатор, фотографії, технічні та комерційні основні дані, а також автоматично згенерований QR-код.",
         "points": [
-          "Photos, serial number, article number",
-          "Technical & commercial data freely definable",
-          "Status: Active, Defective, In Maintenance, Decommissioned + custom",
-          "Duplicate asset for fast serial entry",
-          "Location assignment with full history"
+          "Фотографії, серійний номер, номер артикулу",
+          "Технічні та комерційні дані вільно задаються",
+          "Статус: Активний, Несправний, На обслуговуванні, Списаний + власні",
+          "Дублювати актив для швидкої серійної реєстрації",
+          "Призначення місцезнаходження з повною історією"
         ]
       },
       "f2": {
-        "title": "Service Log",
-        "badge": "Core",
-        "desc": "Complete documentation of all events on the asset – from inspection to incident. Attach photos and documents directly.",
+        "title": "Журнал обслуговування",
+        "badge": "Ядро",
+        "desc": "Повна документація всіх подій по активу — від інспекції до інциденту. Прикріплюйте фотографії та документи напряму.",
         "points": [
-          "10 system types + custom types (Settings → Event Types)",
-          "Attach photos & PDF documents",
-          "Costs, performed by, external company",
-          "Monthly grouped timeline",
-          "Maintenance plan as Gantt chart in service log"
+          "10 системних типів + власні типи (Налаштування → Типи подій)",
+          "Прикріплювати фотографії та PDF-документи",
+          "Витрати, виконавець, зовнішня компанія",
+          "Хронологія з групуванням за місяцями",
+          "План обслуговування у вигляді діаграми Ганта в журналі"
         ]
       },
       "f3": {
-        "title": "Maintenance Intervals & Checklists",
-        "badge": "Planning",
-        "desc": "Never miss recurring appointments. Define intervals per asset, add step-by-step checklists and keep track of all due dates.",
+        "title": "Інтервали обслуговування та чек-листи",
+        "badge": "Планування",
+        "desc": "Ніколи не забувайте про повторювані завдання. Задавайте інтервали для кожного активу, додавайте покрокові чек-листи та контролюйте всі терміни.",
         "points": [
-          "Presets: weekly, monthly, quarterly, …",
-          "Custom interval in days",
-          "Automatic calculation of next date",
-          "Create checklist per interval (unlimited steps)",
-          "Checklist appears on completion for ticking off",
-          "Mark maintenance as done from list or Gantt",
-          "Next date automatically advanced on completion"
+          "Попередні налаштування: щотижня, щомісяця, щокварталу, …",
+          "Користувацький інтервал у днях",
+          "Автоматичний розрахунок наступної дати",
+          "Створити чек-лист для інтервалу (необмежена кількість кроків)",
+          "Чек-лист відображається при завершенні для відмітки",
+          "Відзначити обслуговування виконаним зі списку або Ганта",
+          "Наступна дата автоматично переноситься при завершенні"
         ]
       },
       "f4": {
-        "title": "Maintenance Dashboard",
-        "badge": "Planning",
-        "desc": "All due maintenance at a glance. Filter, search and Gantt chart for a complete overview of all assets.",
+        "title": "Панель обслуговування",
+        "badge": "Планування",
+        "desc": "Всe прострочене обслуговування з першого погляду. Фільтр, пошук та діаграма Ганта для повного огляду всіх активів.",
         "points": [
-          "Task list: grouped by Overdue / This Week / 30 Days / Later",
-          "Gantt chart with heatmap (more intense the closer the date)",
-          "Search across all asset attributes (name, serial no., category, …)",
-          "Filter: urgency, category, entries per page",
-          "Time range filter controls Gantt view simultaneously",
-          "Pagination for large quantities"
+          "Список завдань: згруповано за Прострочено / Цей тиждень / 30 днів / Пізніше",
+          "Діаграма Ганта з тепловою картою (інтенсивніше чим ближче дата)",
+          "Пошук за всіма атрибутами активу (ім'я, серійний №, категорія, …)",
+          "Фільтр: терміновість, категорія, записів на сторінці",
+          "Фільтр часового діапазону керує виглядом Ганта одночасно",
+          "Пагінація для великих обсягів"
         ]
       },
       "f5": {
-        "title": "QR & NFC Scanner",
-        "badge": "Mobile",
-        "desc": "Access any asset instantly by scanning – no searching, no typing. Works with the browser camera, no app download needed.",
+        "title": "QR- та NFC-сканер",
+        "badge": "Мобільний",
+        "desc": "Миттєвий доступ до будь-якого активу через сканування — ніякого пошуку, ніякого введення. Працює з камерою браузера, завантаження додатку не потрібне.",
         "points": [
-          "Scan QR code → open asset directly",
-          "Automatically generated QR code per asset",
-          "NFC tag UUID as fallback",
-          "Optimized for smartphone camera",
-          "QR code exportable as PDF/image"
+          "Сканувати QR-код → відкрити актив напряму",
+          "Автоматично згенерований QR-код для кожного активу",
+          "UUID NFC-мітки як запасний варіант",
+          "Оптимізовано для камери смартфона",
+          "QR-код експортується як PDF/зображення"
         ]
       },
       "f6": {
-        "title": "Locations & Structure",
-        "badge": "Organization",
-        "desc": "Map your operational structure exactly: Location → Hall → Area. Each asset can be assigned to an area.",
+        "title": "Місцезнаходження та структура",
+        "badge": "Організація",
+        "desc": "Точно відобразіть структуру свого підприємства: Місце → Цех → Ділянка. Кожен актив можна призначити на ділянку.",
         "points": [
-          "3-level hierarchy: Location / Hall / Area",
-          "Any number of locations & halls",
-          "Complete location history",
-          "Free text input as alternative",
-          "Management under Organization"
+          "3-рівнева ієрархія: Місце / Цех / Ділянка",
+          "Необмежена кількість місць та цехів",
+          "Повна історія місцезнаходжень",
+          "Вільний ввід тексту як альтернатива",
+          "Управління в розділі Організація"
         ]
       },
       "f7": {
-        "title": "Teams & Roles",
-        "badge": "Access",
-        "desc": "Multiple employees, clear responsibilities. Invite colleagues and assign roles – each role sees and can do exactly what it should.",
+        "title": "Команди та ролі",
+        "badge": "Доступ",
+        "desc": "Кілька співробітників, чіткі зони відповідальності. Запрошуйте колег та призначайте ролі — кожна роль бачить і може робити рівно те, що потрібно.",
         "points": [
-          "Admin: full access + user management",
-          "Technician: edit assets & service",
-          "Reader: view only, no changes",
-          "Create members directly (email + password)",
-          "Roles changeable at any time"
+          "Адміністратор: повний доступ + управління користувачами",
+          "Технік: редагувати активи та сервіс",
+          "Читач: лише перегляд, без змін",
+          "Створювати учасників напряму (email + пароль)",
+          "Ролі можна змінювати будь-коли"
         ]
       },
       "f8": {
-        "title": "Documents",
-        "badge": "Data",
-        "desc": "Manuals, inspection reports, certificates – stored directly on the asset. Photos in the service log for complete documentation.",
+        "title": "Документи",
+        "badge": "Дані",
+        "desc": "Посібники з експлуатації, акти інспекцій, сертифікати — зберігаються безпосередньо у активу. Фотографії в журналі обслуговування для повної документації.",
         "points": [
-          "PDF, images and other formats",
-          "Documents directly on the asset",
-          "Photos in service entry",
-          "Secure upload via Supabase Storage",
-          "Direct download link"
+          "PDF, зображення та інші формати",
+          "Документи безпосередньо у активу",
+          "Фотографії в записі обслуговування",
+          "Безпечне завантаження через Supabase Storage",
+          "Пряме посилання для скачування"
         ]
       },
       "f9": {
-        "title": "QR Codes & NFC",
-        "badge": "Identification",
-        "desc": "Every asset automatically gets a unique QR code. Stick it on the device and scan it anytime for instant access.",
+        "title": "QR-коди та NFC",
+        "badge": "Ідентифікація",
+        "desc": "Кожен актив автоматично отримує унікальний QR-код. Прикріпіть його до пристрою та скануйте будь-коли для миттєвого доступу.",
         "points": [
-          "Automatic generation on creation",
-          "Format: inoid.app/assets/{id}",
-          "QR code displayed directly in the app",
-          "UUID usable for NFC chips",
-          "Accessible without app via browser link"
+          "Автоматична генерація при створенні",
+          "Формат: inoid.app/assets/{id}",
+          "QR-код відображається прямо в додатку",
+          "UUID використовується для NFC-чипів",
+          "Доступний без додатку через посилання в браузері"
         ]
       }
     },
     "roles": {
-      "intro": "INOid uses three roles. Assign each employee the most restrictive appropriate role.",
-      "tip": "Manage roles under Teams → select member → change role. Add new members via Teams → open team → add member.",
+      "intro": "INOid використовує три ролі. Призначайте кожному співробітнику найбільш обмежувальну відповідну роль.",
+      "tip": "Керуйте ролями в розділі Команди → виберіть учасника → змінити роль. Додавайте нових учасників через Команди → відкрити команду → додати учасника.",
       "r1": {
-        "name": "Admin",
+        "name": "Адміністратор",
         "points": [
-          "Read & edit everything",
-          "Create & delete assets",
-          "Create & manage members",
-          "Assign roles",
-          "Change settings"
+          "Читати та редагувати все",
+          "Створювати та видаляти активи",
+          "Створювати учасників та керувати ними",
+          "Призначати ролі",
+          "Змінювати налаштування"
         ]
       },
       "r2": {
-        "name": "Technician",
+        "name": "Технік",
         "points": [
-          "View all assets",
-          "Edit assets & service log",
-          "Create service entries",
-          "Maintain intervals",
-          "No team management"
+          "Переглядати всі активи",
+          "Редагувати активи та журнал обслуговування",
+          "Створювати записи обслуговування",
+          "Вести інтервали",
+          "Без управління командою"
         ]
       },
       "r3": {
-        "name": "Reader",
+        "name": "Читач",
         "points": [
-          "View all assets",
-          "Read service log",
-          "No editing rights",
-          "No create/delete",
-          "Ideal for auditors & external parties"
+          "Переглядати всі активи",
+          "Читати журнал обслуговування",
+          "Без прав редагування",
+          "Без створення/видалення",
+          "Ідеально для аудиторів та зовнішніх осіб"
         ]
       }
     },
     "plans": {
-      "intro": "INOid offers four plans. Payment is by bank transfer – no subscription trap, no credit card required. After payment you receive a code by email that you redeem directly.",
-      "h1": "Available Plans",
-      "h2": "How booking works",
-      "perMonth": "excl. VAT/month",
-      "tip": "Activation code: The code is automatically sent by email to all Admins after payment. Make sure at least one admin has a reachable email address.",
+      "intro": "INOid пропонує чотири тарифи. Оплата здійснюється банківським переказом — ніяких пасток підписки, ніяких вимог кредитної карти. Після оплати ви отримаєте код електронною поштою, який активуєте негайно.",
+      "h1": "Доступні тарифи",
+      "h2": "Як працює замовлення",
+      "perMonth": "без ПДВ/міс.",
+      "tip": "Код активації: Код автоматично надсилається електронною поштою всім адміністраторам після оплати. Переконайтеся, що хоча б один адміністратор має діючу адресу електронної пошти.",
       "cta": "До підписки",
       "t1": {
         "points": [
-          "5 Assets",
-          "1 User",
-          "Service Log",
-          "QR Scanner"
+          "5 активів",
+          "1 користувач",
+          "Журнал обслуговування",
+          "QR-сканер"
         ]
       },
       "t2": {
         "points": [
-          "50 Assets",
-          "Up to 5 users",
-          "Maintenance intervals",
-          "Location management",
-          "Document upload"
+          "50 активів",
+          "До 5 користувачів",
+          "Інтервали обслуговування",
+          "Управління місцезнаходженням",
+          "Завантаження документів"
         ]
       },
       "t3": {
         "points": [
-          "200 Assets",
-          "Up to 20 users",
-          "All Starter features",
-          "Teams & Roles",
-          "Advanced analytics"
+          "200 активів",
+          "До 20 користувачів",
+          "Всі функції Starter",
+          "Команди та ролі",
+          "Розширена аналітика"
         ]
       },
       "t4": {
         "points": [
-          "Unlimited Assets",
-          "Unlimited users",
-          "All Professional features",
-          "Priority Support",
-          "Custom adaptations"
+          "Необмежена кількість активів",
+          "Необмежена кількість користувачів",
+          "Всі функції Professional",
+          "Пріоритетна підтримка",
+          "Індивідуальні налаштування"
         ]
       },
       "bs1": {
-        "title": "Choose plan",
-        "desc": "Go to Subscription (Sidebar → Organization). Choose your plan and click \"Create Invoice\"."
+        "title": "Вибрати тариф",
+        "desc": "Перейдіть до Підписка (Бічна панель → Організація). Виберіть потрібний тариф і натисніть «Створити рахунок»."
       },
       "bs2": {
-        "title": "Fill in & download invoice",
-        "desc": "Fill in the billing address (name/company, street, postcode/city, country, VAT ID optional). The invoice is shown immediately and can be printed."
+        "title": "Заповнити та завантажити рахунок",
+        "desc": "Заповніть адресу виставлення рахунку (ім'я/компанія, вулиця, індекс/місто, країна, ПДВ опціонально). Рахунок відображається одразу і можна роздрукувати."
       },
       "bs3": {
-        "title": "Transfer payment",
-        "desc": "Transfer the invoice amount to the specified bank account (Inomet GmbH). Use the invoice number as payment reference."
+        "title": "Виконати переказ",
+        "desc": "Переведіть суму рахунку на вказаний банківський рахунок (Inomet GmbH). Використовуйте номер рахунку як призначення платежу."
       },
       "bs4": {
-        "title": "Receive activation code",
-        "desc": "After payment you automatically receive a 9-digit activation code by email to all admins of your organization."
+        "title": "Отримати код активації",
+        "desc": "Після оплати ви автоматично отримаєте 9-значний код активації електронною поштою всім адміністраторам вашої організації."
       },
       "bs5": {
-        "title": "Redeem code & activate plan",
-        "desc": "Go back to Subscription, enter the code in the \"Redeem activation code\" field and click \"Activate\". The plan is active immediately."
+        "title": "Активувати код та тариф",
+        "desc": "Поверніться до Підписки, введіть код у поле «Активувати код» і натисніть «Активувати». Тариф активується негайно."
       }
     },
     "tips": {
-      "intro": "Pro tips for getting the most out of INOid.",
-      "t1": "Duplicating assets saves time when recording identical devices.",
-      "t2": "Done early? Just tap the green checkmark button in the maintenance dashboard – the next date is calculated automatically.",
-      "t3": "Assign each employee the most restrictive role – Reader for external auditors.",
-      "t4": "INOid runs as a PWA: add a home screen link on your smartphone for an app-like feel.",
-      "t5": "Check the maintenance dashboard daily – overdue intervals are marked in red.",
+      "intro": "Професійні поради щодо максимального використання INOid.",
+      "t1": "Дублювання активів економить час при реєстрації ідентичних пристроїв.",
+      "t2": "Завершили раніше? Просто натисніть зелену кнопку з галочкою на панелі обслуговування — наступна дата розраховується автоматично.",
+      "t3": "Призначайте кожному співробітнику найбільш обмежувальну роль — Читач для зовнішніх аудиторів.",
+      "t4": "INOid працює як PWA: додайте посилання на головний екран смартфона для відчуття додатку.",
+      "t5": "Перевіряйте панель обслуговування щодня — прострочені інтервали відзначаються червоним.",
       "navTitle": "Навігація на робочому столі",
       "nav": [
         {
-          "a": "Assets",
-          "b": "Left sidebar → Assets"
+          "a": "Активи",
+          "b": "Ліва бічна панель → Активи"
         },
         {
-          "a": "Scan",
-          "b": "Left sidebar → Scan"
+          "a": "Сканування",
+          "b": "Ліва бічна панель → Сканування"
         },
         {
-          "a": "Maintenance",
-          "b": "Left sidebar → Maintenance & Service"
+          "a": "Обслуговування",
+          "b": "Ліва бічна панель → Обслуговування та Сервіс"
         },
         {
-          "a": "Profile",
-          "b": "Left sidebar → Profile & Settings"
+          "a": "Профіль",
+          "b": "Ліва бічна панель → Профіль та Налаштування"
         }
       ],
       "contactTitle": "Ще запитання?",
-      "contactDesc": "Contact your administrator or reach INOid support directly via Inomet GmbH."
+      "contactDesc": "Зверніться до вашого адміністратора або зв'яжіться з підтримкою INOid напряму через Inomet GmbH."
     }
   },
   "eventTypes": {

@@ -798,16 +798,16 @@
     "title": "文档",
     "back": "返回",
     "hero": {
-      "eyebrow": "INOid · Documentation",
-      "h1a": "Everything you",
-      "h1b": "need to know.",
-      "sub": "INOid is your digital asset management system — from commissioning to decommissioning. Ready in 5 minutes.",
+      "eyebrow": "INOid · 文档",
+      "h1a": "您需要了解的",
+      "h1b": "一切。",
+      "sub": "INOid 是您的数字资产管理系统 — 从投入使用到退役。5分钟即可准备就绪。",
       "s1val": "5 min",
-      "s1label": "to the first asset",
+      "s1label": "到第一个资产",
       "s2val": "8+",
-      "s2label": "feature areas",
+      "s2label": "功能领域",
       "s3val": "100%",
-      "s3label": "browser-based"
+      "s3label": "基于浏览器"
     },
     "tabs": {
       "start": "快速入门",
@@ -817,258 +817,258 @@
       "tips": "技巧"
     },
     "qs": {
-      "intro": "Four steps to master the essentials of INOid.",
+      "intro": "四个步骤掌握 INOid 的基础知识。",
       "open": "立即打开",
       "demoTitle": "Demo Tour",
-      "demoSub": "Walkthrough video coming soon",
-      "s1title": "Create asset",
-      "s1desc": "Go to Assets → tap \"+ New\". Add title, category, photos and technical data.",
-      "s2title": "Scan QR code",
-      "s2desc": "Press the scan button in the center of the navigation. The camera opens immediately.",
-      "s3title": "Create service entry",
-      "s3desc": "Open an asset → Service log → \"+ Entry\". Document maintenance, repairs and inspections.",
-      "s4title": "Set up maintenance interval",
-      "s4desc": "In the service log → \"+ Interval\". Choose an interval (weekly to 2-yearly) and set the next due date."
+      "demoSub": "演示视频即将推出",
+      "s1title": "创建资产",
+      "s1desc": "转到资产 → 点击\"+ 新建\"。添加标题、类别、照片和技术数据。",
+      "s2title": "扫描二维码",
+      "s2desc": "按下导航中央的扫描按钮。相机立即打开。",
+      "s3title": "创建服务记录",
+      "s3desc": "打开资产 → 服务日志 → \"+ 记录\"。记录维护、维修和检查。",
+      "s4title": "设置维护间隔",
+      "s4desc": "在服务日志中 → \"+ 间隔\"。选择间隔（每周至每两年），并设置下一个截止日期。"
     },
     "feat": {
-      "intro": "Tap a feature to see details.",
+      "intro": "点击功能查看详情。",
       "f1": {
-        "title": "Asset Management",
-        "badge": "Core",
-        "desc": "All equipment in one place. Each asset gets a unique ID, photos, technical & commercial master data, and an automatically generated QR code.",
+        "title": "资产管理",
+        "badge": "核心",
+        "desc": "所有设备集中管理。每个资产获得唯一标识符、照片、技术和商业基础数据以及自动生成的二维码。",
         "points": [
-          "Photos, serial number, article number",
-          "Technical & commercial data freely definable",
-          "Status: Active, Defective, In Maintenance, Decommissioned + custom",
-          "Duplicate asset for fast serial entry",
-          "Location assignment with full history"
+          "照片、序列号、物品编号",
+          "技术和商业数据可自由定义",
+          "状态：活跃、有缺陷、维护中、停用 + 自定义",
+          "复制资产以快速批量录入",
+          "带完整历史记录的位置分配"
         ]
       },
       "f2": {
-        "title": "Service Log",
-        "badge": "Core",
-        "desc": "Complete documentation of all events on the asset – from inspection to incident. Attach photos and documents directly.",
+        "title": "服务日志",
+        "badge": "核心",
+        "desc": "资产上所有事件的完整记录 — 从检查到事故。直接附加照片和文档。",
         "points": [
-          "10 system types + custom types (Settings → Event Types)",
-          "Attach photos & PDF documents",
-          "Costs, performed by, external company",
-          "Monthly grouped timeline",
-          "Maintenance plan as Gantt chart in service log"
+          "10种系统类型 + 自定义类型（设置 → 事件类型）",
+          "附加照片和PDF文档",
+          "费用、执行人、外部公司",
+          "按月分组的时间线",
+          "服务日志中的甘特图维护计划"
         ]
       },
       "f3": {
-        "title": "Maintenance Intervals & Checklists",
-        "badge": "Planning",
-        "desc": "Never miss recurring appointments. Define intervals per asset, add step-by-step checklists and keep track of all due dates.",
+        "title": "维护间隔和检查表",
+        "badge": "计划",
+        "desc": "永不忘记重复性任务。为每个资产定义间隔，添加分步检查表，并跟踪所有截止日期。",
         "points": [
-          "Presets: weekly, monthly, quarterly, …",
-          "Custom interval in days",
-          "Automatic calculation of next date",
-          "Create checklist per interval (unlimited steps)",
-          "Checklist appears on completion for ticking off",
-          "Mark maintenance as done from list or Gantt",
-          "Next date automatically advanced on completion"
+          "预设：每周、每月、每季度…",
+          "自定义间隔（天数）",
+          "自动计算下一个日期",
+          "为每个间隔创建检查表（无限步骤）",
+          "完成时显示检查表供勾选",
+          "从列表或甘特图标记维护完成",
+          "完成时自动推进下一个日期"
         ]
       },
       "f4": {
-        "title": "Maintenance Dashboard",
-        "badge": "Planning",
-        "desc": "All due maintenance at a glance. Filter, search and Gantt chart for a complete overview of all assets.",
+        "title": "维护仪表板",
+        "badge": "计划",
+        "desc": "一眼查看所有到期维护。过滤器、搜索和甘特图，全面概览所有资产。",
         "points": [
-          "Task list: grouped by Overdue / This Week / 30 Days / Later",
-          "Gantt chart with heatmap (more intense the closer the date)",
-          "Search across all asset attributes (name, serial no., category, …)",
-          "Filter: urgency, category, entries per page",
-          "Time range filter controls Gantt view simultaneously",
-          "Pagination for large quantities"
+          "任务列表：按逾期/本周/30天/之后分组",
+          "带热图的甘特图（日期越近越深色）",
+          "跨所有资产属性搜索（名称、序列号、类别…）",
+          "过滤器：紧急程度、类别、每页条目数",
+          "时间范围过滤器同步控制甘特图视图",
+          "大量数据分页显示"
         ]
       },
       "f5": {
-        "title": "QR & NFC Scanner",
-        "badge": "Mobile",
-        "desc": "Access any asset instantly by scanning – no searching, no typing. Works with the browser camera, no app download needed.",
+        "title": "二维码和NFC扫描仪",
+        "badge": "移动",
+        "desc": "通过扫描立即访问任何资产 — 无需搜索，无需输入。使用浏览器摄像头，无需下载应用程序。",
         "points": [
-          "Scan QR code → open asset directly",
-          "Automatically generated QR code per asset",
-          "NFC tag UUID as fallback",
-          "Optimized for smartphone camera",
-          "QR code exportable as PDF/image"
+          "扫描二维码 → 直接打开资产",
+          "每个资产自动生成二维码",
+          "NFC标签UUID作为备用",
+          "针对智能手机摄像头优化",
+          "二维码可导出为PDF/图片"
         ]
       },
       "f6": {
-        "title": "Locations & Structure",
-        "badge": "Organization",
-        "desc": "Map your operational structure exactly: Location → Hall → Area. Each asset can be assigned to an area.",
+        "title": "位置和结构",
+        "badge": "组织",
+        "desc": "精确映射您的运营结构：位置 → 厂房 → 区域。每个资产可分配到一个区域。",
         "points": [
-          "3-level hierarchy: Location / Hall / Area",
-          "Any number of locations & halls",
-          "Complete location history",
-          "Free text input as alternative",
-          "Management under Organization"
+          "三级层次结构：位置/厂房/区域",
+          "无限数量的位置和厂房",
+          "完整的位置历史记录",
+          "自由文本输入作为备用",
+          "在组织下进行管理"
         ]
       },
       "f7": {
-        "title": "Teams & Roles",
-        "badge": "Access",
-        "desc": "Multiple employees, clear responsibilities. Invite colleagues and assign roles – each role sees and can do exactly what it should.",
+        "title": "团队和角色",
+        "badge": "访问",
+        "desc": "多名员工，明确的职责。邀请同事并分配角色 — 每个角色只能看到和做其应该做的事。",
         "points": [
-          "Admin: full access + user management",
-          "Technician: edit assets & service",
-          "Reader: view only, no changes",
-          "Create members directly (email + password)",
-          "Roles changeable at any time"
+          "管理员：完全访问权限 + 用户管理",
+          "技术员：编辑资产和服务",
+          "读者：仅查看，不能更改",
+          "直接创建成员（邮箱 + 密码）",
+          "角色可随时更改"
         ]
       },
       "f8": {
-        "title": "Documents",
-        "badge": "Data",
-        "desc": "Manuals, inspection reports, certificates – stored directly on the asset. Photos in the service log for complete documentation.",
+        "title": "文档",
+        "badge": "数据",
+        "desc": "手册、检查报告、证书 — 直接存储在资产中。服务日志中的照片用于完整记录。",
         "points": [
-          "PDF, images and other formats",
-          "Documents directly on the asset",
-          "Photos in service entry",
-          "Secure upload via Supabase Storage",
-          "Direct download link"
+          "PDF、图片和其他格式",
+          "文档直接存储在资产中",
+          "服务记录中的照片",
+          "通过Supabase Storage安全上传",
+          "直接下载链接"
         ]
       },
       "f9": {
-        "title": "QR Codes & NFC",
-        "badge": "Identification",
-        "desc": "Every asset automatically gets a unique QR code. Stick it on the device and scan it anytime for instant access.",
+        "title": "二维码和NFC",
+        "badge": "识别",
+        "desc": "每个资产自动获得唯一的二维码。将其贴在设备上，随时扫描即可立即访问。",
         "points": [
-          "Automatic generation on creation",
-          "Format: inoid.app/assets/{id}",
-          "QR code displayed directly in the app",
-          "UUID usable for NFC chips",
-          "Accessible without app via browser link"
+          "创建时自动生成",
+          "格式：inoid.app/assets/{id}",
+          "二维码直接显示在应用中",
+          "UUID可用于NFC芯片",
+          "无需应用程序，通过浏览器链接访问"
         ]
       }
     },
     "roles": {
-      "intro": "INOid uses three roles. Assign each employee the most restrictive appropriate role.",
-      "tip": "Manage roles under Teams → select member → change role. Add new members via Teams → open team → add member.",
+      "intro": "INOid使用三种角色。为每名员工分配最严格的适当角色。",
+      "tip": "在团队 → 选择成员 → 更改角色下管理角色。通过团队 → 打开团队 → 添加成员来添加新成员。",
       "r1": {
-        "name": "Admin",
+        "name": "管理员",
         "points": [
-          "Read & edit everything",
-          "Create & delete assets",
-          "Create & manage members",
-          "Assign roles",
-          "Change settings"
+          "读取和编辑所有内容",
+          "创建和删除资产",
+          "创建和管理成员",
+          "分配角色",
+          "更改设置"
         ]
       },
       "r2": {
-        "name": "Technician",
+        "name": "技术员",
         "points": [
-          "View all assets",
-          "Edit assets & service log",
-          "Create service entries",
-          "Maintain intervals",
-          "No team management"
+          "查看所有资产",
+          "编辑资产和服务日志",
+          "创建服务记录",
+          "维护间隔",
+          "无团队管理权限"
         ]
       },
       "r3": {
-        "name": "Reader",
+        "name": "读者",
         "points": [
-          "View all assets",
-          "Read service log",
-          "No editing rights",
-          "No create/delete",
-          "Ideal for auditors & external parties"
+          "查看所有资产",
+          "读取服务日志",
+          "无编辑权限",
+          "无创建/删除权限",
+          "适合审计人员和外部人员"
         ]
       }
     },
     "plans": {
-      "intro": "INOid offers four plans. Payment is by bank transfer – no subscription trap, no credit card required. After payment you receive a code by email that you redeem directly.",
-      "h1": "Available Plans",
-      "h2": "How booking works",
-      "perMonth": "excl. VAT/month",
-      "tip": "Activation code: The code is automatically sent by email to all Admins after payment. Make sure at least one admin has a reachable email address.",
+      "intro": "INOid提供四种方案。通过银行转账付款 — 无订阅陷阱，无信用卡要求。付款后您将收到一封包含激活码的电子邮件，可立即使用。",
+      "h1": "可用方案",
+      "h2": "订购流程",
+      "perMonth": "不含税/月",
+      "tip": "激活码：付款后，代码将自动通过电子邮件发送给所有管理员。确保至少有一名管理员拥有可访问的电子邮件地址。",
       "cta": "前往订阅",
       "t1": {
         "points": [
-          "5 Assets",
-          "1 User",
-          "Service Log",
-          "QR Scanner"
+          "5个资产",
+          "1个用户",
+          "服务日志",
+          "二维码扫描仪"
         ]
       },
       "t2": {
         "points": [
-          "50 Assets",
-          "Up to 5 users",
-          "Maintenance intervals",
-          "Location management",
-          "Document upload"
+          "50个资产",
+          "最多5名用户",
+          "维护间隔",
+          "位置管理",
+          "文档上传"
         ]
       },
       "t3": {
         "points": [
-          "200 Assets",
-          "Up to 20 users",
-          "All Starter features",
-          "Teams & Roles",
-          "Advanced analytics"
+          "200个资产",
+          "最多20名用户",
+          "所有Starter功能",
+          "团队和角色",
+          "高级分析"
         ]
       },
       "t4": {
         "points": [
-          "Unlimited Assets",
-          "Unlimited users",
-          "All Professional features",
-          "Priority Support",
-          "Custom adaptations"
+          "无限资产",
+          "无限用户",
+          "所有Professional功能",
+          "优先支持",
+          "个性化定制"
         ]
       },
       "bs1": {
-        "title": "Choose plan",
-        "desc": "Go to Subscription (Sidebar → Organization). Choose your plan and click \"Create Invoice\"."
+        "title": "选择方案",
+        "desc": "转到订阅（侧边栏 → 组织）。选择所需方案并点击\"创建发票\"。"
       },
       "bs2": {
-        "title": "Fill in & download invoice",
-        "desc": "Fill in the billing address (name/company, street, postcode/city, country, VAT ID optional). The invoice is shown immediately and can be printed."
+        "title": "填写并下载发票",
+        "desc": "填写账单地址（姓名/公司、街道、邮政编码/城市、国家、增值税号可选）。发票立即显示，可以打印。"
       },
       "bs3": {
-        "title": "Transfer payment",
-        "desc": "Transfer the invoice amount to the specified bank account (Inomet GmbH). Use the invoice number as payment reference."
+        "title": "进行转账",
+        "desc": "将发票金额转至指定银行账户（Inomet GmbH）。使用发票号码作为付款用途。"
       },
       "bs4": {
-        "title": "Receive activation code",
-        "desc": "After payment you automatically receive a 9-digit activation code by email to all admins of your organization."
+        "title": "收取激活码",
+        "desc": "付款后，您的组织的所有管理员将自动收到一封包含9位激活码的电子邮件。"
       },
       "bs5": {
-        "title": "Redeem code & activate plan",
-        "desc": "Go back to Subscription, enter the code in the \"Redeem activation code\" field and click \"Activate\". The plan is active immediately."
+        "title": "兑换激活码并激活方案",
+        "desc": "返回订阅，在\"兑换激活码\"字段中输入代码，然后点击\"激活\"。方案立即生效。"
       }
     },
     "tips": {
-      "intro": "Pro tips for getting the most out of INOid.",
-      "t1": "Duplicating assets saves time when recording identical devices.",
-      "t2": "Done early? Just tap the green checkmark button in the maintenance dashboard – the next date is calculated automatically.",
-      "t3": "Assign each employee the most restrictive role – Reader for external auditors.",
-      "t4": "INOid runs as a PWA: add a home screen link on your smartphone for an app-like feel.",
-      "t5": "Check the maintenance dashboard daily – overdue intervals are marked in red.",
+      "intro": "充分利用INOid的专业建议。",
+      "t1": "复制资产可节省录入相同设备的时间。",
+      "t2": "提前完成了吗？只需点击维护仪表板上的绿色对勾按钮 — 下一个日期将自动计算。",
+      "t3": "为每名员工分配最严格的角色 — 外部审计人员使用读者角色。",
+      "t4": "INOid作为PWA运行：在智能手机主屏幕添加快捷方式，获得类似应用的体验。",
+      "t5": "每天检查维护仪表板 — 逾期间隔以红色标记。",
       "navTitle": "桌面导航",
       "nav": [
         {
-          "a": "Assets",
-          "b": "Left sidebar → Assets"
+          "a": "资产",
+          "b": "左侧边栏 → 资产"
         },
         {
-          "a": "Scan",
-          "b": "Left sidebar → Scan"
+          "a": "扫描",
+          "b": "左侧边栏 → 扫描"
         },
         {
-          "a": "Maintenance",
-          "b": "Left sidebar → Maintenance & Service"
+          "a": "维护",
+          "b": "左侧边栏 → 维护和服务"
         },
         {
-          "a": "Profile",
-          "b": "Left sidebar → Profile & Settings"
+          "a": "个人资料",
+          "b": "左侧边栏 → 个人资料和设置"
         }
       ],
       "contactTitle": "还有问题？",
-      "contactDesc": "Contact your administrator or reach INOid support directly via Inomet GmbH."
+      "contactDesc": "联系您的管理员或通过Inomet GmbH直接联系INOid支持团队。"
     }
   },
   "eventTypes": {

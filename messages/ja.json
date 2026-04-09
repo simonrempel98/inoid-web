@@ -798,16 +798,16 @@
     "title": "ドキュメント",
     "back": "戻る",
     "hero": {
-      "eyebrow": "INOid · Documentation",
-      "h1a": "Everything you",
-      "h1b": "need to know.",
-      "sub": "INOid is your digital asset management system — from commissioning to decommissioning. Ready in 5 minutes.",
+      "eyebrow": "INOid · ドキュメント",
+      "h1a": "知っておくべき",
+      "h1b": "すべてのこと。",
+      "sub": "INOidは、委託から廃棄まで対応するデジタル資産管理システムです。5分で準備完了。",
       "s1val": "5 min",
-      "s1label": "to the first asset",
+      "s1label": "最初の資産まで",
       "s2val": "8+",
-      "s2label": "feature areas",
+      "s2label": "機能エリア",
       "s3val": "100%",
-      "s3label": "browser-based"
+      "s3label": "ブラウザベース"
     },
     "tabs": {
       "start": "クイックスタート",
@@ -817,258 +817,258 @@
       "tips": "ヒント"
     },
     "qs": {
-      "intro": "Four steps to master the essentials of INOid.",
+      "intro": "INOidの基礎を習得するための4つのステップ。",
       "open": "開く",
       "demoTitle": "Demo Tour",
-      "demoSub": "Walkthrough video coming soon",
-      "s1title": "Create asset",
-      "s1desc": "Go to Assets → tap \"+ New\". Add title, category, photos and technical data.",
-      "s2title": "Scan QR code",
-      "s2desc": "Press the scan button in the center of the navigation. The camera opens immediately.",
-      "s3title": "Create service entry",
-      "s3desc": "Open an asset → Service log → \"+ Entry\". Document maintenance, repairs and inspections.",
-      "s4title": "Set up maintenance interval",
-      "s4desc": "In the service log → \"+ Interval\". Choose an interval (weekly to 2-yearly) and set the next due date."
+      "demoSub": "ウォークスルー動画は近日公開予定",
+      "s1title": "資産を作成",
+      "s1desc": "資産に移動 → \"+ 新規\"をタップ。タイトル、カテゴリ、写真、技術データを追加します。",
+      "s2title": "QRコードをスキャン",
+      "s2desc": "ナビゲーション中央のスキャンボタンを押します。カメラがすぐに起動します。",
+      "s3title": "サービス記録を作成",
+      "s3desc": "資産を開く → サービスログ → \"+ 記録\"。メンテナンス、修理、点検を記録します。",
+      "s4title": "メンテナンス間隔を設定",
+      "s4desc": "サービスログで → \"+ 間隔\"。間隔を選択（毎週から2年ごとまで）し、次の期日を設定します。"
     },
     "feat": {
-      "intro": "Tap a feature to see details.",
+      "intro": "機能をタップして詳細を確認してください。",
       "f1": {
-        "title": "Asset Management",
-        "badge": "Core",
-        "desc": "All equipment in one place. Each asset gets a unique ID, photos, technical & commercial master data, and an automatically generated QR code.",
+        "title": "資産管理",
+        "badge": "コア",
+        "desc": "すべての設備を一か所で管理。各資産は一意のID、写真、技術・商業基本データ、自動生成されたQRコードを取得します。",
         "points": [
-          "Photos, serial number, article number",
-          "Technical & commercial data freely definable",
-          "Status: Active, Defective, In Maintenance, Decommissioned + custom",
-          "Duplicate asset for fast serial entry",
-          "Location assignment with full history"
+          "写真、シリアル番号、品番",
+          "技術データと商業データを自由に定義可能",
+          "ステータス：稼働中、不良、メンテナンス中、廃棄済み + カスタム",
+          "シリアル登録の高速化のための資産複製",
+          "完全な履歴付きの場所割り当て"
         ]
       },
       "f2": {
-        "title": "Service Log",
-        "badge": "Core",
-        "desc": "Complete documentation of all events on the asset – from inspection to incident. Attach photos and documents directly.",
+        "title": "サービスログ",
+        "badge": "コア",
+        "desc": "資産上のすべてのイベントの完全な記録 — 検査から事故まで。写真やドキュメントを直接添付できます。",
         "points": [
-          "10 system types + custom types (Settings → Event Types)",
-          "Attach photos & PDF documents",
-          "Costs, performed by, external company",
-          "Monthly grouped timeline",
-          "Maintenance plan as Gantt chart in service log"
+          "10種類のシステムタイプ + カスタムタイプ（設定 → イベントタイプ）",
+          "写真とPDFドキュメントの添付",
+          "コスト、実施者、外部企業",
+          "月別にグループ化されたタイムライン",
+          "サービスログ内のガントチャートとしてのメンテナンス計画"
         ]
       },
       "f3": {
-        "title": "Maintenance Intervals & Checklists",
-        "badge": "Planning",
-        "desc": "Never miss recurring appointments. Define intervals per asset, add step-by-step checklists and keep track of all due dates.",
+        "title": "メンテナンス間隔とチェックリスト",
+        "badge": "計画",
+        "desc": "繰り返しタスクを忘れないようにしましょう。資産ごとに間隔を定義し、ステップバイステップのチェックリストを追加し、すべての期限を管理します。",
         "points": [
-          "Presets: weekly, monthly, quarterly, …",
-          "Custom interval in days",
-          "Automatic calculation of next date",
-          "Create checklist per interval (unlimited steps)",
-          "Checklist appears on completion for ticking off",
-          "Mark maintenance as done from list or Gantt",
-          "Next date automatically advanced on completion"
+          "プリセット：毎週、毎月、四半期ごと…",
+          "日数によるカスタム間隔",
+          "次の日付の自動計算",
+          "間隔ごとにチェックリストを作成（無制限のステップ数）",
+          "完了時にチェックリストが表示される",
+          "リストまたはガントからメンテナンスを完了済みとしてマーク",
+          "完了時に次の日付が自動的に繰り越される"
         ]
       },
       "f4": {
-        "title": "Maintenance Dashboard",
-        "badge": "Planning",
-        "desc": "All due maintenance at a glance. Filter, search and Gantt chart for a complete overview of all assets.",
+        "title": "メンテナンスダッシュボード",
+        "badge": "計画",
+        "desc": "期限切れのメンテナンスをひと目で確認。フィルター、検索、ガントチャートですべての資産の全体像を把握できます。",
         "points": [
-          "Task list: grouped by Overdue / This Week / 30 Days / Later",
-          "Gantt chart with heatmap (more intense the closer the date)",
-          "Search across all asset attributes (name, serial no., category, …)",
-          "Filter: urgency, category, entries per page",
-          "Time range filter controls Gantt view simultaneously",
-          "Pagination for large quantities"
+          "タスクリスト：期限切れ/今週/30日/それ以降でグループ化",
+          "ヒートマップ付きガントチャート（日付が近いほど濃く表示）",
+          "すべての資産属性を横断検索（名前、シリアル番号、カテゴリ等）",
+          "フィルター：緊急度、カテゴリ、ページごとのエントリ数",
+          "時間範囲フィルターがガントビューを同時に制御",
+          "大量データのページ分割"
         ]
       },
       "f5": {
-        "title": "QR & NFC Scanner",
-        "badge": "Mobile",
-        "desc": "Access any asset instantly by scanning – no searching, no typing. Works with the browser camera, no app download needed.",
+        "title": "QRおよびNFCスキャナー",
+        "badge": "モバイル",
+        "desc": "スキャンするだけでどの資産にも即座にアクセス — 検索不要、入力不要。ブラウザカメラで動作し、アプリのダウンロードは不要です。",
         "points": [
-          "Scan QR code → open asset directly",
-          "Automatically generated QR code per asset",
-          "NFC tag UUID as fallback",
-          "Optimized for smartphone camera",
-          "QR code exportable as PDF/image"
+          "QRコードをスキャン → 直接資産を開く",
+          "資産ごとに自動生成されたQRコード",
+          "バックアップとしてのNFCタグUUID",
+          "スマートフォンカメラ向けに最適化",
+          "QRコードをPDF/画像としてエクスポート可能"
         ]
       },
       "f6": {
-        "title": "Locations & Structure",
-        "badge": "Organization",
-        "desc": "Map your operational structure exactly: Location → Hall → Area. Each asset can be assigned to an area.",
+        "title": "場所と構造",
+        "badge": "組織",
+        "desc": "運営構造を正確にマッピング：場所 → ホール → エリア。各資産はエリアに割り当てることができます。",
         "points": [
-          "3-level hierarchy: Location / Hall / Area",
-          "Any number of locations & halls",
-          "Complete location history",
-          "Free text input as alternative",
-          "Management under Organization"
+          "3段階の階層：場所/ホール/エリア",
+          "無制限の場所とホール",
+          "完全な場所履歴",
+          "代替としての自由テキスト入力",
+          "組織の下で管理"
         ]
       },
       "f7": {
-        "title": "Teams & Roles",
-        "badge": "Access",
-        "desc": "Multiple employees, clear responsibilities. Invite colleagues and assign roles – each role sees and can do exactly what it should.",
+        "title": "チームと役割",
+        "badge": "アクセス",
+        "desc": "複数の従業員、明確な責任。同僚を招待して役割を割り当て — 各役割は自分がすべきことだけを見て実行できます。",
         "points": [
-          "Admin: full access + user management",
-          "Technician: edit assets & service",
-          "Reader: view only, no changes",
-          "Create members directly (email + password)",
-          "Roles changeable at any time"
+          "管理者：フルアクセス + ユーザー管理",
+          "技術者：資産とサービスを編集",
+          "閲覧者：表示のみ、変更不可",
+          "メンバーを直接作成（メール + パスワード）",
+          "役割はいつでも変更可能"
         ]
       },
       "f8": {
-        "title": "Documents",
-        "badge": "Data",
-        "desc": "Manuals, inspection reports, certificates – stored directly on the asset. Photos in the service log for complete documentation.",
+        "title": "ドキュメント",
+        "badge": "データ",
+        "desc": "マニュアル、検査レポート、証明書 — 資産に直接保存。完全な記録のためのサービスログの写真。",
         "points": [
-          "PDF, images and other formats",
-          "Documents directly on the asset",
-          "Photos in service entry",
-          "Secure upload via Supabase Storage",
-          "Direct download link"
+          "PDF、画像、その他のフォーマット",
+          "資産に直接ドキュメントを保存",
+          "サービス記録の写真",
+          "Supabase Storageによる安全なアップロード",
+          "直接ダウンロードリンク"
         ]
       },
       "f9": {
-        "title": "QR Codes & NFC",
-        "badge": "Identification",
-        "desc": "Every asset automatically gets a unique QR code. Stick it on the device and scan it anytime for instant access.",
+        "title": "QRコードとNFC",
+        "badge": "識別",
+        "desc": "各資産は自動的に一意のQRコードを取得します。デバイスに貼り付け、いつでもスキャンして即座にアクセスできます。",
         "points": [
-          "Automatic generation on creation",
-          "Format: inoid.app/assets/{id}",
-          "QR code displayed directly in the app",
-          "UUID usable for NFC chips",
-          "Accessible without app via browser link"
+          "作成時に自動生成",
+          "形式：inoid.app/assets/{id}",
+          "QRコードがアプリに直接表示",
+          "NFCチップにUUIDを使用可能",
+          "ブラウザリンクからアプリなしでアクセス可能"
         ]
       }
     },
     "roles": {
-      "intro": "INOid uses three roles. Assign each employee the most restrictive appropriate role.",
-      "tip": "Manage roles under Teams → select member → change role. Add new members via Teams → open team → add member.",
+      "intro": "INOidは3つの役割を使用します。各従業員に最も制限の厳しい適切な役割を割り当ててください。",
+      "tip": "チーム → メンバーを選択 → 役割を変更で役割を管理します。チーム → チームを開く → メンバーを追加から新しいメンバーを追加します。",
       "r1": {
-        "name": "Admin",
+        "name": "管理者",
         "points": [
-          "Read & edit everything",
-          "Create & delete assets",
-          "Create & manage members",
-          "Assign roles",
-          "Change settings"
+          "すべてを読み取り・編集",
+          "資産の作成と削除",
+          "メンバーの作成と管理",
+          "役割の割り当て",
+          "設定の変更"
         ]
       },
       "r2": {
-        "name": "Technician",
+        "name": "技術者",
         "points": [
-          "View all assets",
-          "Edit assets & service log",
-          "Create service entries",
-          "Maintain intervals",
-          "No team management"
+          "すべての資産を表示",
+          "資産とサービスログを編集",
+          "サービス記録を作成",
+          "間隔の維持",
+          "チーム管理なし"
         ]
       },
       "r3": {
-        "name": "Reader",
+        "name": "閲覧者",
         "points": [
-          "View all assets",
-          "Read service log",
-          "No editing rights",
-          "No create/delete",
-          "Ideal for auditors & external parties"
+          "すべての資産を表示",
+          "サービスログを読む",
+          "編集権限なし",
+          "作成/削除なし",
+          "監査員や外部関係者に最適"
         ]
       }
     },
     "plans": {
-      "intro": "INOid offers four plans. Payment is by bank transfer – no subscription trap, no credit card required. After payment you receive a code by email that you redeem directly.",
-      "h1": "Available Plans",
-      "h2": "How booking works",
-      "perMonth": "excl. VAT/month",
-      "tip": "Activation code: The code is automatically sent by email to all Admins after payment. Make sure at least one admin has a reachable email address.",
+      "intro": "INOidは4つのプランを提供しています。支払いは銀行振込で行われます — サブスクリプションの罠なし、クレジットカード不要。支払い後、メールでコードを受け取り、すぐに利用できます。",
+      "h1": "利用可能なプラン",
+      "h2": "注文の仕組み",
+      "perMonth": "税別/月",
+      "tip": "アクティベーションコード：支払い後、コードはすべての管理者に自動的にメールで送信されます。少なくとも1人の管理者が有効なメールアドレスを持っていることを確認してください。",
       "cta": "サブスクリプションへ",
       "t1": {
         "points": [
-          "5 Assets",
-          "1 User",
-          "Service Log",
-          "QR Scanner"
+          "資産5件",
+          "ユーザー1人",
+          "サービスログ",
+          "QRスキャナー"
         ]
       },
       "t2": {
         "points": [
-          "50 Assets",
-          "Up to 5 users",
-          "Maintenance intervals",
-          "Location management",
-          "Document upload"
+          "資産50件",
+          "最大5ユーザー",
+          "メンテナンス間隔",
+          "場所管理",
+          "ドキュメントアップロード"
         ]
       },
       "t3": {
         "points": [
-          "200 Assets",
-          "Up to 20 users",
-          "All Starter features",
-          "Teams & Roles",
-          "Advanced analytics"
+          "資産200件",
+          "最大20ユーザー",
+          "Starterのすべての機能",
+          "チームと役割",
+          "高度な分析"
         ]
       },
       "t4": {
         "points": [
-          "Unlimited Assets",
-          "Unlimited users",
-          "All Professional features",
-          "Priority Support",
-          "Custom adaptations"
+          "無制限の資産",
+          "無制限のユーザー",
+          "Professionalのすべての機能",
+          "優先サポート",
+          "個別カスタマイズ"
         ]
       },
       "bs1": {
-        "title": "Choose plan",
-        "desc": "Go to Subscription (Sidebar → Organization). Choose your plan and click \"Create Invoice\"."
+        "title": "プランを選択",
+        "desc": "サブスクリプション（サイドバー → 組織）に移動します。希望のプランを選択し、\"請求書を作成\"をクリックします。"
       },
       "bs2": {
-        "title": "Fill in & download invoice",
-        "desc": "Fill in the billing address (name/company, street, postcode/city, country, VAT ID optional). The invoice is shown immediately and can be printed."
+        "title": "請求書を記入してダウンロード",
+        "desc": "請求先住所を入力します（氏名/会社名、番地、郵便番号/市区町村、国、消費税番号は任意）。請求書はすぐに表示され、印刷できます。"
       },
       "bs3": {
-        "title": "Transfer payment",
-        "desc": "Transfer the invoice amount to the specified bank account (Inomet GmbH). Use the invoice number as payment reference."
+        "title": "振込を実行",
+        "desc": "請求金額を指定の銀行口座（Inomet GmbH）に振り込んでください。振込名義として請求書番号を使用してください。"
       },
       "bs4": {
-        "title": "Receive activation code",
-        "desc": "After payment you automatically receive a 9-digit activation code by email to all admins of your organization."
+        "title": "アクティベーションコードを受け取る",
+        "desc": "支払い後、組織のすべての管理者に9桁のアクティベーションコードが自動的にメールで送られます。"
       },
       "bs5": {
-        "title": "Redeem code & activate plan",
-        "desc": "Go back to Subscription, enter the code in the \"Redeem activation code\" field and click \"Activate\". The plan is active immediately."
+        "title": "コードを使用してプランを有効化",
+        "desc": "サブスクリプションに戻り、\"アクティベーションコードを使用\"フィールドにコードを入力し、\"有効化\"をクリックします。プランはすぐに有効になります。"
       }
     },
     "tips": {
-      "intro": "Pro tips for getting the most out of INOid.",
-      "t1": "Duplicating assets saves time when recording identical devices.",
-      "t2": "Done early? Just tap the green checkmark button in the maintenance dashboard – the next date is calculated automatically.",
-      "t3": "Assign each employee the most restrictive role – Reader for external auditors.",
-      "t4": "INOid runs as a PWA: add a home screen link on your smartphone for an app-like feel.",
-      "t5": "Check the maintenance dashboard daily – overdue intervals are marked in red.",
+      "intro": "INOidを最大限に活用するためのプロのヒント。",
+      "t1": "資産を複製することで、同一デバイスの登録時間を節約できます。",
+      "t2": "早めに完了しましたか？メンテナンスダッシュボードの緑のチェックマークボタンをタップするだけ — 次の日付は自動的に計算されます。",
+      "t3": "各従業員に最も制限の厳しい役割を割り当てましょう — 外部監査員には閲覧者を。",
+      "t4": "INOidはPWAとして動作します：スマートフォンのホーム画面にリンクを追加してアプリのような体験を。",
+      "t5": "メンテナンスダッシュボードを毎日確認してください — 期限切れの間隔は赤でマークされます。",
       "navTitle": "デスクトップナビゲーション",
       "nav": [
         {
-          "a": "Assets",
-          "b": "Left sidebar → Assets"
+          "a": "資産",
+          "b": "左サイドバー → 資産"
         },
         {
-          "a": "Scan",
-          "b": "Left sidebar → Scan"
+          "a": "スキャン",
+          "b": "左サイドバー → スキャン"
         },
         {
-          "a": "Maintenance",
-          "b": "Left sidebar → Maintenance & Service"
+          "a": "メンテナンス",
+          "b": "左サイドバー → メンテナンスとサービス"
         },
         {
-          "a": "Profile",
-          "b": "Left sidebar → Profile & Settings"
+          "a": "プロフィール",
+          "b": "左サイドバー → プロフィールと設定"
         }
       ],
       "contactTitle": "まだ質問がありますか？",
-      "contactDesc": "Contact your administrator or reach INOid support directly via Inomet GmbH."
+      "contactDesc": "管理者に連絡するか、Inomet GmbHを通じてINOidサポートに直接お問い合わせください。"
     }
   },
   "eventTypes": {

@@ -798,16 +798,16 @@
     "title": "Dokumentace",
     "back": "Zpět",
     "hero": {
-      "eyebrow": "INOid · Documentation",
-      "h1a": "Everything you",
-      "h1b": "need to know.",
-      "sub": "INOid is your digital asset management system — from commissioning to decommissioning. Ready in 5 minutes.",
+      "eyebrow": "INOid · Dokumentace",
+      "h1a": "Vše, co",
+      "h1b": "potřebujete vědět.",
+      "sub": "INOid je váš digitální systém správy aktiv — od uvedení do provozu po vyřazení. Připraveno za 5 minut.",
       "s1val": "5 min",
-      "s1label": "to the first asset",
+      "s1label": "do prvního aktiva",
       "s2val": "8+",
-      "s2label": "feature areas",
+      "s2label": "funkční oblasti",
       "s3val": "100%",
-      "s3label": "browser-based"
+      "s3label": "bez instalace aplikace"
     },
     "tabs": {
       "start": "Rychlý start",
@@ -817,258 +817,258 @@
       "tips": "Tipy"
     },
     "qs": {
-      "intro": "Four steps to master the essentials of INOid.",
+      "intro": "Čtyři kroky ke zvládnutí základů INOid.",
       "open": "Otevřít",
       "demoTitle": "Demo Tour",
-      "demoSub": "Walkthrough video coming soon",
-      "s1title": "Create asset",
-      "s1desc": "Go to Assets → tap \"+ New\". Add title, category, photos and technical data.",
-      "s2title": "Scan QR code",
-      "s2desc": "Press the scan button in the center of the navigation. The camera opens immediately.",
-      "s3title": "Create service entry",
-      "s3desc": "Open an asset → Service log → \"+ Entry\". Document maintenance, repairs and inspections.",
-      "s4title": "Set up maintenance interval",
-      "s4desc": "In the service log → \"+ Interval\". Choose an interval (weekly to 2-yearly) and set the next due date."
+      "demoSub": "Video průvodce brzy k dispozici",
+      "s1title": "Vytvořit aktivum",
+      "s1desc": "Přejděte do Aktiv → klepněte na \"+ Nové\". Přidejte název, kategorii, fotografie a technická data.",
+      "s2title": "Naskenovat QR kód",
+      "s2desc": "Stiskněte tlačítko skenování uprostřed navigace. Kamera se okamžitě otevře.",
+      "s3title": "Vytvořit záznam servisu",
+      "s3desc": "Otevřete aktivum → Servisní deník → \"+ Záznam\". Dokumentujte údržbu, opravy a inspekce.",
+      "s4title": "Nastavit interval údržby",
+      "s4desc": "V servisním deníku → \"+ Interval\". Vyberte interval (týdně až 2 roky) a nastavte příští termín."
     },
     "feat": {
-      "intro": "Tap a feature to see details.",
+      "intro": "Klepněte na funkci pro zobrazení podrobností.",
       "f1": {
-        "title": "Asset Management",
-        "badge": "Core",
-        "desc": "All equipment in one place. Each asset gets a unique ID, photos, technical & commercial master data, and an automatically generated QR code.",
+        "title": "Správa aktiv",
+        "badge": "Základ",
+        "desc": "Veškeré vybavení na jednom místě. Každé aktivum dostane jedinečné ID, fotografie, technická a obchodní kmenová data a automaticky vygenerovaný QR kód.",
         "points": [
-          "Photos, serial number, article number",
-          "Technical & commercial data freely definable",
-          "Status: Active, Defective, In Maintenance, Decommissioned + custom",
-          "Duplicate asset for fast serial entry",
-          "Location assignment with full history"
+          "Fotografie, sériové číslo, číslo artiklu",
+          "Technická a obchodní data volně definovatelná",
+          "Stav: Aktivní, Vadný, V servisu, Vyřazen + vlastní",
+          "Duplikovat aktivum pro rychlou sériovou registraci",
+          "Přiřazení polohy s kompletní historií"
         ]
       },
       "f2": {
-        "title": "Service Log",
-        "badge": "Core",
-        "desc": "Complete documentation of all events on the asset – from inspection to incident. Attach photos and documents directly.",
+        "title": "Servisní deník",
+        "badge": "Základ",
+        "desc": "Kompletní dokumentace všech událostí aktiva — od inspekce po incident. Přikládat fotografie a dokumenty přímo.",
         "points": [
-          "10 system types + custom types (Settings → Event Types)",
-          "Attach photos & PDF documents",
-          "Costs, performed by, external company",
-          "Monthly grouped timeline",
-          "Maintenance plan as Gantt chart in service log"
+          "10 systémových typů + vlastní typy (Nastavení → Typy událostí)",
+          "Přikládat fotografie a PDF dokumenty",
+          "Náklady, prováděcí osoba, externí firma",
+          "Časová osa seskupená po měsících",
+          "Plán údržby jako Ganttův diagram v servisním deníku"
         ]
       },
       "f3": {
-        "title": "Maintenance Intervals & Checklists",
-        "badge": "Planning",
-        "desc": "Never miss recurring appointments. Define intervals per asset, add step-by-step checklists and keep track of all due dates.",
+        "title": "Intervaly údržby a kontrolní seznamy",
+        "badge": "Plánování",
+        "desc": "Nikdy nezapomenout na opakující se úkoly. Definujte intervaly pro každé aktivum, přidejte postupné kontrolní seznamy a sledujte všechny termíny.",
         "points": [
-          "Presets: weekly, monthly, quarterly, …",
-          "Custom interval in days",
-          "Automatic calculation of next date",
-          "Create checklist per interval (unlimited steps)",
-          "Checklist appears on completion for ticking off",
-          "Mark maintenance as done from list or Gantt",
-          "Next date automatically advanced on completion"
+          "Přednastavení: týdně, měsíčně, čtvrtletně, …",
+          "Vlastní interval ve dnech",
+          "Automatický výpočet příštího data",
+          "Vytvořit kontrolní seznam pro interval (neomezený počet kroků)",
+          "Kontrolní seznam se zobrazí při dokončení k zaškrtnutí",
+          "Označit údržbu jako hotovou ze seznamu nebo Ganttu",
+          "Příští datum se při dokončení automaticky posune"
         ]
       },
       "f4": {
-        "title": "Maintenance Dashboard",
-        "badge": "Planning",
-        "desc": "All due maintenance at a glance. Filter, search and Gantt chart for a complete overview of all assets.",
+        "title": "Přehled údržby",
+        "badge": "Plánování",
+        "desc": "Veškerá splatná údržba na první pohled. Filtr, vyhledávání a Ganttův diagram pro kompletní přehled všech aktiv.",
         "points": [
-          "Task list: grouped by Overdue / This Week / 30 Days / Later",
-          "Gantt chart with heatmap (more intense the closer the date)",
-          "Search across all asset attributes (name, serial no., category, …)",
-          "Filter: urgency, category, entries per page",
-          "Time range filter controls Gantt view simultaneously",
-          "Pagination for large quantities"
+          "Seznam úkolů: seskupený po Splatné / Tento týden / 30 dní / Později",
+          "Ganttův diagram s teplotní mapou (intenzivnější čím blíže je datum)",
+          "Vyhledávání přes všechny atributy aktiva (název, sériové č., kategorie, …)",
+          "Filtr: naléhavost, kategorie, záznamy na stránku",
+          "Filtr časového rozsahu řídí zobrazení Ganttu současně",
+          "Stránkování pro velké množství"
         ]
       },
       "f5": {
-        "title": "QR & NFC Scanner",
-        "badge": "Mobile",
-        "desc": "Access any asset instantly by scanning – no searching, no typing. Works with the browser camera, no app download needed.",
+        "title": "QR a NFC skener",
+        "badge": "Mobilní",
+        "desc": "Okamžitý přístup k libovolnému aktivu skenováním — žádné hledání, žádné psaní. Funguje s kamerou prohlížeče, stahování aplikace není nutné.",
         "points": [
-          "Scan QR code → open asset directly",
-          "Automatically generated QR code per asset",
-          "NFC tag UUID as fallback",
-          "Optimized for smartphone camera",
-          "QR code exportable as PDF/image"
+          "Skenovat QR kód → otevřít aktivum přímo",
+          "Automaticky vygenerovaný QR kód pro každé aktivum",
+          "UUID NFC štítku jako záloha",
+          "Optimalizováno pro kameru smartphonu",
+          "QR kód exportovatelný jako PDF/obrázek"
         ]
       },
       "f6": {
-        "title": "Locations & Structure",
-        "badge": "Organization",
-        "desc": "Map your operational structure exactly: Location → Hall → Area. Each asset can be assigned to an area.",
+        "title": "Umístění a struktura",
+        "badge": "Organizace",
+        "desc": "Přesně zmapujte provozní strukturu: Umístění → Hala → Oblast. Každé aktivum lze přiřadit oblasti.",
         "points": [
-          "3-level hierarchy: Location / Hall / Area",
-          "Any number of locations & halls",
-          "Complete location history",
-          "Free text input as alternative",
-          "Management under Organization"
+          "3-úrovňová hierarchie: Umístění / Hala / Oblast",
+          "Libovolný počet umístění a hal",
+          "Kompletní historie umístění",
+          "Volný textový vstup jako alternativa",
+          "Správa v sekci Organizace"
         ]
       },
       "f7": {
-        "title": "Teams & Roles",
-        "badge": "Access",
-        "desc": "Multiple employees, clear responsibilities. Invite colleagues and assign roles – each role sees and can do exactly what it should.",
+        "title": "Týmy a role",
+        "badge": "Přístup",
+        "desc": "Více zaměstnanců, jasné odpovědnosti. Pozvěte kolegy a přiřaďte role — každá role vidí a může dělat přesně to, co má.",
         "points": [
-          "Admin: full access + user management",
-          "Technician: edit assets & service",
-          "Reader: view only, no changes",
-          "Create members directly (email + password)",
-          "Roles changeable at any time"
+          "Administrátor: plný přístup + správa uživatelů",
+          "Technik: editovat aktiva a servis",
+          "Čtenář: pouze zobrazení, žádné změny",
+          "Vytvářet členy přímo (e-mail + heslo)",
+          "Role lze kdykoli změnit"
         ]
       },
       "f8": {
-        "title": "Documents",
+        "title": "Dokumenty",
         "badge": "Data",
-        "desc": "Manuals, inspection reports, certificates – stored directly on the asset. Photos in the service log for complete documentation.",
+        "desc": "Návody, protokoly z inspekcí, certifikáty — uloženy přímo u aktiva. Fotografie v servisním deníku pro kompletní dokumentaci.",
         "points": [
-          "PDF, images and other formats",
-          "Documents directly on the asset",
-          "Photos in service entry",
-          "Secure upload via Supabase Storage",
-          "Direct download link"
+          "PDF, obrázky a další formáty",
+          "Dokumenty přímo u aktiva",
+          "Fotografie v záznamu servisu",
+          "Bezpečné nahrávání přes Supabase Storage",
+          "Přímý odkaz ke stažení"
         ]
       },
       "f9": {
-        "title": "QR Codes & NFC",
-        "badge": "Identification",
-        "desc": "Every asset automatically gets a unique QR code. Stick it on the device and scan it anytime for instant access.",
+        "title": "QR kódy a NFC",
+        "badge": "Identifikace",
+        "desc": "Každé aktivum automaticky dostane jedinečný QR kód. Přilepte ho na zařízení a kdykoli ho naskenujte pro okamžitý přístup.",
         "points": [
-          "Automatic generation on creation",
-          "Format: inoid.app/assets/{id}",
-          "QR code displayed directly in the app",
-          "UUID usable for NFC chips",
-          "Accessible without app via browser link"
+          "Automatické generování při vytvoření",
+          "Formát: inoid.app/assets/{id}",
+          "QR kód zobrazen přímo v aplikaci",
+          "UUID použitelné pro NFC čipy",
+          "Přístupné bez aplikace přes odkaz v prohlížeči"
         ]
       }
     },
     "roles": {
-      "intro": "INOid uses three roles. Assign each employee the most restrictive appropriate role.",
-      "tip": "Manage roles under Teams → select member → change role. Add new members via Teams → open team → add member.",
+      "intro": "INOid používá tři role. Přiřaďte každému zaměstnanci nejrestriktivnější vhodnou roli.",
+      "tip": "Spravujte role v sekci Týmy → vyberte člena → změňte roli. Přidávejte nové členy přes Týmy → otevřít tým → přidat člena.",
       "r1": {
-        "name": "Admin",
+        "name": "Administrátor",
         "points": [
-          "Read & edit everything",
-          "Create & delete assets",
-          "Create & manage members",
-          "Assign roles",
-          "Change settings"
+          "Číst a editovat vše",
+          "Vytvářet a mazat aktiva",
+          "Vytvářet a spravovat členy",
+          "Přiřazovat role",
+          "Měnit nastavení"
         ]
       },
       "r2": {
-        "name": "Technician",
+        "name": "Technik",
         "points": [
-          "View all assets",
-          "Edit assets & service log",
-          "Create service entries",
-          "Maintain intervals",
-          "No team management"
+          "Zobrazit všechna aktiva",
+          "Editovat aktiva a servisní deník",
+          "Vytvářet záznamy servisu",
+          "Udržovat intervaly",
+          "Bez správy týmu"
         ]
       },
       "r3": {
-        "name": "Reader",
+        "name": "Čtenář",
         "points": [
-          "View all assets",
-          "Read service log",
-          "No editing rights",
-          "No create/delete",
-          "Ideal for auditors & external parties"
+          "Zobrazit všechna aktiva",
+          "Číst servisní deník",
+          "Bez práv editace",
+          "Bez vytváření/mazání",
+          "Ideální pro auditory a externí osoby"
         ]
       }
     },
     "plans": {
-      "intro": "INOid offers four plans. Payment is by bank transfer – no subscription trap, no credit card required. After payment you receive a code by email that you redeem directly.",
-      "h1": "Available Plans",
-      "h2": "How booking works",
-      "perMonth": "excl. VAT/month",
-      "tip": "Activation code: The code is automatically sent by email to all Admins after payment. Make sure at least one admin has a reachable email address.",
+      "intro": "INOid nabízí čtyři plány. Platba probíhá bankovním převodem — žádná past předplatného, žádný požadavek na kreditní kartu. Po platbě obdržíte kód e-mailem, který ihned uplatníte.",
+      "h1": "Dostupné plány",
+      "h2": "Jak funguje objednávání",
+      "perMonth": "bez DPH/měs.",
+      "tip": "Aktivační kód: Kód je automaticky odeslán e-mailem všem administrátorům po platbě. Ujistěte se, že alespoň jeden administrátor má dostupnou e-mailovou adresu.",
       "cta": "Na předplatné",
       "t1": {
         "points": [
-          "5 Assets",
-          "1 User",
-          "Service Log",
-          "QR Scanner"
+          "5 aktiv",
+          "1 uživatel",
+          "Servisní deník",
+          "QR skener"
         ]
       },
       "t2": {
         "points": [
-          "50 Assets",
-          "Up to 5 users",
-          "Maintenance intervals",
-          "Location management",
-          "Document upload"
+          "50 aktiv",
+          "Až 5 uživatelů",
+          "Intervaly údržby",
+          "Správa umístění",
+          "Nahrávání dokumentů"
         ]
       },
       "t3": {
         "points": [
-          "200 Assets",
-          "Up to 20 users",
-          "All Starter features",
-          "Teams & Roles",
-          "Advanced analytics"
+          "200 aktiv",
+          "Až 20 uživatelů",
+          "Všechny funkce Starter",
+          "Týmy a role",
+          "Pokročilá analytika"
         ]
       },
       "t4": {
         "points": [
-          "Unlimited Assets",
-          "Unlimited users",
-          "All Professional features",
-          "Priority Support",
-          "Custom adaptations"
+          "Neomezená aktiva",
+          "Neomezení uživatelé",
+          "Všechny funkce Professional",
+          "Prioritní podpora",
+          "Individuální úpravy"
         ]
       },
       "bs1": {
-        "title": "Choose plan",
-        "desc": "Go to Subscription (Sidebar → Organization). Choose your plan and click \"Create Invoice\"."
+        "title": "Vyberte plán",
+        "desc": "Přejděte do Předplatné (Postranní panel → Organizace). Vyberte požadovaný plán a klikněte na \"Vytvořit fakturu\"."
       },
       "bs2": {
-        "title": "Fill in & download invoice",
-        "desc": "Fill in the billing address (name/company, street, postcode/city, country, VAT ID optional). The invoice is shown immediately and can be printed."
+        "title": "Vyplňte a stáhněte fakturu",
+        "desc": "Vyplňte fakturační adresu (jméno/firma, ulice, PSČ/město, země, DIČ volitelně). Faktura se ihned zobrazí a lze ji vytisknout."
       },
       "bs3": {
-        "title": "Transfer payment",
-        "desc": "Transfer the invoice amount to the specified bank account (Inomet GmbH). Use the invoice number as payment reference."
+        "title": "Proveďte převod",
+        "desc": "Převeďte částku faktury na uvedený bankovní účet (Inomet GmbH). Použijte číslo faktury jako variabilní symbol."
       },
       "bs4": {
-        "title": "Receive activation code",
-        "desc": "After payment you automatically receive a 9-digit activation code by email to all admins of your organization."
+        "title": "Obdržte aktivační kód",
+        "desc": "Po platbě automaticky obdržíte 9místný aktivační kód e-mailem všem administrátorům vaší organizace."
       },
       "bs5": {
-        "title": "Redeem code & activate plan",
-        "desc": "Go back to Subscription, enter the code in the \"Redeem activation code\" field and click \"Activate\". The plan is active immediately."
+        "title": "Uplatněte kód a aktivujte plán",
+        "desc": "Vraťte se do Předplatné, zadejte kód do pole \"Uplatnit aktivační kód\" a klikněte na \"Aktivovat\". Plán je okamžitě aktivní."
       }
     },
     "tips": {
-      "intro": "Pro tips for getting the most out of INOid.",
-      "t1": "Duplicating assets saves time when recording identical devices.",
-      "t2": "Done early? Just tap the green checkmark button in the maintenance dashboard – the next date is calculated automatically.",
-      "t3": "Assign each employee the most restrictive role – Reader for external auditors.",
-      "t4": "INOid runs as a PWA: add a home screen link on your smartphone for an app-like feel.",
-      "t5": "Check the maintenance dashboard daily – overdue intervals are marked in red.",
+      "intro": "Profesionální tipy pro maximální využití INOid.",
+      "t1": "Duplikování aktiv šetří čas při registraci identických zařízení.",
+      "t2": "Hotovo dříve? Stačí klepnout na zelené tlačítko se zaškrtnutím v přehledu údržby — příští datum se vypočítá automaticky.",
+      "t3": "Přiřaďte každému zaměstnanci nejrestriktivnější roli — Čtenář pro externí auditory.",
+      "t4": "INOid funguje jako PWA: přidejte odkaz na domovskou obrazovku smartphonu pro pocit aplikace.",
+      "t5": "Každodenně kontrolujte přehled údržby — prošlé intervaly jsou označeny červeně.",
       "navTitle": "Navigace na ploše",
       "nav": [
         {
-          "a": "Assets",
-          "b": "Left sidebar → Assets"
+          "a": "Aktiva",
+          "b": "Levý postranní panel → Aktiva"
         },
         {
-          "a": "Scan",
-          "b": "Left sidebar → Scan"
+          "a": "Skenování",
+          "b": "Levý postranní panel → Skenování"
         },
         {
-          "a": "Maintenance",
-          "b": "Left sidebar → Maintenance & Service"
+          "a": "Údržba",
+          "b": "Levý postranní panel → Údržba a Servis"
         },
         {
-          "a": "Profile",
-          "b": "Left sidebar → Profile & Settings"
+          "a": "Profil",
+          "b": "Levý postranní panel → Profil a Nastavení"
         }
       ],
       "contactTitle": "Máte další otázky?",
-      "contactDesc": "Contact your administrator or reach INOid support directly via Inomet GmbH."
+      "contactDesc": "Obraťte se na svého administrátora nebo kontaktujte podporu INOid přímo přes Inomet GmbH."
     }
   },
   "eventTypes": {

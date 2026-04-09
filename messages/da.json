@@ -798,16 +798,16 @@
     "title": "Dokumentation",
     "back": "Tilbage",
     "hero": {
-      "eyebrow": "INOid · Documentation",
-      "h1a": "Everything you",
-      "h1b": "need to know.",
-      "sub": "INOid is your digital asset management system — from commissioning to decommissioning. Ready in 5 minutes.",
+      "eyebrow": "INOid · Dokumentation",
+      "h1a": "Alt, du",
+      "h1b": "behøver at vide.",
+      "sub": "INOid er dit digitale driftsmiddelstyringssystem — fra idriftsættelse til udfasning. Klar på 5 minutter.",
       "s1val": "5 min",
-      "s1label": "to the first asset",
+      "s1label": "til første aktiv",
       "s2val": "8+",
-      "s2label": "feature areas",
+      "s2label": "funktionsområder",
       "s3val": "100%",
-      "s3label": "browser-based"
+      "s3label": "browserbaseret"
     },
     "tabs": {
       "start": "Hurtig start",
@@ -817,258 +817,258 @@
       "tips": "Tips"
     },
     "qs": {
-      "intro": "Four steps to master the essentials of INOid.",
+      "intro": "Fire trin til at mestre det væsentlige i INOid.",
       "open": "Åbn",
       "demoTitle": "Demo Tour",
-      "demoSub": "Walkthrough video coming soon",
-      "s1title": "Create asset",
-      "s1desc": "Go to Assets → tap \"+ New\". Add title, category, photos and technical data.",
-      "s2title": "Scan QR code",
-      "s2desc": "Press the scan button in the center of the navigation. The camera opens immediately.",
-      "s3title": "Create service entry",
-      "s3desc": "Open an asset → Service log → \"+ Entry\". Document maintenance, repairs and inspections.",
-      "s4title": "Set up maintenance interval",
-      "s4desc": "In the service log → \"+ Interval\". Choose an interval (weekly to 2-yearly) and set the next due date."
+      "demoSub": "Gennemgangsvideo kommer snart",
+      "s1title": "Opret aktiv",
+      "s1desc": "Gå til Aktiver → tryk på \"+ Ny\". Tilføj titel, kategori, fotos og tekniske data.",
+      "s2title": "Scan QR-kode",
+      "s2desc": "Tryk på scan-knappen midt i navigationen. Kameraet åbner øjeblikkeligt.",
+      "s3title": "Opret serviceopslag",
+      "s3desc": "Åbn et aktiv → Servicejournal → \"+ Opslag\". Dokumenter vedligeholdelse, reparationer og inspektioner.",
+      "s4title": "Opsæt vedligeholdelsesinterval",
+      "s4desc": "I servicejournalen → \"+ Interval\". Vælg et interval (ugentligt til 2-årligt) og sæt næste forfaldsdato."
     },
     "feat": {
-      "intro": "Tap a feature to see details.",
+      "intro": "Tryk på en funktion for at se detaljer.",
       "f1": {
-        "title": "Asset Management",
-        "badge": "Core",
-        "desc": "All equipment in one place. Each asset gets a unique ID, photos, technical & commercial master data, and an automatically generated QR code.",
+        "title": "Aktivstyring",
+        "badge": "Kerne",
+        "desc": "Alt udstyr ét sted. Hvert aktiv får et unikt ID, fotos, tekniske og kommercielle stamdata samt en automatisk genereret QR-kode.",
         "points": [
-          "Photos, serial number, article number",
-          "Technical & commercial data freely definable",
-          "Status: Active, Defective, In Maintenance, Decommissioned + custom",
-          "Duplicate asset for fast serial entry",
-          "Location assignment with full history"
+          "Fotos, serienummer, artikelnummer",
+          "Tekniske og kommercielle data frit definerbare",
+          "Status: Aktiv, Defekt, Under vedligeholdelse, Udfaset + egne",
+          "Dupliker aktiv for hurtig serieregistrering",
+          "Stedsangivelse med fuld historik"
         ]
       },
       "f2": {
-        "title": "Service Log",
-        "badge": "Core",
-        "desc": "Complete documentation of all events on the asset – from inspection to incident. Attach photos and documents directly.",
+        "title": "Servicejournal",
+        "badge": "Kerne",
+        "desc": "Komplet dokumentation af alle hændelser på aktivet — fra inspektion til hændelse. Vedhæft fotos og dokumenter direkte.",
         "points": [
-          "10 system types + custom types (Settings → Event Types)",
-          "Attach photos & PDF documents",
-          "Costs, performed by, external company",
-          "Monthly grouped timeline",
-          "Maintenance plan as Gantt chart in service log"
+          "10 systemtyper + egne typer (Indstillinger → Hændelsestyper)",
+          "Vedhæft fotos og PDF-dokumenter",
+          "Omkostninger, udført af, eksternt firma",
+          "Månedsopdelt tidslinje",
+          "Vedligeholdelsesplan som Gantt-diagram i servicejournalen"
         ]
       },
       "f3": {
-        "title": "Maintenance Intervals & Checklists",
-        "badge": "Planning",
-        "desc": "Never miss recurring appointments. Define intervals per asset, add step-by-step checklists and keep track of all due dates.",
+        "title": "Vedligeholdelsesintervaller og tjeklister",
+        "badge": "Planlægning",
+        "desc": "Glem aldrig tilbagevendende aftaler. Definer intervaller pr. aktiv, tilføj trin-for-trin tjeklister og hold styr på alle forfaldsdatoer.",
         "points": [
-          "Presets: weekly, monthly, quarterly, …",
-          "Custom interval in days",
-          "Automatic calculation of next date",
-          "Create checklist per interval (unlimited steps)",
-          "Checklist appears on completion for ticking off",
-          "Mark maintenance as done from list or Gantt",
-          "Next date automatically advanced on completion"
+          "Forudindstillinger: ugentlig, månedlig, kvartalsvis, …",
+          "Brugerdefineret interval i dage",
+          "Automatisk beregning af næste dato",
+          "Opret tjekliste pr. interval (ubegrænsede trin)",
+          "Tjekliste vises ved afslutning til afkrydsning",
+          "Marker vedligeholdelse som udført fra liste eller Gantt",
+          "Næste dato rykkes automatisk frem ved afslutning"
         ]
       },
       "f4": {
-        "title": "Maintenance Dashboard",
-        "badge": "Planning",
-        "desc": "All due maintenance at a glance. Filter, search and Gantt chart for a complete overview of all assets.",
+        "title": "Vedligeholdelses-dashboard",
+        "badge": "Planlægning",
+        "desc": "Al forfaldent vedligeholdelse på ét overblik. Filter, søgning og Gantt-diagram for komplet overblik over alle aktiver.",
         "points": [
-          "Task list: grouped by Overdue / This Week / 30 Days / Later",
-          "Gantt chart with heatmap (more intense the closer the date)",
-          "Search across all asset attributes (name, serial no., category, …)",
-          "Filter: urgency, category, entries per page",
-          "Time range filter controls Gantt view simultaneously",
-          "Pagination for large quantities"
+          "Opgaveliste: grupperet efter Forfaldent / Denne uge / 30 dage / Senere",
+          "Gantt-diagram med varmekort (mere intenst jo tættere datoen er)",
+          "Søg på tværs af alle aktivattributter (navn, serienr., kategori, …)",
+          "Filter: hastighed, kategori, poster pr. side",
+          "Tidsintervalfilter styrer Gantt-visning samtidig",
+          "Paginering for store mængder"
         ]
       },
       "f5": {
-        "title": "QR & NFC Scanner",
-        "badge": "Mobile",
-        "desc": "Access any asset instantly by scanning – no searching, no typing. Works with the browser camera, no app download needed.",
+        "title": "QR- og NFC-scanner",
+        "badge": "Mobil",
+        "desc": "Tilgå ethvert aktiv øjeblikkeligt ved scanning — ingen søgning, ingen tastetryk. Fungerer med browserkameraet, ingen app-download nødvendig.",
         "points": [
-          "Scan QR code → open asset directly",
-          "Automatically generated QR code per asset",
-          "NFC tag UUID as fallback",
-          "Optimized for smartphone camera",
-          "QR code exportable as PDF/image"
+          "Scan QR-kode → åbn aktiv direkte",
+          "Automatisk genereret QR-kode pr. aktiv",
+          "NFC-tag UUID som reserve",
+          "Optimeret til smartphone-kamera",
+          "QR-kode kan eksporteres som PDF/billede"
         ]
       },
       "f6": {
-        "title": "Locations & Structure",
-        "badge": "Organization",
-        "desc": "Map your operational structure exactly: Location → Hall → Area. Each asset can be assigned to an area.",
+        "title": "Steder og struktur",
+        "badge": "Organisation",
+        "desc": "Kortlæg din driftsstruktur præcist: Sted → Hal → Område. Hvert aktiv kan tildeles et område.",
         "points": [
-          "3-level hierarchy: Location / Hall / Area",
-          "Any number of locations & halls",
-          "Complete location history",
-          "Free text input as alternative",
-          "Management under Organization"
+          "3-niveau hierarki: Sted / Hal / Område",
+          "Vilkårligt antal steder og haller",
+          "Komplet stedshistorik",
+          "Fritekstindtastning som alternativ",
+          "Administration under Organisation"
         ]
       },
       "f7": {
-        "title": "Teams & Roles",
-        "badge": "Access",
-        "desc": "Multiple employees, clear responsibilities. Invite colleagues and assign roles – each role sees and can do exactly what it should.",
+        "title": "Teams og roller",
+        "badge": "Adgang",
+        "desc": "Flere medarbejdere, klare ansvarsområder. Inviter kolleger og tildel roller — hver rolle ser og kan præcis det, den skal.",
         "points": [
-          "Admin: full access + user management",
-          "Technician: edit assets & service",
-          "Reader: view only, no changes",
-          "Create members directly (email + password)",
-          "Roles changeable at any time"
+          "Admin: fuld adgang + brugeradministration",
+          "Tekniker: rediger aktiver og service",
+          "Læser: kun visning, ingen ændringer",
+          "Opret medlemmer direkte (e-mail + adgangskode)",
+          "Roller kan ændres til enhver tid"
         ]
       },
       "f8": {
-        "title": "Documents",
+        "title": "Dokumenter",
         "badge": "Data",
-        "desc": "Manuals, inspection reports, certificates – stored directly on the asset. Photos in the service log for complete documentation.",
+        "desc": "Manualer, inspektionsrapporter, certifikater — gemt direkte på aktivet. Fotos i servicejournalen for komplet dokumentation.",
         "points": [
-          "PDF, images and other formats",
-          "Documents directly on the asset",
-          "Photos in service entry",
-          "Secure upload via Supabase Storage",
-          "Direct download link"
+          "PDF, billeder og andre formater",
+          "Dokumenter direkte på aktivet",
+          "Fotos i serviceopslag",
+          "Sikker upload via Supabase Storage",
+          "Direkte downloadlink"
         ]
       },
       "f9": {
-        "title": "QR Codes & NFC",
-        "badge": "Identification",
-        "desc": "Every asset automatically gets a unique QR code. Stick it on the device and scan it anytime for instant access.",
+        "title": "QR-koder og NFC",
+        "badge": "Identifikation",
+        "desc": "Hvert aktiv får automatisk en unik QR-kode. Klæb den på enheden og scan den når som helst for øjeblikkelig adgang.",
         "points": [
-          "Automatic generation on creation",
+          "Automatisk generering ved oprettelse",
           "Format: inoid.app/assets/{id}",
-          "QR code displayed directly in the app",
-          "UUID usable for NFC chips",
-          "Accessible without app via browser link"
+          "QR-kode vises direkte i appen",
+          "UUID kan bruges til NFC-chips",
+          "Tilgængelig uden app via browserlink"
         ]
       }
     },
     "roles": {
-      "intro": "INOid uses three roles. Assign each employee the most restrictive appropriate role.",
-      "tip": "Manage roles under Teams → select member → change role. Add new members via Teams → open team → add member.",
+      "intro": "INOid bruger tre roller. Tildel hver medarbejder den mest restriktive passende rolle.",
+      "tip": "Administrer roller under Teams → vælg medlem → skift rolle. Tilføj nye medlemmer via Teams → åbn team → tilføj medlem.",
       "r1": {
         "name": "Admin",
         "points": [
-          "Read & edit everything",
-          "Create & delete assets",
-          "Create & manage members",
-          "Assign roles",
-          "Change settings"
+          "Læs og rediger alt",
+          "Opret og slet aktiver",
+          "Opret og administrer medlemmer",
+          "Tildel roller",
+          "Skift indstillinger"
         ]
       },
       "r2": {
-        "name": "Technician",
+        "name": "Tekniker",
         "points": [
-          "View all assets",
-          "Edit assets & service log",
-          "Create service entries",
-          "Maintain intervals",
-          "No team management"
+          "Se alle aktiver",
+          "Rediger aktiver og servicejournal",
+          "Opret serviceopslag",
+          "Vedligehold intervaller",
+          "Ingen teamadministration"
         ]
       },
       "r3": {
-        "name": "Reader",
+        "name": "Læser",
         "points": [
-          "View all assets",
-          "Read service log",
-          "No editing rights",
-          "No create/delete",
-          "Ideal for auditors & external parties"
+          "Se alle aktiver",
+          "Læs servicejournal",
+          "Ingen redigeringsrettigheder",
+          "Ingen oprettelse/sletning",
+          "Ideel til revisorer og eksterne"
         ]
       }
     },
     "plans": {
-      "intro": "INOid offers four plans. Payment is by bank transfer – no subscription trap, no credit card required. After payment you receive a code by email that you redeem directly.",
-      "h1": "Available Plans",
-      "h2": "How booking works",
-      "perMonth": "excl. VAT/month",
-      "tip": "Activation code: The code is automatically sent by email to all Admins after payment. Make sure at least one admin has a reachable email address.",
+      "intro": "INOid tilbyder fire planer. Betaling sker via bankoverførsel — ingen abonnementsfælde, intet kreditkortkrav. Efter betaling modtager du en kode pr. e-mail, som du indløser direkte.",
+      "h1": "Tilgængelige planer",
+      "h2": "Sådan fungerer booking",
+      "perMonth": "ekskl. moms/md.",
+      "tip": "Aktiveringskode: Koden sendes automatisk pr. e-mail til alle admins efter betaling. Sørg for at mindst én admin har en aktiv e-mailadresse.",
       "cta": "Til abonnement",
       "t1": {
         "points": [
-          "5 Assets",
-          "1 User",
-          "Service Log",
-          "QR Scanner"
+          "5 aktiver",
+          "1 bruger",
+          "Servicejournal",
+          "QR-scanner"
         ]
       },
       "t2": {
         "points": [
-          "50 Assets",
-          "Up to 5 users",
-          "Maintenance intervals",
-          "Location management",
-          "Document upload"
+          "50 aktiver",
+          "Op til 5 brugere",
+          "Vedligeholdelsesintervaller",
+          "Stedsstyring",
+          "Dokumentupload"
         ]
       },
       "t3": {
         "points": [
-          "200 Assets",
-          "Up to 20 users",
-          "All Starter features",
-          "Teams & Roles",
-          "Advanced analytics"
+          "200 aktiver",
+          "Op til 20 brugere",
+          "Alle Starter-funktioner",
+          "Teams og roller",
+          "Avanceret analyse"
         ]
       },
       "t4": {
         "points": [
-          "Unlimited Assets",
-          "Unlimited users",
-          "All Professional features",
-          "Priority Support",
-          "Custom adaptations"
+          "Ubegrænsede aktiver",
+          "Ubegrænsede brugere",
+          "Alle Professional-funktioner",
+          "Prioritetssupport",
+          "Individuelle tilpasninger"
         ]
       },
       "bs1": {
-        "title": "Choose plan",
-        "desc": "Go to Subscription (Sidebar → Organization). Choose your plan and click \"Create Invoice\"."
+        "title": "Vælg plan",
+        "desc": "Gå til Abonnement (Sidebar → Organisation). Vælg din plan og klik på \"Opret faktura\"."
       },
       "bs2": {
-        "title": "Fill in & download invoice",
-        "desc": "Fill in the billing address (name/company, street, postcode/city, country, VAT ID optional). The invoice is shown immediately and can be printed."
+        "title": "Udfyld og download faktura",
+        "desc": "Udfyld faktureringsadressen (navn/firma, gade, postnummer/by, land, moms-ID valgfrit). Fakturaen vises straks og kan udskrives."
       },
       "bs3": {
-        "title": "Transfer payment",
-        "desc": "Transfer the invoice amount to the specified bank account (Inomet GmbH). Use the invoice number as payment reference."
+        "title": "Foretag overførsel",
+        "desc": "Overfør fakturabeløbet til den angivne bankkonto (Inomet GmbH). Brug fakturanummeret som betalingsreference."
       },
       "bs4": {
-        "title": "Receive activation code",
-        "desc": "After payment you automatically receive a 9-digit activation code by email to all admins of your organization."
+        "title": "Modtag aktiveringskode",
+        "desc": "Efter betaling modtager du automatisk en 9-cifret aktiveringskode pr. e-mail til alle admins i din organisation."
       },
       "bs5": {
-        "title": "Redeem code & activate plan",
-        "desc": "Go back to Subscription, enter the code in the \"Redeem activation code\" field and click \"Activate\". The plan is active immediately."
+        "title": "Indløs kode og aktiver plan",
+        "desc": "Gå tilbage til Abonnement, indtast koden i feltet \"Indløs aktiveringskode\" og klik på \"Aktiver\". Planen er aktiv med det samme."
       }
     },
     "tips": {
-      "intro": "Pro tips for getting the most out of INOid.",
-      "t1": "Duplicating assets saves time when recording identical devices.",
-      "t2": "Done early? Just tap the green checkmark button in the maintenance dashboard – the next date is calculated automatically.",
-      "t3": "Assign each employee the most restrictive role – Reader for external auditors.",
-      "t4": "INOid runs as a PWA: add a home screen link on your smartphone for an app-like feel.",
-      "t5": "Check the maintenance dashboard daily – overdue intervals are marked in red.",
+      "intro": "Pro-tips til at få mest muligt ud af INOid.",
+      "t1": "Dupliker aktiver sparer tid ved registrering af identiske enheder.",
+      "t2": "Færdig tidligt? Tryk bare på den grønne afkrydsningsknap i vedligeholdelses-dashboardet — næste dato beregnes automatisk.",
+      "t3": "Tildel hver medarbejder den mest restriktive rolle — Læser til eksterne revisorer.",
+      "t4": "INOid kører som PWA: tilføj et hjemskærmslink på din smartphone for en app-lignende oplevelse.",
+      "t5": "Tjek vedligeholdelses-dashboardet dagligt — forfaldne intervaller markeres med rødt.",
       "navTitle": "Desktop-navigation",
       "nav": [
         {
-          "a": "Assets",
-          "b": "Left sidebar → Assets"
+          "a": "Aktiver",
+          "b": "Venstre sidebar → Aktiver"
         },
         {
           "a": "Scan",
-          "b": "Left sidebar → Scan"
+          "b": "Venstre sidebar → Scan"
         },
         {
-          "a": "Maintenance",
-          "b": "Left sidebar → Maintenance & Service"
+          "a": "Vedligeholdelse",
+          "b": "Venstre sidebar → Vedligeholdelse og Service"
         },
         {
-          "a": "Profile",
-          "b": "Left sidebar → Profile & Settings"
+          "a": "Profil",
+          "b": "Venstre sidebar → Profil og Indstillinger"
         }
       ],
       "contactTitle": "Har du flere spørgsmål?",
-      "contactDesc": "Contact your administrator or reach INOid support directly via Inomet GmbH."
+      "contactDesc": "Kontakt din administrator eller nå INOid-support direkte via Inomet GmbH."
     }
   },
   "eventTypes": {

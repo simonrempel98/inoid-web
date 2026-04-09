@@ -798,16 +798,16 @@
     "title": "Dokumentáció",
     "back": "Vissza",
     "hero": {
-      "eyebrow": "INOid · Documentation",
-      "h1a": "Everything you",
-      "h1b": "need to know.",
-      "sub": "INOid is your digital asset management system — from commissioning to decommissioning. Ready in 5 minutes.",
+      "eyebrow": "INOid · Dokumentáció",
+      "h1a": "Minden, amit",
+      "h1b": "tudnia kell.",
+      "sub": "Az INOid az Ön digitális eszközkezelő rendszere — üzembe helyezéstől a kivonásig. 5 percen belül kész.",
       "s1val": "5 min",
-      "s1label": "to the first asset",
+      "s1label": "az első eszközig",
       "s2val": "8+",
-      "s2label": "feature areas",
+      "s2label": "funkcionális terület",
       "s3val": "100%",
-      "s3label": "browser-based"
+      "s3label": "böngészőalapú"
     },
     "tabs": {
       "start": "Gyors kezdés",
@@ -817,258 +817,258 @@
       "tips": "Tippek"
     },
     "qs": {
-      "intro": "Four steps to master the essentials of INOid.",
+      "intro": "Négy lépés az INOid alapjainak elsajátításához.",
       "open": "Megnyitás",
       "demoTitle": "Demo Tour",
-      "demoSub": "Walkthrough video coming soon",
-      "s1title": "Create asset",
-      "s1desc": "Go to Assets → tap \"+ New\". Add title, category, photos and technical data.",
-      "s2title": "Scan QR code",
-      "s2desc": "Press the scan button in the center of the navigation. The camera opens immediately.",
-      "s3title": "Create service entry",
-      "s3desc": "Open an asset → Service log → \"+ Entry\". Document maintenance, repairs and inspections.",
-      "s4title": "Set up maintenance interval",
-      "s4desc": "In the service log → \"+ Interval\". Choose an interval (weekly to 2-yearly) and set the next due date."
+      "demoSub": "Bemutató videó hamarosan",
+      "s1title": "Eszköz létrehozása",
+      "s1desc": "Ugrás az Eszközökhöz → koppintson a \"+ Új\" elemre. Adja hozzá a nevet, kategóriát, fényképeket és műszaki adatokat.",
+      "s2title": "QR-kód beolvasása",
+      "s2desc": "Nyomja meg a navigáció közepén lévő beolvasó gombot. A kamera azonnal megnyílik.",
+      "s3title": "Szervizrekord létrehozása",
+      "s3desc": "Nyisson meg egy eszközt → Szerviznapló → \"+ Bejegyzés\". Dokumentálja a karbantartást, javításokat és ellenőrzéseket.",
+      "s4title": "Karbantartási intervallum beállítása",
+      "s4desc": "A szerviznaplóban → \"+ Intervallum\". Válasszon intervallumot (heti-től 2 évente) és állítsa be a következő határidőt."
     },
     "feat": {
-      "intro": "Tap a feature to see details.",
+      "intro": "Koppintson egy funkcióra a részletek megtekintéséhez.",
       "f1": {
-        "title": "Asset Management",
-        "badge": "Core",
-        "desc": "All equipment in one place. Each asset gets a unique ID, photos, technical & commercial master data, and an automatically generated QR code.",
+        "title": "Eszközkezelés",
+        "badge": "Alap",
+        "desc": "Minden berendezés egy helyen. Minden eszköz egyedi azonosítót, fényképeket, műszaki és kereskedelmi törzsadatokat, valamint automatikusan generált QR-kódot kap.",
         "points": [
-          "Photos, serial number, article number",
-          "Technical & commercial data freely definable",
-          "Status: Active, Defective, In Maintenance, Decommissioned + custom",
-          "Duplicate asset for fast serial entry",
-          "Location assignment with full history"
+          "Fényképek, sorozatszám, cikkszám",
+          "Műszaki és kereskedelmi adatok szabadon meghatározhatók",
+          "Állapot: Aktív, Hibás, Szervizben, Kivont + saját",
+          "Eszköz másolása gyors sorozatregisztrációhoz",
+          "Helyszín hozzárendelése teljes előzménnyel"
         ]
       },
       "f2": {
-        "title": "Service Log",
-        "badge": "Core",
-        "desc": "Complete documentation of all events on the asset – from inspection to incident. Attach photos and documents directly.",
+        "title": "Szerviznapló",
+        "badge": "Alap",
+        "desc": "Az eszközzel kapcsolatos összes esemény teljes dokumentációja — az ellenőrzéstől az incidensig. Fényképeket és dokumentumokat közvetlenül csatolhat.",
         "points": [
-          "10 system types + custom types (Settings → Event Types)",
-          "Attach photos & PDF documents",
-          "Costs, performed by, external company",
-          "Monthly grouped timeline",
-          "Maintenance plan as Gantt chart in service log"
+          "10 rendszertípus + saját típusok (Beállítások → Eseménytípusok)",
+          "Fényképek és PDF-dokumentumok csatolása",
+          "Költségek, végrehajtó, külső cég",
+          "Havonta csoportosított idővonal",
+          "Karbantartási terv Gantt-diagramként a szerviznaplóban"
         ]
       },
       "f3": {
-        "title": "Maintenance Intervals & Checklists",
-        "badge": "Planning",
-        "desc": "Never miss recurring appointments. Define intervals per asset, add step-by-step checklists and keep track of all due dates.",
+        "title": "Karbantartási intervallumok és ellenőrző listák",
+        "badge": "Tervezés",
+        "desc": "Soha ne felejtse el az ismétlődő feladatokat. Adjon meg intervallumokat eszközönként, adjon hozzá lépésről lépésre ellenőrző listákat, és tartsa szemmel az összes határidőt.",
         "points": [
-          "Presets: weekly, monthly, quarterly, …",
-          "Custom interval in days",
-          "Automatic calculation of next date",
-          "Create checklist per interval (unlimited steps)",
-          "Checklist appears on completion for ticking off",
-          "Mark maintenance as done from list or Gantt",
-          "Next date automatically advanced on completion"
+          "Előbeállítások: hetente, havonta, negyedévente, …",
+          "Egyéni intervallum napokban",
+          "A következő dátum automatikus kiszámítása",
+          "Ellenőrző lista létrehozása intervallumhoz (korlátlan számú lépés)",
+          "Az ellenőrző lista befejezéskor megjelenik jelölésre",
+          "Karbantartás befejezettként jelölése listából vagy Gantt-ból",
+          "A következő dátum automatikusan előre tolódik befejezéskor"
         ]
       },
       "f4": {
-        "title": "Maintenance Dashboard",
-        "badge": "Planning",
-        "desc": "All due maintenance at a glance. Filter, search and Gantt chart for a complete overview of all assets.",
+        "title": "Karbantartási irányítópult",
+        "badge": "Tervezés",
+        "desc": "Minden esedékes karbantartás egy pillantással. Szűrő, keresés és Gantt-diagram az összes eszköz teljes áttekintéséhez.",
         "points": [
-          "Task list: grouped by Overdue / This Week / 30 Days / Later",
-          "Gantt chart with heatmap (more intense the closer the date)",
-          "Search across all asset attributes (name, serial no., category, …)",
-          "Filter: urgency, category, entries per page",
-          "Time range filter controls Gantt view simultaneously",
-          "Pagination for large quantities"
+          "Feladatlista: Lejárt / Ez a hét / 30 nap / Később szerint csoportosítva",
+          "Gantt-diagram hőtérképpel (intenzívebb minél közelebb van a dátum)",
+          "Keresés az összes eszközattribútumon (név, sorozatszám, kategória, …)",
+          "Szűrő: sürgősség, kategória, bejegyzések oldalanként",
+          "Időtartomány-szűrő egyszerre vezérli a Gantt-nézetet",
+          "Lapozás nagy mennyiségekhez"
         ]
       },
       "f5": {
-        "title": "QR & NFC Scanner",
-        "badge": "Mobile",
-        "desc": "Access any asset instantly by scanning – no searching, no typing. Works with the browser camera, no app download needed.",
+        "title": "QR- és NFC-olvasó",
+        "badge": "Mobil",
+        "desc": "Bármely eszköz azonnali elérése beolvasással — nincs keresés, nincs gépelés. Működik a böngésző kamerájával, alkalmazás letöltése nem szükséges.",
         "points": [
-          "Scan QR code → open asset directly",
-          "Automatically generated QR code per asset",
-          "NFC tag UUID as fallback",
-          "Optimized for smartphone camera",
-          "QR code exportable as PDF/image"
+          "QR-kód beolvasása → eszköz közvetlen megnyitása",
+          "Eszközönként automatikusan generált QR-kód",
+          "NFC-tag UUID tartalékként",
+          "Okostelefon-kamerára optimalizálva",
+          "QR-kód PDF/képként exportálható"
         ]
       },
       "f6": {
-        "title": "Locations & Structure",
-        "badge": "Organization",
-        "desc": "Map your operational structure exactly: Location → Hall → Area. Each asset can be assigned to an area.",
+        "title": "Helyszínek és struktúra",
+        "badge": "Szervezet",
+        "desc": "Pontosan leképezi az üzemi struktúrát: Helyszín → Csarnok → Terület. Minden eszköz hozzárendelhető egy területhez.",
         "points": [
-          "3-level hierarchy: Location / Hall / Area",
-          "Any number of locations & halls",
-          "Complete location history",
-          "Free text input as alternative",
-          "Management under Organization"
+          "3 szintű hierarchia: Helyszín / Csarnok / Terület",
+          "Tetszőleges számú helyszín és csarnok",
+          "Teljes helyszíntörténet",
+          "Szabad szöveges bevitel alternatívaként",
+          "Kezelés a Szervezet alatt"
         ]
       },
       "f7": {
-        "title": "Teams & Roles",
-        "badge": "Access",
-        "desc": "Multiple employees, clear responsibilities. Invite colleagues and assign roles – each role sees and can do exactly what it should.",
+        "title": "Csapatok és szerepek",
+        "badge": "Hozzáférés",
+        "desc": "Több alkalmazott, egyértelmű felelősségek. Hívja meg kollégáit és rendeljen szerepeket — minden szerep pontosan azt látja és tudja csinálni, amit kell.",
         "points": [
-          "Admin: full access + user management",
-          "Technician: edit assets & service",
-          "Reader: view only, no changes",
-          "Create members directly (email + password)",
-          "Roles changeable at any time"
+          "Adminisztrátor: teljes hozzáférés + felhasználókezelés",
+          "Technikus: eszközök és szerviz szerkesztése",
+          "Olvasó: csak megtekintés, nincs módosítás",
+          "Tagok közvetlen létrehozása (e-mail + jelszó)",
+          "Szerepek bármikor módosíthatók"
         ]
       },
       "f8": {
-        "title": "Documents",
-        "badge": "Data",
-        "desc": "Manuals, inspection reports, certificates – stored directly on the asset. Photos in the service log for complete documentation.",
+        "title": "Dokumentumok",
+        "badge": "Adat",
+        "desc": "Kézikönyvek, ellenőrzési jelentések, tanúsítványok — közvetlenül az eszköznél tárolva. Fényképek a szerviznaplóban a teljes dokumentációhoz.",
         "points": [
-          "PDF, images and other formats",
-          "Documents directly on the asset",
-          "Photos in service entry",
-          "Secure upload via Supabase Storage",
-          "Direct download link"
+          "PDF, képek és egyéb formátumok",
+          "Dokumentumok közvetlenül az eszköznél",
+          "Fényképek szervizrekordban",
+          "Biztonságos feltöltés a Supabase Storage-on keresztül",
+          "Közvetlen letöltési link"
         ]
       },
       "f9": {
-        "title": "QR Codes & NFC",
-        "badge": "Identification",
-        "desc": "Every asset automatically gets a unique QR code. Stick it on the device and scan it anytime for instant access.",
+        "title": "QR-kódok és NFC",
+        "badge": "Azonosítás",
+        "desc": "Minden eszköz automatikusan egyedi QR-kódot kap. Ragassza az eszközre, és bármikor beolvashatja az azonnali hozzáféréshez.",
         "points": [
-          "Automatic generation on creation",
-          "Format: inoid.app/assets/{id}",
-          "QR code displayed directly in the app",
-          "UUID usable for NFC chips",
-          "Accessible without app via browser link"
+          "Automatikus generálás létrehozáskor",
+          "Formátum: inoid.app/assets/{id}",
+          "QR-kód közvetlenül az alkalmazásban megjelenik",
+          "UUID NFC-chipekhez használható",
+          "Alkalmazás nélkül is elérhető böngészőlinken keresztül"
         ]
       }
     },
     "roles": {
-      "intro": "INOid uses three roles. Assign each employee the most restrictive appropriate role.",
-      "tip": "Manage roles under Teams → select member → change role. Add new members via Teams → open team → add member.",
+      "intro": "Az INOid három szerepet használ. Rendelje hozzá minden alkalmazotthoz a legkorlátozóbb megfelelő szerepet.",
+      "tip": "Kezelje a szerepeket a Csapatok → tag kiválasztása → szerep módosítása menüpontban. Új tagokat a Csapatok → csapat megnyitása → tag hozzáadása menüponton keresztül adhat hozzá.",
       "r1": {
-        "name": "Admin",
+        "name": "Adminisztrátor",
         "points": [
-          "Read & edit everything",
-          "Create & delete assets",
-          "Create & manage members",
-          "Assign roles",
-          "Change settings"
+          "Mindent olvasni és szerkeszteni",
+          "Eszközöket létrehozni és törölni",
+          "Tagokat létrehozni és kezelni",
+          "Szerepeket hozzárendelni",
+          "Beállításokat módosítani"
         ]
       },
       "r2": {
-        "name": "Technician",
+        "name": "Technikus",
         "points": [
-          "View all assets",
-          "Edit assets & service log",
-          "Create service entries",
-          "Maintain intervals",
-          "No team management"
+          "Az összes eszköz megtekintése",
+          "Eszközök és szerviznapló szerkesztése",
+          "Szervizrekordok létrehozása",
+          "Intervallumok karbantartása",
+          "Csapatkezelés nélkül"
         ]
       },
       "r3": {
-        "name": "Reader",
+        "name": "Olvasó",
         "points": [
-          "View all assets",
-          "Read service log",
-          "No editing rights",
-          "No create/delete",
-          "Ideal for auditors & external parties"
+          "Az összes eszköz megtekintése",
+          "Szerviznapló olvasása",
+          "Szerkesztési jogok nélkül",
+          "Létrehozás/törlés nélkül",
+          "Ideális auditorok és külső személyek számára"
         ]
       }
     },
     "plans": {
-      "intro": "INOid offers four plans. Payment is by bank transfer – no subscription trap, no credit card required. After payment you receive a code by email that you redeem directly.",
-      "h1": "Available Plans",
-      "h2": "How booking works",
-      "perMonth": "excl. VAT/month",
-      "tip": "Activation code: The code is automatically sent by email to all Admins after payment. Make sure at least one admin has a reachable email address.",
+      "intro": "Az INOid négy csomagot kínál. Fizetés banki átutalással történik — nincs előfizetési csapda, nincs hitelkártya-követelmény. Fizetés után e-mailben kap egy kódot, amelyet azonnal beválthat.",
+      "h1": "Elérhető csomagok",
+      "h2": "Hogyan működik a rendelés",
+      "perMonth": "ÁFA nélkül/hó",
+      "tip": "Aktiválási kód: A kód automatikusan e-mailben kerül elküldésre az összes adminisztrátornak fizetés után. Győződjön meg arról, hogy legalább egy adminisztrátornak van elérhető e-mail-címe.",
       "cta": "Előfizetéshez",
       "t1": {
         "points": [
-          "5 Assets",
-          "1 User",
-          "Service Log",
-          "QR Scanner"
+          "5 eszköz",
+          "1 felhasználó",
+          "Szerviznapló",
+          "QR-olvasó"
         ]
       },
       "t2": {
         "points": [
-          "50 Assets",
-          "Up to 5 users",
-          "Maintenance intervals",
-          "Location management",
-          "Document upload"
+          "50 eszköz",
+          "Legfeljebb 5 felhasználó",
+          "Karbantartási intervallumok",
+          "Helyszínkezelés",
+          "Dokumentum feltöltés"
         ]
       },
       "t3": {
         "points": [
-          "200 Assets",
-          "Up to 20 users",
-          "All Starter features",
-          "Teams & Roles",
-          "Advanced analytics"
+          "200 eszköz",
+          "Legfeljebb 20 felhasználó",
+          "Összes Starter funkció",
+          "Csapatok és szerepek",
+          "Speciális analitika"
         ]
       },
       "t4": {
         "points": [
-          "Unlimited Assets",
-          "Unlimited users",
-          "All Professional features",
-          "Priority Support",
-          "Custom adaptations"
+          "Korlátlan eszköz",
+          "Korlátlan felhasználó",
+          "Összes Professional funkció",
+          "Elsőbbségi támogatás",
+          "Egyéni testreszabások"
         ]
       },
       "bs1": {
-        "title": "Choose plan",
-        "desc": "Go to Subscription (Sidebar → Organization). Choose your plan and click \"Create Invoice\"."
+        "title": "Csomag kiválasztása",
+        "desc": "Menjen az Előfizetés menüpontra (Oldalsáv → Szervezet). Válassza ki a kívánt csomagot, és kattintson a \"Számla létrehozása\" gombra."
       },
       "bs2": {
-        "title": "Fill in & download invoice",
-        "desc": "Fill in the billing address (name/company, street, postcode/city, country, VAT ID optional). The invoice is shown immediately and can be printed."
+        "title": "Számla kitöltése és letöltése",
+        "desc": "Töltse ki a számlázási címet (név/cég, utca, irányítószám/város, ország, adószám opcionális). A számla azonnal megjelenik és kinyomtatható."
       },
       "bs3": {
-        "title": "Transfer payment",
-        "desc": "Transfer the invoice amount to the specified bank account (Inomet GmbH). Use the invoice number as payment reference."
+        "title": "Átutalás végrehajtása",
+        "desc": "Utalja át a számla összegét a megadott bankszámlára (Inomet GmbH). Közleményként adja meg a számlaszámot."
       },
       "bs4": {
-        "title": "Receive activation code",
-        "desc": "After payment you automatically receive a 9-digit activation code by email to all admins of your organization."
+        "title": "Aktiválási kód fogadása",
+        "desc": "Fizetés után automatikusan 9 jegyű aktiválási kódot kap e-mailben a szervezet összes adminisztrátorának."
       },
       "bs5": {
-        "title": "Redeem code & activate plan",
-        "desc": "Go back to Subscription, enter the code in the \"Redeem activation code\" field and click \"Activate\". The plan is active immediately."
+        "title": "Kód beváltása és csomag aktiválása",
+        "desc": "Térjen vissza az Előfizetéshez, írja be a kódot az \"Aktiválási kód beváltása\" mezőbe, és kattintson az \"Aktiválás\" gombra. A csomag azonnal aktív."
       }
     },
     "tips": {
-      "intro": "Pro tips for getting the most out of INOid.",
-      "t1": "Duplicating assets saves time when recording identical devices.",
-      "t2": "Done early? Just tap the green checkmark button in the maintenance dashboard – the next date is calculated automatically.",
-      "t3": "Assign each employee the most restrictive role – Reader for external auditors.",
-      "t4": "INOid runs as a PWA: add a home screen link on your smartphone for an app-like feel.",
-      "t5": "Check the maintenance dashboard daily – overdue intervals are marked in red.",
+      "intro": "Profi tippek az INOid maximális kihasználásához.",
+      "t1": "Az eszközök másolása időt takarít meg az azonos eszközök rögzítésekor.",
+      "t2": "Korábban végzett? Egyszerűen koppintson a zöld pipás gombra a karbantartási irányítópulton — a következő dátum automatikusan kiszámításra kerül.",
+      "t3": "Rendelje hozzá minden alkalmazotthoz a legkorlátozóbb szerepet — Olvasó a külső auditorok számára.",
+      "t4": "Az INOid PWA-ként fut: adjon hozzá egy kezdőképernyő-linket okostelefonjára az alkalmazásszerű élményért.",
+      "t5": "Naponta ellenőrizze a karbantartási irányítópultot — a lejárt intervallumok pirossal vannak jelölve.",
       "navTitle": "Asztali navigáció",
       "nav": [
         {
-          "a": "Assets",
-          "b": "Left sidebar → Assets"
+          "a": "Eszközök",
+          "b": "Bal oldalsáv → Eszközök"
         },
         {
-          "a": "Scan",
-          "b": "Left sidebar → Scan"
+          "a": "Beolvasás",
+          "b": "Bal oldalsáv → Beolvasás"
         },
         {
-          "a": "Maintenance",
-          "b": "Left sidebar → Maintenance & Service"
+          "a": "Karbantartás",
+          "b": "Bal oldalsáv → Karbantartás és szerviz"
         },
         {
-          "a": "Profile",
-          "b": "Left sidebar → Profile & Settings"
+          "a": "Profil",
+          "b": "Bal oldalsáv → Profil és beállítások"
         }
       ],
       "contactTitle": "Van még kérdése?",
-      "contactDesc": "Contact your administrator or reach INOid support directly via Inomet GmbH."
+      "contactDesc": "Forduljon adminisztrátorához, vagy vegye fel a kapcsolatot az INOid támogatással közvetlenül az Inomet GmbH-n keresztül."
     }
   },
   "eventTypes": {

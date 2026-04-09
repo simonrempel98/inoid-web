@@ -798,16 +798,16 @@
     "title": "Dokumentacija",
     "back": "Nazad",
     "hero": {
-      "eyebrow": "INOid · Documentation",
-      "h1a": "Everything you",
-      "h1b": "need to know.",
-      "sub": "INOid is your digital asset management system — from commissioning to decommissioning. Ready in 5 minutes.",
+      "eyebrow": "INOid · Dokumentacija",
+      "h1a": "Sve što",
+      "h1b": "treba da znate.",
+      "sub": "INOid je vaš digitalni sistem upravljanja sredstvima — od puštanja u rad do povlačenja. Spreman za 5 minuta.",
       "s1val": "5 min",
-      "s1label": "to the first asset",
+      "s1label": "do prvog sredstva",
       "s2val": "8+",
-      "s2label": "feature areas",
+      "s2label": "funkcionalne oblasti",
       "s3val": "100%",
-      "s3label": "browser-based"
+      "s3label": "zasnovano na pregledaču"
     },
     "tabs": {
       "start": "Brzi početak",
@@ -817,258 +817,258 @@
       "tips": "Saveti"
     },
     "qs": {
-      "intro": "Four steps to master the essentials of INOid.",
+      "intro": "Četiri koraka za savladavanje osnova INOid-a.",
       "open": "Otvori",
       "demoTitle": "Demo Tour",
-      "demoSub": "Walkthrough video coming soon",
-      "s1title": "Create asset",
-      "s1desc": "Go to Assets → tap \"+ New\". Add title, category, photos and technical data.",
-      "s2title": "Scan QR code",
-      "s2desc": "Press the scan button in the center of the navigation. The camera opens immediately.",
-      "s3title": "Create service entry",
-      "s3desc": "Open an asset → Service log → \"+ Entry\". Document maintenance, repairs and inspections.",
-      "s4title": "Set up maintenance interval",
-      "s4desc": "In the service log → \"+ Interval\". Choose an interval (weekly to 2-yearly) and set the next due date."
+      "demoSub": "Video vodič uskoro",
+      "s1title": "Kreiraj sredstvo",
+      "s1desc": "Idite na Sredstva → tapnite \"+ Novo\". Dodajte naslov, kategoriju, fotografije i tehničke podatke.",
+      "s2title": "Skeniraj QR kod",
+      "s2desc": "Pritisnite dugme za skeniranje u centru navigacije. Kamera se odmah otvara.",
+      "s3title": "Kreiraj zapis o servisu",
+      "s3desc": "Otvorite sredstvo → Servisni dnevnik → \"+ Zapis\". Dokumentujte održavanje, popravke i inspekcije.",
+      "s4title": "Postavite interval održavanja",
+      "s4desc": "U servisnom dnevniku → \"+ Interval\". Odaberite interval (nedeljno do 2 godine) i postavite sledeći rok."
     },
     "feat": {
-      "intro": "Tap a feature to see details.",
+      "intro": "Tapnite funkciju da vidite detalje.",
       "f1": {
-        "title": "Asset Management",
-        "badge": "Core",
-        "desc": "All equipment in one place. Each asset gets a unique ID, photos, technical & commercial master data, and an automatically generated QR code.",
+        "title": "Upravljanje sredstvima",
+        "badge": "Osnova",
+        "desc": "Sva oprema na jednom mestu. Svako sredstvo dobija jedinstveni ID, fotografije, tehničke i komercijalne osnovne podatke i automatski generisani QR kod.",
         "points": [
-          "Photos, serial number, article number",
-          "Technical & commercial data freely definable",
-          "Status: Active, Defective, In Maintenance, Decommissioned + custom",
-          "Duplicate asset for fast serial entry",
-          "Location assignment with full history"
+          "Fotografije, serijski broj, broj artikla",
+          "Tehnički i komercijalni podaci slobodno definisani",
+          "Status: Aktivan, Neispravan, U servisu, Povučen + sopstveni",
+          "Dupliraj sredstvo za brzu serijsku registraciju",
+          "Dodeljivanje lokacije sa kompletnom istorijom"
         ]
       },
       "f2": {
-        "title": "Service Log",
-        "badge": "Core",
-        "desc": "Complete documentation of all events on the asset – from inspection to incident. Attach photos and documents directly.",
+        "title": "Servisni dnevnik",
+        "badge": "Osnova",
+        "desc": "Potpuna dokumentacija svih događaja na sredstvu — od inspekcije do incidenta. Priložite fotografije i dokumente direktno.",
         "points": [
-          "10 system types + custom types (Settings → Event Types)",
-          "Attach photos & PDF documents",
-          "Costs, performed by, external company",
-          "Monthly grouped timeline",
-          "Maintenance plan as Gantt chart in service log"
+          "10 sistemskih tipova + sopstveni tipovi (Podešavanja → Tipovi događaja)",
+          "Prilaganje fotografija i PDF dokumenata",
+          "Troškovi, izvođač, spoljna kompanija",
+          "Hronologija grupisana po mesecima",
+          "Plan održavanja kao Gantt dijagram u servisnom dnevniku"
         ]
       },
       "f3": {
-        "title": "Maintenance Intervals & Checklists",
-        "badge": "Planning",
-        "desc": "Never miss recurring appointments. Define intervals per asset, add step-by-step checklists and keep track of all due dates.",
+        "title": "Intervali održavanja i kontrolne liste",
+        "badge": "Planiranje",
+        "desc": "Nikada ne zaboravite ponavljajuće zadatke. Definišite intervale po sredstvu, dodajte korak-po-korak kontrolne liste i pratite sve rokove.",
         "points": [
-          "Presets: weekly, monthly, quarterly, …",
-          "Custom interval in days",
-          "Automatic calculation of next date",
-          "Create checklist per interval (unlimited steps)",
-          "Checklist appears on completion for ticking off",
-          "Mark maintenance as done from list or Gantt",
-          "Next date automatically advanced on completion"
+          "Predešavanja: nedeljno, mesečno, kvartalno, …",
+          "Prilagođeni interval u danima",
+          "Automatski izračun sledećeg datuma",
+          "Kreiranje kontrolne liste po intervalu (neograničen broj koraka)",
+          "Kontrolna lista se prikazuje pri završetku za označavanje",
+          "Označi održavanje kao završeno iz liste ili Gant dijagrama",
+          "Sledeći datum se automatski pomera pri završetku"
         ]
       },
       "f4": {
-        "title": "Maintenance Dashboard",
-        "badge": "Planning",
-        "desc": "All due maintenance at a glance. Filter, search and Gantt chart for a complete overview of all assets.",
+        "title": "Kontrolna tabla održavanja",
+        "badge": "Planiranje",
+        "desc": "Svo dospelo održavanje na jednom pogledu. Filter, pretraga i Gantt dijagram za kompletan pregled svih sredstava.",
         "points": [
-          "Task list: grouped by Overdue / This Week / 30 Days / Later",
-          "Gantt chart with heatmap (more intense the closer the date)",
-          "Search across all asset attributes (name, serial no., category, …)",
-          "Filter: urgency, category, entries per page",
-          "Time range filter controls Gantt view simultaneously",
-          "Pagination for large quantities"
+          "Lista zadataka: grupisana po Dospelo / Ova nedelja / 30 dana / Kasnije",
+          "Gantt dijagram sa toplotnom mapom (intenzivniji što je datum bliži)",
+          "Pretraga po svim atributima sredstva (ime, serijski br., kategorija, …)",
+          "Filter: hitnost, kategorija, zapisa po stranici",
+          "Filter vremenskog raspona kontroliše Gantt prikaz istovremeno",
+          "Paginacija za velike količine"
         ]
       },
       "f5": {
-        "title": "QR & NFC Scanner",
-        "badge": "Mobile",
-        "desc": "Access any asset instantly by scanning – no searching, no typing. Works with the browser camera, no app download needed.",
+        "title": "QR i NFC skener",
+        "badge": "Mobilni",
+        "desc": "Trenutni pristup bilo kom sredstvu skeniranjem — bez pretrage, bez kucanja. Radi sa kamerom pregledača, nije potrebno preuzimanje aplikacije.",
         "points": [
-          "Scan QR code → open asset directly",
-          "Automatically generated QR code per asset",
-          "NFC tag UUID as fallback",
-          "Optimized for smartphone camera",
-          "QR code exportable as PDF/image"
+          "Skeniraj QR kod → otvori sredstvo direktno",
+          "Automatski generisani QR kod po sredstvu",
+          "UUID NFC oznake kao rezerva",
+          "Optimizovano za kameru pametnog telefona",
+          "QR kod se može izvesti kao PDF/slika"
         ]
       },
       "f6": {
-        "title": "Locations & Structure",
-        "badge": "Organization",
-        "desc": "Map your operational structure exactly: Location → Hall → Area. Each asset can be assigned to an area.",
+        "title": "Lokacije i struktura",
+        "badge": "Organizacija",
+        "desc": "Tačno mapirajte operativnu strukturu: Lokacija → Hala → Oblast. Svako sredstvo može biti dodeljeno oblasti.",
         "points": [
-          "3-level hierarchy: Location / Hall / Area",
-          "Any number of locations & halls",
-          "Complete location history",
-          "Free text input as alternative",
-          "Management under Organization"
+          "3-nivojna hijerarhija: Lokacija / Hala / Oblast",
+          "Neograničen broj lokacija i hala",
+          "Kompletna istorija lokacija",
+          "Slobodan unos teksta kao alternativa",
+          "Upravljanje pod Organizacija"
         ]
       },
       "f7": {
-        "title": "Teams & Roles",
-        "badge": "Access",
-        "desc": "Multiple employees, clear responsibilities. Invite colleagues and assign roles – each role sees and can do exactly what it should.",
+        "title": "Timovi i uloge",
+        "badge": "Pristup",
+        "desc": "Više zaposlenih, jasne odgovornosti. Pozovite kolege i dodelite uloge — svaka uloga vidi i može tačno ono što treba.",
         "points": [
-          "Admin: full access + user management",
-          "Technician: edit assets & service",
-          "Reader: view only, no changes",
-          "Create members directly (email + password)",
-          "Roles changeable at any time"
+          "Administrator: pun pristup + upravljanje korisnicima",
+          "Tehničar: uređivanje sredstava i servisa",
+          "Čitalac: samo pregled, bez izmena",
+          "Kreiranje članova direktno (email + lozinka)",
+          "Uloge se mogu menjati u bilo koje vreme"
         ]
       },
       "f8": {
-        "title": "Documents",
-        "badge": "Data",
-        "desc": "Manuals, inspection reports, certificates – stored directly on the asset. Photos in the service log for complete documentation.",
+        "title": "Dokumenti",
+        "badge": "Podaci",
+        "desc": "Uputstva, izveštaji o inspekcijama, sertifikati — smešteni direktno uz sredstvo. Fotografije u servisnom dnevniku za kompletnu dokumentaciju.",
         "points": [
-          "PDF, images and other formats",
-          "Documents directly on the asset",
-          "Photos in service entry",
-          "Secure upload via Supabase Storage",
-          "Direct download link"
+          "PDF, slike i drugi formati",
+          "Dokumenti direktno uz sredstvo",
+          "Fotografije u zapisu o servisu",
+          "Bezbedno otpremanje preko Supabase Storage",
+          "Direktna veza za preuzimanje"
         ]
       },
       "f9": {
-        "title": "QR Codes & NFC",
-        "badge": "Identification",
-        "desc": "Every asset automatically gets a unique QR code. Stick it on the device and scan it anytime for instant access.",
+        "title": "QR kodovi i NFC",
+        "badge": "Identifikacija",
+        "desc": "Svako sredstvo automatski dobija jedinstveni QR kod. Nalepite ga na uređaj i skenirajte ga u bilo koje vreme za trenutni pristup.",
         "points": [
-          "Automatic generation on creation",
+          "Automatsko generisanje pri kreiranju",
           "Format: inoid.app/assets/{id}",
-          "QR code displayed directly in the app",
-          "UUID usable for NFC chips",
-          "Accessible without app via browser link"
+          "QR kod se prikazuje direktno u aplikaciji",
+          "UUID se može koristiti za NFC čipove",
+          "Dostupno bez aplikacije putem veze u pregledaču"
         ]
       }
     },
     "roles": {
-      "intro": "INOid uses three roles. Assign each employee the most restrictive appropriate role.",
-      "tip": "Manage roles under Teams → select member → change role. Add new members via Teams → open team → add member.",
+      "intro": "INOid koristi tri uloge. Dodelite svakom zaposlenom najrestriktivniju odgovarajuću ulogu.",
+      "tip": "Upravljajte ulogama pod Timovi → izaberite člana → promenite ulogu. Dodajte nove članove putem Timovi → otvorite tim → dodajte člana.",
       "r1": {
-        "name": "Admin",
+        "name": "Administrator",
         "points": [
-          "Read & edit everything",
-          "Create & delete assets",
-          "Create & manage members",
-          "Assign roles",
-          "Change settings"
+          "Čitanje i uređivanje svega",
+          "Kreiranje i brisanje sredstava",
+          "Kreiranje i upravljanje članovima",
+          "Dodeljivanje uloga",
+          "Promena podešavanja"
         ]
       },
       "r2": {
-        "name": "Technician",
+        "name": "Tehničar",
         "points": [
-          "View all assets",
-          "Edit assets & service log",
-          "Create service entries",
-          "Maintain intervals",
-          "No team management"
+          "Pregled svih sredstava",
+          "Uređivanje sredstava i servisnog dnevnika",
+          "Kreiranje zapisa o servisu",
+          "Održavanje intervala",
+          "Bez upravljanja timom"
         ]
       },
       "r3": {
-        "name": "Reader",
+        "name": "Čitalac",
         "points": [
-          "View all assets",
-          "Read service log",
-          "No editing rights",
-          "No create/delete",
-          "Ideal for auditors & external parties"
+          "Pregled svih sredstava",
+          "Čitanje servisnog dnevnika",
+          "Bez prava uređivanja",
+          "Bez kreiranja/brisanja",
+          "Idealan za revizore i spoljne saradnike"
         ]
       }
     },
     "plans": {
-      "intro": "INOid offers four plans. Payment is by bank transfer – no subscription trap, no credit card required. After payment you receive a code by email that you redeem directly.",
-      "h1": "Available Plans",
-      "h2": "How booking works",
-      "perMonth": "excl. VAT/month",
-      "tip": "Activation code: The code is automatically sent by email to all Admins after payment. Make sure at least one admin has a reachable email address.",
+      "intro": "INOid nudi četiri plana. Plaćanje se vrši bankovnim transferom — bez zamke pretplate, bez zahteva za kreditnom karticom. Nakon uplate dobijate kod e-mailom koji odmah aktivirate.",
+      "h1": "Dostupni planovi",
+      "h2": "Kako funkcioniše naručivanje",
+      "perMonth": "bez PDV-a/mesec",
+      "tip": "Aktivacioni kod: Kod se automatski šalje e-mailom svim administratorima nakon uplate. Proverite da bar jedan administrator ima dostupnu email adresu.",
       "cta": "Na pretplatu",
       "t1": {
         "points": [
-          "5 Assets",
-          "1 User",
-          "Service Log",
-          "QR Scanner"
+          "5 sredstava",
+          "1 korisnik",
+          "Servisni dnevnik",
+          "QR skener"
         ]
       },
       "t2": {
         "points": [
-          "50 Assets",
-          "Up to 5 users",
-          "Maintenance intervals",
-          "Location management",
-          "Document upload"
+          "50 sredstava",
+          "Do 5 korisnika",
+          "Intervali održavanja",
+          "Upravljanje lokacijom",
+          "Otpremanje dokumenata"
         ]
       },
       "t3": {
         "points": [
-          "200 Assets",
-          "Up to 20 users",
-          "All Starter features",
-          "Teams & Roles",
-          "Advanced analytics"
+          "200 sredstava",
+          "Do 20 korisnika",
+          "Sve Starter funkcije",
+          "Timovi i uloge",
+          "Napredna analitika"
         ]
       },
       "t4": {
         "points": [
-          "Unlimited Assets",
-          "Unlimited users",
-          "All Professional features",
-          "Priority Support",
-          "Custom adaptations"
+          "Neograničena sredstva",
+          "Neograničeni korisnici",
+          "Sve Professional funkcije",
+          "Prioritetna podrška",
+          "Individualne prilagodbe"
         ]
       },
       "bs1": {
-        "title": "Choose plan",
-        "desc": "Go to Subscription (Sidebar → Organization). Choose your plan and click \"Create Invoice\"."
+        "title": "Izaberite plan",
+        "desc": "Idite na Pretplata (Bočna traka → Organizacija). Izaberite željeni plan i kliknite na \"Kreiraj fakturu\"."
       },
       "bs2": {
-        "title": "Fill in & download invoice",
-        "desc": "Fill in the billing address (name/company, street, postcode/city, country, VAT ID optional). The invoice is shown immediately and can be printed."
+        "title": "Popunite i preuzmite fakturu",
+        "desc": "Popunite adresu za fakturisanje (ime/kompanija, ulica, poštanski broj/grad, zemlja, PDV ID opciono). Faktura se odmah prikazuje i može se odštampati."
       },
       "bs3": {
-        "title": "Transfer payment",
-        "desc": "Transfer the invoice amount to the specified bank account (Inomet GmbH). Use the invoice number as payment reference."
+        "title": "Izvršite transfer",
+        "desc": "Prenesite iznos fakture na navedeni bankovni račun (Inomet GmbH). Koristite broj fakture kao svrhu plaćanja."
       },
       "bs4": {
-        "title": "Receive activation code",
-        "desc": "After payment you automatically receive a 9-digit activation code by email to all admins of your organization."
+        "title": "Primite aktivacioni kod",
+        "desc": "Nakon uplate automatski ćete primiti 9-cifreni aktivacioni kod e-mailom svim administratorima vaše organizacije."
       },
       "bs5": {
-        "title": "Redeem code & activate plan",
-        "desc": "Go back to Subscription, enter the code in the \"Redeem activation code\" field and click \"Activate\". The plan is active immediately."
+        "title": "Aktivirajte kod i plan",
+        "desc": "Vratite se na Pretplata, unesite kod u polje \"Aktiviraj aktivacioni kod\" i kliknite na \"Aktiviraj\". Plan je odmah aktivan."
       }
     },
     "tips": {
-      "intro": "Pro tips for getting the most out of INOid.",
-      "t1": "Duplicating assets saves time when recording identical devices.",
-      "t2": "Done early? Just tap the green checkmark button in the maintenance dashboard – the next date is calculated automatically.",
-      "t3": "Assign each employee the most restrictive role – Reader for external auditors.",
-      "t4": "INOid runs as a PWA: add a home screen link on your smartphone for an app-like feel.",
-      "t5": "Check the maintenance dashboard daily – overdue intervals are marked in red.",
+      "intro": "Profesionalni saveti za maksimalno korišćenje INOid-a.",
+      "t1": "Dupliranje sredstava štedi vreme pri registraciji identičnih uređaja.",
+      "t2": "Završili rano? Samo tapnite zeleno dugme sa kvačicom na kontrolnoj tabli — sledeći datum se automatski izračunava.",
+      "t3": "Dodelite svakom zaposlenom najrestriktivniju ulogu — Čitalac za spoljne revizore.",
+      "t4": "INOid radi kao PWA: dodajte link na početni ekran pametnog telefona za doživljaj aplikacije.",
+      "t5": "Proveravajte kontrolnu tablu dnevno — dospeli intervali se označavaju crvenom bojom.",
       "navTitle": "Navigacija na radnoj površini",
       "nav": [
         {
-          "a": "Assets",
-          "b": "Left sidebar → Assets"
+          "a": "Sredstva",
+          "b": "Leva bočna traka → Sredstva"
         },
         {
-          "a": "Scan",
-          "b": "Left sidebar → Scan"
+          "a": "Skeniranje",
+          "b": "Leva bočna traka → Skeniranje"
         },
         {
-          "a": "Maintenance",
-          "b": "Left sidebar → Maintenance & Service"
+          "a": "Održavanje",
+          "b": "Leva bočna traka → Održavanje i Servis"
         },
         {
-          "a": "Profile",
-          "b": "Left sidebar → Profile & Settings"
+          "a": "Profil",
+          "b": "Leva bočna traka → Profil i Podešavanja"
         }
       ],
       "contactTitle": "Imate još pitanja?",
-      "contactDesc": "Contact your administrator or reach INOid support directly via Inomet GmbH."
+      "contactDesc": "Obratite se svom administratoru ili kontaktirajte INOid podršku direktno putem Inomet GmbH."
     }
   },
   "eventTypes": {

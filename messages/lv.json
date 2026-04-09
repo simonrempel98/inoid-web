@@ -798,16 +798,16 @@
     "title": "Dokumentācija",
     "back": "Atpakaļ",
     "hero": {
-      "eyebrow": "INOid · Documentation",
-      "h1a": "Everything you",
-      "h1b": "need to know.",
-      "sub": "INOid is your digital asset management system — from commissioning to decommissioning. Ready in 5 minutes.",
+      "eyebrow": "INOid · Dokumentācija",
+      "h1a": "Viss, kas",
+      "h1b": "jums jāzina.",
+      "sub": "INOid ir jūsu digitālā aktīvu pārvaldības sistēma — no nodošanas ekspluatācijā līdz izņemšanai. Gatavs 5 minūtēs.",
       "s1val": "5 min",
-      "s1label": "to the first asset",
+      "s1label": "līdz pirmajam aktīvam",
       "s2val": "8+",
-      "s2label": "feature areas",
+      "s2label": "funkcionālās jomas",
       "s3val": "100%",
-      "s3label": "browser-based"
+      "s3label": "pārlūkprogrammā"
     },
     "tabs": {
       "start": "Ātrā sākšana",
@@ -817,258 +817,258 @@
       "tips": "Padomi"
     },
     "qs": {
-      "intro": "Four steps to master the essentials of INOid.",
+      "intro": "Četri soļi, lai apgūtu INOid pamatus.",
       "open": "Atvērt",
       "demoTitle": "Demo Tour",
-      "demoSub": "Walkthrough video coming soon",
-      "s1title": "Create asset",
-      "s1desc": "Go to Assets → tap \"+ New\". Add title, category, photos and technical data.",
-      "s2title": "Scan QR code",
-      "s2desc": "Press the scan button in the center of the navigation. The camera opens immediately.",
-      "s3title": "Create service entry",
-      "s3desc": "Open an asset → Service log → \"+ Entry\". Document maintenance, repairs and inspections.",
-      "s4title": "Set up maintenance interval",
-      "s4desc": "In the service log → \"+ Interval\". Choose an interval (weekly to 2-yearly) and set the next due date."
+      "demoSub": "Video ceļvedis drīzumā",
+      "s1title": "Izveidot aktīvu",
+      "s1desc": "Dodieties uz Aktīviem → pieskarieties \"+ Jauns\". Pievienojiet nosaukumu, kategoriju, fotoattēlus un tehniskos datus.",
+      "s2title": "Skenēt QR kodu",
+      "s2desc": "Nospiediet skenēšanas pogu navigācijas centrā. Kamera uzreiz atveras.",
+      "s3title": "Izveidot servisa ierakstu",
+      "s3desc": "Atveriet aktīvu → Servisa žurnāls → \"+ Ieraksts\". Dokumentējiet apkopi, remontus un pārbaudes.",
+      "s4title": "Iestatīt apkopes intervālu",
+      "s4desc": "Servisa žurnālā → \"+ Intervāls\". Izvēlieties intervālu (ik nedēļu līdz 2 gadiem) un iestatiet nākamo termiņu."
     },
     "feat": {
-      "intro": "Tap a feature to see details.",
+      "intro": "Pieskarieties funkcijai, lai redzētu informāciju.",
       "f1": {
-        "title": "Asset Management",
-        "badge": "Core",
-        "desc": "All equipment in one place. Each asset gets a unique ID, photos, technical & commercial master data, and an automatically generated QR code.",
+        "title": "Aktīvu pārvaldība",
+        "badge": "Pamats",
+        "desc": "Visi iekārtu vienā vietā. Katrs aktīvs saņem unikālu ID, fotoattēlus, tehniskos un komerciālos pamata datus un automātiski ģenerētu QR kodu.",
         "points": [
-          "Photos, serial number, article number",
-          "Technical & commercial data freely definable",
-          "Status: Active, Defective, In Maintenance, Decommissioned + custom",
-          "Duplicate asset for fast serial entry",
-          "Location assignment with full history"
+          "Fotoattēli, sērijas numurs, artikula numurs",
+          "Tehniskie un komerciālie dati brīvi definējami",
+          "Statuss: Aktīvs, Bojāts, Apkopē, Izņemts + paši",
+          "Dublēt aktīvu ātrai sērijas reģistrācijai",
+          "Atrašanās vietas piešķiršana ar pilnu vēsturi"
         ]
       },
       "f2": {
-        "title": "Service Log",
-        "badge": "Core",
-        "desc": "Complete documentation of all events on the asset – from inspection to incident. Attach photos and documents directly.",
+        "title": "Servisa žurnāls",
+        "badge": "Pamats",
+        "desc": "Pilnīga visu aktīva notikumu dokumentācija — no pārbaudes līdz incidentam. Tieši pievienojiet fotoattēlus un dokumentus.",
         "points": [
-          "10 system types + custom types (Settings → Event Types)",
-          "Attach photos & PDF documents",
-          "Costs, performed by, external company",
-          "Monthly grouped timeline",
-          "Maintenance plan as Gantt chart in service log"
+          "10 sistēmu veidi + savi veidi (Iestatījumi → Notikumu veidi)",
+          "Fotoattēlu un PDF dokumentu pievienošana",
+          "Izmaksas, izpildītājs, ārējais uzņēmums",
+          "Hronoloģija grupēta pa mēnešiem",
+          "Apkopes plāns kā Ganta diagramma servisa žurnālā"
         ]
       },
       "f3": {
-        "title": "Maintenance Intervals & Checklists",
-        "badge": "Planning",
-        "desc": "Never miss recurring appointments. Define intervals per asset, add step-by-step checklists and keep track of all due dates.",
+        "title": "Apkopes intervāli un kontrolsaraksti",
+        "badge": "Plānošana",
+        "desc": "Nekad neaizmirst atkārtojošos uzdevumus. Definējiet intervālus katram aktīvam, pievienojiet soli pa solim kontrolsarakstus un sekojiet visiem termiņiem.",
         "points": [
-          "Presets: weekly, monthly, quarterly, …",
-          "Custom interval in days",
-          "Automatic calculation of next date",
-          "Create checklist per interval (unlimited steps)",
-          "Checklist appears on completion for ticking off",
-          "Mark maintenance as done from list or Gantt",
-          "Next date automatically advanced on completion"
+          "Iepriekšiestatījumi: ik nedēļu, ik mēnesi, ik ceturksni, …",
+          "Pielāgots intervāls dienās",
+          "Nākamā datuma automātiska aprēķināšana",
+          "Izveidot kontrolsarakstu intervālam (neierobežots soļu skaits)",
+          "Kontrolsaraksts tiek rādīts pabeigšanas brīdī atzīmēšanai",
+          "Atzīmēt apkopi kā pabeigtu no saraksta vai Ganta",
+          "Nākamais datums tiek automātiski pārnests pabeigšanas brīdī"
         ]
       },
       "f4": {
-        "title": "Maintenance Dashboard",
-        "badge": "Planning",
-        "desc": "All due maintenance at a glance. Filter, search and Gantt chart for a complete overview of all assets.",
+        "title": "Apkopes panelis",
+        "badge": "Plānošana",
+        "desc": "Visa kavētā apkope ar pirmo acu uzmetienu. Filtrs, meklēšana un Ganta diagramma pilnīgam visu aktīvu pārskatam.",
         "points": [
-          "Task list: grouped by Overdue / This Week / 30 Days / Later",
-          "Gantt chart with heatmap (more intense the closer the date)",
-          "Search across all asset attributes (name, serial no., category, …)",
-          "Filter: urgency, category, entries per page",
-          "Time range filter controls Gantt view simultaneously",
-          "Pagination for large quantities"
+          "Uzdevumu saraksts: grupēts pēc Kavēts / Šī nedēļa / 30 dienas / Vēlāk",
+          "Ganta diagramma ar siltuma karti (intensīvāka jo tuvāk datums)",
+          "Meklēšana visos aktīva atribūtos (nosaukums, sērijas nr., kategorija, …)",
+          "Filtrs: steidzamība, kategorija, ierakstu skaits lapā",
+          "Laika intervāla filtrs vienlaikus vada Ganta skatu",
+          "Lappusēšana lieliem daudzumiem"
         ]
       },
       "f5": {
-        "title": "QR & NFC Scanner",
-        "badge": "Mobile",
-        "desc": "Access any asset instantly by scanning – no searching, no typing. Works with the browser camera, no app download needed.",
+        "title": "QR un NFC skeneris",
+        "badge": "Mobilais",
+        "desc": "Tūlītēja piekļuve jebkuram aktīvam skenējot — bez meklēšanas, bez rakstīšanas. Darbojas ar pārlūkprogrammas kameru, lietotnes lejupielāde nav nepieciešama.",
         "points": [
-          "Scan QR code → open asset directly",
-          "Automatically generated QR code per asset",
-          "NFC tag UUID as fallback",
-          "Optimized for smartphone camera",
-          "QR code exportable as PDF/image"
+          "Skenēt QR kodu → atvērt aktīvu tieši",
+          "Automātiski ģenerēts QR kods katram aktīvam",
+          "NFC taga UUID kā rezerve",
+          "Optimizēts viedtālruņa kamerai",
+          "QR kods eksportējams kā PDF/attēls"
         ]
       },
       "f6": {
-        "title": "Locations & Structure",
-        "badge": "Organization",
-        "desc": "Map your operational structure exactly: Location → Hall → Area. Each asset can be assigned to an area.",
+        "title": "Atrašanās vietas un struktūra",
+        "badge": "Organizācija",
+        "desc": "Precīzi kartografējiet savu darbības struktūru: Atrašanās vieta → Halle → Zona. Katrs aktīvs var tikt piešķirts zonai.",
         "points": [
-          "3-level hierarchy: Location / Hall / Area",
-          "Any number of locations & halls",
-          "Complete location history",
-          "Free text input as alternative",
-          "Management under Organization"
+          "3 līmeņu hierarhija: Atrašanās vieta / Halle / Zona",
+          "Neierobežots skaits atrašanās vietu un halļu",
+          "Pilna atrašanās vietu vēsture",
+          "Brīvs teksta ievads kā alternatīva",
+          "Pārvaldība zem Organizācija"
         ]
       },
       "f7": {
-        "title": "Teams & Roles",
-        "badge": "Access",
-        "desc": "Multiple employees, clear responsibilities. Invite colleagues and assign roles – each role sees and can do exactly what it should.",
+        "title": "Komandas un lomas",
+        "badge": "Piekļuve",
+        "desc": "Vairāki darbinieki, skaidras atbildības. Uzaicināt kolēģus un piešķirt lomas — katra loma redz un var darīt tieši to, kas jādara.",
         "points": [
-          "Admin: full access + user management",
-          "Technician: edit assets & service",
-          "Reader: view only, no changes",
-          "Create members directly (email + password)",
-          "Roles changeable at any time"
+          "Administrators: pilna piekļuve + lietotāju pārvaldība",
+          "Tehniķis: rediģēt aktīvus un servisu",
+          "Lasītājs: tikai apskatīšana, bez izmaiņām",
+          "Veidot locekļus tieši (e-pasts + parole)",
+          "Lomas var mainīt jebkurā laikā"
         ]
       },
       "f8": {
-        "title": "Documents",
-        "badge": "Data",
-        "desc": "Manuals, inspection reports, certificates – stored directly on the asset. Photos in the service log for complete documentation.",
+        "title": "Dokumenti",
+        "badge": "Dati",
+        "desc": "Rokasgrāmatas, pārbaudes atskaites, sertifikāti — glabāti tieši pie aktīva. Fotoattēli servisa žurnālā pilnai dokumentācijai.",
         "points": [
-          "PDF, images and other formats",
-          "Documents directly on the asset",
-          "Photos in service entry",
-          "Secure upload via Supabase Storage",
-          "Direct download link"
+          "PDF, attēli un citi formāti",
+          "Dokumenti tieši pie aktīva",
+          "Fotoattēli servisa ierakstā",
+          "Droša augšupielāde caur Supabase Storage",
+          "Tieša lejupielādes saite"
         ]
       },
       "f9": {
-        "title": "QR Codes & NFC",
-        "badge": "Identification",
-        "desc": "Every asset automatically gets a unique QR code. Stick it on the device and scan it anytime for instant access.",
+        "title": "QR kodi un NFC",
+        "badge": "Identifikācija",
+        "desc": "Katrs aktīvs automātiski saņem unikālu QR kodu. Uzlīmējiet to uz iekārtas un skenējiet to jebkurā laikā tūlītējai piekļuvei.",
         "points": [
-          "Automatic generation on creation",
-          "Format: inoid.app/assets/{id}",
-          "QR code displayed directly in the app",
-          "UUID usable for NFC chips",
-          "Accessible without app via browser link"
+          "Automātiska ģenerēšana izveides brīdī",
+          "Formāts: inoid.app/assets/{id}",
+          "QR kods rādīts tieši lietotnē",
+          "UUID izmantojams NFC mikroshēmām",
+          "Pieejams bez lietotnes caur pārlūkprogrammas saiti"
         ]
       }
     },
     "roles": {
-      "intro": "INOid uses three roles. Assign each employee the most restrictive appropriate role.",
-      "tip": "Manage roles under Teams → select member → change role. Add new members via Teams → open team → add member.",
+      "intro": "INOid izmanto trīs lomas. Piešķiriet katram darbiniekam visierobežojošāko piemēroto lomu.",
+      "tip": "Pārvaldiet lomas sadaļā Komandas → atlasiet locekli → mainiet lomu. Pievienojiet jaunus locekļus caur Komandas → atvērt komandu → pievienot locekli.",
       "r1": {
-        "name": "Admin",
+        "name": "Administrators",
         "points": [
-          "Read & edit everything",
-          "Create & delete assets",
-          "Create & manage members",
-          "Assign roles",
-          "Change settings"
+          "Lasīt un rediģēt visu",
+          "Izveidot un dzēst aktīvus",
+          "Izveidot un pārvaldīt locekļus",
+          "Piešķirt lomas",
+          "Mainīt iestatījumus"
         ]
       },
       "r2": {
-        "name": "Technician",
+        "name": "Tehniķis",
         "points": [
-          "View all assets",
-          "Edit assets & service log",
-          "Create service entries",
-          "Maintain intervals",
-          "No team management"
+          "Skatīt visus aktīvus",
+          "Rediģēt aktīvus un servisa žurnālu",
+          "Veidot servisa ierakstus",
+          "Uzturēt intervālus",
+          "Bez komandas pārvaldības"
         ]
       },
       "r3": {
-        "name": "Reader",
+        "name": "Lasītājs",
         "points": [
-          "View all assets",
-          "Read service log",
-          "No editing rights",
-          "No create/delete",
-          "Ideal for auditors & external parties"
+          "Skatīt visus aktīvus",
+          "Lasīt servisa žurnālu",
+          "Bez rediģēšanas tiesībām",
+          "Bez izveides/dzēšanas",
+          "Ideāls auditoriem un ārējiem darbiniekiem"
         ]
       }
     },
     "plans": {
-      "intro": "INOid offers four plans. Payment is by bank transfer – no subscription trap, no credit card required. After payment you receive a code by email that you redeem directly.",
-      "h1": "Available Plans",
-      "h2": "How booking works",
-      "perMonth": "excl. VAT/month",
-      "tip": "Activation code: The code is automatically sent by email to all Admins after payment. Make sure at least one admin has a reachable email address.",
+      "intro": "INOid piedāvā četrus plānus. Maksājums tiek veikts ar bankas pārskaitījumu — bez abonēšanas slazda, bez kredītkartes prasības. Pēc maksājuma saņemsiet kodu pa e-pastu, ko uzreiz aktivizēsiet.",
+      "h1": "Pieejamie plāni",
+      "h2": "Kā darbojas pasūtīšana",
+      "perMonth": "bez PVN/mēn.",
+      "tip": "Aktivizācijas kods: Kods tiek automātiski nosūtīts pa e-pastu visiem administratoriem pēc maksājuma. Pārliecinieties, ka vismaz vienam administratoram ir pieejama e-pasta adrese.",
       "cta": "Uz abonementu",
       "t1": {
         "points": [
-          "5 Assets",
-          "1 User",
-          "Service Log",
-          "QR Scanner"
+          "5 aktīvi",
+          "1 lietotājs",
+          "Servisa žurnāls",
+          "QR skeneris"
         ]
       },
       "t2": {
         "points": [
-          "50 Assets",
-          "Up to 5 users",
-          "Maintenance intervals",
-          "Location management",
-          "Document upload"
+          "50 aktīvi",
+          "Līdz 5 lietotājiem",
+          "Apkopes intervāli",
+          "Atrašanās vietas pārvaldība",
+          "Dokumentu augšupielāde"
         ]
       },
       "t3": {
         "points": [
-          "200 Assets",
-          "Up to 20 users",
-          "All Starter features",
-          "Teams & Roles",
-          "Advanced analytics"
+          "200 aktīvi",
+          "Līdz 20 lietotājiem",
+          "Visas Starter funkcijas",
+          "Komandas un lomas",
+          "Uzlabota analītika"
         ]
       },
       "t4": {
         "points": [
-          "Unlimited Assets",
-          "Unlimited users",
-          "All Professional features",
-          "Priority Support",
-          "Custom adaptations"
+          "Neierobežoti aktīvi",
+          "Neierobežoti lietotāji",
+          "Visas Professional funkcijas",
+          "Prioritārais atbalsts",
+          "Individuālie pielāgojumi"
         ]
       },
       "bs1": {
-        "title": "Choose plan",
-        "desc": "Go to Subscription (Sidebar → Organization). Choose your plan and click \"Create Invoice\"."
+        "title": "Izvēlieties plānu",
+        "desc": "Dodieties uz Abonements (Sānjosla → Organizācija). Izvēlieties vēlamo plānu un noklikšķiniet uz \"Izveidot rēķinu\"."
       },
       "bs2": {
-        "title": "Fill in & download invoice",
-        "desc": "Fill in the billing address (name/company, street, postcode/city, country, VAT ID optional). The invoice is shown immediately and can be printed."
+        "title": "Aizpildiet un lejupielādējiet rēķinu",
+        "desc": "Aizpildiet norēķinu adresi (vārds/uzņēmums, iela, pasta indekss/pilsēta, valsts, PVN numurs pēc izvēles). Rēķins tiek rādīts uzreiz un var tikt izdrukāts."
       },
       "bs3": {
-        "title": "Transfer payment",
-        "desc": "Transfer the invoice amount to the specified bank account (Inomet GmbH). Use the invoice number as payment reference."
+        "title": "Veiciet pārskaitījumu",
+        "desc": "Pārskaitiet rēķina summu uz norādīto bankas kontu (Inomet GmbH). Izmantojiet rēķina numuru kā maksājuma mērķi."
       },
       "bs4": {
-        "title": "Receive activation code",
-        "desc": "After payment you automatically receive a 9-digit activation code by email to all admins of your organization."
+        "title": "Saņemiet aktivizācijas kodu",
+        "desc": "Pēc maksājuma automātiski saņemsiet 9 ciparu aktivizācijas kodu pa e-pastu visiem jūsu organizācijas administratoriem."
       },
       "bs5": {
-        "title": "Redeem code & activate plan",
-        "desc": "Go back to Subscription, enter the code in the \"Redeem activation code\" field and click \"Activate\". The plan is active immediately."
+        "title": "Aktivizējiet kodu un plānu",
+        "desc": "Atgriezieties uz Abonements, ievadiet kodu laukā \"Aktivizēt aktivizācijas kodu\" un noklikšķiniet uz \"Aktivizēt\". Plāns ir aktīvs nekavējoties."
       }
     },
     "tips": {
-      "intro": "Pro tips for getting the most out of INOid.",
-      "t1": "Duplicating assets saves time when recording identical devices.",
-      "t2": "Done early? Just tap the green checkmark button in the maintenance dashboard – the next date is calculated automatically.",
-      "t3": "Assign each employee the most restrictive role – Reader for external auditors.",
-      "t4": "INOid runs as a PWA: add a home screen link on your smartphone for an app-like feel.",
-      "t5": "Check the maintenance dashboard daily – overdue intervals are marked in red.",
+      "intro": "Profesionāli padomi, lai maksimāli izmantotu INOid.",
+      "t1": "Aktīvu dublēšana ietaupa laiku reģistrējot identiskas iekārtas.",
+      "t2": "Pabeidzāt agrāk? Vienkārši pieskarieties zaļajai ķeksīša pogai apkopes panelī — nākamais datums tiek aprēķināts automātiski.",
+      "t3": "Piešķiriet katram darbiniekam visierobežojošāko lomu — Lasītājs ārējiem auditoriem.",
+      "t4": "INOid darbojas kā PWA: pievienojiet saiti viedtālruņa sākuma ekrānā lietotnes sajūtai.",
+      "t5": "Katru dienu pārbaudiet apkopes paneli — nokavētie intervāli tiek atzīmēti ar sarkanu.",
       "navTitle": "Darbvirsmas navigācija",
       "nav": [
         {
-          "a": "Assets",
-          "b": "Left sidebar → Assets"
+          "a": "Aktīvi",
+          "b": "Kreisā sānjosla → Aktīvi"
         },
         {
-          "a": "Scan",
-          "b": "Left sidebar → Scan"
+          "a": "Skenēšana",
+          "b": "Kreisā sānjosla → Skenēšana"
         },
         {
-          "a": "Maintenance",
-          "b": "Left sidebar → Maintenance & Service"
+          "a": "Apkope",
+          "b": "Kreisā sānjosla → Apkope un Serviss"
         },
         {
-          "a": "Profile",
-          "b": "Left sidebar → Profile & Settings"
+          "a": "Profils",
+          "b": "Kreisā sānjosla → Profils un Iestatījumi"
         }
       ],
       "contactTitle": "Vēl jautājumi?",
-      "contactDesc": "Contact your administrator or reach INOid support directly via Inomet GmbH."
+      "contactDesc": "Sazinieties ar savu administratoru vai sazinieties ar INOid atbalstu tieši caur Inomet GmbH."
     }
   },
   "eventTypes": {
