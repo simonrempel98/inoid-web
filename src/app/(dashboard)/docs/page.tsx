@@ -125,57 +125,24 @@ export default function DocsPage() {
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', paddingBottom: 60 }}>
 
-      {/* Hero */}
+      {/* Header */}
       <div style={{
-        background: 'linear-gradient(135deg, #003366 0%, #0077b6 60%, #0099cc 100%)',
-        padding: '32px 20px 36px',
-        position: 'relative', overflow: 'hidden',
+        padding: '20px 16px 0',
+        display: 'flex', alignItems: 'center', gap: 12,
       }}>
-        {/* decorative circles */}
-        <div style={{ position: 'absolute', top: -40, right: -40, width: 160, height: 160, borderRadius: '50%', background: 'rgba(255,255,255,0.06)' }} />
-        <div style={{ position: 'absolute', bottom: -20, left: -20, width: 100, height: 100, borderRadius: '50%', background: 'rgba(255,255,255,0.04)' }} />
-
         <button type="button" onClick={() => router.back()} style={{
-          display: 'flex', alignItems: 'center', gap: 6,
-          background: 'rgba(255,255,255,0.15)', border: 'none',
-          borderRadius: 20, padding: '6px 12px 6px 8px',
-          color: 'white', fontSize: 12, fontWeight: 700,
-          cursor: 'pointer', marginBottom: 20,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          width: 34, height: 34,
+          background: '#f0f4f8', border: 'none', borderRadius: '50%',
+          cursor: 'pointer', flexShrink: 0,
         }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#003366" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6"/>
           </svg>
-          {t('back')}
         </button>
-
-        <div style={{ position: 'relative' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-            <span style={{
-              fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
-              color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase',
-            }}>{t('hero.eyebrow')}</span>
-          </div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: 'white', margin: '0 0 10px', lineHeight: 1.2 }}>
-            {t('hero.h1a')}<br />{t('hero.h1b')}
-          </h1>
-          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.8)', margin: '0 0 24px', lineHeight: 1.6, maxWidth: 340 }}>
-            {t('hero.sub')}
-          </p>
-
-          {/* Stats */}
-          <div style={{ display: 'flex', gap: 20 }}>
-            {[
-              { val: t('hero.s1val'), label: t('hero.s1label') },
-              { val: t('hero.s2val'), label: t('hero.s2label') },
-              { val: t('hero.s3val'), label: t('hero.s3label') },
-            ].map(s => (
-              <div key={s.label}>
-                <div style={{ fontSize: 20, fontWeight: 800, color: 'white' }}>{s.val}</div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.65)' }}>{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <p style={{ fontSize: 18, fontWeight: 800, color: '#003366', margin: 0 }}>
+          {t('hero.eyebrow')}
+        </p>
       </div>
 
       {/* Tab bar */}
