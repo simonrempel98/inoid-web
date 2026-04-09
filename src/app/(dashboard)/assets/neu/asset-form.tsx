@@ -10,6 +10,31 @@ import { CategoryCombobox } from '@/components/category-combobox'
 import { compressImage, checkDocSize, formatBytes } from '@/lib/compress-image'
 import { CompressionInfo } from '@/components/compression-info'
 
+const UNIT_GROUPS = [
+  { label: 'Länge', units: ['mm', 'cm', 'dm', 'm', 'km', 'in', 'ft', 'yd'] },
+  { label: 'Fläche', units: ['mm²', 'cm²', 'm²', 'km²', 'in²', 'ft²'] },
+  { label: 'Volumen', units: ['mm³', 'cm³', 'ml', 'cl', 'dl', 'l', 'm³', 'in³', 'ft³'] },
+  { label: 'Masse', units: ['µg', 'mg', 'g', 'kg', 't', 'lb', 'oz'] },
+  { label: 'Kraft', units: ['N', 'kN', 'MN', 'lbf', 'kgf'] },
+  { label: 'Druck', units: ['Pa', 'hPa', 'kPa', 'MPa', 'GPa', 'bar', 'mbar', 'psi', 'atm'] },
+  { label: 'Drehmoment', units: ['Nmm', 'Ncm', 'Nm', 'kNm'] },
+  { label: 'Spannung / el.', units: ['mV', 'V', 'kV', 'mA', 'A', 'kA', 'Ω', 'kΩ', 'MΩ'] },
+  { label: 'Leistung', units: ['W', 'kW', 'MW', 'VA', 'kVA', 'PS', 'HP'] },
+  { label: 'Energie', units: ['J', 'kJ', 'MJ', 'Wh', 'kWh', 'MWh'] },
+  { label: 'Frequenz / Drehzahl', units: ['Hz', 'kHz', 'MHz', 'GHz', 'rpm', 'U/min', 'rad/s'] },
+  { label: 'Temperatur', units: ['°C', '°F', 'K'] },
+  { label: 'Geschwindigkeit', units: ['mm/s', 'm/s', 'km/h', 'm/min', 'mm/min'] },
+  { label: 'Durchfluss', units: ['l/min', 'l/h', 'm³/h', 'ml/min'] },
+  { label: 'Dichte', units: ['g/cm³', 'kg/m³', 'kg/l'] },
+  { label: 'Härte', units: ['HRC', 'HRB', 'HRA', 'HB', 'HBW', 'HV', 'HK', 'HS', 'Shore A', 'Shore D'] },
+  { label: 'Oberflächenrauheit', units: ['Ra', 'Rz', 'Rq', 'Rmax', 'Rt'] },
+  { label: 'Winkel', units: ['°', 'rad', 'mrad', 'gon'] },
+  { label: 'Zeit', units: ['ms', 's', 'min', 'h', 'd'] },
+  { label: 'Anteil / Verhältnis', units: ['%', 'ppm', 'ppb', ':1'] },
+  { label: 'Spannung (Festigkeit)', units: ['N/mm²', 'MPa', 'kN/m²', 'ksi'] },
+  { label: 'Währung', units: ['€', '$', '£', 'CHF'] },
+]
+
 type DocEntry = {
   file: File
   name: string
@@ -68,10 +93,12 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
   // Step 2 – Technische Daten
   const [techFreeKeys, setTechFreeKeys] = useState<string[]>([])
   const [technicalData, setTechnicalData] = useState<Record<string, string>>({})
+  const [technicalUnits, setTechnicalUnits] = useState<Record<string, string>>({})
 
   // Step 3 – Kommerzielle Daten
   const [commFreeKeys, setCommFreeKeys] = useState<string[]>([])
   const [commercialData, setCommercialData] = useState<Record<string, string>>({})
+  const [commercialUnits, setCommercialUnits] = useState<Record<string, string>>({})
 
   async function handleImageSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? [])
@@ -212,8 +239,12 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
           location_ref: locationRef || null,
           description: description || null,
           status,
-          technical_data: technicalData,
-          commercial_data: commercialData,
+          technical_data: Object.fromEntries(
+            Object.entries(technicalData).map(([k, v]) => [k, technicalUnits[k] ? `${v} ${technicalUnits[k]}` : v])
+          ),
+          commercial_data: Object.fromEntries(
+            Object.entries(commercialData).map(([k, v]) => [k, commercialUnits[k] ? `${v} ${commercialUnits[k]}` : v])
+          ),
           created_by: user.id,
         })
         .select('id')
@@ -245,31 +276,63 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
     setData: (d: Record<string, string>) => void,
     freeKeys: string[],
     setFreeKeys: (k: string[]) => void,
+    units: Record<string, string>,
+    setUnits: (u: Record<string, string>) => void,
   ) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        {freeKeys.map((key, i) => (
-          <div key={i} style={{ display: 'flex', gap: 8 }}>
-            <input
-              value={key}
-              onChange={e => {
-                const newLabel = e.target.value
-                setFreeKeys(prev => { const updated = [...prev]; updated[i] = newLabel; return updated })
-                setData(prev => { const oldKey = freeKeys[i]; const next = { ...prev }; next[newLabel] = next[oldKey] ?? ''; delete next[oldKey]; return next })
-              }}
-              style={{ ...inputStyle, flex: 1 }}
-              placeholder={t('assets.form.fieldName')}
-            />
-            <input
-              value={data[key] ?? ''}
-              onChange={e => { const val = e.target.value; setData(prev => ({ ...prev, [key]: val })) }}
-              style={{ ...inputStyle, flex: 1 }}
-              placeholder={t('assets.form.fieldValue')}
-            />
-            <button type="button" onClick={() => { setData(prev => { const next = { ...prev }; delete next[key]; return next }); setFreeKeys(prev => prev.filter((_, j) => j !== i)) }}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#999', fontSize: 18 }}>×</button>
-          </div>
-        ))}
+        {freeKeys.map((key, i) => {
+          const hasUnit = !!units[key]
+          return (
+            <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <div style={{ display: 'flex', gap: 8 }}>
+                {/* Feldname */}
+                <input
+                  value={key}
+                  onChange={e => {
+                    const newLabel = e.target.value
+                    setFreeKeys(prev => { const u = [...prev]; u[i] = newLabel; return u })
+                    setData(prev => { const oldKey = freeKeys[i]; const next = { ...prev }; next[newLabel] = next[oldKey] ?? ''; delete next[oldKey]; return next })
+                    setUnits(prev => { const oldKey = freeKeys[i]; const next = { ...prev }; next[newLabel] = next[oldKey] ?? ''; delete next[oldKey]; return next })
+                  }}
+                  style={{ ...inputStyle, flex: 1.2 }}
+                  placeholder={t('assets.form.fieldName')}
+                />
+                {/* Wert */}
+                <input
+                  type={hasUnit ? 'number' : 'text'}
+                  value={data[key] ?? ''}
+                  onChange={e => { const val = e.target.value; setData(prev => ({ ...prev, [key]: val })) }}
+                  style={{ ...inputStyle, flex: 1 }}
+                  placeholder={t('assets.form.fieldValue')}
+                />
+                {/* Einheit */}
+                <select
+                  value={units[key] ?? ''}
+                  onChange={e => setUnits(prev => ({ ...prev, [key]: e.target.value }))}
+                  style={{
+                    padding: '10px 8px', borderRadius: 10, border: '1px solid #c8d4e8',
+                    fontSize: 13, fontFamily: 'Arial, sans-serif', background: 'white',
+                    color: units[key] ? '#003366' : '#96aed2', outline: 'none',
+                    minWidth: 80, flexShrink: 0,
+                  }}
+                >
+                  <option value="">–</option>
+                  {UNIT_GROUPS.map(g => (
+                    <optgroup key={g.label} label={g.label}>
+                      {g.units.map(u => <option key={u} value={u}>{u}</option>)}
+                    </optgroup>
+                  ))}
+                </select>
+                <button type="button" onClick={() => {
+                  setData(prev => { const next = { ...prev }; delete next[key]; return next })
+                  setUnits(prev => { const next = { ...prev }; delete next[key]; return next })
+                  setFreeKeys(prev => prev.filter((_, j) => j !== i))
+                }} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#999', fontSize: 18, flexShrink: 0 }}>×</button>
+              </div>
+            </div>
+          )
+        })}
         <button type="button" onClick={() => setFreeKeys([...freeKeys, ''])}
           style={{ border: '1px dashed #c8d4e8', background: 'none', borderRadius: 10, padding: '8px 16px', color: '#003366', fontSize: 13, cursor: 'pointer', fontWeight: 600 }}>
           {t('assets.form.addField')}
@@ -531,7 +594,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
       return (
         <div>
           <p style={{ color: '#666', fontSize: 13, marginBottom: 16, fontFamily: 'Arial, sans-serif' }}>{t('assets.form.techHint')}</p>
-          {renderDynamicFields(technicalData, setTechnicalData, techFreeKeys, setTechFreeKeys)}
+          {renderDynamicFields(technicalData, setTechnicalData, techFreeKeys, setTechFreeKeys, technicalUnits, setTechnicalUnits)}
         </div>
       )
     }
@@ -540,7 +603,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
       return (
         <div>
           <p style={{ color: '#666', fontSize: 13, marginBottom: 16, fontFamily: 'Arial, sans-serif' }}>{t('assets.form.commHint')}</p>
-          {renderDynamicFields(commercialData, setCommercialData, commFreeKeys, setCommFreeKeys)}
+          {renderDynamicFields(commercialData, setCommercialData, commFreeKeys, setCommFreeKeys, commercialUnits, setCommercialUnits)}
         </div>
       )
     }
