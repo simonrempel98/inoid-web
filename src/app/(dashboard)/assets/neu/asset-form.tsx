@@ -40,11 +40,13 @@ type DocEntry = {
   name: string
 }
 
-export function AssetForm({ locations = [], halls = [], areas = [], categories = [] }: {
+export function AssetForm({ locations = [], halls = [], areas = [], categories = [], imageMaxDim = 1920, imageQuality = 82 }: {
   locations?: OrgLocation[]
   halls?: OrgHall[]
   areas?: OrgArea[]
   categories?: string[]
+  imageMaxDim?: number
+  imageQuality?: number
 }) {
   const t = useTranslations()
   const router = useRouter()
@@ -110,7 +112,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
     setCompressing(true)
     const startIdx = imageFiles.length
 
-    const results = await Promise.all(toAdd.map(f => compressImage(f)))
+    const results = await Promise.all(toAdd.map(f => compressImage(f, { maxDim: imageMaxDim || undefined, quality: imageQuality / 100 })))
     const compressed = results.map(r => r.file)
     const newStats = results.map((r, i) => ({ name: toAdd[i].name, originalSize: r.originalSize, compressedSize: r.compressedSize }))
 

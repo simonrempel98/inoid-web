@@ -7,7 +7,7 @@ export default async function NeuesAssetPage() {
 
   const { data: org } = await supabase
     .from('organizations')
-    .select('asset_limit')
+    .select('asset_limit, settings')
     .single()
 
   const { count: assetCount } = await supabase
@@ -52,11 +52,16 @@ export default async function NeuesAssetPage() {
   ])
 
   const categories = [...new Set((categoryRows ?? []).map((r: any) => r.category).filter(Boolean))].sort() as string[]
+  const orgSettings = (org?.settings ?? {}) as Record<string, unknown>
+  const imageMaxDim = (orgSettings.image_max_dim as number) ?? 1920
+  const imageQuality = (orgSettings.image_quality as number) ?? 82
 
   return <AssetForm
     locations={locations ?? []}
     halls={(halls ?? []) as any}
     areas={(areas ?? []) as any}
     categories={categories}
+    imageMaxDim={imageMaxDim}
+    imageQuality={imageQuality}
   />
 }

@@ -27,7 +27,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (!user) return NextResponse.json({ error: 'Kein Zugriff' }, { status: 403 })
 
   const body = await req.json()
-  const { name, plan, assetLimit, userLimit, isActive, contactEmail, notes, features } = body
+  const { name, plan, assetLimit, userLimit, isActive, contactEmail, notes, features, settings } = body
 
   const admin = createAdminClient()
 
@@ -41,6 +41,7 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
   if (contactEmail !== undefined) updateData.contact_email = contactEmail ?? null
   if (notes !== undefined)       updateData.notes = notes ?? null
   if (features !== undefined)    updateData.features = features
+  if (settings !== undefined)    updateData.settings = settings
 
   const { error } = await admin
     .from('organizations')
