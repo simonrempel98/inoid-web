@@ -1,5 +1,6 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { CleanupButton } from './cleanup-button'
+import { StorageNukeButton } from './storage-nuke-button'
 
 // ── Typen ─────────────────────────────────────────────────────────────────────
 
@@ -245,7 +246,12 @@ export default async function AdminSystemPage() {
       )}
 
       {/* ── Gesamt-Speicher pro Bucket ──────────────────────────────────────── */}
-      <SectionTitle>Speicherverbrauch (Supabase Storage)</SectionTitle>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+        <h2 style={{ fontSize: 12, fontWeight: 700, color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.08em', margin: 0 }}>
+          Speicherverbrauch (Supabase Storage)
+        </h2>
+        <StorageNukeButton />
+      </div>
       {bucketStats && bucketStats.length > 0 ? (
         <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden', marginBottom: 32 }}>
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', padding: '10px 20px', borderBottom: '1px solid #1f2937' }}>
