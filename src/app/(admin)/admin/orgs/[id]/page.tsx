@@ -33,12 +33,20 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
 
   const { data: userProfiles } = await supabase
     .from('profiles')
-    .select('id, email, full_name, is_active, must_change_password, last_seen_at')
+    .select('id, email, full_name, is_active, must_change_password, last_seen_at, app_role')
     .eq('organization_id', id)
 
-  const profileMap: Record<string, { full_name: string | null; is_active: boolean | null; must_change_password: boolean | null; last_seen_at: string | null }> = {}
+  const profileMap: Record<string, { full_name: string | null; is_active: boolean | null; must_change_password: boolean | null; last_seen_at: string | null; app_role: string | null }> = {}
   for (const p of userProfiles ?? []) {
-    profileMap[p.id] = { full_name: p.full_name, is_active: p.is_active, must_change_password: p.must_change_password, last_seen_at: p.last_seen_at }
+    profileMap[p.id] = { full_name: p.full_name, is_active: p.is_active, must_change_password: p.must_change_password, last_seen_at: p.last_seen_at, app_role: p.app_role }
+  }
+
+  const ROLE_LABELS: Record<string, { label: string; color: string }> = {
+    superadmin:  { label: 'Superadmin', color: '#34d399' },
+    admin:       { label: 'Admin',      color: '#60a5fa' },
+    technician:  { label: 'Techniker',  color: '#f59e0b' },
+    viewer:      { label: 'Leser',      color: '#9ca3af' },
+    member:      { label: 'Member',     color: '#9ca3af' },
   }
 
   return (
@@ -97,9 +105,15 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
                     )}
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 4 }}>
-                    <span style={{ fontSize: 10, color: '#6b7280' }}>
-                      {(m.roles as { name?: string } | null)?.name ?? '–'}
-                    </span>
+                    {(() => {
+                      const role = p?.app_role ?? null
+                      const r = role ? ROLE_LABELS[role] : null
+                      return (
+                        <span style={{ fontSize: 11, fontWeight: 700, color: r?.color ?? '#6b7280' }}>
+                          {r?.label ?? '–'}
+                        </span>
+                      )
+                    })()}
                     {m.user_id && (
                       <Link href={`/admin/users/${m.user_id}`} style={{ fontSize: 11, color: '#0099cc', textDecoration: 'none' }}>
                         Verwalten
