@@ -10,20 +10,9 @@ import { CategoryCombobox } from '@/components/category-combobox'
 import { compressImage, checkDocSize, formatBytes } from '@/lib/compress-image'
 import { CompressionInfo } from '@/components/compression-info'
 
-const DOC_TYPES = [
-  { value: 'manual', label: 'Handbuch' },
-  { value: 'certificate', label: 'Zertifikat' },
-  { value: 'invoice', label: 'Rechnung' },
-  { value: 'delivery_note', label: 'Lieferschein' },
-  { value: 'order_confirmation', label: 'Auftragsbestätigung' },
-  { value: 'protocol', label: 'Protokoll' },
-  { value: 'other', label: 'Sonstiges' },
-]
-
 type DocEntry = {
   file: File
   name: string
-  document_type: string
 }
 
 export function AssetForm({ locations = [], halls = [], areas = [], categories = [] }: {
@@ -126,7 +115,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
     for (const f of files) {
       const check = checkDocSize(f)
       if (!check.ok) { errors.push(check.message!); continue }
-      valid.push({ file: f, name: f.name.replace(/\.[^/.]+$/, ''), document_type: 'other' })
+      valid.push({ file: f, name: f.name.replace(/\.[^/.]+$/, '') })
     }
     if (errors.length > 0) setDocError(errors.join(' '))
     setDocs(prev => [...prev, ...valid])
@@ -175,7 +164,6 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
         file_url: data.publicUrl,
         file_type: doc.file.type || null,
         file_size_bytes: doc.file.size,
-        document_type: doc.document_type,
       })
     }
   }
@@ -507,17 +495,6 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
                           fontFamily: 'Arial, sans-serif', outline: 'none', boxSizing: 'border-box',
                         }}
                       />
-                      <select
-                        value={doc.document_type}
-                        onChange={e => updateDoc(i, { document_type: e.target.value })}
-                        style={{
-                          width: '100%', padding: '6px 10px', borderRadius: 8,
-                          border: '1px solid #e8eef6', fontSize: 12,
-                          fontFamily: 'Arial, sans-serif', outline: 'none', background: 'white', color: '#666',
-                        }}
-                      >
-                        {DOC_TYPES.map(dt => <option key={dt.value} value={dt.value}>{dt.label}</option>)}
-                      </select>
                     </div>
                     <p style={{ margin: 0, fontSize: 10, color: '#96aed2', flexShrink: 0 }}>
                       {(doc.file.size / 1024).toFixed(0)} KB
