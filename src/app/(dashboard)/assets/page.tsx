@@ -83,7 +83,7 @@ export default async function AssetsPage({
         <div>
           <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 2px' }}>Assets</h1>
           <p style={{ fontSize: 13, color: '#666', margin: 0 }}>
-            {totalCount ?? 0}{org?.asset_limit && org.asset_limit > 0 ? ` / ${org.asset_limit}` : ''} {t('assets.title')}
+            {totalCount ?? 0}{org?.asset_limit && org.asset_limit > 0 ? ` / ${org.asset_limit}` : ''} Assets
             {(hasFilters || q) && <> · {assets?.length ?? 0} {t('assets.noResults').toLowerCase()}</>}
           </p>
         </div>

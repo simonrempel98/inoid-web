@@ -796,25 +796,279 @@
   },
   "docs": {
     "title": "Dokumentasjon",
-    "subtitle": "Alt du trenger å vite.",
-    "heroDesc": "INOid er din digitale aktivstyring — fra første registrering til avvikling. Klar på 5 minutter.",
-    "stats": {
-      "firstAsset": "til første aktiv",
-      "featureAreas": "funksjonsområder",
-      "browserBased": "nettleserbasert"
+    "back": "Tilbake",
+    "hero": {
+      "eyebrow": "INOid · Documentation",
+      "h1a": "Everything you",
+      "h1b": "need to know.",
+      "sub": "INOid is your digital asset management system — from commissioning to decommissioning. Ready in 5 minutes.",
+      "s1val": "5 min",
+      "s1label": "to the first asset",
+      "s2val": "8+",
+      "s2label": "feature areas",
+      "s3val": "100%",
+      "s3label": "browser-based"
     },
     "tabs": {
-      "quickstart": "Hurtigstart",
+      "start": "Hurtigstart",
       "features": "Funksjoner",
       "roles": "Roller",
-      "plans": "Planer og abonnement",
+      "plans": "Planer & Abonnement",
       "tips": "Tips"
     },
-    "quickstart": {
-      "intro": "Fire trinn og du kjenner det vesentlige i INOid.",
-      "openDirectly": "Åpne direkte",
-      "demoTour": "Demotour",
-      "demoSoon": "Introduksjonsvideo kommer snart"
+    "qs": {
+      "intro": "Four steps to master the essentials of INOid.",
+      "open": "Åpne",
+      "demoTitle": "Demo Tour",
+      "demoSub": "Walkthrough video coming soon",
+      "s1title": "Create asset",
+      "s1desc": "Go to Assets → tap \"+ New\". Add title, category, photos and technical data.",
+      "s2title": "Scan QR code",
+      "s2desc": "Press the scan button in the center of the navigation. The camera opens immediately.",
+      "s3title": "Create service entry",
+      "s3desc": "Open an asset → Service log → \"+ Entry\". Document maintenance, repairs and inspections.",
+      "s4title": "Set up maintenance interval",
+      "s4desc": "In the service log → \"+ Interval\". Choose an interval (weekly to 2-yearly) and set the next due date."
+    },
+    "feat": {
+      "intro": "Tap a feature to see details.",
+      "f1": {
+        "title": "Asset Management",
+        "badge": "Core",
+        "desc": "All equipment in one place. Each asset gets a unique ID, photos, technical & commercial master data, and an automatically generated QR code.",
+        "points": [
+          "Photos, serial number, article number",
+          "Technical & commercial data freely definable",
+          "Status: Active, Defective, In Maintenance, Decommissioned + custom",
+          "Duplicate asset for fast serial entry",
+          "Location assignment with full history"
+        ]
+      },
+      "f2": {
+        "title": "Service Log",
+        "badge": "Core",
+        "desc": "Complete documentation of all events on the asset – from inspection to incident. Attach photos and documents directly.",
+        "points": [
+          "10 system types + custom types (Settings → Event Types)",
+          "Attach photos & PDF documents",
+          "Costs, performed by, external company",
+          "Monthly grouped timeline",
+          "Maintenance plan as Gantt chart in service log"
+        ]
+      },
+      "f3": {
+        "title": "Maintenance Intervals & Checklists",
+        "badge": "Planning",
+        "desc": "Never miss recurring appointments. Define intervals per asset, add step-by-step checklists and keep track of all due dates.",
+        "points": [
+          "Presets: weekly, monthly, quarterly, …",
+          "Custom interval in days",
+          "Automatic calculation of next date",
+          "Create checklist per interval (unlimited steps)",
+          "Checklist appears on completion for ticking off",
+          "Mark maintenance as done from list or Gantt",
+          "Next date automatically advanced on completion"
+        ]
+      },
+      "f4": {
+        "title": "Maintenance Dashboard",
+        "badge": "Planning",
+        "desc": "All due maintenance at a glance. Filter, search and Gantt chart for a complete overview of all assets.",
+        "points": [
+          "Task list: grouped by Overdue / This Week / 30 Days / Later",
+          "Gantt chart with heatmap (more intense the closer the date)",
+          "Search across all asset attributes (name, serial no., category, …)",
+          "Filter: urgency, category, entries per page",
+          "Time range filter controls Gantt view simultaneously",
+          "Pagination for large quantities"
+        ]
+      },
+      "f5": {
+        "title": "QR & NFC Scanner",
+        "badge": "Mobile",
+        "desc": "Access any asset instantly by scanning – no searching, no typing. Works with the browser camera, no app download needed.",
+        "points": [
+          "Scan QR code → open asset directly",
+          "Automatically generated QR code per asset",
+          "NFC tag UUID as fallback",
+          "Optimized for smartphone camera",
+          "QR code exportable as PDF/image"
+        ]
+      },
+      "f6": {
+        "title": "Locations & Structure",
+        "badge": "Organization",
+        "desc": "Map your operational structure exactly: Location → Hall → Area. Each asset can be assigned to an area.",
+        "points": [
+          "3-level hierarchy: Location / Hall / Area",
+          "Any number of locations & halls",
+          "Complete location history",
+          "Free text input as alternative",
+          "Management under Organization"
+        ]
+      },
+      "f7": {
+        "title": "Teams & Roles",
+        "badge": "Access",
+        "desc": "Multiple employees, clear responsibilities. Invite colleagues and assign roles – each role sees and can do exactly what it should.",
+        "points": [
+          "Admin: full access + user management",
+          "Technician: edit assets & service",
+          "Reader: view only, no changes",
+          "Create members directly (email + password)",
+          "Roles changeable at any time"
+        ]
+      },
+      "f8": {
+        "title": "Documents",
+        "badge": "Data",
+        "desc": "Manuals, inspection reports, certificates – stored directly on the asset. Photos in the service log for complete documentation.",
+        "points": [
+          "PDF, images and other formats",
+          "Documents directly on the asset",
+          "Photos in service entry",
+          "Secure upload via Supabase Storage",
+          "Direct download link"
+        ]
+      },
+      "f9": {
+        "title": "QR Codes & NFC",
+        "badge": "Identification",
+        "desc": "Every asset automatically gets a unique QR code. Stick it on the device and scan it anytime for instant access.",
+        "points": [
+          "Automatic generation on creation",
+          "Format: inoid.app/assets/{id}",
+          "QR code displayed directly in the app",
+          "UUID usable for NFC chips",
+          "Accessible without app via browser link"
+        ]
+      }
+    },
+    "roles": {
+      "intro": "INOid uses three roles. Assign each employee the most restrictive appropriate role.",
+      "tip": "Manage roles under Teams → select member → change role. Add new members via Teams → open team → add member.",
+      "r1": {
+        "name": "Admin",
+        "points": [
+          "Read & edit everything",
+          "Create & delete assets",
+          "Create & manage members",
+          "Assign roles",
+          "Change settings"
+        ]
+      },
+      "r2": {
+        "name": "Technician",
+        "points": [
+          "View all assets",
+          "Edit assets & service log",
+          "Create service entries",
+          "Maintain intervals",
+          "No team management"
+        ]
+      },
+      "r3": {
+        "name": "Reader",
+        "points": [
+          "View all assets",
+          "Read service log",
+          "No editing rights",
+          "No create/delete",
+          "Ideal for auditors & external parties"
+        ]
+      }
+    },
+    "plans": {
+      "intro": "INOid offers four plans. Payment is by bank transfer – no subscription trap, no credit card required. After payment you receive a code by email that you redeem directly.",
+      "h1": "Available Plans",
+      "h2": "How booking works",
+      "perMonth": "excl. VAT/month",
+      "tip": "Activation code: The code is automatically sent by email to all Admins after payment. Make sure at least one admin has a reachable email address.",
+      "cta": "Til abonnement",
+      "t1": {
+        "points": [
+          "5 Assets",
+          "1 User",
+          "Service Log",
+          "QR Scanner"
+        ]
+      },
+      "t2": {
+        "points": [
+          "50 Assets",
+          "Up to 5 users",
+          "Maintenance intervals",
+          "Location management",
+          "Document upload"
+        ]
+      },
+      "t3": {
+        "points": [
+          "200 Assets",
+          "Up to 20 users",
+          "All Starter features",
+          "Teams & Roles",
+          "Advanced analytics"
+        ]
+      },
+      "t4": {
+        "points": [
+          "Unlimited Assets",
+          "Unlimited users",
+          "All Professional features",
+          "Priority Support",
+          "Custom adaptations"
+        ]
+      },
+      "bs1": {
+        "title": "Choose plan",
+        "desc": "Go to Subscription (Sidebar → Organization). Choose your plan and click \"Create Invoice\"."
+      },
+      "bs2": {
+        "title": "Fill in & download invoice",
+        "desc": "Fill in the billing address (name/company, street, postcode/city, country, VAT ID optional). The invoice is shown immediately and can be printed."
+      },
+      "bs3": {
+        "title": "Transfer payment",
+        "desc": "Transfer the invoice amount to the specified bank account (Inomet GmbH). Use the invoice number as payment reference."
+      },
+      "bs4": {
+        "title": "Receive activation code",
+        "desc": "After payment you automatically receive a 9-digit activation code by email to all admins of your organization."
+      },
+      "bs5": {
+        "title": "Redeem code & activate plan",
+        "desc": "Go back to Subscription, enter the code in the \"Redeem activation code\" field and click \"Activate\". The plan is active immediately."
+      }
+    },
+    "tips": {
+      "intro": "Pro tips for getting the most out of INOid.",
+      "t1": "Duplicating assets saves time when recording identical devices.",
+      "t2": "Done early? Just tap the green checkmark button in the maintenance dashboard – the next date is calculated automatically.",
+      "t3": "Assign each employee the most restrictive role – Reader for external auditors.",
+      "t4": "INOid runs as a PWA: add a home screen link on your smartphone for an app-like feel.",
+      "t5": "Check the maintenance dashboard daily – overdue intervals are marked in red.",
+      "navTitle": "Skrivebordsnavigasjon",
+      "nav": [
+        {
+          "a": "Assets",
+          "b": "Left sidebar → Assets"
+        },
+        {
+          "a": "Scan",
+          "b": "Left sidebar → Scan"
+        },
+        {
+          "a": "Maintenance",
+          "b": "Left sidebar → Maintenance & Service"
+        },
+        {
+          "a": "Profile",
+          "b": "Left sidebar → Profile & Settings"
+        }
+      ],
+      "contactTitle": "Har du flere spørsmål?",
+      "contactDesc": "Contact your administrator or reach INOid support directly via Inomet GmbH."
     }
   },
   "eventTypes": {

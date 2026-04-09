@@ -796,25 +796,279 @@
   },
   "docs": {
     "title": "Documentatie",
-    "subtitle": "Alles wat u moet weten.",
-    "heroDesc": "INOid is uw digitaal activabeheer — van eerste registratie tot buitengebruikstelling. In 5 minuten klaar.",
-    "stats": {
-      "firstAsset": "tot het eerste activum",
-      "featureAreas": "functiegebieden",
-      "browserBased": "browsergebaseerd"
+    "back": "Terug",
+    "hero": {
+      "eyebrow": "INOid · Documentatie",
+      "h1a": "Alles wat je",
+      "h1b": "moet weten.",
+      "sub": "INOid is uw digitale beheer van bedrijfsmiddelen — van ingebruikstelling tot buiten gebruik stelling. Klaar in 5 minuten.",
+      "s1val": "5 min",
+      "s1label": "tot het eerste asset",
+      "s2val": "8+",
+      "s2label": "functiegebieden",
+      "s3val": "100%",
+      "s3label": "browsergebaseerd"
     },
     "tabs": {
-      "quickstart": "Snel starten",
+      "start": "Snel starten",
       "features": "Functies",
       "roles": "Rollen",
-      "plans": "Plannen & abonnement",
+      "plans": "Plannen & Abonnement",
       "tips": "Tips"
     },
-    "quickstart": {
-      "intro": "Vier stappen en u kent de kern van INOid.",
-      "openDirectly": "Direct openen",
-      "demoTour": "Demotour",
-      "demoSoon": "Introductievideo binnenkort beschikbaar"
+    "qs": {
+      "intro": "Vier stappen om de essentie van INOid te beheersen.",
+      "open": "Openen",
+      "demoTitle": "Demo tour",
+      "demoSub": "Presentatievideo binnenkort beschikbaar",
+      "s1title": "Asset aanmaken",
+      "s1desc": "Ga naar Assets → tik op \"+ Nieuw\". Voeg titel, categorie, foto's en technische gegevens toe.",
+      "s2title": "QR-code scannen",
+      "s2desc": "Druk op de scanknop in het midden van de navigatie. De camera gaat direct open.",
+      "s3title": "Servicemelding aanmaken",
+      "s3desc": "Open een asset → Servicelogboek → \"+ Melding\". Documenteer onderhoud, reparaties en inspecties.",
+      "s4title": "Onderhoudsinterval instellen",
+      "s4desc": "In het servicelogboek → \"+ Interval\". Kies een interval en stel de volgende vervaldatum in."
+    },
+    "feat": {
+      "intro": "Tik op een functie om details te zien.",
+      "f1": {
+        "title": "Assetbeheer",
+        "badge": "Kern",
+        "desc": "Alle bedrijfsmiddelen op één plek. Elk asset krijgt een uniek ID, foto's, technische & commerciële stamgegevens en een automatisch gegenereerde QR-code.",
+        "points": [
+          "Photos, serial number, article number",
+          "Technical & commercial data freely definable",
+          "Status: Active, Defective, In Maintenance, Decommissioned + custom",
+          "Duplicate asset for fast serial entry",
+          "Location assignment with full history"
+        ]
+      },
+      "f2": {
+        "title": "Servicelogboek",
+        "badge": "Kern",
+        "desc": "Volledige documentatie van alle gebeurtenissen op het asset – van inspectie tot incident.",
+        "points": [
+          "10 system types + custom types (Settings → Event Types)",
+          "Attach photos & PDF documents",
+          "Costs, performed by, external company",
+          "Monthly grouped timeline",
+          "Maintenance plan as Gantt chart in service log"
+        ]
+      },
+      "f3": {
+        "title": "Onderhoudsintervallen & Checklists",
+        "badge": "Planning",
+        "desc": "Mis nooit meer terugkerende afspraken. Definieer intervallen per asset en voeg checklists toe.",
+        "points": [
+          "Presets: weekly, monthly, quarterly, …",
+          "Custom interval in days",
+          "Automatic calculation of next date",
+          "Create checklist per interval (unlimited steps)",
+          "Checklist appears on completion for ticking off",
+          "Mark maintenance as done from list or Gantt",
+          "Next date automatically advanced on completion"
+        ]
+      },
+      "f4": {
+        "title": "Onderhoudsdashboard",
+        "badge": "Planning",
+        "desc": "Alle vervallen onderhoudstaken in één oogopslag. Filters, zoeken en Gantt-diagram.",
+        "points": [
+          "Task list: grouped by Overdue / This Week / 30 Days / Later",
+          "Gantt chart with heatmap (more intense the closer the date)",
+          "Search across all asset attributes (name, serial no., category, …)",
+          "Filter: urgency, category, entries per page",
+          "Time range filter controls Gantt view simultaneously",
+          "Pagination for large quantities"
+        ]
+      },
+      "f5": {
+        "title": "QR & NFC-scanner",
+        "badge": "Mobiel",
+        "desc": "Toegang tot elk asset door te scannen – geen zoeken, geen typen.",
+        "points": [
+          "Scan QR code → open asset directly",
+          "Automatically generated QR code per asset",
+          "NFC tag UUID as fallback",
+          "Optimized for smartphone camera",
+          "QR code exportable as PDF/image"
+        ]
+      },
+      "f6": {
+        "title": "Locaties & Structuur",
+        "badge": "Organisatie",
+        "desc": "Breng uw operationele structuur in kaart: Locatie → Hal → Gebied.",
+        "points": [
+          "3-level hierarchy: Location / Hall / Area",
+          "Any number of locations & halls",
+          "Complete location history",
+          "Free text input as alternative",
+          "Management under Organization"
+        ]
+      },
+      "f7": {
+        "title": "Teams & Rollen",
+        "badge": "Toegang",
+        "desc": "Meerdere medewerkers, duidelijke verantwoordelijkheden. Nodig collega's uit en wijs rollen toe.",
+        "points": [
+          "Admin: full access + user management",
+          "Technician: edit assets & service",
+          "Reader: view only, no changes",
+          "Create members directly (email + password)",
+          "Roles changeable at any time"
+        ]
+      },
+      "f8": {
+        "title": "Documenten",
+        "badge": "Gegevens",
+        "desc": "Handleidingen, inspectierapporten, certificaten – direct op het asset opgeslagen.",
+        "points": [
+          "PDF, images and other formats",
+          "Documents directly on the asset",
+          "Photos in service entry",
+          "Secure upload via Supabase Storage",
+          "Direct download link"
+        ]
+      },
+      "f9": {
+        "title": "QR-codes & NFC",
+        "badge": "Identificatie",
+        "desc": "Elk asset krijgt automatisch een unieke QR-code.",
+        "points": [
+          "Automatic generation on creation",
+          "Format: inoid.app/assets/{id}",
+          "QR code displayed directly in the app",
+          "UUID usable for NFC chips",
+          "Accessible without app via browser link"
+        ]
+      }
+    },
+    "roles": {
+      "intro": "INOid gebruikt drie rollen. Wijs elke medewerker de meest beperkende passende rol toe.",
+      "tip": "Beheer rollen via Teams → lid selecteren → rol wijzigen.",
+      "r1": {
+        "name": "Admin",
+        "points": [
+          "Read & edit everything",
+          "Create & delete assets",
+          "Create & manage members",
+          "Assign roles",
+          "Change settings"
+        ]
+      },
+      "r2": {
+        "name": "Technicus",
+        "points": [
+          "View all assets",
+          "Edit assets & service log",
+          "Create service entries",
+          "Maintain intervals",
+          "No team management"
+        ]
+      },
+      "r3": {
+        "name": "Lezer",
+        "points": [
+          "View all assets",
+          "Read service log",
+          "No editing rights",
+          "No create/delete",
+          "Ideal for auditors & external parties"
+        ]
+      }
+    },
+    "plans": {
+      "intro": "INOid biedt vier plannen. Betaling via bankoverschrijving – geen abonnementsverplichting, geen creditcard vereist.",
+      "h1": "Beschikbare plannen",
+      "h2": "Hoe boeking werkt",
+      "perMonth": "excl. btw/maand",
+      "tip": "Activatiecode: De code wordt automatisch per e-mail naar alle Admins gestuurd na ontvangst van de betaling.",
+      "cta": "Naar abonnement",
+      "t1": {
+        "points": [
+          "5 Assets",
+          "1 User",
+          "Service Log",
+          "QR Scanner"
+        ]
+      },
+      "t2": {
+        "points": [
+          "50 Assets",
+          "Up to 5 users",
+          "Maintenance intervals",
+          "Location management",
+          "Document upload"
+        ]
+      },
+      "t3": {
+        "points": [
+          "200 Assets",
+          "Up to 20 users",
+          "All Starter features",
+          "Teams & Roles",
+          "Advanced analytics"
+        ]
+      },
+      "t4": {
+        "points": [
+          "Unlimited Assets",
+          "Unlimited users",
+          "All Professional features",
+          "Priority Support",
+          "Custom adaptations"
+        ]
+      },
+      "bs1": {
+        "title": "Plan kiezen",
+        "desc": "Ga naar Abonnement. Kies uw plan en klik op \"Factuur aanmaken\"."
+      },
+      "bs2": {
+        "title": "Factuur invullen & downloaden",
+        "desc": "Vul het factureringsadres in. De factuur wordt direct weergegeven."
+      },
+      "bs3": {
+        "title": "Betaling overmaken",
+        "desc": "Maak het bedrag over naar het opgegeven bankrekening (Inomet GmbH)."
+      },
+      "bs4": {
+        "title": "Activatiecode ontvangen",
+        "desc": "Na betaling ontvangt u automatisch een 9-cijferige code per e-mail."
+      },
+      "bs5": {
+        "title": "Code inwisselen & plan activeren",
+        "desc": "Ga terug naar Abonnement, voer de code in en klik op \"Activeren\"."
+      }
+    },
+    "tips": {
+      "intro": "Pro-tips voor maximaal gebruik van INOid.",
+      "t1": "Assets dupliceren bespaart tijd bij het registreren van identieke apparaten.",
+      "t2": "Vroeg klaar? Tik de groene knop in het dashboard – de volgende datum wordt automatisch berekend.",
+      "t3": "Wijs elke medewerker de meest beperkende rol toe – Lezer voor externe auditors.",
+      "t4": "INOid werkt als PWA: voeg een link toe aan het startscherm van uw smartphone.",
+      "t5": "Controleer het dashboard dagelijks – verlopen intervallen worden rood gemarkeerd.",
+      "navTitle": "Desktopnavigatie",
+      "nav": [
+        {
+          "a": "Assets",
+          "b": "Linker zijbalk → Assets"
+        },
+        {
+          "a": "Scannen",
+          "b": "Linker zijbalk → Scannen"
+        },
+        {
+          "a": "Onderhoud",
+          "b": "Linker zijbalk → Onderhoud & Service"
+        },
+        {
+          "a": "Profiel",
+          "b": "Linker zijbalk → Profiel & Instellingen"
+        }
+      ],
+      "contactTitle": "Nog vragen?",
+      "contactDesc": "Neem contact op met uw beheerder of de INOid-support via Inomet GmbH."
     }
   },
   "eventTypes": {

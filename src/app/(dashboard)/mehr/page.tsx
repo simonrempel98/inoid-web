@@ -1,8 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
 import Link from 'next/link'
 import { LogoutButton } from '@/components/logout-button'
-import { User, KeyRound, CreditCard, LogOut, BookOpen } from 'lucide-react'
+import { User, KeyRound, CreditCard, LogOut, BookOpen, Crown, Shield } from 'lucide-react'
 import { getTranslations } from 'next-intl/server'
+import { ROLE_COLORS, ROLE_BG, type AppRole } from '@/lib/permissions'
 
 const chevron = (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
@@ -49,6 +50,13 @@ function SectionLabel({ label }: { label: string }) {
   )
 }
 
+const ROLE_ICON: Record<AppRole, React.ReactNode> = {
+  superadmin: <Crown size={11} />,
+  admin:      <Shield size={11} />,
+  techniker:  <Shield size={11} />,
+  leser:      <Shield size={11} />,
+}
+
 export default async function MehrPage() {
   const supabase = await createClient()
   const t = await getTranslations()
@@ -56,7 +64,7 @@ export default async function MehrPage() {
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('full_name, organization_id')
+    .select('full_name, organization_id, app_role')
     .eq('id', user!.id)
     .single()
 
@@ -66,9 +74,18 @@ export default async function MehrPage() {
     .eq('id', profile?.organization_id ?? '')
     .single()
 
+  const appRole = (profile?.app_role as AppRole) ?? 'leser'
+
   const planLabel: Record<string, string> = {
     free: 'Free', starter: 'Starter', professional: 'Professional',
     enterprise: 'Enterprise', custom: 'Custom',
+  }
+
+  const roleLabel: Record<AppRole, string> = {
+    superadmin: t('roles.superadmin.label'),
+    admin:      t('roles.admin.label'),
+    techniker:  t('roles.techniker.label'),
+    leser:      t('roles.leser.label'),
   }
 
   return (
@@ -81,16 +98,29 @@ export default async function MehrPage() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
           <div style={{
             width: 48, height: 48, borderRadius: '50%',
-            backgroundColor: '#0099cc',
+            backgroundColor: appRole === 'superadmin' ? '#7c3aed' : '#0099cc',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 20, fontWeight: 700,
           }}>
             {(profile?.full_name ?? user?.email ?? 'U')[0].toUpperCase()}
           </div>
-          <div>
-            <p style={{ fontWeight: 700, fontSize: 16, margin: '0 0 2px' }}>
-              {profile?.full_name ?? user?.email}
-            </p>
+          <div style={{ flex: 1 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
+              <p style={{ fontWeight: 700, fontSize: 16, margin: 0 }}>
+                {profile?.full_name ?? user?.email}
+              </p>
+              {/* Rollen-Badge */}
+              <span style={{
+                display: 'inline-flex', alignItems: 'center', gap: 4,
+                fontSize: 10, fontWeight: 700,
+                padding: '2px 8px', borderRadius: 20,
+                backgroundColor: ROLE_BG[appRole],
+                color: ROLE_COLORS[appRole],
+              }}>
+                {ROLE_ICON[appRole]}
+                {roleLabel[appRole]}
+              </span>
+            </div>
             <p style={{ fontSize: 12, opacity: 0.7, margin: 0 }}>{user?.email}</p>
           </div>
         </div>

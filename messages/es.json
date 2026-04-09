@@ -796,25 +796,279 @@
   },
   "docs": {
     "title": "Documentación",
-    "subtitle": "Todo lo que necesitas saber.",
-    "heroDesc": "INOid es tu gestión digital de activos — desde el primer registro hasta el desmantelamiento. Listo en 5 minutos.",
-    "stats": {
-      "firstAsset": "hasta el primer activo",
-      "featureAreas": "áreas de funciones",
-      "browserBased": "basado en navegador"
+    "back": "Atrás",
+    "hero": {
+      "eyebrow": "INOid · Documentación",
+      "h1a": "Todo lo que",
+      "h1b": "necesitas saber.",
+      "sub": "INOid es tu gestión digital de activos — desde la puesta en marcha hasta la retirada. Listo en 5 minutos.",
+      "s1val": "5 min",
+      "s1label": "hasta el primer activo",
+      "s2val": "8+",
+      "s2label": "áreas de funciones",
+      "s3val": "100%",
+      "s3label": "basado en navegador"
     },
     "tabs": {
-      "quickstart": "Inicio rápido",
+      "start": "Inicio rápido",
       "features": "Funciones",
       "roles": "Roles",
-      "plans": "Planes & suscripción",
+      "plans": "Planes & Suscripción",
       "tips": "Consejos"
     },
-    "quickstart": {
-      "intro": "Cuatro pasos y conocerás lo esencial de INOid.",
-      "openDirectly": "Abrir directamente",
-      "demoTour": "Tour de demostración",
-      "demoSoon": "Video de introducción próximamente"
+    "qs": {
+      "intro": "Cuatro pasos para dominar lo esencial de INOid.",
+      "open": "Abrir",
+      "demoTitle": "Tour demo",
+      "demoSub": "Video de presentación próximamente",
+      "s1title": "Crear activo",
+      "s1desc": "Ve a Activos → pulsa \"+ Nuevo\". Añade título, categoría, fotos y datos técnicos.",
+      "s2title": "Escanear código QR",
+      "s2desc": "Pulsa el botón de escaneo en el centro de la navegación. La cámara se abre inmediatamente.",
+      "s3title": "Crear entrada de servicio",
+      "s3desc": "Abre un activo → Registro de servicio → \"+ Entrada\". Documenta mantenimientos, reparaciones e inspecciones.",
+      "s4title": "Configurar intervalo de mantenimiento",
+      "s4desc": "En el registro → \"+ Intervalo\". Elige un intervalo (semanal a 2 años) y fija la próxima fecha."
+    },
+    "feat": {
+      "intro": "Toca una función para ver los detalles.",
+      "f1": {
+        "title": "Gestión de activos",
+        "badge": "Base",
+        "desc": "Todos los equipos en un solo lugar. Cada activo obtiene un ID único, fotos, datos maestros técnicos y comerciales, y un código QR generado automáticamente.",
+        "points": [
+          "Photos, serial number, article number",
+          "Technical & commercial data freely definable",
+          "Status: Active, Defective, In Maintenance, Decommissioned + custom",
+          "Duplicate asset for fast serial entry",
+          "Location assignment with full history"
+        ]
+      },
+      "f2": {
+        "title": "Registro de servicio",
+        "badge": "Base",
+        "desc": "Documentación completa de todos los eventos del activo – desde la inspección hasta el incidente.",
+        "points": [
+          "10 system types + custom types (Settings → Event Types)",
+          "Attach photos & PDF documents",
+          "Costs, performed by, external company",
+          "Monthly grouped timeline",
+          "Maintenance plan as Gantt chart in service log"
+        ]
+      },
+      "f3": {
+        "title": "Intervalos de mantenimiento & Listas de verificación",
+        "badge": "Planificación",
+        "desc": "No olvides nunca las citas recurrentes. Define intervalos por activo y añade listas de verificación paso a paso.",
+        "points": [
+          "Presets: weekly, monthly, quarterly, …",
+          "Custom interval in days",
+          "Automatic calculation of next date",
+          "Create checklist per interval (unlimited steps)",
+          "Checklist appears on completion for ticking off",
+          "Mark maintenance as done from list or Gantt",
+          "Next date automatically advanced on completion"
+        ]
+      },
+      "f4": {
+        "title": "Panel de mantenimiento",
+        "badge": "Planificación",
+        "desc": "Todos los mantenimientos pendientes de un vistazo. Filtros, búsqueda y diagrama de Gantt.",
+        "points": [
+          "Task list: grouped by Overdue / This Week / 30 Days / Later",
+          "Gantt chart with heatmap (more intense the closer the date)",
+          "Search across all asset attributes (name, serial no., category, …)",
+          "Filter: urgency, category, entries per page",
+          "Time range filter controls Gantt view simultaneously",
+          "Pagination for large quantities"
+        ]
+      },
+      "f5": {
+        "title": "Escáner QR & NFC",
+        "badge": "Móvil",
+        "desc": "Accede a cualquier activo al instante escaneando – sin búsqueda, sin escritura.",
+        "points": [
+          "Scan QR code → open asset directly",
+          "Automatically generated QR code per asset",
+          "NFC tag UUID as fallback",
+          "Optimized for smartphone camera",
+          "QR code exportable as PDF/image"
+        ]
+      },
+      "f6": {
+        "title": "Ubicaciones & Estructura",
+        "badge": "Organización",
+        "desc": "Mapea tu estructura operativa: Ubicación → Nave → Área.",
+        "points": [
+          "3-level hierarchy: Location / Hall / Area",
+          "Any number of locations & halls",
+          "Complete location history",
+          "Free text input as alternative",
+          "Management under Organization"
+        ]
+      },
+      "f7": {
+        "title": "Equipos & Roles",
+        "badge": "Acceso",
+        "desc": "Varios empleados, responsabilidades claras. Invita colegas y asigna roles.",
+        "points": [
+          "Admin: full access + user management",
+          "Technician: edit assets & service",
+          "Reader: view only, no changes",
+          "Create members directly (email + password)",
+          "Roles changeable at any time"
+        ]
+      },
+      "f8": {
+        "title": "Documentos",
+        "badge": "Datos",
+        "desc": "Manuales, informes de inspección, certificados – almacenados directamente en el activo.",
+        "points": [
+          "PDF, images and other formats",
+          "Documents directly on the asset",
+          "Photos in service entry",
+          "Secure upload via Supabase Storage",
+          "Direct download link"
+        ]
+      },
+      "f9": {
+        "title": "Códigos QR & NFC",
+        "badge": "Identificación",
+        "desc": "Cada activo recibe automáticamente un código QR único.",
+        "points": [
+          "Automatic generation on creation",
+          "Format: inoid.app/assets/{id}",
+          "QR code displayed directly in the app",
+          "UUID usable for NFC chips",
+          "Accessible without app via browser link"
+        ]
+      }
+    },
+    "roles": {
+      "intro": "INOid usa tres roles. Asigna a cada empleado el rol más restrictivo apropiado.",
+      "tip": "Gestiona roles en Equipos → seleccionar miembro → cambiar rol.",
+      "r1": {
+        "name": "Admin",
+        "points": [
+          "Read & edit everything",
+          "Create & delete assets",
+          "Create & manage members",
+          "Assign roles",
+          "Change settings"
+        ]
+      },
+      "r2": {
+        "name": "Técnico",
+        "points": [
+          "View all assets",
+          "Edit assets & service log",
+          "Create service entries",
+          "Maintain intervals",
+          "No team management"
+        ]
+      },
+      "r3": {
+        "name": "Lector",
+        "points": [
+          "View all assets",
+          "Read service log",
+          "No editing rights",
+          "No create/delete",
+          "Ideal for auditors & external parties"
+        ]
+      }
+    },
+    "plans": {
+      "intro": "INOid ofrece cuatro planes. El pago es por transferencia bancaria – sin trampa de suscripción, sin tarjeta de crédito.",
+      "h1": "Planes disponibles",
+      "h2": "Cómo funciona la reserva",
+      "perMonth": "excl. IVA/mes",
+      "tip": "Código de activación: El código se envía automáticamente por email a todos los Admins tras el pago.",
+      "cta": "Ir a la suscripción",
+      "t1": {
+        "points": [
+          "5 Assets",
+          "1 User",
+          "Service Log",
+          "QR Scanner"
+        ]
+      },
+      "t2": {
+        "points": [
+          "50 Assets",
+          "Up to 5 users",
+          "Maintenance intervals",
+          "Location management",
+          "Document upload"
+        ]
+      },
+      "t3": {
+        "points": [
+          "200 Assets",
+          "Up to 20 users",
+          "All Starter features",
+          "Teams & Roles",
+          "Advanced analytics"
+        ]
+      },
+      "t4": {
+        "points": [
+          "Unlimited Assets",
+          "Unlimited users",
+          "All Professional features",
+          "Priority Support",
+          "Custom adaptations"
+        ]
+      },
+      "bs1": {
+        "title": "Elegir plan",
+        "desc": "Ve a Suscripción (Barra lateral → Organización). Elige tu plan y haz clic en \"Crear factura\"."
+      },
+      "bs2": {
+        "title": "Rellenar & descargar factura",
+        "desc": "Rellena la dirección de facturación. La factura se muestra inmediatamente."
+      },
+      "bs3": {
+        "title": "Realizar transferencia",
+        "desc": "Transfiere el importe al cuenta bancaria indicada (Inomet GmbH)."
+      },
+      "bs4": {
+        "title": "Recibir código de activación",
+        "desc": "Tras el pago recibirás automáticamente un código de 9 dígitos por email."
+      },
+      "bs5": {
+        "title": "Canjear código & activar plan",
+        "desc": "Vuelve a Suscripción, introduce el código y haz clic en \"Activar\"."
+      }
+    },
+    "tips": {
+      "intro": "Consejos pro para sacar el máximo partido a INOid.",
+      "t1": "Duplicar activos ahorra tiempo al registrar dispositivos idénticos.",
+      "t2": "¿Terminado antes? Toca el botón verde en el panel – la próxima fecha se calcula automáticamente.",
+      "t3": "Asigna a cada empleado el rol más restrictivo – Lector para auditores externos.",
+      "t4": "INOid funciona como PWA: añade un enlace en la pantalla de inicio de tu móvil.",
+      "t5": "Revisa el panel de mantenimiento diariamente – los intervalos vencidos se marcan en rojo.",
+      "navTitle": "Navegación de escritorio",
+      "nav": [
+        {
+          "a": "Activos",
+          "b": "Barra izquierda → Activos"
+        },
+        {
+          "a": "Escanear",
+          "b": "Barra izquierda → Escanear"
+        },
+        {
+          "a": "Mantenimiento",
+          "b": "Barra izquierda → Mantenimiento & Servicio"
+        },
+        {
+          "a": "Perfil",
+          "b": "Barra izquierda → Perfil & Ajustes"
+        }
+      ],
+      "contactTitle": "¿Tienes más preguntas?",
+      "contactDesc": "Contacta a tu administrador o al soporte de INOid a través de Inomet GmbH."
     }
   },
   "eventTypes": {

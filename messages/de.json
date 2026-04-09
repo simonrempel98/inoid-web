@@ -796,25 +796,279 @@
   },
   "docs": {
     "title": "Dokumentation",
-    "subtitle": "Alles, was du wissen musst.",
-    "heroDesc": "INOid ist dein digitales Betriebsmittelmanagement — von der Erstzulassung bis zur Entsorgung. In 5 Minuten ready.",
-    "stats": {
-      "firstAsset": "bis zum ersten Asset",
-      "featureAreas": "Feature-Bereiche",
-      "browserBased": "browserbasiert"
+    "back": "Zurück",
+    "hero": {
+      "eyebrow": "INOid · Dokumentation",
+      "h1a": "Alles, was du",
+      "h1b": "wissen musst.",
+      "sub": "INOid ist dein digitales Betriebsmittelmanagement — von der Erstzulassung bis zur Entsorgung. In 5 Minuten ready.",
+      "s1val": "5 min",
+      "s1label": "bis zum ersten Asset",
+      "s2val": "8+",
+      "s2label": "Feature-Bereiche",
+      "s3val": "100%",
+      "s3label": "browserbasiert"
     },
     "tabs": {
-      "quickstart": "Schnellstart",
+      "start": "Schnellstart",
       "features": "Features",
       "roles": "Rollen",
       "plans": "Pläne & Abo",
       "tips": "Tipps"
     },
-    "quickstart": {
+    "qs": {
       "intro": "Vier Schritte und du kennst das Wesentliche von INOid.",
-      "openDirectly": "Direkt öffnen",
-      "demoTour": "Demo-Tour",
-      "demoSoon": "Walkthrough-Video in Kürze verfügbar"
+      "open": "Direkt öffnen",
+      "demoTitle": "Demo-Tour",
+      "demoSub": "Walkthrough-Video in Kürze verfügbar",
+      "s1title": "Asset anlegen",
+      "s1desc": "Gehe zu Assets → tippe auf „+ Neu“. Füge Titel, Kategorie, Fotos und technische Daten hinzu.",
+      "s2title": "QR-Code scannen",
+      "s2desc": "Drücke den Scan-Button in der Mitte der Navigation. Die Kamera öffnet sich sofort.",
+      "s3title": "Serviceeintrag erstellen",
+      "s3desc": "Öffne ein Asset → Serviceheft → „+ Eintrag“. Dokumentiere Wartungen, Reparaturen und Inspektionen.",
+      "s4title": "Wartungsintervall einrichten",
+      "s4desc": "Im Serviceheft → „+ Intervall“. Wähle ein Intervall (wöchentlich bis 2-jährlich) und setze die nächste Fälligkeit."
+    },
+    "feat": {
+      "intro": "Tippe auf ein Feature, um Details zu sehen.",
+      "f1": {
+        "title": "Asset-Verwaltung",
+        "badge": "Kern",
+        "desc": "Alle Betriebsmittel an einem Ort. Jedes Asset bekommt eine eindeutige ID, Fotos, technische & kommerzielle Stammdaten sowie einen automatisch generierten QR-Code.",
+        "points": [
+          "Fotos, Seriennummer, Artikelnummer",
+          "Technische & kommerzielle Daten frei definierbar",
+          "Status: Aktiv, Defekt, In Wartung, Ausgemustert + eigene",
+          "Asset duplizieren für schnelle Serienerfassung",
+          "Standortzuweisung mit vollständiger Verlaufshistorie"
+        ]
+      },
+      "f2": {
+        "title": "Serviceheft",
+        "badge": "Kern",
+        "desc": "Lückenlose Dokumentation aller Ereignisse am Asset – von der Inspektion bis zum Vorfall. Fotos und Dokumente direkt anhängen.",
+        "points": [
+          "10 Systemtypen + eigene Typen (Einstellungen → Event-Typen)",
+          "Fotos & PDF-Dokumente anhängen",
+          "Kosten, Durchführender, externes Unternehmen",
+          "Monatsweise gruppierte Timeline",
+          "Wartungsplan als Gantt-Chart direkt im Serviceheft"
+        ]
+      },
+      "f3": {
+        "title": "Wartungsintervalle & Checklisten",
+        "badge": "Planung",
+        "desc": "Wiederkehrende Termine nie vergessen. Definiere Intervalle pro Asset, hinterlege Schritt-für-Schritt-Checklisten und behalte alle Fälligkeiten im Blick.",
+        "points": [
+          "Vorgaben: wöchentlich, monatlich, vierteljährlich, …",
+          "Individuelles Intervall in Tagen",
+          "Automatische Berechnung des nächsten Termins",
+          "Checkliste pro Intervall anlegen (beliebig viele Schritte)",
+          "Checkliste erscheint beim Abschließen zum Abhaken",
+          "Wartung direkt als erledigt markieren – aus Liste oder Gantt",
+          "Nächster Termin wird beim Abschließen automatisch vorgerückt"
+        ]
+      },
+      "f4": {
+        "title": "Wartungs-Dashboard",
+        "badge": "Planung",
+        "desc": "Alle fälligen Wartungen auf einen Blick. Filter, Suche und Gantt-Chart für die komplette Übersicht über alle Assets.",
+        "points": [
+          "Aufgabenliste: gruppiert nach Überfällig / Diese Woche / 30 Tage / Später",
+          "Gantt-Chart mit Heatmap-Verlauf (intensiver je näher der Termin)",
+          "Suche über alle Asset-Merkmale (Name, Seriennr., Kategorie, …)",
+          "Filter: Dringlichkeit, Kategorie, Einträge pro Seite",
+          "Zeitraum-Filter steuert gleichzeitig Gantt-Ansicht",
+          "Pagination für große Mengen"
+        ]
+      },
+      "f5": {
+        "title": "QR- & NFC-Scanner",
+        "badge": "Mobile",
+        "desc": "Asset sofort durch Scannen aufrufen – kein Suchen, kein Tippen. Funktioniert mit der Kamera im Browser, kein App-Download nötig.",
+        "points": [
+          "QR-Code scannen → Asset direkt öffnen",
+          "Automatisch generierter QR-Code pro Asset",
+          "NFC-Tag UUID als Fallback",
+          "Optimiert für Smartphone-Kamera",
+          "QR-Code als PDF/Bild exportierbar"
+        ]
+      },
+      "f6": {
+        "title": "Standorte & Struktur",
+        "badge": "Organisation",
+        "desc": "Bilde deine Betriebsstruktur exakt ab: Standort → Halle → Bereich. Jedes Asset kann einem Bereich zugewiesen werden.",
+        "points": [
+          "3-stufige Hierarchie: Standort / Halle / Bereich",
+          "Beliebig viele Standorte & Hallen",
+          "Vollständige Standort-Verlaufshistorie",
+          "Freie Texteingabe als Alternative",
+          "Verwaltung unter Organisation"
+        ]
+      },
+      "f7": {
+        "title": "Teams & Rollen",
+        "badge": "Zugriff",
+        "desc": "Mehrere Mitarbeiter, klare Verantwortlichkeiten. Lade Kollegen ein und weise Rollen zu – jede Rolle sieht und kann genau das, was sie soll.",
+        "points": [
+          "Admin: voller Zugriff + Benutzerverwaltung",
+          "Techniker: Assets & Service bearbeiten",
+          "Leser: nur Ansicht, keine Änderungen",
+          "Mitglieder direkt anlegen (E-Mail + Passwort)",
+          "Rollen jederzeit änderbar"
+        ]
+      },
+      "f8": {
+        "title": "Dokumente",
+        "badge": "Daten",
+        "desc": "Bedienungsanleitungen, Prüfberichte, Zertifikate – direkt am Asset ablegen. Fotos im Serviceheft lückenlos dokumentieren.",
+        "points": [
+          "PDF, Bilder und weitere Formate",
+          "Dokumente direkt am Asset",
+          "Fotos im Serviceeintrag",
+          "Sicherer Upload über Supabase Storage",
+          "Direkter Download-Link"
+        ]
+      },
+      "f9": {
+        "title": "QR-Codes & NFC",
+        "badge": "Identifikation",
+        "desc": "Jedes Asset erhält automatisch einen eindeutigen QR-Code. Klebe ihn ans Gerät und scanne ihn jederzeit für sofortigen Zugriff.",
+        "points": [
+          "Automatische Generierung bei Anlage",
+          "Format: inoid.app/assets/{id}",
+          "QR-Code direkt in der App anzeigen",
+          "UUID für NFC-Chips nutzbar",
+          "Auch ohne App über Browser-Link aufrufbar"
+        ]
+      }
+    },
+    "roles": {
+      "intro": "INOid nutzt drei Rollen. Weise jedem Mitarbeiter die engste passende Rolle zu.",
+      "tip": "Rollen verwaltest du unter Teams → Mitglied auswählen → Rolle ändern. Neue Mitglieder anlegst du über Teams → Team öffnen → Mitglied anlegen.",
+      "r1": {
+        "name": "Admin",
+        "points": [
+          "Alles lesen & bearbeiten",
+          "Assets anlegen & löschen",
+          "Mitglieder anlegen & verwalten",
+          "Rollen vergeben",
+          "Einstellungen ändern"
+        ]
+      },
+      "r2": {
+        "name": "Techniker",
+        "points": [
+          "Alle Assets sehen",
+          "Assets & Serviceheft bearbeiten",
+          "Serviceeinträge anlegen",
+          "Wartungsintervalle pflegen",
+          "Keine Teamverwaltung"
+        ]
+      },
+      "r3": {
+        "name": "Leser",
+        "points": [
+          "Alle Assets sehen",
+          "Serviceheft lesen",
+          "Keine Bearbeitungsrechte",
+          "Kein Anlegen/Löschen",
+          "Ideal für Prüfer & Externe"
+        ]
+      }
+    },
+    "plans": {
+      "intro": "INOid bietet vier Pläne. Bezahlt wird per Überweisung – kein Abo-Zwang, kein Kreditkartenzwang. Nach Zahlungseingang erhältst du per E-Mail einen Code, den du direkt einlöst.",
+      "h1": "Verfügbare Pläne",
+      "h2": "So funktioniert die Buchung",
+      "perMonth": "zzgl. MwSt./Monat",
+      "tip": "Aktivierungscode: Der Code wird nach Zahlungseingang automatisch per E-Mail an alle Admins der Organisation gesendet. Stelle sicher, dass mindestens ein Admin eine erreichbare E-Mail-Adresse hinterlegt hat.",
+      "cta": "Zum Abonnement",
+      "t1": {
+        "points": [
+          "5 Assets",
+          "1 Benutzer",
+          "Serviceheft",
+          "QR-Scanner"
+        ]
+      },
+      "t2": {
+        "points": [
+          "50 Assets",
+          "Bis 5 Benutzer",
+          "Wartungsintervalle",
+          "Standortverwaltung",
+          "Dokument-Upload"
+        ]
+      },
+      "t3": {
+        "points": [
+          "200 Assets",
+          "Bis 20 Benutzer",
+          "Alle Starter-Features",
+          "Teams & Rollen",
+          "Erweiterte Auswertungen"
+        ]
+      },
+      "t4": {
+        "points": [
+          "Unbegrenzte Assets",
+          "Unbegrenzte Benutzer",
+          "Alle Professional-Features",
+          "Priority-Support",
+          "Individuelle Anpassungen"
+        ]
+      },
+      "bs1": {
+        "title": "Plan wählen",
+        "desc": "Gehe zu Abonnement (Sidebar → Organisationsverwaltung). Wähle den gewünschten Plan und klicke auf \"Rechnung erstellen\"."
+      },
+      "bs2": {
+        "title": "Rechnung ausfüllen & herunterladen",
+        "desc": "Fülle die Rechnungsadresse aus (Name/Firma, Straße, PLZ/Ort, Land, USt-ID optional). Die Rechnung wird sofort angezeigt und kann gedruckt werden."
+      },
+      "bs3": {
+        "title": "Überweisen",
+        "desc": "Überweise den Rechnungsbetrag auf das angegebene Bankkonto (Inomet GmbH). Verwende die Rechnungsnummer als Verwendungszweck."
+      },
+      "bs4": {
+        "title": "Aktivierungscode erhalten",
+        "desc": "Nach Zahlungseingang erhältst du automatisch einen 9-stelligen Aktivierungscode per E-Mail an alle Admins deiner Organisation."
+      },
+      "bs5": {
+        "title": "Code einlösen & Plan aktivieren",
+        "desc": "Gehe zurück zu Abonnement, trage den Code im Feld \"Aktivierungscode einlösen\" ein und klicke auf \"Aktivieren\". Der Plan ist sofort aktiv."
+      }
+    },
+    "tips": {
+      "intro": "Profi-Tipps für den maximalen Nutzen aus INOid.",
+      "t1": "Asset duplizieren spart Zeit bei der Erfassung gleicher Geräte.",
+      "t2": "Wartung früh erledigt? Einfach den grünen Haken-Button im Wartungs-Dashboard tippen – der nächste Termin wird automatisch berechnet.",
+      "t3": "Weise jedem Mitarbeiter die engste Rolle zu – Leser für externe Prüfer.",
+      "t4": "INOid läuft als PWA: Startbildschirm-Link auf dem Smartphone für App-Feeling.",
+      "t5": "Prüfe täglich das Wartungs-Dashboard – überfällige Intervalle werden rot markiert.",
+      "navTitle": "Desktop-Navigation",
+      "nav": [
+        {
+          "a": "Assets",
+          "b": "Linke Sidebar → Assets"
+        },
+        {
+          "a": "Scannen",
+          "b": "Linke Sidebar → Scannen"
+        },
+        {
+          "a": "Wartung",
+          "b": "Linke Sidebar → Wartung & Service"
+        },
+        {
+          "a": "Profil",
+          "b": "Linke Sidebar → Profil & Einstellungen"
+        }
+      ],
+      "contactTitle": "Noch Fragen?",
+      "contactDesc": "Wende dich an deinen Administrator oder kontaktiere den INOid-Support direkt über Inomet GmbH."
     }
   },
   "eventTypes": {

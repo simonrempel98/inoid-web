@@ -796,25 +796,279 @@
   },
   "docs": {
     "title": "Dokumentacja",
-    "subtitle": "Wszystko, co musisz wiedzieć.",
-    "heroDesc": "INOid to twoje cyfrowe zarządzanie aktywami — od pierwszej rejestracji do wycofania. Gotowe w 5 minut.",
-    "stats": {
-      "firstAsset": "do pierwszego aktywa",
-      "featureAreas": "obszary funkcji",
-      "browserBased": "oparty na przeglądarce"
+    "back": "Wstecz",
+    "hero": {
+      "eyebrow": "INOid · Dokumentacja",
+      "h1a": "Wszystko, co",
+      "h1b": "musisz wiedzieć.",
+      "sub": "INOid to cyfrowe zarządzanie aktywami — od uruchomienia do wycofania z użycia. Gotowe w 5 minut.",
+      "s1val": "5 min",
+      "s1label": "do pierwszego zasobu",
+      "s2val": "8+",
+      "s2label": "obszary funkcji",
+      "s3val": "100%",
+      "s3label": "oparte na przeglądarce"
     },
     "tabs": {
-      "quickstart": "Szybki start",
+      "start": "Szybki start",
       "features": "Funkcje",
       "roles": "Role",
-      "plans": "Plany i subskrypcja",
+      "plans": "Plany & Subskrypcja",
       "tips": "Wskazówki"
     },
-    "quickstart": {
-      "intro": "Cztery kroki i poznasz istotę INOid.",
-      "openDirectly": "Otwórz bezpośrednio",
-      "demoTour": "Wycieczka demo",
-      "demoSoon": "Film instruktażowy już wkrótce"
+    "qs": {
+      "intro": "Cztery kroki do opanowania podstaw INOid.",
+      "open": "Otwórz",
+      "demoTitle": "Tour demo",
+      "demoSub": "Film instruktażowy wkrótce",
+      "s1title": "Utwórz zasób",
+      "s1desc": "Przejdź do Zasoby → dotknij \"+ Nowy\". Dodaj tytuł, kategorię, zdjęcia i dane techniczne.",
+      "s2title": "Zeskanuj kod QR",
+      "s2desc": "Naciśnij przycisk skanowania w środku nawigacji. Kamera otwiera się natychmiast.",
+      "s3title": "Utwórz wpis serwisowy",
+      "s3desc": "Otwórz zasób → Dziennik serwisowy → \"+ Wpis\". Dokumentuj konserwacje, naprawy i inspekcje.",
+      "s4title": "Ustaw interwał konserwacji",
+      "s4desc": "W dzienniku → \"+ Interwał\". Wybierz interwał i ustaw następny termin."
+    },
+    "feat": {
+      "intro": "Dotknij funkcji, aby zobaczyć szczegóły.",
+      "f1": {
+        "title": "Zarządzanie zasobami",
+        "badge": "Rdzeń",
+        "desc": "Wszystkie zasoby w jednym miejscu. Każdy zasób otrzymuje unikalny identyfikator, zdjęcia, dane techniczne i handlowe oraz automatycznie wygenerowany kod QR.",
+        "points": [
+          "Photos, serial number, article number",
+          "Technical & commercial data freely definable",
+          "Status: Active, Defective, In Maintenance, Decommissioned + custom",
+          "Duplicate asset for fast serial entry",
+          "Location assignment with full history"
+        ]
+      },
+      "f2": {
+        "title": "Dziennik serwisowy",
+        "badge": "Rdzeń",
+        "desc": "Pełna dokumentacja wszystkich zdarzeń zasobu – od inspekcji do incydentu.",
+        "points": [
+          "10 system types + custom types (Settings → Event Types)",
+          "Attach photos & PDF documents",
+          "Costs, performed by, external company",
+          "Monthly grouped timeline",
+          "Maintenance plan as Gantt chart in service log"
+        ]
+      },
+      "f3": {
+        "title": "Interwały konserwacji & Listy kontrolne",
+        "badge": "Planowanie",
+        "desc": "Nigdy nie zapomnij o cyklicznych terminach. Definiuj interwały i dodawaj listy kontrolne krok po kroku.",
+        "points": [
+          "Presets: weekly, monthly, quarterly, …",
+          "Custom interval in days",
+          "Automatic calculation of next date",
+          "Create checklist per interval (unlimited steps)",
+          "Checklist appears on completion for ticking off",
+          "Mark maintenance as done from list or Gantt",
+          "Next date automatically advanced on completion"
+        ]
+      },
+      "f4": {
+        "title": "Panel konserwacji",
+        "badge": "Planowanie",
+        "desc": "Wszystkie zaległe konserwacje na jednym ekranie. Filtry, wyszukiwanie i wykres Gantta.",
+        "points": [
+          "Task list: grouped by Overdue / This Week / 30 Days / Later",
+          "Gantt chart with heatmap (more intense the closer the date)",
+          "Search across all asset attributes (name, serial no., category, …)",
+          "Filter: urgency, category, entries per page",
+          "Time range filter controls Gantt view simultaneously",
+          "Pagination for large quantities"
+        ]
+      },
+      "f5": {
+        "title": "Skaner QR & NFC",
+        "badge": "Mobilny",
+        "desc": "Natychmiastowy dostęp do każdego zasobu przez skanowanie – bez wyszukiwania, bez pisania.",
+        "points": [
+          "Scan QR code → open asset directly",
+          "Automatically generated QR code per asset",
+          "NFC tag UUID as fallback",
+          "Optimized for smartphone camera",
+          "QR code exportable as PDF/image"
+        ]
+      },
+      "f6": {
+        "title": "Lokalizacje & Struktura",
+        "badge": "Organizacja",
+        "desc": "Odwzoruj swoją strukturę operacyjną: Lokalizacja → Hala → Obszar.",
+        "points": [
+          "3-level hierarchy: Location / Hall / Area",
+          "Any number of locations & halls",
+          "Complete location history",
+          "Free text input as alternative",
+          "Management under Organization"
+        ]
+      },
+      "f7": {
+        "title": "Zespoły & Role",
+        "badge": "Dostęp",
+        "desc": "Wielu pracowników, jasne odpowiedzialności. Zapraszaj współpracowników i przydzielaj role.",
+        "points": [
+          "Admin: full access + user management",
+          "Technician: edit assets & service",
+          "Reader: view only, no changes",
+          "Create members directly (email + password)",
+          "Roles changeable at any time"
+        ]
+      },
+      "f8": {
+        "title": "Dokumenty",
+        "badge": "Dane",
+        "desc": "Instrukcje, raporty inspekcji, certyfikaty – przechowywane bezpośrednio przy zasobie.",
+        "points": [
+          "PDF, images and other formats",
+          "Documents directly on the asset",
+          "Photos in service entry",
+          "Secure upload via Supabase Storage",
+          "Direct download link"
+        ]
+      },
+      "f9": {
+        "title": "Kody QR & NFC",
+        "badge": "Identyfikacja",
+        "desc": "Każdy zasób automatycznie otrzymuje unikalny kod QR.",
+        "points": [
+          "Automatic generation on creation",
+          "Format: inoid.app/assets/{id}",
+          "QR code displayed directly in the app",
+          "UUID usable for NFC chips",
+          "Accessible without app via browser link"
+        ]
+      }
+    },
+    "roles": {
+      "intro": "INOid używa trzech ról. Przypisz każdemu pracownikowi najbardziej restrykcyjną odpowiednią rolę.",
+      "tip": "Zarządzaj rolami w Zespoły → wybierz członka → zmień rolę.",
+      "r1": {
+        "name": "Admin",
+        "points": [
+          "Read & edit everything",
+          "Create & delete assets",
+          "Create & manage members",
+          "Assign roles",
+          "Change settings"
+        ]
+      },
+      "r2": {
+        "name": "Technik",
+        "points": [
+          "View all assets",
+          "Edit assets & service log",
+          "Create service entries",
+          "Maintain intervals",
+          "No team management"
+        ]
+      },
+      "r3": {
+        "name": "Czytelnik",
+        "points": [
+          "View all assets",
+          "Read service log",
+          "No editing rights",
+          "No create/delete",
+          "Ideal for auditors & external parties"
+        ]
+      }
+    },
+    "plans": {
+      "intro": "INOid oferuje cztery plany. Płatność przelewem bankowym – bez pułapki subskrypcji, bez karty kredytowej.",
+      "h1": "Dostępne plany",
+      "h2": "Jak działa rezerwacja",
+      "perMonth": "bez VAT/miesiąc",
+      "tip": "Kod aktywacyjny: Kod jest automatycznie wysyłany emailem do wszystkich Adminów po otrzymaniu płatności.",
+      "cta": "Przejdź do subskrypcji",
+      "t1": {
+        "points": [
+          "5 Assets",
+          "1 User",
+          "Service Log",
+          "QR Scanner"
+        ]
+      },
+      "t2": {
+        "points": [
+          "50 Assets",
+          "Up to 5 users",
+          "Maintenance intervals",
+          "Location management",
+          "Document upload"
+        ]
+      },
+      "t3": {
+        "points": [
+          "200 Assets",
+          "Up to 20 users",
+          "All Starter features",
+          "Teams & Roles",
+          "Advanced analytics"
+        ]
+      },
+      "t4": {
+        "points": [
+          "Unlimited Assets",
+          "Unlimited users",
+          "All Professional features",
+          "Priority Support",
+          "Custom adaptations"
+        ]
+      },
+      "bs1": {
+        "title": "Wybierz plan",
+        "desc": "Przejdź do Subskrypcji. Wybierz plan i kliknij \"Utwórz fakturę\"."
+      },
+      "bs2": {
+        "title": "Wypełnij & pobierz fakturę",
+        "desc": "Wypełnij adres rozliczeniowy. Faktura jest wyświetlana natychmiast."
+      },
+      "bs3": {
+        "title": "Dokonaj przelewu",
+        "desc": "Przelej kwotę na wskazane konto bankowe (Inomet GmbH)."
+      },
+      "bs4": {
+        "title": "Odbierz kod aktywacyjny",
+        "desc": "Po płatności automatycznie otrzymasz 9-cyfrowy kod emailem."
+      },
+      "bs5": {
+        "title": "Zrealizuj kod & aktywuj plan",
+        "desc": "Wróć do Subskrypcji, wpisz kod i kliknij \"Aktywuj\"."
+      }
+    },
+    "tips": {
+      "intro": "Porady dla profesjonalistów, aby w pełni wykorzystać INOid.",
+      "t1": "Duplikowanie zasobów oszczędza czas przy rejestrowaniu identycznych urządzeń.",
+      "t2": "Skończyłeś wcześniej? Dotknij zielonego przycisku w panelu – następna data jest obliczana automatycznie.",
+      "t3": "Przypisz każdemu pracownikowi najbardziej restrykcyjną rolę – Czytelnik dla zewnętrznych audytorów.",
+      "t4": "INOid działa jako PWA: dodaj link do ekranu startowego smartfona.",
+      "t5": "Sprawdzaj panel konserwacji codziennie – przeterminowane interwały są oznaczone na czerwono.",
+      "navTitle": "Nawigacja na pulpicie",
+      "nav": [
+        {
+          "a": "Zasoby",
+          "b": "Lewy pasek → Zasoby"
+        },
+        {
+          "a": "Skanuj",
+          "b": "Lewy pasek → Skanuj"
+        },
+        {
+          "a": "Konserwacja",
+          "b": "Lewy pasek → Konserwacja & Serwis"
+        },
+        {
+          "a": "Profil",
+          "b": "Lewy pasek → Profil & Ustawienia"
+        }
+      ],
+      "contactTitle": "Masz jeszcze pytania?",
+      "contactDesc": "Skontaktuj się z administratorem lub wsparciem INOid przez Inomet GmbH."
     }
   },
   "eventTypes": {
