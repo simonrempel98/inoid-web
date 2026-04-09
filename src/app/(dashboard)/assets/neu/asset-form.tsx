@@ -4,9 +4,25 @@ import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
-import { CheckCircle2, Smartphone, Tag } from 'lucide-react'
+import { CheckCircle2, Smartphone, Tag, Star, FileText, X, Upload } from 'lucide-react'
 import { OrgTreePicker, getOrgRefLabel, type OrgLocation, type OrgHall, type OrgArea } from '@/components/org-tree-picker'
 import { CategoryCombobox } from '@/components/category-combobox'
+
+const DOC_TYPES = [
+  { value: 'manual', label: 'Handbuch' },
+  { value: 'certificate', label: 'Zertifikat' },
+  { value: 'invoice', label: 'Rechnung' },
+  { value: 'delivery_note', label: 'Lieferschein' },
+  { value: 'order_confirmation', label: 'Auftragsbestätigung' },
+  { value: 'protocol', label: 'Protokoll' },
+  { value: 'other', label: 'Sonstiges' },
+]
+
+type DocEntry = {
+  file: File
+  name: string
+  document_type: string
+}
 
 export function AssetForm({ locations = [], halls = [], areas = [], categories = [] }: {
   locations?: OrgLocation[]
@@ -18,6 +34,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
   const router = useRouter()
   const supabase = createClient()
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const docInputRef = useRef<HTMLInputElement>(null)
 
   const STEPS = [
     t('assets.form.steps.basisdaten'),
@@ -49,6 +66,10 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
   // Step 1 – Fotos
   const [imageFiles, setImageFiles] = useState<File[]>([])
   const [imagePreviews, setImagePreviews] = useState<string[]>([])
+  const [coverIndex, setCoverIndex] = useState(0)
+
+  // Step 1 – Dokumente
+  const [docs, setDocs] = useState<DocEntry[]>([])
 
   // Step 2 – Technische Daten
   const [techFreeKeys, setTechFreeKeys] = useState<string[]>([])
@@ -62,30 +83,80 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
     const files = Array.from(e.target.files ?? [])
     const remaining = 10 - imageFiles.length
     const toAdd = files.slice(0, remaining)
+    const startIdx = imageFiles.length
     setImageFiles(prev => [...prev, ...toAdd])
-    toAdd.forEach(f => {
+    toAdd.forEach((f, i) => {
       const reader = new FileReader()
       reader.onload = ev => setImagePreviews(prev => [...prev, ev.target?.result as string])
       reader.readAsDataURL(f)
+      // Erstes Bild automatisch als Cover setzen
+      if (startIdx === 0 && i === 0) setCoverIndex(0)
     })
   }
 
   function removeImage(index: number) {
     setImageFiles(prev => prev.filter((_, i) => i !== index))
     setImagePreviews(prev => prev.filter((_, i) => i !== index))
+    if (coverIndex >= index && coverIndex > 0) setCoverIndex(c => c - 1)
+    else if (coverIndex === index) setCoverIndex(0)
+  }
+
+  function handleDocSelect(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? [])
+    const toAdd: DocEntry[] = files.map(f => ({
+      file: f,
+      name: f.name.replace(/\.[^/.]+$/, ''), // Dateiname ohne Endung als Default-Name
+      document_type: 'other',
+    }))
+    setDocs(prev => [...prev, ...toAdd])
+    e.target.value = ''
+  }
+
+  function updateDoc(index: number, changes: Partial<DocEntry>) {
+    setDocs(prev => prev.map((d, i) => i === index ? { ...d, ...changes } : d))
+  }
+
+  function removeDoc(index: number) {
+    setDocs(prev => prev.filter((_, i) => i !== index))
   }
 
   async function uploadImages(): Promise<string[]> {
+    // Cover-Bild zuerst
+    const ordered = [
+      imageFiles[coverIndex],
+      ...imageFiles.filter((_, i) => i !== coverIndex),
+    ].filter(Boolean)
+
     const urls: string[] = []
-    for (const file of imageFiles) {
+    for (const file of ordered) {
       const ext = file.name.split('.').pop()
-      const path = `${assetId}/${Date.now()}.${ext}`
+      const path = `assets/${assetId}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`
       const { error } = await supabase.storage.from('asset-images').upload(path, file, { upsert: false })
       if (error) throw new Error(t('assets.form.uploadFailed') + ': ' + error.message)
       const { data } = supabase.storage.from('asset-images').getPublicUrl(path)
       urls.push(data.publicUrl)
     }
     return urls
+  }
+
+  async function uploadDocs(orgId: string): Promise<void> {
+    for (const doc of docs) {
+      const ext = doc.file.name.split('.').pop()
+      const path = `asset-docs/${assetId}/${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`
+      const { error: upErr } = await supabase.storage.from('service-files').upload(path, doc.file)
+      if (upErr) throw new Error('Dokument-Upload fehlgeschlagen: ' + upErr.message)
+      const { data } = supabase.storage.from('service-files').getPublicUrl(path)
+
+      await supabase.from('asset_documents').insert({
+        asset_id: assetId,
+        organization_id: orgId,
+        name: doc.name || doc.file.name,
+        file_url: data.publicUrl,
+        file_type: doc.file.type || null,
+        file_size_bytes: doc.file.size,
+        document_type: doc.document_type,
+      })
+    }
   }
 
   async function generateQR(): Promise<string> {
@@ -142,6 +213,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
       if (insertError || !asset) throw new Error(insertError?.message ?? t('assets.form.saveFailed'))
 
       const imageUrls = await uploadImages()
+      await uploadDocs(profile.organization_id)
       const qrUrl = await generateQR()
 
       await supabase.from('assets').update({
@@ -173,53 +245,26 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
               value={key}
               onChange={e => {
                 const newLabel = e.target.value
-                setFreeKeys(prev => {
-                  const updated = [...prev]
-                  updated[i] = newLabel
-                  return updated
-                })
-                setData(prev => {
-                  const oldKey = freeKeys[i]
-                  const next = { ...prev }
-                  next[newLabel] = next[oldKey] ?? ''
-                  delete next[oldKey]
-                  return next
-                })
+                setFreeKeys(prev => { const updated = [...prev]; updated[i] = newLabel; return updated })
+                setData(prev => { const oldKey = freeKeys[i]; const next = { ...prev }; next[newLabel] = next[oldKey] ?? ''; delete next[oldKey]; return next })
               }}
               style={{ ...inputStyle, flex: 1 }}
               placeholder={t('assets.form.fieldName')}
             />
             <input
               value={data[key] ?? ''}
-              onChange={e => {
-                const val = e.target.value
-                setData(prev => ({ ...prev, [key]: val }))
-              }}
+              onChange={e => { const val = e.target.value; setData(prev => ({ ...prev, [key]: val })) }}
               style={{ ...inputStyle, flex: 1 }}
               placeholder={t('assets.form.fieldValue')}
             />
-            <button
-              type="button"
-              onClick={() => {
-                setData(prev => {
-                  const next = { ...prev }
-                  delete next[key]
-                  return next
-                })
-                setFreeKeys(prev => prev.filter((_, j) => j !== i))
-              }}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#999', fontSize: 18 }}
-            >×</button>
+            <button type="button" onClick={() => { setData(prev => { const next = { ...prev }; delete next[key]; return next }); setFreeKeys(prev => prev.filter((_, j) => j !== i)) }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#999', fontSize: 18 }}>×</button>
           </div>
         ))}
-        <button
-          type="button"
-          onClick={() => setFreeKeys([...freeKeys, ''])}
-          style={{
-            border: '1px dashed #c8d4e8', background: 'none', borderRadius: 10,
-            padding: '8px 16px', color: '#003366', fontSize: 13, cursor: 'pointer', fontWeight: 600,
-          }}
-        >{t('assets.form.addField')}</button>
+        <button type="button" onClick={() => setFreeKeys([...freeKeys, ''])}
+          style={{ border: '1px dashed #c8d4e8', background: 'none', borderRadius: 10, padding: '8px 16px', color: '#003366', fontSize: 13, cursor: 'pointer', fontWeight: 600 }}>
+          {t('assets.form.addField')}
+        </button>
       </div>
     )
   }
@@ -241,11 +286,10 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
   ]
 
   function renderStep() {
-    // Fertig
     if (step === 5 && savedAssetId) {
       return (
         <div style={{ textAlign: 'center', padding: '20px 0' }}>
-          <div style={{ marginBottom: 12, color: '#003366' }}><CheckCircle2 size={48} style={{ color: '#003366' }} /></div>
+          <div style={{ marginBottom: 12 }}><CheckCircle2 size={48} style={{ color: '#003366' }} /></div>
           <h2 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: '0 0 8px', fontFamily: 'Arial, sans-serif' }}>
             {t('assets.form.saved')}
           </h2>
@@ -261,53 +305,38 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
             </div>
           )}
           <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button
-              onClick={() => router.push(`/assets/${savedAssetId}`)}
-              style={{
-                backgroundColor: '#003366', color: 'white', padding: '12px 24px',
-                borderRadius: 50, border: 'none', fontSize: 14, fontWeight: 700,
-                cursor: 'pointer', fontFamily: 'Arial, sans-serif',
-              }}
-            >{t('assets.form.openAsset')}</button>
-            <button
-              onClick={() => router.push('/assets')}
-              style={{
-                backgroundColor: 'white', color: '#003366', padding: '12px 24px',
-                borderRadius: 50, border: '1px solid #c8d4e8', fontSize: 14, fontWeight: 700,
-                cursor: 'pointer', fontFamily: 'Arial, sans-serif',
-              }}
-            >{t('assets.form.toOverview')}</button>
+            <button onClick={() => router.push(`/assets/${savedAssetId}`)} style={{ backgroundColor: '#003366', color: 'white', padding: '12px 24px', borderRadius: 50, border: 'none', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
+              {t('assets.form.openAsset')}
+            </button>
+            <button onClick={() => router.push('/assets')} style={{ backgroundColor: 'white', color: '#003366', padding: '12px 24px', borderRadius: 50, border: '1px solid #c8d4e8', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
+              {t('assets.form.toOverview')}
+            </button>
           </div>
         </div>
       )
     }
 
-    // Step 0: Basisdaten
     if (step === 0) {
       return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div>
             <label style={labelStyle}>{t('assets.form.nameRequired')}</label>
-            <input value={title} onChange={e => setTitle(e.target.value)}
-              style={inputStyle} placeholder={t('assets.form.namePlaceholder')} autoFocus />
+            <input value={title} onChange={e => setTitle(e.target.value)} style={inputStyle} placeholder={t('assets.form.namePlaceholder')} autoFocus />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
               <label style={labelStyle}>{t('assets.form.articleNumber')}</label>
-              <input value={articleNumber} onChange={e => setArticleNumber(e.target.value)}
-                style={inputStyle} placeholder="ART-001" />
+              <input value={articleNumber} onChange={e => setArticleNumber(e.target.value)} style={inputStyle} placeholder="ART-001" />
             </div>
             <div>
               <label style={labelStyle}>{t('assets.form.serialNumber')}</label>
-              <input value={serialNumber} onChange={e => setSerialNumber(e.target.value)}
-                style={inputStyle} placeholder="SN-12345" />
+              <input value={serialNumber} onChange={e => setSerialNumber(e.target.value)} style={inputStyle} placeholder="SN-12345" />
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
               <label style={labelStyle}>{t('assets.form.orderNumber')}</label>
-              <input value={orderNumber} onChange={e => setOrderNumber(e.target.value)}
-                style={inputStyle} placeholder="ORD-2024-001" />
+              <input value={orderNumber} onChange={e => setOrderNumber(e.target.value)} style={inputStyle} placeholder="ORD-2024-001" />
             </div>
             <div>
               <label style={labelStyle}>{t('assets.form.category')}</label>
@@ -317,8 +346,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
               <label style={labelStyle}>{t('assets.form.manufacturer')}</label>
-              <input value={manufacturer} onChange={e => setManufacturer(e.target.value)}
-                style={inputStyle} placeholder="z.B. Hilti" />
+              <input value={manufacturer} onChange={e => setManufacturer(e.target.value)} style={inputStyle} placeholder="z.B. Hilti" />
             </div>
             <div>
               <label style={labelStyle}>{t('assets.form.location')}</label>
@@ -330,23 +358,21 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
           </div>
           <div>
             <label style={labelStyle}>{t('assets.form.description')}</label>
-            <textarea value={description} onChange={e => setDescription(e.target.value)}
-              rows={3} style={{ ...inputStyle, resize: 'none' }}
-              placeholder={t('assets.form.descriptionPlaceholder')} />
+            <textarea value={description} onChange={e => setDescription(e.target.value)} rows={3} style={{ ...inputStyle, resize: 'none' }} placeholder={t('assets.form.descriptionPlaceholder')} />
           </div>
           <div>
             <label style={labelStyle}>{t('assets.form.status')}</label>
             <div style={{ display: 'flex', gap: 8 }}>
               {STATUS_OPTIONS.map(s => (
-                <button key={s.value} type="button" onClick={() => setStatus(s.value)}
-                  style={{
-                    flex: 1, padding: '8px 4px', borderRadius: 10, border: 'none',
-                    cursor: 'pointer', fontSize: 12, fontWeight: 700, fontFamily: 'Arial, sans-serif',
-                    backgroundColor: status === s.value ? `${s.color}20` : '#f4f6f9',
-                    color: status === s.value ? s.color : '#666',
-                    outline: status === s.value ? `2px solid ${s.color}` : 'none',
-                  }}
-                >{s.value === 'decommissioned' ? t('assets.form.statusDecommissioned') : t(`assetStatus.${s.value}` as any)}</button>
+                <button key={s.value} type="button" onClick={() => setStatus(s.value)} style={{
+                  flex: 1, padding: '8px 4px', borderRadius: 10, border: 'none', cursor: 'pointer',
+                  fontSize: 12, fontWeight: 700, fontFamily: 'Arial, sans-serif',
+                  backgroundColor: status === s.value ? `${s.color}20` : '#f4f6f9',
+                  color: status === s.value ? s.color : '#666',
+                  outline: status === s.value ? `2px solid ${s.color}` : 'none',
+                }}>
+                  {s.value === 'decommissioned' ? t('assets.form.statusDecommissioned') : t(`assetStatus.${s.value}` as any)}
+                </button>
               ))}
             </div>
           </div>
@@ -354,77 +380,159 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
       )
     }
 
-    // Step 1: Fotos
     if (step === 1) {
       return (
-        <div>
-          <p style={{ color: '#666', fontSize: 13, marginBottom: 16, fontFamily: 'Arial, sans-serif' }}>
-            {t('assets.form.photosHint')}
-          </p>
-          <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleImageSelect} style={{ display: 'none' }} />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 12 }}>
-            {imagePreviews.map((src, i) => (
-              <div key={i} style={{ position: 'relative', aspectRatio: '1', borderRadius: 10, overflow: 'hidden', border: '1px solid #c8d4e8' }}>
-                <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                <button type="button" onClick={() => removeImage(i)} style={{
-                  position: 'absolute', top: 4, right: 4, width: 22, height: 22, borderRadius: '50%',
-                  background: 'rgba(0,0,0,0.6)', color: 'white', border: 'none', cursor: 'pointer', fontSize: 12,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}>×</button>
-                {i === 0 && (
-                  <div style={{
-                    position: 'absolute', bottom: 0, left: 0, right: 0,
-                    background: 'rgba(0,51,102,0.7)', color: 'white',
-                    fontSize: 10, textAlign: 'center', padding: '2px 0',
-                    fontFamily: 'Arial, sans-serif', fontWeight: 700,
-                  }}>{t('assets.form.coverPhoto')}</div>
-                )}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+
+          {/* ── Fotos ── */}
+          <div>
+            <p style={{ fontSize: 13, fontWeight: 700, color: '#003366', margin: '0 0 4px', fontFamily: 'Arial, sans-serif' }}>
+              Fotos
+            </p>
+            <p style={{ color: '#96aed2', fontSize: 12, margin: '0 0 12px', fontFamily: 'Arial, sans-serif' }}>
+              {t('assets.form.photosHint')} · Stern-Klick = Titelbild
+            </p>
+            <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleImageSelect} style={{ display: 'none' }} />
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 4 }}>
+              {imagePreviews.map((src, i) => (
+                <div key={i} style={{
+                  position: 'relative', aspectRatio: '1', borderRadius: 10, overflow: 'hidden',
+                  border: i === coverIndex ? '2px solid #003366' : '1px solid #c8d4e8',
+                  cursor: 'pointer',
+                }}>
+                  <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+
+                  {/* Stern-Button: Titelbild setzen */}
+                  <button type="button" onClick={() => setCoverIndex(i)} style={{
+                    position: 'absolute', top: 4, left: 4, width: 24, height: 24, borderRadius: '50%',
+                    background: i === coverIndex ? '#003366' : 'rgba(0,0,0,0.4)',
+                    border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <Star size={12} fill={i === coverIndex ? 'white' : 'none'} stroke="white" strokeWidth={2} />
+                  </button>
+
+                  {/* Löschen */}
+                  <button type="button" onClick={() => removeImage(i)} style={{
+                    position: 'absolute', top: 4, right: 4, width: 24, height: 24, borderRadius: '50%',
+                    background: 'rgba(0,0,0,0.5)', color: 'white', border: 'none', cursor: 'pointer', fontSize: 14,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <X size={12} stroke="white" />
+                  </button>
+
+                  {/* Titelbild-Label */}
+                  {i === coverIndex && (
+                    <div style={{
+                      position: 'absolute', bottom: 0, left: 0, right: 0,
+                      background: 'rgba(0,51,102,0.8)', color: 'white',
+                      fontSize: 10, textAlign: 'center', padding: '3px 0',
+                      fontFamily: 'Arial, sans-serif', fontWeight: 700,
+                    }}>
+                      ★ Titelbild
+                    </div>
+                  )}
+                </div>
+              ))}
+              {imageFiles.length < 10 && (
+                <button type="button" onClick={() => fileInputRef.current?.click()} style={{
+                  aspectRatio: '1', borderRadius: 10, border: '2px dashed #c8d4e8',
+                  background: '#f4f6f9', cursor: 'pointer',
+                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6,
+                }}>
+                  <Upload size={20} color="#96aed2" />
+                  <span style={{ fontSize: 11, color: '#96aed2', fontFamily: 'Arial, sans-serif' }}>{t('assets.form.photo')}</span>
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* ── Dokumente ── */}
+          <div>
+            <p style={{ fontSize: 13, fontWeight: 700, color: '#003366', margin: '0 0 4px', fontFamily: 'Arial, sans-serif' }}>
+              Dokumente
+            </p>
+            <p style={{ color: '#96aed2', fontSize: 12, margin: '0 0 12px', fontFamily: 'Arial, sans-serif' }}>
+              PDFs, Handbücher, Zertifikate, Lieferscheine — werden direkt mit dem Asset gespeichert
+            </p>
+            <input ref={docInputRef} type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" multiple onChange={handleDocSelect} style={{ display: 'none' }} />
+
+            {docs.length > 0 && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 10 }}>
+                {docs.map((doc, i) => (
+                  <div key={i} style={{
+                    background: 'white', borderRadius: 10, border: '1px solid #c8d4e8',
+                    padding: '10px 12px', display: 'flex', alignItems: 'center', gap: 10,
+                  }}>
+                    <FileText size={18} color="#003366" style={{ flexShrink: 0 }} />
+                    <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                      <input
+                        value={doc.name}
+                        onChange={e => updateDoc(i, { name: e.target.value })}
+                        placeholder="Dokumentname"
+                        style={{
+                          width: '100%', padding: '6px 10px', borderRadius: 8,
+                          border: '1px solid #e8eef6', fontSize: 13,
+                          fontFamily: 'Arial, sans-serif', outline: 'none', boxSizing: 'border-box',
+                        }}
+                      />
+                      <select
+                        value={doc.document_type}
+                        onChange={e => updateDoc(i, { document_type: e.target.value })}
+                        style={{
+                          width: '100%', padding: '6px 10px', borderRadius: 8,
+                          border: '1px solid #e8eef6', fontSize: 12,
+                          fontFamily: 'Arial, sans-serif', outline: 'none', background: 'white', color: '#666',
+                        }}
+                      >
+                        {DOC_TYPES.map(dt => <option key={dt.value} value={dt.value}>{dt.label}</option>)}
+                      </select>
+                    </div>
+                    <p style={{ margin: 0, fontSize: 10, color: '#96aed2', flexShrink: 0 }}>
+                      {(doc.file.size / 1024).toFixed(0)} KB
+                    </p>
+                    <button type="button" onClick={() => removeDoc(i)} style={{
+                      background: 'none', border: 'none', cursor: 'pointer', color: '#c8d4e8', flexShrink: 0,
+                      display: 'flex', alignItems: 'center',
+                    }}>
+                      <X size={16} />
+                    </button>
+                  </div>
+                ))}
               </div>
-            ))}
-            {imageFiles.length < 10 && (
-              <button type="button" onClick={() => fileInputRef.current?.click()} style={{
-                aspectRatio: '1', borderRadius: 10, border: '2px dashed #c8d4e8',
-                background: '#f4f6f9', cursor: 'pointer',
-                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 6,
-              }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#96aed2" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-                  <polyline points="17 8 12 3 7 8"/>
-                  <line x1="12" y1="3" x2="12" y2="15"/>
-                </svg>
-                <span style={{ fontSize: 11, color: '#96aed2', fontFamily: 'Arial, sans-serif' }}>{t('assets.form.photo')}</span>
-              </button>
             )}
+
+            <button type="button" onClick={() => docInputRef.current?.click()} style={{
+              width: '100%', padding: '12px', borderRadius: 10, border: '2px dashed #c8d4e8',
+              background: '#f4f6f9', cursor: 'pointer', color: '#96aed2',
+              fontSize: 13, fontWeight: 600, fontFamily: 'Arial, sans-serif',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
+            }}>
+              <Upload size={14} />
+              Dokument hinzufügen
+            </button>
           </div>
         </div>
       )
     }
 
-    // Step 2: Technische Daten
     if (step === 2) {
       return (
         <div>
-          <p style={{ color: '#666', fontSize: 13, marginBottom: 16, fontFamily: 'Arial, sans-serif' }}>
-            {t('assets.form.techHint')}
-          </p>
+          <p style={{ color: '#666', fontSize: 13, marginBottom: 16, fontFamily: 'Arial, sans-serif' }}>{t('assets.form.techHint')}</p>
           {renderDynamicFields(technicalData, setTechnicalData, techFreeKeys, setTechFreeKeys)}
         </div>
       )
     }
 
-    // Step 3: Kommerzielle Daten
     if (step === 3) {
       return (
         <div>
-          <p style={{ color: '#666', fontSize: 13, marginBottom: 16, fontFamily: 'Arial, sans-serif' }}>
-            {t('assets.form.commHint')}
-          </p>
+          <p style={{ color: '#666', fontSize: 13, marginBottom: 16, fontFamily: 'Arial, sans-serif' }}>{t('assets.form.commHint')}</p>
           {renderDynamicFields(commercialData, setCommercialData, commFreeKeys, setCommFreeKeys)}
         </div>
       )
     }
 
-    // Step 4: QR / NFC
     if (step === 4) {
       return <UuidCopyStep assetId={assetId} />
     }
@@ -467,10 +575,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
           </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 6 }}>
             {STEPS.map((s, i) => (
-              <span key={i} style={{
-                fontSize: 9, color: i <= step ? '#003366' : '#c8d4e8',
-                fontWeight: i === step ? 700 : 400, fontFamily: 'Arial, sans-serif',
-              }}>{s}</span>
+              <span key={i} style={{ fontSize: 9, color: i <= step ? '#003366' : '#c8d4e8', fontWeight: i === step ? 700 : 400, fontFamily: 'Arial, sans-serif' }}>{s}</span>
             ))}
           </div>
         </div>
@@ -479,11 +584,9 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
       {/* Content */}
       <div style={{ padding: '20px' }}>
         {error && (
-          <div style={{
-            background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10,
-            padding: '12px 16px', marginBottom: 16, color: '#dc2626',
-            fontSize: 13, fontFamily: 'Arial, sans-serif',
-          }}>{error}</div>
+          <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 10, padding: '12px 16px', marginBottom: 16, color: '#dc2626', fontSize: 13, fontFamily: 'Arial, sans-serif' }}>
+            {error}
+          </div>
         )}
         {renderStep()}
       </div>
@@ -493,28 +596,22 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
         <div style={{ padding: '0 20px 32px', display: 'flex', gap: 10 }}>
           {step > 0 && (
             <button type="button" onClick={() => setStep(s => s - 1)} style={{
-              flex: 1, padding: '13px', borderRadius: 50,
-              border: '1px solid #c8d4e8', background: 'white',
-              color: '#003366', fontSize: 14, fontWeight: 700,
-              cursor: 'pointer', fontFamily: 'Arial, sans-serif',
+              flex: 1, padding: '13px', borderRadius: 50, border: '1px solid #c8d4e8', background: 'white',
+              color: '#003366', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif',
             }}>{t('assets.form.back')}</button>
           )}
-
           {!isLastStep && (
             <button type="button" onClick={() => setStep(s => s + 1)} disabled={!canProceed} style={{
-              flex: 2, padding: '13px', borderRadius: 50,
-              border: 'none', background: canProceed ? '#003366' : '#c8d4e8',
-              color: 'white', fontSize: 14, fontWeight: 700,
-              cursor: canProceed ? 'pointer' : 'default', fontFamily: 'Arial, sans-serif',
+              flex: 2, padding: '13px', borderRadius: 50, border: 'none',
+              background: canProceed ? '#003366' : '#c8d4e8', color: 'white',
+              fontSize: 14, fontWeight: 700, cursor: canProceed ? 'pointer' : 'default', fontFamily: 'Arial, sans-serif',
             }}>{t('assets.form.next')}</button>
           )}
-
           {isLastStep && (
             <button type="button" onClick={handleSubmit} disabled={loading} style={{
-              flex: 2, padding: '13px', borderRadius: 50,
-              border: 'none', background: loading ? '#c8d4e8' : '#003366',
-              color: 'white', fontSize: 14, fontWeight: 700,
-              cursor: loading ? 'default' : 'pointer', fontFamily: 'Arial, sans-serif',
+              flex: 2, padding: '13px', borderRadius: 50, border: 'none',
+              background: loading ? '#c8d4e8' : '#003366', color: 'white',
+              fontSize: 14, fontWeight: 700, cursor: loading ? 'default' : 'pointer', fontFamily: 'Arial, sans-serif',
             }}>{loading ? t('assets.form.saving') : t('assets.form.saveAsset')}</button>
           )}
         </div>
@@ -541,17 +638,13 @@ function UuidCopyStep({ assetId }: { assetId: string }) {
           {t('assets.form.uuidDesc')}
         </p>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <p style={{
-            flex: 1, fontSize: 12, color: '#003366', fontFamily: 'monospace', wordBreak: 'break-all',
-            background: 'white', borderRadius: 8, padding: '10px 12px', border: '1px solid #c8d4e8', margin: 0,
-          }}>
+          <p style={{ flex: 1, fontSize: 12, color: '#003366', fontFamily: 'monospace', wordBreak: 'break-all', background: 'white', borderRadius: 8, padding: '10px 12px', border: '1px solid #c8d4e8', margin: 0 }}>
             {assetId}
           </p>
           <button type="button" onClick={copy} style={{
-            flexShrink: 0, padding: '10px 14px', borderRadius: 10,
-            border: '1px solid #c8d4e8', background: copied ? '#e8f5e9' : 'white',
-            color: copied ? '#2e7d32' : '#003366', fontSize: 12, fontWeight: 700,
-            cursor: 'pointer', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap',
+            flexShrink: 0, padding: '10px 14px', borderRadius: 10, border: '1px solid #c8d4e8',
+            background: copied ? '#e8f5e9' : 'white', color: copied ? '#2e7d32' : '#003366',
+            fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap',
           }}>
             {copied ? t('assets.form.copied') : t('assets.form.copy')}
           </button>
