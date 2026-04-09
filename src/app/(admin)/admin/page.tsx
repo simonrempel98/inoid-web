@@ -15,14 +15,13 @@ export default async function AdminDashboardPage() {
     { data: recentActivity },
     { data: storageData },
   ] = await Promise.all([
-    supabase.from('organizations').select('*', { count: 'exact', head: true }).is('deleted_at', null),
+    supabase.from('organizations').select('*', { count: 'exact', head: true }),
     supabase.from('profiles').select('*', { count: 'exact', head: true }),
     supabase.from('assets').select('*', { count: 'exact', head: true }).is('deleted_at', null),
-    supabase.from('organizations').select('*', { count: 'exact', head: true }).eq('is_active', true).is('deleted_at', null),
-    supabase.from('organizations').select('plan').is('deleted_at', null),
+    supabase.from('organizations').select('*', { count: 'exact', head: true }).eq('is_active', true),
+    supabase.from('organizations').select('plan'),
     supabase.from('organizations')
       .select('id, name, plan, asset_limit, user_limit, created_at, is_active')
-      .is('deleted_at', null)
       .order('created_at', { ascending: false })
       .limit(5),
     supabase.from('admin_audit_log')
@@ -93,11 +92,7 @@ export default async function AdminDashboardPage() {
                 <div style={{
                   padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                   borderBottom: '1px solid #1f2937',
-                  cursor: 'pointer',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.background = '#1f2937')}
-                onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-                >
+                }}>
                   <div>
                     <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'white' }}>{org.name}</p>
                     <p style={{ margin: 0, fontSize: 11, color: '#6b7280' }}>

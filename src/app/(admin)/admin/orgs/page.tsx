@@ -71,11 +71,8 @@ export default async function AdminOrgsPage() {
               <div style={{
                 display: 'grid', gridTemplateColumns: '2fr 1fr 80px 80px 80px 60px',
                 padding: '14px 20px', borderBottom: '1px solid #1f2937',
-                alignItems: 'center', cursor: 'pointer',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.background = '#1f2937')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-              >
+                alignItems: 'center',
+              }}>
                 <div>
                   <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'white' }}>{org.name}</p>
                   <p style={{ margin: 0, fontSize: 11, color: '#6b7280' }}>{org.slug}</p>

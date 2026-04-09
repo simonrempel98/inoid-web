@@ -29,11 +29,8 @@ export default async function AdminUsersPage() {
             <div style={{
               display: 'grid', gridTemplateColumns: '2fr 1.5fr 1fr 80px 80px',
               padding: '12px 20px', borderBottom: '1px solid #1f2937',
-              alignItems: 'center', cursor: 'pointer',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.background = '#1f2937')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-            >
+              alignItems: 'center',
+            }}>
               <div>
                 <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'white' }}>{p.full_name ?? p.email}</p>
                 {p.full_name && <p style={{ margin: 0, fontSize: 11, color: '#6b7280' }}>{p.email}</p>}

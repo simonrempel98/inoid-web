@@ -15,8 +15,8 @@ export default async function AdminSystemPage() {
     { count: softDeletedAssets },
     { data: recentLogs },
   ] = await Promise.all([
-    supabase.from('organizations').select('*', { count: 'exact', head: true }).is('deleted_at', null),
-    supabase.from('organizations').select('*', { count: 'exact', head: true }).eq('is_active', true).is('deleted_at', null),
+    supabase.from('organizations').select('*', { count: 'exact', head: true }),
+    supabase.from('organizations').select('*', { count: 'exact', head: true }).eq('is_active', true),
     supabase.from('profiles').select('*', { count: 'exact', head: true }),
     supabase.from('assets').select('*', { count: 'exact', head: true }).is('deleted_at', null),
     supabase.from('asset_documents').select('*', { count: 'exact', head: true }),
