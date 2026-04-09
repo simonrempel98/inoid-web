@@ -257,7 +257,7 @@ export default function NeueVorlagePage() {
                   <div style={{ flex: 2 }}>
                     {i === 0 && <label style={labelStyle}>{t('fieldName')}</label>}
                     <input value={f.label} onChange={e => updateTechField(i, 'label', e.target.value)}
-                      style={inputStyle} placeholder="z.B. Durchmesser" />
+                      style={inputStyle} placeholder="z.B. Außendurchmesser" />
                   </div>
                   <div style={{ flex: 1 }}>
                     {i === 0 && <label style={labelStyle}>{t('unit')}</label>}
@@ -306,7 +306,7 @@ export default function NeueVorlagePage() {
                   <div style={{ flex: 1 }}>
                     {i === 0 && <label style={labelStyle}>{t('fieldName')}</label>}
                     <input value={f.label} onChange={e => updateCommField(i, e.target.value)}
-                      style={inputStyle} placeholder="z.B. Lieferant" />
+                      style={inputStyle} placeholder="z.B. Einkaufspreise" />
                   </div>
                   <div style={{ paddingTop: i === 0 ? 20 : 0 }}>
                     <button type="button" onClick={() => removeCommField(i)}

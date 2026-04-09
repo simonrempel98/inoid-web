@@ -395,17 +395,17 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
               <label style={labelStyle}>{t('assets.form.articleNumber')}</label>
-              <input value={articleNumber} onChange={e => setArticleNumber(e.target.value)} style={inputStyle} placeholder="ART-001" />
+              <input value={articleNumber} onChange={e => setArticleNumber(e.target.value)} style={inputStyle} placeholder="WZ-2024-001" />
             </div>
             <div>
               <label style={labelStyle}>{t('assets.form.serialNumber')}</label>
-              <input value={serialNumber} onChange={e => setSerialNumber(e.target.value)} style={inputStyle} placeholder="SN-12345" />
+              <input value={serialNumber} onChange={e => setSerialNumber(e.target.value)} style={inputStyle} placeholder="INO-SN-2024-001" />
             </div>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
               <label style={labelStyle}>{t('assets.form.orderNumber')}</label>
-              <input value={orderNumber} onChange={e => setOrderNumber(e.target.value)} style={inputStyle} placeholder="ORD-2024-001" />
+              <input value={orderNumber} onChange={e => setOrderNumber(e.target.value)} style={inputStyle} placeholder="ORD-WZ-2024" />
             </div>
             <div>
               <label style={labelStyle}>{t('assets.form.category')}</label>
@@ -415,7 +415,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
             <div>
               <label style={labelStyle}>{t('assets.form.manufacturer')}</label>
-              <input value={manufacturer} onChange={e => setManufacturer(e.target.value)} style={inputStyle} placeholder="z.B. Hilti" />
+              <input value={manufacturer} onChange={e => setManufacturer(e.target.value)} style={inputStyle} placeholder="z.B. INOMETA GmbH" />
             </div>
             <div>
               <label style={labelStyle}>{t('assets.form.location')}</label>

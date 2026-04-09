@@ -33,7 +33,7 @@ export function CategoryCombobox({ value, onChange, categories, inputStyle }: {
           value={value}
           onChange={e => { onChange(e.target.value); setOpen(true) }}
           onFocus={() => setOpen(true)}
-          placeholder="z.B. Bohrkronen"
+          placeholder="z.B. Druckwalzen"
           style={{ ...inputStyle, paddingRight: 32 }}
         />
         {categories.length > 0 && (
