@@ -21,6 +21,7 @@ export function AssetStatusActions({ assetId, currentStatus, customStatuses }: P
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
   const [deleteModal, setDeleteModal] = useState(false)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
 
   const allStatuses = [...SYSTEM_STATUSES, ...customStatuses]
   const current = allStatuses.find(s => s.value === currentStatus) ?? { value: currentStatus, label: currentStatus, color: '#96aed2' }
@@ -36,8 +37,11 @@ export function AssetStatusActions({ assetId, currentStatus, customStatuses }: P
 
   async function handleDelete() {
     setLoading(true)
+    setDeleteError(null)
     const res = await fetch(`/api/assets/${assetId}/delete`, { method: 'DELETE' })
     if (!res.ok) {
+      const data = await res.json().catch(() => ({}))
+      setDeleteError(data.error ?? `Fehler ${res.status}`)
       setLoading(false)
       return
     }
@@ -158,6 +162,11 @@ export function AssetStatusActions({ assetId, currentStatus, customStatuses }: P
               {t('deleteDesc')}
             </p>
             <p style={{ color: '#dc2626', fontSize: 13, fontWeight: 700, margin: '0 0 20px', textAlign: 'center' }}>{t('deleteWarning')}</p>
+            {deleteError && (
+              <p style={{ color: '#dc2626', fontSize: 13, background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 8, padding: '8px 12px', margin: '0 0 12px', textAlign: 'center' }}>
+                {deleteError}
+              </p>
+            )}
             <div style={{ display: 'flex', gap: 10 }}>
               <button onClick={() => setDeleteModal(false)} style={{ flex: 1, padding: '13px', borderRadius: 50, border: '1px solid #c8d4e8', background: 'white', color: '#666', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
                 {tc('cancel')}
