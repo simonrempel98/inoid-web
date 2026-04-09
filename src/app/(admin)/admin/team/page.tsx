@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { AddTeamMemberForm } from './add-member-form'
 import { RevokeButton } from './revoke-button'
+import { PinSettings } from './pin-settings'
 
 export default async function AdminTeamPage() {
   // Dreifache Absicherung: neben proxy.ts + admin layout nochmals prüfen
@@ -15,11 +16,18 @@ export default async function AdminTeamPage() {
 
   const admin = createAdminClient()
 
-  const { data: teamMembers } = await admin
-    .from('profiles')
-    .select('id, email, full_name, is_active, last_seen_at, created_at, must_change_password')
-    .eq('is_platform_admin', true)
-    .order('created_at')
+  const [{ data: teamMembers }, { data: selfPinProfile }] = await Promise.all([
+    admin
+      .from('profiles')
+      .select('id, email, full_name, is_active, last_seen_at, created_at, must_change_password')
+      .eq('is_platform_admin', true)
+      .order('created_at'),
+    admin
+      .from('profiles')
+      .select('admin_pin_hash')
+      .eq('id', user.id)
+      .single(),
+  ])
 
   return (
     <div style={{ maxWidth: 760 }}>
@@ -117,6 +125,9 @@ export default async function AdminTeamPage() {
         Tipp: Nach dem Entziehen des Zugangs hat der Nutzer noch eine aktive Session bis zum nächsten Login.
         Um sofort zu sperren, den Nutzer zusätzlich über die Nutzerverwaltung deaktivieren.
       </p>
+
+      {/* PIN-Einstellungen */}
+      <PinSettings hasPin={!!selfPinProfile?.admin_pin_hash} />
     </div>
   )
 }

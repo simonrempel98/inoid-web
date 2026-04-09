@@ -2,43 +2,26 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { AdminPinModal } from '@/components/admin/admin-pin-modal'
 
 export function DeleteOrgButton({ orgId, orgName }: { orgId: string; orgName: string }) {
   const router = useRouter()
-  const [open, setOpen] = useState(false)
-  const [confirm, setConfirm] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [showWarning, setShowWarning] = useState(false)
+  const [showPin, setShowPin] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   async function handleDelete() {
-    if (confirm !== orgName) return
-    setLoading(true)
-    setError(null)
-
     const res = await fetch(`/api/admin/orgs/${orgId}`, { method: 'DELETE' })
     const data = await res.json()
-
-    if (!res.ok) {
-      setError(data.error ?? 'Fehler beim Löschen')
-      setLoading(false)
-      return
-    }
-
+    if (!res.ok) throw new Error(data.error ?? 'Fehler beim Löschen')
     router.push('/admin/orgs')
     router.refresh()
-  }
-
-  const inputStyle: React.CSSProperties = {
-    width: '100%', padding: '10px 12px', borderRadius: 8,
-    border: '1px solid #374151', background: '#0a0f1e', color: 'white',
-    fontSize: 14, fontFamily: 'Arial, sans-serif', outline: 'none',
-    boxSizing: 'border-box', marginTop: 8,
   }
 
   return (
     <>
       <button
-        onClick={() => setOpen(true)}
+        onClick={() => setShowWarning(true)}
         style={{
           background: 'transparent', color: '#ef4444',
           border: '1px solid #ef4444', padding: '10px 20px',
@@ -49,14 +32,15 @@ export function DeleteOrgButton({ orgId, orgName }: { orgId: string; orgName: st
         Organisation löschen
       </button>
 
-      {open && (
+      {/* Schritt 1: Warnung mit Übersicht was gelöscht wird */}
+      {showWarning && (
         <div style={{
           position: 'fixed', inset: 0, zIndex: 200,
           background: 'rgba(0,0,0,0.75)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           padding: 20,
         }}
-          onClick={e => { if (e.target === e.currentTarget) setOpen(false) }}
+          onClick={e => { if (e.target === e.currentTarget) setShowWarning(false) }}
         >
           <div style={{
             background: '#111827', borderRadius: 16,
@@ -75,65 +59,45 @@ export function DeleteOrgButton({ orgId, orgName }: { orgId: string; orgName: st
                 </svg>
               </div>
               <div>
-                <p style={{ margin: 0, fontSize: 16, fontWeight: 800, color: 'white' }}>Organisation unwiderruflich löschen</p>
-                <p style={{ margin: 0, fontSize: 12, color: '#6b7280' }}>Diese Aktion kann nicht rückgängig gemacht werden</p>
+                <p style={{ margin: 0, fontSize: 16, fontWeight: 800, color: 'white' }}>
+                  „{orgName}" löschen?
+                </p>
+                <p style={{ margin: 0, fontSize: 12, color: '#6b7280' }}>Diese Aktion ist unwiderruflich</p>
               </div>
             </div>
 
             <div style={{ background: '#450a0a', border: '1px solid #7f1d1d', borderRadius: 10, padding: '12px 14px', marginBottom: 20 }}>
-              <p style={{ margin: 0, fontSize: 13, color: '#fca5a5', lineHeight: 1.6 }}>
-                Folgendes wird <strong>permanent</strong> gelöscht:
-              </p>
-              <ul style={{ margin: '8px 0 0', padding: '0 0 0 16px', color: '#fca5a5', fontSize: 12, lineHeight: 1.8 }}>
-                <li>Alle Assets und ihre Metadaten</li>
-                <li>Alle hochgeladenen Bilder und Dokumente (Storage)</li>
+              <p style={{ margin: '0 0 6px', fontSize: 13, color: '#fca5a5', fontWeight: 700 }}>Folgendes wird permanent gelöscht:</p>
+              <ul style={{ margin: 0, padding: '0 0 0 16px', color: '#fca5a5', fontSize: 12, lineHeight: 1.8 }}>
+                <li>Alle Assets, Bilder und Dokumente (Storage)</li>
                 <li>Alle Serviceheft-Einträge und Wartungspläne</li>
                 <li>Alle Nutzer dieser Organisation (Auth + Profile)</li>
                 <li>Alle Rollen, Teams und Standorte</li>
-                <li>Alle Rechnungen und Audit-Logs der Org</li>
+                <li>Alle Rechnungen</li>
               </ul>
             </div>
 
-            <p style={{ margin: '0 0 6px', fontSize: 13, color: '#9ca3af' }}>
-              Zur Bestätigung den Namen der Organisation eingeben:
-              <br />
-              <strong style={{ color: 'white' }}>{orgName}</strong>
-            </p>
-            <input
-              value={confirm}
-              onChange={e => setConfirm(e.target.value)}
-              placeholder={orgName}
-              style={inputStyle}
-              autoFocus
-            />
+            {error && <p style={{ color: '#f87171', fontSize: 13, marginBottom: 12 }}>{error}</p>}
 
-            {error && (
-              <p style={{ margin: '10px 0 0', fontSize: 13, color: '#f87171' }}>{error}</p>
-            )}
-
-            <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
+            <div style={{ display: 'flex', gap: 10 }}>
               <button
-                onClick={handleDelete}
-                disabled={confirm !== orgName || loading}
+                onClick={() => { setShowWarning(false); setShowPin(true) }}
                 style={{
-                  flex: 1, background: confirm === orgName && !loading ? '#dc2626' : '#374151',
-                  color: 'white', border: 'none', padding: '12px',
-                  borderRadius: 8, fontSize: 14, fontWeight: 700,
-                  cursor: confirm === orgName && !loading ? 'pointer' : 'default',
+                  flex: 1, background: '#dc2626', color: 'white',
+                  border: 'none', padding: '12px', borderRadius: 8,
+                  fontSize: 14, fontWeight: 700, cursor: 'pointer',
                   fontFamily: 'Arial, sans-serif',
-                  transition: 'background 0.15s',
                 }}
               >
-                {loading ? 'Wird gelöscht…' : 'Endgültig löschen'}
+                Weiter → PIN eingeben
               </button>
               <button
-                onClick={() => { setOpen(false); setConfirm('') }}
-                disabled={loading}
+                onClick={() => setShowWarning(false)}
                 style={{
                   flex: 1, background: 'transparent', color: '#9ca3af',
-                  border: '1px solid #374151', padding: '12px',
-                  borderRadius: 8, fontSize: 14, fontWeight: 600,
-                  cursor: 'pointer', fontFamily: 'Arial, sans-serif',
+                  border: '1px solid #374151', padding: '12px', borderRadius: 8,
+                  fontSize: 14, fontWeight: 600, cursor: 'pointer',
+                  fontFamily: 'Arial, sans-serif',
                 }}
               >
                 Abbrechen
@@ -141,6 +105,19 @@ export function DeleteOrgButton({ orgId, orgName }: { orgId: string; orgName: st
             </div>
           </div>
         </div>
+      )}
+
+      {/* Schritt 2: PIN-Bestätigung */}
+      {showPin && (
+        <AdminPinModal
+          title="Admin-PIN eingeben"
+          description={`Bestätige das Löschen von „${orgName}" mit deinem 4-stelligen Admin-PIN.`}
+          danger
+          onConfirm={async () => {
+            await handleDelete()
+          }}
+          onCancel={() => setShowPin(false)}
+        />
       )}
     </>
   )
