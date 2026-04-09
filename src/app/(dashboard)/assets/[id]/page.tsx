@@ -36,9 +36,12 @@ export default async function AssetDetailPage({
 
   const { data: org } = await supabase
     .from('organizations')
-    .select('settings')
+    .select('settings, features')
     .single()
   const customStatuses = (org?.settings as { custom_statuses?: { value: string; label: string; color: string }[] })?.custom_statuses ?? []
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const orgFeatures = ((org as any)?.features as Record<string, boolean>) ?? {}
+  const showServiceheft = orgFeatures.serviceheft !== false
 
   const { data: locationHistory } = await supabase
     .from('asset_location_history')
@@ -168,7 +171,7 @@ export default async function AssetDetailPage({
       )}
 
       {/* Letzte Service-Einträge */}
-      <div style={{ padding: '0 16px 16px' }}>
+      {showServiceheft && <div style={{ padding: '0 16px 16px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
           <Link href={`/assets/${id}/service`} style={{ fontSize: 15, fontWeight: 700, color: '#000', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}><Wrench size={14} /> {t('service.title')}</Link>
           <Link href={`/assets/${id}/service`} style={{ fontSize: 13, color: '#0099cc', textDecoration: 'none', fontWeight: 600 }}>
@@ -232,7 +235,7 @@ export default async function AssetDetailPage({
           )}
           </div>
         )}
-      </div>
+      </div>}
 
       {/* Dokumente */}
       <AssetDocuments

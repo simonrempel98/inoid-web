@@ -16,6 +16,10 @@ export default function AdminOrgNeuPage() {
   const [contactEmail, setContactEmail] = useState('')
   const [notes, setNotes] = useState('')
 
+  // Features
+  const [featServiceheft, setFeatServiceheft] = useState(true)
+  const [featWartung, setFeatWartung] = useState(true)
+
   // Erster Admin-Nutzer der Org
   const [userEmail, setUserEmail] = useState('')
   const [userName, setUserName] = useState('')
@@ -47,6 +51,7 @@ export default function AdminOrgNeuPage() {
         userLimit,
         contactEmail: contactEmail.trim() || null,
         notes: notes.trim() || null,
+        features: { serviceheft: featServiceheft, wartung: featWartung },
         userEmail: userEmail.trim(),
         userName: userName.trim() || null,
         tempPassword,
@@ -77,6 +82,39 @@ export default function AdminOrgNeuPage() {
     background: '#111827', borderRadius: 14, border: '1px solid #1f2937',
     padding: '20px', marginBottom: 16,
   }
+
+  const ToggleRow = ({ label, description, value, onChange }: {
+    label: string
+    description: string
+    value: boolean
+    onChange: (v: boolean) => void
+  }) => (
+    <div style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      padding: '12px 0', borderBottom: '1px solid #1f2937',
+    }}>
+      <div>
+        <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'white' }}>{label}</p>
+        <p style={{ margin: '2px 0 0', fontSize: 12, color: '#6b7280' }}>{description}</p>
+      </div>
+      <button
+        type="button"
+        onClick={() => onChange(!value)}
+        style={{
+          width: 48, height: 26, borderRadius: 13, border: 'none',
+          background: value ? '#0099cc' : '#374151',
+          position: 'relative', cursor: 'pointer', flexShrink: 0,
+          transition: 'background 0.2s',
+        }}
+      >
+        <div style={{
+          position: 'absolute', top: 3, left: value ? 25 : 3,
+          width: 20, height: 20, borderRadius: '50%', background: 'white',
+          transition: 'left 0.2s',
+        }} />
+      </button>
+    </div>
+  )
 
   return (
     <div style={{ maxWidth: 680 }}>
@@ -163,6 +201,28 @@ export default function AdminOrgNeuPage() {
           </div>
         </div>
 
+        {/* Features */}
+        <div style={sectionStyle}>
+          <h2 style={{ fontSize: 13, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 4px' }}>
+            Features
+          </h2>
+          <p style={{ fontSize: 12, color: '#4b5563', margin: '0 0 12px' }}>
+            Legt fest welche Funktionen dieser Organisation zur Verfügung stehen.
+          </p>
+          <ToggleRow
+            label="Serviceheft"
+            description="Wartungshistorie & Lebenszyklusereignisse pro Asset"
+            value={featServiceheft}
+            onChange={setFeatServiceheft}
+          />
+          <ToggleRow
+            label="Wartungsbereich"
+            description="Wartungsintervalle, Fälligkeiten & Übersicht"
+            value={featWartung}
+            onChange={setFeatWartung}
+          />
+        </div>
+
         {/* Erster Nutzer */}
         <div style={sectionStyle}>
           <h2 style={{ fontSize: 13, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 16px' }}>
@@ -199,7 +259,7 @@ export default function AdminOrgNeuPage() {
               style={inputStyle}
             />
             <p style={{ margin: '6px 0 0', fontSize: 11, color: '#6b7280' }}>
-              Nutzer muss Passwort beim ersten Login ändern (must_change_password = true)
+              Nutzer wird als Superadmin angelegt und muss das Passwort beim ersten Login ändern.
             </p>
           </div>
         </div>

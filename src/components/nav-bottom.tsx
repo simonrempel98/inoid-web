@@ -4,9 +4,10 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 
-export function BottomNav() {
+export function BottomNav({ features = {} }: { features?: Record<string, boolean> }) {
   const pathname = usePathname()
   const t = useTranslations()
+  const showWartung = features.wartung !== false
 
   const isActive = (href: string) => {
     if (href === '/assets') return pathname.startsWith('/assets')
@@ -76,13 +77,15 @@ export function BottomNav() {
       </div>
 
       {/* Wartung */}
-      <NavItem href="/wartung" label={t('nav.wartungShort')} active={isActive('/wartung')}>
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-          stroke={isActive('/wartung') ? '#003366' : '#96aed2'}
-          strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
-        </svg>
-      </NavItem>
+      {showWartung && (
+        <NavItem href="/wartung" label={t('nav.wartungShort')} active={isActive('/wartung')}>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+            stroke={isActive('/wartung') ? '#003366' : '#96aed2'}
+            strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+        </NavItem>
+      )}
 
       {/* Mehr */}
       <NavItem href="/mehr" label={t('nav.more')} active={isActive('/mehr')}>

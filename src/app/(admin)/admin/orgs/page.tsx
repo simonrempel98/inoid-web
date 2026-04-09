@@ -7,7 +7,6 @@ export default async function AdminOrgsPage() {
   const { data: orgs } = await supabase
     .from('organizations')
     .select('id, name, slug, plan, asset_limit, user_limit, is_active, created_at, contact_email')
-    .is('deleted_at', null)
     .order('created_at', { ascending: false })
 
   const { data: memberCounts } = await supabase

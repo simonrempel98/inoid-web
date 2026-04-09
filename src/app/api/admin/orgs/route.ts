@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   if (!profile?.is_platform_admin) return NextResponse.json({ error: 'Kein Zugriff' }, { status: 403 })
 
   const body = await req.json()
-  const { orgName, orgSlug, plan, assetLimit, userLimit, contactEmail, notes, userEmail, userName, tempPassword } = body
+  const { orgName, orgSlug, plan, assetLimit, userLimit, contactEmail, notes, features, userEmail, userName, tempPassword } = body
 
   if (!orgName || !orgSlug || !userEmail || !tempPassword) {
     return NextResponse.json({ error: 'Pflichtfelder fehlen' }, { status: 400 })
@@ -33,6 +33,7 @@ export async function POST(req: NextRequest) {
       contact_email: contactEmail ?? null,
       notes: notes ?? null,
       is_active: true,
+      features: features ?? { serviceheft: true, wartung: true },
     })
     .select()
     .single()
@@ -47,12 +48,11 @@ export async function POST(req: NextRequest) {
   })
 
   if (authError) {
-    // Org wieder löschen wenn User-Anlage scheitert
     await admin.from('organizations').delete().eq('id', org.id)
     return NextResponse.json({ error: authError.message }, { status: 500 })
   }
 
-  // 3. Profil erstellen
+  // 3. Profil erstellen – als Superadmin der Org
   const { error: profileError } = await admin
     .from('profiles')
     .insert({
@@ -60,6 +60,7 @@ export async function POST(req: NextRequest) {
       organization_id: org.id,
       email: userEmail,
       full_name: userName ?? null,
+      app_role: 'superadmin',
       must_change_password: true,
     })
 
@@ -69,7 +70,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: profileError.message }, { status: 500 })
   }
 
-  // 4. Admin-Rolle für die Org anlegen (Owner-Rolle)
+  // 4. Owner-Rolle für die Org anlegen und Mitglied hinzufügen
   const { data: ownerRole } = await admin
     .from('roles')
     .select('id')
@@ -109,7 +110,7 @@ export async function POST(req: NextRequest) {
     action: 'create_org',
     target_type: 'organization',
     target_id: org.id,
-    details: { name: orgName, userEmail, plan },
+    details: { name: orgName, userEmail, plan, features },
   })
 
   return NextResponse.json({ orgId: org.id })
