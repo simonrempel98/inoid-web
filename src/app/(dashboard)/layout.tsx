@@ -14,7 +14,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   const { data: profile } = await supabase
     .from('profiles')
-    .select('full_name, organization_id')
+    .select('full_name, organization_id, avatar_url')
     .eq('id', user.id)
     .single()
 
@@ -38,6 +38,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         <Sidebar
           userEmail={user.email!}
           userName={profile?.full_name ?? undefined}
+          avatarUrl={(profile as any)?.avatar_url ?? undefined}
           features={features}
         />
       </div>
@@ -66,6 +67,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
           features={features}
           userEmail={user.email ?? undefined}
           userName={profile?.full_name ?? undefined}
+          avatarUrl={(profile as any)?.avatar_url ?? undefined}
         />
       </div>
 

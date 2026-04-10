@@ -34,10 +34,12 @@ export function BottomNav({
   features = {},
   userEmail,
   userName,
+  avatarUrl,
 }: {
   features?: Record<string, boolean>
   userEmail?: string
   userName?: string
+  avatarUrl?: string
 }) {
   const pathname = usePathname()
   const t = useTranslations()
@@ -105,13 +107,19 @@ export function BottomNav({
         }}>
           <div style={{
             width: 46, height: 46, borderRadius: '50%', flexShrink: 0,
-            background: 'rgba(255,255,255,0.18)',
+            background: avatarUrl ? 'transparent' : 'rgba(255,255,255,0.18)',
             border: '2px solid rgba(255,255,255,0.3)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
+            overflow: 'hidden',
           }}>
-            <span style={{ fontSize: 16, fontWeight: 800, color: 'white', fontFamily: 'Arial, sans-serif' }}>
-              {initials}
-            </span>
+            {avatarUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={avatarUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            ) : (
+              <span style={{ fontSize: 16, fontWeight: 800, color: 'white', fontFamily: 'Arial, sans-serif' }}>
+                {initials}
+              </span>
+            )}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: 'white', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: 'Arial, sans-serif' }}>

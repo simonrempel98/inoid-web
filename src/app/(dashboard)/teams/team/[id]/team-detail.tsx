@@ -25,6 +25,7 @@ type Member = {
   first_name: string | null; last_name: string | null
   invitation_accepted_at: string | null
   team_id: string | null
+  avatar_url: string | null
   roles: { id: string; name: string } | null
   app_role: AppRole
 }
@@ -277,8 +278,11 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
                   <div key={m.id}>
                     {i > 0 && <div style={{ height: 1, background: '#e8eef6', margin: '0 16px' }} />}
                     <div style={{ padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'linear-gradient(135deg, #96aed2, #c8d4e8)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: 'white', flexShrink: 0 }}>
-                        {initials(m)}
+                      <div style={{ width: 34, height: 34, borderRadius: '50%', background: m.avatar_url ? 'transparent' : 'linear-gradient(135deg, #96aed2, #c8d4e8)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: 'white', flexShrink: 0, overflow: 'hidden' }}>
+                        {m.avatar_url
+                          // eslint-disable-next-line @next/next/no-img-element
+                          ? <img src={m.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          : initials(m)}
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <p style={{ margin: '0 0 1px', fontSize: 13, fontWeight: 600, color: '#000', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{displayName(m)}</p>
@@ -342,8 +346,11 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
                     </div>
                   ) : (
                     <div style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'linear-gradient(135deg, #003366, #0099cc)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, color: 'white', flexShrink: 0 }}>
-                        {initials(m)}
+                      <div style={{ width: 40, height: 40, borderRadius: '50%', background: m.avatar_url ? 'transparent' : 'linear-gradient(135deg, #003366, #0099cc)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14, fontWeight: 700, color: 'white', flexShrink: 0, overflow: 'hidden' }}>
+                        {m.avatar_url
+                          // eslint-disable-next-line @next/next/no-img-element
+                          ? <img src={m.avatar_url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          : initials(m)}
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
                         <p style={{ margin: '0 0 2px', fontSize: 14, fontWeight: 600, color: '#000', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{displayName(m)}</p>

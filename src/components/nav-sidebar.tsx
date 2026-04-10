@@ -6,9 +6,10 @@ import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { LogoutButton } from './logout-button'
 
-export function Sidebar({ userEmail, userName, features = {} }: {
+export function Sidebar({ userEmail, userName, avatarUrl, features = {} }: {
   userEmail: string
   userName?: string
+  avatarUrl?: string
   features?: Record<string, boolean>
 }) {
   const pathname = usePathname()
@@ -217,9 +218,27 @@ export function Sidebar({ userEmail, userName, features = {} }: {
 
       {/* User + Docs + Logout */}
       <div style={{ padding: '14px 20px', borderTop: '1px solid rgba(150,174,210,0.2)' }}>
-        <p style={{ color: '#c8d4e8', fontSize: 13, margin: '0 0 10px', fontFamily: 'Arial, sans-serif', fontWeight: 600 }}>
-          {userName ?? userEmail}
-        </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+          <div style={{
+            width: 34, height: 34, borderRadius: '50%', flexShrink: 0,
+            background: avatarUrl ? 'transparent' : 'rgba(255,255,255,0.15)',
+            border: '1.5px solid rgba(255,255,255,0.2)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            overflow: 'hidden',
+          }}>
+            {avatarUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={avatarUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            ) : (
+              <span style={{ fontSize: 12, fontWeight: 800, color: 'white', fontFamily: 'Arial, sans-serif' }}>
+                {(userName ?? userEmail)[0].toUpperCase()}
+              </span>
+            )}
+          </div>
+          <p style={{ color: '#c8d4e8', fontSize: 13, margin: 0, fontFamily: 'Arial, sans-serif', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {userName ?? userEmail}
+          </p>
+        </div>
         <Link href="/docs" style={{
           display: 'flex', alignItems: 'center', gap: 8,
           padding: '8px 10px', borderRadius: 8, marginBottom: 8,

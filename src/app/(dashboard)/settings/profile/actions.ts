@@ -11,6 +11,14 @@ export async function updateProfile(fullName: string) {
   return { success: true }
 }
 
+export async function saveAvatarUrl(url: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return { error: 'Nicht eingeloggt' }
+  await (supabase as any).from('profiles').update({ avatar_url: url }).eq('id', user.id)
+  return { success: true }
+}
+
 export async function changePassword(newPassword: string) {
   const supabase = await createClient()
   const { error } = await supabase.auth.updateUser({ password: newPassword })

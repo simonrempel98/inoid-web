@@ -1,14 +1,21 @@
 'use client'
 
-import { useState } from 'react'
-import { updateProfile, changePassword } from './actions'
-import { Check, Loader, KeyRound, User, Globe } from 'lucide-react'
+import { useState, useRef } from 'react'
+import { updateProfile, changePassword, saveAvatarUrl } from './actions'
+import { createClient } from '@/lib/supabase/client'
+import { Check, Loader, KeyRound, User, Globe, Camera } from 'lucide-react'
 import { LanguageSelector } from '@/components/language-selector'
 import { useTranslations } from 'next-intl'
 
-export function ProfileForm({ fullName, email }: { fullName: string; email: string }) {
+export function ProfileForm({ fullName, email, userId, avatarUrl: initialAvatarUrl }: {
+  fullName: string; email: string; userId: string; avatarUrl: string | null
+}) {
   const t = useTranslations('settings.profile')
   const [name, setName] = useState(fullName)
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(initialAvatarUrl)
+  const [uploadingAvatar, setUploadingAvatar] = useState(false)
+  const [avatarError, setAvatarError] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [savingName, setSavingName] = useState(false)
   const [nameSaved, setNameSaved] = useState(false)
 
@@ -17,6 +24,25 @@ export function ProfileForm({ fullName, email }: { fullName: string; email: stri
   const [savingPw, setSavingPw] = useState(false)
   const [pwError, setPwError] = useState<string | null>(null)
   const [pwSaved, setPwSaved] = useState(false)
+
+  async function handleAvatarUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (file.size > 2 * 1024 * 1024) { setAvatarError('Maximale Dateigröße: 2 MB'); return }
+    setUploadingAvatar(true)
+    setAvatarError(null)
+    const supabase = createClient()
+    const ext = file.name.split('.').pop()
+    const path = `${userId}/avatar.${ext}`
+    const { error: upErr } = await supabase.storage.from('avatars').upload(path, file, { upsert: true })
+    if (upErr) { setAvatarError(upErr.message); setUploadingAvatar(false); return }
+    const { data: { publicUrl } } = supabase.storage.from('avatars').getPublicUrl(path)
+    // Cache-buster damit das neue Bild sofort angezeigt wird
+    const urlWithBust = `${publicUrl}?t=${Date.now()}`
+    await saveAvatarUrl(urlWithBust)
+    setAvatarUrl(urlWithBust)
+    setUploadingAvatar(false)
+  }
 
   async function handleSaveName() {
     if (!name.trim()) return
@@ -55,6 +81,67 @@ export function ProfileForm({ fullName, email }: { fullName: string; email: stri
   return (
     <div style={{ padding: '24px 16px', fontFamily: 'Arial, sans-serif', maxWidth: 480 }}>
       <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 24px' }}>{t('title')}</h1>
+
+      {/* ── Avatar ── */}
+      <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'center' }}>
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            style={{ display: 'none' }}
+            onChange={handleAvatarUpload}
+          />
+          <div
+            onClick={() => fileInputRef.current?.click()}
+            style={{
+              width: 90, height: 90, borderRadius: '50%', cursor: 'pointer',
+              background: avatarUrl ? 'transparent' : 'linear-gradient(135deg, #003366, #0099cc)',
+              border: '3px solid white',
+              boxShadow: '0 2px 12px rgba(0,40,100,0.18)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              overflow: 'hidden', position: 'relative',
+            }}
+          >
+            {avatarUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={avatarUrl} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            ) : (
+              <span style={{ fontSize: 30, fontWeight: 800, color: 'white' }}>
+                {name ? name[0].toUpperCase() : email[0].toUpperCase()}
+              </span>
+            )}
+            <div style={{
+              position: 'absolute', inset: 0,
+              background: 'rgba(0,0,0,0.4)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              opacity: uploadingAvatar ? 1 : 0,
+              transition: 'opacity 0.2s',
+            }}>
+              {uploadingAvatar
+                ? <Loader size={22} color="white" />
+                : <Camera size={22} color="white" />}
+            </div>
+            {/* Hover overlay */}
+            <style>{`.avatar-hover:hover > div:last-child { opacity: 1 !important; }`}</style>
+          </div>
+          <div
+            onClick={() => fileInputRef.current?.click()}
+            style={{
+              position: 'absolute', bottom: 0, right: 0,
+              width: 28, height: 28, borderRadius: '50%',
+              background: '#003366', border: '2px solid white',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              cursor: 'pointer',
+            }}
+          >
+            <Camera size={13} color="white" />
+          </div>
+        </div>
+        {avatarError && (
+          <p style={{ fontSize: 12, color: '#E74C3C', marginTop: 8, textAlign: 'center' }}>{avatarError}</p>
+        )}
+      </div>
 
       {/* ── Profildaten ── */}
       <div style={{ marginBottom: 24 }}>
