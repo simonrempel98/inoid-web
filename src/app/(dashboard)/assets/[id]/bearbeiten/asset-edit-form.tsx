@@ -48,6 +48,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
   const qrUrl = `https://inoid.app/assets/${asset.id}`
 
   const [existingUrls, setExistingUrls] = useState<string[]>(asset.image_urls ?? [])
+  const [removedUrls, setRemovedUrls] = useState<string[]>([])
   const [newFiles, setNewFiles] = useState<File[]>([])
   const [newPreviews, setNewPreviews] = useState<string[]>([])
   const [compressionStats, setCompressionStats] = useState<{ name: string; originalSize: number; compressedSize: number }[]>([])
@@ -102,6 +103,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
 
   function removeExisting(url: string) {
     setExistingUrls(prev => prev.filter(u => u !== url))
+    setRemovedUrls(prev => [...prev, url])
   }
 
   function removeNew(index: number) {
@@ -155,6 +157,18 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
         .eq('id', asset.id)
 
       if (updateError) throw new Error(updateError.message)
+
+      // Entfernte Bilder aus Storage löschen (best effort)
+      if (removedUrls.length > 0) {
+        const paths = removedUrls.map(url => {
+          const match = url.match(/\/asset-images\/(.+)$/)
+          return match ? match[1] : null
+        }).filter((p): p is string => p !== null)
+        if (paths.length > 0) {
+          await supabase.storage.from('asset-images').remove(paths)
+        }
+      }
+
       router.push(`/assets/${asset.id}`)
       router.refresh()
     } catch (e: unknown) {

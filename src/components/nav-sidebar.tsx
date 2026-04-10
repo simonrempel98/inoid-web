@@ -20,6 +20,7 @@ export function Sidebar({ userEmail, userName, avatarUrl, features = {} }: {
 
   const SECTIONS = [
     {
+      label: 'Basismodule',
       items: [
         {
           href: '/dashboard',
@@ -61,6 +62,11 @@ export function Sidebar({ userEmail, userName, avatarUrl, features = {} }: {
             </svg>
           ),
         },
+      ],
+    },
+    {
+      label: 'Zusatzmodule',
+      items: [
         ...(showWartung ? [{
           href: '/wartung',
           label: t('nav.wartung'),
@@ -170,7 +176,8 @@ export function Sidebar({ userEmail, userName, avatarUrl, features = {} }: {
             {section.label && (
               <p style={{
                 fontSize: 10, fontWeight: 700, letterSpacing: '0.08em',
-                color: '#96aed2', padding: '28px 20px 6px',
+                color: 'rgba(150,174,210,0.55)',
+                padding: si === 0 ? '12px 20px 6px' : '22px 20px 6px',
                 fontFamily: 'Arial, sans-serif', textTransform: 'uppercase',
               }}>
                 {section.label}

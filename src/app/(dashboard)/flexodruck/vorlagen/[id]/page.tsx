@@ -13,61 +13,80 @@ export default async function VorlageDetailPage({ params }: { params: Promise<{ 
     .from('profiles').select('organization_id, app_role').eq('id', user.id).single()
   if (!profile?.organization_id) redirect('/dashboard')
 
-  // Vorlage mit allen Relations laden
+  const orgId = profile.organization_id
+
+  // 1. Vorlage laden (flach)
   const { data: tpl, error } = await supabase
     .from('flexo_templates')
-    .select(`
-      id, name, description, is_active, created_at,
-      primary_machine_id,
-      flexo_machines!primary_machine_id(id, name, num_druckwerke,
-        flexo_druckwerke(id, position, label, color_hint)
-      ),
-      flexo_template_slots(id, label, sort_order),
-      flexo_template_assignments(
-        id, druckwerk_id, slot_id, asset_id, notes,
-        assets(id, name, serial_number)
-      ),
-      flexo_template_machines(
-        machine_id,
-        flexo_machines(id, name)
-      )
-    `)
+    .select('id, name, description, is_active, created_at, primary_machine_id')
     .eq('id', id)
-    .eq('org_id', profile.organization_id)
+    .eq('org_id', orgId)
     .single()
 
   if (error || !tpl) notFound()
 
-  // Assets für Dropdown
-  const { data: assets } = await supabase
-    .from('assets')
-    .select('id, name, serial_number')
-    .eq('organization_id', profile.organization_id)
-    .is('deleted_at', null)
-    .order('name')
-    .limit(500)
+  // 2. Maschine laden
+  const { data: machine } = await supabase
+    .from('flexo_machines')
+    .select('id, name, num_druckwerke')
+    .eq('id', tpl.primary_machine_id)
+    .single()
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const canEdit = ['admin', 'superadmin', 'technician'].includes((profile as any).app_role)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const machine = (tpl as any).flexo_machines
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const druckwerke = [...(machine?.flexo_druckwerke ?? [])].sort((a: { position: number }, b: { position: number }) => a.position - b.position)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const slots = [...((tpl as any).flexo_template_slots ?? [])].sort((a: { sort_order: number }, b: { sort_order: number }) => a.sort_order - b.sort_order)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // 3. Druckwerke laden
+  const { data: druckwerkeRaw } = machine
+    ? await supabase
+        .from('flexo_druckwerke')
+        .select('id, position, label, color_hint')
+        .eq('machine_id', machine.id)
+        .order('position')
+    : { data: [] }
+
+  const druckwerke = druckwerkeRaw ?? []
+
+  // 4. Template-Slots laden
+  const { data: slotsRaw } = await supabase
+    .from('flexo_template_slots')
+    .select('id, label, sort_order')
+    .eq('template_id', id)
+    .order('sort_order')
+
+  const slots = slotsRaw ?? []
+
+  // 5. Assignments laden
+  const { data: assignmentsRaw } = await supabase
+    .from('flexo_template_assignments')
+    .select('id, druckwerk_id, slot_id, asset_id, notes')
+    .eq('template_id', id)
+
+  // 6. Asset-Namen für belegte Assignments laden
+  const assetIds = [...new Set((assignmentsRaw ?? []).map((a: any) => a.asset_id).filter(Boolean))]
+  const { data: assignmentAssets } = assetIds.length > 0
+    ? await supabase.from('assets').select('id, title, serial_number').in('id', assetIds)
+    : { data: [] }
+  const assetMap = Object.fromEntries((assignmentAssets ?? []).map((a: any) => [a.id, a]))
+
   const assignments: Record<string, { asset_id: string | null; asset_name: string | null; serial_number: string | null }> = {}
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  for (const a of ((tpl as any).flexo_template_assignments ?? [])) {
+  for (const a of (assignmentsRaw ?? [])) {
     const key = `${a.slot_id}__${a.druckwerk_id}`
+    const asset = a.asset_id ? assetMap[a.asset_id] : null
     assignments[key] = {
       asset_id: a.asset_id,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      asset_name: (a as any).assets?.name ?? null,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      serial_number: (a as any).assets?.serial_number ?? null,
+      asset_name: asset?.title ?? null,
+      serial_number: asset?.serial_number ?? null,
     }
   }
+
+  // 7. Assets für Dropdown
+  const { data: assetsRaw } = await supabase
+    .from('assets')
+    .select('id, title, serial_number')
+    .eq('organization_id', orgId)
+    .is('deleted_at', null)
+    .order('title')
+    .limit(500)
+  const assets = (assetsRaw ?? []).map((a: any) => ({ ...a, name: a.title }))
+
+  const canEdit = ['admin', 'superadmin', 'technician'].includes(profile.app_role)
 
   return (
     <TemplateDetailClient
@@ -80,11 +99,10 @@ export default async function VorlageDetailPage({ params }: { params: Promise<{ 
       druckwerke={druckwerke}
       slots={slots}
       assignments={assignments}
-      assets={assets ?? []}
+      assets={assets}
       canEdit={canEdit}
-      orgId={profile.organization_id}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      sharedMachines={(tpl as any).flexo_template_machines?.map((tm: any) => tm.flexo_machines?.name).filter(Boolean) ?? []}
+      orgId={orgId}
+      sharedMachines={[]}
     />
   )
 }

@@ -13,8 +13,13 @@ export default function NeueMaschinePage() {
   const [model, setModel] = useState('')
   const [numDruckwerke, setNumDruckwerke] = useState(4)
   const [notes, setNotes] = useState('')
+  const [dwLabels, setDwLabels] = useState<Record<number, string>>({})
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  function setDwLabel(pos: number, val: string) {
+    setDwLabels(prev => ({ ...prev, [pos]: val }))
+  }
 
   const input: React.CSSProperties = {
     width: '100%', padding: '10px 12px', borderRadius: 8,
@@ -37,7 +42,7 @@ export default function NeueMaschinePage() {
     const res = await fetch('/api/flexodruck/machines', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, manufacturer, model, num_druckwerke: numDruckwerke, notes }),
+      body: JSON.stringify({ name, manufacturer, model, num_druckwerke: numDruckwerke, notes, dw_labels: dwLabels }),
     })
     const data = await res.json()
     setLoading(false)
@@ -120,19 +125,31 @@ export default function NeueMaschinePage() {
           </div>
         </div>
 
-        {/* Vorschau */}
-        <div style={{
-          background: '#e8f4fd', borderRadius: 12, border: '1px solid #bfdbfe',
-          padding: '14px 18px', marginBottom: 16,
-        }}>
-          <p style={{ margin: '0 0 8px', fontSize: 12, fontWeight: 700, color: '#003366', fontFamily: 'Arial, sans-serif' }}>
-            {t('previewTitle')}
+        {/* Druckwerke benennen */}
+        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: 20, marginBottom: 16 }}>
+          <p style={{ margin: '0 0 4px', fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'Arial, sans-serif' }}>
+            Druckwerke benennen
           </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+          <p style={{ margin: '0 0 14px', fontSize: 12, color: '#9ca3af', fontFamily: 'Arial, sans-serif' }}>
+            Optional — z.B. Cyan, Magenta, Gelb, Schwarz
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 10 }}>
             {Array.from({ length: numDruckwerke }).map((_, i) => (
-              <div key={i} style={{ background: 'white', borderRadius: 8, border: '1px solid #bfdbfe', padding: '6px 12px' }}>
-                <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: '#0099cc', fontFamily: 'Arial, sans-serif' }}>DW {i + 1}</p>
-                <p style={{ margin: 0, fontSize: 10, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>Trägerstange 1 + 2</p>
+              <div key={i}>
+                <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: '#9ca3af', marginBottom: 4, fontFamily: 'Arial, sans-serif' }}>
+                  Druckwerk {i + 1}
+                </label>
+                <input
+                  value={dwLabels[i + 1] ?? ''}
+                  onChange={e => setDwLabel(i + 1, e.target.value)}
+                  placeholder={`DW ${i + 1}`}
+                  style={{
+                    width: '100%', padding: '8px 10px', borderRadius: 8,
+                    border: '1px solid #c8d4e8', fontSize: 13,
+                    fontFamily: 'Arial, sans-serif', outline: 'none',
+                    background: 'white', color: '#003366', boxSizing: 'border-box',
+                  }}
+                />
               </div>
             ))}
           </div>

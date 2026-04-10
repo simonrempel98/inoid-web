@@ -12,13 +12,12 @@ export async function POST(req: Request) {
   const { data: profile } = await supabase
     .from('profiles').select('organization_id, app_role').eq('id', user.id).single()
   if (!profile?.organization_id) return NextResponse.json({ error: 'Keine Org' }, { status: 403 })
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (!['admin', 'superadmin', 'technician'].includes((profile as any).app_role)) {
+  if (!['admin', 'superadmin', 'technician'].includes(profile.app_role)) {
     return NextResponse.json({ error: 'Keine Berechtigung' }, { status: 403 })
   }
 
   const body = await req.json()
-  const { machine_id, name, description, slot_labels, shared_machine_ids } = body
+  const { machine_id, name, description, assignments } = body
   if (!machine_id || !name?.trim()) {
     return NextResponse.json({ error: 'machine_id und name erforderlich' }, { status: 400 })
   }
@@ -40,28 +39,43 @@ export async function POST(req: Request) {
 
   if (tErr || !tpl) return NextResponse.json({ error: tErr?.message ?? 'Fehler' }, { status: 500 })
 
-  // 2. Slot-Typen anlegen (z.B. ["Sleeve", "Druckplatte", "Adapter"])
-  if (Array.isArray(slot_labels) && slot_labels.length > 0) {
-    const slotRows = slot_labels
-      .filter((l: string) => l?.trim())
-      .map((l: string, i: number) => ({
-        template_id: tpl.id,
-        org_id: profile.organization_id,
-        label: l.trim(),
-        sort_order: i,
-      }))
-    if (slotRows.length > 0) {
-      await admin.from('flexo_template_slots').insert(slotRows)
-    }
-  }
+  // 2. Assignments verarbeiten (pro DW + Slot-Label → Asset)
+  if (Array.isArray(assignments) && assignments.length > 0) {
+    // Eindeutige Slot-Labels bestimmen
+    const uniqueLabels = [...new Set(assignments.map((a: { slot_label: string }) => a.slot_label))]
 
-  // 3. Freigabe für weitere Maschinen
-  if (Array.isArray(shared_machine_ids) && shared_machine_ids.length > 0) {
-    const shareRows = shared_machine_ids.map((mid: string) => ({
+    // Template-Slots anlegen
+    const slotRows = uniqueLabels.map((label: string, i: number) => ({
       template_id: tpl.id,
-      machine_id: mid,
+      org_id: profile.organization_id,
+      label,
+      sort_order: i,
     }))
-    await admin.from('flexo_template_machines').insert(shareRows)
+    const { data: createdSlots, error: sErr } = await admin
+      .from('flexo_template_slots')
+      .insert(slotRows)
+      .select('id, label')
+
+    if (sErr || !createdSlots) return NextResponse.json({ error: sErr?.message ?? 'Fehler Slots' }, { status: 500 })
+
+    // Slot-ID per Label nachschlagen
+    const slotByLabel: Record<string, string> = {}
+    for (const s of createdSlots) slotByLabel[s.label] = s.id
+
+    // Assignments anlegen
+    const assignmentRows = assignments
+      .filter((a: { slot_label: string; druckwerk_id: string }) => slotByLabel[a.slot_label] && a.druckwerk_id)
+      .map((a: { slot_label: string; druckwerk_id: string; asset_id: string | null }) => ({
+        template_id: tpl.id,
+        slot_id: slotByLabel[a.slot_label],
+        druckwerk_id: a.druckwerk_id,
+        org_id: profile.organization_id,
+        asset_id: a.asset_id || null,
+      }))
+
+    if (assignmentRows.length > 0) {
+      await admin.from('flexo_template_assignments').insert(assignmentRows)
+    }
   }
 
   return NextResponse.json({ id: tpl.id }, { status: 201 })

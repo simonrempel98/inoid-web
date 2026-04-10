@@ -33,13 +33,14 @@ export default async function RuestvorgangPage({ params }: { params: Promise<{ i
   if (error || !setup) notFound()
 
   // Assets für Inline-Wechsel
-  const { data: assets } = await supabase
+  const { data: assetsRaw } = await supabase
     .from('assets')
-    .select('id, name, serial_number')
+    .select('id, title, serial_number')
     .eq('organization_id', profile.organization_id)
     .is('deleted_at', null)
-    .order('name')
+    .order('title')
     .limit(500)
+  const assets = (assetsRaw ?? []).map((a: any) => ({ ...a, name: a.title }))
 
   // Schritte nach Druckwerk + sort_order gruppieren
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

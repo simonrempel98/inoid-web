@@ -42,7 +42,7 @@ export async function POST(req: Request) {
   }
 
   const body = await req.json()
-  const { name, manufacturer, model, num_druckwerke, notes } = body
+  const { name, manufacturer, model, num_druckwerke, notes, dw_labels } = body
   if (!name?.trim()) return NextResponse.json({ error: 'Name erforderlich' }, { status: 400 })
   const n = Math.max(1, Math.min(20, Number(num_druckwerke) || 1))
 
@@ -65,11 +65,12 @@ export async function POST(req: Request) {
 
   if (mErr || !machine) return NextResponse.json({ error: mErr?.message ?? 'Fehler' }, { status: 500 })
 
-  // 2. Druckwerke anlegen (1 … n)
+  // 2. Druckwerke anlegen (1 … n), optional mit Benutzerlabels
   const druckwerkeRows = Array.from({ length: n }, (_, i) => ({
     machine_id: machine.id,
     org_id: profile.organization_id,
     position: i + 1,
+    label: (dw_labels?.[i + 1] as string)?.trim() || null,
   }))
   const { data: druckwerke, error: dErr } = await admin
     .from('flexo_druckwerke')
@@ -80,8 +81,8 @@ export async function POST(req: Request) {
 
   // 3. Feste Slots: 2 Trägerstangen pro Druckwerk
   const fixedSlotRows = druckwerke.flatMap(dw => [
-    { druckwerk_id: dw.id, org_id: profile.organization_id, label: 'Trägerstange 1', sort_order: 0 },
-    { druckwerk_id: dw.id, org_id: profile.organization_id, label: 'Trägerstange 2', sort_order: 1 },
+    { druckwerk_id: dw.id, org_id: profile.organization_id, label: 'Druckbild', sort_order: 0 },
+    { druckwerk_id: dw.id, org_id: profile.organization_id, label: 'Farbe',     sort_order: 1 },
   ])
   await admin.from('flexo_fixed_slots').insert(fixedSlotRows)
 

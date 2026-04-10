@@ -3,222 +3,320 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useTranslations } from 'next-intl'
 
-type Asset = { id: string; name: string; serial_number: string | null }
-type Druckwerk = { id: string; position: number; label: string | null }
+type Asset = { id: string; name: string; serial_number: string | null; article_number: string | null; category: string | null }
+type Druckwerk = { id: string; position: number; label: string | null; color_hint: string | null; hasFarbe: boolean }
 
 export function NeueVorlageClient({
   machine,
   druckwerke,
-  otherMachines,
   assets,
 }: {
-  machine: { id: string; name: string; num_druckwerke: number }
+  machine: { id: string; name: string }
   druckwerke: Druckwerk[]
-  otherMachines: { id: string; name: string }[]
   assets: Asset[]
 }) {
   const router = useRouter()
-  const t = useTranslations('flexodruck')
+
   const [name, setName] = useState('')
-  const [description, setDescription] = useState('')
-  const [slots, setSlots] = useState<string[]>(['Sleeve', 'Druckplatte'])
-  const [newSlot, setNewSlot] = useState('')
-  const [sharedMachines, setSharedMachines] = useState<string[]>([])
+  const [included, setIncluded] = useState<Set<string>>(new Set())
+  const [druckbildAsset, setDruckbildAsset] = useState<Record<string, string>>({})
+  const [farbeAsset, setFarbeAsset] = useState<Record<string, string>>({})
+  const [assetSearch, setAssetSearch] = useState<Record<string, string>>({}) // dwId+slot → search
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const input: React.CSSProperties = {
-    width: '100%', padding: '10px 12px', borderRadius: 8,
-    border: '1px solid #c8d4e8', background: 'white', color: '#003366',
-    fontSize: 14, fontFamily: 'Arial, sans-serif', outline: 'none',
-    boxSizing: 'border-box',
-  }
-  const labelStyle: React.CSSProperties = {
-    display: 'block', fontSize: 11, fontWeight: 700, color: '#6b7280',
-    marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em',
-    fontFamily: 'Arial, sans-serif',
+  function toggleDw(id: string) {
+    setIncluded(prev => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id); else next.add(id)
+      return next
+    })
   }
 
-  function addSlot() {
-    const s = newSlot.trim()
-    if (!s || slots.includes(s)) return
-    setSlots([...slots, s])
-    setNewSlot('')
-  }
-
-  function removeSlot(s: string) {
-    setSlots(slots.filter(x => x !== s))
-  }
-
-  function toggleMachine(mid: string) {
-    setSharedMachines(prev =>
-      prev.includes(mid) ? prev.filter(x => x !== mid) : [...prev, mid]
+  function filteredAssets(searchKey: string) {
+    const q = (assetSearch[searchKey] ?? '').toLowerCase()
+    if (!q) return assets
+    return assets.filter(a =>
+      a.name.toLowerCase().includes(q) ||
+      (a.serial_number ?? '').toLowerCase().includes(q) ||
+      (a.article_number ?? '').toLowerCase().includes(q)
     )
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!name.trim()) { setError(t('nameRequired')); return }
+    if (!name.trim()) { setError('Name ist erforderlich'); return }
+    if (included.size === 0) { setError('Mindestens ein Druckwerk auswählen'); return }
+
+    const assignments: { druckwerk_id: string; slot_label: string; asset_id: string | null }[] = []
+    for (const dwId of included) {
+      assignments.push({
+        druckwerk_id: dwId,
+        slot_label: 'Druckbild',
+        asset_id: druckbildAsset[dwId] || null,
+      })
+      const dw = druckwerke.find(d => d.id === dwId)
+      if (dw?.hasFarbe) {
+        assignments.push({
+          druckwerk_id: dwId,
+          slot_label: 'Farbe',
+          asset_id: farbeAsset[dwId] || null,
+        })
+      }
+    }
+
     setLoading(true)
     setError(null)
-
     const res = await fetch('/api/flexodruck/templates', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        machine_id: machine.id,
-        name,
-        description,
-        slot_labels: slots,
-        shared_machine_ids: sharedMachines,
-      }),
+      body: JSON.stringify({ machine_id: machine.id, name: name.trim(), assignments }),
     })
     const data = await res.json()
     setLoading(false)
-
-    if (!res.ok) { setError(data.error ?? t('nameRequired')); return }
+    if (!res.ok) { setError(data.error ?? 'Fehler'); return }
     router.push(`/flexodruck/vorlagen/${data.id}`)
     router.refresh()
   }
 
+  const inputStyle: React.CSSProperties = {
+    width: '100%', padding: '10px 12px', borderRadius: 8,
+    border: '1px solid #c8d4e8', background: 'white', color: '#003366',
+    fontSize: 14, fontFamily: 'Arial, sans-serif', outline: 'none', boxSizing: 'border-box',
+  }
+
   return (
-    <div style={{ padding: '28px 24px 60px', maxWidth: 620 }}>
+    <div style={{ padding: '28px 24px 80px', maxWidth: 560, fontFamily: 'Arial, sans-serif' }}>
       <Link href={`/flexodruck/maschinen/${machine.id}`}
-        style={{ color: '#6b7280', fontSize: 13, textDecoration: 'none', fontFamily: 'Arial, sans-serif' }}>
+        style={{ color: '#6b7280', fontSize: 13, textDecoration: 'none' }}>
         ← {machine.name}
       </Link>
-      <h1 style={{ fontSize: 22, fontWeight: 900, color: '#003366', margin: '8px 0 4px', fontFamily: 'Arial, sans-serif' }}>
-        {t('newTemplate')}
+      <h1 style={{ fontSize: 22, fontWeight: 900, color: '#003366', margin: '8px 0 24px' }}>
+        Neue Vorlage
       </h1>
-      <p style={{ fontSize: 13, color: '#6b7280', margin: '0 0 24px', fontFamily: 'Arial, sans-serif' }}>
-        {t('newTemplateSubtitle')}
-      </p>
 
       <form onSubmit={handleSubmit}>
-        {/* Name & Beschreibung */}
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '20px', marginBottom: 16 }}>
-          <div style={{ marginBottom: 14 }}>
-            <label style={labelStyle}>{t('template')} *</label>
-            <input value={name} onChange={e => setName(e.target.value)} placeholder="z.B. Standard-Setup Gelb" required style={input} />
-          </div>
-          <div>
-            <label style={labelStyle}>{t('description')}</label>
-            <textarea value={description} onChange={e => setDescription(e.target.value)}
-              placeholder="Optional: Was ist der Zweck dieser Vorlage?" rows={2}
-              style={{ ...input, resize: 'vertical' }} />
-          </div>
+        {/* Name */}
+        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: 20, marginBottom: 16 }}>
+          <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#6b7280', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+            Name *
+          </label>
+          <input
+            value={name}
+            onChange={e => setName(e.target.value)}
+            placeholder="z.B. Standard-Gelb, Sonderfarbe Rot …"
+            required
+            style={inputStyle}
+          />
         </div>
 
-        {/* Variable Slot-Typen */}
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '20px', marginBottom: 16 }}>
-          <label style={{ ...labelStyle, marginBottom: 12 }}>{t('variableSlots')}</label>
-          <p style={{ margin: '0 0 12px', fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>
-            {t('variableSlotTypesDesc')}
-          </p>
-
-          {/* Vorhandene Slots */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 12 }}>
-            {slots.map(s => (
-              <div key={s} style={{
-                display: 'flex', alignItems: 'center', gap: 6,
-                background: '#e8f4fd', borderRadius: 20, padding: '5px 12px',
-                border: '1px solid #bfdbfe',
+        {/* Druckwerke */}
+        <p style={{ fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 10px' }}>
+          Druckwerke
+        </p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
+          {druckwerke.map(dw => {
+            const isOn = included.has(dw.id)
+            const dwLabel = dw.label ?? `Druckwerk ${dw.position}`
+            const searchKeyDruck = `${dw.id}_druckbild`
+            const searchKeyFarbe = `${dw.id}_farbe`
+            return (
+              <div key={dw.id} style={{
+                background: 'white', borderRadius: 12, border: `1px solid ${isOn ? '#0099cc' : '#c8d4e8'}`,
+                overflow: 'hidden', transition: 'border-color 0.15s',
               }}>
-                <span style={{ fontSize: 13, fontWeight: 600, color: '#003366', fontFamily: 'Arial, sans-serif' }}>{s}</span>
-                <button type="button" onClick={() => removeSlot(s)}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#6b7280', fontSize: 14, lineHeight: 1, padding: 0, fontFamily: 'Arial, sans-serif' }}>
-                  ×
+                {/* DW Header */}
+                <button
+                  type="button"
+                  onClick={() => toggleDw(dw.id)}
+                  style={{
+                    width: '100%', display: 'flex', alignItems: 'center', gap: 12,
+                    padding: '12px 16px', background: isOn ? '#f0f9ff' : 'transparent',
+                    border: 'none', cursor: 'pointer', textAlign: 'left',
+                  }}
+                >
+                  <div style={{
+                    width: 28, height: 28, borderRadius: 6, flexShrink: 0,
+                    background: dw.color_hint ?? '#003366',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <span style={{ fontSize: 12, fontWeight: 900, color: dw.color_hint === '#ffd600' || dw.color_hint === '#f5f5f5' ? '#003366' : 'white' }}>
+                      {dw.position}
+                    </span>
+                  </div>
+                  <span style={{ flex: 1, fontSize: 14, fontWeight: 700, color: '#003366' }}>{dwLabel}</span>
+                  <div style={{
+                    width: 20, height: 20, borderRadius: '50%', border: '2px solid',
+                    borderColor: isOn ? '#0099cc' : '#c8d4e8',
+                    background: isOn ? '#0099cc' : 'transparent',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+                  }}>
+                    {isOn && <span style={{ color: 'white', fontSize: 11, lineHeight: 1 }}>✓</span>}
+                  </div>
                 </button>
-              </div>
-            ))}
-          </div>
 
-          {/* Neuen Slot hinzufügen */}
-          <div style={{ display: 'flex', gap: 8 }}>
-            <input
-              value={newSlot} onChange={e => setNewSlot(e.target.value)}
-              onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addSlot())}
-              placeholder={t('addSlotPlaceholder')}
-              style={{ ...input, flex: 1 }}
-            />
-            <button type="button" onClick={addSlot}
-              style={{
-                background: '#003366', color: 'white', padding: '10px 16px',
-                borderRadius: 8, border: 'none', cursor: 'pointer',
-                fontSize: 13, fontWeight: 700, fontFamily: 'Arial, sans-serif', flexShrink: 0,
-              }}>
-              +
-            </button>
-          </div>
+                {/* Asset-Picker (nur wenn eingeschlossen) */}
+                {isOn && (
+                  <div style={{ padding: '0 16px 16px', borderTop: '1px solid #e8f0f9' }}>
+
+                    {/* Druckbild */}
+                    <SlotPicker
+                      label="Druckbild"
+                      searchValue={assetSearch[searchKeyDruck] ?? ''}
+                      onSearchChange={v => setAssetSearch(prev => ({ ...prev, [searchKeyDruck]: v }))}
+                      assets={filteredAssets(searchKeyDruck)}
+                      allAssets={assets}
+                      selectedId={druckbildAsset[dw.id] ?? ''}
+                      onSelect={id => setDruckbildAsset(prev => ({ ...prev, [dw.id]: id }))}
+                    />
+
+                    {/* Farbe (nur wenn Slot existiert) */}
+                    {dw.hasFarbe && (
+                      <SlotPicker
+                        label="Farbe / Anilox"
+                        searchValue={assetSearch[searchKeyFarbe] ?? ''}
+                        onSearchChange={v => setAssetSearch(prev => ({ ...prev, [searchKeyFarbe]: v }))}
+                        assets={filteredAssets(searchKeyFarbe)}
+                        allAssets={assets}
+                        selectedId={farbeAsset[dw.id] ?? ''}
+                        onSelect={id => setFarbeAsset(prev => ({ ...prev, [dw.id]: id }))}
+                      />
+                    )}
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
 
-        {/* Vorschau */}
-        <div style={{ background: '#f4f6f9', borderRadius: 14, border: '1px solid #c8d4e8', padding: '16px 20px', marginBottom: 16 }}>
-          <p style={{ margin: '0 0 10px', fontSize: 12, fontWeight: 700, color: '#003366', fontFamily: 'Arial, sans-serif' }}>
-            {t('previewStepsTitle')}
-          </p>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 8 }}>
-            {druckwerke.map(dw => (
-              <div key={dw.id} style={{ background: 'white', borderRadius: 8, padding: '10px 12px', border: '1px solid #c8d4e8' }}>
-                <p style={{ margin: '0 0 6px', fontSize: 12, fontWeight: 700, color: '#0099cc', fontFamily: 'Arial, sans-serif' }}>
-                  {dw.label ?? `DW ${dw.position}`}
-                </p>
-                <p style={{ margin: '0 0 2px', fontSize: 10, color: '#9ca3af', fontFamily: 'Arial, sans-serif' }}>▪ Trägerstange 1</p>
-                <p style={{ margin: '0 0 4px', fontSize: 10, color: '#9ca3af', fontFamily: 'Arial, sans-serif' }}>▪ Trägerstange 2</p>
-                {slots.map(s => (
-                  <p key={s} style={{ margin: '0 0 2px', fontSize: 10, color: '#003366', fontFamily: 'Arial, sans-serif' }}>▪ {s}</p>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Freigabe für andere Maschinen */}
-        {otherMachines.length > 0 && (
-          <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '20px', marginBottom: 16 }}>
-            <label style={{ ...labelStyle, marginBottom: 10 }}>{t('sharedMachinesLabel')}</label>
-            <p style={{ margin: '0 0 10px', fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>
-              {t('sharedMachinesDesc')}
-            </p>
-            {otherMachines.map(m => (
-              <label key={m.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', cursor: 'pointer' }}>
-                <input
-                  type="checkbox"
-                  checked={sharedMachines.includes(m.id)}
-                  onChange={() => toggleMachine(m.id)}
-                  style={{ width: 16, height: 16, cursor: 'pointer' }}
-                />
-                <span style={{ fontSize: 13, color: '#003366', fontFamily: 'Arial, sans-serif' }}>{m.name}</span>
-              </label>
-            ))}
-          </div>
-        )}
-
-        {error && <p style={{ color: '#f87171', fontSize: 13, marginBottom: 12, fontFamily: 'Arial, sans-serif' }}>{error}</p>}
+        {error && <p style={{ color: '#f87171', fontSize: 13, marginBottom: 12 }}>{error}</p>}
 
         <div style={{ display: 'flex', gap: 12 }}>
-          <button type="submit" disabled={loading}
-            style={{
-              background: loading ? '#c8d4e8' : '#003366', color: 'white',
-              padding: '12px 28px', borderRadius: 50, border: 'none',
-              fontSize: 14, fontWeight: 700, cursor: loading ? 'default' : 'pointer',
-              fontFamily: 'Arial, sans-serif',
-            }}>
-            {loading ? t('creating') : t('createTemplate')}
+          <button type="submit" disabled={loading} style={{
+            background: loading ? '#c8d4e8' : '#003366', color: 'white',
+            padding: '12px 28px', borderRadius: 50, border: 'none',
+            fontSize: 14, fontWeight: 700, cursor: loading ? 'default' : 'pointer',
+          }}>
+            {loading ? 'Erstellen…' : 'Vorlage erstellen'}
           </button>
-          <button type="button" onClick={() => router.back()}
-            style={{
-              background: 'transparent', color: '#6b7280',
-              padding: '12px 20px', borderRadius: 50, border: '1px solid #c8d4e8',
-              fontSize: 14, fontWeight: 600, cursor: 'pointer',
-              fontFamily: 'Arial, sans-serif',
-            }}>
-            {t('cancel')}
-          </button>
+          <Link href={`/flexodruck/maschinen/${machine.id}`} style={{
+            padding: '12px 20px', borderRadius: 50, border: '1px solid #c8d4e8',
+            fontSize: 14, fontWeight: 600, color: '#6b7280', textDecoration: 'none',
+          }}>
+            Abbrechen
+          </Link>
         </div>
       </form>
+    </div>
+  )
+}
+
+// ─── Slot-Picker Subkomponente ───────────────────────────────────────────────
+function SlotPicker({
+  label,
+  searchValue,
+  onSearchChange,
+  assets,
+  allAssets,
+  selectedId,
+  onSelect,
+}: {
+  label: string
+  searchValue: string
+  onSearchChange: (v: string) => void
+  assets: Asset[]
+  allAssets: Asset[]
+  selectedId: string
+  onSelect: (id: string) => void
+}) {
+  const selectedAsset = allAssets.find(a => a.id === selectedId)
+
+  return (
+    <div style={{ marginTop: 12 }}>
+      <p style={{ margin: '0 0 6px', fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+        {label}
+      </p>
+
+      {/* Ausgewählt */}
+      {selectedAsset ? (
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          background: '#e8f4fd', borderRadius: 8, padding: '8px 12px', marginBottom: 6,
+          border: '1px solid #bfdbfe',
+        }}>
+          <div>
+            <span style={{ fontSize: 13, fontWeight: 600, color: '#003366' }}>{selectedAsset.name}</span>
+            {selectedAsset.serial_number && (
+              <span style={{ fontSize: 11, color: '#6b7280', marginLeft: 8 }}>SN: {selectedAsset.serial_number}</span>
+            )}
+          </div>
+          <button type="button" onClick={() => { onSelect(''); onSearchChange('') }}
+            style={{ background: 'none', border: 'none', color: '#f87171', fontSize: 12, cursor: 'pointer' }}>
+            ✕
+          </button>
+        </div>
+      ) : (
+        <p style={{ margin: '0 0 6px', fontSize: 12, color: '#9ca3af', fontStyle: 'italic' }}>Kein Asset ausgewählt</p>
+      )}
+
+      {/* Suche */}
+      <input
+        placeholder={`${label} suchen…`}
+        value={searchValue}
+        onChange={e => onSearchChange(e.target.value)}
+        style={{
+          width: '100%', padding: '7px 10px', borderRadius: 8,
+          border: '1px solid #c8d4e8', fontSize: 13, outline: 'none',
+          boxSizing: 'border-box', fontFamily: 'Arial, sans-serif',
+        }}
+      />
+
+      {/* Liste (nur wenn Suche aktiv oder kein Asset gewählt) */}
+      {(searchValue || !selectedId) && (
+        <div style={{
+          background: 'white', border: '1px solid #c8d4e8', borderRadius: 8,
+          marginTop: 4, maxHeight: 180, overflowY: 'auto',
+        }}>
+          {!selectedId && (
+            <div
+              onClick={() => { onSelect(''); onSearchChange('') }}
+              style={{
+                padding: '8px 12px', cursor: 'pointer', borderBottom: '1px solid #f4f6f9',
+                fontSize: 12, color: '#9ca3af', fontStyle: 'italic',
+              }}
+            >
+              — kein Asset —
+            </div>
+          )}
+          {assets.slice(0, 80).map(a => (
+            <div
+              key={a.id}
+              onClick={() => { onSelect(a.id); onSearchChange('') }}
+              style={{
+                padding: '8px 12px', cursor: 'pointer', borderBottom: '1px solid #f4f6f9',
+                background: selectedId === a.id ? '#e8f4fd' : 'transparent',
+                display: 'flex', flexDirection: 'column',
+              }}
+            >
+              <span style={{ fontSize: 13, fontWeight: 600, color: '#003366' }}>{a.name}</span>
+              <span style={{ fontSize: 11, color: '#9ca3af' }}>
+                {[a.serial_number ? `SN: ${a.serial_number}` : null, a.category].filter(Boolean).join(' · ')}
+              </span>
+            </div>
+          ))}
+          {assets.length === 0 && (
+            <p style={{ padding: '12px', color: '#9ca3af', fontSize: 12, textAlign: 'center', margin: 0 }}>
+              Keine Treffer
+            </p>
+          )}
+          {assets.length > 80 && (
+            <p style={{ padding: '8px', color: '#9ca3af', fontSize: 11, textAlign: 'center', margin: 0 }}>
+              +{assets.length - 80} weitere – Suche verfeinern
+            </p>
+          )}
+        </div>
+      )}
     </div>
   )
 }

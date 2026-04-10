@@ -25,7 +25,6 @@ export default async function NeuerRuestvorgangPage({
       flexo_templates(id, name, is_active)
     `)
     .eq('org_id', profile.organization_id)
-    .eq('is_active', true)
     .order('name')
 
   return (

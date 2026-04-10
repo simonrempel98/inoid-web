@@ -32,7 +32,7 @@ export default async function FlexodruckPage() {
   const [{ data: machines }, { data: recentSetups }] = await Promise.all([
     supabase
       .from('flexo_machines')
-      .select('id, name, manufacturer, model, num_druckwerke, is_active, created_at')
+      .select('id, name, manufacturer, model, num_druckwerke, is_active, created_at, image_url')
       .eq('org_id', profile.organization_id)
       .eq('is_active', true)
       .order('name'),
@@ -117,31 +117,27 @@ export default async function FlexodruckPage() {
               <div style={{
                 background: 'white', borderRadius: 14, border: '1px solid #c8d4e8',
                 padding: '18px 20px', cursor: 'pointer',
-                transition: 'box-shadow 0.15s, border-color 0.15s',
-              }}
-                onMouseEnter={e => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(0,51,102,0.12)'
-                  ;(e.currentTarget as HTMLElement).style.borderColor = '#0099cc'
-                }}
-                onMouseLeave={e => {
-                  (e.currentTarget as HTMLElement).style.boxShadow = ''
-                  ;(e.currentTarget as HTMLElement).style.borderColor = '#c8d4e8'
-                }}
-              >
-                {/* Maschinen-Icon */}
+              }}>
+                {/* Maschinen-Bild oder Icon */}
                 <div style={{
-                  width: 44, height: 44, borderRadius: 12,
-                  background: 'linear-gradient(135deg, #003366, #0099cc)',
+                  width: 44, height: 44, borderRadius: 12, marginBottom: 14,
+                  background: (m as any).image_url ? 'transparent' : 'linear-gradient(135deg, #003366, #0099cc)',
+                  overflow: 'hidden',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  marginBottom: 14,
+                  border: (m as any).image_url ? '1px solid #c8d4e8' : 'none',
                 }}>
-                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
-                    stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <rect x="2" y="7" width="20" height="10" rx="2"/>
-                    <path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/>
-                    <line x1="6" y1="12" x2="6.01" y2="12" strokeWidth="3"/>
-                    <line x1="10" y1="12" x2="14" y2="12"/>
-                  </svg>
+                  {(m as any).image_url ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={(m as any).image_url} alt={m.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  ) : (
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                      stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="7" width="20" height="10" rx="2"/>
+                      <path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/>
+                      <line x1="6" y1="12" x2="6.01" y2="12" strokeWidth="3"/>
+                      <line x1="10" y1="12" x2="14" y2="12"/>
+                    </svg>
+                  )}
                 </div>
 
                 <p style={{ margin: '0 0 2px', fontSize: 15, fontWeight: 700, color: '#003366', fontFamily: 'Arial, sans-serif' }}>

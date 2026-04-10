@@ -11,47 +11,56 @@ export default async function NeueVorlagePage({ params }: { params: Promise<{ id
 
   const { data: profile } = await supabase
     .from('profiles').select('organization_id, app_role').eq('id', user.id).single()
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  if (!['admin', 'superadmin'].includes((profile as any)?.app_role ?? '')) redirect('/flexodruck')
+  if (!['admin', 'superadmin', 'technician'].includes(profile?.app_role ?? '')) redirect('/flexodruck')
 
-  // Maschine mit Druckwerken laden
+  const orgId = profile!.organization_id
+
+  // Maschine laden
   const { data: machine, error } = await supabase
     .from('flexo_machines')
-    .select('id, name, num_druckwerke, flexo_druckwerke(id, position, label)')
+    .select('id, name, num_druckwerke')
     .eq('id', machineId)
-    .eq('org_id', profile!.organization_id)
+    .eq('org_id', orgId)
     .single()
 
   if (error || !machine) notFound()
 
-  // Alle Maschinen für Freigabe-Option
-  const { data: allMachines } = await supabase
-    .from('flexo_machines')
-    .select('id, name')
-    .eq('org_id', profile!.organization_id)
-    .eq('is_active', true)
-    .neq('id', machineId)
-    .order('name')
+  // Druckwerke laden (flach)
+  const { data: druckwerke } = await supabase
+    .from('flexo_druckwerke')
+    .select('id, position, label, color_hint')
+    .eq('machine_id', machineId)
+    .order('position')
 
-  // Assets
-  const { data: assets } = await supabase
+  // Fixed Slots laden – um Farbe-Slot-Vorhandensein zu erkennen
+  const dwIds = (druckwerke ?? []).map(d => d.id)
+  const { data: slots } = dwIds.length > 0
+    ? await supabase
+        .from('flexo_fixed_slots')
+        .select('druckwerk_id, sort_order')
+        .in('druckwerk_id', dwIds)
+    : { data: [] }
+
+  const druckwerkeWithInfo = (druckwerke ?? []).map(dw => ({
+    ...dw,
+    hasFarbe: (slots ?? []).some(s => s.druckwerk_id === dw.id && s.sort_order === 1),
+  }))
+
+  // Assets laden
+  const { data: assetsRaw } = await supabase
     .from('assets')
-    .select('id, name, serial_number')
-    .eq('organization_id', profile!.organization_id)
+    .select('id, title, serial_number, article_number, category')
+    .eq('organization_id', orgId)
     .is('deleted_at', null)
-    .order('name')
-    .limit(500)
-
-  // Sort Druckwerke
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const dws = [...((machine as any).flexo_druckwerke ?? [])].sort((a: { position: number }, b: { position: number }) => a.position - b.position)
+    .order('title')
+    .limit(1000)
+  const assets = (assetsRaw ?? []).map((a: any) => ({ ...a, name: a.title }))
 
   return (
     <NeueVorlageClient
-      machine={{ id: machine.id, name: machine.name, num_druckwerke: machine.num_druckwerke }}
-      druckwerke={dws}
-      otherMachines={allMachines ?? []}
-      assets={assets ?? []}
+      machine={{ id: machine.id, name: machine.name }}
+      druckwerke={druckwerkeWithInfo}
+      assets={assets}
     />
   )
 }

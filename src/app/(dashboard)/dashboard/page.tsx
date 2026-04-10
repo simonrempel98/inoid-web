@@ -113,7 +113,7 @@ export default async function DashboardPage() {
     { data: events },
     { data: recentEvents },
   ] = await Promise.all([
-    supabase.from('organizations').select('name, plan, asset_limit, subscription_status, features').eq('id', orgId ?? '').single(),
+    supabase.from('organizations').select('name, plan, asset_limit, user_limit, subscription_status, features').eq('id', orgId ?? '').single(),
     supabase.from('assets').select('id, status, category, created_at').eq('organization_id', orgId ?? '').is('deleted_at', null),
     supabase.from('organization_members').select('id, created_at').eq('organization_id', orgId ?? ''),
     supabase.from('maintenance_schedules').select('id, next_service_date, is_active').eq('organization_id', orgId ?? '').eq('is_active', true),
@@ -271,7 +271,7 @@ export default async function DashboardPage() {
           sub={totalAssets > 0 ? t('dashboard.stats.percentOfStock', { n: Math.round((assetsDecommissioned / totalAssets) * 100) }) : '—'}
           icon={<Package size={20} />} color="#94a3b8" accent="#64748b" />
         <StatCard label={t('dashboard.stats.users')} value={totalMembers}
-          sub={plan.user_limit ? t('dashboard.stats.limit', { n: plan.user_limit }) : t('dashboard.stats.unlimited')}
+          sub={org?.user_limit ? t('dashboard.stats.limit', { n: org.user_limit }) : t('dashboard.stats.unlimited')}
           icon={<Users size={20} />} color="#0099cc" />
         {showWartung && (
           <StatCard label={t('dashboard.stats.overdueServices')} value={overdueSchedules}
@@ -484,7 +484,7 @@ export default async function DashboardPage() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             {[
               { label: t('dashboard.plan.assets'), value: `${totalAssets} / ${assetLimit}` },
-              { label: t('dashboard.plan.users'), value: plan.user_limit ? `${totalMembers} / ${plan.user_limit}` : `${totalMembers} ∞` },
+              { label: t('dashboard.plan.users'), value: org?.user_limit ? `${totalMembers} / ${org.user_limit}` : `${totalMembers} ∞` },
             ].map(f => (
               <div key={f.label} style={{ background: 'rgba(255,255,255,0.08)', borderRadius: 10, padding: '10px 14px' }}>
                 <div style={{ fontSize: 16, fontWeight: 800 }}>{f.value}</div>
