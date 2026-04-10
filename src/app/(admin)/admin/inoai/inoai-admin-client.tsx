@@ -3,7 +3,20 @@
 import { useState } from 'react'
 
 type CrawlerRow = { id: string; name: string; url: string; lang: string; created_at: string }
-type StatsMap = Record<string, { count: number; lastUpdated: string | null }>
+type CrawlerStats = { chunks: number; pages: number; docs: number; lastUpdated: string | null }
+type StatsMap = Record<string, CrawlerStats>
+
+function StatBadge({ icon, label, value }: { icon: string; label: string; value: number }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+      <span style={{ fontSize: 11 }}>{icon}</span>
+      <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--adm-text)' }}>
+        {value.toLocaleString('de')}
+      </span>
+      <span style={{ fontSize: 10, color: 'var(--adm-text3)' }}>{label}</span>
+    </div>
+  )
+}
 
 function CrawlerCard({
   crawler,
@@ -12,7 +25,7 @@ function CrawlerCard({
   onDelete,
 }: {
   crawler: CrawlerRow
-  stats: { count: number; lastUpdated: string | null } | undefined
+  stats: CrawlerStats | undefined
   onStatsRefresh: () => void
   onDelete: (id: string) => void
 }) {
@@ -83,11 +96,20 @@ function CrawlerCard({
           <p style={{ margin: 0, fontSize: 11, color: 'var(--adm-text3)', fontFamily: 'monospace', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {crawler.url}
           </p>
-          <p style={{ margin: '3px 0 0', fontSize: 11, color: stats ? 'var(--adm-text3)' : '#f59e0b' }}>
-            {stats
-              ? `${stats.count.toLocaleString('de')} Chunks${stats.lastUpdated ? ' · ' + new Date(stats.lastUpdated).toLocaleString('de-DE') : ''}`
-              : 'Noch nicht gecrawlt'}
-          </p>
+          {stats ? (
+            <div style={{ marginTop: 5, display: 'flex', flexWrap: 'wrap', gap: '6px 14px' }}>
+              <StatBadge icon="🌐" label="Unterseiten" value={stats.pages} />
+              <StatBadge icon="📄" label="Dokumente" value={stats.docs} />
+              <StatBadge icon="🧩" label="Chunks" value={stats.chunks} />
+              {stats.lastUpdated && (
+                <span style={{ fontSize: 10, color: 'var(--adm-text3)', alignSelf: 'center' }}>
+                  · {new Date(stats.lastUpdated).toLocaleString('de-DE')}
+                </span>
+              )}
+            </div>
+          ) : (
+            <p style={{ margin: '3px 0 0', fontSize: 11, color: '#f59e0b' }}>Noch nicht gecrawlt</p>
+          )}
         </div>
 
         {/* Aktionen */}
