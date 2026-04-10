@@ -18,6 +18,169 @@ type Step = {
   assets: Asset | null
 }
 
+// ── Fortschrittsfarben ────────────────────────────────────────────────────────
+const STEP_FILL: Record<string, string> = {
+  pending:   '#d1d5db',
+  installed: '#0099cc',
+  verified:  '#34d399',
+  skipped:   '#e5e7eb',
+}
+
+function hexAlpha(hex: string | null, alpha: number): string {
+  if (!hex || !hex.startsWith('#') || hex.length < 7) return `rgba(0,51,102,${alpha})`
+  const r = parseInt(hex.slice(1, 3), 16)
+  const g = parseInt(hex.slice(3, 5), 16)
+  const b = parseInt(hex.slice(5, 7), 16)
+  if (isNaN(r) || isNaN(g) || isNaN(b)) return `rgba(0,51,102,${alpha})`
+  return `rgba(${r},${g},${b},${alpha})`
+}
+
+// ── Setup-Diagramm ────────────────────────────────────────────────────────────
+function SetupDiagram({
+  druckwerke, stepsByDW, currentDwId, onSelect,
+}: {
+  druckwerke: DW[]
+  stepsByDW: Record<string, Step[]>
+  currentDwId: string
+  onSelect: (id: string) => void
+}) {
+  const n = druckwerke.length
+  if (n === 0) return null
+
+  const W = 340, H = 340, CX = W / 2, CY = H / 2
+  const PAD = 44
+  const CYLL_R = 44
+
+  const dbR = n <= 4 ? 24 : n <= 7 ? 20 : n <= 11 ? 17 : 14
+  const fR  = Math.round(dbR * 0.72)
+  const DB_DIST  = CYLL_R + 18 + dbR
+  const F_DIST   = DB_DIST + dbR + 6 + fR
+  const LBL_DIST = F_DIST + fR + (n <= 8 ? 14 : 10)
+  const SQRT2    = 0.707
+
+  function slotStatus(dwId: string, label: string): Step['status'] | null {
+    const steps = stepsByDW[dwId] ?? []
+    const step = steps.find(s => s.slot_label === label)
+    return step?.status ?? null
+  }
+
+  function dwOverallStatus(dwId: string): 'complete' | 'partial' | 'pending' {
+    const steps = stepsByDW[dwId] ?? []
+    if (steps.length === 0) return 'pending'
+    const done = steps.filter(s => s.status === 'verified' || s.status === 'installed' || s.status === 'skipped').length
+    if (done === steps.length) return 'complete'
+    if (done > 0) return 'partial'
+    return 'pending'
+  }
+
+  return (
+    <svg
+      viewBox={`${-PAD} ${-PAD} ${W + PAD * 2} ${H + PAD * 2}`}
+      style={{ width: '100%', maxWidth: W + PAD * 2, display: 'block', margin: '0 auto' }}
+      overflow="visible"
+    >
+      <defs>
+        <radialGradient id="sgCyl" cx="38%" cy="35%">
+          <stop offset="0%" stopColor="#2a7ab5" />
+          <stop offset="100%" stopColor="#174f77" />
+        </radialGradient>
+      </defs>
+
+      {/* Verbindungslinien */}
+      {druckwerke.map((dw, i) => {
+        const angle = (i * 2 * Math.PI / n) - Math.PI / 2
+        const c = Math.cos(angle), s = Math.sin(angle)
+        return (
+          <line key={`l-${dw.id}`}
+            x1={CX + (CYLL_R + 2) * c} y1={CY + (CYLL_R + 2) * s}
+            x2={CX + (DB_DIST - dbR - 2) * c} y2={CY + (DB_DIST - dbR - 2) * s}
+            stroke="#dde4ef" strokeWidth="1.5" strokeDasharray="4 3"
+          />
+        )
+      })}
+
+      {/* Zentralzylinder */}
+      <circle cx={CX} cy={CY} r={CYLL_R} fill="url(#sgCyl)" />
+      <text x={CX} y={CY - 5} textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="7" fontWeight="700" letterSpacing="1" fontFamily="Arial, sans-serif">ZENTRAL</text>
+      <text x={CX} y={CY + 6} textAnchor="middle" fill="rgba(255,255,255,0.5)" fontSize="7" fontWeight="700" letterSpacing="1" fontFamily="Arial, sans-serif">ZYLINDER</text>
+
+      {/* Druckwerke */}
+      {druckwerke.map((dw, i) => {
+        const angle = (i * 2 * Math.PI / n) - Math.PI / 2
+        const c = Math.cos(angle), s = Math.sin(angle)
+        const dbX = CX + DB_DIST * c, dbY = CY + DB_DIST * s
+        const fX  = CX + F_DIST  * c, fY  = CY + F_DIST  * s
+        const lX  = CX + LBL_DIST * c, lY = CY + LBL_DIST * s
+
+        const isCurrent = dw.id === currentDwId
+        const overall = dwOverallStatus(dw.id)
+        const dbStatus = slotStatus(dw.id, 'Druckbild')
+        const fStatus  = slotStatus(dw.id, 'Farbe')
+        const color = dw.color_hint ?? '#003366'
+
+        const ta = c > 0.25 ? 'start' : c < -0.25 ? 'end' : 'middle'
+        const db = s > 0.25 ? 'hanging' : s < -0.25 ? 'auto' : 'central'
+
+        // Farbe des Druckbild-Kreises: wenn Fortschritt vorhanden → Statusfarbe, sonst DW-Farbe
+        const dbFill = dbStatus && dbStatus !== 'pending' ? STEP_FILL[dbStatus] : color
+        const fFill  = fStatus  && fStatus  !== 'pending' ? STEP_FILL[fStatus]  : hexAlpha(color, 0.55)
+
+        return (
+          <g key={dw.id} onClick={() => onSelect(dw.id)} style={{ cursor: 'pointer' }}>
+            {/* Highlight-Ring für aktives DW */}
+            {isCurrent && (
+              <circle cx={dbX} cy={dbY} r={dbR + 6}
+                fill="none" stroke="#0099cc" strokeWidth="2.5" strokeDasharray="5 3" opacity="0.7"
+              />
+            )}
+
+            {/* Farbe-Kreis */}
+            {fStatus !== null && (
+              <circle cx={fX} cy={fY} r={fR}
+                fill={fFill}
+                stroke={isCurrent ? '#0099cc' : 'rgba(255,255,255,0.3)'}
+                strokeWidth={isCurrent ? 2 : 1.5}
+              />
+            )}
+
+            {/* Druckbild-Kreis */}
+            {dbStatus !== null && (
+              <circle cx={dbX} cy={dbY} r={dbR}
+                fill={dbFill}
+                stroke={isCurrent ? '#0099cc' : 'rgba(255,255,255,0.3)'}
+                strokeWidth={isCurrent ? 2 : 1.5}
+              />
+            )}
+
+            {/* Fortschritt-Indikator oben rechts */}
+            {overall === 'complete' && (
+              <g>
+                <circle cx={dbX + SQRT2 * dbR} cy={dbY - SQRT2 * dbR} r={5.5} fill="#34d399" stroke="white" strokeWidth="1.5" />
+                <text x={dbX + SQRT2 * dbR} y={dbY - SQRT2 * dbR} textAnchor="middle" dominantBaseline="central" fontSize="7" fill="white" fontWeight="700">✓</text>
+              </g>
+            )}
+            {overall === 'partial' && (
+              <circle cx={dbX + SQRT2 * dbR} cy={dbY - SQRT2 * dbR} r={4} fill="#f59e0b" stroke="white" strokeWidth="1.5" />
+            )}
+
+            {/* Label */}
+            {n <= 14 && (
+              <text x={lX} y={lY} textAnchor={ta} dominantBaseline={db}
+                fill={isCurrent ? '#003366' : '#9ca3af'}
+                fontSize={n <= 8 ? 9.5 : 8}
+                fontWeight={isCurrent ? '700' : '400'}
+                fontFamily="Arial, sans-serif"
+              >
+                {dw.label ?? `DW ${dw.position}`}
+              </text>
+            )}
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
 export function SetupWizard({
   setupId,
   setupName,
@@ -233,48 +396,37 @@ export function SetupWizard({
         </div>
       )}
 
-      <div style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 16 }}>
-        {/* DW-Navigation */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {druckwerke.map((dw, idx) => {
-            const prog = dwProgress(dw.id)
-            const isActive = idx === currentDwIdx
-            return (
-              <button
-                key={dw.id}
-                type="button"
-                onClick={() => setCurrentDwIdx(idx)}
-                style={{
-                  padding: '10px 12px', borderRadius: 10, border: 'none',
-                  cursor: 'pointer', textAlign: 'left',
-                  background: isActive
-                    ? (dw.color_hint ? dw.color_hint + '28' : '#e8f4fd')
-                    : 'white',
-                  borderLeft: isActive ? `4px solid ${dw.color_hint ?? '#0099cc'}` : '4px solid transparent',
-                  boxShadow: isActive ? '0 2px 8px rgba(0,51,102,0.1)' : 'none',
-                  transition: 'all 0.15s',
-                  position: 'relative',
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <div>
-                    <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: '#003366', fontFamily: 'Arial, sans-serif' }}>
-                      {dw.label ?? `DW ${dw.position}`}
-                    </p>
-                  </div>
-                  <span style={{ fontSize: 14 }}>
-                    {prog === 'complete' ? '✓' : prog === 'partial' ? '◐' : '○'}
-                  </span>
-                </div>
-                {prog === 'complete' && (
-                  <div style={{ position: 'absolute', top: 4, right: 4, width: 8, height: 8, borderRadius: '50%', background: '#34d399' }} />
-                )}
-              </button>
-            )
-          })}
+      {/* Maschinendiagramm mit Fortschritt */}
+      <div style={{
+        background: 'white', borderRadius: 16, border: '1px solid #c8d4e8',
+        padding: '16px 8px 12px', marginBottom: 20,
+      }}>
+        <SetupDiagram
+          druckwerke={druckwerke}
+          stepsByDW={stepsByDW}
+          currentDwId={currentDW?.id ?? ''}
+          onSelect={id => {
+            const idx = druckwerke.findIndex(d => d.id === id)
+            if (idx >= 0) setCurrentDwIdx(idx)
+          }}
+        />
+        {/* Mini-Legende */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 14, marginTop: 8, flexWrap: 'wrap' }}>
+          {[
+            { color: '#d1d5db', label: 'Offen' },
+            { color: '#0099cc', label: 'Eingebaut' },
+            { color: '#34d399', label: 'Verifiziert' },
+          ].map(({ color, label }) => (
+            <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: color }} />
+              <span style={{ fontSize: 10, color: '#9ca3af', fontFamily: 'Arial, sans-serif' }}>{label}</span>
+            </div>
+          ))}
         </div>
+      </div>
 
-        {/* Aktives Druckwerk */}
+      {/* Aktives Druckwerk */}
+      <div>
         {currentDW && (
           <div>
             {/* DW Header */}
