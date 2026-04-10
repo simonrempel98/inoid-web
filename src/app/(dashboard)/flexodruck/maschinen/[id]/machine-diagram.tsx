@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Link from 'next/link'
 
 export type DiagramSlot = {
@@ -107,12 +107,72 @@ function SlotPopover({
 
 // ── Hauptkomponente ───────────────────────────────────────────────────────────
 
-export function MachineDiagram({ druckwerke, canEdit }: { druckwerke: DiagramDW[]; canEdit: boolean }) {
+export function MachineDiagram({
+  druckwerke: initialDruckwerke,
+  canEdit,
+  machineId,
+}: {
+  druckwerke: DiagramDW[]
+  canEdit: boolean
+  machineId: string
+}) {
   const [active, setActive] = useState<{ slot: DiagramSlot; dw: DiagramDW } | null>(null)
+  const [reorderMode, setReorderMode] = useState(false)
+  const [orderedDW, setOrderedDW] = useState<DiagramDW[]>(initialDruckwerke)
+  const [saving, setSaving] = useState(false)
+  const [saved, setSaved] = useState(false)
+  const dragIdx = useRef<number | null>(null)
 
-  const n = druckwerke.length
+  const n = orderedDW.length
   if (n === 0) return null
 
+  // ── Drag & Drop Handlers ──
+  function onDragStart(idx: number) {
+    dragIdx.current = idx
+  }
+
+  function onDragOver(e: React.DragEvent, idx: number) {
+    e.preventDefault()
+    const from = dragIdx.current
+    if (from === null || from === idx) return
+    const next = [...orderedDW]
+    const [item] = next.splice(from, 1)
+    next.splice(idx, 0, item)
+    dragIdx.current = idx
+    setOrderedDW(next)
+  }
+
+  function onDragEnd() {
+    dragIdx.current = null
+  }
+
+  function moveItem(from: number, to: number) {
+    const next = [...orderedDW]
+    const [item] = next.splice(from, 1)
+    next.splice(to, 0, item)
+    setOrderedDW(next)
+  }
+
+  async function saveOrder() {
+    setSaving(true)
+    const positions = orderedDW.map((dw, i) => ({ id: dw.id, position: i + 1 }))
+    await fetch(`/api/flexodruck/machines/${machineId}/reorder`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ positions }),
+    })
+    setSaving(false)
+    setSaved(true)
+    setReorderMode(false)
+    setTimeout(() => setSaved(false), 2000)
+  }
+
+  function cancelReorder() {
+    setOrderedDW(initialDruckwerke)
+    setReorderMode(false)
+  }
+
+  // ── SVG ──
   const W = 440, H = 440, CX = W / 2, CY = H / 2
   const PAD = 56
   const CYLL_R = 58
@@ -130,13 +190,8 @@ export function MachineDiagram({ druckwerke, canEdit }: { druckwerke: DiagramDW[
   function AssetBadge({ cx, cy, r, count }: { cx: number; cy: number; r: number; count: number }) {
     const bx = cx + SQRT2_INV * r
     const by = cy + SQRT2_INV * r
-    if (count === 0) {
-      return <circle cx={bx} cy={by} r={DOT_R} fill="#d1d5db" stroke="white" strokeWidth="1.5" />
-    }
-    if (count === 1) {
-      return <circle cx={bx} cy={by} r={DOT_R} fill="#34d399" stroke="white" strokeWidth="1.5" />
-    }
-    // Multiple assets: numbered badge
+    if (count === 0) return <circle cx={bx} cy={by} r={DOT_R} fill="#d1d5db" stroke="white" strokeWidth="1.5" />
+    if (count === 1) return <circle cx={bx} cy={by} r={DOT_R} fill="#34d399" stroke="white" strokeWidth="1.5" />
     return (
       <g>
         <circle cx={bx} cy={by} r={DOT_R + 2} fill="#34d399" stroke="white" strokeWidth="1.5" />
@@ -153,98 +208,197 @@ export function MachineDiagram({ druckwerke, canEdit }: { druckwerke: DiagramDW[
       background: 'white', borderRadius: 16, border: '1px solid #c8d4e8',
       padding: '20px 12px 20px', marginBottom: 20, fontFamily: 'Arial, sans-serif',
     }}>
-      <svg
-        viewBox={`${-PAD} ${-PAD} ${W + PAD * 2} ${H + PAD * 2}`}
-        style={{ width: '100%', maxWidth: W + PAD * 2, display: 'block', margin: '0 auto' }}
-        overflow="visible"
-      >
-        <defs>
-          <radialGradient id="cylGrad" cx="38%" cy="35%">
-            <stop offset="0%" stopColor="#2a7ab5" />
-            <stop offset="100%" stopColor="#174f77" />
-          </radialGradient>
-        </defs>
+      {/* Header mit Reorder-Button */}
+      {canEdit && (
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 8, paddingRight: 4 }}>
+          {!reorderMode ? (
+            <button onClick={() => setReorderMode(true)}
+              style={{
+                background: 'none', border: '1px solid #c8d4e8', borderRadius: 20,
+                padding: '4px 12px', fontSize: 11, color: '#6b7280', cursor: 'pointer',
+                display: 'flex', alignItems: 'center', gap: 5,
+              }}>
+              <span style={{ fontSize: 13 }}>⇅</span> Anordnung ändern
+            </button>
+          ) : (
+            <div style={{ display: 'flex', gap: 8 }}>
+              <button onClick={cancelReorder}
+                style={{ background: 'none', border: '1px solid #c8d4e8', borderRadius: 20, padding: '4px 12px', fontSize: 11, color: '#6b7280', cursor: 'pointer' }}>
+                Abbrechen
+              </button>
+              <button onClick={saveOrder} disabled={saving}
+                style={{ background: saving ? '#c8d4e8' : '#003366', border: 'none', borderRadius: 20, padding: '4px 14px', fontSize: 11, color: 'white', fontWeight: 700, cursor: saving ? 'default' : 'pointer' }}>
+                {saving ? 'Speichern…' : 'Speichern'}
+              </button>
+            </div>
+          )}
+          {saved && <span style={{ fontSize: 11, color: '#34d399', alignSelf: 'center', marginLeft: 8 }}>✓ Gespeichert</span>}
+        </div>
+      )}
 
-        {/* Verbindungslinien */}
-        {druckwerke.map((dw, i) => {
-          const angle = (i * 2 * Math.PI / n) - Math.PI / 2
-          const c = Math.cos(angle), s = Math.sin(angle)
-          const x1 = CX + (CYLL_R + 3) * c, y1 = CY + (CYLL_R + 3) * s
-          const x2 = CX + (DB_DIST - dbR - 3) * c, y2 = CY + (DB_DIST - dbR - 3) * s
-          return (
-            <line key={`line-${dw.id}`}
-              x1={x1} y1={y1} x2={x2} y2={y2}
-              stroke="#dde4ef" strokeWidth="1.5" strokeDasharray="4 3"
-            />
-          )
-        })}
+      <div style={{ display: reorderMode ? 'grid' : 'block', gridTemplateColumns: '1fr 220px', gap: 16 }}>
+        {/* SVG Diagram */}
+        <svg
+          viewBox={`${-PAD} ${-PAD} ${W + PAD * 2} ${H + PAD * 2}`}
+          style={{ width: '100%', maxWidth: W + PAD * 2, display: 'block', margin: '0 auto' }}
+          overflow="visible"
+        >
+          <defs>
+            <radialGradient id="cylGrad" cx="38%" cy="35%">
+              <stop offset="0%" stopColor="#2a7ab5" />
+              <stop offset="100%" stopColor="#174f77" />
+            </radialGradient>
+          </defs>
 
-        {/* Zentralzylinder */}
-        <circle cx={CX} cy={CY} r={CYLL_R} fill="url(#cylGrad)" />
-        <text x={CX} y={CY - 7} textAnchor="middle" fill="rgba(255,255,255,0.5)"
-          fontSize="8.5" fontWeight="700" letterSpacing="1" fontFamily="Arial, sans-serif">
-          ZENTRAL
-        </text>
-        <text x={CX} y={CY + 7} textAnchor="middle" fill="rgba(255,255,255,0.5)"
-          fontSize="8.5" fontWeight="700" letterSpacing="1" fontFamily="Arial, sans-serif">
-          ZYLINDER
-        </text>
+          {/* Verbindungslinien */}
+          {orderedDW.map((dw, i) => {
+            const angle = (i * 2 * Math.PI / n) - Math.PI / 2
+            const c = Math.cos(angle), s = Math.sin(angle)
+            const x1 = CX + (CYLL_R + 3) * c, y1 = CY + (CYLL_R + 3) * s
+            const x2 = CX + (DB_DIST - dbR - 3) * c, y2 = CY + (DB_DIST - dbR - 3) * s
+            return (
+              <line key={`line-${dw.id}`}
+                x1={x1} y1={y1} x2={x2} y2={y2}
+                stroke="#dde4ef" strokeWidth="1.5" strokeDasharray="4 3"
+              />
+            )
+          })}
 
-        {/* Druckwerke */}
-        {druckwerke.map((dw, i) => {
-          const angle = (i * 2 * Math.PI / n) - Math.PI / 2
-          const c = Math.cos(angle), s = Math.sin(angle)
+          {/* Zentralzylinder */}
+          <circle cx={CX} cy={CY} r={CYLL_R} fill="url(#cylGrad)" />
+          <text x={CX} y={CY - 7} textAnchor="middle" fill="rgba(255,255,255,0.5)"
+            fontSize="8.5" fontWeight="700" letterSpacing="1" fontFamily="Arial, sans-serif">
+            ZENTRAL
+          </text>
+          <text x={CX} y={CY + 7} textAnchor="middle" fill="rgba(255,255,255,0.5)"
+            fontSize="8.5" fontWeight="700" letterSpacing="1" fontFamily="Arial, sans-serif">
+            ZYLINDER
+          </text>
 
-          const dbX = CX + DB_DIST * c, dbY = CY + DB_DIST * s
-          const fX  = CX + F_DIST  * c, fY  = CY + F_DIST  * s
-          const lX  = CX + LBL_DIST * c, lY = CY + LBL_DIST * s
+          {/* Druckwerke */}
+          {orderedDW.map((dw, i) => {
+            const angle = (i * 2 * Math.PI / n) - Math.PI / 2
+            const c = Math.cos(angle), s = Math.sin(angle)
+            const dbX = CX + DB_DIST * c, dbY = CY + DB_DIST * s
+            const fX  = CX + F_DIST  * c, fY  = CY + F_DIST  * s
+            const lX  = CX + LBL_DIST * c, lY = CY + LBL_DIST * s
 
-          const druckbild = dw.slots.find(sl => sl.sort_order === 0)
-          const farbe     = dw.slots.find(sl => sl.sort_order === 1)
-          const color     = dw.color_hint ?? '#003366'
+            const druckbild = dw.slots.find(sl => sl.sort_order === 0)
+            const farbe     = dw.slots.find(sl => sl.sort_order === 1)
+            const color     = dw.color_hint ?? '#003366'
 
-          const ta = c > 0.25 ? 'start' : c < -0.25 ? 'end' : 'middle'
-          const db = s > 0.25 ? 'hanging' : s < -0.25 ? 'auto' : 'central'
+            const ta = c > 0.25 ? 'start' : c < -0.25 ? 'end' : 'middle'
+            const db = s > 0.25 ? 'hanging' : s < -0.25 ? 'auto' : 'central'
 
-          return (
-            <g key={dw.id}>
-              {farbe && (
-                <g onClick={() => setActive({ slot: farbe, dw })} style={{ cursor: 'pointer' }}>
-                  <circle cx={fX} cy={fY} r={fR}
-                    fill={hexAlpha(color, 0.58)}
-                    stroke={farbe.assets.length > 0 ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.2)'}
-                    strokeWidth="2"
+            return (
+              <g key={dw.id} onClick={reorderMode ? undefined : undefined}>
+                {/* Im Reorder-Modus: Positionsnummer anzeigen */}
+                {reorderMode && (
+                  <circle cx={dbX} cy={dbY} r={dbR + 5}
+                    fill="rgba(0,153,204,0.12)" stroke="#0099cc" strokeWidth="1.5" strokeDasharray="3 2"
                   />
-                  <AssetBadge cx={fX} cy={fY} r={fR} count={farbe.assets.length} />
-                </g>
-              )}
+                )}
 
-              {druckbild && (
-                <g onClick={() => setActive({ slot: druckbild, dw })} style={{ cursor: 'pointer' }}>
-                  <circle cx={dbX} cy={dbY} r={dbR}
-                    fill={color}
-                    stroke={druckbild.assets.length > 0 ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.2)'}
-                    strokeWidth="2"
-                  />
-                  <AssetBadge cx={dbX} cy={dbY} r={dbR} count={druckbild.assets.length} />
-                </g>
-              )}
+                {farbe && (
+                  <g onClick={() => !reorderMode && setActive({ slot: farbe, dw })} style={{ cursor: reorderMode ? 'default' : 'pointer' }}>
+                    <circle cx={fX} cy={fY} r={fR}
+                      fill={hexAlpha(color, 0.58)}
+                      stroke={farbe.assets.length > 0 ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.2)'}
+                      strokeWidth="2"
+                    />
+                    {!reorderMode && <AssetBadge cx={fX} cy={fY} r={fR} count={farbe.assets.length} />}
+                  </g>
+                )}
 
-              {showLabels && (
-                <text x={lX} y={lY}
-                  textAnchor={ta}
-                  dominantBaseline={db}
-                  fill="#9ca3af"
-                  fontSize={n <= 8 ? 11 : 9.5}
-                  fontFamily="Arial, sans-serif"
-                >
+                {druckbild && (
+                  <g onClick={() => !reorderMode && setActive({ slot: druckbild, dw })} style={{ cursor: reorderMode ? 'default' : 'pointer' }}>
+                    <circle cx={dbX} cy={dbY} r={dbR}
+                      fill={color}
+                      stroke={druckbild.assets.length > 0 ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.2)'}
+                      strokeWidth="2"
+                    />
+                    {!reorderMode && <AssetBadge cx={dbX} cy={dbY} r={dbR} count={druckbild.assets.length} />}
+                  </g>
+                )}
+
+                {/* Positionsnummer im Reorder-Modus */}
+                {reorderMode && (
+                  <text x={dbX} y={dbY} textAnchor="middle" dominantBaseline="central"
+                    fill="white" fontSize={dbR * 0.8} fontWeight="900" fontFamily="Arial, sans-serif">
+                    {i + 1}
+                  </text>
+                )}
+
+                {showLabels && (
+                  <text x={lX} y={lY}
+                    textAnchor={ta} dominantBaseline={db}
+                    fill={reorderMode ? '#0099cc' : '#9ca3af'}
+                    fontSize={n <= 8 ? 11 : 9.5}
+                    fontWeight={reorderMode ? '700' : '400'}
+                    fontFamily="Arial, sans-serif"
+                  >
+                    {dw.label ?? `DW ${dw.position}`}
+                  </text>
+                )}
+              </g>
+            )
+          })}
+        </svg>
+
+        {/* Reorder-Panel */}
+        {reorderMode && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+            <p style={{ margin: '0 0 8px', fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              Reihenfolge
+            </p>
+            <p style={{ margin: '0 0 10px', fontSize: 11, color: '#9ca3af' }}>
+              Ziehen oder Pfeile nutzen
+            </p>
+            {orderedDW.map((dw, idx) => (
+              <div
+                key={dw.id}
+                draggable
+                onDragStart={() => onDragStart(idx)}
+                onDragOver={e => onDragOver(e, idx)}
+                onDragEnd={onDragEnd}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 8,
+                  background: '#f4f6f9', borderRadius: 8,
+                  padding: '7px 10px', cursor: 'grab',
+                  border: '1px solid #e8edf4',
+                  userSelect: 'none',
+                }}
+              >
+                <span style={{
+                  fontSize: 11, fontWeight: 900, color: 'white',
+                  background: dw.color_hint ?? '#003366',
+                  borderRadius: 4, width: 20, height: 20,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0,
+                }}>
+                  {idx + 1}
+                </span>
+                <span style={{ fontSize: 12, fontWeight: 600, color: '#003366', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                   {dw.label ?? `DW ${dw.position}`}
-                </text>
-              )}
-            </g>
-          )
-        })}
-      </svg>
+                </span>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 1, flexShrink: 0 }}>
+                  <button type="button" disabled={idx === 0}
+                    onClick={() => moveItem(idx, idx - 1)}
+                    style={{ background: 'none', border: 'none', cursor: idx === 0 ? 'default' : 'pointer', color: idx === 0 ? '#d1d5db' : '#6b7280', lineHeight: 1, padding: '1px 3px', fontSize: 12 }}>
+                    ▲
+                  </button>
+                  <button type="button" disabled={idx === orderedDW.length - 1}
+                    onClick={() => moveItem(idx, idx + 1)}
+                    style={{ background: 'none', border: 'none', cursor: idx === orderedDW.length - 1 ? 'default' : 'pointer', color: idx === orderedDW.length - 1 ? '#d1d5db' : '#6b7280', lineHeight: 1, padding: '1px 3px', fontSize: 12 }}>
+                    ▼
+                  </button>
+                </div>
+                <span style={{ fontSize: 14, color: '#c8d4e8', cursor: 'grab' }}>⠿</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {active && (
         <SlotPopover
