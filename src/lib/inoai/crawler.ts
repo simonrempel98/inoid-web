@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { createAdminClient } from '@/lib/supabase/admin'
+import { embedTexts } from './embeddings'
 
 export type CrawlerConfig = {
   id: string
@@ -115,6 +116,15 @@ async function saveChunks(
   log: (msg: string) => void,
 ): Promise<{ inserted: number; error: boolean }> {
   const chunks = chunkText(text)
+
+  // Embeddings generieren (alle Chunks eines Dokuments in einem API-Call)
+  let embeddings: number[][] | null = null
+  try {
+    embeddings = await embedTexts(chunks)
+  } catch (e: any) {
+    log(`  ⚠️  Embedding übersprungen: ${e.message}`)
+  }
+
   const rows = chunks.map((content, i) => ({
     title: chunks.length > 1 ? `${title} (${i + 1}/${chunks.length})` : title,
     content,
@@ -123,7 +133,9 @@ async function saveChunks(
     language: lang,
     crawler_id: crawlerId,
     chunk_index: i,
+    ...(embeddings ? { embedding: JSON.stringify(embeddings[i]) } : {}),
   }))
+
   const { error } = await admin.from('inometa_knowledge').insert(rows)
   if (error) { log(`  ❌ DB-Fehler: ${error.message}`); return { inserted: 0, error: true } }
   return { inserted: rows.length, error: false }

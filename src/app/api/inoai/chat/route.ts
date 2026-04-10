@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
+import { embedText } from '@/lib/inoai/embeddings'
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
@@ -24,11 +25,25 @@ export async function POST(req: Request) {
 
   const admin = createAdminClient()
 
-  // Relevante Chunks aus der Wissensbasis suchen
-  const { data: chunks } = await admin.rpc('search_inometa_knowledge', {
-    query: message,
-    max_results: 6,
-  })
+  // Embedding für die Frage generieren, dann semantisch suchen
+  let chunks: any[] | null = null
+  try {
+    const queryEmbedding = await embedText(message)
+    const { data } = await admin.rpc('search_inometa_knowledge', {
+      query_embedding: JSON.stringify(queryEmbedding),
+      query_text: message,
+      match_count: 6,
+    })
+    chunks = data
+  } catch {
+    // Fallback: reine FTS wenn Embedding fehlschlägt
+    const { data } = await admin.rpc('search_inometa_knowledge', {
+      query_embedding: null,
+      query_text: message,
+      match_count: 6,
+    })
+    chunks = data
+  }
 
   let context = ''
   if (chunks && chunks.length > 0) {
@@ -41,7 +56,6 @@ export async function POST(req: Request) {
     context = '\n\nHinweis: Zur dieser Frage liegen keine spezifischen Informationen in der Wissensbasis vor.'
   }
 
-  // Nachrichtenhistorie aufbauen
   const messages = [
     ...history.slice(-8).map((m: any) => ({ role: m.role, content: m.content })),
     { role: 'user', content: message + context },
