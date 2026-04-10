@@ -7,18 +7,19 @@ export default async function AdminINOaiPage() {
 
   const { data: rows } = await admin
     .from('inometa_knowledge')
-    .select('source_type, created_at')
+    .select('crawler_id, created_at')
 
-  const counts: Record<string, number> = {}
+  const perCrawler: Record<string, { count: number; lastUpdated: string | null }> = {}
   let total = 0
   for (const row of rows ?? []) {
-    counts[row.source_type] = (counts[row.source_type] ?? 0) + 1
+    const id = row.crawler_id ?? 'legacy'
+    if (!perCrawler[id]) perCrawler[id] = { count: 0, lastUpdated: null }
+    perCrawler[id].count++
+    if (!perCrawler[id].lastUpdated || row.created_at > perCrawler[id].lastUpdated) {
+      perCrawler[id].lastUpdated = row.created_at
+    }
     total++
   }
 
-  const lastUpdated = rows?.length
-    ? rows.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())[0].created_at
-    : null
-
-  return <INOaiAdminClient initialStats={{ total, counts, lastUpdated }} />
+  return <INOaiAdminClient initialStats={perCrawler} total={total} />
 }

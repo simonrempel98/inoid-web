@@ -13,26 +13,20 @@ export async function GET() {
   if (!profile?.is_platform_admin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
   const admin = createAdminClient()
-
-  // Counts pro source_type
   const { data: rows } = await admin
     .from('inometa_knowledge')
-    .select('source_type')
+    .select('crawler_id, created_at')
 
-  const counts: Record<string, number> = {}
-  let total = 0
+  // Counts + letztes Update pro crawler_id
+  const perCrawler: Record<string, { count: number; lastUpdated: string | null }> = {}
   for (const row of rows ?? []) {
-    counts[row.source_type] = (counts[row.source_type] ?? 0) + 1
-    total++
+    const id = row.crawler_id ?? 'legacy'
+    if (!perCrawler[id]) perCrawler[id] = { count: 0, lastUpdated: null }
+    perCrawler[id].count++
+    if (!perCrawler[id].lastUpdated || row.created_at > perCrawler[id].lastUpdated) {
+      perCrawler[id].lastUpdated = row.created_at
+    }
   }
 
-  // Letzte Aktualisierung
-  const { data: latest } = await admin
-    .from('inometa_knowledge')
-    .select('created_at')
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .single()
-
-  return NextResponse.json({ total, counts, lastUpdated: latest?.created_at ?? null })
+  return NextResponse.json({ perCrawler, total: rows?.length ?? 0 })
 }
