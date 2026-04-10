@@ -10,6 +10,7 @@ export default function AdminOrgNeuPage() {
 
   const [orgName, setOrgName] = useState('')
   const [orgSlug, setOrgSlug] = useState('')
+  const [slugEdited, setSlugEdited] = useState(false)
   const [plan, setPlan] = useState('starter')
   const [assetLimit, setAssetLimit] = useState(50)
   const [userLimit, setUserLimit] = useState(10)
@@ -159,7 +160,7 @@ export default function AdminOrgNeuPage() {
               <label style={labelStyle}>Name *</label>
               <input
                 value={orgName}
-                onChange={e => { setOrgName(e.target.value); if (!orgSlug) setOrgSlug(autoSlug(e.target.value)) }}
+                onChange={e => { setOrgName(e.target.value); if (!slugEdited) setOrgSlug(autoSlug(e.target.value)) }}
                 placeholder="Musterfirma GmbH"
                 required
                 style={inputStyle}
@@ -169,7 +170,7 @@ export default function AdminOrgNeuPage() {
               <label style={labelStyle}>Slug *</label>
               <input
                 value={orgSlug}
-                onChange={e => setOrgSlug(e.target.value)}
+                onChange={e => { setOrgSlug(e.target.value); setSlugEdited(true) }}
                 placeholder="musterfirma-gmbh"
                 required
                 style={inputStyle}
