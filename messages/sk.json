@@ -804,7 +804,7 @@
       "sub": "INOid je váš digitálny systém správy aktív — od uvedenia do prevádzky po vyradenie. Pripravené za 5 minút.",
       "s1val": "5 min",
       "s1label": "do prvého aktíva",
-      "s2val": "8+",
+      "s2val": "9+",
       "s2label": "funkčné oblasti",
       "s3val": "100%",
       "s3label": "bez inštalácie aplikácie"
@@ -941,6 +941,18 @@
           "QR kód zobrazený priamo v aplikácii",
           "UUID použiteľné pre NFC čipy",
           "Dostupné bez aplikácie cez odkaz v prehliadači"
+        ]
+      },
+      "f10": {
+        "title": "Tímový chat",
+        "badge": "Tím",
+        "desc": "Priama komunikácia v reálnom čase v rámci tímu – bez externých nástrojov. Spomínajte aktíva pomocou @ a prepojte ich priamo v konverzácii.",
+        "points": [
+          "Správy v reálnom čase pre všetkých členov",
+          "Spomínať aktívum cez @názov – priamy odkaz na zariadenie",
+          "História správ za posledných 30 dní",
+          "Avatary vo farbe roly ukazujú, kto píše",
+          "Iba text – žiadny neporiadok so súbormi ani obrázkami"
         ]
       }
     },

@@ -804,7 +804,7 @@
       "sub": "Az INOid az Ön digitális eszközkezelő rendszere — üzembe helyezéstől a kivonásig. 5 percen belül kész.",
       "s1val": "5 min",
       "s1label": "az első eszközig",
-      "s2val": "8+",
+      "s2val": "9+",
       "s2label": "funkcionális terület",
       "s3val": "100%",
       "s3label": "böngészőalapú"
@@ -941,6 +941,18 @@
           "QR-kód közvetlenül az alkalmazásban megjelenik",
           "UUID NFC-chipekhez használható",
           "Alkalmazás nélkül is elérhető böngészőlinken keresztül"
+        ]
+      },
+      "f10": {
+        "title": "Csapatchat",
+        "badge": "Csapat",
+        "desc": "Közvetlen valós idejű kommunikáció a csapaton belül – külső eszközök nélkül. Eszközöket @ jelöléssel hivatkozhat és közvetlenül a beszélgetésbe linkelhet.",
+        "points": [
+          "Valós idejű üzenetek minden szervezeti tagnak",
+          "Eszköz megemlítése @névvel – közvetlen link az eszközhöz",
+          "30 napos üzenettörténet",
+          "Szerep szerinti színű avatarok mutatják, ki ír",
+          "Csak szöveg – fájl és képzűrzavar nélkül"
         ]
       }
     },

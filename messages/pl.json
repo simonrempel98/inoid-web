@@ -804,7 +804,7 @@
       "sub": "INOid to cyfrowe zarządzanie aktywami — od uruchomienia do wycofania z użycia. Gotowe w 5 minut.",
       "s1val": "5 min",
       "s1label": "do pierwszego zasobu",
-      "s2val": "8+",
+      "s2val": "9+",
       "s2label": "obszary funkcji",
       "s3val": "100%",
       "s3label": "oparte na przeglądarce"
@@ -941,6 +941,18 @@
           "QR code displayed directly in the app",
           "UUID usable for NFC chips",
           "Accessible without app via browser link"
+        ]
+      },
+      "f10": {
+        "title": "Czat zespołowy",
+        "badge": "Zespół",
+        "desc": "Bezpośrednia komunikacja w czasie rzeczywistym w zespole – bez zewnętrznych narzędzi. Wspominaj zasoby z @ i łącz je bezpośrednio w rozmowie.",
+        "points": [
+          "Wiadomości w czasie rzeczywistym dla wszystkich członków",
+          "Wzmiankuj zasób przez @nazwę – bezpośredni link do urządzenia",
+          "Historia wiadomości z ostatnich 30 dni",
+          "Awatary w kolorze roli pokazują, kto pisze",
+          "Tylko tekst – żadnego bałaganu z plikami ani obrazami"
         ]
       }
     },

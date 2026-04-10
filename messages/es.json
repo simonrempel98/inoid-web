@@ -804,7 +804,7 @@
       "sub": "INOid es tu gestión digital de activos — desde la puesta en marcha hasta la retirada. Listo en 5 minutos.",
       "s1val": "5 min",
       "s1label": "hasta el primer activo",
-      "s2val": "8+",
+      "s2val": "9+",
       "s2label": "áreas de funciones",
       "s3val": "100%",
       "s3label": "basado en navegador"
@@ -941,6 +941,18 @@
           "QR code displayed directly in the app",
           "UUID usable for NFC chips",
           "Accessible without app via browser link"
+        ]
+      },
+      "f10": {
+        "title": "Chat de equipo",
+        "badge": "Equipo",
+        "desc": "Comunicación directa en tiempo real dentro de tu equipo – sin herramientas externas. Menciona activos con @ y enlázalos directamente en la conversación.",
+        "points": [
+          "Mensajes en tiempo real para todos los miembros",
+          "Mencionar un activo con @nombre – enlace directo al dispositivo",
+          "Historial de mensajes de 30 días",
+          "Avatares con colores de rol muestran quién escribe",
+          "Solo texto – sin desorden de archivos ni imágenes"
         ]
       }
     },

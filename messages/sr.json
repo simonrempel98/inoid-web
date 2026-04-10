@@ -804,7 +804,7 @@
       "sub": "INOid je vaš digitalni sistem upravljanja sredstvima — od puštanja u rad do povlačenja. Spreman za 5 minuta.",
       "s1val": "5 min",
       "s1label": "do prvog sredstva",
-      "s2val": "8+",
+      "s2val": "9+",
       "s2label": "funkcionalne oblasti",
       "s3val": "100%",
       "s3label": "zasnovano na pregledaču"
@@ -941,6 +941,18 @@
           "QR kod se prikazuje direktno u aplikaciji",
           "UUID se može koristiti za NFC čipove",
           "Dostupno bez aplikacije putem veze u pregledaču"
+        ]
+      },
+      "f10": {
+        "title": "Тимски чет",
+        "badge": "Тим",
+        "desc": "Директна комуникација у реалном времену у тиму – без спољних алата. Помињите средства са @ и повезујте их директно у разговору.",
+        "points": [
+          "Поруке у реалном времену за све чланове",
+          "Поменути средство са @именом – директна веза до уређаја",
+          "Историја порука за последњих 30 дана",
+          "Аватари у боји улоге показују ко пише",
+          "Само текст – без нереда са датотекама и сликама"
         ]
       }
     },

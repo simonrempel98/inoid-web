@@ -804,7 +804,7 @@
       "sub": "INOid ist dein digitales Betriebsmittelmanagement — von der Erstzulassung bis zur Entsorgung. In 5 Minuten ready.",
       "s1val": "5 min",
       "s1label": "bis zum ersten Asset",
-      "s2val": "8+",
+      "s2val": "9+",
       "s2label": "Feature-Bereiche",
       "s3val": "100%",
       "s3label": "browserbasiert"
@@ -941,6 +941,18 @@
           "QR-Code direkt in der App anzeigen",
           "UUID für NFC-Chips nutzbar",
           "Auch ohne App über Browser-Link aufrufbar"
+        ]
+      },
+      "f10": {
+        "title": "Team-Chat",
+        "badge": "Team",
+        "desc": "Direkte Kommunikation im Team – in Echtzeit, ohne externe Tools. Erwähne Assets mit @ und verlinke sie direkt im Gespräch.",
+        "points": [
+          "Echtzeit-Nachrichten für alle Org-Mitglieder",
+          "Asset per @Name erwähnen – direkter Link zum Gerät",
+          "Nachrichtenverlauf der letzten 30 Tage",
+          "Rollenfarbige Avatare zeigen, wer schreibt",
+          "Nur Text – kein Datei-/Bildchaos"
         ]
       }
     },

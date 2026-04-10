@@ -804,7 +804,7 @@
       "sub": "INOid on teie digitaalne varahaldussüsteem — kasutuselevõtust kasutuselt kõrvaldamiseni. Valmis 5 minutiga.",
       "s1val": "5 min",
       "s1label": "esimese varani",
-      "s2val": "8+",
+      "s2val": "9+",
       "s2label": "funktsioonivaldkonda",
       "s3val": "100%",
       "s3label": "brauseripõhine"
@@ -941,6 +941,18 @@
           "QR-kood kuvatakse otse rakenduses",
           "UUID kasutatav NFC-kiipide jaoks",
           "Juurdepääsetav ilma rakenduseta brauseri lingi kaudu"
+        ]
+      },
+      "f10": {
+        "title": "Meeskonnachat",
+        "badge": "Meeskond",
+        "desc": "Otsene reaalajaline suhtlus meeskonna sees – ilma väliste tööriistadeta. Maini varasid @ abil ja ühenda need vestluses otse.",
+        "points": [
+          "Reaalajavõnumid kõigile organisatsiooni liikmetele",
+          "Maini vara @nimega – otselink seadmele",
+          "Sõnumite ajalugu viimase 30 päeva jooksul",
+          "Rollivärvilised avatarid näitavad, kes kirjutab",
+          "Ainult tekst – ei failide ega piltide segadust"
         ]
       }
     },

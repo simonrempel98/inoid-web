@@ -804,7 +804,7 @@
       "sub": "INOid ir jūsu digitālā aktīvu pārvaldības sistēma — no nodošanas ekspluatācijā līdz izņemšanai. Gatavs 5 minūtēs.",
       "s1val": "5 min",
       "s1label": "līdz pirmajam aktīvam",
-      "s2val": "8+",
+      "s2val": "9+",
       "s2label": "funkcionālās jomas",
       "s3val": "100%",
       "s3label": "pārlūkprogrammā"
@@ -941,6 +941,18 @@
           "QR kods rādīts tieši lietotnē",
           "UUID izmantojams NFC mikroshēmām",
           "Pieejams bez lietotnes caur pārlūkprogrammas saiti"
+        ]
+      },
+      "f10": {
+        "title": "Komandas tērzēšana",
+        "badge": "Komanda",
+        "desc": "Tieša reāllaika komunikācija komandas ietvaros – bez ārējiem rīkiem. Miniet aktīvus ar @ un saistiet tos tieši sarunā.",
+        "points": [
+          "Reāllaika ziņojumi visiem organizācijas dalībniekiem",
+          "Minēt aktīvu ar @vārdu – tieša saite uz ierīci",
+          "Ziņojumu vēsture pēdējās 30 dienas",
+          "Lomas krāsaini avatāri rāda, kurš raksta",
+          "Tikai teksts – bez failu un attēlu jucekļa"
         ]
       }
     },

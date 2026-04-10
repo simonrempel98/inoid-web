@@ -804,7 +804,7 @@
       "sub": "INOid este sistemul dvs. digital de gestionare a activelor — de la punerea în funcțiune până la dezafectare. Gata în 5 minute.",
       "s1val": "5 min",
       "s1label": "până la primul activ",
-      "s2val": "8+",
+      "s2val": "9+",
       "s2label": "domenii funcționale",
       "s3val": "100%",
       "s3label": "bazat pe browser"
@@ -941,6 +941,18 @@
           "Codul QR afișat direct în aplicație",
           "UUID utilizabil pentru cipuri NFC",
           "Accesibil fără aplicație prin link de browser"
+        ]
+      },
+      "f10": {
+        "title": "Chat de echipă",
+        "badge": "Echipă",
+        "desc": "Comunicare directă în timp real în cadrul echipei – fără instrumente externe. Menționați active cu @ și legați-le direct în conversație.",
+        "points": [
+          "Mesaje în timp real pentru toți membrii",
+          "Menționați un activ cu @nume – link direct la dispozitiv",
+          "Istoricul mesajelor din ultimele 30 de zile",
+          "Avatare colorate pe rol arată cine scrie",
+          "Doar text – fără dezordine de fișiere sau imagini"
         ]
       }
     },

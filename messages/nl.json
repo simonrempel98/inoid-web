@@ -804,7 +804,7 @@
       "sub": "INOid is uw digitale beheer van bedrijfsmiddelen — van ingebruikstelling tot buiten gebruik stelling. Klaar in 5 minuten.",
       "s1val": "5 min",
       "s1label": "tot het eerste asset",
-      "s2val": "8+",
+      "s2val": "9+",
       "s2label": "functiegebieden",
       "s3val": "100%",
       "s3label": "browsergebaseerd"
@@ -941,6 +941,18 @@
           "QR code displayed directly in the app",
           "UUID usable for NFC chips",
           "Accessible without app via browser link"
+        ]
+      },
+      "f10": {
+        "title": "Teamchat",
+        "badge": "Team",
+        "desc": "Directe realtime communicatie binnen uw team – geen externe tools nodig. Vermeld assets met @ en koppel ze direct in het gesprek.",
+        "points": [
+          "Realtime berichten voor alle organisatieleden",
+          "Asset vermelden met @naam – directe link naar het apparaat",
+          "Berichtgeschiedenis van 30 dagen",
+          "Rolkleurige avatars tonen wie schrijft",
+          "Alleen tekst – geen rommel met bestanden of afbeeldingen"
         ]
       }
     },

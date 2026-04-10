@@ -7,7 +7,7 @@ import {
   ClipboardList, ScanLine, CalendarClock, MapPin, Users,
   FileText, QrCode, CheckCircle2, ChevronDown,
   Zap, ShieldCheck, Smartphone, Upload, Bell, ArrowRight,
-  ListChecks,
+  ListChecks, MessageSquare,
 } from 'lucide-react'
 
 // ─── Feature card ─────────────────────────────────────────────────────────────
@@ -104,6 +104,7 @@ export default function DocsPage() {
     { icon: Users, color: '#004e8c', title: t('feat.f7.title'), badge: t('feat.f7.badge'), desc: t('feat.f7.desc'), points: t.raw('feat.f7.points') as string[] },
     { icon: Upload, color: '#6b7d99', title: t('feat.f8.title'), badge: t('feat.f8.badge'), desc: t('feat.f8.desc'), points: t.raw('feat.f8.points') as string[] },
     { icon: QrCode, color: '#96aed2', title: t('feat.f9.title'), badge: t('feat.f9.badge'), desc: t('feat.f9.desc'), points: t.raw('feat.f9.points') as string[] },
+    { icon: MessageSquare, color: '#0099cc', title: t('feat.f10.title'), badge: t('feat.f10.badge'), desc: t('feat.f10.desc'), points: t.raw('feat.f10.points') as string[] },
   ]
 
   const ROLES = [

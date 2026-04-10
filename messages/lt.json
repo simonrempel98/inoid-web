@@ -804,7 +804,7 @@
       "sub": "INOid – jūsų skaitmeninė turto valdymo sistema – nuo paleidimo iki nurašymo. Paruošta per 5 minutes.",
       "s1val": "5 min",
       "s1label": "iki pirmojo turto",
-      "s2val": "8+",
+      "s2val": "9+",
       "s2label": "funkcinės sritys",
       "s3val": "100%",
       "s3label": "naršyklės pagrindu"
@@ -941,6 +941,18 @@
           "QR kodas rodomas tiesiogiai programėlėje",
           "UUID naudojamas NFC lustams",
           "Pasiekiamas be programėlės per naršyklės nuorodą"
+        ]
+      },
+      "f10": {
+        "title": "Komandos pokalbis",
+        "badge": "Komanda",
+        "desc": "Tiesioginė realiojo laiko komunikacija komandoje – be išorinių įrankių. Paminėkite turtą su @ ir siekite jį tiesiogiai pokalbyje.",
+        "points": [
+          "Realaus laiko žinutės visiems organizacijos nariams",
+          "Paminėti turtą su @vardu – tiesioginis nuoroda į įrenginį",
+          "Žinučių istorija per pastarąsias 30 dienų",
+          "Rolės spalvos avatarai rodo, kas rašo",
+          "Tik tekstas – jokio failo ar vaizdų chaoso"
         ]
       }
     },

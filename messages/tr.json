@@ -804,7 +804,7 @@
       "sub": "INOid, dijital varlık yönetim sisteminizdir — devreye almadan hizmetten çıkarmaya kadar. 5 dakikada hazır.",
       "s1val": "5 min",
       "s1label": "ilk varlığa",
-      "s2val": "8+",
+      "s2val": "9+",
       "s2label": "özellik alanları",
       "s3val": "100%",
       "s3label": "tarayıcı tabanlı"
@@ -941,6 +941,18 @@
           "QR kodu doğrudan uygulamada görüntülenir",
           "UUID, NFC çipleri için kullanılabilir",
           "Tarayıcı bağlantısı üzerinden uygulama olmadan erişilebilir"
+        ]
+      },
+      "f10": {
+        "title": "Ekip Sohbeti",
+        "badge": "Ekip",
+        "desc": "Ekip içinde doğrudan gerçek zamanlı iletişim – harici araçlara gerek yok. Varlıkları @ ile belirtin ve doğrudan sohbete bağlayın.",
+        "points": [
+          "Tüm organizasyon üyeleri için gerçek zamanlı mesajlar",
+          "Varlığı @adıyla belirtin – cihaza doğrudan bağlantı",
+          "30 günlük mesaj geçmişi",
+          "Rol renkli avatarlar kimin yazdığını gösterir",
+          "Yalnızca metin – dosya ve resim kargaşası yok"
         ]
       }
     },

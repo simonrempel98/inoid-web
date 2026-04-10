@@ -96,7 +96,7 @@ export default function TechStackPage() {
       <div style={{ ...S.card, marginBottom: 32, fontFamily: 'Arial, sans-serif' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 20 }}>
           {[
-            { title: 'Frontend', color: '#0099cc', items: ['Next.js App Router', 'React 19 Server Components', 'Client Components (use client)', 'next-intl i18n (28 Sprachen)', 'Inline Styles (kein Tailwind)', 'Lucide Icons', 'Canvas API (Bildkomprimierung)', 'QR-Code-Generierung (qrcode)'] },
+            { title: 'Frontend', color: '#0099cc', items: ['Next.js App Router', 'React 19 Server Components', 'Client Components (use client)', 'next-intl i18n (28 Sprachen)', 'Inline Styles (kein Tailwind)', 'Lucide Icons', 'Canvas API (Bildkomprimierung)', 'QR-Code-Generierung (qrcode)', 'pdf-lib (PDF-Komprimierung)', 'Supabase Realtime (Team-Chat)'] },
             { title: 'Backend / API', color: '#a78bfa', items: ['Next.js Route Handlers', 'Supabase SSR Auth', 'Supabase Admin Client (Service Role)', 'Row Level Security (RLS)', 'PostgreSQL Functions (SECURITY DEFINER)', 'Resend (E-Mail)', 'Vercel Edge Runtime', 'Admin-PIN (SHA-256 Hash)'] },
             { title: 'Infrastruktur', color: '#34d399', items: ['Vercel (Deploy & Hosting)', 'Supabase (DB + Auth + Storage)', 'PostgreSQL 15 (Supabase managed)', 'Supabase Storage (3 Buckets)', 'Vercel Analytics', 'GitHub (CI/CD via main branch)', 'Sentry (Error Tracking)', 'Cloudflare Turnstile (Bot-Schutz)'] },
           ].map(section => (
@@ -153,6 +153,7 @@ export default function TechStackPage() {
               ['jsqr', '^1.4.0', 'QR-Code-Scan (Canvas)'],
               ['resend', '^6.10.0', 'Transaktionale E-Mails'],
               ['@sentry/nextjs', '^10.47.0', 'Error Monitoring'],
+              ['pdf-lib', '^1.17.1', 'Client-seitige PDF-Komprimierung'],
             ]
           )}
         </div>
@@ -162,7 +163,7 @@ export default function TechStackPage() {
       <h2 style={S.h2}>Datenbankschema (PostgreSQL via Supabase)</h2>
       <div style={S.card}>
         <p style={{ margin: '0 0 16px', fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>
-          19 Migrations · PostgreSQL 15 · Row Level Security aktiviert · UUID als Primary Keys · Supabase Auth (auth.users) als Basis
+          21 Migrations · PostgreSQL 15 · Row Level Security aktiviert · UUID als Primary Keys · Supabase Auth (auth.users) als Basis
         </p>
         <div style={grid2}>
           {[
@@ -179,7 +180,7 @@ export default function TechStackPage() {
               cols: ['id uuid PK', 'organization_id uuid FK', 'name text', 'category text', 'manufacturer text', 'article_number text', 'serial_number text', 'order_number text', 'status text', 'location text', 'location_ref text', 'description text', 'image_urls text[]', 'document_urls text[]', 'technical_data jsonb', 'commercial_data jsonb', 'qr_code text', 'nfc_uid text', 'created_by uuid FK', 'deleted_at timestamptz'],
             },
             {
-              table: 'service_entries', color: '#fbbf24',
+              table: 'asset_lifecycle_events', color: '#fbbf24',
               cols: ['id uuid PK', 'asset_id uuid FK', 'organization_id uuid FK', 'event_type text', 'title text', 'description text', 'event_date date', 'performed_by text', 'external_company text', 'cost numeric', 'checklist jsonb', 'notes text', 'created_by uuid FK'],
             },
             {
@@ -193,6 +194,10 @@ export default function TechStackPage() {
             {
               table: 'teams', color: '#fb923c',
               cols: ['id uuid PK', 'organization_id uuid FK', 'name text', 'description text', 'icon text', 'created_by uuid FK'],
+            },
+            {
+              table: 'chat_messages', color: '#0099cc',
+              cols: ['id uuid PK', 'organization_id uuid FK', 'user_id uuid FK', 'sender_name text', 'sender_role text', 'content text (1–2000)', 'asset_mentions uuid[]', 'created_at timestamptz'],
             },
             {
               table: 'organization_members', color: '#818cf8',
@@ -244,6 +249,8 @@ export default function TechStackPage() {
             ['017_admin_pin', 'profiles.admin_pin_hash + admin_pin_set_at für PIN-Schutz'],
             ['018_org_storage_with_bytes', 'admin_get_org_storage_stats() um storage_bytes erweitert (DROP + RECREATE)'],
             ['019_fix_document_count', 'document_count aus assets.document_urls[] statt asset_documents Tabelle'],
+            ['020_detailed_storage_attribution', 'admin_get_org_storage_stats() detailliert: 5 Pfadmuster, pro Asset-Typ aufgeschlüsselt + admin_get_unattributed_storage()'],
+            ['021_team_chat', 'chat_messages Tabelle, RLS, Realtime-Publication, pg_cron Cleanup-Job (30 Tage)'],
           ]
         )}
       </div>
@@ -267,6 +274,16 @@ export default function TechStackPage() {
             returns: 'integer (Anzahl gelöschter Assets)',
             desc: 'Hard-Delete aller Assets mit deleted_at IS NOT NULL. Cascaded über asset_lifecycle_events, maintenance_schedules, service_entries.',
           },
+          {
+            name: 'admin_get_unattributed_storage()',
+            returns: 'TABLE (bucket text, name text, full_path text, size bigint, created_at timestamptz)',
+            desc: 'Findet Dateien in storage.objects ohne zugehöriges Asset oder Bereich in der DB (verwaiste Dateien). Für orphaned-storage-button.tsx.',
+          },
+          {
+            name: 'cleanup_old_chat_messages()',
+            returns: 'void',
+            desc: 'Löscht alle chat_messages älter als 30 Tage. Wird via pg_cron täglich um 03:00 UTC ausgeführt.',
+          },
         ].map(fn => (
           <div key={fn.name} style={{ borderBottom: '1px solid #1f2937', padding: '12px 0' }}>
             <p style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 700, color: '#34d399', fontFamily: "'Courier New', monospace" }}>{fn.name}</p>
@@ -287,12 +304,14 @@ export default function TechStackPage() {
             {endpoint(['PATCH'], '/api/admin/orgs/[id]', 'Org-Felder aktualisieren (partial update)', 'name?, plan?, assetLimit?, features?, settings?, ...')}
             {endpoint(['DELETE'], '/api/admin/orgs/[id]', 'Org + alle User + Storage-Dateien + Auth-Accounts löschen')}
             {endpoint(['POST'], '/api/admin/orgs/[id]/users', 'Neuen Nutzer zu Org hinzufügen', 'email, fullName, tempPassword, appRole')}
+            {endpoint(['GET'], '/api/admin/orgs/[id]/assets/neu', 'Admin-Seite: Neues Asset für Org anlegen (Server Component)')}
           </div>
           <div style={S.card}>
             <p style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 700, color: '#f87171' }}>Admin · Storage</p>
             <p style={{ margin: '0 0 12px', fontSize: 11, color: '#4b5563', fontFamily: 'Arial, sans-serif' }}>Auth: is_platform_admin</p>
             {endpoint(['DELETE'], '/api/admin/storage/nuke', 'ALLE Dateien aus allen 3 Buckets löschen (global)')}
             {endpoint(['DELETE'], '/api/admin/storage/orgs/[orgId]', 'Alle Dateien einer Org löschen (asset-images, org-files, service-files)')}
+            {endpoint(['DELETE'], '/api/admin/storage/orphaned', 'Verwaiste Dateien löschen – alle Dateien ohne matching Asset/Bereich in der DB')}
           </div>
           <div style={S.card}>
             <p style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 700, color: '#60a5fa' }}>Admin · Team & User</p>
@@ -314,6 +333,7 @@ export default function TechStackPage() {
             <p style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 700, color: '#34d399' }}>Assets</p>
             <p style={{ margin: '0 0 12px', fontSize: 11, color: '#4b5563', fontFamily: 'Arial, sans-serif' }}>Auth: eingeloggter Org-User (gleiche org)</p>
             {endpoint(['DELETE'], '/api/assets/[id]/delete', 'Asset hard-deleten + Bilder aus asset-images + Dokumente aus org-files entfernen')}
+            {endpoint(['GET', 'POST'], '/api/chat/messages', 'Team-Chat: Nachrichten laden (GET) oder senden (POST). GET: lazy cleanup + letzte 200 Msgs. POST: Feature-Check, insert mit denormalisierten sender_name/sender_role.')}
           </div>
           <div style={S.card}>
             <p style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 700, color: '#fb923c' }}>Billing</p>
@@ -348,7 +368,7 @@ export default function TechStackPage() {
           [
             ['asset-images', 'assets/{assetId}/images/{timestamp}.jpg', 'Asset-Fotos (Canvas-komprimiert, JPEG)', 'Ja (public read)'],
             ['org-files', 'assets/{assetId}/docs/{timestamp}_{name}', 'Asset-Dokumente (PDF, XLSX, DOCX, …)', 'Ja (public read)'],
-            ['service-files', 'assets/{assetId}/service/{timestamp}…', 'Service-Anhänge (Legacy)', 'Ja (public read)'],
+            ['service-files', 'service/{assetId}/fotos/{timestamp}.jpg · service/{assetId}/docs/…', 'Serviceheft-Anhänge (Fotos + Dokumente aus asset_lifecycle_events)', 'Ja (public read)'],
           ]
         )}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 12 }}>
@@ -399,6 +419,10 @@ export default function TechStackPage() {
           {
             module: 'Teams', color: '#fb923c', route: '/teams',
             features: ['Team-Verwaltung', 'Mitglieder-Einladung', 'Rollen pro Mitglied', 'Team-Icons', 'Rollenvergabe (Admin/Superadmin)'],
+          },
+          {
+            module: 'Team-Chat', color: '#0099cc', route: '/teams/chat',
+            features: ['Echtzeit-Messaging via Supabase Realtime', '@Asset-Erwähnungen mit Asset-Suche-Dropdown', 'Nachrichten rendern als @[Name](uuid) → klickbarer Link', 'Automatisches Löschen nach 30 Tagen (pg_cron)', 'Feature-Toggle per Org (features.teamchat)', 'Rollenfarb-Avatare, Nachrichten gruppiert nach Datum'],
           },
           {
             module: 'Billing', color: '#38bdf8', route: '/settings/billing',
@@ -470,7 +494,7 @@ export default function TechStackPage() {
               ['DB', 'PostgreSQL 15 (managed)'],
               ['Auth', 'Supabase Auth (JWT + Cookies)'],
               ['Storage', '3 Buckets (public)'],
-              ['Migrations', 'Manuell via SQL-Editor (019 Migrationen)'],
+              ['Migrations', 'Manuell via SQL-Editor (021 Migrationen)'],
               ['RLS', 'Aktiviert (alle Tabellen)'],
               ['Admin Client', 'Service Role Key (server-only)'],
             ]
@@ -508,13 +532,15 @@ export default function TechStackPage() {
             { indent: 3, text: 'assets/                 → Asset-Management', color: '#9ca3af' },
             { indent: 3, text: 'wartung/                → Wartungsmodul', color: '#9ca3af' },
             { indent: 3, text: 'teams/                  → Team-Verwaltung', color: '#9ca3af' },
+            { indent: 3, text: 'teams/chat/              → Team-Chat (ChatClient + Page)', color: '#9ca3af' },
             { indent: 3, text: 'settings/               → Profil, Billing, Rollen, Status', color: '#9ca3af' },
             { indent: 2, text: '(auth)/                 → Login, Register, Invite, PW-Reset', color: '#fbbf24' },
-            { indent: 2, text: 'api/                    → Route Handlers (13 Endpunkte)', color: '#f87171' },
+            { indent: 2, text: 'api/                    → Route Handlers (15 Endpunkte)', color: '#f87171' },
             { indent: 1, text: 'src/lib/', color: '#60a5fa' },
             { indent: 2, text: 'supabase/               → client.ts, server.ts, admin.ts', color: '#9ca3af' },
             { indent: 2, text: 'permissions.ts          → ROLE_COLORS, ROLE_BG, can()', color: '#9ca3af' },
             { indent: 2, text: 'compress-image.ts       → Canvas-Bildkomprimierung', color: '#9ca3af' },
+            { indent: 2, text: 'compress-pdf.ts          → pdf-lib PDF-Komprimierung (client-side)', color: '#9ca3af' },
             { indent: 2, text: 'plans.ts                → PLANS-Konstante (Pläne & Limits)', color: '#9ca3af' },
             { indent: 1, text: 'src/components/', color: '#60a5fa' },
             { indent: 2, text: 'nav-bottom.tsx          → Mobile Drawer-Navigation', color: '#9ca3af' },
@@ -522,7 +548,7 @@ export default function TechStackPage() {
             { indent: 2, text: 'org-tree-picker.tsx     → Standort-Hierarchie-Picker', color: '#9ca3af' },
             { indent: 2, text: 'admin/admin-pin-modal   → PIN-Bestätigungs-Modal', color: '#9ca3af' },
             { indent: 1, text: 'messages/               → 28 Sprach-Dateien (JSON)', color: '#fb923c' },
-            { indent: 1, text: 'supabase/migrations/    → 019 SQL-Migrationen', color: '#38bdf8' },
+            { indent: 1, text: 'supabase/migrations/    → 021 SQL-Migrationen', color: '#38bdf8' },
           ].map((line, i) => (
             <div key={i} style={{ paddingLeft: line.indent * 20, color: line.color }}>
               {line.text}

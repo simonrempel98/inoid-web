@@ -804,7 +804,7 @@
       "sub": "INOid er ditt digitale driftsmiddelstyringssystem — fra idriftsetting til avvikling. Klar på 5 minutter.",
       "s1val": "5 min",
       "s1label": "til første ressurs",
-      "s2val": "8+",
+      "s2val": "9+",
       "s2label": "funksjonsområder",
       "s3val": "100%",
       "s3label": "nettleserbasert"
@@ -941,6 +941,18 @@
           "QR-kode vises direkte i appen",
           "UUID kan brukes til NFC-chips",
           "Tilgjengelig uten app via nettleserlenke"
+        ]
+      },
+      "f10": {
+        "title": "Teamchat",
+        "badge": "Team",
+        "desc": "Direkte kommunikasjon i sanntid innenfor teamet – ingen eksterne verktøy nødvendig. Nevn ressurser med @ og koble dem direkte i samtalen.",
+        "points": [
+          "Sanntidsmeldinger for alle organisasjonsmedlemmer",
+          "Nevne en ressurs med @navn – direkte lenke til enheten",
+          "Meldingshistorikk for de siste 30 dagene",
+          "Rollefargelagte avatarer viser hvem som skriver",
+          "Kun tekst – ingen rot med filer eller bilder"
         ]
       }
     },

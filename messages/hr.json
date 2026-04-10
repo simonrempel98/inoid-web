@@ -804,7 +804,7 @@
       "sub": "INOid je vaš digitalni sustav upravljanja imovinom — od puštanja u rad do povlačenja. Spreman za 5 minuta.",
       "s1val": "5 min",
       "s1label": "do prve imovine",
-      "s2val": "8+",
+      "s2val": "9+",
       "s2label": "funkcionalna područja",
       "s3val": "100%",
       "s3label": "temeljeno na pregledniku"
@@ -941,6 +941,18 @@
           "QR kod se prikazuje izravno u aplikaciji",
           "UUID se može koristiti za NFC čipove",
           "Dostupno bez aplikacije putem veze u pregledniku"
+        ]
+      },
+      "f10": {
+        "title": "Timski chat",
+        "badge": "Tim",
+        "desc": "Izravna komunikacija u stvarnom vremenu unutar tima – bez vanjskih alata. Spominjite imovinu s @ i povežite je izravno u razgovoru.",
+        "points": [
+          "Poruke u stvarnom vremenu za sve članove",
+          "Spomen imovine s @imenom – izravna veza do uređaja",
+          "Povijest poruka za posljednjih 30 dana",
+          "Avatari u boji uloge pokazuju tko piše",
+          "Samo tekst – bez nereda s datotekama i slikama"
         ]
       }
     },

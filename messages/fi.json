@@ -804,7 +804,7 @@
       "sub": "INOid on digitaalinen resurssinhallintajärjestelmäsi — käyttöönotosta käytöstäpoistoon. Valmis 5 minuutissa.",
       "s1val": "5 min",
       "s1label": "ensimmäiseen resurssiin",
-      "s2val": "8+",
+      "s2val": "9+",
       "s2label": "toimintoaluetta",
       "s3val": "100%",
       "s3label": "selainpohjainen"
@@ -941,6 +941,18 @@
           "QR-koodi näytetään suoraan sovelluksessa",
           "UUID käytettävissä NFC-siruille",
           "Käytettävissä ilman sovellusta selainklinkin kautta"
+        ]
+      },
+      "f10": {
+        "title": "Tiimiviestintä",
+        "badge": "Tiimi",
+        "desc": "Suora reaaliaikainen viestintä tiimin sisällä – ilman ulkoisia työkaluja. Mainitse resursseja @ merkinnällä ja linkitä ne suoraan keskusteluun.",
+        "points": [
+          "Reaaliaikaiset viestit kaikille organisaation jäsenille",
+          "Mainitse resurssi @nimellä – suora linkki laitteeseen",
+          "Viesti historia viimeiseltä 30 päivältä",
+          "Rooliväriset avatarit näyttävät kuka kirjoittaa",
+          "Vain teksti – ei tiedosto- tai kuvasotkua"
         ]
       }
     },

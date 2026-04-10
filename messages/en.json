@@ -804,7 +804,7 @@
       "sub": "INOid is your digital asset management system — from commissioning to decommissioning. Ready in 5 minutes.",
       "s1val": "5 min",
       "s1label": "to the first asset",
-      "s2val": "8+",
+      "s2val": "9+",
       "s2label": "feature areas",
       "s3val": "100%",
       "s3label": "browser-based"
@@ -941,6 +941,18 @@
           "QR code displayed directly in the app",
           "UUID usable for NFC chips",
           "Accessible without app via browser link"
+        ]
+      },
+      "f10": {
+        "title": "Team Chat",
+        "badge": "Team",
+        "desc": "Direct real-time communication within your team – no external tools needed. Mention assets with @ and link them directly in the conversation.",
+        "points": [
+          "Real-time messages for all org members",
+          "Mention assets with @name – direct link to the device",
+          "30-day message history",
+          "Role-colored avatars show who is writing",
+          "Text only – no file or image clutter"
         ]
       }
     },
