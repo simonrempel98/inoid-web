@@ -18,6 +18,9 @@ const SKIP_PATTERNS = [
   /\/tag\//,
   /\/author\//,
   /\/page\/\d+/,
+  /\/karriere/i,
+  /\/jobs/i,
+  /\/stellenangebote/i,
 ]
 
 function sleep(ms: number) {
