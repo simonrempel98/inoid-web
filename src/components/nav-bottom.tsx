@@ -25,7 +25,13 @@ const icons = {
   docs:      (c: string) => icon(<><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></>, 24, c),
   profile:   (c: string) => icon(<><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></>, 24, c),
   flexo:     (c: string) => icon(<><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/><line x1="6" y1="12" x2="6.01" y2="12" strokeWidth="3"/><line x1="10" y1="12" x2="14" y2="12"/></>, 24, c),
-  inoai:     (c: string) => icon(<><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9" strokeWidth="3"/><line x1="15" y1="9" x2="15.01" y2="9" strokeWidth="3"/></>, 24, c),
+  inoai:     (c: string) => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill={c} stroke="none">
+      <path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z"/>
+      <path d="M19 4L19.7 5.3L21 6L19.7 6.7L19 8L18.3 6.7L17 6L18.3 5.3Z"/>
+      <circle cx="5" cy="19" r="1.3"/>
+    </svg>
+  ),
   close:     icon(<><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>, 16, 'white'),
   dots:      icon(<><circle cx="12" cy="5" r="1.2" fill="#96aed2" stroke="none"/><circle cx="12" cy="12" r="1.2" fill="#96aed2" stroke="none"/><circle cx="12" cy="19" r="1.2" fill="#96aed2" stroke="none"/></>, 22),
 }
