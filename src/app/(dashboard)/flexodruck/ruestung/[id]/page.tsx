@@ -88,6 +88,11 @@ export default async function RuestvorgangPage({ params }: { params: Promise<{ i
     .limit(500)
   const allAssets = (allAssetsRaw ?? []).map((a: any) => ({ ...a, name: a.title }))
 
+  // Nur Druckwerke anzeigen, die mindestens ein Asset haben
+  const druckwerkeWithAssets = druckwerke.filter(dw =>
+    (stepsByDW[dw.id] ?? []).some((s: any) => s.asset_id !== null)
+  )
+
   const canEdit = !['completed', 'cancelled'].includes(setup.status)
 
   return (
@@ -99,7 +104,7 @@ export default async function RuestvorgangPage({ params }: { params: Promise<{ i
       machineName={machine?.name ?? ''}
       machineId={machine?.id ?? ''}
       templateName={template?.name ?? null}
-      druckwerke={druckwerke}
+      druckwerke={druckwerkeWithAssets}
       stepsByDW={stepsByDW}
       assets={allAssets}
       canEdit={canEdit}
