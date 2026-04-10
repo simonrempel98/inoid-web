@@ -132,15 +132,29 @@ export function TemplateDetailClient({
             ))}
           </div>
         </div>
-        <Link href={`/flexodruck/ruestung/neu?template=${templateId}&machine=${machineId}`}
-          style={{
-            background: '#003366', color: 'white',
-            padding: '10px 20px', borderRadius: 50,
-            fontSize: 13, fontWeight: 700, flexShrink: 0,
-            fontFamily: 'Arial, sans-serif', textDecoration: 'none',
-          }}>
-          ▶ {t('startSetupButton')}
-        </Link>
+        <div style={{ display: 'flex', gap: 10, flexShrink: 0 }}>
+          {canEdit && (
+            <Link href={`/flexodruck/vorlagen/${templateId}/bearbeiten`}
+              style={{
+                background: '#f4f6f9', color: '#003366',
+                padding: '10px 18px', borderRadius: 50,
+                border: '1px solid #c8d4e8',
+                fontSize: 13, fontWeight: 700,
+                fontFamily: 'Arial, sans-serif', textDecoration: 'none',
+              }}>
+              ✎ Bearbeiten
+            </Link>
+          )}
+          <Link href={`/flexodruck/ruestung/neu?template=${templateId}&machine=${machineId}`}
+            style={{
+              background: '#003366', color: 'white',
+              padding: '10px 20px', borderRadius: 50,
+              fontSize: 13, fontWeight: 700,
+              fontFamily: 'Arial, sans-serif', textDecoration: 'none',
+            }}>
+            ▶ {t('startSetupButton')}
+          </Link>
+        </div>
       </div>
 
       {/* Assignment Matrix */}
