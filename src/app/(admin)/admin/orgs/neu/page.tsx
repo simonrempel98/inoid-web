@@ -22,6 +22,18 @@ export default function AdminOrgNeuPage() {
   const [featWartung, setFeatWartung] = useState(true)
   const [featTeamchat, setFeatTeamchat] = useState(true)
 
+  // Dateigröße
+  const SIZE_OPTIONS = [
+    { label: '1 MB',       mb: 1   },
+    { label: '5 MB',       mb: 5   },
+    { label: '10 MB',      mb: 10  },
+    { label: '25 MB',      mb: 25  },
+    { label: '50 MB',      mb: 50  },
+    { label: '100 MB',     mb: 100 },
+    { label: 'Unbegrenzt', mb: 0   },
+  ]
+  const [docMaxSizeMb, setDocMaxSizeMb] = useState(10)
+
   // Bildkomprimierung
   const PRESETS = [
     { label: 'Original',  maxDim: null,  quality: 100 },
@@ -78,6 +90,7 @@ export default function AdminOrgNeuPage() {
         settings: {
           image_max_dim: imageMaxDim ?? null,
           image_quality: imageQuality,
+          doc_max_size_mb: docMaxSizeMb,
         },
         userEmail: userEmail.trim(),
         userName: userName.trim() || null,
@@ -331,6 +344,37 @@ export default function AdminOrgNeuPage() {
                 : 'Keine Komprimierung – Bilder werden unverändert gespeichert'}
             </p>
           )}
+        </div>
+
+        {/* Dateigröße */}
+        <div style={sectionStyle}>
+          <h2 style={{ fontSize: 13, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 4px' }}>
+            Dokument-Uploads
+          </h2>
+          <p style={{ fontSize: 12, color: '#4b5563', margin: '0 0 14px' }}>
+            Maximale Dateigröße für Dokument-Uploads dieser Organisation.
+          </p>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {SIZE_OPTIONS.map(opt => (
+              <button
+                key={opt.mb}
+                type="button"
+                onClick={() => setDocMaxSizeMb(opt.mb)}
+                style={{
+                  padding: '7px 16px', borderRadius: 50, fontSize: 12, fontWeight: 700,
+                  border: docMaxSizeMb === opt.mb ? '1.5px solid #0099cc' : '1.5px solid #374151',
+                  background: docMaxSizeMb === opt.mb ? '#0c2340' : 'transparent',
+                  color: docMaxSizeMb === opt.mb ? '#0099cc' : '#6b7280',
+                  cursor: 'pointer', fontFamily: 'Arial, sans-serif',
+                }}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
+          <p style={{ fontSize: 12, color: '#4b5563', margin: '10px 0 0' }}>
+            {docMaxSizeMb === 0 ? 'Keine Größenbeschränkung für Uploads.' : `Dateien größer als ${docMaxSizeMb} MB werden abgelehnt.`}
+          </p>
         </div>
 
         {/* Erster Nutzer */}
