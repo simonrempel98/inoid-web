@@ -25,6 +25,7 @@ const icons = {
   docs:      (c: string) => icon(<><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></>, 24, c),
   profile:   (c: string) => icon(<><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></>, 24, c),
   flexo:     (c: string) => icon(<><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/><line x1="6" y1="12" x2="6.01" y2="12" strokeWidth="3"/><line x1="10" y1="12" x2="14" y2="12"/></>, 24, c),
+  inoai:     (c: string) => icon(<><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9" strokeWidth="3"/><line x1="15" y1="9" x2="15.01" y2="9" strokeWidth="3"/></>, 24, c),
   close:     icon(<><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>, 16, 'white'),
   dots:      icon(<><circle cx="12" cy="5" r="1.2" fill="#96aed2" stroke="none"/><circle cx="12" cy="12" r="1.2" fill="#96aed2" stroke="none"/><circle cx="12" cy="19" r="1.2" fill="#96aed2" stroke="none"/></>, 22),
 }
@@ -47,6 +48,7 @@ export function BottomNav({
   const [open, setOpen] = useState(false)
   const showWartung = features.wartung !== false
   const showFlexo = features.flexodruck === true
+  const showInoai = features.inoai !== false
 
   // Close drawer on route change
   useEffect(() => { setOpen(false) }, [pathname])
@@ -67,6 +69,7 @@ export function BottomNav({
     { href: '/teams',        labelKey: 'nav.teams',         color: '#005c8a', iconFn: icons.teams },
     { href: '/docs',         labelKey: 'nav.docs',          color: '#0099cc', iconFn: icons.docs },
     ...(showFlexo ? [{ href: '/flexodruck', labelKey: 'nav.flexodruck', color: '#7c3aed', iconFn: icons.flexo }] : []),
+    ...(showInoai ? [{ href: '/inoai', labelKey: 'nav.inoai', color: '#0099cc', iconFn: icons.inoai }] : []),
   ]
 
   return (
