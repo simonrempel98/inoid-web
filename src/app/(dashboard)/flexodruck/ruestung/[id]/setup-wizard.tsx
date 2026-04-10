@@ -220,8 +220,11 @@ export function SetupWizard({
   const currentDW = druckwerke[currentDwIdx]
   const currentSteps = currentDW ? (stepsByDW[currentDW.id] ?? []) : []
 
-  // Progress: gesamt
-  const allSteps = Object.values(stepsByDW).flat()
+  // Progress: nur sichtbare Druckwerke (ohne DW ohne Assets)
+  const visibleDwIds = new Set(druckwerke.map(d => d.id))
+  const allSteps = Object.entries(stepsByDW)
+    .filter(([dwId]) => visibleDwIds.has(dwId))
+    .flatMap(([, steps]) => steps)
   const doneCount = allSteps.filter(s => s.status === 'installed' || s.status === 'verified' || s.status === 'skipped').length
   const totalCount = allSteps.length
   const progressPct = totalCount > 0 ? Math.round((doneCount / totalCount) * 100) : 0
