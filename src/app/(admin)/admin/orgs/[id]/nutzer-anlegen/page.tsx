@@ -45,10 +45,10 @@ export default function OrgNutzerAnlegenPage({ params }: { params: Promise<{ id:
     marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em',
   }
   const ROLES = [
-    { value: 'viewer',      label: 'Leser',      bg: '#2d1a0e', text: '#cd7f32', desc: 'Nur lesen, keine Änderungen.' },
-    { value: 'technician',  label: 'Techniker',  bg: '#1e2330', text: '#a8b2c0', desc: 'Assets bearbeiten, Serviceeinträge erfassen.' },
-    { value: 'admin',       label: 'Admin',      bg: '#2a2000', text: '#ffd700', desc: 'Verwaltet Assets, Teams und Mitglieder.' },
-    { value: 'superadmin',  label: 'Superadmin', bg: '#2d1b69', text: '#a78bfa', desc: 'Vollzugriff auf die gesamte Organisation.' },
+    { value: 'viewer',      label: 'Leser',      text: '#cd7f32', desc: 'Nur lesen, keine Änderungen.' },
+    { value: 'technician',  label: 'Techniker',  text: '#a8b2c0', desc: 'Assets bearbeiten, Serviceeinträge erfassen.' },
+    { value: 'admin',       label: 'Admin',      text: '#ffd700', desc: 'Verwaltet Assets, Teams und Mitglieder.' },
+    { value: 'superadmin',  label: 'Superadmin', text: '#a78bfa', desc: 'Vollzugriff auf die gesamte Organisation.' },
   ] as const
 
   return (
@@ -107,9 +107,10 @@ export default function OrgNutzerAnlegenPage({ params }: { params: Promise<{ id:
                     padding: '8px 16px', borderRadius: 8, border: 'none',
                     fontSize: 13, fontWeight: 700, cursor: 'pointer',
                     fontFamily: 'Arial, sans-serif',
-                    background: appRole === r.value ? r.bg : 'var(--adm-border)',
+                    background: appRole === r.value ? r.text + '22' : 'var(--adm-surface2)',
                     color: appRole === r.value ? r.text : 'var(--adm-text4)',
-                    outline: appRole === r.value ? `2px solid ${r.text}` : 'none',
+                    border: appRole === r.value ? `1px solid ${r.text}66` : '1px solid var(--adm-border)',
+                    outline: 'none',
                     outlineOffset: 1,
                   }}
                 >

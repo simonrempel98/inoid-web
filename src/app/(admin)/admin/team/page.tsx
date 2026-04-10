@@ -41,7 +41,7 @@ export default async function AdminTeamPage() {
       </div>
 
       <div style={{
-        background: 'var(--adm-accent-bg)', border: '1px solid #1e3a5f',
+        background: 'var(--adm-accent-bg)', border: '1px solid var(--adm-accent)',
         borderRadius: 12, padding: '14px 18px', marginBottom: 24,
         display: 'flex', gap: 12, alignItems: 'flex-start',
       }}>
@@ -82,7 +82,7 @@ export default async function AdminTeamPage() {
                 {m.id === user.id && (
                   <span style={{
                     marginLeft: 8, fontSize: 10, fontWeight: 700,
-                    background: '#0099cc', color: 'white',
+                    background: 'var(--adm-accent)', color: 'white',
                     padding: '2px 8px', borderRadius: 20,
                   }}>Du</span>
                 )}

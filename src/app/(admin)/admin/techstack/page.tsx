@@ -758,7 +758,7 @@ export default function TechStackPage() {
             {reqRow('NFA-007', 'Bot-Schutz auf öffentlichen Formularen', 'Cloudflare Turnstile auf /register Seite', 'erfüllt')}
             {reqRow('NFA-008', 'Audit-Trail: Admin-Aktionen werden protokolliert', 'admin_audit_log Tabelle, alle sensitiven Aktionen geloggt', 'erfüllt')}
             {reqRow('NFA-009', 'Datensparsamkeit: Alte Daten werden bereinigt', 'Chat-Nachrichten auto-delete 30 Tage (pg_cron), Soft-Delete für Assets', 'erfüllt')}
-            {reqRow('NFA-010', 'Zugänglichkeit: Dark & Light Mode', 'CSS Custom Properties, AdminThemeProvider, localStorage-Persistenz', 'teilweise')}
+            {reqRow('NFA-010', 'Zugänglichkeit: Dark & Light Mode', 'Admin-Panel vollständig (CSS Custom Properties, AdminThemeProvider, localStorage). Dashboard: geplant.', 'teilweise')}
           </div>
         </div>
       </div>
