@@ -74,15 +74,25 @@ function extractTitle(html: string): string {
 function extractLinks(html: string, pageUrl: string, rootUrl: URL): { links: Set<string>; pdfs: Set<string> } {
   const links = new Set<string>()
   const pdfs = new Set<string>()
-  const hrefRe = /href=["']([^"'#?][^"']*?)["']/gi
+  // href="..." oder href='...' – auch leere und #-Links werden gematcht, dann gefiltert
+  const hrefRe = /href=["']([^"']+)["']/gi
   let match
   while ((match = hrefRe.exec(html)) !== null) {
+    const raw = match[1].trim()
+    if (!raw || raw.startsWith('#') || raw.startsWith('mailto:') || raw.startsWith('tel:') || raw.startsWith('javascript:')) continue
     try {
-      const url = new URL(match[1], pageUrl)
-      if (url.hostname !== rootUrl.hostname) continue
+      const url = new URL(raw, pageUrl)
       url.hash = ''
       if (!['http:', 'https:'].includes(url.protocol)) continue
-      if (/\.pdf$/i.test(url.pathname)) { pdfs.add(url.href); continue }
+
+      // PDFs von beliebigen Domains erlauben (CDN, Subdomains, etc.)
+      if (/\.pdf($|\?)/i.test(url.pathname + url.search) || /\.pdf($|\?)/i.test(url.href)) {
+        pdfs.add(url.href)
+        continue
+      }
+
+      // Für HTML-Seiten: nur gleiche Domain + gleicher Pfad-Präfix
+      if (url.hostname !== rootUrl.hostname) continue
       if (SKIP_PATTERNS.some(p => p.test(url.pathname + url.search))) continue
       if (!url.pathname.startsWith(rootUrl.pathname)) continue
       links.add(url.href)
