@@ -21,6 +21,7 @@ export default function AdminOrgNeuPage() {
   const [featServiceheft, setFeatServiceheft] = useState(true)
   const [featWartung, setFeatWartung] = useState(true)
   const [featTeamchat, setFeatTeamchat] = useState(true)
+  const [featFlexodruck, setFeatFlexodruck] = useState(false)
 
   // Dateigröße
   const SIZE_OPTIONS = [
@@ -86,7 +87,7 @@ export default function AdminOrgNeuPage() {
         userLimit,
         contactEmail: contactEmail.trim() || null,
         notes: notes.trim() || null,
-        features: { serviceheft: featServiceheft, wartung: featWartung, teamchat: featTeamchat },
+        features: { serviceheft: featServiceheft, wartung: featWartung, teamchat: featTeamchat, flexodruck: featFlexodruck },
         settings: {
           image_max_dim: imageMaxDim ?? null,
           image_quality: imageQuality,
@@ -266,6 +267,12 @@ export default function AdminOrgNeuPage() {
             description="Team-interne Nachrichten mit Asset-Erwähnungen (30 Tage Verlauf)"
             value={featTeamchat}
             onChange={setFeatTeamchat}
+          />
+          <ToggleRow
+            label="Flexodruck"
+            description="Setup-Manager für Flexodruck-Maschinen: Druckwerke, Vorlagen & Rüstvorgänge (opt-in)"
+            value={featFlexodruck}
+            onChange={setFeatFlexodruck}
           />
         </div>
 
