@@ -32,6 +32,13 @@ export function ProfileForm({ fullName, email, userId, avatarUrl: initialAvatarU
     setUploadingAvatar(true)
     setAvatarError(null)
     const supabase = createClient()
+
+    // Alte Dateien im Ordner löschen (verhindert verwaiste Dateien bei Formatwechsel)
+    const { data: existing } = await supabase.storage.from('avatars').list(userId)
+    if (existing && existing.length > 0) {
+      await supabase.storage.from('avatars').remove(existing.map(f => `${userId}/${f.name}`))
+    }
+
     const ext = file.name.split('.').pop()
     const path = `${userId}/avatar.${ext}`
     const { error: upErr } = await supabase.storage.from('avatars').upload(path, file, { upsert: true })
