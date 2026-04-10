@@ -20,7 +20,7 @@ export function AssetQrDisplay({ url, assetId }: { url: string; assetId: string 
   }, [url])
 
   function copy() {
-    navigator.clipboard.writeText(assetId)
+    navigator.clipboard.writeText(url)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -52,7 +52,7 @@ export function AssetQrDisplay({ url, assetId }: { url: string; assetId: string 
             wordBreak: 'break-all', margin: 0,
             background: '#f4f6f9', borderRadius: 6, padding: '6px 8px', border: '1px solid #c8d4e8',
           }}>
-            {assetId}
+            {url}
           </p>
           <button type="button" onClick={copy} style={{
             flexShrink: 0, padding: '6px 10px', borderRadius: 8,
