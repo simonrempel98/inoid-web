@@ -5,13 +5,14 @@ import { INOaiAdminClient } from './inoai-admin-client'
 export default async function AdminINOaiPage() {
   const admin = createAdminClient()
 
-  const { data: rows } = await admin
-    .from('inometa_knowledge')
-    .select('crawler_id, created_at')
+  const [{ data: crawlers }, { data: knowledgeRows }] = await Promise.all([
+    admin.from('inoai_crawlers').select('*').order('created_at'),
+    admin.from('inometa_knowledge').select('crawler_id, created_at'),
+  ])
 
   const perCrawler: Record<string, { count: number; lastUpdated: string | null }> = {}
   let total = 0
-  for (const row of rows ?? []) {
+  for (const row of knowledgeRows ?? []) {
     const id = row.crawler_id ?? 'legacy'
     if (!perCrawler[id]) perCrawler[id] = { count: 0, lastUpdated: null }
     perCrawler[id].count++
@@ -21,5 +22,11 @@ export default async function AdminINOaiPage() {
     total++
   }
 
-  return <INOaiAdminClient initialStats={perCrawler} total={total} />
+  return (
+    <INOaiAdminClient
+      initialCrawlers={crawlers ?? []}
+      initialStats={perCrawler}
+      total={total}
+    />
+  )
 }
