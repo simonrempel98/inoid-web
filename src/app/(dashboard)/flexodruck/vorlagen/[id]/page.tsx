@@ -15,7 +15,7 @@ export default async function VorlageDetailPage({ params }: { params: Promise<{ 
 
   const orgId = profile.organization_id
 
-  // 1. Vorlage laden (flach)
+  // 1. Vorlage laden
   const { data: tpl, error } = await supabase
     .from('flexo_templates')
     .select('id, name, description, is_active, created_at, primary_machine_id')
@@ -52,28 +52,28 @@ export default async function VorlageDetailPage({ params }: { params: Promise<{ 
 
   const slots = slotsRaw ?? []
 
-  // 5. Assignments laden
-  const { data: assignmentsRaw } = await supabase
-    .from('flexo_template_assignments')
-    .select('id, druckwerk_id, slot_id, asset_id, notes')
+  // 5. Zell-Assets laden (mehrere Assets pro Zelle)
+  const { data: cellAssetsRaw } = await supabase
+    .from('flexo_template_cell_assets')
+    .select('slot_id, druckwerk_id, asset_id')
     .eq('template_id', id)
+    .order('sort_order')
 
-  // 6. Asset-Namen für belegte Assignments laden
-  const assetIds = [...new Set((assignmentsRaw ?? []).map((a: any) => a.asset_id).filter(Boolean))]
-  const { data: assignmentAssets } = assetIds.length > 0
+  // 6. Asset-Details laden
+  const assetIds = [...new Set((cellAssetsRaw ?? []).map((ca: any) => ca.asset_id))]
+  const { data: assetDetails } = assetIds.length > 0
     ? await supabase.from('assets').select('id, title, serial_number').in('id', assetIds)
     : { data: [] }
-  const assetMap = Object.fromEntries((assignmentAssets ?? []).map((a: any) => [a.id, a]))
 
-  const assignments: Record<string, { asset_id: string | null; asset_name: string | null; serial_number: string | null }> = {}
-  for (const a of (assignmentsRaw ?? [])) {
-    const key = `${a.slot_id}__${a.druckwerk_id}`
-    const asset = a.asset_id ? assetMap[a.asset_id] : null
-    assignments[key] = {
-      asset_id: a.asset_id,
-      asset_name: asset?.title ?? null,
-      serial_number: asset?.serial_number ?? null,
-    }
+  const assetMap = Object.fromEntries((assetDetails ?? []).map((a: any) => [a.id, a]))
+
+  // assignments: key = `${slot_id}__${druckwerk_id}` → [{ id, name, serial_number }]
+  const assignments: Record<string, { id: string; name: string; serial_number: string | null }[]> = {}
+  for (const ca of (cellAssetsRaw ?? [])) {
+    const key = `${ca.slot_id}__${ca.druckwerk_id}`
+    if (!assignments[key]) assignments[key] = []
+    const a = assetMap[ca.asset_id]
+    if (a) assignments[key].push({ id: ca.asset_id, name: a.title, serial_number: a.serial_number ?? null })
   }
 
   // 7. Assets für Dropdown
@@ -84,7 +84,7 @@ export default async function VorlageDetailPage({ params }: { params: Promise<{ 
     .is('deleted_at', null)
     .order('title')
     .limit(500)
-  const assets = (assetsRaw ?? []).map((a: any) => ({ ...a, name: a.title }))
+  const assets = (assetsRaw ?? []).map((a: any) => ({ id: a.id, name: a.title, serial_number: a.serial_number ?? null }))
 
   const canEdit = ['admin', 'superadmin', 'technician'].includes(profile.app_role)
 

@@ -41,16 +41,24 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   const body = await req.json()
   const admin = createAdminClient()
 
-  if ('assignment' in body) {
-    // Einzelne Zuweisung (druckwerk_id × slot_id → asset_id) per Upsert
-    const { slot_id, druckwerk_id, asset_id, notes, org_id, template_id } = body.assignment
-    const { error } = await admin
-      .from('flexo_template_assignments')
-      .upsert(
-        { template_id: template_id ?? id, slot_id, druckwerk_id, asset_id: asset_id ?? null, notes: notes ?? null, org_id },
-        { onConflict: 'slot_id,druckwerk_id' },
-      )
-    if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if ('cell_assets' in body) {
+    // Mehrere Assets pro Zelle (slot_id × druckwerk_id)
+    const { slot_id, druckwerk_id, asset_ids, org_id } = body.cell_assets
+    // Alle bisherigen Einträge dieser Zelle löschen
+    await admin
+      .from('flexo_template_cell_assets')
+      .delete()
+      .eq('template_id', id)
+      .eq('slot_id', slot_id)
+      .eq('druckwerk_id', druckwerk_id)
+    // Neue Einträge anlegen
+    if (Array.isArray(asset_ids) && asset_ids.length > 0) {
+      const rows = asset_ids.map((aid: string, i: number) => ({
+        template_id: id, slot_id, druckwerk_id, asset_id: aid, org_id, sort_order: i,
+      }))
+      const { error } = await admin.from('flexo_template_cell_assets').insert(rows)
+      if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+    }
     return NextResponse.json({ ok: true })
   }
 

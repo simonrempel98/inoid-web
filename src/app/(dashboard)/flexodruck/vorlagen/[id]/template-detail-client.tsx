@@ -7,22 +7,13 @@ import { useTranslations } from 'next-intl'
 type Asset = { id: string; name: string; serial_number: string | null }
 type Druckwerk = { id: string; position: number; label: string | null; color_hint: string | null }
 type Slot = { id: string; label: string; sort_order: number }
-type AssignmentMap = Record<string, { asset_id: string | null; asset_name: string | null; serial_number: string | null }>
+type CellAssets = { id: string; name: string; serial_number: string | null }[]
+type AssignmentMap = Record<string, CellAssets>
 
 export function TemplateDetailClient({
-  templateId,
-  templateName,
-  templateDescription,
-  isActive,
-  machineId,
-  machineName,
-  druckwerke,
-  slots,
-  assignments: initialAssignments,
-  assets,
-  canEdit,
-  orgId,
-  sharedMachines,
+  templateId, templateName, templateDescription, isActive,
+  machineId, machineName, druckwerke, slots,
+  assignments: initialAssignments, assets, canEdit, orgId, sharedMachines,
 }: {
   templateId: string
   templateName: string
@@ -41,18 +32,23 @@ export function TemplateDetailClient({
   const t = useTranslations('flexodruck')
   const [assignments, setAssignments] = useState<AssignmentMap>(initialAssignments)
   const [savingKey, setSavingKey] = useState<string | null>(null)
-  // Picker state: which cell is open
   const [pickerKey, setPickerKey] = useState<string | null>(null)
   const [pickerSearch, setPickerSearch] = useState('')
+  const [pickerSelected, setPickerSelected] = useState<string[]>([])
 
-  const openPicker = useCallback((key: string) => {
+  const openPicker = useCallback((key: string, currentAssets: CellAssets) => {
     setPickerKey(key)
     setPickerSearch('')
+    setPickerSelected(currentAssets.map(a => a.id))
   }, [])
 
   const closePicker = useCallback(() => setPickerKey(null), [])
 
-  async function assignAsset(slotId: string, druckwerkId: string, asset: Asset | null) {
+  function toggleAsset(id: string) {
+    setPickerSelected(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id])
+  }
+
+  async function saveCell(slotId: string, druckwerkId: string) {
     const key = `${slotId}__${druckwerkId}`
     setSavingKey(key)
     setPickerKey(null)
@@ -61,26 +57,17 @@ export function TemplateDetailClient({
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        assignment: {
-          template_id: templateId,
-          slot_id: slotId,
-          druckwerk_id: druckwerkId,
-          asset_id: asset?.id ?? null,
-          org_id: orgId,
-        },
+        cell_assets: { slot_id: slotId, druckwerk_id: druckwerkId, asset_ids: pickerSelected, org_id: orgId },
       }),
     })
 
     setSavingKey(null)
     if (res.ok) {
-      setAssignments(prev => ({
-        ...prev,
-        [key]: {
-          asset_id: asset?.id ?? null,
-          asset_name: asset?.name ?? null,
-          serial_number: asset?.serial_number ?? null,
-        },
-      }))
+      const newAssets = pickerSelected.map(id => {
+        const a = assets.find(x => x.id === id)
+        return { id, name: a?.name ?? '?', serial_number: a?.serial_number ?? null }
+      })
+      setAssignments(prev => ({ ...prev, [key]: newAssets }))
     }
   }
 
@@ -125,11 +112,6 @@ export function TemplateDetailClient({
                 {t('active')}
               </span>
             )}
-            {sharedMachines.map(m => (
-              <span key={m} style={{ fontSize: 11, background: '#f4f6f9', color: '#6b7280', padding: '2px 10px', borderRadius: 20, fontFamily: 'Arial, sans-serif' }}>
-                + {m}
-              </span>
-            ))}
           </div>
         </div>
         <div style={{ display: 'flex', gap: 10, flexShrink: 0 }}>
@@ -157,6 +139,110 @@ export function TemplateDetailClient({
         </div>
       </div>
 
+      {/* Picker-Overlay (außerhalb der Tabelle, zentriert) */}
+      {pickerKey && (() => {
+        const [slotId, dwId] = pickerKey.split('__')
+        const slot = slots.find(s => s.id === slotId)
+        const dw = druckwerke.find(d => d.id === dwId)
+        return (
+          <>
+            <div onClick={closePicker} style={{ position: 'fixed', inset: 0, zIndex: 999 }} />
+            <div style={{
+              position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
+              zIndex: 1000, background: 'white', borderRadius: 16,
+              border: '1px solid #c8d4e8', boxShadow: '0 12px 40px rgba(0,40,100,0.18)',
+              width: 'min(340px, calc(100vw - 32px))', padding: 16,
+              fontFamily: 'Arial, sans-serif',
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                <div>
+                  <p style={{ margin: 0, fontSize: 12, color: '#9ca3af' }}>{dw?.label ?? `DW ${dw?.position}`}</p>
+                  <p style={{ margin: 0, fontSize: 15, fontWeight: 900, color: '#003366' }}>{slot?.label}</p>
+                </div>
+                <button type="button" onClick={closePicker}
+                  style={{ background: '#f4f6f9', border: 'none', borderRadius: '50%', width: 30, height: 30, cursor: 'pointer', color: '#6b7280', fontSize: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  ×
+                </button>
+              </div>
+
+              {/* Ausgewählte Assets */}
+              {pickerSelected.length > 0 && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 10 }}>
+                  {pickerSelected.map(id => {
+                    const a = assets.find(x => x.id === id)
+                    return (
+                      <div key={id} style={{
+                        display: 'flex', alignItems: 'center', gap: 5,
+                        background: '#003366', color: 'white',
+                        borderRadius: 20, padding: '3px 8px 3px 10px', fontSize: 11, fontWeight: 700,
+                      }}>
+                        <span style={{ maxWidth: 140, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a?.name ?? id}</span>
+                        <button type="button" onClick={() => toggleAsset(id)}
+                          style={{ background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '50%', width: 16, height: 16, cursor: 'pointer', color: 'white', fontSize: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, lineHeight: 1, flexShrink: 0 }}>
+                          ×
+                        </button>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+
+              <input
+                autoFocus
+                placeholder={t('searchAsset')}
+                value={pickerSearch}
+                onChange={e => setPickerSearch(e.target.value)}
+                style={{
+                  width: '100%', padding: '8px 10px', borderRadius: 8,
+                  border: '1px solid #c8d4e8', fontSize: 13,
+                  outline: 'none', boxSizing: 'border-box', marginBottom: 8,
+                }}
+              />
+
+              <div style={{ maxHeight: 240, overflowY: 'auto', margin: '0 -4px' }}>
+                {filteredAssets.slice(0, 80).map(a => {
+                  const checked = pickerSelected.includes(a.id)
+                  return (
+                    <div key={a.id} onClick={() => toggleAsset(a.id)}
+                      style={{
+                        padding: '8px 10px', cursor: 'pointer', borderRadius: 8, marginBottom: 2,
+                        background: checked ? '#e8f4fd' : 'transparent',
+                        display: 'flex', alignItems: 'center', gap: 8,
+                      }}>
+                      <div style={{
+                        width: 16, height: 16, borderRadius: 4, flexShrink: 0,
+                        border: checked ? 'none' : '2px solid #c8d4e8',
+                        background: checked ? '#003366' : 'transparent',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      }}>
+                        {checked && <svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
+                      </div>
+                      <div style={{ minWidth: 0 }}>
+                        <p style={{ margin: 0, fontSize: 12, fontWeight: 600, color: '#003366', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.name}</p>
+                        {a.serial_number && <p style={{ margin: 0, fontSize: 10, color: '#6b7280' }}>{a.serial_number}</p>}
+                      </div>
+                    </div>
+                  )
+                })}
+                {filteredAssets.length === 0 && (
+                  <p style={{ padding: '12px 10px', color: '#9ca3af', fontSize: 12, margin: 0 }}>Keine Assets gefunden</p>
+                )}
+              </div>
+
+              <button type="button"
+                onClick={() => saveCell(slotId, dwId)}
+                style={{
+                  marginTop: 12, width: '100%', background: '#003366', color: 'white',
+                  border: 'none', borderRadius: 50, padding: '11px', fontSize: 13,
+                  fontWeight: 700, cursor: 'pointer',
+                }}>
+                Speichern{pickerSelected.length > 0 ? ` (${pickerSelected.length})` : ''}
+              </button>
+            </div>
+          </>
+        )
+      })()}
+
       {/* Assignment Matrix */}
       {slots.length === 0 ? (
         <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '32px', textAlign: 'center' }}>
@@ -176,7 +262,7 @@ export function TemplateDetailClient({
                   {t('slotTypeHeader')}
                 </th>
                 {druckwerke.map(dw => (
-                  <th key={dw.id} style={{ ...cell, background: dw.color_hint ? dw.color_hint + '28' : '#f4f6f9', textAlign: 'center', minWidth: 150 }}>
+                  <th key={dw.id} style={{ ...cell, background: dw.color_hint ? dw.color_hint + '28' : '#f4f6f9', textAlign: 'center', minWidth: 160 }}>
                     <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: '#003366', fontFamily: 'Arial, sans-serif' }}>
                       {dw.label ?? `DW ${dw.position}`}
                     </p>
@@ -192,86 +278,45 @@ export function TemplateDetailClient({
                   </td>
                   {druckwerke.map(dw => {
                     const key = `${slot.id}__${dw.id}`
-                    const asgn = assignments[key]
+                    const cellAssets = assignments[key] ?? []
                     const isSaving = savingKey === key
-                    const isOpen = pickerKey === key
 
                     return (
-                      <td key={dw.id} style={{ ...cell, textAlign: 'center', position: 'relative' }}>
+                      <td key={dw.id} style={{ ...cell, textAlign: 'center', verticalAlign: 'top' }}>
                         {isSaving ? (
                           <span style={{ fontSize: 11, color: '#9ca3af', fontFamily: 'Arial, sans-serif' }}>…</span>
-                        ) : asgn?.asset_id ? (
-                          <div>
-                            <p style={{ margin: 0, fontSize: 12, fontWeight: 600, color: '#003366', fontFamily: 'Arial, sans-serif' }}>
-                              {asgn.asset_name}
-                            </p>
-                            {asgn.serial_number && (
-                              <p style={{ margin: 0, fontSize: 10, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>{asgn.serial_number}</p>
-                            )}
+                        ) : (
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                            {cellAssets.map((a, i) => (
+                              <div key={a.id} style={{
+                                background: '#e8f4fd', borderRadius: 6, padding: '4px 8px',
+                                border: '1px solid #bfdbfe', textAlign: 'left',
+                              }}>
+                                <p style={{ margin: 0, fontSize: 11, fontWeight: 700, color: '#003366', fontFamily: 'Arial, sans-serif', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 140 }}>
+                                  {i + 1}. {a.name}
+                                </p>
+                                {a.serial_number && (
+                                  <p style={{ margin: 0, fontSize: 10, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>{a.serial_number}</p>
+                                )}
+                              </div>
+                            ))}
                             {canEdit && (
-                              <button type="button" onClick={() => openPicker(key)}
-                                style={{ fontSize: 10, color: '#0099cc', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Arial, sans-serif', marginTop: 2 }}>
-                                {t('change')}
+                              <button type="button"
+                                onClick={() => openPicker(key, cellAssets)}
+                                style={{
+                                  fontSize: 11, color: cellAssets.length > 0 ? '#0099cc' : '#9ca3af',
+                                  background: cellAssets.length > 0 ? 'transparent' : '#f9fafb',
+                                  border: cellAssets.length > 0 ? 'none' : '1px dashed #d1d5db',
+                                  borderRadius: 6, padding: '5px 8px',
+                                  cursor: 'pointer', fontFamily: 'Arial, sans-serif',
+                                  width: '100%',
+                                }}>
+                                {cellAssets.length > 0 ? '+ Asset hinzufügen' : '+ Asset'}
                               </button>
                             )}
-                          </div>
-                        ) : canEdit ? (
-                          <button type="button" onClick={() => openPicker(key)}
-                            style={{
-                              fontSize: 12, color: '#9ca3af', background: '#f9fafb',
-                              border: '1px dashed #d1d5db', borderRadius: 6,
-                              padding: '6px 10px', cursor: 'pointer', fontFamily: 'Arial, sans-serif',
-                              width: '100%',
-                            }}>
-                            {t('addAsset')}
-                          </button>
-                        ) : (
-                          <span style={{ fontSize: 11, color: '#d1d5db', fontFamily: 'Arial, sans-serif' }}>–</span>
-                        )}
-
-                        {/* Inline Picker */}
-                        {isOpen && (
-                          <div style={{
-                            position: 'fixed', zIndex: 1000,
-                            background: 'white', borderRadius: 12, border: '1px solid #c8d4e8',
-                            boxShadow: '0 8px 32px rgba(0,40,100,0.18)',
-                            width: 280, padding: 12,
-                            top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-                          }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-                              <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: '#003366', fontFamily: 'Arial, sans-serif' }}>
-                                {slot.label} · {dw.label ?? `DW ${dw.position}`}
-                              </p>
-                              <button type="button" onClick={closePicker}
-                                style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 16, color: '#6b7280' }}>×</button>
-                            </div>
-                            <input
-                              autoFocus
-                              placeholder={t('searchAsset')}
-                              value={pickerSearch}
-                              onChange={e => setPickerSearch(e.target.value)}
-                              style={{
-                                width: '100%', padding: '8px 10px', borderRadius: 6,
-                                border: '1px solid #c8d4e8', fontSize: 13, fontFamily: 'Arial, sans-serif',
-                                outline: 'none', boxSizing: 'border-box', marginBottom: 8,
-                              }}
-                            />
-                            <div style={{ maxHeight: 200, overflowY: 'auto' }}>
-                              <div onClick={() => assignAsset(slot.id, dw.id, null)}
-                                style={{ padding: '7px 10px', cursor: 'pointer', borderRadius: 6, fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif', fontStyle: 'italic' }}>
-                                {t('noAsset')}
-                              </div>
-                              {filteredAssets.slice(0, 50).map(a => (
-                                <div key={a.id} onClick={() => assignAsset(slot.id, dw.id, a)}
-                                  style={{
-                                    padding: '7px 10px', cursor: 'pointer', borderRadius: 6,
-                                    background: asgn?.asset_id === a.id ? '#e8f4fd' : 'transparent',
-                                  }}>
-                                  <p style={{ margin: 0, fontSize: 12, fontWeight: 600, color: '#003366', fontFamily: 'Arial, sans-serif' }}>{a.name}</p>
-                                  {a.serial_number && <p style={{ margin: 0, fontSize: 10, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>{a.serial_number}</p>}
-                                </div>
-                              ))}
-                            </div>
+                            {!canEdit && cellAssets.length === 0 && (
+                              <span style={{ fontSize: 11, color: '#d1d5db', fontFamily: 'Arial, sans-serif' }}>–</span>
+                            )}
                           </div>
                         )}
                       </td>
@@ -283,7 +328,6 @@ export function TemplateDetailClient({
           </table>
         </div>
       )}
-
     </div>
   )
 }
