@@ -21,6 +21,11 @@ export default async function TeamDetailPage({
   const orgId = profile?.organization_id ?? ''
   const currentUserRole = (profile?.app_role as AppRole) ?? 'leser'
 
+  const { data: org } = await supabase
+    .from('organizations').select('features').eq('id', orgId).single()
+  const features = (org?.features as Record<string, boolean>) ?? {}
+  const showChat = features.teamchat !== false
+
   const { data: team } = await supabase
     .from('teams')
     .select('*, departments(name, divisions(name)), areas(id, name), halls(id, name), locations(id, name)')
@@ -69,6 +74,7 @@ export default async function TeamDetailPage({
       roles={roles ?? []}
       organizationId={orgId}
       currentUserRole={currentUserRole}
+      showChat={showChat}
     />
   )
 }

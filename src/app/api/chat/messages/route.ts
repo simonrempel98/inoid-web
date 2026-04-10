@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 
-export async function GET(_req: NextRequest) {
+export async function GET(req: NextRequest) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Nicht eingeloggt' }, { status: 401 })
+
+  const teamId = req.nextUrl.searchParams.get('teamId')
+  if (!teamId) return NextResponse.json({ error: 'teamId fehlt' }, { status: 400 })
 
   const { data: profile } = await supabase
     .from('profiles').select('organization_id').eq('id', user.id).single()
@@ -13,16 +16,17 @@ export async function GET(_req: NextRequest) {
   const orgId = profile.organization_id
   const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
 
-  // Lazy-Cleanup: Nachrichten älter als 30 Tage löschen
+  // Lazy-Cleanup
   await supabase.from('chat_messages')
     .delete()
-    .eq('organization_id', orgId)
+    .eq('team_id', teamId)
     .lt('created_at', thirtyDaysAgo)
 
   const { data: messages } = await supabase
     .from('chat_messages')
     .select('id, user_id, sender_name, sender_role, content, asset_mentions, created_at')
     .eq('organization_id', orgId)
+    .eq('team_id', teamId)
     .gte('created_at', thirtyDaysAgo)
     .order('created_at', { ascending: true })
     .limit(200)
@@ -52,14 +56,19 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json()
   const content: string = (body.content ?? '').trim()
+  const teamId: string = body.teamId ?? ''
   const assetMentions: string[] = Array.isArray(body.assetMentions) ? body.assetMentions : []
 
   if (!content || content.length > 2000) {
     return NextResponse.json({ error: 'Nachricht ungültig (1–2000 Zeichen)' }, { status: 400 })
   }
+  if (!teamId) {
+    return NextResponse.json({ error: 'teamId fehlt' }, { status: 400 })
+  }
 
   const { data: msg, error } = await supabase.from('chat_messages').insert({
     organization_id: profile.organization_id,
+    team_id: teamId,
     user_id: user.id,
     sender_name: profile.full_name ?? profile.email ?? 'Unbekannt',
     sender_role: profile.app_role ?? null,

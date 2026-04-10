@@ -13,7 +13,12 @@ type ChatMessage = {
   created_at: string
 }
 
-export default async function TeamChatPage() {
+export default async function TeamChatPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+  const { id: teamId } = await params
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -36,7 +41,16 @@ export default async function TeamChatPage() {
     .single()
 
   const features = (org?.features as Record<string, boolean>) ?? {}
-  if (features.teamchat === false) redirect('/teams')
+  if (features.teamchat === false) redirect(`/teams/team/${teamId}`)
+
+  // Team laden (für Namen im Header)
+  const { data: team } = await supabase
+    .from('teams')
+    .select('id, name')
+    .eq('id', teamId)
+    .single()
+
+  if (!team) redirect('/teams')
 
   // Nachrichten laden (letzte 30 Tage, max. 200)
   const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
@@ -45,6 +59,7 @@ export default async function TeamChatPage() {
     .from('chat_messages')
     .select('id, user_id, sender_name, sender_role, content, asset_mentions, created_at')
     .eq('organization_id', orgId)
+    .eq('team_id', teamId)
     .gte('created_at', thirtyDaysAgo)
     .order('created_at', { ascending: true })
     .limit(200)
@@ -58,7 +73,7 @@ export default async function TeamChatPage() {
         background: 'white',
         display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0,
       }}>
-        <Link href="/teams" style={{ color: '#96aed2', textDecoration: 'none', lineHeight: 1, display: 'flex' }}>
+        <Link href={`/teams/team/${teamId}`} style={{ color: '#96aed2', textDecoration: 'none', lineHeight: 1, display: 'flex' }}>
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
           </svg>
@@ -73,8 +88,8 @@ export default async function TeamChatPage() {
             </svg>
           </div>
           <div>
-            <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: '#000' }}>Team-Chat</p>
-            <p style={{ margin: 0, fontSize: 11, color: '#96aed2' }}>@ zum Erwähnen eines Assets</p>
+            <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: '#000' }}>{team.name}</p>
+            <p style={{ margin: 0, fontSize: 11, color: '#96aed2' }}>@ zum Erwähnen eines Assets · 30 Tage Verlauf</p>
           </div>
         </div>
       </div>
@@ -83,6 +98,7 @@ export default async function TeamChatPage() {
         initialMessages={(messages ?? []) as ChatMessage[]}
         currentUserId={user.id}
         orgId={orgId}
+        teamId={teamId}
       />
     </div>
   )

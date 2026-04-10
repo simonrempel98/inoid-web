@@ -4,8 +4,6 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 
-// ── Typen ─────────────────────────────────────────────────────────────────────
-
 type ChatMessage = {
   id: string
   user_id: string
@@ -18,34 +16,29 @@ type ChatMessage = {
 
 type AssetHit = { id: string; title: string; category: string | null }
 
-// ── Hilfsfunktionen ───────────────────────────────────────────────────────────
-
 const ROLE_COLOR: Record<string, string> = {
   superadmin: '#a78bfa',
   admin:      '#fbbf24',
-  technician: '#94a3b8',
-  viewer:     '#d97706',
+  techniker:  '#94a3b8',
+  leser:      '#d97706',
 }
 const ROLE_LABEL: Record<string, string> = {
   superadmin: 'Superadmin',
   admin:      'Admin',
-  technician: 'Techniker',
-  viewer:     'Leser',
+  techniker:  'Techniker',
+  leser:      'Leser',
 }
 
 function formatTime(iso: string) {
   const d = new Date(iso)
   const now = new Date()
-  const isToday = d.toDateString() === now.toDateString()
   const yesterday = new Date(now); yesterday.setDate(now.getDate() - 1)
-  const isYesterday = d.toDateString() === yesterday.toDateString()
   const time = d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
-  if (isToday)     return time
-  if (isYesterday) return `Gestern ${time}`
+  if (d.toDateString() === now.toDateString())       return time
+  if (d.toDateString() === yesterday.toDateString()) return `Gestern ${time}`
   return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' }) + ' ' + time
 }
 
-// @[Name](uuid) → React-Element mit Link
 function renderContent(content: string) {
   const parts = content.split(/(@\[[^\]]+\]\([^)]+\))/g)
   return parts.map((part, i) => {
@@ -54,8 +47,7 @@ function renderContent(content: string) {
       return (
         <Link key={i} href={`/assets/${m[2]}`} style={{
           color: '#0099cc', fontWeight: 700, textDecoration: 'none',
-          background: '#e8f4fb', borderRadius: 4, padding: '0 3px',
-          fontSize: 'inherit',
+          background: '#e8f4fb', borderRadius: 4, padding: '0 3px', fontSize: 'inherit',
         }}>
           @{m[1]}
         </Link>
@@ -69,16 +61,16 @@ function getInitials(name: string) {
   return name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
 }
 
-// ── Haupt-Komponente ──────────────────────────────────────────────────────────
-
 export function ChatClient({
   initialMessages,
   currentUserId,
   orgId,
+  teamId,
 }: {
   initialMessages: ChatMessage[]
   currentUserId: string
   orgId: string
+  teamId: string
 }) {
   const supabase = createClient()
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages)
@@ -86,7 +78,6 @@ export function ChatClient({
   const [sending, setSending] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // Asset-Mention State
   const [mentionQuery, setMentionQuery] = useState<string | null>(null)
   const [mentionResults, setMentionResults] = useState<AssetHit[]>([])
   const [mentionIndex, setMentionIndex] = useState(0)
@@ -95,18 +86,16 @@ export function ChatClient({
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef  = useRef<HTMLTextAreaElement>(null)
 
-  // ── Scroll to bottom ──
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  // ── Realtime ──
   useEffect(() => {
     const channel = supabase
-      .channel(`chat:${orgId}`)
+      .channel(`chat:${teamId}`)
       .on(
         'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'chat_messages', filter: `organization_id=eq.${orgId}` },
+        { event: 'INSERT', schema: 'public', table: 'chat_messages', filter: `team_id=eq.${teamId}` },
         payload => {
           setMessages(prev => {
             if (prev.find(m => m.id === (payload.new as ChatMessage).id)) return prev
@@ -116,9 +105,8 @@ export function ChatClient({
       )
       .subscribe()
     return () => { supabase.removeChannel(channel) }
-  }, [orgId])
+  }, [teamId])
 
-  // ── Asset-Suche ──
   const searchAssets = useCallback(async (q: string) => {
     if (!q.trim()) { setMentionResults([]); return }
     const { data } = await supabase
@@ -132,16 +120,12 @@ export function ChatClient({
     setMentionIndex(0)
   }, [orgId])
 
-  // ── Input-Handler ──
   function handleInputChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
     const val = e.target.value
     setInput(val)
     setError(null)
-
-    // @ erkennen
     const cursor = e.target.selectionStart ?? val.length
-    const textUpToCursor = val.slice(0, cursor)
-    const atMatch = textUpToCursor.match(/@([^@\s]*)$/)
+    const atMatch = val.slice(0, cursor).match(/@([^@\s]*)$/)
     if (atMatch) {
       setAtPos(cursor - atMatch[0].length)
       setMentionQuery(atMatch[1])
@@ -156,8 +140,7 @@ export function ChatClient({
     const mention = `@[${asset.title}](${asset.id})`
     const before = input.slice(0, atPos)
     const after  = input.slice(inputRef.current?.selectionStart ?? input.length)
-    const newVal = before + mention + ' ' + after
-    setInput(newVal)
+    setInput(before + mention + ' ' + after)
     setMentionQuery(null)
     setMentionResults([])
     inputRef.current?.focus()
@@ -176,20 +159,16 @@ export function ChatClient({
     }
   }
 
-  // ── Senden ──
   async function handleSend() {
     const content = input.trim()
     if (!content || sending) return
-
-    // Asset-IDs aus Mentions extrahieren
     const mentions = [...content.matchAll(/@\[[^\]]+\]\(([^)]+)\)/g)].map(m => m[1])
-
     setSending(true)
     setError(null)
     const res = await fetch('/api/chat/messages', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content, assetMentions: mentions }),
+      body: JSON.stringify({ content, teamId, assetMentions: mentions }),
     })
     setSending(false)
     if (!res.ok) {
@@ -202,13 +181,11 @@ export function ChatClient({
     setMentionResults([])
   }
 
-  // ── Gruppierung: Nachrichten nach Datum ──
   function groupByDate(msgs: ChatMessage[]) {
     const groups: { label: string; msgs: ChatMessage[] }[] = []
     let lastDate = ''
     for (const m of msgs) {
-      const d = new Date(m.created_at)
-      const label = d.toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: 'long' })
+      const label = new Date(m.created_at).toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: 'long' })
       if (label !== lastDate) { groups.push({ label, msgs: [] }); lastDate = label }
       groups[groups.length - 1].msgs.push(m)
     }
@@ -218,12 +195,12 @@ export function ChatClient({
   const groups = groupByDate(messages)
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100dvh - 130px)', fontFamily: 'Arial, sans-serif' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, fontFamily: 'Arial, sans-serif' }}>
 
-      {/* ── Nachrichten-Liste ── */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: 0 }}>
+      {/* Nachrichten */}
+      <div style={{ flex: 1, overflowY: 'auto', padding: '12px 16px' }}>
         {messages.length === 0 && (
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 8, color: '#aab', paddingBottom: 40 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', gap: 8, color: '#aab', paddingBottom: 40 }}>
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#c8d4e8" strokeWidth="1.5">
               <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
             </svg>
@@ -234,7 +211,6 @@ export function ChatClient({
 
         {groups.map(group => (
           <div key={group.label}>
-            {/* Datum-Trenner */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '16px 0 12px' }}>
               <div style={{ flex: 1, height: 1, background: '#eef1f6' }} />
               <span style={{ fontSize: 11, color: '#96aed2', fontWeight: 600, whiteSpace: 'nowrap' }}>{group.label}</span>
@@ -255,12 +231,10 @@ export function ChatClient({
                   gap: 8,
                   marginBottom: isSameSender ? 3 : 10,
                 }}>
-                  {/* Avatar */}
                   {!isMine && (
                     <div style={{
                       width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
-                      background: `${roleColor}22`,
-                      border: `1.5px solid ${roleColor}44`,
+                      background: `${roleColor}22`, border: `1.5px solid ${roleColor}44`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       fontSize: 11, fontWeight: 800, color: roleColor,
                       visibility: isSameSender ? 'hidden' : 'visible',
@@ -268,10 +242,7 @@ export function ChatClient({
                       {getInitials(msg.sender_name)}
                     </div>
                   )}
-
-                  {/* Bubble */}
                   <div style={{ maxWidth: '72%' }}>
-                    {/* Absender-Name (nur erste Nachricht einer Gruppe) */}
                     {!isMine && !isSameSender && (
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3, paddingLeft: 2 }}>
                         <span style={{ fontSize: 12, fontWeight: 700, color: '#000' }}>{msg.sender_name}</span>
@@ -286,8 +257,7 @@ export function ChatClient({
                       borderRadius: isMine
                         ? (isSameSender ? '14px 4px 4px 14px' : '14px 4px 14px 14px')
                         : (isSameSender ? '4px 14px 14px 4px' : '4px 14px 14px 14px'),
-                      padding: '9px 13px',
-                      fontSize: 14, lineHeight: 1.45,
+                      padding: '9px 13px', fontSize: 14, lineHeight: 1.45,
                       boxShadow: '0 1px 4px rgba(0,40,100,0.08)',
                       border: isMine ? 'none' : '1px solid #e8eef6',
                       wordBreak: 'break-word',
@@ -307,11 +277,10 @@ export function ChatClient({
             })}
           </div>
         ))}
-
         <div ref={bottomRef} />
       </div>
 
-      {/* ── Asset-Mention Dropdown ── */}
+      {/* Mention-Dropdown */}
       {mentionResults.length > 0 && (
         <div style={{
           margin: '0 16px', borderRadius: 12,
@@ -320,21 +289,15 @@ export function ChatClient({
           overflow: 'hidden', marginBottom: 4,
         }}>
           {mentionResults.map((a, i) => (
-            <button
-              key={a.id}
-              type="button"
-              onClick={() => insertMention(a)}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 10,
-                width: '100%', padding: '10px 14px',
-                background: i === mentionIndex ? '#f0f7ff' : 'transparent',
-                border: 'none', borderBottom: i < mentionResults.length - 1 ? '1px solid #f0f4f8' : 'none',
-                cursor: 'pointer', textAlign: 'left', fontFamily: 'Arial, sans-serif',
-              }}
-            >
+            <button key={a.id} type="button" onClick={() => insertMention(a)} style={{
+              display: 'flex', alignItems: 'center', gap: 10,
+              width: '100%', padding: '10px 14px',
+              background: i === mentionIndex ? '#f0f7ff' : 'transparent',
+              border: 'none', borderBottom: i < mentionResults.length - 1 ? '1px solid #f0f4f8' : 'none',
+              cursor: 'pointer', textAlign: 'left', fontFamily: 'Arial, sans-serif',
+            }}>
               <div style={{
-                width: 32, height: 32, borderRadius: 8, flexShrink: 0,
-                background: '#e8f4fb',
+                width: 32, height: 32, borderRadius: 8, flexShrink: 0, background: '#e8f4fb',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0099cc" strokeWidth="2">
@@ -349,16 +312,14 @@ export function ChatClient({
             </button>
           ))}
           <div style={{ padding: '6px 14px', background: '#fafbfc', borderTop: '1px solid #f0f4f8' }}>
-            <span style={{ fontSize: 10, color: '#c8d4e8', fontFamily: 'Arial, sans-serif' }}>↑↓ navigieren · Enter einfügen · Esc schließen</span>
+            <span style={{ fontSize: 10, color: '#c8d4e8' }}>↑↓ navigieren · Enter einfügen · Esc schließen</span>
           </div>
         </div>
       )}
 
-      {/* ── Eingabe ── */}
+      {/* Eingabe */}
       <div style={{ padding: '8px 16px 16px', background: 'white', borderTop: '1px solid #eef1f6' }}>
-        {error && (
-          <p style={{ margin: '0 0 6px', fontSize: 12, color: '#E74C3C' }}>{error}</p>
-        )}
+        {error && <p style={{ margin: '0 0 6px', fontSize: 12, color: '#E74C3C' }}>{error}</p>}
         <div style={{
           display: 'flex', gap: 8, alignItems: 'flex-end',
           background: '#f4f7fb', borderRadius: 16,
@@ -374,8 +335,7 @@ export function ChatClient({
             style={{
               flex: 1, background: 'transparent', border: 'none', outline: 'none',
               fontSize: 14, fontFamily: 'Arial, sans-serif', color: '#000',
-              resize: 'none', lineHeight: 1.5, maxHeight: 120, overflowY: 'auto',
-              paddingTop: 2,
+              resize: 'none', lineHeight: 1.5, maxHeight: 120, overflowY: 'auto', paddingTop: 2,
             }}
             onInput={e => {
               const el = e.currentTarget

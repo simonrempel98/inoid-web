@@ -8,7 +8,7 @@ import { createClient } from '@/lib/supabase/client'
 import { updateMember, removeMember, addMemberWithPassword, setMemberRole } from '../../actions'
 import {
   Users, MapPin, Pencil, X, Check, Trash2,
-  UserPlus, KeyRound, Loader, Shield
+  UserPlus, KeyRound, Loader, MessageSquare,
 } from 'lucide-react'
 import { ROLE_COLORS, ROLE_BG, type AppRole } from '@/lib/permissions'
 
@@ -55,11 +55,12 @@ function initials(m: Member) {
   return m.email[0].toUpperCase()
 }
 
-export function TeamDetail({ team, members, locations, halls, areas, roles, organizationId, currentUserRole }: {
+export function TeamDetail({ team, members, locations, halls, areas, roles, organizationId, currentUserRole, showChat }: {
   team: Team; members: Member[]
   locations: Location[]; halls: Hall[]; areas: Area[]; roles: Role[]
   organizationId: string
   currentUserRole: AppRole
+  showChat?: boolean
 }) {
   const t = useTranslations('teams')
   const tRoles = useTranslations('roles')
@@ -386,6 +387,16 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
             <p style={{ color: '#aaa', fontSize: 14, margin: '0 0 4px', fontWeight: 600 }}>{t('noMembers')}</p>
             <p style={{ color: '#c0ccda', fontSize: 12, margin: 0 }}>{t('inviteFirst')}</p>
           </div>
+        )}
+
+        {showChat && (
+          <Link href={`/teams/team/${team.id}/chat`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#e8f4fb', borderRadius: 14, border: '1px solid #b3d9f0', padding: '14px 16px', textDecoration: 'none', color: '#000', marginTop: 8 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <MessageSquare size={16} color="#0099cc" />
+              <span style={{ fontSize: 15, fontWeight: 600, color: '#0099cc' }}>Team-Chat</span>
+            </div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0099cc" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </Link>
         )}
 
         <Link href="/settings/roles" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '14px 16px', textDecoration: 'none', color: '#000', marginTop: 8 }}>
