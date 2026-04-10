@@ -105,31 +105,31 @@ export default async function AdminSystemPage() {
   // ── Render ──────────────────────────────────────────────────────────────────
 
   const SectionTitle = ({ children }: { children: React.ReactNode }) => (
-    <h2 style={{ fontSize: 12, fontWeight: 700, color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 12px' }}>
+    <h2 style={{ fontSize: 12, fontWeight: 700, color: 'var(--adm-text4)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 12px' }}>
       {children}
     </h2>
   )
 
   const statRow = (label: string, value: number | null, sub?: string, alert = false) => (
     <div style={{
-      background: '#111827', borderRadius: 10, padding: '16px 18px',
-      border: `1px solid ${alert && (value ?? 0) > 0 ? '#451a03' : '#1f2937'}`,
+      background: 'var(--adm-surface)', borderRadius: 10, padding: '16px 18px',
+      border: `1px solid ${alert && (value ?? 0) > 0 ? '#451a03' : 'var(--adm-border)'}`,
     }}>
-      <p style={{ margin: '0 0 4px', fontSize: 11, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>
+      <p style={{ margin: '0 0 4px', fontSize: 11, color: 'var(--adm-text3)', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 700 }}>
         {label}
       </p>
-      <p style={{ margin: 0, fontSize: 28, fontWeight: 900, color: alert && (value ?? 0) > 0 ? '#f59e0b' : 'white', lineHeight: 1 }}>
+      <p style={{ margin: 0, fontSize: 28, fontWeight: 900, color: alert && (value ?? 0) > 0 ? '#f59e0b' : 'var(--adm-text)', lineHeight: 1 }}>
         {value ?? 0}
       </p>
-      {sub && <p style={{ margin: '4px 0 0', fontSize: 11, color: '#4b5563' }}>{sub}</p>}
+      {sub && <p style={{ margin: '4px 0 0', fontSize: 11, color: 'var(--adm-text4)' }}>{sub}</p>}
     </div>
   )
 
   return (
     <div>
       <div style={{ marginBottom: 28 }}>
-        <h1 style={{ fontSize: 22, fontWeight: 900, color: 'white', margin: '0 0 4px' }}>System-Status</h1>
-        <p style={{ fontSize: 13, color: '#6b7280', margin: 0 }}>
+        <h1 style={{ fontSize: 22, fontWeight: 900, color: 'var(--adm-text)', margin: '0 0 4px' }}>System-Status</h1>
+        <p style={{ fontSize: 13, color: 'var(--adm-text3)', margin: 0 }}>
           Stand: {new Date().toLocaleString('de-DE')}
         </p>
       </div>
@@ -142,7 +142,7 @@ export default async function AdminSystemPage() {
         {(() => {
           const s = statusColor(supabaseStatus?.status.indicator ?? 'unknown')
           return (
-            <div style={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 14, padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div style={{ background: 'var(--adm-surface)', border: '1px solid var(--adm-border)', borderRadius: 14, padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 14 }}>
               <div style={{ width: 42, height: 42, borderRadius: 10, background: s.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <svg width="22" height="22" viewBox="0 0 109 113" fill="none">
                   <path d="M63.7076 110.284C60.8481 113.885 55.0502 111.912 54.9813 107.314L53.9738 40.0627L99.1935 40.0627C107.384 40.0627 111.952 49.5228 106.859 55.9374L63.7076 110.284Z" fill="#3ecf8e"/>
@@ -152,7 +152,7 @@ export default async function AdminSystemPage() {
                 </svg>
               </div>
               <div style={{ flex: 1 }}>
-                <p style={{ margin: '0 0 4px', fontSize: 14, fontWeight: 700, color: 'white' }}>Supabase</p>
+                <p style={{ margin: '0 0 4px', fontSize: 14, fontWeight: 700, color: 'var(--adm-text)' }}>Supabase</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <div style={{ width: 8, height: 8, borderRadius: '50%', background: s.dot }} />
                   <span style={{ fontSize: 12, color: s.text, fontWeight: 600 }}>
@@ -160,7 +160,7 @@ export default async function AdminSystemPage() {
                   </span>
                 </div>
               </div>
-              <a href="https://status.supabase.com" target="_blank" rel="noreferrer" style={{ fontSize: 11, color: '#4b5563', textDecoration: 'none' }}>status.supabase.com →</a>
+              <a href="https://status.supabase.com" target="_blank" rel="noreferrer" style={{ fontSize: 11, color: 'var(--adm-text4)', textDecoration: 'none' }}>status.supabase.com →</a>
             </div>
           )
         })()}
@@ -169,14 +169,14 @@ export default async function AdminSystemPage() {
         {(() => {
           const s = statusColor(vercelStatus?.status.indicator ?? 'unknown')
           return (
-            <div style={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 14, padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div style={{ background: 'var(--adm-surface)', border: '1px solid var(--adm-border)', borderRadius: 14, padding: '18px 20px', display: 'flex', alignItems: 'center', gap: 14 }}>
               <div style={{ width: 42, height: 42, borderRadius: 10, background: s.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                 <svg width="22" height="22" viewBox="0 0 76 65" fill="white">
                   <path d="M37.5274 0L75.0548 65H0L37.5274 0Z"/>
                 </svg>
               </div>
               <div style={{ flex: 1 }}>
-                <p style={{ margin: '0 0 4px', fontSize: 14, fontWeight: 700, color: 'white' }}>Vercel</p>
+                <p style={{ margin: '0 0 4px', fontSize: 14, fontWeight: 700, color: 'var(--adm-text)' }}>Vercel</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                   <div style={{ width: 8, height: 8, borderRadius: '50%', background: s.dot }} />
                   <span style={{ fontSize: 12, color: s.text, fontWeight: 600 }}>
@@ -184,7 +184,7 @@ export default async function AdminSystemPage() {
                   </span>
                 </div>
               </div>
-              <a href="https://www.vercel-status.com" target="_blank" rel="noreferrer" style={{ fontSize: 11, color: '#4b5563', textDecoration: 'none' }}>vercel-status.com →</a>
+              <a href="https://www.vercel-status.com" target="_blank" rel="noreferrer" style={{ fontSize: 11, color: 'var(--adm-text4)', textDecoration: 'none' }}>vercel-status.com →</a>
             </div>
           )
         })()}
@@ -192,11 +192,11 @@ export default async function AdminSystemPage() {
 
       {/* ── Aktives Deployment ─────────────────────────────────────────────── */}
       <SectionTitle>Aktives Deployment</SectionTitle>
-      <div style={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 14, padding: '20px', marginBottom: 32 }}>
+      <div style={{ background: 'var(--adm-surface)', border: '1px solid var(--adm-border)', borderRadius: 14, padding: '20px', marginBottom: 32 }}>
         {isVercel ? (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
             <div>
-              <p style={{ margin: '0 0 4px', fontSize: 11, color: '#4b5563', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Umgebung</p>
+              <p style={{ margin: '0 0 4px', fontSize: 11, color: 'var(--adm-text4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Umgebung</p>
               <span style={{
                 fontSize: 12, fontWeight: 700, padding: '3px 10px', borderRadius: 20,
                 background: deployment.env === 'production' ? '#052e16' : '#1e3a5f',
@@ -206,11 +206,11 @@ export default async function AdminSystemPage() {
               </span>
             </div>
             <div>
-              <p style={{ margin: '0 0 4px', fontSize: 11, color: '#4b5563', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Branch</p>
-              <p style={{ margin: 0, fontSize: 13, color: '#9ca3af', fontFamily: 'monospace' }}>{deployment.branch ?? '–'}</p>
+              <p style={{ margin: '0 0 4px', fontSize: 11, color: 'var(--adm-text4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Branch</p>
+              <p style={{ margin: 0, fontSize: 13, color: 'var(--adm-text2)', fontFamily: 'monospace' }}>{deployment.branch ?? '–'}</p>
             </div>
             <div>
-              <p style={{ margin: '0 0 4px', fontSize: 11, color: '#4b5563', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Deployment-URL</p>
+              <p style={{ margin: '0 0 4px', fontSize: 11, color: 'var(--adm-text4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Deployment-URL</p>
               {deployment.url ? (
                 <a href={`https://${deployment.url}`} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: '#0099cc', fontFamily: 'monospace', wordBreak: 'break-all' }}>
                   {deployment.url}
@@ -218,14 +218,14 @@ export default async function AdminSystemPage() {
               ) : <p style={{ margin: 0, fontSize: 12, color: '#4b5563' }}>–</p>}
             </div>
             <div style={{ gridColumn: 'span 2' }}>
-              <p style={{ margin: '0 0 4px', fontSize: 11, color: '#4b5563', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Commit</p>
-              <p style={{ margin: '0 0 4px', fontSize: 13, color: 'white', fontWeight: 600 }}>{deployment.message ?? '–'}</p>
-              <p style={{ margin: 0, fontSize: 11, color: '#6b7280' }}>
+              <p style={{ margin: '0 0 4px', fontSize: 11, color: 'var(--adm-text4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Commit</p>
+              <p style={{ margin: '0 0 4px', fontSize: 13, color: 'var(--adm-text)', fontWeight: 600 }}>{deployment.message ?? '–'}</p>
+              <p style={{ margin: 0, fontSize: 11, color: 'var(--adm-text3)' }}>
                 {deployment.author ?? ''}{deployment.sha ? ` · ${deployment.sha.slice(0, 8)}` : ''}
               </p>
             </div>
             <div>
-              <p style={{ margin: '0 0 4px', fontSize: 11, color: '#4b5563', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Deployment-ID</p>
+              <p style={{ margin: '0 0 4px', fontSize: 11, color: 'var(--adm-text4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Deployment-ID</p>
               <p style={{ margin: 0, fontSize: 11, color: '#6b7280', fontFamily: 'monospace', wordBreak: 'break-all' }}>{deployment.id ?? '–'}</p>
             </div>
           </div>
@@ -259,9 +259,9 @@ export default async function AdminSystemPage() {
       <SectionTitle>Speicherverbrauch (Supabase Storage)</SectionTitle>
       {bucketStats && bucketStats.length > 0 ? (
         <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden', marginBottom: 32 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', padding: '10px 20px', borderBottom: '1px solid #1f2937' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', padding: '10px 20px', borderBottom: '1px solid var(--adm-border)' }}>
             {['Bucket', 'Dateien', 'Speicher'].map(h => (
-              <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>
+              <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: 'var(--adm-text4)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>
             ))}
           </div>
           {bucketStats.map((b, i) => (
@@ -275,8 +275,8 @@ export default async function AdminSystemPage() {
               <p style={{ margin: 0, fontSize: 13, color: '#60a5fa', fontWeight: 700 }}>{formatBytes(b.total_bytes ?? 0)}</p>
             </div>
           ))}
-          <div style={{ padding: '12px 20px', borderTop: '2px solid #1f2937', display: 'grid', gridTemplateColumns: '2fr 1fr 1fr' }}>
-            <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase' }}>Gesamt</p>
+          <div style={{ padding: '12px 20px', borderTop: '2px solid var(--adm-border)', display: 'grid', gridTemplateColumns: '2fr 1fr 1fr' }}>
+            <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: 'var(--adm-text3)', textTransform: 'uppercase' }}>Gesamt</p>
             <p style={{ margin: 0, fontSize: 13, color: '#9ca3af' }}>
               {bucketStats.reduce((s, b) => s + (b.file_count ?? 0), 0).toLocaleString('de-DE')}
             </p>
@@ -284,8 +284,8 @@ export default async function AdminSystemPage() {
           </div>
         </div>
       ) : (
-        <div style={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 14, padding: '20px', marginBottom: 32 }}>
-          <p style={{ margin: 0, fontSize: 13, color: '#6b7280' }}>
+        <div style={{ background: 'var(--adm-surface)', border: '1px solid var(--adm-border)', borderRadius: 14, padding: '20px', marginBottom: 32 }}>
+          <p style={{ margin: 0, fontSize: 13, color: 'var(--adm-text3)' }}>
             Keine Daten — bitte Migration 016 im Supabase SQL-Editor ausführen, um die Statistik-Funktionen anzulegen.
           </p>
         </div>
@@ -330,9 +330,9 @@ export default async function AdminSystemPage() {
       {orgStorage && orgStorage.length > 0 ? (
         <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden', marginBottom: 32 }}>
           {/* Header */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1.6fr 110px', padding: '10px 20px', borderBottom: '1px solid #1f2937' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1.6fr 110px', padding: '10px 20px', borderBottom: '1px solid var(--adm-border)' }}>
             {['Organisation', 'Bilder', 'Dokumente', 'Service', 'Speicher-Aufschlüsselung', ''].map(h => (
-              <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>
+              <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: 'var(--adm-text4)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>
             ))}
           </div>
           {orgStorage.map((row, i) => {
@@ -346,8 +346,8 @@ export default async function AdminSystemPage() {
               }}>
                 {/* Org */}
                 <div>
-                  <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: 'white' }}>{row.organization_name}</p>
-                  <p style={{ margin: '2px 0 0', fontSize: 11, color: '#4b5563', fontFamily: 'monospace' }}>{row.org_slug}</p>
+                  <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: 'var(--adm-text)' }}>{row.organization_name}</p>
+                  <p style={{ margin: '2px 0 0', fontSize: 11, color: 'var(--adm-text4)', fontFamily: 'monospace' }}>{row.org_slug}</p>
                 </div>
                 {/* Bilder */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
@@ -413,8 +413,8 @@ export default async function AdminSystemPage() {
           })}
         </div>
       ) : (
-        <div style={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 14, padding: '20px', marginBottom: 32 }}>
-          <p style={{ margin: 0, fontSize: 13, color: '#6b7280' }}>Keine Organisationen vorhanden.</p>
+        <div style={{ background: 'var(--adm-surface)', border: '1px solid var(--adm-border)', borderRadius: 14, padding: '20px', marginBottom: 32 }}>
+          <p style={{ margin: 0, fontSize: 13, color: 'var(--adm-text3)' }}>Keine Organisationen vorhanden.</p>
         </div>
       )}
 
@@ -436,22 +436,22 @@ export default async function AdminSystemPage() {
       {/* ── Admin-Audit-Log ─────────────────────────────────────────────────── */}
       <SectionTitle>Admin-Audit-Log (letzte 20)</SectionTitle>
       <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', padding: '10px 20px', borderBottom: '1px solid #1f2937' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', padding: '10px 20px', borderBottom: '1px solid var(--adm-border)' }}>
           {['Aktion', 'Ziel', 'Zeit'].map(h => (
-            <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>
+            <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: 'var(--adm-text4)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>
           ))}
         </div>
         {(recentLogs ?? []).map((log, i) => (
-          <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', padding: '10px 20px', borderBottom: '1px solid #1f2937' }}>
-            <p style={{ margin: 0, fontSize: 13, color: 'white', fontWeight: 600 }}>{log.action}</p>
-            <p style={{ margin: 0, fontSize: 12, color: '#9ca3af' }}>{log.target_type ?? '–'}</p>
-            <p style={{ margin: 0, fontSize: 11, color: '#6b7280' }}>
+          <div key={i} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', padding: '10px 20px', borderBottom: '1px solid var(--adm-border)' }}>
+            <p style={{ margin: 0, fontSize: 13, color: 'var(--adm-text)', fontWeight: 600 }}>{log.action}</p>
+            <p style={{ margin: 0, fontSize: 12, color: 'var(--adm-text2)' }}>{log.target_type ?? '–'}</p>
+            <p style={{ margin: 0, fontSize: 11, color: 'var(--adm-text3)' }}>
               {new Date(log.created_at).toLocaleString('de-DE', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' })}
             </p>
           </div>
         ))}
         {(recentLogs ?? []).length === 0 && (
-          <p style={{ padding: '20px', color: '#6b7280', fontSize: 13, textAlign: 'center', margin: 0 }}>
+          <p style={{ padding: '20px', color: 'var(--adm-text3)', fontSize: 13, textAlign: 'center', margin: 0 }}>
             Keine Logs vorhanden
           </p>
         )}

@@ -57,18 +57,18 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 28 }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-            <Link href="/admin/orgs" style={{ color: '#6b7280', fontSize: 13, textDecoration: 'none' }}>
+            <Link href="/admin/orgs" style={{ color: 'var(--adm-text3)', fontSize: 13, textDecoration: 'none' }}>
               ← Organisationen
             </Link>
           </div>
-          <h1 style={{ fontSize: 22, fontWeight: 900, color: 'white', margin: '0 0 4px' }}>{org.name}</h1>
-          <p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>Slug: {org.slug}</p>
+          <h1 style={{ fontSize: 22, fontWeight: 900, color: 'var(--adm-text)', margin: '0 0 4px' }}>{org.name}</h1>
+          <p style={{ fontSize: 12, color: 'var(--adm-text3)', margin: 0 }}>Slug: {org.slug}</p>
         </div>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
           <a href={`/admin/view/${id}`} style={{
-            background: '#374151', color: '#d1d5db',
+            background: 'var(--adm-border2)', color: 'var(--adm-text5)',
             padding: '10px 18px', borderRadius: 50, textDecoration: 'none',
-            fontSize: 13, fontWeight: 600, border: '1px solid #4b5563',
+            fontSize: 13, fontWeight: 600, border: '1px solid var(--adm-border2)',
           }}>
             Als Kunde ansehen →
           </a>
@@ -96,18 +96,18 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
 
         {/* Nutzer */}
         <div>
-          <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden', marginBottom: 20 }}>
-            <div style={{ padding: '16px 20px', borderBottom: '1px solid #1f2937', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ fontSize: 14, fontWeight: 700, color: 'white', margin: 0 }}>Nutzer ({(members ?? []).length})</h2>
+          <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden', marginBottom: 20 }}>
+            <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--adm-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h2 style={{ fontSize: 14, fontWeight: 700, color: 'var(--adm-text)', margin: 0 }}>Nutzer ({(members ?? []).length})</h2>
               <Link href={`/admin/orgs/${id}/nutzer-anlegen`} style={{ fontSize: 12, color: '#0099cc', textDecoration: 'none' }}>+ Anlegen</Link>
             </div>
             {(members ?? []).map(m => {
               const p = m.user_id ? profileMap[m.user_id] : null
               return (
-                <div key={m.id} style={{ padding: '12px 20px', borderBottom: '1px solid #1f2937', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div key={m.id} style={{ padding: '12px 20px', borderBottom: '1px solid var(--adm-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div>
-                    <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'white' }}>{p?.full_name ?? m.email}</p>
-                    <p style={{ margin: 0, fontSize: 11, color: '#6b7280' }}>{m.email}</p>
+                    <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'var(--adm-text)' }}>{p?.full_name ?? m.email}</p>
+                    <p style={{ margin: 0, fontSize: 11, color: 'var(--adm-text3)' }}>{m.email}</p>
                     {p?.must_change_password && (
                       <span style={{ fontSize: 10, background: '#451a03', color: '#f59e0b', padding: '1px 6px', borderRadius: 4, fontWeight: 700 }}>
                         PW-Änderung ausstehend
@@ -119,7 +119,7 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
                       const role = p?.app_role ?? null
                       const r = role ? ROLE_LABELS[role] : null
                       return (
-                        <span style={{ fontSize: 11, fontWeight: 700, color: r?.color ?? '#6b7280' }}>
+                        <span style={{ fontSize: 11, fontWeight: 700, color: r?.color ?? 'var(--adm-text3)' }}>
                           {r?.label ?? '–'}
                         </span>
                       )
@@ -134,24 +134,24 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
               )
             })}
             {(members ?? []).length === 0 && (
-              <p style={{ padding: '20px', color: '#6b7280', fontSize: 13, textAlign: 'center', margin: 0 }}>Keine Nutzer</p>
+              <p style={{ padding: '20px', color: 'var(--adm-text3)', fontSize: 13, textAlign: 'center', margin: 0 }}>Keine Nutzer</p>
             )}
           </div>
 
           {/* Assets */}
-          <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden' }}>
-            <div style={{ padding: '16px 20px', borderBottom: '1px solid #1f2937', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <h2 style={{ fontSize: 14, fontWeight: 700, color: 'white', margin: 0 }}>Letzte Assets ({(assets ?? []).length})</h2>
+          <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden' }}>
+            <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--adm-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h2 style={{ fontSize: 14, fontWeight: 700, color: 'var(--adm-text)', margin: 0 }}>Letzte Assets ({(assets ?? []).length})</h2>
               <Link href={`/admin/orgs/${id}/assets/neu`} style={{ fontSize: 12, color: '#0099cc', textDecoration: 'none' }}>+ Asset anlegen</Link>
             </div>
             {(assets ?? []).map(a => (
-              <div key={a.id} style={{ padding: '10px 20px', borderBottom: '1px solid #1f2937', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <p style={{ margin: 0, fontSize: 13, color: 'white' }}>{a.title}</p>
-                <span style={{ fontSize: 11, color: '#6b7280' }}>{a.status}</span>
+              <div key={a.id} style={{ padding: '10px 20px', borderBottom: '1px solid var(--adm-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <p style={{ margin: 0, fontSize: 13, color: 'var(--adm-text)' }}>{a.title}</p>
+                <span style={{ fontSize: 11, color: 'var(--adm-text3)' }}>{a.status}</span>
               </div>
             ))}
             {(assets ?? []).length === 0 && (
-              <p style={{ padding: '20px', color: '#6b7280', fontSize: 13, textAlign: 'center', margin: 0 }}>Keine Assets</p>
+              <p style={{ padding: '20px', color: 'var(--adm-text3)', fontSize: 13, textAlign: 'center', margin: 0 }}>Keine Assets</p>
             )}
           </div>
         </div>

@@ -35,7 +35,7 @@ export function StorageNukeButton() {
         onClick={() => setShowPin(true)}
         disabled={loading}
         style={{
-          background: loading ? '#374151' : 'transparent',
+          background: loading ? 'var(--adm-border2)' : 'transparent',
           color: '#ef4444',
           padding: '10px 18px', borderRadius: 50,
           border: '1px solid #ef4444',

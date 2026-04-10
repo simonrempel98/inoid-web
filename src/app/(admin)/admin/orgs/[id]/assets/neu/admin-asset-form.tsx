@@ -38,21 +38,21 @@ type DocEntry = { file: File; name: string }
 
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '9px 12px', borderRadius: 8,
-  border: '1px solid #374151', background: '#0a0f1e', color: 'white',
+  border: '1px solid var(--adm-border2)', background: 'var(--adm-input-bg)', color: 'var(--adm-text)',
   fontSize: 13, fontFamily: 'Arial, sans-serif', outline: 'none',
   boxSizing: 'border-box',
 }
 const labelStyle: React.CSSProperties = {
-  display: 'block', fontSize: 11, fontWeight: 700, color: '#6b7280',
+  display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--adm-text3)',
   marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em',
   fontFamily: 'Arial, sans-serif',
 }
 const sectionStyle: React.CSSProperties = {
-  background: '#111827', borderRadius: 14, border: '1px solid #1f2937',
+  background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)',
   padding: '20px', marginBottom: 16,
 }
 const sectionTitle: React.CSSProperties = {
-  fontSize: 13, fontWeight: 700, color: 'white', margin: '0 0 16px',
+  fontSize: 13, fontWeight: 700, color: 'var(--adm-text)', margin: '0 0 16px',
   fontFamily: 'Arial, sans-serif',
 }
 
@@ -253,7 +253,7 @@ export function AdminAssetForm({
       <select
         value={units[fieldKey] ?? ''}
         onChange={e => setUnits(u => ({ ...u, [fieldKey]: e.target.value }))}
-        style={{ ...inputStyle, width: 'auto', minWidth: 70, flexShrink: 0, color: units[fieldKey] ? 'white' : '#4b5563' }}
+        style={{ ...inputStyle, width: 'auto', minWidth: 70, flexShrink: 0, color: units[fieldKey] ? 'var(--adm-text)' : 'var(--adm-text4)' }}
       >
         <option value="">–</option>
         {UNIT_GROUPS.map(g => (
@@ -290,7 +290,7 @@ export function AdminAssetForm({
               style={{ ...inputStyle, flex: 1 }}
             />
             {renderUnitSelect(f.key, units, setUnits)}
-            <button type="button" onClick={() => setFields(fs => fs.filter((_, j) => j !== i))} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#4b5563', padding: 0, flexShrink: 0 }}>
+            <button type="button" onClick={() => setFields(fs => fs.filter((_, j) => j !== i))} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--adm-text4)', padding: 0, flexShrink: 0 }}>
               <X size={14} />
             </button>
           </div>
@@ -307,11 +307,11 @@ export function AdminAssetForm({
     return (
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, padding: '60px 20px', textAlign: 'center' }}>
         <CheckCircle2 size={48} color="#34d399" />
-        <h2 style={{ fontSize: 20, fontWeight: 800, color: 'white', margin: 0, fontFamily: 'Arial, sans-serif' }}>
+        <h2 style={{ fontSize: 20, fontWeight: 800, color: 'var(--adm-text)', margin: 0, fontFamily: 'Arial, sans-serif' }}>
           Asset erstellt
         </h2>
-        <p style={{ fontSize: 13, color: '#6b7280', margin: 0, fontFamily: 'Arial, sans-serif' }}>
-          Wurde in <span style={{ color: 'white', fontWeight: 600 }}>{orgName}</span> angelegt.
+        <p style={{ fontSize: 13, color: 'var(--adm-text3)', margin: 0, fontFamily: 'Arial, sans-serif' }}>
+          Wurde in <span style={{ color: 'var(--adm-text)', fontWeight: 600 }}>{orgName}</span> angelegt.
         </p>
         <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
           <a href={`/assets/${savedId}`} target="_blank" rel="noreferrer" style={{
@@ -321,8 +321,8 @@ export function AdminAssetForm({
             Asset ansehen ↗
           </a>
           <button onClick={() => router.push(`/admin/orgs/${orgId}`)} style={{
-            padding: '10px 22px', borderRadius: 50, border: '1px solid #374151', background: 'transparent',
-            color: '#9ca3af', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif',
+            padding: '10px 22px', borderRadius: 50, border: '1px solid var(--adm-border2)', background: 'transparent',
+            color: 'var(--adm-text2)', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif',
           }}>
             ← Zurück zur Org
           </button>
@@ -416,7 +416,7 @@ export function AdminAssetForm({
         <div>
           {/* Bilder */}
           <div style={sectionStyle}>
-            <p style={sectionTitle}>Bilder {compressing && <span style={{ fontSize: 11, color: '#6b7280', fontWeight: 400 }}>Komprimiert…</span>}</p>
+            <p style={sectionTitle}>Bilder {compressing && <span style={{ fontSize: 11, color: 'var(--adm-text3)', fontWeight: 400 }}>Komprimiert…</span>}</p>
             <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleImageSelect} style={{ display: 'none' }} />
             {imagePreviews.length > 0 && (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 6, marginBottom: 10 }}>
@@ -432,7 +432,7 @@ export function AdminAssetForm({
               </div>
             )}
             {imageFiles.length < 10 && (
-              <button type="button" onClick={() => fileInputRef.current?.click()} style={{ width: '100%', padding: '10px', borderRadius: 8, border: '1px dashed #374151', background: 'transparent', color: '#6b7280', fontSize: 12, cursor: 'pointer', fontFamily: 'Arial, sans-serif', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+              <button type="button" onClick={() => fileInputRef.current?.click()} style={{ width: '100%', padding: '10px', borderRadius: 8, border: '1px dashed var(--adm-border2)', background: 'transparent', color: 'var(--adm-text3)', fontSize: 12, cursor: 'pointer', fontFamily: 'Arial, sans-serif', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
                 <Upload size={13} /> Bilder hinzufügen (max. 10)
               </button>
             )}
@@ -446,14 +446,14 @@ export function AdminAssetForm({
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
                 <FileText size={14} color="#0099cc" style={{ flexShrink: 0 }} />
                 <input value={doc.name} onChange={e => setDocs(ds => ds.map((d, j) => j === i ? { ...d, name: e.target.value } : d))} style={{ ...inputStyle, flex: 1, padding: '6px 10px' }} placeholder="Dokumentname" />
-                <span style={{ fontSize: 10, color: '#4b5563', flexShrink: 0, fontFamily: 'Arial, sans-serif' }}>{formatBytes(doc.file.size)}</span>
-                <button type="button" onClick={() => setDocs(ds => ds.filter((_, j) => j !== i))} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#4b5563', padding: 0, flexShrink: 0 }}>
+                <span style={{ fontSize: 10, color: 'var(--adm-text4)', flexShrink: 0, fontFamily: 'Arial, sans-serif' }}>{formatBytes(doc.file.size)}</span>
+                <button type="button" onClick={() => setDocs(ds => ds.filter((_, j) => j !== i))} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--adm-text4)', padding: 0, flexShrink: 0 }}>
                   <Trash2 size={13} />
                 </button>
               </div>
             ))}
             {docError && <p style={{ color: '#f87171', fontSize: 11, margin: '0 0 8px', fontFamily: 'Arial, sans-serif' }}>{docError}</p>}
-            <button type="button" onClick={() => { setDocError(null); docInputRef.current?.click() }} style={{ width: '100%', padding: '10px', borderRadius: 8, border: '1px dashed #374151', background: 'transparent', color: '#6b7280', fontSize: 12, cursor: 'pointer', fontFamily: 'Arial, sans-serif', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+            <button type="button" onClick={() => { setDocError(null); docInputRef.current?.click() }} style={{ width: '100%', padding: '10px', borderRadius: 8, border: '1px dashed var(--adm-border2)', background: 'transparent', color: 'var(--adm-text3)', fontSize: 12, cursor: 'pointer', fontFamily: 'Arial, sans-serif', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
               <Upload size={13} /> Dokument hinzufügen (max. 10 MB)
             </button>
           </div>
@@ -462,8 +462,8 @@ export function AdminAssetForm({
           {error && <p style={{ color: '#f87171', fontSize: 12, marginBottom: 10, fontFamily: 'Arial, sans-serif', background: '#450a0a', padding: '10px 14px', borderRadius: 8 }}>{error}</p>}
           <button type="submit" disabled={loading || !title.trim()} style={{
             width: '100%', padding: '13px', borderRadius: 50,
-            background: loading || !title.trim() ? '#374151' : '#003366',
-            color: loading || !title.trim() ? '#6b7280' : 'white',
+            background: loading || !title.trim() ? 'var(--adm-border2)' : '#003366',
+            color: loading || !title.trim() ? 'var(--adm-text3)' : 'white',
             border: 'none', fontSize: 14, fontWeight: 700,
             cursor: loading || !title.trim() ? 'not-allowed' : 'pointer',
             fontFamily: 'Arial, sans-serif',

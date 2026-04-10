@@ -42,7 +42,7 @@ export default function AdminOrgNeuPage() {
     { label: 'Niedrig',   maxDim: 800,   quality: 65  },
   ]
   const DIM_OPTIONS = [null, 2560, 1920, 1440, 1280, 1024, 800]
-  const [compressionPreset, setCompressionPreset] = useState<number>(1) // Index in PRESETS (Hoch)
+  const [compressionPreset, setCompressionPreset] = useState<number>(1)
   const [imageMaxDim, setImageMaxDim] = useState<number | null>(1920)
   const [imageQuality, setImageQuality] = useState(90)
   const [customMode, setCustomMode] = useState(false)
@@ -110,16 +110,16 @@ export default function AdminOrgNeuPage() {
 
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '10px 12px', borderRadius: 8,
-    border: '1px solid #374151', background: '#0a0f1e', color: 'white',
+    border: '1px solid var(--adm-border2)', background: 'var(--adm-input-bg)', color: 'var(--adm-text)',
     fontSize: 14, fontFamily: 'Arial, sans-serif', outline: 'none',
     boxSizing: 'border-box',
   }
   const labelStyle: React.CSSProperties = {
-    display: 'block', fontSize: 11, fontWeight: 700, color: '#9ca3af',
+    display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--adm-text2)',
     marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em',
   }
   const sectionStyle: React.CSSProperties = {
-    background: '#111827', borderRadius: 14, border: '1px solid #1f2937',
+    background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)',
     padding: '20px', marginBottom: 16,
   }
 
@@ -131,18 +131,18 @@ export default function AdminOrgNeuPage() {
   }) => (
     <div style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-      padding: '12px 0', borderBottom: '1px solid #1f2937',
+      padding: '12px 0', borderBottom: '1px solid var(--adm-border)',
     }}>
       <div>
-        <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'white' }}>{label}</p>
-        <p style={{ margin: '2px 0 0', fontSize: 12, color: '#6b7280' }}>{description}</p>
+        <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--adm-text)' }}>{label}</p>
+        <p style={{ margin: '2px 0 0', fontSize: 12, color: 'var(--adm-text3)' }}>{description}</p>
       </div>
       <button
         type="button"
         onClick={() => onChange(!value)}
         style={{
           width: 48, height: 26, borderRadius: 13, border: 'none',
-          background: value ? '#0099cc' : '#374151',
+          background: value ? '#0099cc' : 'var(--adm-border2)',
           position: 'relative', cursor: 'pointer', flexShrink: 0,
           transition: 'background 0.2s',
         }}
@@ -159,14 +159,14 @@ export default function AdminOrgNeuPage() {
   return (
     <div style={{ maxWidth: 680 }}>
       <div style={{ marginBottom: 24 }}>
-        <h1 style={{ fontSize: 22, fontWeight: 900, color: 'white', margin: '0 0 4px' }}>Neue Organisation anlegen</h1>
-        <p style={{ fontSize: 13, color: '#6b7280', margin: 0 }}>Erstellt Org + ersten Admin-Nutzer mit Temp-Passwort</p>
+        <h1 style={{ fontSize: 22, fontWeight: 900, color: 'var(--adm-text)', margin: '0 0 4px' }}>Neue Organisation anlegen</h1>
+        <p style={{ fontSize: 13, color: 'var(--adm-text3)', margin: 0 }}>Erstellt Org + ersten Admin-Nutzer mit Temp-Passwort</p>
       </div>
 
       <form onSubmit={handleSubmit}>
         {/* Org Daten */}
         <div style={sectionStyle}>
-          <h2 style={{ fontSize: 13, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 16px' }}>
+          <h2 style={{ fontSize: 13, fontWeight: 700, color: 'var(--adm-text3)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 16px' }}>
             Organisation
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
@@ -243,10 +243,10 @@ export default function AdminOrgNeuPage() {
 
         {/* Features */}
         <div style={sectionStyle}>
-          <h2 style={{ fontSize: 13, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 4px' }}>
+          <h2 style={{ fontSize: 13, fontWeight: 700, color: 'var(--adm-text3)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 4px' }}>
             Features
           </h2>
-          <p style={{ fontSize: 12, color: '#4b5563', margin: '0 0 12px' }}>
+          <p style={{ fontSize: 12, color: 'var(--adm-text4)', margin: '0 0 12px' }}>
             Legt fest welche Funktionen dieser Organisation zur Verfügung stehen.
           </p>
           <ToggleRow
@@ -271,14 +271,13 @@ export default function AdminOrgNeuPage() {
 
         {/* Bildkomprimierung */}
         <div style={sectionStyle}>
-          <h2 style={{ fontSize: 13, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 4px' }}>
+          <h2 style={{ fontSize: 13, fontWeight: 700, color: 'var(--adm-text3)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 4px' }}>
             Bildkomprimierung
           </h2>
-          <p style={{ fontSize: 12, color: '#4b5563', margin: '0 0 14px' }}>
+          <p style={{ fontSize: 12, color: 'var(--adm-text4)', margin: '0 0 14px' }}>
             Legt fest wie Bilder beim Upload für diese Organisation komprimiert werden.
           </p>
 
-          {/* Preset-Buttons */}
           <div style={{ display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>
             {PRESETS.map((p, i) => (
               <button
@@ -287,9 +286,9 @@ export default function AdminOrgNeuPage() {
                 onClick={() => applyPreset(i)}
                 style={{
                   padding: '7px 16px', borderRadius: 50, fontSize: 12, fontWeight: 700,
-                  border: !customMode && compressionPreset === i ? '1.5px solid #0099cc' : '1.5px solid #374151',
-                  background: !customMode && compressionPreset === i ? '#0c2340' : 'transparent',
-                  color: !customMode && compressionPreset === i ? '#0099cc' : '#6b7280',
+                  border: !customMode && compressionPreset === i ? '1.5px solid #0099cc' : '1.5px solid var(--adm-border2)',
+                  background: !customMode && compressionPreset === i ? 'var(--adm-accent-bg)' : 'transparent',
+                  color: !customMode && compressionPreset === i ? '#0099cc' : 'var(--adm-text3)',
                   cursor: 'pointer', fontFamily: 'Arial, sans-serif',
                 }}
               >
@@ -301,9 +300,9 @@ export default function AdminOrgNeuPage() {
               onClick={() => { setCustomMode(true); setCompressionPreset(-1) }}
               style={{
                 padding: '7px 16px', borderRadius: 50, fontSize: 12, fontWeight: 700,
-                border: customMode ? '1.5px solid #0099cc' : '1.5px solid #374151',
-                background: customMode ? '#0c2340' : 'transparent',
-                color: customMode ? '#0099cc' : '#6b7280',
+                border: customMode ? '1.5px solid #0099cc' : '1.5px solid var(--adm-border2)',
+                background: customMode ? 'var(--adm-accent-bg)' : 'transparent',
+                color: customMode ? '#0099cc' : 'var(--adm-text3)',
                 cursor: 'pointer', fontFamily: 'Arial, sans-serif',
               }}
             >
@@ -338,7 +337,7 @@ export default function AdminOrgNeuPage() {
           )}
 
           {!customMode && (
-            <p style={{ fontSize: 12, color: '#4b5563', margin: 0 }}>
+            <p style={{ fontSize: 12, color: 'var(--adm-text4)', margin: 0 }}>
               {PRESETS[compressionPreset]?.maxDim
                 ? `Max. ${PRESETS[compressionPreset].maxDim} px · Qualität ${PRESETS[compressionPreset].quality}%`
                 : 'Keine Komprimierung – Bilder werden unverändert gespeichert'}
@@ -348,10 +347,10 @@ export default function AdminOrgNeuPage() {
 
         {/* Dateigröße */}
         <div style={sectionStyle}>
-          <h2 style={{ fontSize: 13, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 4px' }}>
+          <h2 style={{ fontSize: 13, fontWeight: 700, color: 'var(--adm-text3)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 4px' }}>
             Dokument-Uploads
           </h2>
-          <p style={{ fontSize: 12, color: '#4b5563', margin: '0 0 14px' }}>
+          <p style={{ fontSize: 12, color: 'var(--adm-text4)', margin: '0 0 14px' }}>
             Maximale Dateigröße für Dokument-Uploads dieser Organisation.
           </p>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
@@ -362,9 +361,9 @@ export default function AdminOrgNeuPage() {
                 onClick={() => setDocMaxSizeMb(opt.mb)}
                 style={{
                   padding: '7px 16px', borderRadius: 50, fontSize: 12, fontWeight: 700,
-                  border: docMaxSizeMb === opt.mb ? '1.5px solid #0099cc' : '1.5px solid #374151',
-                  background: docMaxSizeMb === opt.mb ? '#0c2340' : 'transparent',
-                  color: docMaxSizeMb === opt.mb ? '#0099cc' : '#6b7280',
+                  border: docMaxSizeMb === opt.mb ? '1.5px solid #0099cc' : '1.5px solid var(--adm-border2)',
+                  background: docMaxSizeMb === opt.mb ? 'var(--adm-accent-bg)' : 'transparent',
+                  color: docMaxSizeMb === opt.mb ? '#0099cc' : 'var(--adm-text3)',
                   cursor: 'pointer', fontFamily: 'Arial, sans-serif',
                 }}
               >
@@ -372,14 +371,14 @@ export default function AdminOrgNeuPage() {
               </button>
             ))}
           </div>
-          <p style={{ fontSize: 12, color: '#4b5563', margin: '10px 0 0' }}>
+          <p style={{ fontSize: 12, color: 'var(--adm-text4)', margin: '10px 0 0' }}>
             {docMaxSizeMb === 0 ? 'Keine Größenbeschränkung für Uploads.' : `Dateien größer als ${docMaxSizeMb} MB werden abgelehnt.`}
           </p>
         </div>
 
         {/* Erster Nutzer */}
         <div style={sectionStyle}>
-          <h2 style={{ fontSize: 13, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 16px' }}>
+          <h2 style={{ fontSize: 13, fontWeight: 700, color: 'var(--adm-text3)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 16px' }}>
             Erster Admin-Nutzer
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
@@ -412,7 +411,7 @@ export default function AdminOrgNeuPage() {
               required
               style={inputStyle}
             />
-            <p style={{ margin: '6px 0 0', fontSize: 11, color: '#6b7280' }}>
+            <p style={{ margin: '6px 0 0', fontSize: 11, color: 'var(--adm-text3)' }}>
               Nutzer wird als Superadmin angelegt und muss das Passwort beim ersten Login ändern.
             </p>
           </div>
@@ -427,7 +426,7 @@ export default function AdminOrgNeuPage() {
             type="submit"
             disabled={loading}
             style={{
-              background: loading ? '#374151' : '#003366', color: 'white',
+              background: loading ? 'var(--adm-border2)' : '#003366', color: 'white',
               padding: '12px 28px', borderRadius: 50, border: 'none',
               fontSize: 14, fontWeight: 700, cursor: loading ? 'default' : 'pointer',
               fontFamily: 'Arial, sans-serif',
@@ -439,8 +438,8 @@ export default function AdminOrgNeuPage() {
             type="button"
             onClick={() => router.back()}
             style={{
-              background: 'transparent', color: '#9ca3af',
-              padding: '12px 20px', borderRadius: 50, border: '1px solid #374151',
+              background: 'transparent', color: 'var(--adm-text2)',
+              padding: '12px 20px', borderRadius: 50, border: '1px solid var(--adm-border2)',
               fontSize: 14, fontWeight: 600, cursor: 'pointer',
               fontFamily: 'Arial, sans-serif',
             }}

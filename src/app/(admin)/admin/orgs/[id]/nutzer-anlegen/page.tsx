@@ -36,12 +36,12 @@ export default function OrgNutzerAnlegenPage({ params }: { params: Promise<{ id:
 
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '10px 12px', borderRadius: 8,
-    border: '1px solid #374151', background: '#0a0f1e', color: 'white',
+    border: '1px solid var(--adm-border2)', background: 'var(--adm-input-bg)', color: 'var(--adm-text)',
     fontSize: 14, fontFamily: 'Arial, sans-serif', outline: 'none',
     boxSizing: 'border-box',
   }
   const labelStyle: React.CSSProperties = {
-    display: 'block', fontSize: 11, fontWeight: 700, color: '#9ca3af',
+    display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--adm-text2)',
     marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em',
   }
   const ROLES = [
@@ -54,17 +54,17 @@ export default function OrgNutzerAnlegenPage({ params }: { params: Promise<{ id:
   return (
     <div style={{ maxWidth: 520 }}>
       <div style={{ marginBottom: 24 }}>
-        <Link href={`/admin/orgs/${orgId}`} style={{ color: '#6b7280', fontSize: 13, textDecoration: 'none' }}>
+        <Link href={`/admin/orgs/${orgId}`} style={{ color: 'var(--adm-text3)', fontSize: 13, textDecoration: 'none' }}>
           ← Zurück zur Organisation
         </Link>
-        <h1 style={{ fontSize: 22, fontWeight: 900, color: 'white', margin: '8px 0 4px' }}>Nutzer anlegen</h1>
-        <p style={{ fontSize: 13, color: '#6b7280', margin: 0 }}>
+        <h1 style={{ fontSize: 22, fontWeight: 900, color: 'var(--adm-text)', margin: '8px 0 4px' }}>Nutzer anlegen</h1>
+        <p style={{ fontSize: 13, color: 'var(--adm-text3)', margin: 0 }}>
           Neuer Nutzer wird dieser Organisation zugeordnet
         </p>
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', padding: '20px', marginBottom: 16 }}>
+        <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', padding: '20px', marginBottom: 16 }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
             <div>
               <label style={labelStyle}>E-Mail *</label>
@@ -91,7 +91,7 @@ export default function OrgNutzerAnlegenPage({ params }: { params: Promise<{ id:
               onChange={e => setTempPassword(e.target.value)}
               placeholder="Mindestens 8 Zeichen" required style={inputStyle}
             />
-            <p style={{ margin: '5px 0 0', fontSize: 11, color: '#4b5563' }}>
+            <p style={{ margin: '5px 0 0', fontSize: 11, color: 'var(--adm-text4)' }}>
               Nutzer muss es beim ersten Login ändern.
             </p>
           </div>
@@ -107,8 +107,8 @@ export default function OrgNutzerAnlegenPage({ params }: { params: Promise<{ id:
                     padding: '8px 16px', borderRadius: 8, border: 'none',
                     fontSize: 13, fontWeight: 700, cursor: 'pointer',
                     fontFamily: 'Arial, sans-serif',
-                    background: appRole === r.value ? r.bg : '#1f2937',
-                    color: appRole === r.value ? r.text : '#4b5563',
+                    background: appRole === r.value ? r.bg : 'var(--adm-border)',
+                    color: appRole === r.value ? r.text : 'var(--adm-text4)',
                     outline: appRole === r.value ? `2px solid ${r.text}` : 'none',
                     outlineOffset: 1,
                   }}
@@ -117,7 +117,7 @@ export default function OrgNutzerAnlegenPage({ params }: { params: Promise<{ id:
                 </button>
               ))}
             </div>
-            <p style={{ margin: '6px 0 0', fontSize: 11, color: '#4b5563' }}>
+            <p style={{ margin: '6px 0 0', fontSize: 11, color: 'var(--adm-text4)' }}>
               {ROLES.find(r => r.value === appRole)?.desc}
             </p>
           </div>
@@ -129,7 +129,7 @@ export default function OrgNutzerAnlegenPage({ params }: { params: Promise<{ id:
           <button
             type="submit" disabled={loading}
             style={{
-              background: loading ? '#374151' : '#003366', color: 'white',
+              background: loading ? 'var(--adm-border2)' : '#003366', color: 'white',
               padding: '12px 28px', borderRadius: 50, border: 'none',
               fontSize: 14, fontWeight: 700, cursor: loading ? 'default' : 'pointer',
               fontFamily: 'Arial, sans-serif',
@@ -140,8 +140,8 @@ export default function OrgNutzerAnlegenPage({ params }: { params: Promise<{ id:
           <button
             type="button" onClick={() => router.back()}
             style={{
-              background: 'transparent', color: '#9ca3af',
-              padding: '12px 20px', borderRadius: 50, border: '1px solid #374151',
+              background: 'transparent', color: 'var(--adm-text2)',
+              padding: '12px 20px', borderRadius: 50, border: '1px solid var(--adm-border2)',
               fontSize: 14, fontWeight: 600, cursor: 'pointer',
               fontFamily: 'Arial, sans-serif',
             }}

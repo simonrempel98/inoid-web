@@ -47,21 +47,21 @@ export function FeatureToggles({ orgId, features }: {
   }
 
   return (
-    <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden', marginTop: 20 }}>
-      <div style={{ padding: '14px 20px', borderBottom: '1px solid #1f2937' }}>
-        <h2 style={{ fontSize: 14, fontWeight: 700, color: 'white', margin: 0 }}>Features</h2>
+    <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden', marginTop: 20 }}>
+      <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--adm-border)' }}>
+        <h2 style={{ fontSize: 14, fontWeight: 700, color: 'var(--adm-text)', margin: 0 }}>Features</h2>
       </div>
       {FEATURES.map(f => {
         const enabled = current[f.key] !== false
         const isSaving = saving === f.key
         return (
           <div key={f.key} style={{
-            padding: '14px 20px', borderBottom: '1px solid #1f2937',
+            padding: '14px 20px', borderBottom: '1px solid var(--adm-border)',
             display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16,
           }}>
             <div>
-              <p style={{ margin: '0 0 2px', fontSize: 14, fontWeight: 600, color: 'white' }}>{f.label}</p>
-              <p style={{ margin: 0, fontSize: 12, color: '#6b7280' }}>{f.desc}</p>
+              <p style={{ margin: '0 0 2px', fontSize: 14, fontWeight: 600, color: 'var(--adm-text)' }}>{f.label}</p>
+              <p style={{ margin: 0, fontSize: 12, color: 'var(--adm-text3)' }}>{f.desc}</p>
             </div>
             <button
               type="button"
@@ -69,7 +69,7 @@ export function FeatureToggles({ orgId, features }: {
               onClick={() => toggle(f.key)}
               style={{
                 width: 48, height: 26, borderRadius: 13,
-                background: enabled ? '#0099cc' : '#374151',
+                background: enabled ? '#0099cc' : 'var(--adm-border2)',
                 border: 'none', cursor: isSaving ? 'default' : 'pointer',
                 position: 'relative', flexShrink: 0,
                 transition: 'background 0.2s',

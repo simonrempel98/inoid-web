@@ -51,17 +51,17 @@ export function OrgEditForm({ org }: { org: Org }) {
 
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '10px 12px', borderRadius: 8,
-    border: '1px solid #374151', background: '#0a0f1e', color: 'white',
+    border: '1px solid var(--adm-border2)', background: 'var(--adm-input-bg)', color: 'var(--adm-text)',
     fontSize: 14, fontFamily: 'Arial, sans-serif', outline: 'none', boxSizing: 'border-box',
   }
   const labelStyle: React.CSSProperties = {
-    display: 'block', fontSize: 11, fontWeight: 700, color: '#9ca3af',
+    display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--adm-text2)',
     marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em',
   }
 
   return (
-    <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', padding: '20px' }}>
-      <h2 style={{ fontSize: 14, fontWeight: 700, color: 'white', margin: '0 0 16px' }}>Organisation bearbeiten</h2>
+    <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', padding: '20px' }}>
+      <h2 style={{ fontSize: 14, fontWeight: 700, color: 'var(--adm-text)', margin: '0 0 16px' }}>Organisation bearbeiten</h2>
       <form onSubmit={handleSave}>
         <div style={{ marginBottom: 12 }}>
           <label style={labelStyle}>Name</label>
@@ -98,14 +98,14 @@ export function OrgEditForm({ org }: { org: Org }) {
         </div>
         <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center', gap: 10 }}>
           <input type="checkbox" id="isActive" checked={isActive} onChange={e => setIsActive(e.target.checked)} />
-          <label htmlFor="isActive" style={{ fontSize: 13, color: '#d1d5db', cursor: 'pointer' }}>Organisation aktiv</label>
+          <label htmlFor="isActive" style={{ fontSize: 13, color: 'var(--adm-text5)', cursor: 'pointer' }}>Organisation aktiv</label>
         </div>
 
         {error && <p style={{ color: '#f87171', fontSize: 13, marginBottom: 10 }}>{error}</p>}
         {success && <p style={{ color: '#34d399', fontSize: 13, marginBottom: 10 }}>Gespeichert ✓</p>}
 
         <button type="submit" disabled={loading} style={{
-          background: loading ? '#374151' : '#003366', color: 'white',
+          background: loading ? 'var(--adm-border2)' : '#003366', color: 'white',
           padding: '10px 24px', borderRadius: 50, border: 'none',
           fontSize: 13, fontWeight: 700, cursor: loading ? 'default' : 'pointer',
           fontFamily: 'Arial, sans-serif',

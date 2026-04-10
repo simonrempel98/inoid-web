@@ -41,7 +41,7 @@ export function PinSettings({ hasPin }: { hasPin: boolean }) {
 
   const pinInput = (label: string, value: string, onChange: (v: string) => void, placeholder = '••••') => (
     <div>
-      <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#9ca3af', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+      <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--adm-text2)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
         {label}
       </label>
       <input
@@ -53,7 +53,7 @@ export function PinSettings({ hasPin }: { hasPin: boolean }) {
         placeholder={placeholder}
         style={{
           width: 120, padding: '10px 14px', borderRadius: 8,
-          border: '1px solid #374151', background: '#0a0f1e', color: 'white',
+          border: '1px solid var(--adm-border2)', background: 'var(--adm-input-bg)', color: 'var(--adm-text)',
           fontSize: 20, fontFamily: 'monospace', outline: 'none',
           letterSpacing: '0.3em', boxSizing: 'border-box',
         }}
@@ -62,11 +62,11 @@ export function PinSettings({ hasPin }: { hasPin: boolean }) {
   )
 
   return (
-    <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', padding: '20px', marginTop: 24 }}>
+    <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', padding: '20px', marginTop: 24 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: mode === 'set' ? 20 : 0 }}>
         <div>
-          <p style={{ margin: '0 0 4px', fontSize: 14, fontWeight: 700, color: 'white' }}>Admin-PIN</p>
-          <p style={{ margin: 0, fontSize: 12, color: '#6b7280' }}>
+          <p style={{ margin: '0 0 4px', fontSize: 14, fontWeight: 700, color: 'var(--adm-text)' }}>Admin-PIN</p>
+          <p style={{ margin: 0, fontSize: 12, color: 'var(--adm-text3)' }}>
             {hasPin
               ? 'PIN ist gesetzt — wird für kritische Aktionen verlangt'
               : 'Noch kein PIN gesetzt — kritische Aktionen sind gesperrt bis ein PIN gesetzt wird'}
@@ -83,8 +83,8 @@ export function PinSettings({ hasPin }: { hasPin: boolean }) {
             <button
               onClick={() => setMode('set')}
               style={{
-                padding: '8px 16px', borderRadius: 50, border: '1px solid #374151',
-                background: 'transparent', color: '#9ca3af',
+                padding: '8px 16px', borderRadius: 50, border: '1px solid var(--adm-border2)',
+                background: 'transparent', color: 'var(--adm-text2)',
                 fontSize: 13, fontWeight: 600, cursor: 'pointer',
                 fontFamily: 'Arial, sans-serif',
               }}
@@ -110,7 +110,7 @@ export function PinSettings({ hasPin }: { hasPin: boolean }) {
               type="submit"
               disabled={loading}
               style={{
-                background: loading ? '#374151' : '#003366', color: 'white',
+                background: loading ? 'var(--adm-border2)' : '#003366', color: 'white',
                 padding: '10px 24px', borderRadius: 50, border: 'none',
                 fontSize: 13, fontWeight: 700, cursor: loading ? 'default' : 'pointer',
                 fontFamily: 'Arial, sans-serif',
@@ -122,8 +122,8 @@ export function PinSettings({ hasPin }: { hasPin: boolean }) {
               type="button"
               onClick={() => { setMode('idle'); setError(null); setCurrentPin(''); setNewPin(''); setConfirmPin('') }}
               style={{
-                background: 'transparent', color: '#6b7280',
-                padding: '10px 20px', borderRadius: 50, border: '1px solid #374151',
+                background: 'transparent', color: 'var(--adm-text3)',
+                padding: '10px 20px', borderRadius: 50, border: '1px solid var(--adm-border2)',
                 fontSize: 13, fontWeight: 600, cursor: 'pointer',
                 fontFamily: 'Arial, sans-serif',
               }}

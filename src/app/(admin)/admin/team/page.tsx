@@ -6,7 +6,6 @@ import { RevokeButton } from './revoke-button'
 import { PinSettings } from './pin-settings'
 
 export default async function AdminTeamPage() {
-  // Dreifache Absicherung: neben proxy.ts + admin layout nochmals prüfen
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
@@ -31,20 +30,18 @@ export default async function AdminTeamPage() {
 
   return (
     <div style={{ maxWidth: 760 }}>
-      {/* Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 28 }}>
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 900, color: 'white', margin: '0 0 4px' }}>Platform-Team</h1>
-          <p style={{ fontSize: 13, color: '#6b7280', margin: 0 }}>
+          <h1 style={{ fontSize: 22, fontWeight: 900, color: 'var(--adm-text)', margin: '0 0 4px' }}>Platform-Team</h1>
+          <p style={{ fontSize: 13, color: 'var(--adm-text3)', margin: 0 }}>
             Nutzer mit vollem Platform-Admin-Zugang — nur hier sichtbar und verwaltbar
           </p>
         </div>
         <AddTeamMemberForm />
       </div>
 
-      {/* Security-Hinweis */}
       <div style={{
-        background: '#0c1a2e', border: '1px solid #1e3a5f',
+        background: 'var(--adm-accent-bg)', border: '1px solid #1e3a5f',
         borderRadius: 12, padding: '14px 18px', marginBottom: 24,
         display: 'flex', gap: 12, alignItems: 'flex-start',
       }}>
@@ -58,7 +55,7 @@ export default async function AdminTeamPage() {
           <p style={{ margin: '0 0 2px', fontSize: 13, fontWeight: 700, color: '#93c5fd' }}>
             Geschützter Bereich
           </p>
-          <p style={{ margin: 0, fontSize: 12, color: '#6b7280', lineHeight: 1.5 }}>
+          <p style={{ margin: 0, fontSize: 12, color: 'var(--adm-text3)', lineHeight: 1.5 }}>
             Dieser Bereich ist dreifach gesichert. Kein Tenant-Nutzer kann ihn sehen oder erreichen,
             egal welche Rolle er innerhalb seiner Organisation hat.
             Nutzer hier haben Zugang zum gesamten Admin-Panel und zu allen Organisationen.
@@ -66,22 +63,21 @@ export default async function AdminTeamPage() {
         </div>
       </div>
 
-      {/* Team-Tabelle */}
-      <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1.5fr 1fr 1fr', padding: '10px 20px', borderBottom: '1px solid #1f2937' }}>
+      <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1.5fr 1fr 1fr', padding: '10px 20px', borderBottom: '1px solid var(--adm-border)' }}>
           {['Mitglied', 'Zuletzt aktiv', 'Status', 'Aktion'].map(h => (
-            <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>
+            <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: 'var(--adm-text4)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>
           ))}
         </div>
 
         {(teamMembers ?? []).map(m => (
           <div key={m.id} style={{
             display: 'grid', gridTemplateColumns: '2fr 1.5fr 1fr 1fr',
-            padding: '14px 20px', borderBottom: '1px solid #1f2937',
+            padding: '14px 20px', borderBottom: '1px solid var(--adm-border)',
             alignItems: 'center',
           }}>
             <div>
-              <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: 'white' }}>
+              <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: 'var(--adm-text)' }}>
                 {m.full_name ?? m.email}
                 {m.id === user.id && (
                   <span style={{
@@ -91,14 +87,14 @@ export default async function AdminTeamPage() {
                   }}>Du</span>
                 )}
               </p>
-              {m.full_name && <p style={{ margin: 0, fontSize: 11, color: '#6b7280' }}>{m.email}</p>}
+              {m.full_name && <p style={{ margin: 0, fontSize: 11, color: 'var(--adm-text3)' }}>{m.email}</p>}
               {m.must_change_password && (
                 <span style={{ fontSize: 10, background: '#451a03', color: '#f59e0b', padding: '1px 6px', borderRadius: 4, fontWeight: 700 }}>
                   PW ausstehend
                 </span>
               )}
             </div>
-            <p style={{ margin: 0, fontSize: 12, color: '#6b7280' }}>
+            <p style={{ margin: 0, fontSize: 12, color: 'var(--adm-text3)' }}>
               {m.last_seen_at ? new Date(m.last_seen_at).toLocaleString('de-DE', { day: '2-digit', month: '2-digit', year: '2-digit', hour: '2-digit', minute: '2-digit' }) : '–'}
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -115,18 +111,17 @@ export default async function AdminTeamPage() {
         ))}
 
         {(teamMembers ?? []).length === 0 && (
-          <p style={{ padding: '40px', color: '#6b7280', fontSize: 14, textAlign: 'center', margin: 0 }}>
+          <p style={{ padding: '40px', color: 'var(--adm-text3)', fontSize: 14, textAlign: 'center', margin: 0 }}>
             Keine Platform-Admins gefunden
           </p>
         )}
       </div>
 
-      <p style={{ marginTop: 16, fontSize: 12, color: '#374151' }}>
+      <p style={{ marginTop: 16, fontSize: 12, color: 'var(--adm-text4)' }}>
         Tipp: Nach dem Entziehen des Zugangs hat der Nutzer noch eine aktive Session bis zum nächsten Login.
         Um sofort zu sperren, den Nutzer zusätzlich über die Nutzerverwaltung deaktivieren.
       </p>
 
-      {/* PIN-Einstellungen */}
       <PinSettings hasPin={!!selfPinProfile?.admin_pin_hash} />
     </div>
   )

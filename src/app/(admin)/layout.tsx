@@ -1,5 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { AdminThemeProvider } from '@/components/admin-theme-provider'
+import { AdminThemeToggle } from '@/components/admin-theme-toggle'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -16,11 +18,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!profile?.is_platform_admin) redirect('/dashboard')
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0a0f1e', fontFamily: 'Arial, sans-serif' }}>
+    <AdminThemeProvider>
       {/* Admin Top Bar */}
       <div style={{
-        background: '#111827',
-        borderBottom: '1px solid #1f2937',
+        background: 'var(--adm-surface)',
+        borderBottom: '1px solid var(--adm-border)',
         padding: '0 24px',
         height: 56,
         display: 'flex',
@@ -31,7 +33,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         zIndex: 100,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-          <div style={{ fontSize: 18, fontWeight: 900, color: 'white', letterSpacing: 1 }}>
+          <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--adm-text)', letterSpacing: 1 }}>
             INO<span style={{ color: '#0099cc' }}>id</span>
             <span style={{
               marginLeft: 8, fontSize: 10, fontWeight: 700,
@@ -51,7 +53,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             ].map(item => (
               <a key={item.href} href={item.href} style={{
                 padding: '6px 14px', borderRadius: 8,
-                color: '#9ca3af', fontSize: 13, fontWeight: 600,
+                color: 'var(--adm-text2)', fontSize: 13, fontWeight: 600,
                 textDecoration: 'none',
               }}>
                 {item.label}
@@ -61,9 +63,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 12, color: '#6b7280' }}>
+          <span style={{ fontSize: 12, color: 'var(--adm-text3)' }}>
             {profile.email}
           </span>
+          <AdminThemeToggle />
           <a href="/dashboard" style={{
             fontSize: 12, color: '#0099cc', textDecoration: 'none', fontWeight: 600,
             padding: '5px 12px', border: '1px solid #0099cc', borderRadius: 6,
@@ -77,6 +80,6 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       <div style={{ padding: '24px' }}>
         {children}
       </div>
-    </div>
+    </AdminThemeProvider>
   )
 }

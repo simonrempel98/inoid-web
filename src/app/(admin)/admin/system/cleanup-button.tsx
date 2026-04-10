@@ -28,7 +28,7 @@ export function CleanupButton({ count }: { count: number }) {
       onClick={handleCleanup}
       disabled={loading}
       style={{
-        background: loading ? '#374151' : '#dc2626', color: 'white',
+        background: loading ? 'var(--adm-border2)' : '#dc2626', color: 'white',
         padding: '10px 18px', borderRadius: 50, border: 'none',
         fontSize: 13, fontWeight: 700, cursor: loading ? 'default' : 'pointer',
         fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap', flexShrink: 0,

@@ -48,11 +48,11 @@ export default async function AdminAssetNeuPage({ params }: { params: Promise<{ 
   return (
     <div>
       <div style={{ marginBottom: 24 }}>
-        <Link href={`/admin/orgs/${id}`} style={{ color: '#6b7280', fontSize: 13, textDecoration: 'none' }}>
+        <Link href={`/admin/orgs/${id}`} style={{ color: 'var(--adm-text3)', fontSize: 13, textDecoration: 'none' }}>
           ← {org.name}
         </Link>
-        <h1 style={{ fontSize: 20, fontWeight: 900, color: 'white', margin: '6px 0 2px' }}>Asset anlegen</h1>
-        <p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>Wird direkt in <span style={{ color: 'white' }}>{org.name}</span> erstellt</p>
+        <h1 style={{ fontSize: 20, fontWeight: 900, color: 'var(--adm-text)', margin: '6px 0 2px' }}>Asset anlegen</h1>
+        <p style={{ fontSize: 12, color: 'var(--adm-text3)', margin: 0 }}>Wird direkt in <span style={{ color: 'var(--adm-text)' }}>{org.name}</span> erstellt</p>
       </div>
 
       <AdminAssetForm

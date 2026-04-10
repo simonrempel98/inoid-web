@@ -40,24 +40,24 @@ export default async function AdminDashboardPage() {
 
   const kpiCard = (label: string, value: string | number, sub?: string, color = '#003366') => (
     <div style={{
-      background: '#111827', borderRadius: 14, padding: '20px 22px',
-      border: '1px solid #1f2937',
+      background: 'var(--adm-surface)', borderRadius: 14, padding: '20px 22px',
+      border: '1px solid var(--adm-border)',
     }}>
-      <p style={{ fontSize: 11, color: '#6b7280', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 8px' }}>
+      <p style={{ fontSize: 11, color: 'var(--adm-text3)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 8px' }}>
         {label}
       </p>
       <p style={{ fontSize: 32, fontWeight: 900, color, margin: '0 0 4px', lineHeight: 1 }}>
         {value}
       </p>
-      {sub && <p style={{ fontSize: 12, color: '#6b7280', margin: 0 }}>{sub}</p>}
+      {sub && <p style={{ fontSize: 12, color: 'var(--adm-text3)', margin: 0 }}>{sub}</p>}
     </div>
   )
 
   return (
     <div>
       <div style={{ marginBottom: 28 }}>
-        <h1 style={{ fontSize: 24, fontWeight: 900, color: 'white', margin: '0 0 4px' }}>Admin Dashboard</h1>
-        <p style={{ fontSize: 13, color: '#6b7280', margin: 0 }}>
+        <h1 style={{ fontSize: 24, fontWeight: 900, color: 'var(--adm-text)', margin: '0 0 4px' }}>Admin Dashboard</h1>
+        <p style={{ fontSize: 13, color: 'var(--adm-text3)', margin: 0 }}>
           Plattform-Übersicht — {new Date().toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' })}
         </p>
       </div>
@@ -81,9 +81,9 @@ export default async function AdminDashboardPage() {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
 
         {/* Neueste Organisationen */}
-        <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden' }}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid #1f2937', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h2 style={{ fontSize: 14, fontWeight: 700, color: 'white', margin: 0 }}>Neueste Organisationen</h2>
+        <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden' }}>
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--adm-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h2 style={{ fontSize: 14, fontWeight: 700, color: 'var(--adm-text)', margin: 0 }}>Neueste Organisationen</h2>
             <Link href="/admin/orgs" style={{ fontSize: 12, color: '#0099cc', textDecoration: 'none' }}>Alle →</Link>
           </div>
           <div>
@@ -91,11 +91,11 @@ export default async function AdminDashboardPage() {
               <Link key={org.id} href={`/admin/orgs/${org.id}`} style={{ textDecoration: 'none' }}>
                 <div style={{
                   padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  borderBottom: '1px solid #1f2937',
+                  borderBottom: '1px solid var(--adm-border)',
                 }}>
                   <div>
-                    <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'white' }}>{org.name}</p>
-                    <p style={{ margin: 0, fontSize: 11, color: '#6b7280' }}>
+                    <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--adm-text)' }}>{org.name}</p>
+                    <p style={{ margin: 0, fontSize: 11, color: 'var(--adm-text3)' }}>
                       {new Date(org.created_at).toLocaleDateString('de-DE')}
                     </p>
                   </div>
@@ -117,7 +117,7 @@ export default async function AdminDashboardPage() {
               </Link>
             ))}
             {(recentOrgs ?? []).length === 0 && (
-              <p style={{ padding: '20px', color: '#6b7280', fontSize: 13, textAlign: 'center', margin: 0 }}>
+              <p style={{ padding: '20px', color: 'var(--adm-text3)', fontSize: 13, textAlign: 'center', margin: 0 }}>
                 Keine Organisationen
               </p>
             )}
@@ -125,26 +125,26 @@ export default async function AdminDashboardPage() {
         </div>
 
         {/* Admin-Audit-Log */}
-        <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden' }}>
-          <div style={{ padding: '16px 20px', borderBottom: '1px solid #1f2937' }}>
-            <h2 style={{ fontSize: 14, fontWeight: 700, color: 'white', margin: 0 }}>Letzte Admin-Aktionen</h2>
+        <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden' }}>
+          <div style={{ padding: '16px 20px', borderBottom: '1px solid var(--adm-border)' }}>
+            <h2 style={{ fontSize: 14, fontWeight: 700, color: 'var(--adm-text)', margin: 0 }}>Letzte Admin-Aktionen</h2>
           </div>
           <div>
             {(recentActivity ?? []).length === 0 ? (
-              <p style={{ padding: '20px', color: '#6b7280', fontSize: 13, textAlign: 'center', margin: 0 }}>
+              <p style={{ padding: '20px', color: 'var(--adm-text3)', fontSize: 13, textAlign: 'center', margin: 0 }}>
                 Noch keine Aktionen
               </p>
             ) : (
               (recentActivity ?? []).map((log, i) => (
-                <div key={i} style={{ padding: '10px 20px', borderBottom: '1px solid #1f2937' }}>
+                <div key={i} style={{ padding: '10px 20px', borderBottom: '1px solid var(--adm-border)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <div>
-                      <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'white' }}>{log.action}</p>
+                      <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'var(--adm-text)' }}>{log.action}</p>
                       {log.details && (log.details as any).name && (
-                        <p style={{ margin: 0, fontSize: 11, color: '#6b7280' }}>{(log.details as any).name}</p>
+                        <p style={{ margin: 0, fontSize: 11, color: 'var(--adm-text3)' }}>{(log.details as any).name}</p>
                       )}
                     </div>
-                    <p style={{ margin: 0, fontSize: 11, color: '#4b5563' }}>
+                    <p style={{ margin: 0, fontSize: 11, color: 'var(--adm-text4)' }}>
                       {new Date(log.created_at).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
                     </p>
                   </div>

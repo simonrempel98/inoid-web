@@ -40,13 +40,12 @@ export function UserAdminActions({
   }
 
   return (
-    <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', padding: '20px' }}>
-      <h2 style={{ fontSize: 13, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 16px' }}>
+    <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', padding: '20px' }}>
+      <h2 style={{ fontSize: 13, fontWeight: 700, color: 'var(--adm-text3)', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 16px' }}>
         Admin-Aktionen
       </h2>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        {/* Passwort zurücksetzen */}
         <div style={{ display: 'flex', gap: 8 }}>
           <input
             value={newPassword}
@@ -54,7 +53,7 @@ export function UserAdminActions({
             placeholder="Neues Passwort (min. 8 Zeichen)"
             style={{
               flex: 1, padding: '10px 14px', borderRadius: 8,
-              border: '1px solid #374151', background: '#0a0f1e', color: 'white',
+              border: '1px solid var(--adm-border2)', background: 'var(--adm-input-bg)', color: 'var(--adm-text)',
               fontSize: 13, fontFamily: 'Arial, sans-serif', outline: 'none',
             }}
           />
@@ -70,18 +69,16 @@ export function UserAdminActions({
           </button>
         </div>
 
-        {/* must_change_password */}
         {!mustChangePassword && (
           <button
             onClick={() => action('force_pw_change')}
             disabled={!!loading}
-            style={{ ...btnBase, background: '#374151', color: '#d1d5db', alignSelf: 'flex-start' }}
+            style={{ ...btnBase, background: 'var(--adm-border2)', color: 'var(--adm-text5)', alignSelf: 'flex-start' }}
           >
             {loading === 'force_pw_change' ? '…' : 'PW-Änderung erzwingen'}
           </button>
         )}
 
-        {/* Sperren / Entsperren */}
         <button
           onClick={() => action(isActive ? 'deactivate' : 'activate')}
           disabled={!!loading}
@@ -96,8 +93,8 @@ export function UserAdminActions({
         </button>
       </div>
 
-      {error && <p style={{ color: '#f87171', fontSize: 13, marginTop: 12, margin: '12px 0 0' }}>{error}</p>}
-      {success && <p style={{ color: '#34d399', fontSize: 13, marginTop: 12, margin: '12px 0 0' }}>{success} ✓</p>}
+      {error && <p style={{ color: '#f87171', fontSize: 13, margin: '12px 0 0' }}>{error}</p>}
+      {success && <p style={{ color: '#34d399', fontSize: 13, margin: '12px 0 0' }}>{success} ✓</p>}
     </div>
   )
 }

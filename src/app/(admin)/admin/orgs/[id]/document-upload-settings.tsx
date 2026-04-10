@@ -43,33 +43,24 @@ export function DocumentUploadSettings({ orgId, settings }: {
     setTimeout(() => setSaved(false), 2000)
   }
 
-  const inputStyle: React.CSSProperties = {
-    width: '100%', padding: '8px 12px', borderRadius: 8,
-    border: '1px solid #374151', background: '#0a0f1e', color: 'white',
-    fontSize: 14, fontFamily: 'Arial, sans-serif', outline: 'none',
-    boxSizing: 'border-box',
-  }
-
   return (
-    <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden', marginTop: 16 }}>
-      <div style={{ padding: '14px 20px', borderBottom: '1px solid #1f2937' }}>
-        <h2 style={{ fontSize: 14, fontWeight: 700, color: 'white', margin: 0 }}>Dokument-Uploads</h2>
-        <p style={{ margin: '2px 0 0', fontSize: 12, color: '#6b7280' }}>
+    <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden', marginTop: 16 }}>
+      <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--adm-border)' }}>
+        <h2 style={{ fontSize: 14, fontWeight: 700, color: 'var(--adm-text)', margin: 0 }}>Dokument-Uploads</h2>
+        <p style={{ margin: '2px 0 0', fontSize: 12, color: 'var(--adm-text3)' }}>
           Maximale Dateigröße beim Upload für diese Organisation
         </p>
       </div>
 
       <div style={{ padding: '16px 20px' }}>
-        {/* PDF-Komprimierung Info */}
-        <div style={{ background: '#0c2340', border: '1px solid #1e3a5f', borderRadius: 10, padding: '12px 14px', marginBottom: 16 }}>
+        <div style={{ background: 'var(--adm-accent-bg)', border: '1px solid #1e3a5f', borderRadius: 10, padding: '12px 14px', marginBottom: 16 }}>
           <p style={{ margin: '0 0 3px', fontSize: 13, fontWeight: 700, color: '#60a5fa' }}>PDF-Komprimierung aktiv</p>
-          <p style={{ margin: 0, fontSize: 12, color: '#4b7099' }}>
+          <p style={{ margin: 0, fontSize: 12, color: 'var(--adm-text3)' }}>
             PDFs die größer als 1 MB sind werden beim Upload automatisch komprimiert (Textebene bleibt erhalten). Das gilt plattformweit für alle Organisationen.
           </p>
         </div>
 
-        {/* Max. Dateigröße */}
-        <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#9ca3af', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+        <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--adm-text2)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
           Max. Dateigröße (alle Dokument-Formate)
         </label>
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
@@ -82,8 +73,8 @@ export function DocumentUploadSettings({ orgId, settings }: {
                 padding: '7px 14px', borderRadius: 8, border: 'none',
                 cursor: 'pointer', fontFamily: 'Arial, sans-serif',
                 fontSize: 13, fontWeight: 700,
-                background: maxMb === opt.mb ? '#1e3a5f' : '#1f2937',
-                color:      maxMb === opt.mb ? '#60a5fa' : '#6b7280',
+                background: maxMb === opt.mb ? '#1e3a5f' : 'var(--adm-border)',
+                color:      maxMb === opt.mb ? '#60a5fa' : 'var(--adm-text3)',
                 outline:    maxMb === opt.mb ? '2px solid #60a5fa' : 'none',
                 outlineOffset: 1,
               }}
@@ -102,7 +93,7 @@ export function DocumentUploadSettings({ orgId, settings }: {
         {error && <p style={{ color: '#f87171', fontSize: 12, margin: '0 0 12px' }}>{error}</p>}
 
         <button type="button" onClick={save} disabled={saving} style={{
-          background: saving ? '#374151' : '#003366', color: 'white',
+          background: saving ? 'var(--adm-border2)' : '#003366', color: 'white',
           padding: '10px 24px', borderRadius: 50, border: 'none',
           fontSize: 13, fontWeight: 700, cursor: saving ? 'default' : 'pointer',
           fontFamily: 'Arial, sans-serif',

@@ -1,16 +1,16 @@
 // Admin-only · kein i18n · nur Deutsch
 export default function TechStackPage() {
   const S = {
-    page: { fontFamily: "'Courier New', monospace", color: '#e2e8f0', paddingBottom: 80 } as React.CSSProperties,
-    h1: { fontSize: 28, fontWeight: 900, color: 'white', margin: '0 0 6px', letterSpacing: '-0.02em' } as React.CSSProperties,
-    h2: { fontSize: 11, fontWeight: 700, color: '#4b5563', textTransform: 'uppercase' as const, letterSpacing: '0.1em', margin: '0 0 14px' },
-    h3: { fontSize: 14, fontWeight: 700, color: 'white', margin: '0 0 10px' } as React.CSSProperties,
-    card: { background: '#111827', borderRadius: 14, border: '1px solid #1f2937', padding: '20px', marginBottom: 16 } as React.CSSProperties,
+    page: { fontFamily: "'Courier New', monospace", color: 'var(--adm-text5)', paddingBottom: 80 } as React.CSSProperties,
+    h1: { fontSize: 28, fontWeight: 900, color: 'var(--adm-text)', margin: '0 0 6px', letterSpacing: '-0.02em' } as React.CSSProperties,
+    h2: { fontSize: 11, fontWeight: 700, color: 'var(--adm-text4)', textTransform: 'uppercase' as const, letterSpacing: '0.1em', margin: '0 0 14px' },
+    h3: { fontSize: 14, fontWeight: 700, color: 'var(--adm-text)', margin: '0 0 10px' } as React.CSSProperties,
+    card: { background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', padding: '20px', marginBottom: 16 } as React.CSSProperties,
     badge: (color: string, bg: string) => ({ display: 'inline-block', background: bg, color, fontSize: 11, fontWeight: 700, padding: '3px 8px', borderRadius: 5, marginRight: 6, marginBottom: 6, fontFamily: 'Arial, sans-serif' } as React.CSSProperties),
-    tag: { display: 'inline-block', background: '#1f2937', color: '#9ca3af', fontSize: 11, padding: '2px 8px', borderRadius: 4, marginRight: 4, marginBottom: 4, fontFamily: 'Arial, sans-serif' } as React.CSSProperties,
+    tag: { display: 'inline-block', background: 'var(--adm-border)', color: 'var(--adm-text2)', fontSize: 11, padding: '2px 8px', borderRadius: 4, marginRight: 4, marginBottom: 4, fontFamily: 'Arial, sans-serif' } as React.CSSProperties,
     mono: { fontFamily: "'Courier New', monospace", fontSize: 12, color: '#34d399' } as React.CSSProperties,
-    label: { fontSize: 11, color: '#6b7280', display: 'block', marginBottom: 2, fontFamily: 'Arial, sans-serif' } as React.CSSProperties,
-    val: { fontSize: 13, color: '#e2e8f0', fontFamily: 'Arial, sans-serif' } as React.CSSProperties,
+    label: { fontSize: 11, color: 'var(--adm-text3)', display: 'block', marginBottom: 2, fontFamily: 'Arial, sans-serif' } as React.CSSProperties,
+    val: { fontSize: 13, color: 'var(--adm-text5)', fontFamily: 'Arial, sans-serif' } as React.CSSProperties,
   }
 
   const grid2 = { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 32 } as React.CSSProperties
@@ -26,20 +26,20 @@ export default function TechStackPage() {
   }
 
   function method(m: string) {
-    const c = METHOD_COLORS[m] ?? { bg: '#1f2937', color: '#9ca3af' }
+    const c = METHOD_COLORS[m] ?? { bg: 'var(--adm-border)', color: 'var(--adm-text2)' }
     return <span style={{ ...S.badge(c.color, c.bg), fontFamily: "'Courier New', monospace", fontSize: 10, letterSpacing: '0.05em' }}>{m}</span>
   }
 
   function endpoint(methods: string[], path: string, desc: string, body?: string, auth?: string) {
     return (
-      <div style={{ borderBottom: '1px solid #1f2937', padding: '12px 0' }}>
+      <div style={{ borderBottom: '1px solid var(--adm-border)', padding: '12px 0' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, flexWrap: 'wrap' }}>
           <div style={{ display: 'flex', gap: 4, flexShrink: 0 }}>{methods.map(m => <span key={m}>{method(m)}</span>)}</div>
           <span style={{ ...S.mono, alignSelf: 'center' }}>{path}</span>
         </div>
-        <p style={{ margin: '6px 0 0', fontSize: 12, color: '#9ca3af', fontFamily: 'Arial, sans-serif' }}>{desc}</p>
-        {body && <p style={{ margin: '4px 0 0', fontSize: 11, color: '#4b5563', fontFamily: 'Arial, sans-serif' }}>Body: <span style={{ color: '#6b7280' }}>{body}</span></p>}
-        {auth && <p style={{ margin: '3px 0 0', fontSize: 10, color: '#374151', fontFamily: 'Arial, sans-serif' }}>Auth: {auth}</p>}
+        <p style={{ margin: '6px 0 0', fontSize: 12, color: 'var(--adm-text2)', fontFamily: 'Arial, sans-serif' }}>{desc}</p>
+        {body && <p style={{ margin: '4px 0 0', fontSize: 11, color: 'var(--adm-text4)', fontFamily: 'Arial, sans-serif' }}>Body: <span style={{ color: 'var(--adm-text3)' }}>{body}</span></p>}
+        {auth && <p style={{ margin: '3px 0 0', fontSize: 10, color: 'var(--adm-border2)', fontFamily: 'Arial, sans-serif' }}>Auth: {auth}</p>}
       </div>
     )
   }
@@ -48,14 +48,14 @@ export default function TechStackPage() {
     const cols = headers.length
     const tmpl = headers.map(() => '1fr').join(' ')
     return (
-      <div style={{ background: '#0a0f1e', borderRadius: 10, overflow: 'hidden', border: '1px solid #1f2937', marginBottom: 14 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: tmpl, padding: '8px 16px', borderBottom: '1px solid #1f2937', background: '#111827' }}>
-          {headers.map(h => <span key={h} style={{ fontSize: 10, fontWeight: 700, color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'Arial, sans-serif' }}>{h}</span>)}
+      <div style={{ background: 'var(--adm-input-bg)', borderRadius: 10, overflow: 'hidden', border: '1px solid var(--adm-border)', marginBottom: 14 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: tmpl, padding: '8px 16px', borderBottom: '1px solid var(--adm-border)', background: 'var(--adm-surface)' }}>
+          {headers.map(h => <span key={h} style={{ fontSize: 10, fontWeight: 700, color: 'var(--adm-text4)', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'Arial, sans-serif' }}>{h}</span>)}
         </div>
         {rows.map((row, i) => (
-          <div key={i} style={{ display: 'grid', gridTemplateColumns: tmpl, padding: '9px 16px', borderBottom: i < rows.length - 1 ? '1px solid #1f2937' : 'none' }}>
+          <div key={i} style={{ display: 'grid', gridTemplateColumns: tmpl, padding: '9px 16px', borderBottom: i < rows.length - 1 ? '1px solid var(--adm-border)' : 'none' }}>
             {row.map((cell, j) => (
-              <span key={j} style={{ fontSize: 12, color: j === 0 ? '#e2e8f0' : '#9ca3af', fontFamily: j === 0 ? "'Courier New', monospace" : 'Arial, sans-serif' }}>{cell}</span>
+              <span key={j} style={{ fontSize: 12, color: j === 0 ? 'var(--adm-text5)' : 'var(--adm-text2)', fontFamily: j === 0 ? "'Courier New', monospace" : 'Arial, sans-serif' }}>{cell}</span>
             ))}
           </div>
         ))}
@@ -66,7 +66,7 @@ export default function TechStackPage() {
   return (
     <div style={S.page}>
       {/* ── Hero ──────────────────────────────────────────────────── */}
-      <div style={{ marginBottom: 40, borderBottom: '1px solid #1f2937', paddingBottom: 28 }}>
+      <div style={{ marginBottom: 40, borderBottom: '1px solid var(--adm-border)', paddingBottom: 28 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
           <div style={{ background: '#0099cc', width: 10, height: 10, borderRadius: '50%' }} />
           <span style={{ fontSize: 11, color: '#0099cc', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', fontFamily: 'Arial, sans-serif' }}>
@@ -74,7 +74,7 @@ export default function TechStackPage() {
           </span>
         </div>
         <h1 style={S.h1}>Tech Stack & Architektur</h1>
-        <p style={{ fontSize: 14, color: '#6b7280', margin: '0 0 16px', fontFamily: 'Arial, sans-serif', lineHeight: 1.6 }}>
+        <p style={{ fontSize: 14, color: 'var(--adm-text3)', margin: '0 0 16px', fontFamily: 'Arial, sans-serif', lineHeight: 1.6 }}>
           Vollständige Projektdokumentation · Stand: April 2026 · Version 1.x · SaaS Asset-Management-Platform für INOMETA GmbH
         </p>
         <div>
@@ -105,7 +105,7 @@ export default function TechStackPage() {
               {section.items.map(item => (
                 <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 5 }}>
                   <div style={{ width: 5, height: 5, borderRadius: '50%', background: section.color, flexShrink: 0 }} />
-                  <span style={{ fontSize: 12, color: '#9ca3af' }}>{item}</span>
+                  <span style={{ fontSize: 12, color: 'var(--adm-text2)' }}>{item}</span>
                 </div>
               ))}
             </div>
@@ -162,7 +162,7 @@ export default function TechStackPage() {
       {/* ── Datenbankschema ──────────────────────────────────────────── */}
       <h2 style={S.h2}>Datenbankschema (PostgreSQL via Supabase)</h2>
       <div style={S.card}>
-        <p style={{ margin: '0 0 16px', fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>
+        <p style={{ margin: '0 0 16px', fontSize: 12, color: 'var(--adm-text3)', fontFamily: 'Arial, sans-serif' }}>
           21 Migrations · PostgreSQL 15 · Row Level Security aktiviert · UUID als Primary Keys · Supabase Auth (auth.users) als Basis
         </p>
         <div style={grid2}>
@@ -212,11 +212,11 @@ export default function TechStackPage() {
               cols: ['id uuid PK', 'admin_id uuid FK', 'action text', 'target_type text', 'target_id text', 'details jsonb', 'created_at timestamptz'],
             },
           ].map(t => (
-            <div key={t.table} style={{ background: '#0a0f1e', borderRadius: 10, border: `1px solid ${t.color}33`, padding: '14px' }}>
+            <div key={t.table} style={{ background: 'var(--adm-bg)', borderRadius: 10, border: `1px solid ${t.color}33`, padding: '14px' }}>
               <p style={{ margin: '0 0 8px', fontSize: 12, fontWeight: 700, color: t.color, fontFamily: "'Courier New', monospace" }}>{t.table}</p>
               {t.cols.map(col => (
-                <div key={col} style={{ fontSize: 11, color: '#6b7280', fontFamily: "'Courier New', monospace", marginBottom: 2 }}>
-                  <span style={{ color: '#374151' }}>· </span>{col}
+                <div key={col} style={{ fontSize: 11, color: 'var(--adm-text3)', fontFamily: "'Courier New', monospace", marginBottom: 2 }}>
+                  <span style={{ color: 'var(--adm-text4)' }}>· </span>{col}
                 </div>
               ))}
             </div>
@@ -285,10 +285,10 @@ export default function TechStackPage() {
             desc: 'Löscht alle chat_messages älter als 30 Tage. Wird via pg_cron täglich um 03:00 UTC ausgeführt.',
           },
         ].map(fn => (
-          <div key={fn.name} style={{ borderBottom: '1px solid #1f2937', padding: '12px 0' }}>
+          <div key={fn.name} style={{ borderBottom: '1px solid var(--adm-border)', padding: '12px 0' }}>
             <p style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 700, color: '#34d399', fontFamily: "'Courier New', monospace" }}>{fn.name}</p>
-            <p style={{ margin: '0 0 4px', fontSize: 11, color: '#4b5563', fontFamily: "'Courier New', monospace" }}>RETURNS {fn.returns}</p>
-            <p style={{ margin: 0, fontSize: 12, color: '#9ca3af', fontFamily: 'Arial, sans-serif' }}>{fn.desc}</p>
+            <p style={{ margin: '0 0 4px', fontSize: 11, color: 'var(--adm-text4)', fontFamily: "'Courier New', monospace" }}>RETURNS {fn.returns}</p>
+            <p style={{ margin: 0, fontSize: 12, color: 'var(--adm-text2)', fontFamily: 'Arial, sans-serif' }}>{fn.desc}</p>
           </div>
         ))}
       </div>
@@ -299,7 +299,7 @@ export default function TechStackPage() {
         <div>
           <div style={S.card}>
             <p style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 700, color: '#a78bfa' }}>Admin · Organisationen</p>
-            <p style={{ margin: '0 0 12px', fontSize: 11, color: '#4b5563', fontFamily: 'Arial, sans-serif' }}>Auth: is_platform_admin</p>
+            <p style={{ margin: '0 0 12px', fontSize: 11, color: 'var(--adm-text4)', fontFamily: 'Arial, sans-serif' }}>Auth: is_platform_admin</p>
             {endpoint(['POST'], '/api/admin/orgs', 'Organisation + ersten Admin-User anlegen', 'name, slug, plan, assetLimit, userLimit, email, fullName, tempPassword')}
             {endpoint(['PATCH'], '/api/admin/orgs/[id]', 'Org-Felder aktualisieren (partial update)', 'name?, plan?, assetLimit?, features?, settings?, ...')}
             {endpoint(['DELETE'], '/api/admin/orgs/[id]', 'Org + alle User + Storage-Dateien + Auth-Accounts löschen')}
@@ -308,14 +308,14 @@ export default function TechStackPage() {
           </div>
           <div style={S.card}>
             <p style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 700, color: '#f87171' }}>Admin · Storage</p>
-            <p style={{ margin: '0 0 12px', fontSize: 11, color: '#4b5563', fontFamily: 'Arial, sans-serif' }}>Auth: is_platform_admin</p>
+            <p style={{ margin: '0 0 12px', fontSize: 11, color: 'var(--adm-text4)', fontFamily: 'Arial, sans-serif' }}>Auth: is_platform_admin</p>
             {endpoint(['DELETE'], '/api/admin/storage/nuke', 'ALLE Dateien aus allen 3 Buckets löschen (global)')}
             {endpoint(['DELETE'], '/api/admin/storage/orgs/[orgId]', 'Alle Dateien einer Org löschen (asset-images, org-files, service-files)')}
             {endpoint(['DELETE'], '/api/admin/storage/orphaned', 'Verwaiste Dateien löschen – alle Dateien ohne matching Asset/Bereich in der DB')}
           </div>
           <div style={S.card}>
             <p style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 700, color: '#60a5fa' }}>Admin · Team & User</p>
-            <p style={{ margin: '0 0 12px', fontSize: 11, color: '#4b5563', fontFamily: 'Arial, sans-serif' }}>Auth: is_platform_admin</p>
+            <p style={{ margin: '0 0 12px', fontSize: 11, color: 'var(--adm-text4)', fontFamily: 'Arial, sans-serif' }}>Auth: is_platform_admin</p>
             {endpoint(['POST'], '/api/admin/team', 'Platform-Admin-Mitglied anlegen', 'email, fullName, tempPassword')}
             {endpoint(['DELETE'], '/api/admin/team/[id]', 'Platform-Admin-Mitglied entfernen')}
             {endpoint(['POST'], '/api/admin/users/[id]', 'User-Aktionen: Passwort-Reset, Sperren/Entsperren', 'action: reset_password | toggle_active | force_pw_change')}
@@ -323,7 +323,7 @@ export default function TechStackPage() {
           </div>
           <div style={S.card}>
             <p style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 700, color: '#fbbf24' }}>Admin · PIN</p>
-            <p style={{ margin: '0 0 12px', fontSize: 11, color: '#4b5563', fontFamily: 'Arial, sans-serif' }}>Auth: is_platform_admin</p>
+            <p style={{ margin: '0 0 12px', fontSize: 11, color: 'var(--adm-text4)', fontFamily: 'Arial, sans-serif' }}>Auth: is_platform_admin</p>
             {endpoint(['POST'], '/api/admin/pin', 'Admin-PIN verifizieren', 'pin: string → prüft SHA-256-Hash in profiles')}
             {endpoint(['PUT'], '/api/admin/pin', 'Admin-PIN ändern', 'currentPin?, newPin (mind. 4-stellig)')}
           </div>
@@ -331,29 +331,29 @@ export default function TechStackPage() {
         <div>
           <div style={S.card}>
             <p style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 700, color: '#34d399' }}>Assets</p>
-            <p style={{ margin: '0 0 12px', fontSize: 11, color: '#4b5563', fontFamily: 'Arial, sans-serif' }}>Auth: eingeloggter Org-User (gleiche org)</p>
+            <p style={{ margin: '0 0 12px', fontSize: 11, color: 'var(--adm-text4)', fontFamily: 'Arial, sans-serif' }}>Auth: eingeloggter Org-User (gleiche org)</p>
             {endpoint(['DELETE'], '/api/assets/[id]/delete', 'Asset hard-deleten + Bilder aus asset-images + Dokumente aus org-files entfernen')}
             {endpoint(['GET', 'POST'], '/api/chat/messages', 'Team-Chat: Nachrichten laden (GET) oder senden (POST). GET: lazy cleanup + letzte 200 Msgs. POST: Feature-Check, insert mit denormalisierten sender_name/sender_role.')}
           </div>
           <div style={S.card}>
             <p style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 700, color: '#fb923c' }}>Billing</p>
-            <p style={{ margin: '0 0 12px', fontSize: 11, color: '#4b5563', fontFamily: 'Arial, sans-serif' }}>Auth: eingeloggter User (Admin/Superadmin)</p>
+            <p style={{ margin: '0 0 12px', fontSize: 11, color: 'var(--adm-text4)', fontFamily: 'Arial, sans-serif' }}>Auth: eingeloggter User (Admin/Superadmin)</p>
             {endpoint(['POST'], '/api/billing/create-invoice', 'Rechnung erstellen + PDF generieren + per Resend verschicken', 'plan, billingName, billingAddress, ...')}
             {endpoint(['POST'], '/api/billing/activate-code', 'Einmalcode (9 Stellen) einlösen → Plan upgraden', 'code: string → prüft HMAC-SHA256-Hash in invoices')}
           </div>
           <div style={S.card}>
             <p style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 700, color: '#9ca3af' }}>Auth-Callbacks (Next.js Middleware)</p>
-            <p style={{ margin: '0 0 12px', fontSize: 11, color: '#4b5563', fontFamily: 'Arial, sans-serif' }}>Supabase Auth-Hooks</p>
+            <p style={{ margin: '0 0 12px', fontSize: 11, color: 'var(--adm-text4)', fontFamily: 'Arial, sans-serif' }}>Supabase Auth-Hooks</p>
             {endpoint(['GET'], '/auth/callback', 'Supabase OAuth/Magic-Link Callback → Session setzen')}
             {endpoint(['GET'], '/invite/[token]', 'Einladungslink → Token validieren + Registrierungsformular')}
           </div>
           <div style={S.card}>
             <p style={{ margin: '0 0 4px', fontSize: 13, fontWeight: 700, color: '#38bdf8' }}>Supabase Direkt-Calls (kein HTTP-Endpoint)</p>
-            <p style={{ margin: '0 0 12px', fontSize: 11, color: '#4b5563', fontFamily: 'Arial, sans-serif' }}>Client- oder Server-Side via Supabase SDK</p>
+            <p style={{ margin: '0 0 12px', fontSize: 11, color: 'var(--adm-text4)', fontFamily: 'Arial, sans-serif' }}>Client- oder Server-Side via Supabase SDK</p>
             {['assets (CRUD)', 'service_entries (CRUD)', 'maintenance_schedules (CRUD)', 'locations/halls/areas (CRUD)', 'teams/team_members (CRUD)', 'profiles (READ + UPDATE)', 'invoices (READ)', 'asset_templates (CRUD)'].map(item => (
-              <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '5px 0', borderBottom: '1px solid #0f172a' }}>
+              <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 6, padding: '5px 0', borderBottom: '1px solid var(--adm-surface2)' }}>
                 <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#38bdf8', flexShrink: 0 }} />
-                <span style={{ fontSize: 12, color: '#9ca3af', fontFamily: 'Arial, sans-serif' }}>{item}</span>
+                <span style={{ fontSize: 12, color: 'var(--adm-text2)', fontFamily: 'Arial, sans-serif' }}>{item}</span>
               </div>
             ))}
           </div>
@@ -372,18 +372,18 @@ export default function TechStackPage() {
           ]
         )}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginTop: 12 }}>
-          <div style={{ background: '#0a0f1e', borderRadius: 8, padding: '12px', border: '1px solid #1f2937' }}>
+          <div style={{ background: 'var(--adm-bg)', borderRadius: 8, padding: '12px', border: '1px solid var(--adm-border)' }}>
             <p style={{ margin: '0 0 6px', fontSize: 11, fontWeight: 700, color: '#fbbf24', fontFamily: 'Arial, sans-serif' }}>Bildkomprimierung</p>
-            <p style={{ margin: 0, fontSize: 12, color: '#9ca3af', fontFamily: 'Arial, sans-serif', lineHeight: 1.5 }}>
+            <p style={{ margin: 0, fontSize: 12, color: 'var(--adm-text2)', fontFamily: 'Arial, sans-serif', lineHeight: 1.5 }}>
               Client-seitig via Canvas API (compress-image.ts).<br />
               Konfigurierbar pro Org in organizations.settings:<br />
               <span style={{ color: '#34d399', fontFamily: "'Courier New', monospace" }}>image_max_dim</span> (default: 1920px) + <span style={{ color: '#34d399', fontFamily: "'Courier New', monospace" }}>image_quality</span> (default: 82%).<br />
               Nur JPEG-Output. Dateien {'<'}100KB werden übersprungen.
             </p>
           </div>
-          <div style={{ background: '#0a0f1e', borderRadius: 8, padding: '12px', border: '1px solid #1f2937' }}>
+          <div style={{ background: 'var(--adm-bg)', borderRadius: 8, padding: '12px', border: '1px solid var(--adm-border)' }}>
             <p style={{ margin: '0 0 6px', fontSize: 11, fontWeight: 700, color: '#f87171', fontFamily: 'Arial, sans-serif' }}>protect_delete Trigger</p>
-            <p style={{ margin: 0, fontSize: 12, color: '#9ca3af', fontFamily: 'Arial, sans-serif', lineHeight: 1.5 }}>
+            <p style={{ margin: 0, fontSize: 12, color: 'var(--adm-text2)', fontFamily: 'Arial, sans-serif', lineHeight: 1.5 }}>
               Supabase blockiert direktes SQL-DELETE in storage.objects (Trigger).<br />
               Löschung nur via Storage API möglich.<br />
               Daher eigene DELETE-Endpunkte für Asset-/Org-Cleanup.
@@ -439,11 +439,11 @@ export default function TechStackPage() {
         ].map(m => (
           <div key={m.module} style={{ ...S.card, marginBottom: 0 }}>
             <p style={{ margin: '0 0 2px', fontSize: 13, fontWeight: 700, color: m.color }}>{m.module}</p>
-            <p style={{ margin: '0 0 10px', fontSize: 10, color: '#374151', fontFamily: "'Courier New', monospace" }}>{m.route}</p>
+            <p style={{ margin: '0 0 10px', fontSize: 10, color: 'var(--adm-text4)', fontFamily: "'Courier New', monospace" }}>{m.route}</p>
             {m.features.map(f => (
               <div key={f} style={{ display: 'flex', gap: 6, alignItems: 'flex-start', marginBottom: 4 }}>
                 <div style={{ width: 4, height: 4, borderRadius: '50%', background: m.color, flexShrink: 0, marginTop: 4 }} />
-                <span style={{ fontSize: 11, color: '#6b7280', fontFamily: 'Arial, sans-serif', lineHeight: 1.4 }}>{f}</span>
+                <span style={{ fontSize: 11, color: 'var(--adm-text3)', fontFamily: 'Arial, sans-serif', lineHeight: 1.4 }}>{f}</span>
               </div>
             ))}
           </div>
@@ -463,7 +463,7 @@ export default function TechStackPage() {
             ['Platform Admin', 'is_platform_admin', 'Admin-Panel', 'Admin-Panel', 'Admin-Panel', 'Admin-Panel', 'Global'],
           ]
         )}
-        <p style={{ margin: '10px 0 0', fontSize: 11, color: '#374151', fontFamily: 'Arial, sans-serif' }}>
+        <p style={{ margin: '10px 0 0', fontSize: 11, color: 'var(--adm-text4)', fontFamily: 'Arial, sans-serif' }}>
           Farben: Superadmin=#7c3aed (Violett) · Admin=#b45309 (Gold) · Techniker=#475569 (Silber) · Leser=#92400e (Bronze)
           · Rollen-Logik: src/lib/permissions.ts
         </p>
@@ -558,9 +558,9 @@ export default function TechStackPage() {
       </div>
 
       {/* ── Footer ───────────────────────────────────────────────────── */}
-      <div style={{ marginTop: 40, paddingTop: 20, borderTop: '1px solid #1f2937', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: 11, color: '#374151', fontFamily: 'Arial, sans-serif' }}>INOid.app · Admin-interne Dokumentation · nicht öffentlich zugänglich</span>
-        <span style={{ fontSize: 11, color: '#374151', fontFamily: "'Courier New', monospace" }}>v1.x · Next.js 16.2.2 · Supabase · Vercel</span>
+      <div style={{ marginTop: 40, paddingTop: 20, borderTop: '1px solid var(--adm-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontSize: 11, color: 'var(--adm-text4)', fontFamily: 'Arial, sans-serif' }}>INOid.app · Admin-interne Dokumentation · nicht öffentlich zugänglich</span>
+        <span style={{ fontSize: 11, color: 'var(--adm-text4)', fontFamily: "'Courier New', monospace" }}>v1.x · Next.js 16.2.2 · Supabase · Vercel</span>
       </div>
     </div>
   )

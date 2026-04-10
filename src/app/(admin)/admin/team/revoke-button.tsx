@@ -20,7 +20,7 @@ export function RevokeButton({ userId, userName, isSelf }: { userId: string; use
 
   if (isSelf) {
     return (
-      <span style={{ fontSize: 11, color: '#4b5563', fontStyle: 'italic' }}>Du selbst</span>
+      <span style={{ fontSize: 11, color: 'var(--adm-text4)', fontStyle: 'italic' }}>Du selbst</span>
     )
   }
 
@@ -43,7 +43,7 @@ export function RevokeButton({ userId, userName, isSelf }: { userId: string; use
           onClick={() => setConfirm(false)}
           style={{
             fontSize: 11, padding: '3px 8px', borderRadius: 6,
-            background: 'transparent', color: '#6b7280', border: '1px solid #374151', cursor: 'pointer',
+            background: 'transparent', color: 'var(--adm-text3)', border: '1px solid var(--adm-border2)', cursor: 'pointer',
             fontFamily: 'Arial, sans-serif',
           }}
         >

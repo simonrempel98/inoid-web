@@ -32,7 +32,6 @@ export function DeleteOrgButton({ orgId, orgName }: { orgId: string; orgName: st
         Organisation löschen
       </button>
 
-      {/* Schritt 1: Warnung mit Übersicht was gelöscht wird */}
       {showWarning && (
         <div style={{
           position: 'fixed', inset: 0, zIndex: 200,
@@ -43,8 +42,8 @@ export function DeleteOrgButton({ orgId, orgName }: { orgId: string; orgName: st
           onClick={e => { if (e.target === e.currentTarget) setShowWarning(false) }}
         >
           <div style={{
-            background: '#111827', borderRadius: 16,
-            border: '1px solid #374151', padding: '28px',
+            background: 'var(--adm-surface)', borderRadius: 16,
+            border: '1px solid var(--adm-border2)', padding: '28px',
             width: '100%', maxWidth: 480,
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
@@ -59,10 +58,10 @@ export function DeleteOrgButton({ orgId, orgName }: { orgId: string; orgName: st
                 </svg>
               </div>
               <div>
-                <p style={{ margin: 0, fontSize: 16, fontWeight: 800, color: 'white' }}>
+                <p style={{ margin: 0, fontSize: 16, fontWeight: 800, color: 'var(--adm-text)' }}>
                   „{orgName}" löschen?
                 </p>
-                <p style={{ margin: 0, fontSize: 12, color: '#6b7280' }}>Diese Aktion ist unwiderruflich</p>
+                <p style={{ margin: 0, fontSize: 12, color: 'var(--adm-text3)' }}>Diese Aktion ist unwiderruflich</p>
               </div>
             </div>
 
@@ -94,8 +93,8 @@ export function DeleteOrgButton({ orgId, orgName }: { orgId: string; orgName: st
               <button
                 onClick={() => setShowWarning(false)}
                 style={{
-                  flex: 1, background: 'transparent', color: '#9ca3af',
-                  border: '1px solid #374151', padding: '12px', borderRadius: 8,
+                  flex: 1, background: 'transparent', color: 'var(--adm-text2)',
+                  border: '1px solid var(--adm-border2)', padding: '12px', borderRadius: 8,
                   fontSize: 14, fontWeight: 600, cursor: 'pointer',
                   fontFamily: 'Arial, sans-serif',
                 }}
@@ -107,7 +106,6 @@ export function DeleteOrgButton({ orgId, orgName }: { orgId: string; orgName: st
         </div>
       )}
 
-      {/* Schritt 2: PIN-Bestätigung */}
       {showPin && (
         <AdminPinModal
           title="Admin-PIN eingeben"

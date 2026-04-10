@@ -31,7 +31,7 @@ export function AddTeamMemberForm() {
 
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '10px 12px', borderRadius: 8,
-    border: '1px solid #374151', background: '#0a0f1e', color: 'white',
+    border: '1px solid var(--adm-border2)', background: 'var(--adm-input-bg)', color: 'var(--adm-text)',
     fontSize: 14, fontFamily: 'Arial, sans-serif', outline: 'none',
     boxSizing: 'border-box',
   }
@@ -60,33 +60,33 @@ export function AddTeamMemberForm() {
           onClick={e => { if (e.target === e.currentTarget) setOpen(false) }}
         >
           <div style={{
-            background: '#111827', borderRadius: 16,
-            border: '1px solid #374151', padding: '28px',
+            background: 'var(--adm-surface)', borderRadius: 16,
+            border: '1px solid var(--adm-border2)', padding: '28px',
             width: '100%', maxWidth: 440,
           }}>
-            <p style={{ margin: '0 0 20px', fontSize: 18, fontWeight: 800, color: 'white' }}>
+            <p style={{ margin: '0 0 20px', fontSize: 18, fontWeight: 800, color: 'var(--adm-text)' }}>
               Neues Teammitglied
             </p>
 
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div>
-                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#9ca3af', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--adm-text2)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   E-Mail *
                 </label>
                 <input type="email" value={email} onChange={e => setEmail(e.target.value)} required style={inputStyle} placeholder="kollege@inometa.de" />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#9ca3af', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--adm-text2)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   Name
                 </label>
                 <input value={fullName} onChange={e => setFullName(e.target.value)} style={inputStyle} placeholder="Max Mustermann" />
               </div>
               <div>
-                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#9ca3af', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: 'var(--adm-text2)', marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
                   Temporäres Passwort *
                 </label>
                 <input value={tempPassword} onChange={e => setTempPassword(e.target.value)} required style={inputStyle} placeholder="Min. 8 Zeichen" />
-                <p style={{ margin: '5px 0 0', fontSize: 11, color: '#4b5563' }}>
+                <p style={{ margin: '5px 0 0', fontSize: 11, color: 'var(--adm-text4)' }}>
                   Erhält vollen Platform-Admin-Zugang. Muss Passwort beim ersten Login ändern.
                 </p>
               </div>
@@ -98,7 +98,7 @@ export function AddTeamMemberForm() {
                   type="submit"
                   disabled={loading}
                   style={{
-                    flex: 1, background: loading ? '#374151' : '#003366', color: 'white',
+                    flex: 1, background: loading ? 'var(--adm-border2)' : '#003366', color: 'white',
                     border: 'none', padding: '12px', borderRadius: 8,
                     fontSize: 14, fontWeight: 700, cursor: loading ? 'default' : 'pointer',
                     fontFamily: 'Arial, sans-serif',
@@ -110,8 +110,8 @@ export function AddTeamMemberForm() {
                   type="button"
                   onClick={() => setOpen(false)}
                   style={{
-                    flex: 1, background: 'transparent', color: '#9ca3af',
-                    border: '1px solid #374151', padding: '12px', borderRadius: 8,
+                    flex: 1, background: 'transparent', color: 'var(--adm-text2)',
+                    border: '1px solid var(--adm-border2)', padding: '12px', borderRadius: 8,
                     fontSize: 14, fontWeight: 600, cursor: 'pointer',
                     fontFamily: 'Arial, sans-serif',
                   }}
