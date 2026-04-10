@@ -87,17 +87,20 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     )
   )
 
-  // 3. FK-Constraint lösen: organization_id in profiles auf null setzen
-  await admin.from('profiles').update({ organization_id: null }).eq('organization_id', id)
+  // 3. FK-Constraints lösen: alle Tabellen mit direkter organization_id-FK explizit leeren
+  await Promise.allSettled([
+    admin.from('asset_lifecycle_events').delete().eq('organization_id', id),
+    admin.from('maintenance_schedules').delete().eq('organization_id', id),
+    admin.from('chat_messages').delete().eq('organization_id', id),
+    admin.from('profiles').update({ organization_id: null }).eq('organization_id', id),
+  ])
 
   // 4. Auth-User löschen (best effort)
   await Promise.allSettled(
     (profiles ?? []).map(p => admin.auth.admin.deleteUser(p.id))
   )
 
-  // 5. Organisation löschen
-  //    → assets, roles, organization_members, invoices cascaden
-  //    → asset_lifecycle_events, asset_documents, maintenance_schedules cascaden (via asset_id)
+  // 5. Organisation löschen – verbleibende FK-Cascades: assets, roles, organization_members, invoices
   const { error: deleteError } = await admin
     .from('organizations')
     .delete()
