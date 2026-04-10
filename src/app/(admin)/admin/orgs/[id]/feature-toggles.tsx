@@ -12,6 +12,7 @@ type Feature = {
 const FEATURES: Feature[] = [
   { key: 'serviceheft', label: 'Serviceheft', desc: 'Serviceeinträge & Dokumentation pro Asset' },
   { key: 'wartung',     label: 'Wartung',     desc: 'Wartungspläne, Aufgaben & Gantt-Chart' },
+  { key: 'teamchat',    label: 'Team-Chat',   desc: 'Team-interne Nachrichten mit Asset-Erwähnungen (30 Tage Verlauf)' },
 ]
 
 export function FeatureToggles({ orgId, features }: {

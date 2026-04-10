@@ -20,6 +20,7 @@ export default function AdminOrgNeuPage() {
   // Features
   const [featServiceheft, setFeatServiceheft] = useState(true)
   const [featWartung, setFeatWartung] = useState(true)
+  const [featTeamchat, setFeatTeamchat] = useState(true)
 
   // Bildkomprimierung
   const PRESETS = [
@@ -73,7 +74,7 @@ export default function AdminOrgNeuPage() {
         userLimit,
         contactEmail: contactEmail.trim() || null,
         notes: notes.trim() || null,
-        features: { serviceheft: featServiceheft, wartung: featWartung },
+        features: { serviceheft: featServiceheft, wartung: featWartung, teamchat: featTeamchat },
         settings: {
           image_max_dim: imageMaxDim ?? null,
           image_quality: imageQuality,
@@ -246,6 +247,12 @@ export default function AdminOrgNeuPage() {
             description="Wartungsintervalle, Fälligkeiten & Übersicht"
             value={featWartung}
             onChange={setFeatWartung}
+          />
+          <ToggleRow
+            label="Team-Chat"
+            description="Team-interne Nachrichten mit Asset-Erwähnungen (30 Tage Verlauf)"
+            value={featTeamchat}
+            onChange={setFeatTeamchat}
           />
         </div>
 
