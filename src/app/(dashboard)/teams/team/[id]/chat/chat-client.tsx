@@ -66,11 +66,13 @@ export function ChatClient({
   currentUserId,
   orgId,
   teamId,
+  avatarsByUserId = {},
 }: {
   initialMessages: ChatMessage[]
   currentUserId: string
   orgId: string
   teamId: string
+  avatarsByUserId?: Record<string, string | null>
 }) {
   const supabase = createClient()
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages)
@@ -239,12 +241,17 @@ export function ChatClient({
                   {!isMine && (
                     <div style={{
                       width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
-                      background: `${roleColor}22`, border: `1.5px solid ${roleColor}44`,
+                      background: avatarsByUserId[msg.user_id] ? 'transparent' : `${roleColor}22`,
+                      border: `1.5px solid ${roleColor}44`,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       fontSize: 11, fontWeight: 800, color: roleColor,
                       visibility: isSameSender ? 'hidden' : 'visible',
+                      overflow: 'hidden',
                     }}>
-                      {getInitials(msg.sender_name)}
+                      {avatarsByUserId[msg.user_id]
+                        // eslint-disable-next-line @next/next/no-img-element
+                        ? <img src={avatarsByUserId[msg.user_id]!} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        : getInitials(msg.sender_name)}
                     </div>
                   )}
                   <div style={{ maxWidth: '72%' }}>

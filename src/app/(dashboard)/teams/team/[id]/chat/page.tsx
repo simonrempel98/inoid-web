@@ -52,6 +52,17 @@ export default async function TeamChatPage({
 
   if (!team) redirect('/teams')
 
+  // Avatar-URLs aller Org-Mitglieder laden
+  const { data: profilesWithAvatar } = await (supabase as any)
+    .from('profiles')
+    .select('id, avatar_url')
+    .eq('organization_id', orgId)
+
+  const avatarsByUserId: Record<string, string | null> = {}
+  for (const p of profilesWithAvatar ?? []) {
+    avatarsByUserId[p.id] = p.avatar_url ?? null
+  }
+
   // Nachrichten laden (letzte 30 Tage, max. 200)
   const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
 
@@ -99,6 +110,7 @@ export default async function TeamChatPage({
         currentUserId={user.id}
         orgId={orgId}
         teamId={teamId}
+        avatarsByUserId={avatarsByUserId}
       />
     </div>
   )
