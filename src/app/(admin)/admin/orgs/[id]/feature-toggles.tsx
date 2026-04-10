@@ -16,6 +16,7 @@ const FEATURES: Feature[] = [
   { key: 'wartung',     label: 'Wartung',      desc: 'Wartungspläne, Aufgaben & Gantt-Chart',                                            defaultOn: true  },
   { key: 'teamchat',    label: 'Team-Chat',    desc: 'Team-interne Nachrichten mit Asset-Erwähnungen (30 Tage Verlauf)',                  defaultOn: true  },
   { key: 'flexodruck',  label: 'Flexodruck',   desc: 'Setup-Manager für Flexodruck-Maschinen: Druckwerke, Vorlagen & Rüstvorgänge',       defaultOn: false },
+  { key: 'inoai',      label: 'INOai',        desc: 'KI-Produktassistent auf Basis der INOMETA-Wissensbasis',                              defaultOn: false },
 ]
 
 export function FeatureToggles({ orgId, features }: {
