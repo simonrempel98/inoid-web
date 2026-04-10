@@ -1,6 +1,5 @@
 // @ts-nocheck
 import { createAdminClient } from '@/lib/supabase/admin'
-import { embedTexts } from './embeddings'
 
 export type CrawlerConfig = {
   id: string
@@ -17,7 +16,7 @@ export type ResumeState = {
 }
 
 const CRAWL_DELAY_MS = 300
-const MAX_RUN_MS = 50_000 // 50 Sek. pro Instanz
+const MAX_RUN_MS = 50_000
 
 const SKIP_PATTERNS = [
   /\.(jpg|jpeg|png|gif|svg|webp|mp4|zip|docx?|xlsx?)$/i,
@@ -116,15 +115,6 @@ async function saveChunks(
   log: (msg: string) => void,
 ): Promise<{ inserted: number; error: boolean }> {
   const chunks = chunkText(text)
-
-  // Embeddings generieren (alle Chunks eines Dokuments in einem API-Call)
-  let embeddings: number[][] | null = null
-  try {
-    embeddings = await embedTexts(chunks)
-  } catch (e: any) {
-    log(`  ⚠️  Embedding übersprungen: ${e.message}`)
-  }
-
   const rows = chunks.map((content, i) => ({
     title: chunks.length > 1 ? `${title} (${i + 1}/${chunks.length})` : title,
     content,
@@ -133,9 +123,7 @@ async function saveChunks(
     language: lang,
     crawler_id: crawlerId,
     chunk_index: i,
-    ...(embeddings ? { embedding: JSON.stringify(embeddings[i]) } : {}),
   }))
-
   const { error } = await admin.from('inometa_knowledge').insert(rows)
   if (error) { log(`  ❌ DB-Fehler: ${error.message}`); return { inserted: 0, error: true } }
   return { inserted: rows.length, error: false }
@@ -172,7 +160,6 @@ export async function runCrawl(
   const stats: CrawlStats = { pagesFound: 0, pdfsFound: 0, chunksInserted: 0, errors: 0 }
   const rootUrl = new URL(config.url)
 
-  // Beim ersten Aufruf (kein Resume): bestehende Einträge löschen
   if (!resume) {
     log(`🗑️  Lösche bestehende Einträge für "${config.name}"…`)
     const { error: delErr } = await admin
@@ -191,19 +178,12 @@ export async function runCrawl(
   const queue: string[] = resume?.queue ?? [config.url]
   const pdfQueue: string[] = resume?.pdfQueue ?? []
 
-  // HTML-Seiten crawlen
   while (queue.length > 0) {
-    // Zeit prüfen – wenn fast voll, pausieren
     if (Date.now() - startTime > MAX_RUN_MS) {
       log(`⏱️  Zeitlimit erreicht – pausiere (${queue.length} Seiten + ${pdfQueue.length} PDFs verbleibend)`)
       return {
         done: false,
-        resume: {
-          queue,
-          visited: Array.from(visited),
-          pdfQueue,
-          visitedPdfs: Array.from(visitedPdfs),
-        },
+        resume: { queue, visited: Array.from(visited), pdfQueue, visitedPdfs: Array.from(visitedPdfs) },
         stats,
       }
     }
@@ -243,7 +223,6 @@ export async function runCrawl(
     }
   }
 
-  // PDFs herunterladen
   if (pdfQueue.length > 0) {
     log(`\n  📑 ${pdfQueue.length} PDFs – lade herunter…`)
     while (pdfQueue.length > 0) {
@@ -251,12 +230,7 @@ export async function runCrawl(
         log(`⏱️  Zeitlimit erreicht – pausiere (${pdfQueue.length} PDFs verbleibend)`)
         return {
           done: false,
-          resume: {
-            queue: [],
-            visited: Array.from(visited),
-            pdfQueue,
-            visitedPdfs: Array.from(visitedPdfs),
-          },
+          resume: { queue: [], visited: Array.from(visited), pdfQueue, visitedPdfs: Array.from(visitedPdfs) },
           stats,
         }
       }

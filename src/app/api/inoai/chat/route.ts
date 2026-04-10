@@ -3,7 +3,6 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 import Anthropic from '@anthropic-ai/sdk'
-import { embedText } from '@/lib/inoai/embeddings'
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
@@ -25,25 +24,10 @@ export async function POST(req: Request) {
 
   const admin = createAdminClient()
 
-  // Embedding für die Frage generieren, dann semantisch suchen
-  let chunks: any[] | null = null
-  try {
-    const queryEmbedding = await embedText(message)
-    const { data } = await admin.rpc('search_inometa_knowledge', {
-      query_embedding: JSON.stringify(queryEmbedding),
-      query_text: message,
-      match_count: 6,
-    })
-    chunks = data
-  } catch {
-    // Fallback: reine FTS wenn Embedding fehlschlägt
-    const { data } = await admin.rpc('search_inometa_knowledge', {
-      query_embedding: null,
-      query_text: message,
-      match_count: 6,
-    })
-    chunks = data
-  }
+  const { data: chunks } = await admin.rpc('search_inometa_knowledge', {
+    query: message,
+    max_results: 6,
+  })
 
   let context = ''
   if (chunks && chunks.length > 0) {
