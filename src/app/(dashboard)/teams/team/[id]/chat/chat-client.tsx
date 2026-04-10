@@ -90,6 +90,11 @@ export function ChatClient({
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
+  // Beim Öffnen des Chats: als gelesen markieren
+  useEffect(() => {
+    localStorage.setItem(`chat_last_read_${teamId}`, new Date().toISOString())
+  }, [teamId])
+
   useEffect(() => {
     const channel = supabase
       .channel(`chat:${teamId}`)

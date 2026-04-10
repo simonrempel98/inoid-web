@@ -86,6 +86,20 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
   const [showAssign, setShowAssign] = useState(false)
   const [assignSearch, setAssignSearch] = useState('')
   const [assigning, setAssigning] = useState<string | null>(null)
+  const [unreadCount, setUnreadCount] = useState(0)
+
+  useEffect(() => {
+    if (!showChat) return
+    const lastRead = localStorage.getItem(`chat_last_read_${team.id}`)
+    const since = lastRead ?? new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
+    const supabase = createClient()
+    supabase
+      .from('chat_messages' as any)
+      .select('id', { count: 'exact', head: true })
+      .eq('team_id', team.id)
+      .gt('created_at', since)
+      .then(({ count }) => setUnreadCount(count ?? 0))
+  }, [team.id, showChat])
 
   async function saveTeam() {
     setSavingTeam(true)
@@ -375,6 +389,14 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <MessageSquare size={16} color="#0099cc" />
               <span style={{ fontSize: 15, fontWeight: 600, color: '#0099cc' }}>Team-Chat</span>
+              {unreadCount > 0 && (
+                <span style={{
+                  background: '#E74C3C', color: 'white', borderRadius: 20,
+                  fontSize: 11, fontWeight: 700, padding: '2px 7px', lineHeight: 1.4,
+                }}>
+                  {unreadCount > 99 ? '99+' : unreadCount}
+                </span>
+              )}
             </div>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0099cc" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
           </Link>
