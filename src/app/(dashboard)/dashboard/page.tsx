@@ -6,7 +6,7 @@ import { getTranslations, getLocale } from 'next-intl/server'
 import {
   Package, Users, Wrench, AlertTriangle, CheckCircle2,
   Clock, TrendingUp, FileText, CreditCard, Activity,
-  BarChart3, Zap, MapPin, Calendar,
+  BarChart3, Zap, MapPin, MessageSquare,
 } from 'lucide-react'
 
 // ── Typen ────────────────────────────────────────────────────────────────────
@@ -113,7 +113,7 @@ export default async function DashboardPage() {
     { data: events },
     { data: recentEvents },
   ] = await Promise.all([
-    supabase.from('organizations').select('name, plan, asset_limit, subscription_status').eq('id', orgId ?? '').single(),
+    supabase.from('organizations').select('name, plan, asset_limit, subscription_status, features').eq('id', orgId ?? '').single(),
     supabase.from('assets').select('id, status, category, created_at').eq('organization_id', orgId ?? '').is('deleted_at', null),
     supabase.from('organization_members').select('id, created_at').eq('organization_id', orgId ?? ''),
     supabase.from('maintenance_schedules').select('id, next_service_date, is_active').eq('organization_id', orgId ?? '').eq('is_active', true),
@@ -162,6 +162,11 @@ export default async function DashboardPage() {
 
   // Serviceheft diesen Monat
   const entriesThisMonth = events?.filter(e => e.event_date && new Date(e.event_date) >= startOfMonth).length ?? 0
+
+  const features = (org?.features as Record<string, boolean>) ?? {}
+  const showWartung     = features.wartung     !== false
+  const showServiceheft = features.serviceheft !== false
+  const showTeamchat    = features.teamchat    !== false
 
   const plan = PLANS.find(p => p.id === org?.plan) ?? PLANS[0]
   const planLabel: Record<string, string> = {
@@ -229,8 +234,8 @@ export default async function DashboardPage() {
             </span>
             <span style={{
               fontSize: 11, fontWeight: 700,
-              background: profile?.is_platform_admin ? '#0099cc' : (ROLE_BG[appRole] ?? '#e8edf5'),
-              color: profile?.is_platform_admin ? 'white' : (ROLE_COLORS[appRole] ?? '#003366'),
+              background: ROLE_BG[appRole] ?? '#e8edf5',
+              color: ROLE_COLORS[appRole] ?? '#003366',
               padding: '3px 9px', borderRadius: 20, letterSpacing: '0.04em',
             }}>
               {roleLabel}
@@ -240,7 +245,7 @@ export default async function DashboardPage() {
             {now.toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
             {' · '}
             {now.toLocaleTimeString(locale, { hour: '2-digit', minute: '2-digit' })}
-            {overdueSchedules > 0 && (
+            {showWartung && overdueSchedules > 0 && (
               <span style={{ marginLeft: 10, color: '#ef4444', fontWeight: 700 }}>
                 · {overdueSchedules > 1
                     ? t('dashboard.overdueWarningPlural', { n: overdueSchedules })
@@ -268,23 +273,31 @@ export default async function DashboardPage() {
         <StatCard label={t('dashboard.stats.users')} value={totalMembers}
           sub={plan.user_limit ? t('dashboard.stats.limit', { n: plan.user_limit }) : t('dashboard.stats.unlimited')}
           icon={<Users size={20} />} color="#0099cc" />
-        <StatCard label={t('dashboard.stats.overdueServices')} value={overdueSchedules}
-          icon={<AlertTriangle size={20} />}
-          color={overdueSchedules > 0 ? '#ef4444' : '#22c55e'}
-          accent={overdueSchedules > 0 ? '#dc2626' : '#16a34a'}
-          trend={overdueSchedules === 0 ? { label: t('dashboard.stats.allDone'), positive: true } : undefined} />
-        <StatCard label={t('dashboard.stats.dueThisWeek')} value={dueThisWeek}
-          icon={<Clock size={20} />} color="#8b5cf6" accent="#7c3aed" />
-        <StatCard label={t('dashboard.stats.serviceEventsMonth')} value={entriesThisMonth}
-          sub={t('dashboard.stats.totalSub', { n: totalServiceEntries })}
-          icon={<Activity size={20} />} color="#0099cc" />
-        <StatCard label={t('dashboard.stats.maintenanceCostYear')} value={`${costThisYear.toFixed(0)} €`}
-          sub={t('dashboard.stats.monthSub', { n: costThisMonth.toFixed(0) })}
-          icon={<TrendingUp size={20} />} color="#003366" />
+        {showWartung && (
+          <StatCard label={t('dashboard.stats.overdueServices')} value={overdueSchedules}
+            icon={<AlertTriangle size={20} />}
+            color={overdueSchedules > 0 ? '#ef4444' : '#22c55e'}
+            accent={overdueSchedules > 0 ? '#dc2626' : '#16a34a'}
+            trend={overdueSchedules === 0 ? { label: t('dashboard.stats.allDone'), positive: true } : undefined} />
+        )}
+        {showWartung && (
+          <StatCard label={t('dashboard.stats.dueThisWeek')} value={dueThisWeek}
+            icon={<Clock size={20} />} color="#8b5cf6" accent="#7c3aed" />
+        )}
+        {showServiceheft && (
+          <StatCard label={t('dashboard.stats.serviceEventsMonth')} value={entriesThisMonth}
+            sub={t('dashboard.stats.totalSub', { n: totalServiceEntries })}
+            icon={<Activity size={20} />} color="#0099cc" />
+        )}
+        {showServiceheft && (
+          <StatCard label={t('dashboard.stats.maintenanceCostYear')} value={`${costThisYear.toFixed(0)} €`}
+            sub={t('dashboard.stats.monthSub', { n: costThisMonth.toFixed(0) })}
+            icon={<TrendingUp size={20} />} color="#003366" />
+        )}
       </div>
 
       {/* ── Mittlere Reihe ─────────────────────────────────────────────────── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 28 }} className="db-mid">
+      <div style={{ display: 'grid', gridTemplateColumns: showWartung ? '1fr 1fr' : '1fr', gap: 14, marginBottom: 28 }} className="db-mid">
 
         {/* Asset-Auslastung */}
         <div style={{
@@ -322,37 +335,39 @@ export default async function DashboardPage() {
         </div>
 
         {/* Wartungsübersicht */}
-        <div style={{
-          background: 'white', borderRadius: 16, padding: '20px',
-          border: '1px solid #e8edf5', boxShadow: '0 2px 8px rgba(0,51,102,0.06)',
-        }}>
-          <SectionTitle>{t('dashboard.sections.maintenanceOverview')}</SectionTitle>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {[
-              { label: t('dashboard.maintenance.overdue'), count: overdueSchedules, color: '#ef4444', bg: '#fef2f2' },
-              { label: t('dashboard.maintenance.thisWeek'), count: dueThisWeek, color: '#a855f7', bg: '#faf5ff' },
-              { label: t('dashboard.maintenance.next30Days'), count: dueThirtyDays, color: '#8b5cf6', bg: '#f5f3ff' },
-              { label: t('dashboard.maintenance.totalIntervals'), count: totalSchedules, color: '#0099cc', bg: '#f0f9ff' },
-            ].map(row => (
-              <a key={row.label} href="/wartung" style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                padding: '10px 14px', borderRadius: 10, backgroundColor: row.bg,
-                textDecoration: 'none',
-              }}>
-                <span style={{ fontSize: 13, color: '#333', fontWeight: 600 }}>{row.label}</span>
-                <span style={{
-                  fontSize: 18, fontWeight: 800, color: row.color,
-                  minWidth: 28, textAlign: 'right',
-                }}>{row.count}</span>
-              </a>
-            ))}
+        {showWartung && (
+          <div style={{
+            background: 'white', borderRadius: 16, padding: '20px',
+            border: '1px solid #e8edf5', boxShadow: '0 2px 8px rgba(0,51,102,0.06)',
+          }}>
+            <SectionTitle>{t('dashboard.sections.maintenanceOverview')}</SectionTitle>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {[
+                { label: t('dashboard.maintenance.overdue'), count: overdueSchedules, color: '#ef4444', bg: '#fef2f2' },
+                { label: t('dashboard.maintenance.thisWeek'), count: dueThisWeek, color: '#a855f7', bg: '#faf5ff' },
+                { label: t('dashboard.maintenance.next30Days'), count: dueThirtyDays, color: '#8b5cf6', bg: '#f5f3ff' },
+                { label: t('dashboard.maintenance.totalIntervals'), count: totalSchedules, color: '#0099cc', bg: '#f0f9ff' },
+              ].map(row => (
+                <a key={row.label} href="/wartung" style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '10px 14px', borderRadius: 10, backgroundColor: row.bg,
+                  textDecoration: 'none',
+                }}>
+                  <span style={{ fontSize: 13, color: '#333', fontWeight: 600 }}>{row.label}</span>
+                  <span style={{
+                    fontSize: 18, fontWeight: 800, color: row.color,
+                    minWidth: 28, textAlign: 'right',
+                  }}>{row.count}</span>
+                </a>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
 
       </div>
 
       {/* ── Untere Reihe ───────────────────────────────────────────────────── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 14, marginBottom: 28 }} className="db-bot">
+      <div style={{ display: 'grid', gridTemplateColumns: showServiceheft ? '1fr 2fr' : '1fr', gap: 14, marginBottom: 28 }} className="db-bot">
 
         {/* Top-Kategorien */}
         <div style={{
@@ -384,52 +399,54 @@ export default async function DashboardPage() {
         </div>
 
         {/* Letzte Aktivitäten */}
-        <div style={{
-          background: 'white', borderRadius: 16, padding: '20px',
-          border: '1px solid #e8edf5', boxShadow: '0 2px 8px rgba(0,51,102,0.06)',
-          gridColumn: 'span 1',
-        }}>
-          <SectionTitle>{t('dashboard.sections.recentActivity')}</SectionTitle>
-          {!recentEvents || recentEvents.length === 0 ? (
-            <p style={{ fontSize: 13, color: '#999', margin: 0 }}>{t('dashboard.sections.noActivity')}</p>
-          ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-              {(recentEvents as Array<{
-                id: string
-                title: string
-                event_type: string
-                event_date: string
-                assets: { title: string } | null
-              }>).map((e, i) => (
-                <div key={e.id} style={{
-                  display: 'flex', alignItems: 'center', gap: 12,
-                  padding: '9px 0',
-                  borderTop: i > 0 ? '1px solid #f0f4f8' : 'none',
-                }}>
-                  <div style={{
-                    width: 32, height: 32, borderRadius: 8, flexShrink: 0,
-                    background: '#f0f6ff',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 15,
+        {showServiceheft && (
+          <div style={{
+            background: 'white', borderRadius: 16, padding: '20px',
+            border: '1px solid #e8edf5', boxShadow: '0 2px 8px rgba(0,51,102,0.06)',
+            gridColumn: 'span 1',
+          }}>
+            <SectionTitle>{t('dashboard.sections.recentActivity')}</SectionTitle>
+            {!recentEvents || recentEvents.length === 0 ? (
+              <p style={{ fontSize: 13, color: '#999', margin: 0 }}>{t('dashboard.sections.noActivity')}</p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+                {(recentEvents as Array<{
+                  id: string
+                  title: string
+                  event_type: string
+                  event_date: string
+                  assets: { title: string } | null
+                }>).map((e, i) => (
+                  <div key={e.id} style={{
+                    display: 'flex', alignItems: 'center', gap: 12,
+                    padding: '9px 0',
+                    borderTop: i > 0 ? '1px solid #f0f4f8' : 'none',
                   }}>
-                    {eventTypeIcon[e.event_type] ?? '📝'}
-                  </div>
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 13, fontWeight: 700, color: '#1a2940', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                      {e.title}
+                    <div style={{
+                      width: 32, height: 32, borderRadius: 8, flexShrink: 0,
+                      background: '#f0f6ff',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: 15,
+                    }}>
+                      {eventTypeIcon[e.event_type] ?? '📝'}
                     </div>
-                    <div style={{ fontSize: 11, color: '#96aed2' }}>
-                      {e.assets?.title ?? '—'}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: '#1a2940', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {e.title}
+                      </div>
+                      <div style={{ fontSize: 11, color: '#96aed2' }}>
+                        {e.assets?.title ?? '—'}
+                      </div>
+                    </div>
+                    <div style={{ fontSize: 11, color: '#aab8cc', flexShrink: 0 }}>
+                      {new Date(e.event_date).toLocaleDateString(locale, { day: '2-digit', month: '2-digit' })}
                     </div>
                   </div>
-                  <div style={{ fontSize: 11, color: '#aab8cc', flexShrink: 0 }}>
-                    {new Date(e.event_date).toLocaleDateString(locale, { day: '2-digit', month: '2-digit' })}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
       </div>
 
@@ -494,14 +511,17 @@ export default async function DashboardPage() {
         }}>
           <SectionTitle>{t('dashboard.sections.quickAccess')}</SectionTitle>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }} className="db-quicklinks">
-            {[
-              { href: '/assets/neu', label: t('dashboard.quickLinks.createAsset'), icon: <Package size={16} />, color: '#003366' },
-              { href: '/wartung', label: t('dashboard.quickLinks.openMaintenance'), icon: <Wrench size={16} />, color: '#f59e0b' },
-              { href: '/scan', label: t('dashboard.quickLinks.scanAsset'), icon: <BarChart3 size={16} />, color: '#0099cc' },
-              { href: '/organisation', label: t('dashboard.quickLinks.locations'), icon: <MapPin size={16} />, color: '#8b5cf6' },
-              { href: '/settings/invite', label: t('dashboard.quickLinks.addUser'), icon: <Users size={16} />, color: '#22c55e' },
-              { href: '/docs', label: t('dashboard.quickLinks.documentation'), icon: <FileText size={16} />, color: '#96aed2' },
-            ].map(l => (
+            {([
+              { href: '/assets/neu', label: t('dashboard.quickLinks.createAsset'), icon: <Package size={16} />, color: '#003366', show: true },
+              { href: '/wartung', label: t('dashboard.quickLinks.openMaintenance'), icon: <Wrench size={16} />, color: '#f59e0b', show: showWartung },
+              { href: '/scan', label: t('dashboard.quickLinks.scanAsset'), icon: <BarChart3 size={16} />, color: '#0099cc', show: true },
+              { href: '/organisation', label: t('dashboard.quickLinks.locations'), icon: <MapPin size={16} />, color: '#8b5cf6', show: true },
+              { href: '/teams/chat', label: 'Team-Chat', icon: <MessageSquare size={16} />, color: '#0099cc', show: showTeamchat },
+              { href: '/settings/invite', label: t('dashboard.quickLinks.addUser'), icon: <Users size={16} />, color: '#22c55e', show: true },
+              { href: '/docs', label: t('dashboard.quickLinks.documentation'), icon: <FileText size={16} />, color: '#96aed2', show: true },
+            ] as { href: string; label: string; icon: React.ReactNode; color: string; show: boolean }[])
+              .filter(l => l.show)
+              .map(l => (
               <a key={l.href} href={l.href} style={{
                 display: 'flex', alignItems: 'center', gap: 9,
                 padding: '11px 12px', borderRadius: 10,

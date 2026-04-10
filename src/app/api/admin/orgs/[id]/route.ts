@@ -87,12 +87,15 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     )
   )
 
-  // 3. Auth-User löschen → profiles cascaden automatisch mit
+  // 3. FK-Constraint lösen: organization_id in profiles auf null setzen
+  await admin.from('profiles').update({ organization_id: null }).eq('organization_id', id)
+
+  // 4. Auth-User löschen (best effort)
   await Promise.allSettled(
     (profiles ?? []).map(p => admin.auth.admin.deleteUser(p.id))
   )
 
-  // 4. Organisation löschen
+  // 5. Organisation löschen
   //    → assets, roles, organization_members, invoices cascaden
   //    → asset_lifecycle_events, asset_documents, maintenance_schedules cascaden (via asset_id)
   const { error: deleteError } = await admin
@@ -104,7 +107,7 @@ export async function DELETE(_req: NextRequest, { params }: { params: Promise<{ 
     return NextResponse.json({ error: deleteError.message }, { status: 500 })
   }
 
-  // 5. Audit-Log (eigene Session – nicht gelöscht)
+  // 6. Audit-Log (eigene Session – nicht gelöscht)
   await admin.from('admin_audit_log').insert({
     admin_id: user.id,
     action: 'delete_org',
