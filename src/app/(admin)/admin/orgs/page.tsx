@@ -76,13 +76,15 @@ export default async function AdminOrgsPage() {
                   <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--adm-text)' }}>{org.name}</p>
                   <p style={{ margin: 0, fontSize: 11, color: 'var(--adm-text3)' }}>{org.slug}</p>
                 </div>
-                <span style={{
-                  display: 'inline-block', fontSize: 11, fontWeight: 700,
-                  padding: '3px 10px', borderRadius: 20,
-                  background: pc.bg, color: pc.color,
-                }}>
-                  {org.plan}
-                </span>
+                <div style={{ justifySelf: 'start' }}>
+                  <span style={{
+                    display: 'inline-block', fontSize: 11, fontWeight: 700,
+                    padding: '3px 10px', borderRadius: 20,
+                    background: pc.bg, color: pc.color,
+                  }}>
+                    {org.plan}
+                  </span>
+                </div>
                 <p style={{ margin: 0, fontSize: 14, color: 'var(--adm-text5)' }}>
                   {assetCount}<span style={{ color: 'var(--adm-text4)', fontSize: 11 }}>/{org.asset_limit}</span>
                 </p>

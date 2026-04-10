@@ -102,6 +102,7 @@ export default async function AdminDashboardPage() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <span style={{
                       fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
+                      whiteSpace: 'nowrap', flexShrink: 0,
                       background: org.plan === 'enterprise' ? '#451a03' : org.plan === 'professional' ? '#064e3b' : org.plan === 'starter' ? '#1e3a5f' : '#1f2937',
                       color: org.plan === 'enterprise' ? '#f59e0b' : org.plan === 'professional' ? '#34d399' : org.plan === 'starter' ? '#60a5fa' : '#6b7280',
                     }}>

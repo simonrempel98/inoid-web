@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { AdminThemeProvider } from '@/components/admin-theme-provider'
 import { AdminThemeToggle } from '@/components/admin-theme-toggle'
+import { AdminLogoutButton } from '@/components/admin-logout-button'
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -73,6 +74,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           }}>
             → App
           </a>
+          <AdminLogoutButton />
         </div>
       </div>
 
