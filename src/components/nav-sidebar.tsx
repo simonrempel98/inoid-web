@@ -16,6 +16,7 @@ export function Sidebar({ userEmail, userName, avatarUrl, features = {} }: {
   const t = useTranslations()
 
   const showWartung = features.wartung !== false
+  const showFlexo = features.flexodruck === true
 
   const SECTIONS = [
     {
@@ -67,6 +68,19 @@ export function Sidebar({ userEmail, userName, avatarUrl, features = {} }: {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
               stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+          ),
+        }] : []),
+        ...(showFlexo ? [{
+          href: '/flexodruck',
+          label: t('nav.flexodruck'),
+          icon: (active: boolean) => (
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+              stroke={active ? 'white' : '#96aed2'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="7" width="20" height="10" rx="2"/>
+              <path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/>
+              <line x1="6" y1="12" x2="6.01" y2="12" strokeWidth="3"/>
+              <line x1="10" y1="12" x2="14" y2="12"/>
             </svg>
           ),
         }] : []),
