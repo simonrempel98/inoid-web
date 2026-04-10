@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 
-type Template = { id: string; name: string; is_active: boolean }
-type Machine = { id: string; name: string; manufacturer: string | null; model: string | null; num_druckwerke: number; flexo_templates: Template[] }
+type Template = { id: string; name: string }
+type Machine = { id: string; name: string; manufacturer: string | null; model: string | null; num_druckwerke: number; templates: Template[] }
 
 export function NeuesRuestungClient({
   machines,
@@ -30,12 +30,12 @@ export function NeuesRuestungClient({
 
   const selectedMachine = machines.find(m => m.id === machineId)
 
+  // Erste Vorlage vorauswählen wenn keine gewählt
   useEffect(() => {
-    if (!templateId && selectedMachine?.flexo_templates?.length) {
-      const active = selectedMachine.flexo_templates.find(t => t.is_active)
-      setTemplateId(active?.id ?? selectedMachine.flexo_templates[0]?.id ?? '')
+    if (!templateId && selectedMachine?.templates?.length) {
+      setTemplateId(selectedMachine.templates[0].id)
     }
-  }, [machineId, selectedMachine, templateId])
+  }, [machineId, selectedMachine]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const input: React.CSSProperties = {
     width: '100%', padding: '10px 12px', borderRadius: 8,
@@ -115,7 +115,6 @@ export function NeuesRuestungClient({
                 padding: '12px 14px', borderRadius: 10, cursor: 'pointer',
                 border: machineId === m.id ? '2px solid #0099cc' : '1px solid #c8d4e8',
                 background: machineId === m.id ? '#e8f4fd' : 'white',
-                transition: 'border-color 0.15s',
               }}>
                 <input type="radio" name="machine" value={m.id} checked={machineId === m.id}
                   onChange={() => { setMachineId(m.id); setTemplateId('') }}
@@ -134,26 +133,21 @@ export function NeuesRuestungClient({
           </div>
 
           {/* Vorlage */}
-          {selectedMachine && selectedMachine.flexo_templates.length > 0 && (
+          {selectedMachine && selectedMachine.templates.length > 0 && (
             <>
               <label style={labelStyle}>{t('template')}</label>
-              <select
-                value={templateId}
-                onChange={e => setTemplateId(e.target.value)}
-                style={{ ...input }}
-              >
+              <select value={templateId} onChange={e => setTemplateId(e.target.value)} style={input}>
                 <option value="">{t('withoutTemplate')}</option>
-                {selectedMachine.flexo_templates.map(tmpl => (
-                  <option key={tmpl.id} value={tmpl.id}>{tmpl.name}{tmpl.is_active ? '' : ` (${t('inactive')})`}</option>
+                {selectedMachine.templates.map(tmpl => (
+                  <option key={tmpl.id} value={tmpl.id}>{tmpl.name}</option>
                 ))}
               </select>
             </>
           )}
-          {selectedMachine && selectedMachine.flexo_templates.length === 0 && (
+          {selectedMachine && selectedMachine.templates.length === 0 && (
             <div style={{ background: '#fef3c7', borderRadius: 8, padding: '10px 12px', marginTop: 8 }}>
               <p style={{ margin: 0, fontSize: 12, color: '#92400e', fontFamily: 'Arial, sans-serif' }}>
-                {t('noTemplates')}
-                {' '}
+                {t('noTemplates')}{' '}
                 <Link href={`/flexodruck/maschinen/${machineId}/vorlagen/neu`} style={{ color: '#0099cc', textDecoration: 'none', fontWeight: 700 }}>
                   {t('createTemplate')} →
                 </Link>
@@ -167,7 +161,7 @@ export function NeuesRuestungClient({
           <div style={{ marginBottom: 14 }}>
             <label style={labelStyle}>{t('setupNameLabel')} *</label>
             <input value={name} onChange={e => setName(e.target.value)}
-              placeholder="z.B. Rüstung Job 2024-001 oder Gelb-Setup" required style={input} />
+              placeholder="z.B. Rüstung Job 2024-001" required style={input} />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
             <div>
