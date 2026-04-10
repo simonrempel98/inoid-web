@@ -10,14 +10,6 @@ export type CrawlerConfig = {
   lang: string
 }
 
-export const CRAWLERS: CrawlerConfig[] = [
-  { id: 'inometa-de',   name: 'INOMETA (DE)',            url: 'https://www.inometa.de/',            lang: 'de' },
-  { id: 'inometa-en',   name: 'INOMETA (EN)',            url: 'https://www.inometa.de/en/',          lang: 'en' },
-  { id: 'printing-de',  name: 'Printing INOMETA (DE)',   url: 'https://printing.inometa.de/',        lang: 'de' },
-  { id: 'printing-en',  name: 'Printing INOMETA (EN)',   url: 'https://printing.inometa.de/en/',     lang: 'en' },
-  { id: 'apex-de',      name: 'APEX International (DE)', url: 'https://de.apexinternational.com/',   lang: 'de' },
-]
-
 // ── Einstellungen ─────────────────────────────────────────────────────────────
 
 const CRAWL_DELAY_MS = 300
@@ -125,10 +117,15 @@ export async function runCrawl(
   crawlerId: string,
   log: (msg: string) => void,
 ): Promise<CrawlStats> {
-  const config = CRAWLERS.find(c => c.id === crawlerId)
-  if (!config) throw new Error(`Unbekannter Crawler: ${crawlerId}`)
-
   const admin = createAdminClient()
+
+  // Konfiguration aus DB laden
+  const { data: config, error: cfgErr } = await admin
+    .from('inoai_crawlers')
+    .select('*')
+    .eq('id', crawlerId)
+    .single()
+  if (cfgErr || !config) throw new Error(`Crawler nicht gefunden: ${crawlerId}`)
   const stats: CrawlStats = { pagesFound: 0, pdfsFound: 0, chunksInserted: 0, errors: 0 }
   const rootUrl = new URL(config.url)
 
