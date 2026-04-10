@@ -40,20 +40,48 @@ export async function DELETE(
 
   const admin = createAdminClient()
 
-  // Alle Asset-IDs dieser Org laden
-  const { data: assets } = await admin.from('assets').select('id').eq('organization_id', orgId)
+  // Asset-IDs und Area-IDs dieser Org laden
+  const [{ data: assets }, { data: areas }] = await Promise.all([
+    admin.from('assets').select('id').eq('organization_id', orgId),
+    admin.from('areas').select('id').eq('organization_id', orgId),
+  ])
   const assetIds = (assets ?? []).map((a: { id: string }) => a.id)
+  const areaIds  = (areas  ?? []).map((a: { id: string }) => a.id)
 
   let totalDeleted = 0
 
+  // assets/{assetId}/... in allen Buckets
   for (const bucket of BUCKETS) {
     const toDelete: string[] = []
     for (const assetId of assetIds) {
-      const paths = await listAllFiles(admin, bucket, `assets/${assetId}`)
-      toDelete.push(...paths)
+      toDelete.push(...await listAllFiles(admin, bucket, `assets/${assetId}`))
     }
     if (toDelete.length > 0) {
       await admin.storage.from(bucket).remove(toDelete)
+      totalDeleted += toDelete.length
+    }
+  }
+
+  // service/{assetId}/... in asset-images + service-files
+  for (const bucket of ['asset-images', 'service-files'] as const) {
+    const toDelete: string[] = []
+    for (const assetId of assetIds) {
+      toDelete.push(...await listAllFiles(admin, bucket, `service/${assetId}`))
+    }
+    if (toDelete.length > 0) {
+      await admin.storage.from(bucket).remove(toDelete)
+      totalDeleted += toDelete.length
+    }
+  }
+
+  // areas/{areaId}/... in org-files
+  if (areaIds.length > 0) {
+    const toDelete: string[] = []
+    for (const areaId of areaIds) {
+      toDelete.push(...await listAllFiles(admin, 'org-files', `areas/${areaId}`))
+    }
+    if (toDelete.length > 0) {
+      await admin.storage.from('org-files').remove(toDelete)
       totalDeleted += toDelete.length
     }
   }

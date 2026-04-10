@@ -61,6 +61,24 @@ export async function DELETE(
     if (paths.length > 0) await admin.storage.from('org-files').remove(paths)
   }
 
+  // Service-Anhänge löschen (asset-images: service/{assetId}/... und service-files: service/{assetId}/...)
+  for (const bucket of ['asset-images', 'service-files'] as const) {
+    const { data: files } = await admin.storage.from(bucket).list(`service/${assetId}`, { limit: 1000 })
+    if (files && files.length > 0) {
+      const paths: string[] = []
+      for (const f of files) {
+        if (f.id) {
+          paths.push(`service/${assetId}/${f.name}`)
+        } else {
+          // Unterordner (service/{assetId}/{serviceEntryId}/...)
+          const { data: sub } = await admin.storage.from(bucket).list(`service/${assetId}/${f.name}`, { limit: 1000 })
+          if (sub) paths.push(...sub.filter(s => s.id).map(s => `service/${assetId}/${f.name}/${s.name}`))
+        }
+      }
+      if (paths.length > 0) await admin.storage.from(bucket).remove(paths)
+    }
+  }
+
   // Hard-Delete: CASCADE löscht service_entries, documents, maintenance_schedules, tags usw.
   const { error: deleteError } = await admin
     .from('assets')

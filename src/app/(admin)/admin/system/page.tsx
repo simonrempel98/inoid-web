@@ -1,6 +1,7 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 import { CleanupButton } from './cleanup-button'
 import { OrgStorageNukeButton } from './org-storage-nuke-button'
+import { OrphanedStorageButton } from './orphaned-storage-button'
 
 // ── Typen ─────────────────────────────────────────────────────────────────────
 
@@ -304,9 +305,10 @@ export default async function AdminSystemPage() {
                   {unattributed.length} verwaiste Datei{unattributed.length !== 1 ? 'en' : ''} · {formatBytes(totalOrphanBytes)}
                 </p>
                 <p style={{ margin: 0, fontSize: 12, color: '#d97706' }}>
-                  Diese Dateien können keiner Organisation zugeordnet werden — das Asset oder der Bereich wurde wahrscheinlich gelöscht ohne dass der Storage bereinigt wurde.
+                  Diese Dateien können keiner Organisation zugeordnet werden — das Asset oder der Bereich wurde gelöscht ohne dass der Storage bereinigt wurde.
                 </p>
               </div>
+              <OrphanedStorageButton count={unattributed.length} totalBytes={totalOrphanBytes} />
             </div>
             <div style={{ maxHeight: 180, overflowY: 'auto' }}>
               {unattributed.map((f, i) => (

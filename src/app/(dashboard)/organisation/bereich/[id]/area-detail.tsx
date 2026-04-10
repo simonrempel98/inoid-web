@@ -110,6 +110,9 @@ export function AreaDetail({ area, assets, customStatuses }: {
   async function removeDocument(url: string) {
     const supabase = createClient()
     await supabase.from('areas').update({ document_urls: area.document_urls.filter(u => u !== url) }).eq('id', area.id)
+    // Datei aus Storage löschen
+    const match = url.match(/\/org-files\/(.+)$/)
+    if (match) await supabase.storage.from('org-files').remove([match[1]])
     router.refresh()
   }
 
