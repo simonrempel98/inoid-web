@@ -13,78 +13,95 @@ export default async function RuestvorgangPage({ params }: { params: Promise<{ i
     .from('profiles').select('organization_id, app_role, full_name').eq('id', user.id).single()
   if (!profile?.organization_id) redirect('/dashboard')
 
+  // 1. Setup laden (flach)
   const { data: setup, error } = await supabase
     .from('flexo_setups')
-    .select(`
-      id, name, job_number, status, notes, planned_at, started_at, completed_at, created_at,
-      flexo_machines(id, name, num_druckwerke),
-      flexo_templates(id, name),
-      flexo_setup_steps(
-        id, druckwerk_id, slot_id, slot_label, is_fixed,
-        asset_id, status, notes, installed_at, sort_order,
-        assets(id, name, serial_number),
-        flexo_druckwerke(id, position, label, color_hint)
-      )
-    `)
+    .select('id, name, job_number, status, notes, planned_at, started_at, completed_at, created_at, machine_id, template_id')
     .eq('id', id)
     .eq('org_id', profile.organization_id)
     .single()
 
   if (error || !setup) notFound()
 
-  // Assets für Inline-Wechsel
-  const { data: assetsRaw } = await supabase
+  // 2. Maschine laden
+  const { data: machine } = await supabase
+    .from('flexo_machines')
+    .select('id, name, num_druckwerke')
+    .eq('id', setup.machine_id)
+    .single()
+
+  // 3. Vorlage laden (optional)
+  const { data: template } = setup.template_id
+    ? await supabase.from('flexo_templates').select('id, name').eq('id', setup.template_id).single()
+    : { data: null }
+
+  // 4. Setup-Schritte laden
+  const { data: stepsRaw } = await supabase
+    .from('flexo_setup_steps')
+    .select('id, druckwerk_id, slot_id, slot_label, is_fixed, asset_id, status, notes, installed_at, sort_order')
+    .eq('setup_id', id)
+    .order('sort_order')
+
+  const steps = stepsRaw ?? []
+
+  // 5. Druckwerke der Schritte laden
+  const dwIds = [...new Set(steps.map((s: any) => s.druckwerk_id).filter(Boolean))]
+  const { data: druckwerkeRaw } = dwIds.length > 0
+    ? await supabase
+        .from('flexo_druckwerke')
+        .select('id, position, label, color_hint')
+        .in('id', dwIds)
+        .order('position')
+    : { data: [] }
+
+  const druckwerke = druckwerkeRaw ?? []
+
+  // 6. Assets der Schritte laden
+  const assetIds = [...new Set(steps.map((s: any) => s.asset_id).filter(Boolean))]
+  const { data: assetsRaw } = assetIds.length > 0
+    ? await supabase.from('assets').select('id, title, serial_number').in('id', assetIds)
+    : { data: [] }
+
+  const assetMap = Object.fromEntries((assetsRaw ?? []).map((a: any) => [a.id, { id: a.id, name: a.title, serial_number: a.serial_number }]))
+
+  // 7. Steps anreichern
+  const stepsFull = steps.map((s: any) => ({
+    ...s,
+    assets: s.asset_id ? (assetMap[s.asset_id] ?? null) : null,
+    flexo_druckwerke: druckwerke.find((d: any) => d.id === s.druckwerk_id) ?? null,
+  }))
+
+  // 8. Steps nach Druckwerk gruppieren
+  const stepsByDW: Record<string, any[]> = {}
+  for (const step of stepsFull) {
+    if (!stepsByDW[step.druckwerk_id]) stepsByDW[step.druckwerk_id] = []
+    stepsByDW[step.druckwerk_id].push(step)
+  }
+
+  // 9. Assets für Inline-Wechsel
+  const { data: allAssetsRaw } = await supabase
     .from('assets')
     .select('id, title, serial_number')
     .eq('organization_id', profile.organization_id)
     .is('deleted_at', null)
     .order('title')
     .limit(500)
-  const assets = (assetsRaw ?? []).map((a: any) => ({ ...a, name: a.title }))
+  const allAssets = (allAssetsRaw ?? []).map((a: any) => ({ ...a, name: a.title }))
 
-  // Schritte nach Druckwerk + sort_order gruppieren
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const stepsSorted = [...((setup as any).flexo_setup_steps ?? [])].sort((a: { sort_order: number }, b: { sort_order: number }) => a.sort_order - b.sort_order)
-
-  // Druckwerke als geordnete Liste (unique, nach position)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const dwMap: Record<string, { id: string; position: number; label: string | null; color_hint: string | null }> = {}
-  for (const step of stepsSorted) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const dw = (step as any).flexo_druckwerke
-    if (dw && !dwMap[dw.id]) dwMap[dw.id] = dw
-  }
-  const orderedDW = Object.values(dwMap).sort((a, b) => a.position - b.position)
-
-  // Group steps by druckwerk_id
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const stepsByDW: Record<string, any[]> = {}
-  for (const step of stepsSorted) {
-    if (!stepsByDW[step.druckwerk_id]) stepsByDW[step.druckwerk_id] = []
-    stepsByDW[step.druckwerk_id].push(step)
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const canEdit = !['completed', 'cancelled'].includes((setup as any).status)
+  const canEdit = !['completed', 'cancelled'].includes(setup.status)
 
   return (
     <SetupWizard
       setupId={id}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      setupName={(setup as any).name}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      jobNumber={(setup as any).job_number}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      status={(setup as any).status}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      machineName={(setup as any).flexo_machines?.name ?? ''}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      machineId={(setup as any).flexo_machines?.id ?? ''}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      templateName={(setup as any).flexo_templates?.name ?? null}
-      druckwerke={orderedDW}
+      setupName={setup.name}
+      jobNumber={setup.job_number}
+      status={setup.status}
+      machineName={machine?.name ?? ''}
+      machineId={machine?.id ?? ''}
+      templateName={template?.name ?? null}
+      druckwerke={druckwerke}
       stepsByDW={stepsByDW}
-      assets={assets ?? []}
+      assets={allAssets}
       canEdit={canEdit}
     />
   )
