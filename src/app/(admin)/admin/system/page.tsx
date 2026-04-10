@@ -215,7 +215,7 @@ export default async function AdminSystemPage() {
                 <a href={`https://${deployment.url}`} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: '#0099cc', fontFamily: 'monospace', wordBreak: 'break-all' }}>
                   {deployment.url}
                 </a>
-              ) : <p style={{ margin: 0, fontSize: 12, color: '#4b5563' }}>–</p>}
+              ) : <p style={{ margin: 0, fontSize: 12, color: 'var(--adm-text4)' }}>–</p>}
             </div>
             <div style={{ gridColumn: 'span 2' }}>
               <p style={{ margin: '0 0 4px', fontSize: 11, color: 'var(--adm-text4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Commit</p>
@@ -226,11 +226,11 @@ export default async function AdminSystemPage() {
             </div>
             <div>
               <p style={{ margin: '0 0 4px', fontSize: 11, color: 'var(--adm-text4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Deployment-ID</p>
-              <p style={{ margin: 0, fontSize: 11, color: '#6b7280', fontFamily: 'monospace', wordBreak: 'break-all' }}>{deployment.id ?? '–'}</p>
+              <p style={{ margin: 0, fontSize: 11, color: 'var(--adm-text3)', fontFamily: 'monospace', wordBreak: 'break-all' }}>{deployment.id ?? '–'}</p>
             </div>
           </div>
         ) : (
-          <p style={{ margin: 0, fontSize: 13, color: '#6b7280' }}>
+          <p style={{ margin: 0, fontSize: 13, color: 'var(--adm-text3)' }}>
             Deployment-Infos nur in der Vercel-Produktionsumgebung verfügbar.
           </p>
         )}
@@ -258,7 +258,7 @@ export default async function AdminSystemPage() {
       {/* ── Gesamt-Speicher pro Bucket ──────────────────────────────────────── */}
       <SectionTitle>Speicherverbrauch (Supabase Storage)</SectionTitle>
       {bucketStats && bucketStats.length > 0 ? (
-        <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden', marginBottom: 32 }}>
+        <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden', marginBottom: 32 }}>
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', padding: '10px 20px', borderBottom: '1px solid var(--adm-border)' }}>
             {['Bucket', 'Dateien', 'Speicher'].map(h => (
               <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: 'var(--adm-text4)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>
@@ -267,17 +267,17 @@ export default async function AdminSystemPage() {
           {bucketStats.map((b, i) => (
             <div key={b.bucket_id} style={{
               display: 'grid', gridTemplateColumns: '2fr 1fr 1fr',
-              padding: '12px 20px', borderBottom: i < bucketStats.length - 1 ? '1px solid #1f2937' : 'none',
+              padding: '12px 20px', borderBottom: i < bucketStats.length - 1 ? '1px solid var(--adm-border)' : 'none',
               alignItems: 'center',
             }}>
-              <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'white', fontFamily: 'monospace' }}>{b.bucket_id}</p>
-              <p style={{ margin: 0, fontSize: 13, color: '#9ca3af' }}>{b.file_count?.toLocaleString('de-DE')}</p>
+              <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'var(--adm-text)', fontFamily: 'monospace' }}>{b.bucket_id}</p>
+              <p style={{ margin: 0, fontSize: 13, color: 'var(--adm-text2)' }}>{b.file_count?.toLocaleString('de-DE')}</p>
               <p style={{ margin: 0, fontSize: 13, color: '#60a5fa', fontWeight: 700 }}>{formatBytes(b.total_bytes ?? 0)}</p>
             </div>
           ))}
           <div style={{ padding: '12px 20px', borderTop: '2px solid var(--adm-border)', display: 'grid', gridTemplateColumns: '2fr 1fr 1fr' }}>
             <p style={{ margin: 0, fontSize: 12, fontWeight: 700, color: 'var(--adm-text3)', textTransform: 'uppercase' }}>Gesamt</p>
-            <p style={{ margin: 0, fontSize: 13, color: '#9ca3af' }}>
+            <p style={{ margin: 0, fontSize: 13, color: 'var(--adm-text2)' }}>
               {bucketStats.reduce((s, b) => s + (b.file_count ?? 0), 0).toLocaleString('de-DE')}
             </p>
             <p style={{ margin: 0, fontSize: 14, fontWeight: 900, color: '#34d399' }}>{formatBytes(totalStorageBytes)}</p>
@@ -328,7 +328,7 @@ export default async function AdminSystemPage() {
       {/* ── Speicher pro Organisation ───────────────────────────────────────── */}
       <SectionTitle>Speicher & Uploads pro Organisation</SectionTitle>
       {orgStorage && orgStorage.length > 0 ? (
-        <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden', marginBottom: 32 }}>
+        <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden', marginBottom: 32 }}>
           {/* Header */}
           <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1.6fr 110px', padding: '10px 20px', borderBottom: '1px solid var(--adm-border)' }}>
             {['Organisation', 'Bilder', 'Dokumente', 'Service', 'Speicher-Aufschlüsselung', ''].map(h => (
@@ -341,7 +341,7 @@ export default async function AdminSystemPage() {
             return (
               <div key={row.organization_id} style={{
                 display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1.6fr 110px',
-                padding: '14px 20px', borderBottom: i < orgStorage.length - 1 ? '1px solid #1f2937' : 'none',
+                padding: '14px 20px', borderBottom: i < orgStorage.length - 1 ? '1px solid var(--adm-border)' : 'none',
                 alignItems: 'center',
               }}>
                 {/* Org */}
@@ -353,7 +353,7 @@ export default async function AdminSystemPage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                   <span style={{ fontSize: 14, fontWeight: 700, color: '#f59e0b' }}>{row.image_count ?? 0}</span>
                   {(row.image_count ?? 0) > 0 && (
-                    <div style={{ flex: 1, maxWidth: 50, height: 3, borderRadius: 3, background: '#1f2937' }}>
+                    <div style={{ flex: 1, maxWidth: 50, height: 3, borderRadius: 3, background: 'var(--adm-border)' }}>
                       <div style={{ height: '100%', borderRadius: 3, background: '#f59e0b', width: `${Math.min(100, ((row.image_count ?? 0) / Math.max(...orgStorage.map(r => r.image_count ?? 1))) * 100)}%` }} />
                     </div>
                   )}
@@ -362,7 +362,7 @@ export default async function AdminSystemPage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                   <span style={{ fontSize: 14, fontWeight: 700, color: '#60a5fa' }}>{row.document_count ?? 0}</span>
                   {(row.document_count ?? 0) > 0 && (
-                    <div style={{ flex: 1, maxWidth: 50, height: 3, borderRadius: 3, background: '#1f2937' }}>
+                    <div style={{ flex: 1, maxWidth: 50, height: 3, borderRadius: 3, background: 'var(--adm-border)' }}>
                       <div style={{ height: '100%', borderRadius: 3, background: '#60a5fa', width: `${Math.min(100, ((row.document_count ?? 0) / Math.max(...orgStorage.map(r => r.document_count ?? 1))) * 100)}%` }} />
                     </div>
                   )}
@@ -371,7 +371,7 @@ export default async function AdminSystemPage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                   <span style={{ fontSize: 14, fontWeight: 700, color: '#a78bfa' }}>{row.service_entry_count ?? 0}</span>
                   {(row.service_entry_count ?? 0) > 0 && (
-                    <div style={{ flex: 1, maxWidth: 50, height: 3, borderRadius: 3, background: '#1f2937' }}>
+                    <div style={{ flex: 1, maxWidth: 50, height: 3, borderRadius: 3, background: 'var(--adm-border)' }}>
                       <div style={{ height: '100%', borderRadius: 3, background: '#a78bfa', width: `${Math.min(100, ((row.service_entry_count ?? 0) / Math.max(...orgStorage.map(r => r.service_entry_count ?? 1))) * 100)}%` }} />
                     </div>
                   )}
@@ -435,7 +435,7 @@ export default async function AdminSystemPage() {
 
       {/* ── Admin-Audit-Log ─────────────────────────────────────────────────── */}
       <SectionTitle>Admin-Audit-Log (letzte 20)</SectionTitle>
-      <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden' }}>
+      <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', padding: '10px 20px', borderBottom: '1px solid var(--adm-border)' }}>
           {['Aktion', 'Ziel', 'Zeit'].map(h => (
             <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: 'var(--adm-text4)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>

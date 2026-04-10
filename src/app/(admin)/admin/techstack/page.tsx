@@ -104,8 +104,8 @@ export default function TechStackPage() {
           Diese Dokumentation richtet sich an Entwickler und Nicht-Entwickler gleichermaßen. Jeder Bereich wird so erklärt, dass auch Softwareanfänger die Zusammenhänge verstehen.
         </p>
         <div>
-          {[['Next.js 16', '#003366', '#1e3a5f'], ['React 19', '#0e7490', '#0c3a4a'], ['TypeScript 5', '#1d4ed8', '#1e2d5e'], ['Supabase', '#166534', '#052e16'], ['Vercel', '#374151', '#1f2937'], ['next-intl 4', '#7c3aed', '#2d1b69']].map(([l, c, b]) => (
-            <span key={l} style={S.badge(c as string, b as string)}>{l}</span>
+          {[['Next.js 16', '#1e3a5f'], ['React 19', '#0c3a4a'], ['TypeScript 5', '#1e2d5e'], ['Supabase', '#052e16'], ['Vercel', '#1f2937'], ['next-intl 4', '#2d1b69']].map(([l, b]) => (
+            <span key={l} style={S.badge('white', b as string)}>{l}</span>
           ))}
         </div>
       </div>
