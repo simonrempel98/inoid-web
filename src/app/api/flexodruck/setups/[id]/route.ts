@@ -69,3 +69,31 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ ok: true })
 }
+
+// DELETE /api/flexodruck/setups/[id]
+export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Nicht angemeldet' }, { status: 401 })
+
+  const { data: profile } = await supabase
+    .from('profiles').select('organization_id, app_role').eq('id', user.id).single()
+  if (!['admin', 'superadmin'].includes(profile?.app_role ?? '')) {
+    return NextResponse.json({ error: 'Keine Berechtigung' }, { status: 403 })
+  }
+
+  const admin = createAdminClient()
+
+  // Schritte zuerst löschen (FK)
+  await admin.from('flexo_setup_steps').delete().eq('setup_id', id)
+
+  const { error } = await admin
+    .from('flexo_setups')
+    .delete()
+    .eq('id', id)
+    .eq('org_id', profile.organization_id)
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  return NextResponse.json({ ok: true })
+}

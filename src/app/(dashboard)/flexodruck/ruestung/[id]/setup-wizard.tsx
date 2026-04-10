@@ -262,6 +262,9 @@ export function SetupWizard({
   const [showCompleted, setShowCompleted] = useState(false)
   const [scanStepId, setScanStepId] = useState<string | null>(null)
   const [scanError, setScanError] = useState<string | null>(null)
+  const [deleteConfirm, setDeleteConfirm] = useState(false)
+  const [deleting, setDeleting] = useState(false)
+  const router = useRouter()
 
   const currentDW = druckwerke[currentDwIdx]
   const currentSteps = currentDW ? (stepsByDW[currentDW.id] ?? []) : []
@@ -311,6 +314,13 @@ export function SetupWizard({
       body: JSON.stringify({ status: 'in_progress' }),
     })
     if (res.ok) setStatus('in_progress')
+  }
+
+  async function deleteSetup() {
+    setDeleting(true)
+    const res = await fetch(`/api/flexodruck/setups/${setupId}`, { method: 'DELETE' })
+    setDeleting(false)
+    if (res.ok) router.push(`/flexodruck/maschinen/${machineId}`)
   }
 
   async function completeSetup() {
@@ -564,6 +574,35 @@ export function SetupWizard({
           <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#065f46', fontFamily: 'Arial, sans-serif' }}>✓ {t('setupCompletedBanner')}</p>
         </div>
       )}
+
+      {/* Löschen */}
+      <div style={{ marginTop: 40, borderTop: '1px solid #e8edf4', paddingTop: 24 }}>
+        {!deleteConfirm ? (
+          <button type="button" onClick={() => setDeleteConfirm(true)}
+            style={{ background: 'none', border: 'none', color: '#ef4444', fontSize: 13, cursor: 'pointer', fontFamily: 'Arial, sans-serif', padding: 0, textDecoration: 'underline' }}>
+            Rüstvorgang löschen
+          </button>
+        ) : (
+          <div style={{ background: '#fef2f2', borderRadius: 12, border: '1px solid #fca5a5', padding: '16px 20px' }}>
+            <p style={{ margin: '0 0 12px', fontSize: 14, fontWeight: 700, color: '#991b1b', fontFamily: 'Arial, sans-serif' }}>
+              Rüstvorgang wirklich löschen?
+            </p>
+            <p style={{ margin: '0 0 16px', fontSize: 13, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>
+              Diese Aktion kann nicht rückgängig gemacht werden. Alle Schritte werden ebenfalls gelöscht.
+            </p>
+            <div style={{ display: 'flex', gap: 10 }}>
+              <button type="button" onClick={deleteSetup} disabled={deleting}
+                style={{ background: '#ef4444', color: 'white', border: 'none', borderRadius: 20, padding: '8px 18px', fontSize: 13, fontWeight: 700, cursor: deleting ? 'default' : 'pointer', fontFamily: 'Arial, sans-serif', opacity: deleting ? 0.6 : 1 }}>
+                {deleting ? 'Löschen…' : 'Ja, löschen'}
+              </button>
+              <button type="button" onClick={() => setDeleteConfirm(false)}
+                style={{ background: 'white', color: '#6b7280', border: '1px solid #c8d4e8', borderRadius: 20, padding: '8px 18px', fontSize: 13, cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
+                Abbrechen
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
