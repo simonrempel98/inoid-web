@@ -44,6 +44,7 @@ const supabase = createClient(SUPABASE_URL, SERVICE_KEY)
 // Einstiegspunkte für den Crawler – alle Unterseiten werden automatisch gefunden
 const CRAWL_ROOTS = [
   'https://www.inometa.de/',
+  'https://printing.inometa.de/',
 ]
 
 // Maximale Anzahl Seiten pro Domain (Sicherheitsgrenze)
