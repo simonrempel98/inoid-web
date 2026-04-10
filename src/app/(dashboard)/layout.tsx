@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { BottomNav } from '@/components/nav-bottom'
 import { Sidebar } from '@/components/nav-sidebar'
+import { ClockTimer } from '@/components/clock-timer'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -55,6 +56,11 @@ export default async function DashboardLayout({ children }: { children: React.Re
           <Image src="/Inometa_INOid_21x13mm.png" alt="INOid" width={70} height={43} style={{ objectFit: 'contain' }} />
         </Link>
       </header>
+
+      {/* Uhr + Timer – nur Desktop */}
+      <div className="hidden md:block">
+        <ClockTimer />
+      </div>
 
       {/* Main Content */}
       <main className="md:ml-[230px]" style={{ paddingBottom: 80 }}>
