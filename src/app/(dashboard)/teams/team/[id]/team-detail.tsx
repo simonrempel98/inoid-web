@@ -65,7 +65,7 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
 }) {
   const t = useTranslations('teams')
   const tRoles = useTranslations('roles')
-  const isAdmin = currentUserRole === 'admin'
+  const isAdmin = currentUserRole === 'admin' || currentUserRole === 'superadmin'
   const router = useRouter()
 
   const roleLabels: Record<AppRole, string> = {
