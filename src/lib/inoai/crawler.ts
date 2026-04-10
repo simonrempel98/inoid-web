@@ -80,8 +80,7 @@ function extractLinks(html: string, baseUrl: string): { links: Set<string>; pdfs
 }
 
 async function parsePdf(url: string): Promise<string> {
-  // Dynamischer Import damit Next.js es nicht im Edge-Runtime lädt
-  const pdfParse = (await import('pdf-parse/lib/pdf-parse.js')).default
+  const pdfParse = (await import('pdf-parse')).default
   const res = await fetch(url, {
     headers: { 'User-Agent': 'INOid-KI-Bot/1.0' },
     signal: AbortSignal.timeout(20000),

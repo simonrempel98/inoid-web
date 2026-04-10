@@ -25,7 +25,7 @@ import { readFileSync, readdirSync, existsSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { config } from 'dotenv'
-import pdfParse from 'pdf-parse/lib/pdf-parse.js'
+import pdfParse from 'pdf-parse'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 config({ path: join(__dirname, '..', '.env.local') })
