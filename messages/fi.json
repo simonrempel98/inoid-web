@@ -957,6 +957,18 @@
           "Rooliväriset avatarit näyttävät kuka kirjoittaa",
           "Vain teksti – ei tiedosto- tai kuvasotkua"
         ]
+      },
+      "f11": {
+              "title": "INOai",
+              "badge": "AI",
+              "desc": "Your AI assistant for product and technology questions. Based on real INOMETA website content and datasheets.",
+              "points": [
+                      "Ask questions about INOMETA products",
+                      "Answers based on crawled websites and PDFs",
+                      "Shows sources for every answer",
+                      "Multilingual content supported",
+                      "Optional add-on module"
+              ]
       }
     },
     "roles": {

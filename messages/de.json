@@ -957,6 +957,18 @@
           "Rollenfarbige Avatare zeigen, wer schreibt",
           "Nur Text – kein Datei-/Bildchaos"
         ]
+      },
+      "f11": {
+        "title": "INOai",
+        "badge": "KI",
+        "desc": "Dein KI-Assistent für Produkt- und Technologiefragen. Basiert auf dem echten Inhalt der INOMETA-Webseiten und Datenblättern – beantwortet Fragen direkt aus der Wissensbasis.",
+        "points": [
+          "Stellt Fragen zu INOMETA-Produkten und Walzentechnologie",
+          "Antwortet auf Basis gecrawlter Webseiten und PDFs",
+          "Zeigt Quellen zu jeder Antwort an",
+          "Unterstützt mehrsprachige Inhalte (DE, EN, ...)",
+          "Opt-in Zusatzmodul – vom Admin aktivierbar"
+        ]
       }
     },
     "roles": {

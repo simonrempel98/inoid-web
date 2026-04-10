@@ -957,6 +957,18 @@
           "Avatars colorés par rôle indiquent qui écrit",
           "Texte uniquement – pas de fichiers ni d'images"
         ]
+      },
+      "f11": {
+              "title": "INOai",
+              "badge": "IA",
+              "desc": "Votre assistant IA pour les questions sur les produits et technologies. Basé sur le contenu réel des sites Web et fiches techniques INOMETA.",
+              "points": [
+                      "Posez des questions sur les produits INOMETA",
+                      "Réponses basées sur des pages et PDFs crawlés",
+                      "Affiche les sources pour chaque réponse",
+                      "Contenu multilingue (DE, EN, ...)",
+                      "Module optionnel – activable par l'administrateur"
+              ]
       }
     },
     "roles": {

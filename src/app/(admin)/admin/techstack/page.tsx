@@ -597,6 +597,7 @@ export default function TechStackPage() {
             { module: 'Team-Chat', color: '#fb923c', route: '/teams/chat', desc: 'Echtzeit-Team-Chat pro Organisation. Nachrichten können Assets erwähnen (@[AssetName]) und erzeugen klickbare Links.', features: ['Supabase Realtime WebSocket', '@Asset-Erwähnungen mit Suche', 'Automatisches Löschen (30 Tage)', 'Feature-Toggle per Org', 'Gruppiertung nach Datum'] },
             { module: 'Billing', color: '#38bdf8', route: '/settings/billing', desc: 'Plan-Verwaltung ohne Stripe. Rechnungsbasiertes System: Rechnung anfragen → Überweisung → 9-stelligen Code einlösen.', features: ['Rechnung als PDF per E-Mail', 'HMAC-SHA256 für Codes', 'Plan-Upgrade per Code', 'Keine automatische Zahlung'] },
             { module: 'Flexodruck', color: '#fb923c', route: '/flexodruck', desc: 'Spezialisierter Setup-Manager für Flexodruck-Maschinen. Verwaltet Druckwerke, Trägerstangen, Vorlagen und geführte Rüstvorgänge. Opt-in Feature-Toggle (features.flexodruck === true).', features: ['Maschinen mit N Druckwerken (1–20)', '2 feste Trägerstangen je Druckwerk', 'Variable Slot-Typen je Vorlage', 'Cross-Machine Template-Sharing', 'Geführter Rüst-Wizard (Schritt-Status)', 'Geplant → In Bearbeitung → Abgeschlossen'] },
+            { module: 'INOai', color: '#0099cc', route: '/inoai', desc: 'KI-Produktassistent auf Basis gecrawlter INOMETA-Webseiten und Datenblätter. RAG-System: Volltextsuche in inometa_knowledge → Kontext an Claude Haiku. Opt-in Feature-Toggle (features.inoai !== false).', features: ['Web-Crawler für beliebige Domains (admin konfigurierbar)', 'PDF-Parsing via pdf-parse v1.1.1 (Node.js)', 'Resumable Crawl: 50s Vercel-Instanzen, auto-Weiterführung', 'Suche via tsvector + search_inometa_knowledge() SQL-Funktion', 'Claude claude-haiku-4-5-20251001 für Antwort-Generierung', 'Dynamische Crawler-Verwaltung im Admin-Panel (/admin/inoai)', 'Statistiken: Unterseiten, Dokumente, Chunks pro Crawler'] },
             { module: 'i18n / Sprachen', color: '#818cf8', route: 'next-intl', desc: '28 Sprachen unterstützt. Übersetzungen liegen in messages/[lang].json. Das Admin-Panel ist bewusst ausgenommen.', features: ['Auto-Detection via HTTP-Header', 'Server + Client Components', '28 Sprach-Dateien', 'Namespaces: assets, service, wartung, teams, docs, billing, flexodruck, …'] },
           ].map(m => (
             <div key={m.module} style={{ ...S.card, marginBottom: 0 }}>
@@ -657,6 +658,7 @@ export default function TechStackPage() {
               ['RESEND_FROM_EMAIL', 'Absender-Adresse für E-Mails', 'Server only'],
               ['NEXT_PUBLIC_TURNSTILE_SITE_KEY', 'Cloudflare Turnstile – Bot-Schutz Register-Seite', 'Client'],
               ['TURNSTILE_SECRET_KEY', 'Cloudflare Turnstile – serverseitige Verifikation', 'Server only'],
+              ['ANTHROPIC_API_KEY', 'Claude API – INOai Antwort-Generierung (Haiku Modell)', 'Server only'],
               ['SENTRY_DSN', 'Sentry Error Monitoring – Fehler werden automatisch gemeldet', 'Server + Client'],
             ].map(([k, v, s]) => (
               <React.Fragment key={k as string}>

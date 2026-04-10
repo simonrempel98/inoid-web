@@ -957,6 +957,18 @@
           "Rolkleurige avatars tonen wie schrijft",
           "Alleen tekst – geen rommel met bestanden of afbeeldingen"
         ]
+      },
+      "f11": {
+              "title": "INOai",
+              "badge": "AI",
+              "desc": "Uw AI-assistent voor product- en technologievragen. Gebaseerd op echte inhoud van INOMETA-websites en datasheets.",
+              "points": [
+                      "Stel vragen over INOMETA-producten",
+                      "Antwoorden op basis van gecrawlde paginas en PDFs",
+                      "Toont bronnen bij elk antwoord",
+                      "Meertalige inhoud (DE, EN, ...)",
+                      "Optionele module – activeerbaar door beheerder"
+              ]
       }
     },
     "roles": {

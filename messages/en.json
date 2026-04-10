@@ -957,6 +957,18 @@
           "Role-colored avatars show who is writing",
           "Text only – no file or image clutter"
         ]
+      },
+      "f11": {
+              "title": "INOai",
+              "badge": "AI",
+              "desc": "Your AI assistant for product and technology questions. Based on real content from INOMETA websites and datasheets – answers questions directly from the knowledge base.",
+              "points": [
+                      "Ask questions about INOMETA products and roll technology",
+                      "Answers based on crawled websites and PDFs",
+                      "Shows sources for every answer",
+                      "Supports multilingual content (DE, EN, ...)",
+                      "Optional add-on module – can be activated by admin"
+              ]
       }
     },
     "roles": {
