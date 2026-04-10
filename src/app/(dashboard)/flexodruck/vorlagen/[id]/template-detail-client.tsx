@@ -284,12 +284,6 @@ export function TemplateDetailClient({
         </div>
       )}
 
-      {/* Feste Einbauten Info */}
-      <div style={{ marginTop: 16, background: '#f4f6f9', borderRadius: 12, border: '1px solid #c8d4e8', padding: '12px 16px' }}>
-        <p style={{ margin: 0, fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>
-          <strong style={{ color: '#003366' }}>{t('fixedSlots')}</strong> {t('fixedSlotsInfo')}
-        </p>
-      </div>
     </div>
   )
 }
