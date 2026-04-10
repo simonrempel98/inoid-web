@@ -79,3 +79,26 @@ export async function POST(req: NextRequest) {
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ message: msg })
 }
+
+export async function PATCH(req: NextRequest) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Nicht eingeloggt' }, { status: 401 })
+
+  const body = await req.json()
+  const messageId: string = body.messageId ?? ''
+  const content: string = (body.content ?? '').trim()
+
+  if (!messageId) return NextResponse.json({ error: 'messageId fehlt' }, { status: 400 })
+  if (!content || content.length > 2000) return NextResponse.json({ error: 'Nachricht ungültig' }, { status: 400 })
+
+  // Nur eigene Nachrichten bearbeiten
+  const { error } = await supabase
+    .from('chat_messages')
+    .update({ content, edited_at: new Date().toISOString() })
+    .eq('id', messageId)
+    .eq('user_id', user.id)
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  return NextResponse.json({ success: true })
+}

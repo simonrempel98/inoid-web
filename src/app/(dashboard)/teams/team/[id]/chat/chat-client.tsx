@@ -12,6 +12,7 @@ type ChatMessage = {
   content: string
   asset_mentions: string[]
   created_at: string
+  edited_at: string | null
 }
 
 type AssetHit = { id: string; title: string; category: string | null }
@@ -80,6 +81,10 @@ export function ChatClient({
   const [sending, setSending] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  const [editingId, setEditingId] = useState<string | null>(null)
+  const [editContent, setEditContent] = useState('')
+  const [savingEdit, setSavingEdit] = useState(false)
+
   const [mentionQuery, setMentionQuery] = useState<string | null>(null)
   const [mentionResults, setMentionResults] = useState<AssetHit[]>([])
   const [mentionIndex, setMentionIndex] = useState(0)
@@ -108,6 +113,15 @@ export function ChatClient({
             if (prev.find(m => m.id === (payload.new as ChatMessage).id)) return prev
             return [...prev, payload.new as ChatMessage]
           })
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'chat_messages', filter: `team_id=eq.${teamId}` },
+        payload => {
+          setMessages(prev => prev.map(m =>
+            m.id === (payload.new as ChatMessage).id ? { ...m, ...(payload.new as ChatMessage) } : m
+          ))
         }
       )
       .subscribe()
@@ -163,6 +177,33 @@ export function ChatClient({
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
       handleSend()
+    }
+  }
+
+  function startEdit(msg: ChatMessage) {
+    setEditingId(msg.id)
+    setEditContent(msg.content)
+  }
+
+  function cancelEdit() {
+    setEditingId(null)
+    setEditContent('')
+  }
+
+  async function saveEdit() {
+    if (!editingId || !editContent.trim()) return
+    setSavingEdit(true)
+    const res = await fetch('/api/chat/messages', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messageId: editingId, content: editContent.trim() }),
+    })
+    setSavingEdit(false)
+    if (res.ok) {
+      setMessages(prev => prev.map(m =>
+        m.id === editingId ? { ...m, content: editContent.trim(), edited_at: new Date().toISOString() } : m
+      ))
+      cancelEdit()
     }
   }
 
@@ -263,26 +304,68 @@ export function ChatClient({
                         )}
                       </div>
                     )}
-                    <div style={{
-                      background: isMine ? '#003366' : 'white',
-                      color: isMine ? 'white' : '#000',
-                      borderRadius: isMine
-                        ? (isSameSender ? '14px 4px 4px 14px' : '14px 4px 14px 14px')
-                        : (isSameSender ? '4px 14px 14px 4px' : '4px 14px 14px 14px'),
-                      padding: '9px 13px', fontSize: 14, lineHeight: 1.45,
-                      boxShadow: '0 1px 4px rgba(0,40,100,0.08)',
-                      border: isMine ? 'none' : '1px solid #e8eef6',
-                      wordBreak: 'break-word',
-                    }}>
-                      {renderContent(msg.content)}
-                    </div>
-                    <div style={{
-                      fontSize: 10, color: '#96aed2', marginTop: 3,
-                      textAlign: isMine ? 'right' : 'left',
-                      paddingLeft: isMine ? 0 : 2, paddingRight: isMine ? 2 : 0,
-                    }}>
-                      {formatTime(msg.created_at)}
-                    </div>
+
+                    {editingId === msg.id ? (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                        <textarea
+                          value={editContent}
+                          onChange={e => setEditContent(e.target.value)}
+                          onKeyDown={e => {
+                            if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); saveEdit() }
+                            if (e.key === 'Escape') cancelEdit()
+                          }}
+                          autoFocus
+                          style={{
+                            background: '#003366', color: 'white', border: '2px solid rgba(255,255,255,0.4)',
+                            borderRadius: '14px 4px 14px 14px', padding: '9px 13px',
+                            fontSize: 14, fontFamily: 'Arial, sans-serif', lineHeight: 1.45,
+                            outline: 'none', resize: 'none', minWidth: 180, width: '100%',
+                          }}
+                          rows={Math.max(1, editContent.split('\n').length)}
+                        />
+                        <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end' }}>
+                          <button onClick={cancelEdit} style={{ fontSize: 11, padding: '4px 10px', borderRadius: 6, border: '1px solid #c8d4e8', background: 'white', color: '#666', cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
+                            Abbrechen
+                          </button>
+                          <button onClick={saveEdit} disabled={savingEdit || !editContent.trim()} style={{ fontSize: 11, padding: '4px 10px', borderRadius: 6, border: 'none', background: '#003366', color: 'white', cursor: 'pointer', fontFamily: 'Arial, sans-serif', fontWeight: 700, opacity: savingEdit ? 0.6 : 1 }}>
+                            {savingEdit ? '…' : 'Speichern'}
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div
+                          style={{
+                            background: isMine ? '#003366' : 'white',
+                            color: isMine ? 'white' : '#000',
+                            borderRadius: isMine
+                              ? (isSameSender ? '14px 4px 4px 14px' : '14px 4px 14px 14px')
+                              : (isSameSender ? '4px 14px 14px 4px' : '4px 14px 14px 14px'),
+                            padding: '9px 13px', fontSize: 14, lineHeight: 1.45,
+                            boxShadow: '0 1px 4px rgba(0,40,100,0.08)',
+                            border: isMine ? 'none' : '1px solid #e8eef6',
+                            wordBreak: 'break-word', cursor: isMine ? 'pointer' : 'default',
+                          }}
+                          onDoubleClick={() => isMine && startEdit(msg)}
+                        >
+                          {renderContent(msg.content)}
+                        </div>
+                        <div style={{
+                          fontSize: 10, color: '#96aed2', marginTop: 3,
+                          textAlign: isMine ? 'right' : 'left',
+                          paddingLeft: isMine ? 0 : 2, paddingRight: isMine ? 2 : 0,
+                          display: 'flex', gap: 6, justifyContent: isMine ? 'flex-end' : 'flex-start', alignItems: 'center',
+                        }}>
+                          {msg.edited_at && <span style={{ fontStyle: 'italic' }}>bearbeitet ·</span>}
+                          {formatTime(msg.created_at)}
+                          {isMine && (
+                            <button onClick={() => startEdit(msg)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#96aed2', padding: 0, fontSize: 10, fontFamily: 'Arial, sans-serif', display: 'flex', alignItems: 'center' }}>
+                              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            </button>
+                          )}
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               )

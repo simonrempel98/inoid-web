@@ -68,7 +68,7 @@ export default async function TeamChatPage({
 
   const { data: messages } = await supabase
     .from('chat_messages')
-    .select('id, user_id, sender_name, sender_role, content, asset_mentions, created_at')
+    .select('id, user_id, sender_name, sender_role, content, asset_mentions, created_at, edited_at')
     .eq('organization_id', orgId)
     .eq('team_id', teamId)
     .gte('created_at', thirtyDaysAgo)
