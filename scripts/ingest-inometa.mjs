@@ -9,14 +9,15 @@
  *   SUPABASE_SERVICE_ROLE_KEY
  *
  * Was dieses Script tut:
- *   1. Ruft die INOMETA-Webseiten ab und extrahiert Text
- *   2. Chunked den Text in ~400-Wort-Abschnitte
- *   3. Schreibt alle Chunks in die inometa_knowledge Tabelle
+ *   1. Crawlt alle Unterseiten der konfigurierten Domains automatisch
+ *   2. Extrahiert den sichtbaren Text jeder Seite
+ *   3. Chunked den Text in ~400-Wort-Abschnitte
+ *   4. Schreibt alle Chunks in die inometa_knowledge Tabelle
  *
- * PDFs (Datenblätter, Broschüren):
- *   - Lege Text-Dateien in scripts/knowledge/ ab (eine Datei = ein Dokument)
- *   - Format: Erste Zeile = Titel, Rest = Inhalt
- *   - source_type in Dateiname: "datasheet_" oder "brochure_" als Prefix
+ * PDFs / Datenblätter als Text:
+ *   - Lege .txt-Dateien in scripts/knowledge/ ab
+ *   - Erste Zeile = Titel, Rest = Inhalt
+ *   - Dateiname-Prefix: "datasheet_", "brochure_"
  */
 
 import { createClient } from '@supabase/supabase-js'
@@ -38,18 +39,33 @@ if (!SUPABASE_URL || !SERVICE_KEY) {
 
 const supabase = createClient(SUPABASE_URL, SERVICE_KEY)
 
-// ── Konfiguration: INOMETA-Webseiten ──────────────────────────────────────────
-// Trage hier alle INOMETA-URLs ein, die indexiert werden sollen:
-const WEB_URLS = [
-  // Beispiele – durch echte INOMETA-URLs ersetzen:
-  // 'https://www.inometa.de/produkte',
-  // 'https://www.inometa.de/trägerstangen',
-  // 'https://www.inometa.de/sleeves',
+// ── Konfiguration ─────────────────────────────────────────────────────────────
+
+// Einstiegspunkte für den Crawler – alle Unterseiten werden automatisch gefunden
+const CRAWL_ROOTS = [
+  'https://www.inometa.de/',
+]
+
+// Maximale Anzahl Seiten pro Domain (Sicherheitsgrenze)
+const MAX_PAGES_PER_DOMAIN = 200
+
+// Verzögerung zwischen Requests (ms) – höflich zum Server
+const CRAWL_DELAY_MS = 300
+
+// URL-Muster die NICHT gecrawlt werden sollen (regex)
+const SKIP_PATTERNS = [
+  /\.(pdf|jpg|jpeg|png|gif|svg|webp|mp4|zip|docx?|xlsx?)$/i,
+  /\?(utm_|ref=|session)/i,
+  /#/,
+  /\/wp-admin/,
+  /\/feed\//,
+  /\/tag\//,
+  /\/author\//,
+  /\/page\/\d+/,
 ]
 
 // ── Hilfsfunktionen ───────────────────────────────────────────────────────────
 
-/** Text in Chunks aufteilen (~400 Wörter) */
 function chunkText(text, maxWords = 400) {
   const words = text.split(/\s+/).filter(Boolean)
   const chunks = []
@@ -59,48 +75,151 @@ function chunkText(text, maxWords = 400) {
   return chunks
 }
 
-/** HTML-Tags entfernen + Whitespace normalisieren */
 function stripHtml(html) {
   return html
     .replace(/<script[\s\S]*?<\/script>/gi, '')
     .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<nav[\s\S]*?<\/nav>/gi, '')
+    .replace(/<footer[\s\S]*?<\/footer>/gi, '')
+    .replace(/<header[\s\S]*?<\/header>/gi, '')
+    .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/<[^>]+>/g, ' ')
     .replace(/&nbsp;/g, ' ')
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
     .replace(/&quot;/g, '"')
+    .replace(/&#\d+;/g, ' ')
     .replace(/\s{2,}/g, ' ')
     .trim()
 }
 
-/** Seiten-Titel aus HTML extrahieren */
 function extractTitle(html) {
-  const match = html.match(/<title[^>]*>([^<]+)<\/title>/i)
-  return match ? match[1].replace(/\s*[-|]\s*.*$/, '').trim() : 'Unbekannte Seite'
+  // Erst <h1>, dann <title>
+  const h1 = html.match(/<h1[^>]*>([^<]+)<\/h1>/i)
+  if (h1) return h1[1].trim()
+  const title = html.match(/<title[^>]*>([^<]+)<\/title>/i)
+  return title ? title[1].replace(/\s*[-|–]\s*.*$/, '').trim() : 'Unbekannte Seite'
+}
+
+/** Alle internen Links aus einer HTML-Seite extrahieren */
+function extractLinks(html, baseUrl) {
+  const base = new URL(baseUrl)
+  const links = new Set()
+  const hrefRe = /href=["']([^"'#?][^"']*?)["']/gi
+  let match
+  while ((match = hrefRe.exec(html)) !== null) {
+    try {
+      const url = new URL(match[1], baseUrl)
+      // Nur gleiche Domain
+      if (url.hostname !== base.hostname) continue
+      // Fragment und Query entfernen für saubere URLs
+      url.hash = ''
+      // Nur http/https
+      if (!['http:', 'https:'].includes(url.protocol)) continue
+      // Skip-Patterns prüfen
+      if (SKIP_PATTERNS.some(p => p.test(url.pathname + url.search))) continue
+      links.add(url.href)
+    } catch {
+      // ungültige URL ignorieren
+    }
+  }
+  return links
+}
+
+function sleep(ms) {
+  return new Promise(r => setTimeout(r, ms))
+}
+
+// ── Crawler ───────────────────────────────────────────────────────────────────
+
+async function crawlSite(rootUrl) {
+  const base = new URL(rootUrl)
+  const visited = new Set()
+  const queue = [rootUrl]
+  const results = [] // { url, title, text }
+
+  console.log(`\n🕷️  Starte Crawler für ${base.hostname}`)
+  console.log(`   Max. ${MAX_PAGES_PER_DOMAIN} Seiten, ${CRAWL_DELAY_MS}ms Pause zwischen Requests\n`)
+
+  while (queue.length > 0 && visited.size < MAX_PAGES_PER_DOMAIN) {
+    const url = queue.shift()
+    if (visited.has(url)) continue
+    visited.add(url)
+
+    process.stdout.write(`  [${visited.size}/${MAX_PAGES_PER_DOMAIN}] ${url.replace(base.origin, '')} `)
+
+    try {
+      await sleep(CRAWL_DELAY_MS)
+      const res = await fetch(url, {
+        headers: {
+          'User-Agent': 'INOid-KI-Bot/1.0 (internal product knowledge indexer)',
+          'Accept': 'text/html',
+        },
+        signal: AbortSignal.timeout(10000),
+      })
+
+      if (!res.ok) {
+        console.log(`→ HTTP ${res.status}`)
+        continue
+      }
+
+      const contentType = res.headers.get('content-type') ?? ''
+      if (!contentType.includes('text/html')) {
+        console.log(`→ kein HTML (${contentType})`)
+        continue
+      }
+
+      const html = await res.text()
+      const title = extractTitle(html)
+      const text = stripHtml(html)
+
+      // Seiten mit zu wenig Inhalt überspringen (Nav-only Seiten etc.)
+      const wordCount = text.split(/\s+/).filter(Boolean).length
+      if (wordCount < 50) {
+        console.log(`→ zu wenig Text (${wordCount} Wörter)`)
+        continue
+      }
+
+      console.log(`→ "${title}" (${wordCount} Wörter)`)
+      results.push({ url, title, text })
+
+      // Neue Links in Queue aufnehmen
+      const links = extractLinks(html, url)
+      for (const link of links) {
+        if (!visited.has(link) && !queue.includes(link)) {
+          queue.push(link)
+        }
+      }
+    } catch (e) {
+      console.log(`→ Fehler: ${e.message}`)
+    }
+  }
+
+  if (queue.length > 0) {
+    console.log(`\n  ⚠️  ${queue.length} weitere URLs in Queue, aber Limit (${MAX_PAGES_PER_DOMAIN}) erreicht`)
+  }
+
+  console.log(`\n  ✅ ${results.length} Seiten erfolgreich gecrawlt`)
+  return results
 }
 
 // ── Website-Ingestion ─────────────────────────────────────────────────────────
-async function ingestUrls() {
-  if (WEB_URLS.length === 0) {
-    console.log('ℹ️  Keine URLs konfiguriert (WEB_URLS in scripts/ingest-inometa.mjs)')
+
+async function ingestWebsites() {
+  if (CRAWL_ROOTS.length === 0) {
+    console.log('ℹ️  Keine URLs in CRAWL_ROOTS konfiguriert')
     return 0
   }
 
   let total = 0
-  for (const url of WEB_URLS) {
-    try {
-      console.log(`🌐 Lade: ${url}`)
-      const res = await fetch(url, {
-        headers: { 'User-Agent': 'INOid-KI-Bot/1.0 (internal indexer)' },
-      })
-      if (!res.ok) { console.warn(`  ⚠️  HTTP ${res.status}`); continue }
-      const html = await res.text()
-      const title = extractTitle(html)
-      const text = stripHtml(html)
-      const chunks = chunkText(text)
-      console.log(`  📄 "${title}" → ${chunks.length} Chunks`)
 
+  for (const rootUrl of CRAWL_ROOTS) {
+    const pages = await crawlSite(rootUrl)
+
+    console.log(`\n💾 Schreibe ${pages.length} Seiten in Datenbank…`)
+    for (const { url, title, text } of pages) {
+      const chunks = chunkText(text)
       const rows = chunks.map((content, i) => ({
         title: chunks.length > 1 ? `${title} (${i + 1}/${chunks.length})` : title,
         content,
@@ -111,29 +230,34 @@ async function ingestUrls() {
       }))
 
       const { error } = await supabase.from('inometa_knowledge').insert(rows)
-      if (error) console.error(`  ❌ DB-Fehler: ${error.message}`)
-      else { total += rows.length; console.log(`  ✅ ${rows.length} Chunks eingefügt`) }
-    } catch (e) {
-      console.error(`  ❌ Fehler beim Laden von ${url}:`, e.message)
+      if (error) {
+        console.error(`  ❌ DB-Fehler für ${url}: ${error.message}`)
+      } else {
+        total += rows.length
+      }
     }
+    console.log(`  ✅ ${total} Chunks total eingefügt`)
   }
+
   return total
 }
 
 // ── Datei-Ingestion (Datenblätter/Broschüren als .txt) ───────────────────────
+
 async function ingestLocalFiles() {
   const dir = join(__dirname, 'knowledge')
   if (!existsSync(dir)) {
     console.log('ℹ️  Kein scripts/knowledge/ Verzeichnis gefunden')
-    console.log('   → Lege .txt-Dateien in scripts/knowledge/ ab:')
-    console.log('     - Erste Zeile: Titel des Dokuments')
-    console.log('     - Rest: Inhalt')
-    console.log('     - Dateiname-Prefix: "datasheet_", "brochure_", oder "website_"')
     return 0
   }
 
   const files = readdirSync(dir).filter(f => f.endsWith('.txt'))
-  if (files.length === 0) { console.log('ℹ️  Keine .txt-Dateien in scripts/knowledge/'); return 0 }
+  if (files.length === 0) {
+    console.log('ℹ️  Keine .txt-Dateien in scripts/knowledge/')
+    console.log('   → Dateiname-Prefix: "datasheet_" (Datenblatt) oder "brochure_" (Broschüre)')
+    console.log('   → Erste Zeile = Titel, Rest = Inhalt')
+    return 0
+  }
 
   let total = 0
   for (const file of files) {
@@ -147,7 +271,7 @@ async function ingestLocalFiles() {
     else if (file.startsWith('brochure_')) sourceType = 'brochure'
 
     const chunks = chunkText(content)
-    console.log(`📂 ${file} → ${chunks.length} Chunks (${sourceType})`)
+    console.log(`  📂 ${file} → ${chunks.length} Chunks (${sourceType})`)
 
     const rows = chunks.map((chunk, i) => ({
       title: chunks.length > 1 ? `${title} (${i + 1}/${chunks.length})` : title,
@@ -166,26 +290,30 @@ async function ingestLocalFiles() {
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────────
+
 async function main() {
   console.log('\n🤖 INOai Knowledge Base Ingestion\n' + '='.repeat(40))
+  console.log(`Domains: ${CRAWL_ROOTS.join(', ')}`)
 
   // Bestehende Einträge löschen (komplette Neuindexierung)
-  console.log('\n🗑️  Lösche bestehende Einträge…')
-  const { error: delErr } = await supabase.from('inometa_knowledge').delete().neq('id', '00000000-0000-0000-0000-000000000000')
+  console.log('\n🗑️  Lösche bestehende Website-Einträge…')
+  const { error: delErr } = await supabase
+    .from('inometa_knowledge')
+    .delete()
+    .eq('source_type', 'website')
   if (delErr) { console.error('❌ Löschen fehlgeschlagen:', delErr.message); process.exit(1) }
 
-  console.log('\n🌐 Website-Ingestion…')
-  const webCount = await ingestUrls()
+  console.log('\n🌐 Website-Crawling…')
+  const webCount = await ingestWebsites()
 
-  console.log('\n📁 Datei-Ingestion…')
+  console.log('\n📁 Datei-Ingestion (Datenblätter/Broschüren)…')
   const fileCount = await ingestLocalFiles()
 
   console.log('\n' + '='.repeat(40))
   console.log(`✅ Fertig! ${webCount + fileCount} Chunks total in Wissensbasis`)
-  console.log('\nNächste Schritte:')
-  console.log('  1. Füge INOMETA-URLs in WEB_URLS ein und führe das Script erneut aus')
-  console.log('  2. Lege Datenblatt-Texte als .txt in scripts/knowledge/ ab')
-  console.log('  3. Script bei neuen Inhalten erneut ausführen (ersetzt alle bestehenden Einträge)\n')
+  console.log(`   - ${webCount} aus Websites`)
+  console.log(`   - ${fileCount} aus lokalen Dateien`)
+  console.log('\nINOai ist jetzt einsatzbereit.\n')
 }
 
 main().catch(e => { console.error(e); process.exit(1) })
