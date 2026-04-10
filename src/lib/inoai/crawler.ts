@@ -1,18 +1,22 @@
 // @ts-nocheck
 import { createAdminClient } from '@/lib/supabase/admin'
 
-// ── Crawler-Konfigurationen ───────────────────────────────────────────────────
-
 export type CrawlerConfig = {
   id: string
   name: string
-  url: string       // Einstiegs-URL – Crawler bleibt innerhalb dieses Pfad-Präfixes
+  url: string
   lang: string
 }
 
-// ── Einstellungen ─────────────────────────────────────────────────────────────
+export type ResumeState = {
+  queue: string[]
+  visited: string[]
+  pdfQueue: string[]
+  visitedPdfs: string[]
+}
 
 const CRAWL_DELAY_MS = 300
+const MAX_RUN_MS = 50_000 // 50 Sek. pro Instanz
 
 const SKIP_PATTERNS = [
   /\.(jpg|jpeg|png|gif|svg|webp|mp4|zip|docx?|xlsx?)$/i,
@@ -27,8 +31,6 @@ const SKIP_PATTERNS = [
   /\/jobs/i,
   /\/stellenangebote/i,
 ]
-
-// ── Hilfsfunktionen ───────────────────────────────────────────────────────────
 
 function sleep(ms: number) {
   return new Promise(r => setTimeout(r, ms))
@@ -69,7 +71,6 @@ function extractTitle(html: string): string {
   return title ? title[1].replace(/\s*[-|–]\s*.*$/, '').trim() : 'Unbekannte Seite'
 }
 
-/** Links extrahieren – nur innerhalb des Root-Pfad-Präfixes */
 function extractLinks(html: string, pageUrl: string, rootUrl: URL): { links: Set<string>; pdfs: Set<string> } {
   const links = new Set<string>()
   const pdfs = new Set<string>()
@@ -83,7 +84,6 @@ function extractLinks(html: string, pageUrl: string, rootUrl: URL): { links: Set
       if (!['http:', 'https:'].includes(url.protocol)) continue
       if (/\.pdf$/i.test(url.pathname)) { pdfs.add(url.href); continue }
       if (SKIP_PATTERNS.some(p => p.test(url.pathname + url.search))) continue
-      // Nur innerhalb des Root-Pfad-Präfixes crawlen
       if (!url.pathname.startsWith(rootUrl.pathname)) continue
       links.add(url.href)
     } catch { /* ignore */ }
@@ -104,7 +104,30 @@ async function parsePdf(url: string): Promise<string> {
   return data.text.replace(/\s{2,}/g, ' ').trim()
 }
 
-// ── Haupt-Crawl-Funktion ──────────────────────────────────────────────────────
+async function saveChunks(
+  admin: ReturnType<typeof createAdminClient>,
+  url: string,
+  title: string,
+  text: string,
+  sourceType: string,
+  lang: string,
+  crawlerId: string,
+  log: (msg: string) => void,
+): Promise<{ inserted: number; error: boolean }> {
+  const chunks = chunkText(text)
+  const rows = chunks.map((content, i) => ({
+    title: chunks.length > 1 ? `${title} (${i + 1}/${chunks.length})` : title,
+    content,
+    source_url: url,
+    source_type: sourceType,
+    language: lang,
+    crawler_id: crawlerId,
+    chunk_index: i,
+  }))
+  const { error } = await admin.from('inometa_knowledge').insert(rows)
+  if (error) { log(`  ❌ DB-Fehler: ${error.message}`); return { inserted: 0, error: true } }
+  return { inserted: rows.length, error: false }
+}
 
 export type CrawlStats = {
   pagesFound: number
@@ -113,40 +136,66 @@ export type CrawlStats = {
   errors: number
 }
 
+export type CrawlResult = {
+  done: boolean
+  resume?: ResumeState
+  stats: CrawlStats
+}
+
 export async function runCrawl(
   crawlerId: string,
   log: (msg: string) => void,
-): Promise<CrawlStats> {
+  resume?: ResumeState,
+): Promise<CrawlResult> {
   const admin = createAdminClient()
+  const startTime = Date.now()
 
-  // Konfiguration aus DB laden
   const { data: config, error: cfgErr } = await admin
     .from('inoai_crawlers')
     .select('*')
     .eq('id', crawlerId)
     .single()
   if (cfgErr || !config) throw new Error(`Crawler nicht gefunden: ${crawlerId}`)
+
   const stats: CrawlStats = { pagesFound: 0, pdfsFound: 0, chunksInserted: 0, errors: 0 }
   const rootUrl = new URL(config.url)
 
-  log(`🗑️  Lösche bestehende Einträge für "${config.name}"…`)
-  const { error: delErr } = await admin
-    .from('inometa_knowledge')
-    .delete()
-    .eq('crawler_id', crawlerId)
-  if (delErr) throw new Error(`Löschen fehlgeschlagen: ${delErr.message}`)
-  log(`✓ Einträge gelöscht`)
+  // Beim ersten Aufruf (kein Resume): bestehende Einträge löschen
+  if (!resume) {
+    log(`🗑️  Lösche bestehende Einträge für "${config.name}"…`)
+    const { error: delErr } = await admin
+      .from('inometa_knowledge')
+      .delete()
+      .eq('crawler_id', crawlerId)
+    if (delErr) throw new Error(`Löschen fehlgeschlagen: ${delErr.message}`)
+    log(`✓ Einträge gelöscht`)
+    log(`\n🕷️  Crawle ${config.url}…`)
+  } else {
+    log(`▶ Weiter: ${resume.queue.length} Seiten + ${resume.pdfQueue.length} PDFs verbleibend…`)
+  }
 
-  log(`\n🕷️  Crawle ${config.url} (kein Seitenlimit)…`)
-
-  const visited = new Set<string>()
-  const visitedPdfs = new Set<string>()
-  const queue = [config.url]
-  const pdfQueue: string[] = []
-  const docs: { url: string; title: string; text: string; sourceType: string }[] = []
+  const visited = new Set<string>(resume?.visited ?? [])
+  const visitedPdfs = new Set<string>(resume?.visitedPdfs ?? [])
+  const queue: string[] = resume?.queue ?? [config.url]
+  const pdfQueue: string[] = resume?.pdfQueue ?? []
 
   // HTML-Seiten crawlen
   while (queue.length > 0) {
+    // Zeit prüfen – wenn fast voll, pausieren
+    if (Date.now() - startTime > MAX_RUN_MS) {
+      log(`⏱️  Zeitlimit erreicht – pausiere (${queue.length} Seiten + ${pdfQueue.length} PDFs verbleibend)`)
+      return {
+        done: false,
+        resume: {
+          queue,
+          visited: Array.from(visited),
+          pdfQueue,
+          visitedPdfs: Array.from(visitedPdfs),
+        },
+        stats,
+      }
+    }
+
     const url = queue.shift()!
     if (visited.has(url)) continue
     visited.add(url)
@@ -168,8 +217,10 @@ export async function runCrawl(
       if (wc < 50) continue
 
       log(`  📄 [${visited.size}] ${url.replace(rootUrl.origin, '')} → "${title}" (${wc} Wörter)`)
-      docs.push({ url, title, text, sourceType: 'website' })
-      stats.pagesFound++
+
+      const { inserted, error } = await saveChunks(admin, url, title, text, 'website', config.lang, crawlerId, log)
+      if (error) stats.errors++
+      else { stats.chunksInserted += inserted; stats.pagesFound++ }
 
       const { links, pdfs } = extractLinks(html, url, rootUrl)
       for (const l of links) if (!visited.has(l) && !queue.includes(l)) queue.push(l)
@@ -182,8 +233,23 @@ export async function runCrawl(
 
   // PDFs herunterladen
   if (pdfQueue.length > 0) {
-    log(`\n  📑 ${pdfQueue.length} PDFs gefunden – lade herunter…`)
-    for (const pdfUrl of pdfQueue) {
+    log(`\n  📑 ${pdfQueue.length} PDFs – lade herunter…`)
+    while (pdfQueue.length > 0) {
+      if (Date.now() - startTime > MAX_RUN_MS) {
+        log(`⏱️  Zeitlimit erreicht – pausiere (${pdfQueue.length} PDFs verbleibend)`)
+        return {
+          done: false,
+          resume: {
+            queue: [],
+            visited: Array.from(visited),
+            pdfQueue,
+            visitedPdfs: Array.from(visitedPdfs),
+          },
+          stats,
+        }
+      }
+
+      const pdfUrl = pdfQueue.shift()!
       visitedPdfs.add(pdfUrl)
       const filename = decodeURIComponent(pdfUrl.split('/').pop() ?? pdfUrl)
       try {
@@ -193,8 +259,9 @@ export async function runCrawl(
         if (wc < 30) continue
         const title = filename.replace(/\.pdf$/i, '').replace(/[-_]/g, ' ')
         log(`  📄 PDF: "${title}" (${wc} Wörter)`)
-        docs.push({ url: pdfUrl, title, text, sourceType: 'datasheet' })
-        stats.pdfsFound++
+        const { inserted, error } = await saveChunks(admin, pdfUrl, title, text, 'datasheet', config.lang, crawlerId, log)
+        if (error) stats.errors++
+        else { stats.chunksInserted += inserted; stats.pdfsFound++ }
       } catch (e: any) {
         log(`  ❌ PDF ${filename} → ${e.message}`)
         stats.errors++
@@ -202,23 +269,5 @@ export async function runCrawl(
     }
   }
 
-  // In DB schreiben
-  log(`\n  💾 Schreibe ${docs.length} Dokumente in Datenbank…`)
-  for (const { url, title, text, sourceType } of docs) {
-    const chunks = chunkText(text)
-    const rows = chunks.map((content, i) => ({
-      title: chunks.length > 1 ? `${title} (${i + 1}/${chunks.length})` : title,
-      content,
-      source_url: url,
-      source_type: sourceType,
-      language: config.lang,
-      crawler_id: crawlerId,
-      chunk_index: i,
-    }))
-    const { error } = await admin.from('inometa_knowledge').insert(rows)
-    if (error) { log(`  ❌ DB-Fehler: ${error.message}`); stats.errors++ }
-    else stats.chunksInserted += rows.length
-  }
-
-  return stats
+  return { done: true, stats }
 }

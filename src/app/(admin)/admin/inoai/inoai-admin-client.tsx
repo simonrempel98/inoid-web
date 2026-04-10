@@ -40,16 +40,21 @@ function CrawlerCard({
     setRunning(true)
     setDone(false)
     setLog(['Verbinde…'])
+    await runBatch(undefined)
+  }
+
+  async function runBatch(resume: unknown) {
     try {
       const res = await fetch('/api/admin/inoai/crawl', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ crawlerId: crawler.id }),
+        body: JSON.stringify({ crawlerId: crawler.id, resume }),
       })
       if (!res.ok || !res.body) { setLog(l => [...l, `❌ HTTP ${res.status}`]); setRunning(false); return }
       const reader = res.body.getReader()
       const decoder = new TextDecoder()
       let buf = ''
+      let nextResume: unknown = null
       while (true) {
         const { done: sd, value } = await reader.read()
         if (sd) break
@@ -60,13 +65,17 @@ function CrawlerCard({
           try {
             const p = JSON.parse(line.slice(6))
             if (p.msg !== undefined) setLog(l => [...l, p.msg])
-            if (p.done) { setDone(true); onStatsRefresh() }
+            if (p.done) { setDone(true); onStatsRefresh(); setRunning(false) }
+            if (p.continue) { nextResume = p.resume }
           } catch { /* ignore */ }
         }
       }
+      // Nächste Instanz automatisch starten
+      if (nextResume) {
+        await runBatch(nextResume)
+      }
     } catch (e: any) {
       setLog(l => [...l, `❌ ${e.message}`])
-    } finally {
       setRunning(false)
     }
   }
