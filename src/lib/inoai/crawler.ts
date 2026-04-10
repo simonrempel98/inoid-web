@@ -80,7 +80,8 @@ function extractLinks(html: string, baseUrl: string): { links: Set<string>; pdfs
 }
 
 async function parsePdf(url: string): Promise<string> {
-  const pdfParse = (await import('pdf-parse')).default
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const pdfParse = require('pdf-parse')
   const res = await fetch(url, {
     headers: { 'User-Agent': 'INOid-KI-Bot/1.0' },
     signal: AbortSignal.timeout(20000),
