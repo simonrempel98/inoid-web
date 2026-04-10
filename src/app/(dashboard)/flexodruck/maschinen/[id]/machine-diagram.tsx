@@ -291,8 +291,7 @@ export function MachineDiagram({
             const db = s > 0.25 ? 'hanging' : s < -0.25 ? 'auto' : 'central'
 
             return (
-              <g key={dw.id} onClick={reorderMode ? undefined : undefined}>
-                {/* Im Reorder-Modus: Positionsnummer anzeigen */}
+              <g key={dw.id}>
                 {reorderMode && (
                   <circle cx={dbX} cy={dbY} r={dbR + 5}
                     fill="rgba(0,153,204,0.12)" stroke="#0099cc" strokeWidth="1.5" strokeDasharray="3 2"
@@ -321,13 +320,12 @@ export function MachineDiagram({
                   </g>
                 )}
 
-                {/* Positionsnummer im Reorder-Modus */}
-                {reorderMode && (
-                  <text x={dbX} y={dbY} textAnchor="middle" dominantBaseline="central"
-                    fill="white" fontSize={dbR * 0.8} fontWeight="900" fontFamily="Arial, sans-serif">
-                    {i + 1}
-                  </text>
-                )}
+                {/* Positionsnummer – immer sichtbar */}
+                <text x={dbX} y={dbY} textAnchor="middle" dominantBaseline="central"
+                  fill="white" fontSize={dbR * 0.82} fontWeight="900" fontFamily="Arial, sans-serif"
+                  style={{ pointerEvents: 'none' }}>
+                  {i + 1}
+                </text>
 
                 {showLabels && (
                   <text x={lX} y={lY}
@@ -337,7 +335,7 @@ export function MachineDiagram({
                     fontWeight={reorderMode ? '700' : '400'}
                     fontFamily="Arial, sans-serif"
                   >
-                    {dw.label ?? `DW ${dw.position}`}
+                    {dw.label ?? `DW ${i + 1}`}
                   </text>
                 )}
               </g>
