@@ -7,13 +7,15 @@ type Feature = {
   key: string
   label: string
   desc: string
+  /** true = default an (disabled via !== false); false = opt-in (enabled via === true) */
+  defaultOn: boolean
 }
 
 const FEATURES: Feature[] = [
-  { key: 'serviceheft', label: 'Serviceheft',         desc: 'Serviceeinträge & Dokumentation pro Asset' },
-  { key: 'wartung',     label: 'Wartung',             desc: 'Wartungspläne, Aufgaben & Gantt-Chart' },
-  { key: 'teamchat',    label: 'Team-Chat',           desc: 'Team-interne Nachrichten mit Asset-Erwähnungen (30 Tage Verlauf)' },
-  { key: 'flexodruck',  label: 'Flexodruck',          desc: 'Setup-Manager für Flexodruck-Maschinen: Druckwerke, Vorlagen & Rüstvorgänge' },
+  { key: 'serviceheft', label: 'Serviceheft',  desc: 'Serviceeinträge & Dokumentation pro Asset',                                        defaultOn: true  },
+  { key: 'wartung',     label: 'Wartung',      desc: 'Wartungspläne, Aufgaben & Gantt-Chart',                                            defaultOn: true  },
+  { key: 'teamchat',    label: 'Team-Chat',    desc: 'Team-interne Nachrichten mit Asset-Erwähnungen (30 Tage Verlauf)',                  defaultOn: true  },
+  { key: 'flexodruck',  label: 'Flexodruck',   desc: 'Setup-Manager für Flexodruck-Maschinen: Druckwerke, Vorlagen & Rüstvorgänge',       defaultOn: false },
 ]
 
 export function FeatureToggles({ orgId, features }: {
@@ -26,7 +28,9 @@ export function FeatureToggles({ orgId, features }: {
   const [error, setError] = useState<string | null>(null)
 
   async function toggle(key: string) {
-    const newVal = current[key] === false ? true : false
+    const feat = FEATURES.find(f => f.key === key)!
+    const isEnabled = feat.defaultOn ? current[key] !== false : current[key] === true
+    const newVal = !isEnabled
     const next = { ...current, [key]: newVal }
     setSaving(key)
     setError(null)
@@ -53,7 +57,7 @@ export function FeatureToggles({ orgId, features }: {
         <h2 style={{ fontSize: 14, fontWeight: 700, color: 'var(--adm-text)', margin: 0 }}>Features</h2>
       </div>
       {FEATURES.map(f => {
-        const enabled = current[f.key] !== false
+        const enabled = f.defaultOn ? current[f.key] !== false : current[f.key] === true
         const isSaving = saving === f.key
         return (
           <div key={f.key} style={{
