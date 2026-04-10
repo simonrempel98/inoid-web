@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 type Template = { id: string; name: string; is_active: boolean }
 type Machine = { id: string; name: string; manufacturer: string | null; model: string | null; num_druckwerke: number; flexo_templates: Template[] }
@@ -17,6 +18,7 @@ export function NeuesRuestungClient({
   preselectedTemplateId: string | null
 }) {
   const router = useRouter()
+  const t = useTranslations('flexodruck')
   const [machineId, setMachineId] = useState(preselectedMachineId ?? (machines[0]?.id ?? ''))
   const [templateId, setTemplateId] = useState(preselectedTemplateId ?? '')
   const [name, setName] = useState('')
@@ -49,8 +51,8 @@ export function NeuesRuestungClient({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!machineId) { setError('Bitte Maschine auswählen'); return }
-    if (!name.trim()) { setError('Name erforderlich'); return }
+    if (!machineId) { setError(t('selectMachineRequired')); return }
+    if (!name.trim()) { setError(t('nameRequired')); return }
     setLoading(true)
     setError(null)
 
@@ -68,7 +70,7 @@ export function NeuesRuestungClient({
     })
     const data = await res.json()
     setLoading(false)
-    if (!res.ok) { setError(data.error ?? 'Fehler'); return }
+    if (!res.ok) { setError(data.error ?? t('nameRequired')); return }
     router.push(`/flexodruck/ruestung/${data.id}`)
   }
 
@@ -76,10 +78,10 @@ export function NeuesRuestungClient({
     return (
       <div style={{ padding: '28px 24px', maxWidth: 520 }}>
         <Link href="/flexodruck" style={{ color: '#6b7280', fontSize: 13, textDecoration: 'none', fontFamily: 'Arial, sans-serif' }}>← Flexodruck</Link>
-        <h1 style={{ fontSize: 22, fontWeight: 900, color: '#003366', margin: '8px 0 16px', fontFamily: 'Arial, sans-serif' }}>Rüstvorgang starten</h1>
+        <h1 style={{ fontSize: 22, fontWeight: 900, color: '#003366', margin: '8px 0 16px', fontFamily: 'Arial, sans-serif' }}>{t('newSetup')}</h1>
         <div style={{ background: '#fef3c7', borderRadius: 12, border: '1px solid #f59e0b', padding: '16px 20px' }}>
           <p style={{ margin: 0, fontSize: 13, color: '#92400e', fontFamily: 'Arial, sans-serif' }}>
-            Es gibt noch keine aktiven Maschinen. Bitte zuerst eine Maschine anlegen.
+            {t('noMachinesYet')}
           </p>
         </div>
         <Link href="/flexodruck/maschinen/neu" style={{
@@ -88,7 +90,7 @@ export function NeuesRuestungClient({
           borderRadius: 50, fontSize: 13, fontWeight: 700,
           fontFamily: 'Arial, sans-serif', textDecoration: 'none',
         }}>
-          + Neue Maschine
+          + {t('newMachine')}
         </Link>
       </div>
     )
@@ -97,15 +99,15 @@ export function NeuesRuestungClient({
   return (
     <div style={{ padding: '28px 24px 60px', maxWidth: 560 }}>
       <Link href="/flexodruck" style={{ color: '#6b7280', fontSize: 13, textDecoration: 'none', fontFamily: 'Arial, sans-serif' }}>← Flexodruck</Link>
-      <h1 style={{ fontSize: 22, fontWeight: 900, color: '#003366', margin: '8px 0 4px', fontFamily: 'Arial, sans-serif' }}>Rüstvorgang starten</h1>
+      <h1 style={{ fontSize: 22, fontWeight: 900, color: '#003366', margin: '8px 0 4px', fontFamily: 'Arial, sans-serif' }}>{t('newSetup')}</h1>
       <p style={{ fontSize: 13, color: '#6b7280', margin: '0 0 24px', fontFamily: 'Arial, sans-serif' }}>
-        Wähle Maschine und Vorlage – dann geht es los mit dem geführten Setup.
+        {t('newSetupSubtitle')}
       </p>
 
       <form onSubmit={handleSubmit}>
         {/* Maschine */}
         <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '20px', marginBottom: 16 }}>
-          <label style={labelStyle}>Maschine *</label>
+          <label style={labelStyle}>{t('machine')} *</label>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
             {machines.map(m => (
               <label key={m.id} style={{
@@ -134,15 +136,15 @@ export function NeuesRuestungClient({
           {/* Vorlage */}
           {selectedMachine && selectedMachine.flexo_templates.length > 0 && (
             <>
-              <label style={labelStyle}>Vorlage</label>
+              <label style={labelStyle}>{t('template')}</label>
               <select
                 value={templateId}
                 onChange={e => setTemplateId(e.target.value)}
                 style={{ ...input }}
               >
-                <option value="">Ohne Vorlage (manuell)</option>
-                {selectedMachine.flexo_templates.map(t => (
-                  <option key={t.id} value={t.id}>{t.name}{t.is_active ? '' : ' (inaktiv)'}</option>
+                <option value="">{t('withoutTemplate')}</option>
+                {selectedMachine.flexo_templates.map(tmpl => (
+                  <option key={tmpl.id} value={tmpl.id}>{tmpl.name}{tmpl.is_active ? '' : ` (${t('inactive')})`}</option>
                 ))}
               </select>
             </>
@@ -150,10 +152,10 @@ export function NeuesRuestungClient({
           {selectedMachine && selectedMachine.flexo_templates.length === 0 && (
             <div style={{ background: '#fef3c7', borderRadius: 8, padding: '10px 12px', marginTop: 8 }}>
               <p style={{ margin: 0, fontSize: 12, color: '#92400e', fontFamily: 'Arial, sans-serif' }}>
-                Noch keine Vorlagen für diese Maschine.
+                {t('noTemplates')}
                 {' '}
                 <Link href={`/flexodruck/maschinen/${machineId}/vorlagen/neu`} style={{ color: '#0099cc', textDecoration: 'none', fontWeight: 700 }}>
-                  Vorlage anlegen →
+                  {t('createTemplate')} →
                 </Link>
               </p>
             </div>
@@ -163,23 +165,23 @@ export function NeuesRuestungClient({
         {/* Rüstvorgang-Details */}
         <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '20px', marginBottom: 16 }}>
           <div style={{ marginBottom: 14 }}>
-            <label style={labelStyle}>Name / Bezeichnung *</label>
+            <label style={labelStyle}>{t('setupNameLabel')} *</label>
             <input value={name} onChange={e => setName(e.target.value)}
               placeholder="z.B. Rüstung Job 2024-001 oder Gelb-Setup" required style={input} />
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
             <div>
-              <label style={labelStyle}>Auftragsnummer</label>
+              <label style={labelStyle}>{t('jobNumber')}</label>
               <input value={jobNumber} onChange={e => setJobNumber(e.target.value)}
                 placeholder="z.B. 2024-042" style={input} />
             </div>
             <div>
-              <label style={labelStyle}>Geplant für</label>
+              <label style={labelStyle}>{t('plannedAt')}</label>
               <input type="datetime-local" value={plannedAt} onChange={e => setPlannedAt(e.target.value)} style={input} />
             </div>
           </div>
           <div>
-            <label style={labelStyle}>Notizen</label>
+            <label style={labelStyle}>{t('notes')}</label>
             <textarea value={notes} onChange={e => setNotes(e.target.value)}
               placeholder="Optional: Besonderheiten, Hinweise..." rows={2}
               style={{ ...input, resize: 'vertical' }} />
@@ -196,7 +198,7 @@ export function NeuesRuestungClient({
               fontSize: 14, fontWeight: 700, cursor: loading ? 'default' : 'pointer',
               fontFamily: 'Arial, sans-serif',
             }}>
-            {loading ? 'Wird erstellt…' : '▶ Rüstvorgang anlegen'}
+            {loading ? t('creating_setup') : `▶ ${t('createSetup')}`}
           </button>
           <button type="button" onClick={() => router.back()}
             style={{
@@ -205,7 +207,7 @@ export function NeuesRuestungClient({
               fontSize: 14, fontWeight: 600, cursor: 'pointer',
               fontFamily: 'Arial, sans-serif',
             }}>
-            Abbrechen
+            {t('cancel')}
           </button>
         </div>
       </form>

@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useTranslations } from 'next-intl'
 
 type Asset = { id: string; name: string; serial_number: string | null }
 type DW = { id: string; position: number; label: string | null; color_hint: string | null }
@@ -43,6 +44,7 @@ export function SetupWizard({
   canEdit: boolean
 }) {
   const router = useRouter()
+  const t = useTranslations('flexodruck')
   const [currentDwIdx, setCurrentDwIdx] = useState(0)
   const [stepsByDW, setStepsByDW] = useState<Record<string, Step[]>>(initialStepsByDW)
   const [status, setStatus] = useState(initialStatus)
@@ -134,7 +136,7 @@ export function SetupWizard({
     planned: '#0099cc', in_progress: '#f59e0b', completed: '#34d399', cancelled: '#6b7280',
   }
   const statusLabel: Record<string, string> = {
-    planned: 'Geplant', in_progress: 'In Bearbeitung', completed: 'Abgeschlossen', cancelled: 'Abgebrochen',
+    planned: t('planned'), in_progress: t('inProgress'), completed: t('completed'), cancelled: t('cancelled'),
   }
 
   const stepStatusIcon: Record<string, string> = {
@@ -151,19 +153,19 @@ export function SetupWizard({
       <div style={{ padding: '60px 24px', maxWidth: 560, textAlign: 'center' }}>
         <div style={{ fontSize: 64, marginBottom: 16 }}>✅</div>
         <h1 style={{ fontSize: 24, fontWeight: 900, color: '#34d399', margin: '0 0 8px', fontFamily: 'Arial, sans-serif' }}>
-          Rüstvorgang abgeschlossen!
+          {t('setupComplete')}
         </h1>
         <p style={{ fontSize: 14, color: '#6b7280', margin: '0 0 24px', fontFamily: 'Arial, sans-serif' }}>
-          {setupName} wurde erfolgreich abgeschlossen.
+          {setupName}
         </p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
           <Link href={`/flexodruck/maschinen/${machineId}`}
             style={{ background: '#003366', color: 'white', padding: '12px 24px', borderRadius: 50, fontSize: 14, fontWeight: 700, fontFamily: 'Arial, sans-serif', textDecoration: 'none' }}>
-            Zur Maschine
+            {t('toMachine')}
           </Link>
           <Link href="/flexodruck"
             style={{ background: '#f4f6f9', color: '#003366', padding: '12px 24px', borderRadius: 50, fontSize: 14, fontWeight: 700, fontFamily: 'Arial, sans-serif', textDecoration: 'none', border: '1px solid #c8d4e8' }}>
-            Übersicht
+            {t('overview')}
           </Link>
         </div>
       </div>
@@ -207,7 +209,7 @@ export function SetupWizard({
         }} />
       </div>
       <p style={{ fontSize: 12, color: '#6b7280', margin: '0 0 20px', fontFamily: 'Arial, sans-serif' }}>
-        {doneCount} von {totalCount} Schritten erledigt ({progressPct}%)
+        {t('stepsCompleted', { done: doneCount, total: totalCount, pct: progressPct })}
       </p>
 
       {/* Starte Setup wenn noch "planned" */}
@@ -217,8 +219,8 @@ export function SetupWizard({
           padding: '16px 20px', marginBottom: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         }}>
           <div>
-            <p style={{ margin: '0 0 2px', fontSize: 14, fontWeight: 700, color: '#003366', fontFamily: 'Arial, sans-serif' }}>Bereit zum Rüsten?</p>
-            <p style={{ margin: 0, fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>Starte den Rüstvorgang, um die Schritte abzuhaken.</p>
+            <p style={{ margin: '0 0 2px', fontSize: 14, fontWeight: 700, color: '#003366', fontFamily: 'Arial, sans-serif' }}>{t('readyToStart')}</p>
+            <p style={{ margin: 0, fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>{t('readyToStartDesc')}</p>
           </div>
           <button type="button" onClick={startSetup}
             style={{
@@ -226,7 +228,7 @@ export function SetupWizard({
               borderRadius: 50, border: 'none', cursor: 'pointer',
               fontSize: 13, fontWeight: 700, fontFamily: 'Arial, sans-serif', flexShrink: 0,
             }}>
-            ▶ Starten
+            ▶ {t('startButton')}
           </button>
         </div>
       )}
@@ -294,20 +296,20 @@ export function SetupWizard({
                   {currentDW.label ?? `Druckwerk ${currentDW.position}`}
                 </p>
                 <p style={{ margin: 0, fontSize: 11, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>
-                  {currentSteps.filter(s => ['installed', 'verified', 'skipped'].includes(s.status)).length}/{currentSteps.length} Schritte
+                  {currentSteps.filter(s => ['installed', 'verified', 'skipped'].includes(s.status)).length}/{currentSteps.length} {t('step')}
                 </p>
               </div>
               <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
                 {currentDwIdx > 0 && (
                   <button type="button" onClick={() => setCurrentDwIdx(i => i - 1)}
                     style={{ background: 'white', border: '1px solid #c8d4e8', borderRadius: 20, padding: '4px 12px', cursor: 'pointer', fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>
-                    ← zurück
+                    ← {t('back')}
                   </button>
                 )}
                 {currentDwIdx < druckwerke.length - 1 && (
                   <button type="button" onClick={() => setCurrentDwIdx(i => i + 1)}
                     style={{ background: '#003366', color: 'white', border: 'none', borderRadius: 20, padding: '4px 12px', cursor: 'pointer', fontSize: 12, fontFamily: 'Arial, sans-serif' }}>
-                    weiter →
+                    {t('nextDW')} →
                   </button>
                 )}
               </div>
@@ -317,7 +319,7 @@ export function SetupWizard({
             <div style={{ background: 'white', border: '1px solid #c8d4e8', borderRadius: '0 0 12px 12px', overflow: 'hidden' }}>
               {currentSteps.length === 0 ? (
                 <p style={{ padding: '24px', color: '#6b7280', fontSize: 13, textAlign: 'center', margin: 0, fontFamily: 'Arial, sans-serif' }}>
-                  Keine Schritte für dieses Druckwerk.
+                  {t('noStepsForDW')}
                 </p>
               ) : (
                 currentSteps.map((step, si) => {
@@ -368,7 +370,7 @@ export function SetupWizard({
                             </p>
                             {step.is_fixed && (
                               <span style={{ fontSize: 10, background: '#f4f6f9', color: '#6b7280', padding: '1px 7px', borderRadius: 10, fontFamily: 'Arial, sans-serif', fontWeight: 600 }}>
-                                fest
+                                {t('fixed')}
                               </span>
                             )}
                           </div>
@@ -385,7 +387,7 @@ export function SetupWizard({
                                 <button type="button"
                                   onClick={() => { setPickerStepId(step.id); setPickerSearch('') }}
                                   style={{ fontSize: 10, color: '#9ca3af', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
-                                  ändern
+                                  {t('change')}
                                 </button>
                               )}
                             </div>
@@ -395,10 +397,10 @@ export function SetupWizard({
                                 <button type="button"
                                   onClick={() => { setPickerStepId(step.id); setPickerSearch('') }}
                                   style={{ fontSize: 11, color: '#9ca3af', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Arial, sans-serif', textDecoration: 'underline' }}>
-                                  Asset zuweisen
+                                  {t('assignAsset')}
                                 </button>
                               ) : (
-                                <p style={{ margin: 0, fontSize: 11, color: '#d1d5db', fontFamily: 'Arial, sans-serif' }}>Kein Asset verknüpft</p>
+                                <p style={{ margin: 0, fontSize: 11, color: '#d1d5db', fontFamily: 'Arial, sans-serif' }}>{t('noLinkedAsset')}</p>
                               )}
                             </div>
                           )}
@@ -417,7 +419,7 @@ export function SetupWizard({
                                     background: '#003366', color: 'white', border: 'none',
                                     cursor: 'pointer', fontFamily: 'Arial, sans-serif', fontWeight: 700,
                                   }}>
-                                  Eingebaut
+                                  {t('installed')}
                                 </button>
                                 <button type="button"
                                   onClick={() => updateStep(step, 'skipped')}
@@ -440,7 +442,7 @@ export function SetupWizard({
                                   background: '#d1fae5', color: '#059669', border: 'none',
                                   cursor: 'pointer', fontFamily: 'Arial, sans-serif', fontWeight: 700,
                                 }}>
-                                ✓ Verifizieren
+                                ✓ {t('markVerified')}
                               </button>
                             )}
                             {(step.status === 'installed' || step.status === 'verified' || step.status === 'skipped') && (
@@ -464,7 +466,7 @@ export function SetupWizard({
                         <div style={{ marginTop: 10, background: '#f4f6f9', borderRadius: 10, padding: 12 }}>
                           <input
                             autoFocus
-                            placeholder="Asset suchen…"
+                            placeholder={t('searchAsset')}
                             value={pickerSearch}
                             onChange={e => setPickerSearch(e.target.value)}
                             style={{
@@ -476,7 +478,7 @@ export function SetupWizard({
                           <div style={{ maxHeight: 180, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 2 }}>
                             <div onClick={() => updateStep(step, step.status === 'pending' ? 'pending' : step.status, null)}
                               style={{ padding: '7px 10px', cursor: 'pointer', borderRadius: 6, fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif', fontStyle: 'italic' }}>
-                              Kein Asset
+                              {t('noAsset')}
                             </div>
                             {assets
                               .filter(a => !pickerSearch || a.name.toLowerCase().includes(pickerSearch.toLowerCase()) || (a.serial_number ?? '').toLowerCase().includes(pickerSearch.toLowerCase()))
@@ -511,7 +513,7 @@ export function SetupWizard({
                   borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 700,
                   fontFamily: 'Arial, sans-serif',
                 }}>
-                Weiter zu {druckwerke[currentDwIdx + 1]?.label ?? `DW ${druckwerke[currentDwIdx + 1]?.position}`} →
+                {t('nextToDW')} {druckwerke[currentDwIdx + 1]?.label ?? `DW ${druckwerke[currentDwIdx + 1]?.position}`} →
               </button>
             )}
           </div>
@@ -527,10 +529,10 @@ export function SetupWizard({
         }}>
           <div>
             <p style={{ margin: '0 0 2px', fontSize: 15, fontWeight: 700, color: '#065f46', fontFamily: 'Arial, sans-serif' }}>
-              Alle Schritte erledigt!
+              {t('allStepsDone')}
             </p>
             <p style={{ margin: 0, fontSize: 12, color: '#047857', fontFamily: 'Arial, sans-serif' }}>
-              Der Rüstvorgang kann jetzt abgeschlossen werden.
+              {t('allStepsDoneDesc')}
             </p>
           </div>
           <button type="button" onClick={completeSetup} disabled={completing}
@@ -540,7 +542,7 @@ export function SetupWizard({
               fontSize: 14, fontWeight: 700, cursor: completing ? 'default' : 'pointer',
               fontFamily: 'Arial, sans-serif', flexShrink: 0,
             }}>
-            {completing ? 'Wird gespeichert…' : '✓ Abschließen'}
+            {completing ? t('saving') : `✓ ${t('completeButton')}`}
           </button>
         </div>
       )}
@@ -549,7 +551,7 @@ export function SetupWizard({
       {status === 'completed' && (
         <div style={{ marginTop: 24, background: '#d1fae5', borderRadius: 14, border: '1px solid #34d399', padding: '16px 20px', textAlign: 'center' }}>
           <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#065f46', fontFamily: 'Arial, sans-serif' }}>
-            ✓ Rüstvorgang abgeschlossen
+            ✓ {t('setupCompletedBanner')}
           </p>
         </div>
       )}

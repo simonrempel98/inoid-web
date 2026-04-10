@@ -410,6 +410,9 @@ export default function TechStackPage() {
               ['017', 'Admin-PIN: admin_pin_hash in profiles'],
               ['018-020', 'Storage-Stats erweitert, Dokument-Zählung korrigiert, detaillierte Attribution'],
               ['021', 'Team-Chat: chat_messages, Realtime, pg_cron Cleanup-Job'],
+              ['022', 'Avatar-Bucket: storage-Bucket für Profilbilder'],
+              ['023', 'Chat-Edit: Nachrichten nachträglich bearbeitbar'],
+              ['024', 'Flexodruck-Modul: 9 Tabellen (flexo_machines, druckwerke, fixed_slots, templates, template_machines, template_slots, template_assignments, setups, setup_steps), RLS, current_user_org_id()'],
             ].map(([id, desc]) => (
               <React.Fragment key={id as string}>
                 <span style={{ fontSize: 11, fontFamily: "'Courier New', monospace", color: '#34d399' }}>{id as string}</span>
@@ -465,6 +468,24 @@ export default function TechStackPage() {
           { req: 'plan, billingName, billingAddress, billingCity, billingZip, billingCountry, vatId?', res: '{ invoiceId, invoiceNumber }', auth: 'Eingeloggter Admin/Superadmin der Org', notes: 'Generiert PDF via pdf-lib, lädt es in Supabase Storage, sendet E-Mail mit Rechnung via Resend. Erstellt invoice-Eintrag mit HMAC-Code-Hash.' })}
         {apiBlock(['POST'], '/api/billing/activate-code', 'Einmalcode einlösen → Plan upgraden',
           { req: 'code: string (9 Stellen)', res: '{ plan, activatedAt }', auth: 'Eingeloggter Admin/Superadmin', notes: 'Prüft HMAC-SHA256-Hash des Codes gegen alle offenen Rechnungen der Org. Bei Match: Plan wird geändert + Rechnung als bezahlt markiert.' })}
+
+        <h3 style={{ ...S.h3, marginBottom: 12, marginTop: 24 }}>Flexodruck-Endpunkte (eingeloggte Org-Nutzer, Feature-Toggle erforderlich)</h3>
+        {apiBlock(['GET', 'POST'], '/api/flexodruck/machines', 'Maschinen abrufen / anlegen',
+          { req: '(POST) name, manufacturer?, model?, num_druckwerke (1–20)', res: '(GET) Maschinen-Array | (POST) { id }', auth: 'Eingeloggter Nutzer (gleiche Org)', notes: 'POST legt automatisch N Druckwerke + je 2 Trägerstangen (fixed_slots) an.' })}
+        {apiBlock(['GET', 'PATCH', 'DELETE'], '/api/flexodruck/machines/[id]', 'Maschinen-Detail / bearbeiten / löschen',
+          { req: '(PATCH) name?, manufacturer?, model?', res: '{ ok: true }', auth: 'Eingeloggter Nutzer', notes: 'DELETE entfernt Maschine inkl. aller Druckwerke, Slots, Vorlagen und Rüstvorgänge (CASCADE).' })}
+        {apiBlock(['PATCH'], '/api/flexodruck/machines/[id]/druckwerke/[dwId]', 'Druckwerk-Label oder Farbe anpassen',
+          { req: 'label?, color_hint?', res: '{ ok: true }', auth: 'Eingeloggter Nutzer' })}
+        {apiBlock(['PATCH'], '/api/flexodruck/fixed-slots/[slotId]', 'Trägerstange mit Asset verknüpfen',
+          { req: 'asset_id (UUID | null)', res: '{ ok: true }', auth: 'Eingeloggter Nutzer', notes: 'asset_id = null löst die Verknüpfung.' })}
+        {apiBlock(['POST'], '/api/flexodruck/templates', 'Neue Vorlage anlegen',
+          { req: 'primary_machine_id, name, description?, slot_types[] (label, sort_order), shared_machine_ids[]', res: '{ id }', auth: 'Eingeloggter Nutzer', notes: 'Legt Vorlage + Slots + flexo_template_machines-Einträge in einer Transaktion an.' })}
+        {apiBlock(['GET', 'PATCH', 'DELETE'], '/api/flexodruck/templates/[id]', 'Vorlagen-Detail / Assignment-Upsert / löschen',
+          { req: '(PATCH assignment) { assignment: { slot_id, druckwerk_id, asset_id, org_id } } | (PATCH meta) { name?, description?, is_active? }', res: '{ ok: true }', auth: 'Eingeloggter Nutzer', notes: 'PATCH mit assignment-Key führt Upsert per slot_id×druckwerk_id durch.' })}
+        {apiBlock(['GET', 'POST'], '/api/flexodruck/setups', 'Rüstvorgänge abrufen / anlegen',
+          { req: '(GET) ?machine_id=… | (POST) machine_id, template_id?, name, job_number?, planned_at?, notes?', res: '(GET) Setup-Array | (POST) { id }', auth: 'Eingeloggter Nutzer', notes: 'POST generiert automatisch flexo_setup_steps aus festen Slots + Vorlage-Assignments.' })}
+        {apiBlock(['GET', 'PATCH'], '/api/flexodruck/setups/[id]', 'Wizard-Status laden / Schritt/Setup aktualisieren',
+          { req: '(PATCH step) { step_id, status, notes?, asset_id? } | (PATCH setup) { status?, notes? }', res: '{ ok: true }', auth: 'Eingeloggter Nutzer', notes: 'Schritt-PATCH mit step_id-Key. status=installed/verified setzt installed_at + installed_by automatisch.' })}
       </div>
 
       {/* ══════════════════════════════════════════════════════════ */}
@@ -575,7 +596,8 @@ export default function TechStackPage() {
             { module: 'Scan / NFC', color: '#34d399', route: '/scan', desc: 'Physische Assets scannen: QR-Code mit Kamera oder NFC-Tag antippen → öffnet direkt die Asset-Seite.', features: ['jsQR-Bibliothek (Canvas-basiert)', 'Web NFC API (Mobile Chrome)', 'Deep-Link: /assets/{id}', 'Mobile-first Design'] },
             { module: 'Team-Chat', color: '#fb923c', route: '/teams/chat', desc: 'Echtzeit-Team-Chat pro Organisation. Nachrichten können Assets erwähnen (@[AssetName]) und erzeugen klickbare Links.', features: ['Supabase Realtime WebSocket', '@Asset-Erwähnungen mit Suche', 'Automatisches Löschen (30 Tage)', 'Feature-Toggle per Org', 'Gruppiertung nach Datum'] },
             { module: 'Billing', color: '#38bdf8', route: '/settings/billing', desc: 'Plan-Verwaltung ohne Stripe. Rechnungsbasiertes System: Rechnung anfragen → Überweisung → 9-stelligen Code einlösen.', features: ['Rechnung als PDF per E-Mail', 'HMAC-SHA256 für Codes', 'Plan-Upgrade per Code', 'Keine automatische Zahlung'] },
-            { module: 'i18n / Sprachen', color: '#818cf8', route: 'next-intl', desc: '28 Sprachen unterstützt. Übersetzungen liegen in messages/[lang].json. Das Admin-Panel ist bewusst ausgenommen.', features: ['Auto-Detection via HTTP-Header', 'Server + Client Components', '28 Sprach-Dateien', 'Namespaces: assets, service, wartung, teams, docs, billing, …'] },
+            { module: 'Flexodruck', color: '#fb923c', route: '/flexodruck', desc: 'Spezialisierter Setup-Manager für Flexodruck-Maschinen. Verwaltet Druckwerke, Trägerstangen, Vorlagen und geführte Rüstvorgänge. Opt-in Feature-Toggle (features.flexodruck === true).', features: ['Maschinen mit N Druckwerken (1–20)', '2 feste Trägerstangen je Druckwerk', 'Variable Slot-Typen je Vorlage', 'Cross-Machine Template-Sharing', 'Geführter Rüst-Wizard (Schritt-Status)', 'Geplant → In Bearbeitung → Abgeschlossen'] },
+            { module: 'i18n / Sprachen', color: '#818cf8', route: 'next-intl', desc: '28 Sprachen unterstützt. Übersetzungen liegen in messages/[lang].json. Das Admin-Panel ist bewusst ausgenommen.', features: ['Auto-Detection via HTTP-Header', 'Server + Client Components', '28 Sprach-Dateien', 'Namespaces: assets, service, wartung, teams, docs, billing, flexodruck, …'] },
           ].map(m => (
             <div key={m.module} style={{ ...S.card, marginBottom: 0 }}>
               <p style={{ margin: '0 0 2px', fontSize: 14, fontWeight: 700, color: m.color }}>{m.module}</p>
@@ -738,7 +760,7 @@ export default function TechStackPage() {
             {reqRow('FA-016', 'App in 28 Sprachen nutzbar', 'next-intl mit Auto-Detection, alle Kernseiten übersetzt, Admin-Panel bewusst Deutsch', 'erfüllt')}
             {reqRow('FA-017', 'Platform-Admin kann Orgs und Nutzer verwalten', 'Admin-Panel mit eigenem Layout, 13 API-Endpunkte, Audit-Log, PIN-Schutz', 'erfüllt')}
             {reqRow('FA-018', 'Technische Daten mit Einheiten erfassen', '130+ Einheiten (m, kg, kW, etc.), Tabellen-Editor für technical_data JSONB', 'erfüllt')}
-            {reqRow('FA-019', 'Module können pro Org aktiviert/deaktiviert werden', 'organizations.features JSONB: serviceheft, wartung, teamchat togglebar', 'erfüllt')}
+            {reqRow('FA-019', 'Module können pro Org aktiviert/deaktiviert werden', 'organizations.features JSONB: serviceheft, wartung, teamchat (default: an, !== false), flexodruck (opt-in: === true)', 'erfüllt')}
             {reqRow('FA-020', 'Passwort-Verwaltung für Nutzer', 'Passwort-Reset per E-Mail, must_change_password Flag, Admin kann Reset auslösen', 'erfüllt')}
           </div>
         </div>
@@ -866,6 +888,7 @@ export default function TechStackPage() {
               { indent: 3, text: 'wartung/           → Wartungsintervalle', color: 'var(--adm-text3)' },
               { indent: 3, text: 'teams/             → Team-Verwaltung + Chat', color: 'var(--adm-text3)' },
               { indent: 3, text: 'settings/          → Profil, Billing, Rollen', color: 'var(--adm-text3)' },
+              { indent: 3, text: 'flexodruck/        → Maschinen, Vorlagen, Rüstvorgänge (Feature-Toggle)', color: 'var(--adm-text3)' },
               { indent: 2, text: '(auth)/            → Login, Register, Einladung, PW-Reset', color: '#fbbf24' },
               { indent: 2, text: 'api/               → API-Endpunkte (Route Handlers)', color: '#f87171' },
               { indent: 1, text: 'src/lib/', color: '#60a5fa' },
@@ -880,7 +903,7 @@ export default function TechStackPage() {
               { indent: 2, text: 'nav-bottom.tsx      → Mobile-Navigation (Drawer)', color: 'var(--adm-text3)' },
               { indent: 2, text: 'admin-theme-provider.tsx → Dark/Light-Mode Context', color: 'var(--adm-text3)' },
               { indent: 1, text: 'messages/           → 28 Sprach-Dateien (JSON)', color: '#fb923c' },
-              { indent: 1, text: 'supabase/migrations/ → 021 SQL-Migrations-Dateien', color: '#38bdf8' },
+              { indent: 1, text: 'supabase/migrations/ → 024 SQL-Migrations-Dateien', color: '#38bdf8' },
             ].map((line, i) => (
               <div key={i} style={{ paddingLeft: line.indent * 20, color: line.color }}>
                 {line.text}

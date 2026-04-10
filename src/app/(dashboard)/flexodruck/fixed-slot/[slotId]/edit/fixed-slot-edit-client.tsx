@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 type Asset = { id: string; name: string; serial_number: string | null }
 
@@ -26,6 +27,7 @@ export function FixedSlotEditClient({
   machineName: string
 }) {
   const router = useRouter()
+  const t = useTranslations('flexodruck')
   const [selectedId, setSelectedId] = useState<string>(currentAssetId ?? '')
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(false)
@@ -46,7 +48,7 @@ export function FixedSlotEditClient({
     setLoading(false)
     if (!res.ok) {
       const d = await res.json()
-      setError(d.error ?? 'Fehler')
+      setError(d.error ?? t('nameRequired'))
       return
     }
     router.push(backHref)
@@ -60,7 +62,7 @@ export function FixedSlotEditClient({
       </Link>
 
       <h1 style={{ fontSize: 20, fontWeight: 900, color: '#003366', margin: '8px 0 2px', fontFamily: 'Arial, sans-serif' }}>
-        {slotLabel} verknüpfen
+        {slotLabel}
       </h1>
       <p style={{ fontSize: 13, color: '#6b7280', margin: '0 0 24px', fontFamily: 'Arial, sans-serif' }}>
         {dwLabel} · {machineName}
@@ -74,12 +76,12 @@ export function FixedSlotEditClient({
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         }}>
           <div>
-            <p style={{ margin: 0, fontSize: 11, color: '#6b7280', fontFamily: 'Arial, sans-serif', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Aktuell verknüpft</p>
+            <p style={{ margin: 0, fontSize: 11, color: '#6b7280', fontFamily: 'Arial, sans-serif', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{t('currentlyLinked')}</p>
             <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#003366', fontFamily: 'Arial, sans-serif' }}>{currentAssetName}</p>
           </div>
           <button type="button" onClick={() => { setSelectedId(''); setSearch('') }}
             style={{ fontSize: 12, color: '#f87171', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
-            Entfernen
+            {t('remove')}
           </button>
         </div>
       )}
@@ -87,7 +89,7 @@ export function FixedSlotEditClient({
       {/* Search */}
       <div style={{ marginBottom: 12 }}>
         <input
-          placeholder="Asset suchen…"
+          placeholder={t('searchAsset')}
           value={search}
           onChange={e => setSearch(e.target.value)}
           style={{
@@ -113,7 +115,7 @@ export function FixedSlotEditClient({
           }}
         >
           <div style={{ width: 14, height: 14, borderRadius: '50%', border: '2px solid #0099cc', flexShrink: 0, background: selectedId === '' ? '#0099cc' : 'transparent' }} />
-          <span style={{ fontSize: 13, color: '#6b7280', fontFamily: 'Arial, sans-serif', fontStyle: 'italic' }}>Kein Asset (Zuweisung entfernen)</span>
+          <span style={{ fontSize: 13, color: '#6b7280', fontFamily: 'Arial, sans-serif', fontStyle: 'italic' }}>{t('noAssetRemove')}</span>
         </div>
         {filtered.slice(0, 100).map(a => (
           <div
@@ -135,7 +137,7 @@ export function FixedSlotEditClient({
         ))}
         {filtered.length === 0 && (
           <p style={{ padding: '20px', color: '#6b7280', fontSize: 13, textAlign: 'center', fontFamily: 'Arial, sans-serif', margin: 0 }}>
-            Keine Assets gefunden
+            {t('noAssetsFound')}
           </p>
         )}
       </div>
@@ -152,14 +154,14 @@ export function FixedSlotEditClient({
             fontFamily: 'Arial, sans-serif',
           }}
         >
-          {loading ? 'Wird gespeichert…' : 'Speichern'}
+          {loading ? t('saving') : t('save')}
         </button>
         <Link href={backHref} style={{
           background: 'transparent', color: '#6b7280',
           padding: '12px 20px', borderRadius: 50, border: '1px solid #c8d4e8',
           fontSize: 14, fontWeight: 600, fontFamily: 'Arial, sans-serif', textDecoration: 'none',
         }}>
-          Abbrechen
+          {t('cancel')}
         </Link>
       </div>
     </div>

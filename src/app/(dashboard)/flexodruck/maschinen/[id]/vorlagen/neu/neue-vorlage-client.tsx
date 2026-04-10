@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 type Asset = { id: string; name: string; serial_number: string | null }
 type Druckwerk = { id: string; position: number; label: string | null }
@@ -19,6 +20,7 @@ export function NeueVorlageClient({
   assets: Asset[]
 }) {
   const router = useRouter()
+  const t = useTranslations('flexodruck')
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
   const [slots, setSlots] = useState<string[]>(['Sleeve', 'Druckplatte'])
@@ -58,7 +60,7 @@ export function NeueVorlageClient({
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!name.trim()) { setError('Name erforderlich'); return }
+    if (!name.trim()) { setError(t('nameRequired')); return }
     setLoading(true)
     setError(null)
 
@@ -76,7 +78,7 @@ export function NeueVorlageClient({
     const data = await res.json()
     setLoading(false)
 
-    if (!res.ok) { setError(data.error ?? 'Fehler'); return }
+    if (!res.ok) { setError(data.error ?? t('nameRequired')); return }
     router.push(`/flexodruck/vorlagen/${data.id}`)
     router.refresh()
   }
@@ -88,21 +90,21 @@ export function NeueVorlageClient({
         ← {machine.name}
       </Link>
       <h1 style={{ fontSize: 22, fontWeight: 900, color: '#003366', margin: '8px 0 4px', fontFamily: 'Arial, sans-serif' }}>
-        Neue Vorlage
+        {t('newTemplate')}
       </h1>
       <p style={{ fontSize: 13, color: '#6b7280', margin: '0 0 24px', fontFamily: 'Arial, sans-serif' }}>
-        Definiere die variablen Slot-Typen für diese Vorlage. Assets werden pro Druckwerk zugewiesen.
+        {t('newTemplateSubtitle')}
       </p>
 
       <form onSubmit={handleSubmit}>
         {/* Name & Beschreibung */}
         <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '20px', marginBottom: 16 }}>
           <div style={{ marginBottom: 14 }}>
-            <label style={labelStyle}>Name *</label>
+            <label style={labelStyle}>{t('template')} *</label>
             <input value={name} onChange={e => setName(e.target.value)} placeholder="z.B. Standard-Setup Gelb" required style={input} />
           </div>
           <div>
-            <label style={labelStyle}>Beschreibung</label>
+            <label style={labelStyle}>{t('description')}</label>
             <textarea value={description} onChange={e => setDescription(e.target.value)}
               placeholder="Optional: Was ist der Zweck dieser Vorlage?" rows={2}
               style={{ ...input, resize: 'vertical' }} />
@@ -111,10 +113,9 @@ export function NeueVorlageClient({
 
         {/* Variable Slot-Typen */}
         <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '20px', marginBottom: 16 }}>
-          <label style={{ ...labelStyle, marginBottom: 12 }}>Variable Slot-Typen</label>
+          <label style={{ ...labelStyle, marginBottom: 12 }}>{t('variableSlots')}</label>
           <p style={{ margin: '0 0 12px', fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>
-            Diese Slot-Typen können pro Druckwerk mit einem Asset belegt werden.
-            Die Trägerstangen sind immer als feste Einbauten vorhanden.
+            {t('variableSlotTypesDesc')}
           </p>
 
           {/* Vorhandene Slots */}
@@ -139,7 +140,7 @@ export function NeueVorlageClient({
             <input
               value={newSlot} onChange={e => setNewSlot(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addSlot())}
-              placeholder="Neuer Slot-Typ (z.B. Adapter, Rasterwalze…)"
+              placeholder={t('addSlotPlaceholder')}
               style={{ ...input, flex: 1 }}
             />
             <button type="button" onClick={addSlot}
@@ -156,7 +157,7 @@ export function NeueVorlageClient({
         {/* Vorschau */}
         <div style={{ background: '#f4f6f9', borderRadius: 14, border: '1px solid #c8d4e8', padding: '16px 20px', marginBottom: 16 }}>
           <p style={{ margin: '0 0 10px', fontSize: 12, fontWeight: 700, color: '#003366', fontFamily: 'Arial, sans-serif' }}>
-            Vorschau: Rüstschritte pro Druckwerk
+            {t('previewStepsTitle')}
           </p>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 8 }}>
             {druckwerke.map(dw => (
@@ -177,9 +178,9 @@ export function NeueVorlageClient({
         {/* Freigabe für andere Maschinen */}
         {otherMachines.length > 0 && (
           <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '20px', marginBottom: 16 }}>
-            <label style={{ ...labelStyle, marginBottom: 10 }}>Auch verfügbar für andere Maschinen</label>
+            <label style={{ ...labelStyle, marginBottom: 10 }}>{t('sharedMachinesLabel')}</label>
             <p style={{ margin: '0 0 10px', fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>
-              Optional: Diese Vorlage auch für folgende Maschinen freigeben.
+              {t('sharedMachinesDesc')}
             </p>
             {otherMachines.map(m => (
               <label key={m.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', cursor: 'pointer' }}>
@@ -205,7 +206,7 @@ export function NeueVorlageClient({
               fontSize: 14, fontWeight: 700, cursor: loading ? 'default' : 'pointer',
               fontFamily: 'Arial, sans-serif',
             }}>
-            {loading ? 'Wird angelegt…' : 'Vorlage anlegen'}
+            {loading ? t('creating') : t('createTemplate')}
           </button>
           <button type="button" onClick={() => router.back()}
             style={{
@@ -214,7 +215,7 @@ export function NeueVorlageClient({
               fontSize: 14, fontWeight: 600, cursor: 'pointer',
               fontFamily: 'Arial, sans-serif',
             }}>
-            Abbrechen
+            {t('cancel')}
           </button>
         </div>
       </form>

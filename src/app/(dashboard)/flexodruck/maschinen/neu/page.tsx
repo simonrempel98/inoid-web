@@ -3,9 +3,11 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 export default function NeueMaschinePage() {
   const router = useRouter()
+  const t = useTranslations('flexodruck')
   const [name, setName] = useState('')
   const [manufacturer, setManufacturer] = useState('')
   const [model, setModel] = useState('')
@@ -28,7 +30,7 @@ export default function NeueMaschinePage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!name.trim()) { setError('Name erforderlich'); return }
+    if (!name.trim()) { setError(t('nameRequired')); return }
     setLoading(true)
     setError(null)
 
@@ -40,7 +42,7 @@ export default function NeueMaschinePage() {
     const data = await res.json()
     setLoading(false)
 
-    if (!res.ok) { setError(data.error ?? 'Fehler'); return }
+    if (!res.ok) { setError(data.error ?? t('nameRequired')); return }
     router.push(`/flexodruck/maschinen/${data.id}`)
   }
 
@@ -51,10 +53,10 @@ export default function NeueMaschinePage() {
           ← Flexodruck
         </Link>
         <h1 style={{ fontSize: 22, fontWeight: 900, color: '#003366', margin: '8px 0 4px', fontFamily: 'Arial, sans-serif' }}>
-          Neue Maschine
+          {t('newMachine')}
         </h1>
         <p style={{ fontSize: 13, color: '#6b7280', margin: 0, fontFamily: 'Arial, sans-serif' }}>
-          Maschine anlegen – Druckwerke und Trägerstangen werden automatisch erstellt.
+          {t('newMachineSubtitle')}
         </p>
       </div>
 
@@ -62,23 +64,23 @@ export default function NeueMaschinePage() {
         <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '20px', marginBottom: 16 }}>
 
           <div style={{ marginBottom: 14 }}>
-            <label style={label}>Name *</label>
+            <label style={label}>{t('machine')} *</label>
             <input value={name} onChange={e => setName(e.target.value)} placeholder="z.B. Flexodruckmaschine 1" required style={input} />
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
             <div>
-              <label style={label}>Hersteller</label>
+              <label style={label}>{t('manufacturer')}</label>
               <input value={manufacturer} onChange={e => setManufacturer(e.target.value)} placeholder="z.B. WINDMÖLLER & HÖLSCHER" style={input} />
             </div>
             <div>
-              <label style={label}>Modell</label>
+              <label style={label}>{t('model')}</label>
               <input value={model} onChange={e => setModel(e.target.value)} placeholder="z.B. MIRAFLEX C" style={input} />
             </div>
           </div>
 
           <div style={{ marginBottom: 14 }}>
-            <label style={label}>Anzahl Druckwerke *</label>
+            <label style={label}>{t('numDruckwerke')} *</label>
             <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
               {[2, 4, 6, 8, 10].map(n => (
                 <button
@@ -103,12 +105,12 @@ export default function NeueMaschinePage() {
               />
             </div>
             <p style={{ margin: '6px 0 0', fontSize: 11, color: '#9ca3af', fontFamily: 'Arial, sans-serif' }}>
-              Pro Druckwerk werden automatisch 2 Trägerstangen als feste Einbauten angelegt.
+              {t('druckwerkeAutoCreated')}
             </p>
           </div>
 
           <div>
-            <label style={label}>Notizen</label>
+            <label style={label}>{t('notes')}</label>
             <textarea
               value={notes} onChange={e => setNotes(e.target.value)}
               placeholder="Optionale Hinweise zur Maschine..."
@@ -124,7 +126,7 @@ export default function NeueMaschinePage() {
           padding: '14px 18px', marginBottom: 16,
         }}>
           <p style={{ margin: '0 0 8px', fontSize: 12, fontWeight: 700, color: '#003366', fontFamily: 'Arial, sans-serif' }}>
-            Vorschau: Was wird angelegt?
+            {t('previewTitle')}
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
             {Array.from({ length: numDruckwerke }).map((_, i) => (
@@ -148,7 +150,7 @@ export default function NeueMaschinePage() {
               fontFamily: 'Arial, sans-serif',
             }}
           >
-            {loading ? 'Wird angelegt…' : 'Maschine anlegen'}
+            {loading ? t('creating') : t('createMachine')}
           </button>
           <button
             type="button" onClick={() => router.back()}
@@ -159,7 +161,7 @@ export default function NeueMaschinePage() {
               fontFamily: 'Arial, sans-serif',
             }}
           >
-            Abbrechen
+            {t('cancel')}
           </button>
         </div>
       </form>

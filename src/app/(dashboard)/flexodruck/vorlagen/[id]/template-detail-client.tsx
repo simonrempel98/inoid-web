@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import Link from 'next/link'
+import { useTranslations } from 'next-intl'
 
 type Asset = { id: string; name: string; serial_number: string | null }
 type Druckwerk = { id: string; position: number; label: string | null; color_hint: string | null }
@@ -37,6 +38,7 @@ export function TemplateDetailClient({
   orgId: string
   sharedMachines: string[]
 }) {
+  const t = useTranslations('flexodruck')
   const [assignments, setAssignments] = useState<AssignmentMap>(initialAssignments)
   const [savingKey, setSavingKey] = useState<string | null>(null)
   // Picker state: which cell is open
@@ -120,7 +122,7 @@ export function TemplateDetailClient({
             </span>
             {isActive && (
               <span style={{ fontSize: 11, background: '#d1fae5', color: '#34d399', padding: '2px 10px', borderRadius: 20, fontFamily: 'Arial, sans-serif', fontWeight: 700 }}>
-                Aktiv
+                {t('active')}
               </span>
             )}
             {sharedMachines.map(m => (
@@ -137,7 +139,7 @@ export function TemplateDetailClient({
             fontSize: 13, fontWeight: 700, flexShrink: 0,
             fontFamily: 'Arial, sans-serif', textDecoration: 'none',
           }}>
-          ▶ Rüstvorgang starten
+          ▶ {t('startSetupButton')}
         </Link>
       </div>
 
@@ -145,21 +147,19 @@ export function TemplateDetailClient({
       {slots.length === 0 ? (
         <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '32px', textAlign: 'center' }}>
           <p style={{ color: '#6b7280', fontSize: 14, margin: 0, fontFamily: 'Arial, sans-serif' }}>
-            Diese Vorlage hat noch keine variablen Slot-Typen definiert.
+            {t('noSlotsYet')}
           </p>
         </div>
       ) : (
         <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'auto' }}>
           <p style={{ margin: 0, padding: '12px 16px', fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif', borderBottom: '1px solid #e8edf4', background: '#f4f6f9' }}>
-            {canEdit
-              ? 'Klicke auf eine Zelle, um das Asset für diesen Druckwerk-Slot zuzuweisen.'
-              : 'Übersicht der Asset-Zuweisungen pro Druckwerk.'}
+            {canEdit ? t('matrixHintEdit') : t('matrixHintView')}
           </p>
           <table style={{ borderCollapse: 'collapse', width: '100%', minWidth: druckwerke.length * 160 + 140 }}>
             <thead>
               <tr>
                 <th style={{ ...cell, background: '#f4f6f9', textAlign: 'left', fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.06em', minWidth: 120 }}>
-                  Slot-Typ
+                  {t('slotTypeHeader')}
                 </th>
                 {druckwerke.map(dw => (
                   <th key={dw.id} style={{ ...cell, background: dw.color_hint ? dw.color_hint + '28' : '#f4f6f9', textAlign: 'center', minWidth: 150 }}>
@@ -197,7 +197,7 @@ export function TemplateDetailClient({
                             {canEdit && (
                               <button type="button" onClick={() => openPicker(key)}
                                 style={{ fontSize: 10, color: '#0099cc', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Arial, sans-serif', marginTop: 2 }}>
-                                ändern
+                                {t('change')}
                               </button>
                             )}
                           </div>
@@ -209,7 +209,7 @@ export function TemplateDetailClient({
                               padding: '6px 10px', cursor: 'pointer', fontFamily: 'Arial, sans-serif',
                               width: '100%',
                             }}>
-                            + Asset
+                            {t('addAsset')}
                           </button>
                         ) : (
                           <span style={{ fontSize: 11, color: '#d1d5db', fontFamily: 'Arial, sans-serif' }}>–</span>
@@ -233,7 +233,7 @@ export function TemplateDetailClient({
                             </div>
                             <input
                               autoFocus
-                              placeholder="Asset suchen…"
+                              placeholder={t('searchAsset')}
                               value={pickerSearch}
                               onChange={e => setPickerSearch(e.target.value)}
                               style={{
@@ -245,7 +245,7 @@ export function TemplateDetailClient({
                             <div style={{ maxHeight: 200, overflowY: 'auto' }}>
                               <div onClick={() => assignAsset(slot.id, dw.id, null)}
                                 style={{ padding: '7px 10px', cursor: 'pointer', borderRadius: 6, fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif', fontStyle: 'italic' }}>
-                                Kein Asset
+                                {t('noAsset')}
                               </div>
                               {filteredAssets.slice(0, 50).map(a => (
                                 <div key={a.id} onClick={() => assignAsset(slot.id, dw.id, a)}
@@ -273,7 +273,7 @@ export function TemplateDetailClient({
       {/* Feste Einbauten Info */}
       <div style={{ marginTop: 16, background: '#f4f6f9', borderRadius: 12, border: '1px solid #c8d4e8', padding: '12px 16px' }}>
         <p style={{ margin: 0, fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>
-          <strong style={{ color: '#003366' }}>Feste Einbauten</strong> (Trägerstange 1 & 2) werden separat pro Druckwerk in der Maschinenansicht konfiguriert und im Rüstvorgang automatisch angezeigt.
+          <strong style={{ color: '#003366' }}>{t('fixedSlots')}</strong> {t('fixedSlotsInfo')}
         </p>
       </div>
     </div>
