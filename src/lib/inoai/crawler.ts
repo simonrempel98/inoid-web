@@ -2,11 +2,9 @@
 import { createAdminClient } from '@/lib/supabase/admin'
 
 const CRAWL_ROOTS = [
-  'https://www.inometa.de/',
-  'https://printing.inometa.de/',
+  { url: 'https://www.inometa.de/',         maxPages: 200 },
+  { url: 'https://printing.inometa.de/',    maxPages: 200 },
 ]
-
-const MAX_PAGES_PER_DOMAIN = 200
 const CRAWL_DELAY_MS = 300
 
 const SKIP_PATTERNS = [
@@ -114,9 +112,9 @@ export async function runCrawl(log: (msg: string) => void): Promise<CrawlStats> 
   if (delErr) throw new Error(`Löschen fehlgeschlagen: ${delErr.message}`)
   log('✓ Bestehende Einträge gelöscht')
 
-  for (const rootUrl of CRAWL_ROOTS) {
+  for (const { url: rootUrl, maxPages } of CRAWL_ROOTS) {
     const base = new URL(rootUrl)
-    log(`\n🕷️  Crawle ${base.hostname}…`)
+    log(`\n🕷️  Crawle ${base.hostname} (max. ${maxPages} Seiten)…`)
 
     const visited = new Set<string>()
     const visitedPdfs = new Set<string>()
@@ -125,7 +123,7 @@ export async function runCrawl(log: (msg: string) => void): Promise<CrawlStats> 
     const docs: { url: string; title: string; text: string; sourceType: string }[] = []
 
     // HTML crawlen
-    while (queue.length > 0 && visited.size < MAX_PAGES_PER_DOMAIN) {
+    while (queue.length > 0 && visited.size < maxPages) {
       const url = queue.shift()!
       if (visited.has(url)) continue
       visited.add(url)

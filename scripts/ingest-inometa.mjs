@@ -46,12 +46,9 @@ const supabase = createClient(SUPABASE_URL, SERVICE_KEY)
 
 // Einstiegspunkte für den Crawler – alle Unterseiten werden automatisch gefunden
 const CRAWL_ROOTS = [
-  'https://www.inometa.de/',
-  'https://printing.inometa.de/',
+  { url: 'https://www.inometa.de/',       maxPages: 200 },
+  { url: 'https://printing.inometa.de/', maxPages: 200 },
 ]
-
-// Maximale Anzahl Seiten pro Domain (Sicherheitsgrenze)
-const MAX_PAGES_PER_DOMAIN = 200
 
 // Verzögerung zwischen Requests (ms) – höflich zum Server
 const CRAWL_DELAY_MS = 300
@@ -151,7 +148,7 @@ function sleep(ms) {
 
 // ── Crawler ───────────────────────────────────────────────────────────────────
 
-async function crawlSite(rootUrl) {
+async function crawlSite(rootUrl, maxPages) {
   const base = new URL(rootUrl)
   const visited = new Set()
   const visitedPdfs = new Set()
@@ -160,10 +157,10 @@ async function crawlSite(rootUrl) {
   const results = []  // { url, title, text, sourceType }
 
   console.log(`\n🕷️  Starte Crawler für ${base.hostname}`)
-  console.log(`   Max. ${MAX_PAGES_PER_DOMAIN} Seiten, ${CRAWL_DELAY_MS}ms Pause zwischen Requests\n`)
+  console.log(`   Max. ${maxPages} Seiten, ${CRAWL_DELAY_MS}ms Pause zwischen Requests\n`)
 
   // ── HTML-Seiten crawlen ──
-  while (queue.length > 0 && visited.size < MAX_PAGES_PER_DOMAIN) {
+  while (queue.length > 0 && visited.size < maxPages) {
     const url = queue.shift()
     if (visited.has(url)) continue
     visited.add(url)
@@ -204,7 +201,7 @@ async function crawlSite(rootUrl) {
   }
 
   if (queue.length > 0) {
-    console.log(`\n  ⚠️  ${queue.length} weitere Seiten in Queue, Limit (${MAX_PAGES_PER_DOMAIN}) erreicht`)
+    console.log(`\n  ⚠️  ${queue.length} weitere Seiten in Queue, Limit (${maxPages}) erreicht`)
   }
 
   // ── PDFs herunterladen & parsen ──
@@ -242,8 +239,8 @@ async function ingestWebsites() {
 
   let total = 0
 
-  for (const rootUrl of CRAWL_ROOTS) {
-    const pages = await crawlSite(rootUrl)
+  for (const { url: rootUrl, maxPages } of CRAWL_ROOTS) {
+    const pages = await crawlSite(rootUrl, maxPages)
 
     console.log(`\n💾 Schreibe ${pages.length} Dokumente in Datenbank…`)
     for (const { url, title, text, sourceType } of pages) {
