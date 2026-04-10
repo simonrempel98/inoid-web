@@ -5,10 +5,10 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
-import { updateMember, removeMember, addMemberWithPassword, setMemberRole } from '../../actions'
+import { updateMember, unassignMemberFromTeam, assignMemberToTeam, setMemberRole } from '../../actions'
 import {
-  Users, MapPin, Pencil, X, Check, Trash2,
-  UserPlus, KeyRound, Loader, MessageSquare,
+  Users, MapPin, Pencil, X, Check, UserMinus,
+  UserPlus, KeyRound, Loader, MessageSquare, Search,
 } from 'lucide-react'
 import { ROLE_COLORS, ROLE_BG, type AppRole } from '@/lib/permissions'
 
@@ -24,6 +24,7 @@ type Member = {
   id: string; user_id: string | null; email: string
   first_name: string | null; last_name: string | null
   invitation_accepted_at: string | null
+  team_id: string | null
   roles: { id: string; name: string } | null
   app_role: AppRole
 }
@@ -55,8 +56,8 @@ function initials(m: Member) {
   return m.email[0].toUpperCase()
 }
 
-export function TeamDetail({ team, members, locations, halls, areas, roles, organizationId, currentUserRole, showChat }: {
-  team: Team; members: Member[]
+export function TeamDetail({ team, members, availableMembers, locations, halls, areas, roles, organizationId, currentUserRole, showChat }: {
+  team: Team; members: Member[]; availableMembers: Member[]
   locations: Location[]; halls: Hall[]; areas: Area[]; roles: Role[]
   organizationId: string
   currentUserRole: AppRole
@@ -82,16 +83,9 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
   const [editForm, setEditForm] = useState({ first_name: '', last_name: '', app_role: 'leser' as AppRole })
   const [savingMember, setSavingMember] = useState(false)
 
-  const [showInvite, setShowInvite] = useState(false)
-  const [inviteFirst, setInviteFirst] = useState('')
-  const [inviteLast, setInviteLast] = useState('')
-  const [inviteEmail, setInviteEmail] = useState('')
-  const [inviteRoleId, setInviteRoleId] = useState(roles[0]?.id ?? '')
-  const [inviteAppRole, setInviteAppRole] = useState<AppRole>('leser')
-  const [invitePassword, setInvitePassword] = useState('')
-  const [inviting, setInviting] = useState(false)
-  const [inviteError, setInviteError] = useState<string | null>(null)
-  const [inviteSuccess, setInviteSuccess] = useState<string | null>(null)
+  const [showAssign, setShowAssign] = useState(false)
+  const [assignSearch, setAssignSearch] = useState('')
+  const [assigning, setAssigning] = useState<string | null>(null)
 
   async function saveTeam() {
     setSavingTeam(true)
@@ -129,37 +123,26 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
     router.refresh()
   }
 
-  async function handleRemove(memberId: string, name: string) {
-    if (!confirm(t('removeConfirm', { name }))) return
-    await removeMember(memberId)
+  async function handleUnassign(memberId: string, name: string) {
+    if (!confirm(`${name} aus dem Team entfernen?`)) return
+    await unassignMemberFromTeam(memberId)
     router.refresh()
   }
 
-  async function handleInvite() {
-    if (!inviteEmail.trim() || !invitePassword) return
-    setInviting(true)
-    setInviteError(null)
-    setInviteSuccess(null)
-
-    const result = await addMemberWithPassword({
-      teamId: team.id,
-      first_name: inviteFirst,
-      last_name: inviteLast,
-      email: inviteEmail.trim(),
-      role_id: inviteRoleId || roles[0]?.id,
-      app_role: inviteAppRole,
-      password: invitePassword,
-    })
-
-    setInviting(false)
-    if (result.error) { setInviteError(result.error); return }
-
-    setInviteFirst(''); setInviteLast(''); setInviteEmail(''); setInvitePassword(''); setInviteAppRole('leser')
-    setShowInvite(false)
+  async function handleAssign(memberId: string) {
+    setAssigning(memberId)
+    await assignMemberToTeam(memberId, team.id)
+    setAssigning(null)
+    setAssignSearch('')
     router.refresh()
   }
 
-  const accepted = members
+  const filteredAvailable = availableMembers.filter(m => {
+    const q = assignSearch.toLowerCase()
+    if (!q) return true
+    return displayName(m).toLowerCase().includes(q) || m.email.toLowerCase().includes(q)
+  })
+
   const breadcrumb = [team.departments?.divisions?.name, team.departments?.name].filter(Boolean).join(' › ')
   const label = orgRefLabel(team)
 
@@ -213,7 +196,7 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.12)', borderRadius: 20, padding: '5px 12px' }}>
                   <Users size={13} color="rgba(255,255,255,0.7)" />
-                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>{t('memberCount', { count: accepted.length })}</span>
+                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>{t('memberCount', { count: members.length })}</span>
                 </div>
                 {label && (
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'rgba(255,255,255,0.12)', borderRadius: 20, padding: '5px 12px' }}>
@@ -223,95 +206,93 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
                 )}
               </div>
             </div>
-            <button onClick={() => setEditingTeam(true)}
-              style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 10, padding: '8px 10px', cursor: 'pointer', color: 'white', display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}>
-              <Pencil size={14} /> {t('edit')}
-            </button>
+            {isAdmin && (
+              <button onClick={() => setEditingTeam(true)}
+                style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 10, padding: '8px 10px', cursor: 'pointer', color: 'white', display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}>
+                <Pencil size={14} /> {t('edit')}
+              </button>
+            )}
           </div>
         )}
       </div>
 
       <div style={{ padding: '20px 16px 0' }}>
 
-        {isAdmin && !showInvite && (
-          <button onClick={() => setShowInvite(true)}
-            style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: '#003366', color: 'white', border: 'none', borderRadius: 50, padding: '13px', fontSize: 14, fontWeight: 700, cursor: 'pointer', marginBottom: 20, fontFamily: 'Arial, sans-serif' }}>
-            <UserPlus size={15} /> {t('addMember')}
+        {/* ── Mitglied zuweisen ──────────────────────────────────── */}
+        {isAdmin && (
+          <button onClick={() => { setShowAssign(v => !v); setAssignSearch('') }}
+            style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: '#003366', color: 'white', border: 'none', borderRadius: 50, padding: '13px', fontSize: 14, fontWeight: 700, cursor: 'pointer', marginBottom: 16, fontFamily: 'Arial, sans-serif' }}>
+            <UserPlus size={15} /> Mitglied zuweisen
           </button>
         )}
 
-        {showInvite && (
+        {showAssign && (
           <div style={{ background: 'white', borderRadius: 14, border: '1px solid #0099cc', overflow: 'hidden', marginBottom: 20 }}>
             <div style={{ padding: '12px 16px', background: '#f0f8ff', borderBottom: '1px solid #c8d4e8', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 13, fontWeight: 700, color: '#003366', display: 'flex', alignItems: 'center', gap: 6 }}>
-                <UserPlus size={14} /> {t('newMemberTitle')}
+                <UserPlus size={14} /> Mitglied diesem Team zuweisen
               </span>
-              <button onClick={() => { setShowInvite(false); setInviteError(null) }}
+              <button onClick={() => setShowAssign(false)}
                 style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#96aed2', display: 'flex' }}>
                 <X size={16} />
               </button>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0 }}>
-              <div style={{ padding: '11px 14px', borderRight: '1px solid #e8eef6' }}>
-                <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>{t('colFirstName')}</label>
-                <input value={inviteFirst} onChange={e => setInviteFirst(e.target.value)} placeholder="Max"
-                  style={{ ...inputStyle, fontSize: 14 }} />
-              </div>
-              <div style={{ padding: '11px 14px' }}>
-                <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>{t('colLastName')}</label>
-                <input value={inviteLast} onChange={e => setInviteLast(e.target.value)} placeholder="Mustermann"
-                  style={{ ...inputStyle, fontSize: 14 }} />
-              </div>
+
+            <div style={{ padding: '10px 14px', borderBottom: '1px solid #e8eef6', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <Search size={14} color="#96aed2" style={{ flexShrink: 0 }} />
+              <input
+                value={assignSearch}
+                onChange={e => setAssignSearch(e.target.value)}
+                placeholder="Name oder E-Mail suchen…"
+                autoFocus
+                style={{ flex: 1, outline: 'none', border: 'none', fontSize: 13, fontFamily: 'Arial, sans-serif', background: 'transparent', color: '#000' }}
+              />
             </div>
-            <div style={{ height: 1, background: '#e8eef6' }} />
-            <div style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: 0 }}>
-              <div style={{ padding: '11px 14px', borderRight: '1px solid #e8eef6' }}>
-                <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>{t('colEmailRequired')}</label>
-                <input type="email" value={inviteEmail} onChange={e => setInviteEmail(e.target.value)}
-                  onKeyDown={e => e.key === 'Enter' && handleInvite()}
-                  placeholder="max@firma.de"
-                  style={{ ...inputStyle, fontSize: 14 }} />
+
+            {availableMembers.length === 0 ? (
+              <p style={{ fontSize: 13, color: '#96aed2', padding: '14px 16px', margin: 0, fontStyle: 'italic' }}>
+                Alle Mitglieder der Organisation sind bereits diesem Team zugewiesen.
+              </p>
+            ) : filteredAvailable.length === 0 ? (
+              <p style={{ fontSize: 13, color: '#96aed2', padding: '14px 16px', margin: 0, fontStyle: 'italic' }}>
+                Keine Mitglieder gefunden.
+              </p>
+            ) : (
+              <div style={{ maxHeight: 260, overflowY: 'auto' }}>
+                {filteredAvailable.map((m, i) => (
+                  <div key={m.id}>
+                    {i > 0 && <div style={{ height: 1, background: '#e8eef6', margin: '0 16px' }} />}
+                    <div style={{ padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'linear-gradient(135deg, #96aed2, #c8d4e8)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: 'white', flexShrink: 0 }}>
+                        {initials(m)}
+                      </div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <p style={{ margin: '0 0 1px', fontSize: 13, fontWeight: 600, color: '#000', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{displayName(m)}</p>
+                        <p style={{ margin: 0, fontSize: 11, color: '#888', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.email}</p>
+                      </div>
+                      <button
+                        onClick={() => handleAssign(m.id)}
+                        disabled={assigning === m.id}
+                        style={{ display: 'flex', alignItems: 'center', gap: 5, background: '#003366', color: 'white', border: 'none', borderRadius: 8, padding: '6px 14px', fontSize: 12, cursor: 'pointer', fontWeight: 700, flexShrink: 0, opacity: assigning === m.id ? 0.6 : 1 }}>
+                        {assigning === m.id ? <Loader size={12} /> : <Check size={12} />}
+                        Zuweisen
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
-              <div style={{ padding: '11px 14px' }}>
-                <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>{t('colRoleLabel')}</label>
-                <select value={inviteAppRole} onChange={e => setInviteAppRole(e.target.value as AppRole)} style={{ ...selectStyle, fontSize: 14 }}>
-                  {APP_ROLES.map(r => (
-                    <option key={r} value={r}>{roleLabels[r]}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-            <div style={{ height: 1, background: '#e8eef6' }} />
-            <div style={{ padding: '11px 14px' }}>
-              <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>{t('tempPassword')}</label>
-              <input value={invitePassword} onChange={e => setInvitePassword(e.target.value)}
-                placeholder="z.B. Firma2024!"
-                style={{ ...inputStyle, fontSize: 14 }} />
-            </div>
-            {inviteError && <p style={{ color: '#E74C3C', fontSize: 12, padding: '0 14px 10px', margin: 0 }}>{inviteError}</p>}
-            <div style={{ padding: '10px 14px', borderTop: '1px solid #e8eef6' }}>
-              <button onClick={handleInvite} disabled={inviting || !inviteEmail.trim() || !invitePassword}
-                style={{ display: 'flex', alignItems: 'center', gap: 6, background: '#003366', color: 'white', border: 'none', borderRadius: 8, padding: '9px 18px', fontSize: 13, cursor: 'pointer', fontWeight: 700, opacity: inviting || !inviteEmail.trim() || !invitePassword ? 0.5 : 1 }}>
-                {inviting ? <Loader size={13} /> : <UserPlus size={13} />}
-                {inviting ? t('creating2') : t('createUser')}
-              </button>
-            </div>
+            )}
           </div>
         )}
 
-        {inviteSuccess && (
-          <div style={{ background: '#f0fff4', border: '1px solid #27AE60', borderRadius: 10, padding: '10px 14px', marginBottom: 16, fontSize: 13, color: '#1a5c3a' }}>
-            {inviteSuccess}
-          </div>
-        )}
-
-        {accepted.length > 0 && (
+        {/* ── Mitgliederliste ────────────────────────────────────── */}
+        {members.length > 0 && (
           <div style={{ marginBottom: 20 }}>
             <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 8px 2px' }}>
-              {t('membersSection', { count: accepted.length })}
+              {t('membersSection', { count: members.length })}
             </p>
             <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
-              {accepted.map((m, i) => (
+              {members.map((m, i) => (
                 <div key={m.id}>
                   {i > 0 && <div style={{ height: 1, background: '#e8eef6', margin: '0 16px' }} />}
                   {editingMemberId === m.id ? (
@@ -367,9 +348,9 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
                             style={{ background: '#f5f8fc', border: '1px solid #c8d4e8', borderRadius: 7, padding: '6px 8px', cursor: 'pointer', color: '#003366', display: 'flex' }}>
                             <Pencil size={14} />
                           </button>
-                          <button onClick={() => handleRemove(m.id, displayName(m))}
+                          <button onClick={() => handleUnassign(m.id, displayName(m))}
                             style={{ background: '#fff5f5', border: '1px solid #fcc', borderRadius: 7, padding: '6px 8px', cursor: 'pointer', color: '#E74C3C', display: 'flex' }}>
-                            <Trash2 size={14} />
+                            <UserMinus size={14} />
                           </button>
                         </div>
                       )}
@@ -382,10 +363,10 @@ export function TeamDetail({ team, members, locations, halls, areas, roles, orga
         )}
 
         {members.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '32px 16px', background: 'white', borderRadius: 14, border: '1px solid #c8d4e8' }}>
+          <div style={{ textAlign: 'center', padding: '32px 16px', background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', marginBottom: 16 }}>
             <Users size={32} color="#c8d4e8" style={{ marginBottom: 10 }} />
-            <p style={{ color: '#aaa', fontSize: 14, margin: '0 0 4px', fontWeight: 600 }}>{t('noMembers')}</p>
-            <p style={{ color: '#c0ccda', fontSize: 12, margin: 0 }}>{t('inviteFirst')}</p>
+            <p style={{ color: '#aaa', fontSize: 14, margin: '0 0 4px', fontWeight: 600 }}>Noch keine Mitglieder</p>
+            <p style={{ color: '#c0ccda', fontSize: 12, margin: 0 }}>Weise Mitglieder über die Schaltfläche oben zu.</p>
           </div>
         )}
 

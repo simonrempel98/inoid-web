@@ -4,19 +4,12 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { createTeamWithMembers } from './actions'
-import { Plus, Trash2, Users, MapPin, Check, AlertCircle, Loader, ChevronRight, ChevronDown, X } from 'lucide-react'
+import { Users, MapPin, Check, AlertCircle, Loader, ChevronRight, ChevronDown, X } from 'lucide-react'
 
 type Location   = { id: string; name: string }
 type Hall       = { id: string; name: string; location_id: string; locations: { name: string } | null }
 type Area       = { id: string; name: string; hall_id: string; halls: { name: string } | null }
 type Role       = { id: string; name: string }
-
-type MemberRow = { id: string; first_name: string; last_name: string; email: string; role_id: string; password: string }
-
-const emptyRow = (defaultRoleId = ''): MemberRow => ({
-  id: Math.random().toString(36).slice(2),
-  first_name: '', last_name: '', email: '', role_id: defaultRoleId, password: '',
-})
 
 function getOrgRefLabel(orgRef: string, locations: Location[], halls: Hall[], areas: Area[]): string {
   if (!orgRef) return ''
@@ -172,23 +165,12 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
   locations: Location[]; halls: Hall[]; areas: Area[]; roles: Role[]
 }) {
   const t = useTranslations('teams')
-  const defaultRoleId = roles[0]?.id ?? ''
 
   const [teamName, setTeamName] = useState('')
   const [orgRef, setOrgRef] = useState('')
-  const [members, setMembers] = useState<MemberRow[]>([emptyRow(defaultRoleId)])
   const [submitting, setSubmitting] = useState(false)
-  const [results, setResults] = useState<{ email: string; success: boolean; error?: string }[] | null>(null)
   const [teamId, setTeamId] = useState<string | null>(null)
   const [formError, setFormError] = useState<string | null>(null)
-
-  const updateRow = (id: string, field: keyof MemberRow, value: string) =>
-    setMembers(prev => prev.map(r => r.id === id ? { ...r, [field]: value } : r))
-
-  const addRow = () => setMembers(prev => [...prev, emptyRow(defaultRoleId)])
-  const removeRow = (id: string) => setMembers(prev => prev.filter(r => r.id !== id))
-
-  const filledMembers = members.filter(r => r.email.trim() && r.password)
 
   async function handleSubmit() {
     if (!teamName.trim()) { setFormError(t('nameRequired')); return }
@@ -202,24 +184,16 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
       location_id: type === 'location' ? id : undefined,
       hall_id: type === 'hall' ? id : undefined,
       area_id: type === 'area' ? id : undefined,
-      members: filledMembers.map(r => ({
-        first_name: r.first_name,
-        last_name: r.last_name,
-        email: r.email,
-        role_id: r.role_id || defaultRoleId,
-        password: r.password,
-      })),
+      members: [],
     })
 
     setSubmitting(false)
     if (result.error) { setFormError(result.error); return }
-    if (result.teamId) { setTeamId(result.teamId); setResults(result.results ?? []) }
+    if (result.teamId) { setTeamId(result.teamId) }
   }
 
   // ── Success screen ──────────────────────────────────────────────
-  if (results !== null) {
-    const ok  = results.filter(r => r.success)
-    const err = results.filter(r => !r.success)
+  if (teamId !== null) {
     return (
       <div style={{ padding: '24px 16px', fontFamily: 'Arial, sans-serif', maxWidth: 560 }}>
         <div style={{ background: '#f0fff4', border: '1px solid #27AE60', borderRadius: 14, padding: '20px', marginBottom: 20 }}>
@@ -227,23 +201,8 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
             <Check size={20} color="#27AE60" />
             <h2 style={{ fontSize: 17, fontWeight: 700, color: '#1a5c3a', margin: 0 }}>{t('created')}</h2>
           </div>
-          <p style={{ fontSize: 14, color: '#2d7a4f', margin: 0 }}>
-            {ok.length > 0 ? t('membersCreated', { count: ok.length }) : t('teamCreated')}
-          </p>
+          <p style={{ fontSize: 14, color: '#2d7a4f', margin: 0 }}>{t('teamCreated')}</p>
         </div>
-
-        {err.length > 0 && (
-          <div style={{ background: '#fff5f5', border: '1px solid #E74C3C', borderRadius: 14, padding: '16px', marginBottom: 20 }}>
-            <p style={{ fontSize: 13, fontWeight: 700, color: '#E74C3C', margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <AlertCircle size={14} /> {t('errorsFor', { count: err.length })}
-            </p>
-            {err.map(e => (
-              <p key={e.email} style={{ fontSize: 12, color: '#c0392b', margin: '4px 0' }}>
-                {e.email}: {e.error}
-              </p>
-            ))}
-          </div>
-        )}
 
         <div style={{ display: 'flex', gap: 10 }}>
           <Link href={`/teams/team/${teamId}`} style={{
@@ -294,7 +253,7 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
       </div>
 
       {/* Location */}
-      <div style={{ marginBottom: 20 }}>
+      <div style={{ marginBottom: 24 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '0 0 8px 2px' }}>
           <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0, display: 'flex', alignItems: 'center', gap: 5 }}>
             <MapPin size={11} color="#666" /> {t('locationAssignment')}
@@ -322,60 +281,6 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
             value={orgRef} onChange={setOrgRef} noDataLabel={t('noOrgData')}
           />
         </div>
-      </div>
-
-      {/* Members table */}
-      <div style={{ marginBottom: 24 }}>
-        <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 8px 2px' }}>
-          {t('createMembers')}
-        </p>
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1.5fr 1fr 1fr 36px', gap: 0, padding: '8px 14px', borderBottom: '1px solid #c8d4e8', background: '#f8fafd' }}>
-            {[t('colFirst'), t('colLast'), t('colEmail'), t('colRole'), t('colPassword'), ''].map((h, i) => (
-              <span key={i} style={{ fontSize: 10, fontWeight: 700, color: '#96aed2', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{h}</span>
-            ))}
-          </div>
-
-          {members.map((row, idx) => (
-            <div key={row.id}>
-              {idx > 0 && <div style={{ height: 1, background: '#e8eef6' }} />}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1.5fr 1fr 1fr 36px', alignItems: 'center', padding: '0 14px' }}>
-                <input value={row.first_name} onChange={e => updateRow(row.id, 'first_name', e.target.value)}
-                  placeholder="Max"
-                  style={{ outline: 'none', border: 'none', fontSize: 13, fontFamily: 'Arial, sans-serif', padding: '11px 8px 11px 0', background: 'transparent', width: '100%' }} />
-                <input value={row.last_name} onChange={e => updateRow(row.id, 'last_name', e.target.value)}
-                  placeholder="Muster"
-                  style={{ outline: 'none', border: 'none', fontSize: 13, fontFamily: 'Arial, sans-serif', padding: '11px 8px', background: 'transparent', width: '100%' }} />
-                <input type="email" value={row.email} onChange={e => updateRow(row.id, 'email', e.target.value)}
-                  placeholder="max@firma.de"
-                  style={{ outline: 'none', border: 'none', fontSize: 13, fontFamily: 'Arial, sans-serif', padding: '11px 8px', background: 'transparent', width: '100%' }} />
-                <select value={row.role_id} onChange={e => updateRow(row.id, 'role_id', e.target.value)}
-                  style={{ outline: 'none', border: 'none', fontSize: 12, fontFamily: 'Arial, sans-serif', padding: '11px 4px', background: 'transparent', color: '#000', width: '100%' }}>
-                  {roles.map(r => <option key={r.id} value={r.id}>{r.name}</option>)}
-                </select>
-                <input value={row.password} onChange={e => updateRow(row.id, 'password', e.target.value)}
-                  placeholder="Temp.-Passwort"
-                  style={{ outline: 'none', border: 'none', fontSize: 13, fontFamily: 'Arial, sans-serif', padding: '11px 8px', background: 'transparent', width: '100%' }} />
-                <button onClick={() => members.length > 1 && removeRow(row.id)} disabled={members.length <= 1}
-                  style={{ background: 'none', border: 'none', cursor: members.length > 1 ? 'pointer' : 'default', color: '#c0ccda', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 0, opacity: members.length <= 1 ? 0.3 : 1 }}>
-                  <Trash2 size={14} />
-                </button>
-              </div>
-            </div>
-          ))}
-
-          <div style={{ borderTop: '1px solid #e8eef6' }}>
-            <button onClick={addRow}
-              style={{ display: 'flex', alignItems: 'center', gap: 7, width: '100%', padding: '11px 14px', background: 'none', border: 'none', cursor: 'pointer', color: '#0099cc', fontSize: 13, fontFamily: 'Arial, sans-serif' }}>
-              <Plus size={14} /> {t('addRow')}
-            </button>
-          </div>
-        </div>
-        {filledMembers.length > 0 && (
-          <p style={{ fontSize: 12, color: '#96aed2', margin: '6px 0 0 2px' }}>
-            {t('membersToCreate', { count: filledMembers.length })}
-          </p>
-        )}
       </div>
 
       {formError && (

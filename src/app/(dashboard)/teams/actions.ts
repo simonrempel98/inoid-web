@@ -228,6 +228,24 @@ export async function removeMember(memberId: string) {
   return { error: error?.message }
 }
 
+export async function assignMemberToTeam(memberId: string, teamId: string) {
+  const supabase = await createClient()
+  const { error } = await supabase
+    .from('organization_members')
+    .update({ team_id: teamId })
+    .eq('id', memberId)
+  return { error: error?.message }
+}
+
+export async function unassignMemberFromTeam(memberId: string) {
+  const supabase = await createClient()
+  const { error } = await supabase
+    .from('organization_members')
+    .update({ team_id: null })
+    .eq('id', memberId)
+  return { error: error?.message }
+}
+
 export async function setMemberRole(userId: string, appRole: AppRole) {
   const supabase = await createClient()
   const admin = createAdminClient()

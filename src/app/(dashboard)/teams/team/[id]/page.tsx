@@ -35,14 +35,14 @@ export default async function TeamDetailPage({
   if (!team) notFound()
 
   const [
-    { data: members },
+    { data: allOrgMembersRaw },
     { data: locations },
     { data: halls },
     { data: areas },
     { data: roles },
   ] = await Promise.all([
     supabase.from('organization_members')
-      .select('id, user_id, email, first_name, last_name, invitation_accepted_at, roles(id, name)')
+      .select('id, user_id, email, first_name, last_name, invitation_accepted_at, team_id, roles(id, name)')
       .eq('organization_id', orgId)
       .order('created_at'),
     supabase.from('locations').select('id, name').eq('organization_id', orgId).order('name'),
@@ -52,22 +52,27 @@ export default async function TeamDetailPage({
   ])
 
   // app_role aus profiles holen und in members einmischen
-  const userIds = (members ?? []).map(m => m.user_id).filter(Boolean) as string[]
+  const userIds = (allOrgMembersRaw ?? []).map(m => m.user_id).filter(Boolean) as string[]
   const { data: profileRoles } = userIds.length > 0
     ? await supabase.from('profiles').select('id, app_role').in('id', userIds)
     : { data: [] }
 
   const roleByUserId = Object.fromEntries((profileRoles ?? []).map(p => [p.id, p.app_role as AppRole]))
 
-  const membersWithRole = (members ?? []).map(m => ({
+  const allOrgMembers = (allOrgMembersRaw ?? []).map(m => ({
     ...m,
     app_role: (m.user_id ? roleByUserId[m.user_id] : null) ?? 'leser' as AppRole,
   }))
 
+  // Aufteilen: Mitglieder dieses Teams vs. verfügbare Mitglieder
+  const members = allOrgMembers.filter(m => m.team_id === id)
+  const availableMembers = allOrgMembers.filter(m => m.team_id !== id)
+
   return (
     <TeamDetail
       team={team as any}
-      members={membersWithRole as any}
+      members={members as any}
+      availableMembers={availableMembers as any}
       locations={(locations ?? []) as any}
       halls={(halls ?? []) as any}
       areas={(areas ?? []) as any}
