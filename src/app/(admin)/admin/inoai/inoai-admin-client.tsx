@@ -32,6 +32,7 @@ function CrawlerCard({
   const [running, setRunning] = useState(false)
   const [log, setLog] = useState<string[]>([])
   const [done, setDone] = useState(false)
+  const [logOpen, setLogOpen] = useState(true)
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [deleting, setDeleting] = useState(false)
 
@@ -147,19 +148,30 @@ function CrawlerCard({
       {/* Log */}
       {log.length > 0 && (
         <div style={{ background: '#0d1117', borderTop: '1px solid #30363d' }}>
-          <div style={{ padding: '7px 14px', borderBottom: '1px solid #30363d', display: 'flex', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 11, color: '#8b949e', fontFamily: 'monospace', fontWeight: 700 }}>Log</span>
-            {done && <span style={{ fontSize: 11, color: '#3fb950', fontWeight: 700 }}>✓ Fertig</span>}
-            {running && <span style={{ fontSize: 11, color: '#f0883e', fontWeight: 700 }}>● Läuft</span>}
+          <div
+            onClick={() => setLogOpen(o => !o)}
+            style={{ padding: '7px 14px', borderBottom: logOpen ? '1px solid #30363d' : 'none', display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', userSelect: 'none' }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: 10, color: '#8b949e', transition: 'transform 0.15s', display: 'inline-block', transform: logOpen ? 'rotate(90deg)' : 'rotate(0deg)' }}>▶</span>
+              <span style={{ fontSize: 11, color: '#8b949e', fontFamily: 'monospace', fontWeight: 700 }}>Log</span>
+              {!logOpen && <span style={{ fontSize: 10, color: '#8b949e' }}>({log.length} Zeilen)</span>}
+            </div>
+            <div style={{ display: 'flex', gap: 10 }}>
+              {done && <span style={{ fontSize: 11, color: '#3fb950', fontWeight: 700 }}>✓ Fertig</span>}
+              {running && <span style={{ fontSize: 11, color: '#f0883e', fontWeight: 700 }}>● Läuft</span>}
+            </div>
           </div>
-          <div style={{ padding: '10px 14px', maxHeight: 280, overflowY: 'auto', fontFamily: 'monospace', fontSize: 11, lineHeight: 1.7 }}>
-            {log.map((line, i) => (
-              <div key={i} style={{
-                whiteSpace: 'pre-wrap', wordBreak: 'break-all',
-                color: line.startsWith('❌') ? '#f85149' : line.startsWith('✅') || line.startsWith('✓') ? '#3fb950' : line.startsWith('⚠️') ? '#f0883e' : line.startsWith('🚀') || line.startsWith('🕷️') ? '#79c0ff' : line.startsWith('💾') ? '#a5d6ff' : '#e6edf3',
-              }}>{line}</div>
-            ))}
-          </div>
+          {logOpen && (
+            <div style={{ padding: '10px 14px', maxHeight: 280, overflowY: 'auto', fontFamily: 'monospace', fontSize: 11, lineHeight: 1.7 }}>
+              {log.map((line, i) => (
+                <div key={i} style={{
+                  whiteSpace: 'pre-wrap', wordBreak: 'break-all',
+                  color: line.startsWith('❌') ? '#f85149' : line.startsWith('✅') || line.startsWith('✓') ? '#3fb950' : line.startsWith('⚠️') ? '#f0883e' : line.startsWith('🚀') || line.startsWith('🕷️') ? '#79c0ff' : line.startsWith('💾') ? '#a5d6ff' : '#e6edf3',
+                }}>{line}</div>
+              ))}
+            </div>
+          )}
         </div>
       )}
     </div>
