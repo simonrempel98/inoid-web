@@ -25,6 +25,7 @@ import { readFileSync, readdirSync, existsSync } from 'fs'
 import { join, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { config } from 'dotenv'
+import pdfParse from 'pdf-parse/lib/pdf-parse.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 config({ path: join(__dirname, '..', '.env.local') })
@@ -55,7 +56,7 @@ const CRAWL_DELAY_MS = 300
 
 // URL-Muster die NICHT gecrawlt werden sollen (regex)
 const SKIP_PATTERNS = [
-  /\.(pdf|jpg|jpeg|png|gif|svg|webp|mp4|zip|docx?|xlsx?)$/i,
+  /\.(jpg|jpeg|png|gif|svg|webp|mp4|zip|docx?|xlsx?)$/i,
   /\?(utm_|ref=|session)/i,
   /#/,
   /\/wp-admin/,
@@ -103,29 +104,40 @@ function extractTitle(html) {
   return title ? title[1].replace(/\s*[-|–]\s*.*$/, '').trim() : 'Unbekannte Seite'
 }
 
-/** Alle internen Links aus einer HTML-Seite extrahieren */
+/** Alle internen Links + PDF-Links aus einer HTML-Seite extrahieren */
 function extractLinks(html, baseUrl) {
   const base = new URL(baseUrl)
   const links = new Set()
+  const pdfs = new Set()
   const hrefRe = /href=["']([^"'#?][^"']*?)["']/gi
   let match
   while ((match = hrefRe.exec(html)) !== null) {
     try {
       const url = new URL(match[1], baseUrl)
-      // Nur gleiche Domain
       if (url.hostname !== base.hostname) continue
-      // Fragment und Query entfernen für saubere URLs
       url.hash = ''
-      // Nur http/https
       if (!['http:', 'https:'].includes(url.protocol)) continue
-      // Skip-Patterns prüfen
+      // PDFs separat sammeln
+      if (/\.pdf$/i.test(url.pathname)) { pdfs.add(url.href); continue }
       if (SKIP_PATTERNS.some(p => p.test(url.pathname + url.search))) continue
       links.add(url.href)
     } catch {
       // ungültige URL ignorieren
     }
   }
-  return links
+  return { links, pdfs }
+}
+
+/** PDF herunterladen und Text extrahieren */
+async function parsePdf(url) {
+  const res = await fetch(url, {
+    headers: { 'User-Agent': 'INOid-KI-Bot/1.0 (internal product knowledge indexer)' },
+    signal: AbortSignal.timeout(20000),
+  })
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  const buffer = Buffer.from(await res.arrayBuffer())
+  const data = await pdfParse(buffer)
+  return data.text.replace(/\s{2,}/g, ' ').trim()
 }
 
 function sleep(ms) {
@@ -137,60 +149,49 @@ function sleep(ms) {
 async function crawlSite(rootUrl) {
   const base = new URL(rootUrl)
   const visited = new Set()
+  const visitedPdfs = new Set()
   const queue = [rootUrl]
-  const results = [] // { url, title, text }
+  const pdfQueue = []
+  const results = []  // { url, title, text, sourceType }
 
   console.log(`\n🕷️  Starte Crawler für ${base.hostname}`)
   console.log(`   Max. ${MAX_PAGES_PER_DOMAIN} Seiten, ${CRAWL_DELAY_MS}ms Pause zwischen Requests\n`)
 
+  // ── HTML-Seiten crawlen ──
   while (queue.length > 0 && visited.size < MAX_PAGES_PER_DOMAIN) {
     const url = queue.shift()
     if (visited.has(url)) continue
     visited.add(url)
 
-    process.stdout.write(`  [${visited.size}/${MAX_PAGES_PER_DOMAIN}] ${url.replace(base.origin, '')} `)
+    process.stdout.write(`  [${visited.size}] ${url.replace(base.origin, '')} `)
 
     try {
       await sleep(CRAWL_DELAY_MS)
       const res = await fetch(url, {
-        headers: {
-          'User-Agent': 'INOid-KI-Bot/1.0 (internal product knowledge indexer)',
-          'Accept': 'text/html',
-        },
+        headers: { 'User-Agent': 'INOid-KI-Bot/1.0 (internal product knowledge indexer)', 'Accept': 'text/html' },
         signal: AbortSignal.timeout(10000),
       })
-
-      if (!res.ok) {
-        console.log(`→ HTTP ${res.status}`)
-        continue
-      }
+      if (!res.ok) { console.log(`→ HTTP ${res.status}`); continue }
 
       const contentType = res.headers.get('content-type') ?? ''
-      if (!contentType.includes('text/html')) {
-        console.log(`→ kein HTML (${contentType})`)
-        continue
-      }
+      if (!contentType.includes('text/html')) { console.log(`→ kein HTML`); continue }
 
       const html = await res.text()
       const title = extractTitle(html)
       const text = stripHtml(html)
-
-      // Seiten mit zu wenig Inhalt überspringen (Nav-only Seiten etc.)
       const wordCount = text.split(/\s+/).filter(Boolean).length
-      if (wordCount < 50) {
-        console.log(`→ zu wenig Text (${wordCount} Wörter)`)
-        continue
-      }
+
+      if (wordCount < 50) { console.log(`→ zu wenig Text (${wordCount} Wörter)`); continue }
 
       console.log(`→ "${title}" (${wordCount} Wörter)`)
-      results.push({ url, title, text })
+      results.push({ url, title, text, sourceType: 'website' })
 
-      // Neue Links in Queue aufnehmen
-      const links = extractLinks(html, url)
+      const { links, pdfs } = extractLinks(html, url)
       for (const link of links) {
-        if (!visited.has(link) && !queue.includes(link)) {
-          queue.push(link)
-        }
+        if (!visited.has(link) && !queue.includes(link)) queue.push(link)
+      }
+      for (const pdf of pdfs) {
+        if (!visitedPdfs.has(pdf) && !pdfQueue.includes(pdf)) pdfQueue.push(pdf)
       }
     } catch (e) {
       console.log(`→ Fehler: ${e.message}`)
@@ -198,10 +199,31 @@ async function crawlSite(rootUrl) {
   }
 
   if (queue.length > 0) {
-    console.log(`\n  ⚠️  ${queue.length} weitere URLs in Queue, aber Limit (${MAX_PAGES_PER_DOMAIN}) erreicht`)
+    console.log(`\n  ⚠️  ${queue.length} weitere Seiten in Queue, Limit (${MAX_PAGES_PER_DOMAIN}) erreicht`)
   }
 
-  console.log(`\n  ✅ ${results.length} Seiten erfolgreich gecrawlt`)
+  // ── PDFs herunterladen & parsen ──
+  if (pdfQueue.length > 0) {
+    console.log(`\n  📄 ${pdfQueue.length} PDFs gefunden – lade herunter…\n`)
+    for (const pdfUrl of pdfQueue) {
+      visitedPdfs.add(pdfUrl)
+      const filename = pdfUrl.split('/').pop()
+      process.stdout.write(`  📄 ${filename} `)
+      try {
+        await sleep(CRAWL_DELAY_MS)
+        const text = await parsePdf(pdfUrl)
+        const wordCount = text.split(/\s+/).filter(Boolean).length
+        if (wordCount < 30) { console.log(`→ zu wenig Text (${wordCount} Wörter)`); continue }
+        const title = filename.replace(/\.pdf$/i, '').replace(/[-_]/g, ' ')
+        console.log(`→ "${title}" (${wordCount} Wörter)`)
+        results.push({ url: pdfUrl, title, text, sourceType: 'datasheet' })
+      } catch (e) {
+        console.log(`→ Fehler: ${e.message}`)
+      }
+    }
+  }
+
+  console.log(`\n  ✅ ${results.length} Dokumente gecrawlt (inkl. ${pdfQueue.length} PDFs)`)
   return results
 }
 
@@ -218,14 +240,14 @@ async function ingestWebsites() {
   for (const rootUrl of CRAWL_ROOTS) {
     const pages = await crawlSite(rootUrl)
 
-    console.log(`\n💾 Schreibe ${pages.length} Seiten in Datenbank…`)
-    for (const { url, title, text } of pages) {
+    console.log(`\n💾 Schreibe ${pages.length} Dokumente in Datenbank…`)
+    for (const { url, title, text, sourceType } of pages) {
       const chunks = chunkText(text)
       const rows = chunks.map((content, i) => ({
         title: chunks.length > 1 ? `${title} (${i + 1}/${chunks.length})` : title,
         content,
         source_url: url,
-        source_type: 'website',
+        source_type: sourceType,
         language: 'de',
         chunk_index: i,
       }))
@@ -297,11 +319,11 @@ async function main() {
   console.log(`Domains: ${CRAWL_ROOTS.join(', ')}`)
 
   // Bestehende Einträge löschen (komplette Neuindexierung)
-  console.log('\n🗑️  Lösche bestehende Website-Einträge…')
+  console.log('\n🗑️  Lösche bestehende gecrawlte Einträge…')
   const { error: delErr } = await supabase
     .from('inometa_knowledge')
     .delete()
-    .eq('source_type', 'website')
+    .in('source_type', ['website', 'datasheet'])
   if (delErr) { console.error('❌ Löschen fehlgeschlagen:', delErr.message); process.exit(1) }
 
   console.log('\n🌐 Website-Crawling…')
