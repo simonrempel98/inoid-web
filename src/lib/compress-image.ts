@@ -87,14 +87,24 @@ export async function compressImages(files: File[]): Promise<{
   }
 }
 
-/** PDF-Größenlimit prüfen (10 MB) */
-export const PDF_MAX_BYTES = 10 * 1024 * 1024
+/** Standard-Maximalgröße für Dokumente (10 MB) */
+export const DOC_DEFAULT_MAX_BYTES = 10 * 1024 * 1024
+/** @deprecated Verwende checkDocSize mit maxBytes-Parameter */
+export const PDF_MAX_BYTES = DOC_DEFAULT_MAX_BYTES
 
-export function checkDocSize(file: File): { ok: boolean; message?: string } {
-  if (file.size > PDF_MAX_BYTES) {
+/**
+ * Prüft ob eine Datei das konfigurierte Größenlimit überschreitet.
+ * @param maxBytes  Maximalgröße in Bytes — Standard: 10 MB
+ */
+export function checkDocSize(
+  file: File,
+  maxBytes: number = DOC_DEFAULT_MAX_BYTES
+): { ok: boolean; message?: string } {
+  if (file.size > maxBytes) {
+    const maxLabel = formatBytes(maxBytes)
     return {
       ok: false,
-      message: `"${file.name}" ist ${formatBytes(file.size)} groß — max. 10 MB erlaubt.`,
+      message: `"${file.name}" ist ${formatBytes(file.size)} groß — max. ${maxLabel} erlaubt.`,
     }
   }
   return { ok: true }

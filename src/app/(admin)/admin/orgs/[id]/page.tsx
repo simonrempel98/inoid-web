@@ -5,6 +5,7 @@ import { OrgEditForm } from './org-edit-form'
 import { DeleteOrgButton } from './delete-org-button'
 import { FeatureToggles } from './feature-toggles'
 import { ImageCompressionSettings } from './image-compression-settings'
+import { DocumentUploadSettings } from './document-upload-settings'
 
 export default async function AdminOrgDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -23,7 +24,7 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
       .order('created_at'),
     supabase
       .from('assets')
-      .select('id, name, status, created_at')
+      .select('id, title, status, created_at')
       .eq('organization_id', id)
       .is('deleted_at', null)
       .order('created_at', { ascending: false })
@@ -87,6 +88,10 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
             orgId={id}
             settings={(org.settings as Record<string, unknown>) ?? null}
           />
+          <DocumentUploadSettings
+            orgId={id}
+            settings={(org.settings as Record<string, unknown>) ?? null}
+          />
         </div>
 
         {/* Nutzer */}
@@ -135,12 +140,13 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
 
           {/* Assets */}
           <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden' }}>
-            <div style={{ padding: '16px 20px', borderBottom: '1px solid #1f2937' }}>
+            <div style={{ padding: '16px 20px', borderBottom: '1px solid #1f2937', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h2 style={{ fontSize: 14, fontWeight: 700, color: 'white', margin: 0 }}>Letzte Assets ({(assets ?? []).length})</h2>
+              <Link href={`/admin/orgs/${id}/assets/neu`} style={{ fontSize: 12, color: '#0099cc', textDecoration: 'none' }}>+ Asset anlegen</Link>
             </div>
             {(assets ?? []).map(a => (
               <div key={a.id} style={{ padding: '10px 20px', borderBottom: '1px solid #1f2937', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <p style={{ margin: 0, fontSize: 13, color: 'white' }}>{a.name}</p>
+                <p style={{ margin: 0, fontSize: 13, color: 'white' }}>{a.title}</p>
                 <span style={{ fontSize: 11, color: '#6b7280' }}>{a.status}</span>
               </div>
             ))}

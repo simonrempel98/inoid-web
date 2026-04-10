@@ -53,8 +53,9 @@ export default async function NeuesAssetPage() {
 
   const categories = [...new Set((categoryRows ?? []).map((r: any) => r.category).filter(Boolean))].sort() as string[]
   const orgSettings = (org?.settings ?? {}) as Record<string, unknown>
-  const imageMaxDim = (orgSettings.image_max_dim as number) ?? 1920
-  const imageQuality = (orgSettings.image_quality as number) ?? 82
+  const imageMaxDim  = (orgSettings.image_max_dim   as number) ?? 1920
+  const imageQuality = (orgSettings.image_quality   as number) ?? 82
+  const docMaxSizeMb = (orgSettings.doc_max_size_mb as number) ?? 10
 
   return <AssetForm
     locations={locations ?? []}
@@ -63,5 +64,6 @@ export default async function NeuesAssetPage() {
     categories={categories}
     imageMaxDim={imageMaxDim}
     imageQuality={imageQuality}
+    docMaxSizeMb={docMaxSizeMb}
   />
 }

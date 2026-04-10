@@ -38,7 +38,9 @@ export default async function AssetDetailPage({
     .from('organizations')
     .select('settings, features')
     .single()
-  const customStatuses = (org?.settings as { custom_statuses?: { value: string; label: string; color: string }[] })?.custom_statuses ?? []
+  const orgSettings = (org?.settings as Record<string, unknown>) ?? {}
+  const customStatuses = (orgSettings as { custom_statuses?: { value: string; label: string; color: string }[] }).custom_statuses ?? []
+  const docMaxSizeMb = (orgSettings.doc_max_size_mb as number) ?? 10
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const orgFeatures = ((org as any)?.features as Record<string, boolean>) ?? {}
   const showServiceheft = orgFeatures.serviceheft !== false
@@ -240,6 +242,7 @@ export default async function AssetDetailPage({
         assetId={id}
         initialUrls={(asset as any).document_urls ?? []}
         canEdit={perms.editAssets}
+        docMaxSizeMb={docMaxSizeMb}
       />
 
       {/* QR Code + NFC */}

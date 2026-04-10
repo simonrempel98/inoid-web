@@ -20,6 +20,27 @@ export default function AdminOrgNeuPage() {
   const [featServiceheft, setFeatServiceheft] = useState(true)
   const [featWartung, setFeatWartung] = useState(true)
 
+  // Bildkomprimierung
+  const PRESETS = [
+    { label: 'Original',  maxDim: null,  quality: 100 },
+    { label: 'Hoch',      maxDim: 1920,  quality: 90  },
+    { label: 'Mittel',    maxDim: 1280,  quality: 80  },
+    { label: 'Niedrig',   maxDim: 800,   quality: 65  },
+  ]
+  const DIM_OPTIONS = [null, 2560, 1920, 1440, 1280, 1024, 800]
+  const [compressionPreset, setCompressionPreset] = useState<number>(1) // Index in PRESETS (Hoch)
+  const [imageMaxDim, setImageMaxDim] = useState<number | null>(1920)
+  const [imageQuality, setImageQuality] = useState(90)
+  const [customMode, setCustomMode] = useState(false)
+
+  function applyPreset(idx: number) {
+    const p = PRESETS[idx]
+    setCompressionPreset(idx)
+    setImageMaxDim(p.maxDim)
+    setImageQuality(p.quality)
+    setCustomMode(false)
+  }
+
   // Erster Admin-Nutzer der Org
   const [userEmail, setUserEmail] = useState('')
   const [userName, setUserName] = useState('')
@@ -52,6 +73,10 @@ export default function AdminOrgNeuPage() {
         contactEmail: contactEmail.trim() || null,
         notes: notes.trim() || null,
         features: { serviceheft: featServiceheft, wartung: featWartung },
+        settings: {
+          image_max_dim: imageMaxDim ?? null,
+          image_quality: imageQuality,
+        },
         userEmail: userEmail.trim(),
         userName: userName.trim() || null,
         tempPassword,
@@ -221,6 +246,83 @@ export default function AdminOrgNeuPage() {
             value={featWartung}
             onChange={setFeatWartung}
           />
+        </div>
+
+        {/* Bildkomprimierung */}
+        <div style={sectionStyle}>
+          <h2 style={{ fontSize: 13, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.08em', margin: '0 0 4px' }}>
+            Bildkomprimierung
+          </h2>
+          <p style={{ fontSize: 12, color: '#4b5563', margin: '0 0 14px' }}>
+            Legt fest wie Bilder beim Upload für diese Organisation komprimiert werden.
+          </p>
+
+          {/* Preset-Buttons */}
+          <div style={{ display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>
+            {PRESETS.map((p, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => applyPreset(i)}
+                style={{
+                  padding: '7px 16px', borderRadius: 50, fontSize: 12, fontWeight: 700,
+                  border: !customMode && compressionPreset === i ? '1.5px solid #0099cc' : '1.5px solid #374151',
+                  background: !customMode && compressionPreset === i ? '#0c2340' : 'transparent',
+                  color: !customMode && compressionPreset === i ? '#0099cc' : '#6b7280',
+                  cursor: 'pointer', fontFamily: 'Arial, sans-serif',
+                }}
+              >
+                {p.label}
+              </button>
+            ))}
+            <button
+              type="button"
+              onClick={() => { setCustomMode(true); setCompressionPreset(-1) }}
+              style={{
+                padding: '7px 16px', borderRadius: 50, fontSize: 12, fontWeight: 700,
+                border: customMode ? '1.5px solid #0099cc' : '1.5px solid #374151',
+                background: customMode ? '#0c2340' : 'transparent',
+                color: customMode ? '#0099cc' : '#6b7280',
+                cursor: 'pointer', fontFamily: 'Arial, sans-serif',
+              }}
+            >
+              Eigene
+            </button>
+          </div>
+
+          {customMode && (
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+              <div>
+                <label style={labelStyle}>Max. Auflösung</label>
+                <select
+                  value={imageMaxDim ?? 'original'}
+                  onChange={e => setImageMaxDim(e.target.value === 'original' ? null : Number(e.target.value))}
+                  style={inputStyle}
+                >
+                  <option value="original">Original (keine Grenze)</option>
+                  {DIM_OPTIONS.filter(Boolean).map(d => (
+                    <option key={d} value={d!}>{d} px</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label style={labelStyle}>Qualität: {imageQuality}%</label>
+                <input
+                  type="range" min={40} max={100} value={imageQuality}
+                  onChange={e => setImageQuality(Number(e.target.value))}
+                  style={{ width: '100%', accentColor: '#0099cc', marginTop: 10 }}
+                />
+              </div>
+            </div>
+          )}
+
+          {!customMode && (
+            <p style={{ fontSize: 12, color: '#4b5563', margin: 0 }}>
+              {PRESETS[compressionPreset]?.maxDim
+                ? `Max. ${PRESETS[compressionPreset].maxDim} px · Qualität ${PRESETS[compressionPreset].quality}%`
+                : 'Keine Komprimierung – Bilder werden unverändert gespeichert'}
+            </p>
+          )}
         </div>
 
         {/* Erster Nutzer */}

@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
   if (!profile?.is_platform_admin) return NextResponse.json({ error: 'Kein Zugriff' }, { status: 403 })
 
   const body = await req.json()
-  const { orgName, orgSlug, plan, assetLimit, userLimit, contactEmail, notes, features, userEmail, userName, tempPassword } = body
+  const { orgName, orgSlug, plan, assetLimit, userLimit, contactEmail, notes, features, settings, userEmail, userName, tempPassword } = body
 
   if (!orgName || !orgSlug || !userEmail || !tempPassword) {
     return NextResponse.json({ error: 'Pflichtfelder fehlen' }, { status: 400 })
@@ -34,6 +34,7 @@ export async function POST(req: NextRequest) {
       notes: notes ?? null,
       is_active: true,
       features: features ?? { serviceheft: true, wartung: true },
+      settings: settings ?? {},
     })
     .select()
     .single()

@@ -8,6 +8,7 @@ import { CheckCircle2, Smartphone, Tag, Star, FileText, X, Upload } from 'lucide
 import { OrgTreePicker, getOrgRefLabel, type OrgLocation, type OrgHall, type OrgArea } from '@/components/org-tree-picker'
 import { CategoryCombobox } from '@/components/category-combobox'
 import { compressImage, checkDocSize, formatBytes } from '@/lib/compress-image'
+import { compressPdf, PDF_COMPRESS_THRESHOLD_BYTES } from '@/lib/compress-pdf'
 import { CompressionInfo } from '@/components/compression-info'
 
 const UNIT_GROUPS = [
@@ -40,13 +41,14 @@ type DocEntry = {
   name: string
 }
 
-export function AssetForm({ locations = [], halls = [], areas = [], categories = [], imageMaxDim = 1920, imageQuality = 82 }: {
+export function AssetForm({ locations = [], halls = [], areas = [], categories = [], imageMaxDim = 1920, imageQuality = 82, docMaxSizeMb = 10 }: {
   locations?: OrgLocation[]
   halls?: OrgHall[]
   areas?: OrgArea[]
   categories?: string[]
   imageMaxDim?: number
   imageQuality?: number
+  docMaxSizeMb?: number
 }) {
   const t = useTranslations()
   const router = useRouter()
@@ -139,10 +141,11 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
   function handleDocSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(e.target.files ?? [])
     setDocError(null)
+    const maxBytes = docMaxSizeMb > 0 ? docMaxSizeMb * 1024 * 1024 : Infinity
     const errors: string[] = []
     const valid: DocEntry[] = []
     for (const f of files) {
-      const check = checkDocSize(f)
+      const check = checkDocSize(f, maxBytes)
       if (!check.ok) { errors.push(check.message!); continue }
       valid.push({ file: f, name: f.name.replace(/\.[^/.]+$/, '') })
     }
@@ -181,9 +184,14 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
   async function uploadDocs(): Promise<string[]> {
     const urls: string[] = []
     for (const doc of docs) {
-      const safeName = doc.file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')
+      let file = doc.file
+      if (file.name.toLowerCase().endsWith('.pdf') && file.size > PDF_COMPRESS_THRESHOLD_BYTES) {
+        const result = await compressPdf(file)
+        if (result.wasCompressed) file = result.file
+      }
+      const safeName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')
       const path = `assets/${assetId}/docs/${Date.now()}_${safeName}`
-      const { error: upErr } = await supabase.storage.from('org-files').upload(path, doc.file, { upsert: true })
+      const { error: upErr } = await supabase.storage.from('org-files').upload(path, file, { upsert: true })
       if (upErr) throw new Error('Dokument-Upload fehlgeschlagen: ' + upErr.message)
       const { data } = supabase.storage.from('org-files').getPublicUrl(path)
       urls.push(data.publicUrl)

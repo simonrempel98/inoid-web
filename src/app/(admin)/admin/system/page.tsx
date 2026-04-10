@@ -6,7 +6,14 @@ import { OrgStorageNukeButton } from './org-storage-nuke-button'
 
 type SupabaseStatus = { status: { indicator: string; description: string } }
 type VercelStatus   = { status: { indicator: string; description: string } }
-type OrgStorageRow  = { organization_id: string; organization_name: string; org_slug: string; image_count: number; document_count: number; storage_bytes: number }
+type OrgStorageRow  = {
+  organization_id: string; organization_name: string; org_slug: string
+  image_count: number; document_count: number; service_entry_count: number
+  asset_image_bytes: number; asset_doc_bytes: number
+  service_photo_bytes: number; service_doc_bytes: number; area_file_bytes: number
+  storage_bytes: number
+}
+type UnattributedRow = { bucket_id: string; file_path: string; bytes: number }
 type BucketRow      = { bucket_id: string; file_count: number; total_bytes: number }
 
 // ── Hilfsfunktionen ───────────────────────────────────────────────────────────
@@ -48,7 +55,7 @@ export default async function AdminSystemPage() {
     supabase.from('profiles').select('*', { count: 'exact', head: true }),
     supabase.from('assets').select('*', { count: 'exact', head: true }).is('deleted_at', null),
     supabase.from('asset_documents').select('*', { count: 'exact', head: true }),
-    supabase.from('service_entries').select('*', { count: 'exact', head: true }),
+    supabase.from('asset_lifecycle_events').select('*', { count: 'exact', head: true }),
     supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('must_change_password', true),
     supabase.from('assets').select('*', { count: 'exact', head: true }).not('deleted_at', 'is', null),
     supabase.from('admin_audit_log')
@@ -57,11 +64,13 @@ export default async function AdminSystemPage() {
       .limit(20),
   ])
 
-  // Storage-Stats (via RPC-Funktionen aus Migration 016)
+  // Storage-Stats
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data: orgStorage } = await (supabase as any).rpc('admin_get_org_storage_stats') as { data: OrgStorageRow[] | null }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data: bucketStats } = await (supabase as any).rpc('admin_get_bucket_stats') as { data: BucketRow[] | null }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: unattributed } = await (supabase as any).rpc('admin_get_unattributed_storage') as { data: UnattributedRow[] | null }
 
   // Externe Status-APIs (graceful fallback)
   let supabaseStatus: SupabaseStatus | null = null
@@ -281,52 +290,125 @@ export default async function AdminSystemPage() {
         </div>
       )}
 
+      {/* ── Nicht zugeordnete Dateien ───────────────────────────────────────── */}
+      {unattributed && unattributed.length > 0 && (() => {
+        const totalOrphanBytes = unattributed.reduce((s, f) => s + (f.bytes ?? 0), 0)
+        return (
+          <div style={{
+            background: '#451a03', borderRadius: 12, border: '1px solid #92400e',
+            padding: '16px 20px', marginBottom: 24,
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
+              <div>
+                <p style={{ margin: '0 0 4px', fontWeight: 700, color: '#fbbf24', fontSize: 14 }}>
+                  {unattributed.length} verwaiste Datei{unattributed.length !== 1 ? 'en' : ''} · {formatBytes(totalOrphanBytes)}
+                </p>
+                <p style={{ margin: 0, fontSize: 12, color: '#d97706' }}>
+                  Diese Dateien können keiner Organisation zugeordnet werden — das Asset oder der Bereich wurde wahrscheinlich gelöscht ohne dass der Storage bereinigt wurde.
+                </p>
+              </div>
+            </div>
+            <div style={{ maxHeight: 180, overflowY: 'auto' }}>
+              {unattributed.map((f, i) => (
+                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '5px 0', borderTop: i > 0 ? '1px solid #78350f' : 'none' }}>
+                  <div>
+                    <span style={{ fontSize: 11, fontWeight: 700, color: '#f59e0b', fontFamily: 'monospace', background: '#78350f', padding: '1px 6px', borderRadius: 3, marginRight: 8 }}>{f.bucket_id}</span>
+                    <span style={{ fontSize: 11, color: '#d97706', fontFamily: 'monospace' }}>{f.file_path}</span>
+                  </div>
+                  <span style={{ fontSize: 11, color: '#92400e', flexShrink: 0, marginLeft: 12 }}>{formatBytes(f.bytes ?? 0)}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      })()}
+
       {/* ── Speicher pro Organisation ───────────────────────────────────────── */}
       <SectionTitle>Speicher & Uploads pro Organisation</SectionTitle>
       {orgStorage && orgStorage.length > 0 ? (
         <div style={{ background: '#111827', borderRadius: 14, border: '1px solid #1f2937', overflow: 'hidden', marginBottom: 32 }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 120px', padding: '10px 20px', borderBottom: '1px solid #1f2937' }}>
-            {['Organisation', 'Bilder', 'Dokumente', 'Speicher', ''].map(h => (
+          {/* Header */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1.6fr 110px', padding: '10px 20px', borderBottom: '1px solid #1f2937' }}>
+            {['Organisation', 'Bilder', 'Dokumente', 'Service', 'Speicher-Aufschlüsselung', ''].map(h => (
               <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: '#4b5563', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>
             ))}
           </div>
-          {orgStorage.map((row, i) => (
-            <div key={row.organization_id} style={{
-              display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr 120px',
-              padding: '12px 20px', borderBottom: i < orgStorage.length - 1 ? '1px solid #1f2937' : 'none',
-              alignItems: 'center',
-            }}>
-              <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'white' }}>{row.organization_name}</p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontSize: 14, fontWeight: 700, color: '#f59e0b' }}>{row.image_count ?? 0}</span>
-                {(row.image_count ?? 0) > 0 && (
-                  <div style={{ flex: 1, maxWidth: 60, height: 4, borderRadius: 4, background: '#1f2937', overflow: 'hidden' }}>
-                    <div style={{
-                      height: '100%', borderRadius: 4, background: '#f59e0b',
-                      width: `${Math.min(100, ((row.image_count ?? 0) / Math.max(...orgStorage.map(r => r.image_count ?? 1))) * 100)}%`,
-                    }} />
-                  </div>
-                )}
+          {orgStorage.map((row, i) => {
+            const maxBytes = Math.max(...(orgStorage ?? []).map(r => r.storage_bytes ?? 1), 1)
+            const totalRow = (row.asset_image_bytes ?? 0) + (row.asset_doc_bytes ?? 0) + (row.service_photo_bytes ?? 0) + (row.service_doc_bytes ?? 0) + (row.area_file_bytes ?? 0)
+            return (
+              <div key={row.organization_id} style={{
+                display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1.6fr 110px',
+                padding: '14px 20px', borderBottom: i < orgStorage.length - 1 ? '1px solid #1f2937' : 'none',
+                alignItems: 'center',
+              }}>
+                {/* Org */}
+                <div>
+                  <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: 'white' }}>{row.organization_name}</p>
+                  <p style={{ margin: '2px 0 0', fontSize: 11, color: '#4b5563', fontFamily: 'monospace' }}>{row.org_slug}</p>
+                </div>
+                {/* Bilder */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: '#f59e0b' }}>{row.image_count ?? 0}</span>
+                  {(row.image_count ?? 0) > 0 && (
+                    <div style={{ flex: 1, maxWidth: 50, height: 3, borderRadius: 3, background: '#1f2937' }}>
+                      <div style={{ height: '100%', borderRadius: 3, background: '#f59e0b', width: `${Math.min(100, ((row.image_count ?? 0) / Math.max(...orgStorage.map(r => r.image_count ?? 1))) * 100)}%` }} />
+                    </div>
+                  )}
+                </div>
+                {/* Dokumente */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: '#60a5fa' }}>{row.document_count ?? 0}</span>
+                  {(row.document_count ?? 0) > 0 && (
+                    <div style={{ flex: 1, maxWidth: 50, height: 3, borderRadius: 3, background: '#1f2937' }}>
+                      <div style={{ height: '100%', borderRadius: 3, background: '#60a5fa', width: `${Math.min(100, ((row.document_count ?? 0) / Math.max(...orgStorage.map(r => r.document_count ?? 1))) * 100)}%` }} />
+                    </div>
+                  )}
+                </div>
+                {/* Service-Einträge */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                  <span style={{ fontSize: 14, fontWeight: 700, color: '#a78bfa' }}>{row.service_entry_count ?? 0}</span>
+                  {(row.service_entry_count ?? 0) > 0 && (
+                    <div style={{ flex: 1, maxWidth: 50, height: 3, borderRadius: 3, background: '#1f2937' }}>
+                      <div style={{ height: '100%', borderRadius: 3, background: '#a78bfa', width: `${Math.min(100, ((row.service_entry_count ?? 0) / Math.max(...orgStorage.map(r => r.service_entry_count ?? 1))) * 100)}%` }} />
+                    </div>
+                  )}
+                </div>
+                {/* Speicher-Aufschlüsselung */}
+                <div>
+                  <p style={{ margin: '0 0 5px', fontSize: 13, fontWeight: 900, color: '#34d399' }}>{formatBytes(totalRow)}</p>
+                  {totalRow > 0 && (
+                    <>
+                      {/* Stacked Bar */}
+                      <div style={{ display: 'flex', height: 5, borderRadius: 3, overflow: 'hidden', maxWidth: 160, marginBottom: 5 }}>
+                        {[
+                          { bytes: row.asset_image_bytes ?? 0,   color: '#f59e0b' },
+                          { bytes: row.service_photo_bytes ?? 0, color: '#fbbf24' },
+                          { bytes: row.asset_doc_bytes ?? 0,     color: '#60a5fa' },
+                          { bytes: row.service_doc_bytes ?? 0,   color: '#818cf8' },
+                          { bytes: row.area_file_bytes ?? 0,     color: '#34d399' },
+                        ].filter(s => s.bytes > 0).map((s, si) => (
+                          <div key={si} style={{ width: `${(s.bytes / totalRow) * 100}%`, background: s.color, height: '100%' }} />
+                        ))}
+                      </div>
+                      {/* Legende */}
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px 10px' }}>
+                        {(row.asset_image_bytes ?? 0) > 0 && <span style={{ fontSize: 10, color: '#f59e0b' }}>● Asset-Bilder {formatBytes(row.asset_image_bytes)}</span>}
+                        {(row.service_photo_bytes ?? 0) > 0 && <span style={{ fontSize: 10, color: '#fbbf24' }}>● Service-Fotos {formatBytes(row.service_photo_bytes)}</span>}
+                        {(row.asset_doc_bytes ?? 0) > 0 && <span style={{ fontSize: 10, color: '#60a5fa' }}>● Dokumente {formatBytes(row.asset_doc_bytes)}</span>}
+                        {(row.service_doc_bytes ?? 0) > 0 && <span style={{ fontSize: 10, color: '#818cf8' }}>● Service-Docs {formatBytes(row.service_doc_bytes)}</span>}
+                        {(row.area_file_bytes ?? 0) > 0 && <span style={{ fontSize: 10, color: '#34d399' }}>● Bereich {formatBytes(row.area_file_bytes)}</span>}
+                      </div>
+                    </>
+                  )}
+                </div>
+                {/* Aktionen */}
+                <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <OrgStorageNukeButton orgId={row.organization_id} orgName={row.organization_name} />
+                </div>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{ fontSize: 14, fontWeight: 700, color: '#60a5fa' }}>{row.document_count ?? 0}</span>
-                {(row.document_count ?? 0) > 0 && (
-                  <div style={{ flex: 1, maxWidth: 60, height: 4, borderRadius: 4, background: '#1f2937', overflow: 'hidden' }}>
-                    <div style={{
-                      height: '100%', borderRadius: 4, background: '#60a5fa',
-                      width: `${Math.min(100, ((row.document_count ?? 0) / Math.max(...orgStorage.map(r => r.document_count ?? 1))) * 100)}%`,
-                    }} />
-                  </div>
-                )}
-              </div>
-              <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: '#34d399' }}>
-                {formatBytes(row.storage_bytes ?? 0)}
-              </p>
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <OrgStorageNukeButton orgId={row.organization_id} orgName={row.organization_name} />
-              </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       ) : (
         <div style={{ background: '#111827', border: '1px solid #1f2937', borderRadius: 14, padding: '20px', marginBottom: 32 }}>
