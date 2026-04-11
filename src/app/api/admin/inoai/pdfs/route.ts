@@ -14,18 +14,27 @@ export async function GET(req: Request) {
 
   const admin = createAdminClient()
 
-  // One row per PDF (chunk_index=0), sorted newest first
-  const { data: pdfs } = await admin
+  // All PDF chunks — deduplicate server-side by source_url
+  const { data: rows, error } = await admin
     .from('inometa_knowledge')
     .select('title, source_url, language, crawler_id, created_at')
     .eq('source_type', 'datasheet')
-    .eq('chunk_index', 0)
     .order('created_at', { ascending: false })
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  // Keep first occurrence per source_url (= newest title/metadata)
+  const seen = new Set<string>()
+  const pdfs = (rows ?? []).filter(r => {
+    if (seen.has(r.source_url)) return false
+    seen.add(r.source_url)
+    return true
+  })
 
   // Crawler names for cluster labels
   const { data: crawlers } = await admin
     .from('inoai_crawlers')
     .select('id, name')
 
-  return NextResponse.json({ pdfs: pdfs ?? [], crawlers: crawlers ?? [] })
+  return NextResponse.json({ pdfs, crawlers: crawlers ?? [] })
 }

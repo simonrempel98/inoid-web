@@ -1398,6 +1398,7 @@ const LANG_LABELS: Record<string, string> = {
 function PdfLibrary({ crawlers }: { crawlers: CrawlerRow[] }) {
   const [docs, setDocs] = useState<PdfDoc[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [search, setSearch] = useState('')
   const [filterCrawler, setFilterCrawler] = useState('all')
   const [filterLang, setFilterLang] = useState('all')
@@ -1407,10 +1408,14 @@ function PdfLibrary({ crawlers }: { crawlers: CrawlerRow[] }) {
 
   async function load() {
     setLoading(true)
-    const res = await fetch('/api/admin/inoai/pdfs')
-    if (res.ok) {
+    setError(null)
+    try {
+      const res = await fetch('/api/admin/inoai/pdfs')
       const data = await res.json()
+      if (!res.ok) { setError(data.error ?? `HTTP ${res.status}`); setLoading(false); return }
       setDocs(data.pdfs ?? [])
+    } catch (e: any) {
+      setError(e.message)
     }
     setLoading(false)
   }
@@ -1514,8 +1519,12 @@ function PdfLibrary({ crawlers }: { crawlers: CrawlerRow[] }) {
       {/* Ergebnis */}
       {loading ? (
         <p style={{ color: 'var(--adm-text3)', fontSize: 13 }}>Lade…</p>
+      ) : error ? (
+        <p style={{ color: '#f85149', fontSize: 13 }}>Fehler: {error}</p>
       ) : filtered.length === 0 ? (
-        <p style={{ color: 'var(--adm-text3)', fontSize: 13 }}>Keine Dokumente gefunden.</p>
+        <p style={{ color: 'var(--adm-text3)', fontSize: 13 }}>
+          {docs.length === 0 ? 'Keine PDFs in der Wissensbasis. Crawl zuerst ausführen.' : 'Keine Dokumente gefunden.'}
+        </p>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {Array.from(groups.entries()).map(([crawlerId, pdfs]) => {
