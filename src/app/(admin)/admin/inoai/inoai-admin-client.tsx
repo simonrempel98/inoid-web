@@ -890,6 +890,8 @@ function SynonymManager() {
   const [open, setOpen] = useState(false)
   const [tab, setTab] = useState<'gruppen' | 'matrix'>('gruppen')
   const [search, setSearch] = useState('')
+  const [filterType, setFilterType] = useState<'all' | 'base' | 'modifier' | 'standalone'>('all')
+  const [sortBy, setSortBy] = useState<'default' | 'alpha' | 'size'>('default')
   const [newTerms, setNewTerms] = useState('')
   const [newGroupType, setNewGroupType] = useState<'standalone' | 'base' | 'modifier'>('standalone')
   const [saving, setSaving] = useState(false)
@@ -942,9 +944,13 @@ function SynonymManager() {
   }
 
   const totalTerms = groups.reduce((n, g) => n + g.terms.length, 0)
-  const filtered = search.trim()
-    ? groups.filter(g => g.terms.some(t => t.includes(search.toLowerCase())))
-    : groups
+
+  const q = search.trim().toLowerCase()
+  let filtered = groups
+  if (q) filtered = filtered.filter(g => g.terms.some(t => t.includes(q)))
+  if (filterType !== 'all') filtered = filtered.filter(g => g.group_type === filterType)
+  if (sortBy === 'alpha') filtered = [...filtered].sort((a, b) => a.terms[0].localeCompare(b.terms[0]))
+  if (sortBy === 'size') filtered = [...filtered].sort((a, b) => b.terms.length - a.terms.length)
 
   const inp: React.CSSProperties = {
     padding: '8px 12px', borderRadius: 9, fontSize: 13, boxSizing: 'border-box' as const,
@@ -1065,16 +1071,71 @@ function SynonymManager() {
                 </div>
               </div>
 
-              {/* Suche */}
-              <div style={{ position: 'relative', marginBottom: 14 }}>
-                <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', fontSize: 13, color: 'var(--adm-text3)' }}>🔍</span>
-                <input
-                  value={search}
-                  onChange={e => setSearch(e.target.value)}
-                  placeholder={`${groups.length} Gruppen durchsuchen…`}
-                  style={{ ...inp, width: '100%', paddingLeft: 34, boxSizing: 'border-box' }}
-                />
+              {/* Such- und Filterleiste */}
+              <div style={{ display: 'flex', gap: 8, marginBottom: 14, flexWrap: 'wrap' }}>
+                {/* Suche */}
+                <div style={{ position: 'relative', flex: 1, minWidth: 180 }}>
+                  <span style={{ position: 'absolute', left: 11, top: '50%', transform: 'translateY(-50%)', fontSize: 12, color: 'var(--adm-text3)', pointerEvents: 'none' }}>🔍</span>
+                  <input
+                    value={search}
+                    onChange={e => setSearch(e.target.value)}
+                    placeholder={`${groups.length} Gruppen durchsuchen…`}
+                    style={{ ...inp, width: '100%', paddingLeft: 32, boxSizing: 'border-box' }}
+                  />
+                  {search && (
+                    <button onClick={() => setSearch('')} style={{
+                      position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)',
+                      background: 'none', border: 'none', cursor: 'pointer',
+                      fontSize: 12, color: 'var(--adm-text3)', padding: '0 2px',
+                    }}>✕</button>
+                  )}
+                </div>
+
+                {/* Typ-Filter */}
+                <div style={{ display: 'flex', gap: 4 }}>
+                  {([
+                    { v: 'all',        label: 'Alle',       count: groups.length },
+                    { v: 'base',       label: 'Basis',      count: groups.filter(g => g.group_type === 'base').length },
+                    { v: 'modifier',   label: 'Modifik.',   count: groups.filter(g => g.group_type === 'modifier').length },
+                    { v: 'standalone', label: 'Allgemein',  count: groups.filter(g => g.group_type === 'standalone').length },
+                  ] as const).map(f => (
+                    <button key={f.v} onClick={() => setFilterType(f.v)} style={{
+                      padding: '6px 10px', borderRadius: 8, fontSize: 11, fontWeight: 700,
+                      border: filterType === f.v ? 'none' : '1px solid var(--adm-border)',
+                      background: filterType === f.v
+                        ? (f.v === 'base' ? '#1e3a5f' : f.v === 'modifier' ? '#14532d' : f.v === 'standalone' ? '#1f2937' : '#003366')
+                        : 'var(--adm-surface)',
+                      color: filterType === f.v
+                        ? (f.v === 'base' ? '#93c5fd' : f.v === 'modifier' ? '#6ee7b7' : f.v === 'standalone' ? '#9ca3af' : 'white')
+                        : 'var(--adm-text3)',
+                      cursor: 'pointer',
+                    }}>
+                      {f.label} <span style={{ opacity: 0.7, fontWeight: 400 }}>{f.count}</span>
+                    </button>
+                  ))}
+                </div>
+
+                {/* Sortierung */}
+                <select value={sortBy} onChange={e => setSortBy(e.target.value as typeof sortBy)} style={{
+                  ...inp, fontSize: 11, padding: '6px 10px', minWidth: 110,
+                }}>
+                  <option value="default">Standard</option>
+                  <option value="alpha">A → Z</option>
+                  <option value="size">Meiste Begriffe</option>
+                </select>
               </div>
+
+              {/* Treffer-Info */}
+              {(q || filterType !== 'all') && (
+                <div style={{ fontSize: 11, color: 'var(--adm-text3)', marginBottom: 10 }}>
+                  {filtered.length} von {groups.length} Gruppen
+                  {q && <span> · enthält „<strong style={{ color: 'var(--adm-text)' }}>{q}</strong>"</span>}
+                  {filterType !== 'all' && <button onClick={() => { setFilterType('all'); setSearch('') }} style={{
+                    marginLeft: 8, background: 'none', border: 'none', cursor: 'pointer',
+                    fontSize: 11, color: '#60a5fa', padding: 0,
+                  }}>× Filter zurücksetzen</button>}
+                </div>
+              )}
 
               {/* Gruppen-Liste */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -1118,9 +1179,21 @@ function SynonymManager() {
                             background: badge.bg, color: badge.color, letterSpacing: '0.04em',
                           }}>{badge.label}</span>
                           <div style={{ flex: 1, display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-                            {g.terms.map((t, i) => (
-                              <TermChip key={i} term={t} index={i + 1} primary={i === 0} />
-                            ))}
+                            {g.terms.map((t, i) => {
+                              const isMatch = q && t.includes(q)
+                              return (
+                                <span key={i} style={{
+                                  fontSize: 11, fontWeight: i === 0 ? 700 : 500,
+                                  padding: '3px 10px', borderRadius: 20,
+                                  background: isMatch
+                                    ? '#92400e'
+                                    : i === 0 ? '#003366' : CHIP_COLORS[(i) % CHIP_COLORS.length].bg,
+                                  color: isMatch ? '#fef3c7' : i === 0 ? 'white' : CHIP_COLORS[(i) % CHIP_COLORS.length].color,
+                                  outline: isMatch ? '2px solid #f59e0b' : 'none',
+                                  outlineOffset: 1,
+                                }}>{t}</span>
+                              )
+                            })}
                           </div>
                           <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
                             {confirmDeleteId === g.id ? (
@@ -1160,9 +1233,13 @@ function SynonymManager() {
                   </div>
                 )}
                 {loaded && groups.length > 0 && filtered.length === 0 && (
-                  <p style={{ fontSize: 12, color: 'var(--adm-text3)', textAlign: 'center', padding: 16 }}>
-                    Keine Gruppe enthält „{search}"
-                  </p>
+                  <div style={{ textAlign: 'center', padding: '20px', border: '1px dashed var(--adm-border)', borderRadius: 10 }}>
+                    <p style={{ fontSize: 13, color: 'var(--adm-text3)', margin: '0 0 8px' }}>Keine Treffer</p>
+                    <button onClick={() => { setSearch(''); setFilterType('all') }} style={{
+                      background: 'none', border: '1px solid var(--adm-border)', borderRadius: 7,
+                      padding: '5px 12px', fontSize: 12, color: 'var(--adm-text3)', cursor: 'pointer',
+                    }}>Filter zurücksetzen</button>
+                  </div>
                 )}
               </div>
             </div>
