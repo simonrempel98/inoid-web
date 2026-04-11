@@ -541,6 +541,60 @@ function AddCrawlerForm({ onAdded }: { onAdded: (c: CrawlerRow) => void }) {
   )
 }
 
+// ── Accordion-Sektion ────────────────────────────────────────────────────────
+
+function AccordionSection({
+  icon, title, meta, accent = '#003366', open, onToggle, children,
+}: {
+  icon: string
+  title: string
+  meta?: React.ReactNode
+  accent?: string
+  open: boolean
+  onToggle: () => void
+  children: React.ReactNode
+}) {
+  return (
+    <div style={{
+      borderRadius: 14, overflow: 'hidden', marginBottom: 10,
+      border: '1px solid var(--adm-border)',
+      borderLeft: `3px solid ${accent}`,
+    }}>
+      <button
+        onClick={onToggle}
+        style={{
+          width: '100%', display: 'flex', alignItems: 'center',
+          justifyContent: 'space-between', padding: '14px 18px',
+          background: 'var(--adm-surface)', border: 'none', cursor: 'pointer', textAlign: 'left',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
+          <span style={{ fontSize: 17, lineHeight: 1 }}>{icon}</span>
+          <span style={{ fontSize: 14, fontWeight: 800, color: 'var(--adm-text)' }}>{title}</span>
+          {meta}
+        </div>
+        <span style={{
+          fontSize: 10, color: 'var(--adm-text3)', flexShrink: 0, marginLeft: 12,
+          transition: 'transform 0.2s', transform: open ? 'rotate(90deg)' : 'none', display: 'inline-block',
+        }}>▶</span>
+      </button>
+      {open && (
+        <div style={{ padding: '22px 20px', borderTop: '1px solid var(--adm-border)', background: 'var(--adm-bg)' }}>
+          {children}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function Chip({ label, color = '#1e3a5f', text = '#93c5fd' }: { label: string; color?: string; text?: string }) {
+  return (
+    <span style={{ fontSize: 11, fontWeight: 600, padding: '2px 9px', borderRadius: 20, background: color, color: text }}>
+      {label}
+    </span>
+  )
+}
+
 // ── Haupt-Client ─────────────────────────────────────────────────────────────
 
 export function INOaiAdminClient({
@@ -558,6 +612,9 @@ export function INOaiAdminClient({
   const [stats, setStats] = useState<StatsMap>(initialStats)
   const [totalCount, setTotalCount] = useState(total)
   const [jobs, setJobs] = useState<Record<string, JobRow>>(initialJobs)
+  const [open, setOpen] = useState({ crawlers: false, synonyms: false, docs: false, manual: false })
+
+  function toggle(k: keyof typeof open) { setOpen(p => ({ ...p, [k]: !p[k] })) }
 
   async function refreshStats() {
     const res = await fetch('/api/admin/inoai/stats')
@@ -567,11 +624,8 @@ export function INOaiAdminClient({
     setTotalCount(data.total)
   }
 
-  // Chunk-Zähler alle 10s aktualisieren solange ein Crawler läuft
   useEffect(() => {
-    const hasActive = Object.values(jobs).some(
-      j => j.status === 'queued' || j.status === 'running' || j.status === 'paused'
-    )
+    const hasActive = Object.values(jobs).some(j => ['queued', 'running', 'paused'].includes(j.status))
     if (!hasActive) return
     const id = setInterval(refreshStats, 10_000)
     return () => clearInterval(id)
@@ -587,45 +641,106 @@ export function INOaiAdminClient({
     setCrawlers(c => c.map(x => x.id === updated.id ? updated : x))
   }
 
+  const hasActive = Object.values(jobs).some(j => ['queued', 'running', 'paused'].includes(j.status))
+  const totalDocs = Object.values(stats).reduce((a, b) => a + (b.docs ?? 0), 0)
+  const totalPages = Object.values(stats).reduce((a, b) => a + (b.pages ?? 0), 0)
+  const activeCount = Object.values(jobs).filter(j => ['queued', 'running', 'paused'].includes(j.status)).length
+
   return (
-    <div style={{ maxWidth: 860, fontFamily: 'var(--adm-font, Arial, sans-serif)' }}>
-      <div style={{ marginBottom: 24 }}>
-        <h1 style={{ fontSize: 22, fontWeight: 900, margin: '0 0 4px', color: 'var(--adm-text)' }}>INOai · Wissensbasis</h1>
-        <p style={{ margin: 0, fontSize: 13, color: 'var(--adm-text3)' }}>
-          {totalCount.toLocaleString('de')} Chunks gesamt · Crawler laufen im Hintergrund – Seite kann geschlossen werden
-        </p>
+    <div style={{ maxWidth: 880, fontFamily: 'var(--adm-font, Arial, sans-serif)' }}>
+
+      {/* ── Hero-Karte ── */}
+      <div style={{
+        marginBottom: 20, padding: '20px 24px', borderRadius: 16,
+        background: 'var(--adm-surface)', border: '1px solid var(--adm-border)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 18, flexWrap: 'wrap', gap: 10 }}>
+          <div>
+            <h1 style={{ fontSize: 22, fontWeight: 900, margin: 0, color: 'var(--adm-text)', letterSpacing: -0.5 }}>INOai</h1>
+            <p style={{ margin: '3px 0 0', fontSize: 12, color: 'var(--adm-text3)' }}>Wissensbasis · KI-Suche · Synonyme · Dokumente</p>
+          </div>
+          {hasActive && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '6px 14px', borderRadius: 20, background: '#0a1f0a', border: '1px solid #1a4a20' }}>
+              <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#3fb950', display: 'inline-block', animation: 'pulse 1.5s ease-in-out infinite' }} />
+              <span style={{ fontSize: 11, color: '#56d364', fontWeight: 700 }}>{activeCount} Crawler aktiv</span>
+            </div>
+          )}
+        </div>
+        <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
+          {[
+            { icon: '🧩', value: totalCount, label: 'Chunks' },
+            { icon: '🕷️', value: crawlers.length, label: 'Quellen' },
+            { icon: '🌐', value: totalPages, label: 'Seiten' },
+            { icon: '📄', value: totalDocs, label: 'PDFs' },
+          ].map(s => (
+            <div key={s.label} style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+              <div style={{
+                width: 38, height: 38, borderRadius: 10, background: 'var(--adm-card)',
+                border: '1px solid var(--adm-border)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 17,
+              }}>{s.icon}</div>
+              <div>
+                <div style={{ fontSize: 19, fontWeight: 900, color: 'var(--adm-text)', lineHeight: 1.1 }}>{s.value.toLocaleString('de')}</div>
+                <div style={{ fontSize: 10, color: 'var(--adm-text3)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.5 }}>{s.label}</div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
 
-      {crawlers.map(c => (
-        <CrawlerCard
-          key={c.id}
-          crawler={c}
-          stats={stats[c.id]}
-          initialJob={initialJobs[c.id] as JobRow | undefined}
-          onStatsRefresh={refreshStats}
-          onDelete={handleDelete}
-          onUpdate={handleUpdate}
-          onJobChange={j => setJobs(prev => ({ ...prev, [c.id]: j }))}
-        />
-      ))}
+      {/* ── Crawler ── */}
+      <AccordionSection
+        icon="🕷️" title="Crawler" accent="#0066cc" open={open.crawlers} onToggle={() => toggle('crawlers')}
+        meta={<>
+          <Chip label={`${crawlers.length} Quellen`} />
+          {hasActive && <Chip label="● Aktiv" color="#0a1f0a" text="#56d364" />}
+        </>}
+      >
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {crawlers.map(c => (
+            <CrawlerCard
+              key={c.id}
+              crawler={c}
+              stats={stats[c.id]}
+              initialJob={initialJobs[c.id] as JobRow | undefined}
+              onStatsRefresh={refreshStats}
+              onDelete={handleDelete}
+              onUpdate={handleUpdate}
+              onJobChange={j => setJobs(prev => ({ ...prev, [c.id]: j }))}
+            />
+          ))}
+          <AddCrawlerForm onAdded={c => setCrawlers(prev => [...prev, c])} />
+        </div>
+      </AccordionSection>
 
-      <div style={{ marginTop: 16 }}>
-        <AddCrawlerForm onAdded={c => setCrawlers(prev => [...prev, c])} />
-      </div>
-
-      <div style={{ marginTop: 40, borderTop: '1px solid var(--adm-border)', paddingTop: 32 }}>
+      {/* ── Synonyme & Matrix ── */}
+      <AccordionSection
+        icon="🔤" title="Synonyme & Matrix" accent="#6366f1" open={open.synonyms} onToggle={() => toggle('synonyms')}
+        meta={<Chip label="KI-Wissensgraph" color="#1e1b4b" text="#a5b4fc" />}
+      >
         <SynonymManager />
-      </div>
+      </AccordionSection>
 
-      <div style={{ marginTop: 40, borderTop: '1px solid var(--adm-border)', paddingTop: 32 }}>
+      {/* ── Dokumente ── */}
+      <AccordionSection
+        icon="📄" title="Dokumente" accent="#059669" open={open.docs} onToggle={() => toggle('docs')}
+        meta={totalDocs > 0 ? <Chip label={`${totalDocs} PDFs`} color="#052e16" text="#6ee7b7" /> : undefined}
+      >
         <PdfLibrary crawlers={crawlers} />
-      </div>
+      </AccordionSection>
 
-      <div style={{ marginTop: 40, borderTop: '1px solid var(--adm-border)', paddingTop: 32 }}>
+      {/* ── Manueller Upload ── */}
+      <AccordionSection
+        icon="📂" title="Manueller Upload" accent="#f59e0b" open={open.manual} onToggle={() => toggle('manual')}
+        meta={<Chip label="PDF · DOCX · PPTX · TXT · …" color="#1c1505" text="#fcd34d" />}
+      >
         <ManualUpload />
-      </div>
+      </AccordionSection>
 
-      <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.35; } }
+      `}</style>
     </div>
   )
 }
