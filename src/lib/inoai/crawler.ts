@@ -14,10 +14,21 @@ export type ResumeState = {
   visited: string[]
   pdfQueue: string[]
   visitedPdfs: string[]
+  failedPages: string[]
+  failedPdfs: string[]
 }
 
 const CRAWL_DELAY_MS = 300
 const MAX_RUN_MS = 50_000
+
+// User-Agents to rotate through on retries
+const USER_AGENTS = [
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15',
+  'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)',
+  'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:124.0) Gecko/20100101 Firefox/124.0',
+  'INOid-KI-Bot/1.0 (+https://inoid.app)',
+]
 
 const SKIP_PATTERNS = [
   /\.(jpg|jpeg|png|gif|svg|webp|mp4|zip|docx?|xlsx?)$/i,
@@ -35,6 +46,83 @@ const SKIP_PATTERNS = [
 
 function sleep(ms: number) {
   return new Promise(r => setTimeout(r, ms))
+}
+
+// Resilient page fetch: tries every User-Agent in order until one works
+async function fetchWithRetry(
+  url: string,
+  referer = '',
+  timeoutMs = 12000,
+): Promise<Response | null> {
+  for (const ua of USER_AGENTS) {
+    try {
+      const headers: Record<string, string> = {
+        'User-Agent': ua,
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        'Accept-Language': 'de-DE,de;q=0.9,en;q=0.8',
+      }
+      if (referer) headers['Referer'] = referer
+      const res = await fetch(url, {
+        headers,
+        signal: AbortSignal.timeout(timeoutMs),
+        redirect: 'follow',
+      })
+      if (res.ok) return res
+      if (res.status === 404 || res.status === 410) return null // permanent – don't retry
+      if (res.status === 429) await sleep(1500) // rate limit – wait before next UA
+    } catch {
+      await sleep(250)
+    }
+  }
+  return null
+}
+
+// Resilient PDF fetch: tries multiple UA × URL variants until text is extracted
+async function fetchPdfWithFallback(url: string): Promise<string | null> {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const pdfParse = require('pdf-parse')
+  const origin = (() => { try { return new URL(url).origin } catch { return '' } })()
+
+  // URL variants: original, without query params, path-decoded, path-encoded
+  const variants = [...new Set([
+    url,
+    url.split('?')[0],
+    url.split('?')[0].replace(/%20/g, '+'),
+    url.split('?')[0].replace(/\+/g, '%20'),
+  ])]
+
+  for (const variant of variants) {
+    for (const ua of USER_AGENTS) {
+      try {
+        const headers: Record<string, string> = {
+          'User-Agent': ua,
+          Accept: 'application/pdf,application/octet-stream,*/*;q=0.8',
+          'Accept-Language': 'de-DE,de;q=0.9,en;q=0.8',
+        }
+        if (origin) headers['Referer'] = origin + '/'
+        const res = await fetch(variant, {
+          headers,
+          signal: AbortSignal.timeout(28000),
+          redirect: 'follow',
+        })
+        if (!res.ok) {
+          if (res.status === 404 || res.status === 410) break // this variant dead
+          await sleep(200)
+          continue
+        }
+        const ct = res.headers.get('content-type') ?? ''
+        // Skip if server returned an HTML page instead of a PDF (e.g. login wall)
+        if (ct.includes('text/html')) { await sleep(200); continue }
+        const buffer = Buffer.from(await res.arrayBuffer())
+        const data = await pdfParse(buffer)
+        const text = data.text.replace(/\s{2,}/g, ' ').trim()
+        if (text.length > 80) return text
+      } catch {
+        await sleep(250)
+      }
+    }
+  }
+  return null
 }
 
 function chunkText(text: string, maxWords = 400): string[] {
@@ -179,6 +267,8 @@ export type CrawlResult = {
   done: boolean
   resume?: ResumeState
   stats: CrawlStats
+  failedPages: string[]
+  failedPdfs: string[]
 }
 
 // ── DB-Job-basierter Crawl (browserunabhängig) ───────────────────────────────
@@ -556,7 +646,11 @@ export async function runCrawlJob(jobId: string): Promise<void> {
       const removed = beforeUrls.filter(u => !afterSet.has(u))
 
       const s = result.stats
+      const fp = result.failedPages.length
+      const fd = result.failedPdfs.length
       log(`\n✅ Fertig! ${s.pagesFound} Seiten · ${s.pdfsFound} PDFs · ${s.chunksInserted} Chunks · ${s.errors} Fehler`)
+      if (fp > 0) log(`⚠️  ${fp} Seite(n) nicht erreichbar`)
+      if (fd > 0) log(`⚠️  ${fd} PDF(s) nicht erreichbar`)
       if (beforeUrls.length > 0) {
         if (added.length > 0) log(`📈 ${added.length} neue Seiten/Dokumente`)
         if (removed.length > 0) log(`📉 ${removed.length} entfernt`)
@@ -574,7 +668,7 @@ export async function runCrawlJob(jobId: string): Promise<void> {
       await admin.from('inoai_crawl_jobs').update({
         status: 'done',
         stats: result.stats as any,
-        diff: { added, removed, before: beforeUrls } as any,
+        diff: { added, removed, before: beforeUrls, failedPages: result.failedPages, failedPdfs: result.failedPdfs } as any,
         resume_state: null,
         finished_at: new Date().toISOString(),
       }).eq('id', jobId)
@@ -583,7 +677,7 @@ export async function runCrawlJob(jobId: string): Promise<void> {
         status: 'paused',
         stats: result.stats as any,
         resume_state: result.resume as any,
-        diff: { before: beforeUrls } as any,
+        diff: { before: beforeUrls, failedPages: result.failedPages, failedPdfs: result.failedPdfs } as any,
       }).eq('id', jobId)
 
       // Self-trigger: await bis Cron-Endpoint 200 antwortet, dann ist Kette gesichert
@@ -634,14 +728,16 @@ export async function runCrawl(
   const visitedPdfs = new Set<string>(resume?.visitedPdfs ?? [])
   const queue: string[] = resume?.queue ?? [config.url]
   const pdfQueue: string[] = resume?.pdfQueue ?? []
+  const failedPages: string[] = resume?.failedPages ?? []
+  const failedPdfs: string[] = resume?.failedPdfs ?? []
 
   while (queue.length > 0) {
     if (Date.now() - startTime > MAX_RUN_MS) {
       log(`⏱️  Zeitlimit erreicht – pausiere (${queue.length} Seiten + ${pdfQueue.length} PDFs verbleibend)`)
       return {
         done: false,
-        resume: { queue, visited: Array.from(visited), pdfQueue, visitedPdfs: Array.from(visitedPdfs) },
-        stats,
+        resume: { queue, visited: Array.from(visited), pdfQueue, visitedPdfs: Array.from(visitedPdfs), failedPages, failedPdfs },
+        stats, failedPages, failedPdfs,
       }
     }
 
@@ -649,13 +745,16 @@ export async function runCrawl(
     if (visited.has(url)) continue
     visited.add(url)
 
+    await sleep(CRAWL_DELAY_MS)
+    const res = await fetchWithRetry(url, rootUrl.href)
+    if (!res) {
+      log(`  ❌ ${url.replace(rootUrl.origin, '')} → nicht erreichbar (alle Versuche fehlgeschlagen)`)
+      failedPages.push(url)
+      stats.errors++
+      continue
+    }
+
     try {
-      await sleep(CRAWL_DELAY_MS)
-      const res = await fetch(url, {
-        headers: { 'User-Agent': 'INOid-KI-Bot/1.0', Accept: 'text/html' },
-        signal: AbortSignal.timeout(10000),
-      })
-      if (!res.ok) { log(`  ⚠️  ${url.replace(rootUrl.origin, '')} → HTTP ${res.status}`); continue }
       const ct = res.headers.get('content-type') ?? ''
       if (!ct.includes('text/html')) continue
 
@@ -678,6 +777,7 @@ export async function runCrawl(
       if (newPdfs > 0) log(`    📎 ${newPdfs} PDF(s) entdeckt`)
     } catch (e: any) {
       log(`  ❌ ${url.replace(rootUrl.origin, '')} → ${e.message}`)
+      failedPages.push(url)
       stats.errors++
     }
   }
@@ -689,17 +789,23 @@ export async function runCrawl(
         log(`⏱️  Zeitlimit erreicht – pausiere (${pdfQueue.length} PDFs verbleibend)`)
         return {
           done: false,
-          resume: { queue: [], visited: Array.from(visited), pdfQueue, visitedPdfs: Array.from(visitedPdfs) },
-          stats,
+          resume: { queue: [], visited: Array.from(visited), pdfQueue, visitedPdfs: Array.from(visitedPdfs), failedPages, failedPdfs },
+          stats, failedPages, failedPdfs,
         }
       }
 
       const pdfUrl = pdfQueue.shift()!
       visitedPdfs.add(pdfUrl)
       const filename = decodeURIComponent(pdfUrl.split('/').pop() ?? pdfUrl)
+      await sleep(CRAWL_DELAY_MS)
+      const text = await fetchPdfWithFallback(pdfUrl)
+      if (!text) {
+        log(`  ❌ PDF ${filename} → nicht erreichbar (alle Varianten fehlgeschlagen)`)
+        failedPdfs.push(pdfUrl)
+        stats.errors++
+        continue
+      }
       try {
-        await sleep(CRAWL_DELAY_MS)
-        const text = await parsePdf(pdfUrl)
         const wc = text.split(/\s+/).filter(Boolean).length
         if (wc < 30) continue
         const title = filename.replace(/\.pdf$/i, '').replace(/[-_]/g, ' ')
@@ -709,10 +815,11 @@ export async function runCrawl(
         else { stats.chunksInserted += inserted; stats.pdfsFound++ }
       } catch (e: any) {
         log(`  ❌ PDF ${filename} → ${e.message}`)
+        failedPdfs.push(pdfUrl)
         stats.errors++
       }
     }
   }
 
-  return { done: true, stats }
+  return { done: true, stats, failedPages, failedPdfs }
 }
