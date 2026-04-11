@@ -9,7 +9,7 @@ export default async function AdminINOaiPage() {
     admin.from('inoai_crawlers').select('*').order('created_at'),
     admin.from('inometa_knowledge').select('crawler_id, source_url, source_type, created_at'),
     admin.from('inoai_crawl_jobs')
-      .select('id, crawler_id, status, stats, diff, created_at, started_at, finished_at')
+      .select('id, crawler_id, status, log, stats, diff, created_at, started_at, finished_at')
       .order('created_at', { ascending: false })
       .limit(50),
   ])

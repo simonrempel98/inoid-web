@@ -329,7 +329,7 @@ function CrawlerCard({
       </div>
 
       {/* Log */}
-      {job && job.log.length > 0 && (
+      {job && (job.log ?? []).length > 0 && (
         <div style={{ background: '#0d1117', borderTop: '1px solid #30363d' }}>
           <div
             onClick={() => setLogOpen(o => !o)}
@@ -345,7 +345,7 @@ function CrawlerCard({
                 transform: logOpen ? 'rotate(90deg)' : 'rotate(0deg)',
               }}>▶</span>
               <span style={{ fontSize: 11, color: '#8b949e', fontFamily: 'monospace', fontWeight: 700 }}>Log</span>
-              <span style={{ fontSize: 10, color: '#8b949e' }}>({job.log.length} Zeilen)</span>
+              <span style={{ fontSize: 10, color: '#8b949e' }}>({(job.log ?? []).length} Zeilen)</span>
             </div>
             <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
               {job.finished_at && (
@@ -358,7 +358,7 @@ function CrawlerCard({
           </div>
           {logOpen && (
             <div style={{ padding: '10px 14px', maxHeight: 300, overflowY: 'auto', fontFamily: 'monospace', fontSize: 11, lineHeight: 1.7 }}>
-              {job.log.map((line, i) => (
+              {(job.log ?? []).map((line, i) => (
                 <div key={i} style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all', color: logLineColor(line) }}>
                   {line}
                 </div>
