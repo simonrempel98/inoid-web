@@ -621,6 +621,10 @@ export function INOaiAdminClient({
         <PdfLibrary crawlers={crawlers} />
       </div>
 
+      <div style={{ marginTop: 40, borderTop: '1px solid var(--adm-border)', paddingTop: 32 }}>
+        <ManualUpload />
+      </div>
+
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   )
@@ -1676,6 +1680,268 @@ function PdfLibrary({ crawlers }: { crawlers: CrawlerRow[] }) {
               </div>
             )
           })}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── Manueller Upload ─────────────────────────────────────────────────────────
+
+type ManualDoc = { title: string; source_url: string; language: string; created_at: string; chunks: number }
+
+const ALL_LANGS = [
+  { code: 'de', label: 'Deutsch' }, { code: 'en', label: 'English' },
+  { code: 'fr', label: 'Français' }, { code: 'es', label: 'Español' },
+  { code: 'it', label: 'Italiano' }, { code: 'pt', label: 'Português' },
+  { code: 'nl', label: 'Nederlands' }, { code: 'pl', label: 'Polski' },
+  { code: 'tr', label: 'Türkçe' }, { code: 'ru', label: 'Русский' },
+  { code: 'uk', label: 'Українська' }, { code: 'bg', label: 'Български' },
+  { code: 'ro', label: 'Română' }, { code: 'cs', label: 'Čeština' },
+  { code: 'sk', label: 'Slovenčina' }, { code: 'hu', label: 'Magyar' },
+  { code: 'hr', label: 'Hrvatski' }, { code: 'sr', label: 'Srpski' },
+  { code: 'el', label: 'Ελληνικά' }, { code: 'fi', label: 'Suomi' },
+  { code: 'sv', label: 'Svenska' }, { code: 'da', label: 'Dansk' },
+  { code: 'no', label: 'Norsk' }, { code: 'lt', label: 'Lietuvių' },
+  { code: 'lv', label: 'Latviešu' }, { code: 'et', label: 'Eesti' },
+  { code: 'ja', label: '日本語' }, { code: 'zh', label: '中文' },
+]
+
+const ACCEPT = '.pdf,.docx,.txt,.md,.csv,.html,.htm,.xml,.json,.log,.rtf'
+
+function ManualUpload() {
+  const [tab, setTab] = useState<'upload' | 'docs'>('upload')
+  const [file, setFile] = useState<File | null>(null)
+  const [text, setText] = useState('')
+  const [title, setTitle] = useState('')
+  const [lang, setLang] = useState('de')
+  const [dragging, setDragging] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [result, setResult] = useState<{ type: 'success' | 'error' | 'duplicate' | 'allDuplicate'; msg: string } | null>(null)
+  const [awaitOverwrite, setAwaitOverwrite] = useState<{ sourceUrl: string; title: string } | null>(null)
+  const [docs, setDocs] = useState<ManualDoc[]>([])
+  const [docsLoading, setDocsLoading] = useState(false)
+  const fileRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (tab === 'docs') loadDocs()
+  }, [tab])
+
+  async function loadDocs() {
+    setDocsLoading(true)
+    const res = await fetch('/api/admin/inoai/manual')
+    if (res.ok) { const d = await res.json(); setDocs(d.docs ?? []) }
+    setDocsLoading(false)
+  }
+
+  function onDrop(e: React.DragEvent) {
+    e.preventDefault(); setDragging(false)
+    const f = e.dataTransfer.files[0]
+    if (f) { setFile(f); setTitle(f.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ')) }
+  }
+
+  function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const f = e.target.files?.[0]
+    if (f) { setFile(f); setTitle(f.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ')) }
+  }
+
+  async function submit(overwrite = false) {
+    if (!file && !text.trim()) return
+    setLoading(true); setResult(null)
+    const fd = new FormData()
+    if (file) fd.append('file', file)
+    if (text.trim()) fd.append('text', text)
+    fd.append('title', title)
+    fd.append('lang', lang)
+    if (overwrite) fd.append('overwrite', 'true')
+
+    try {
+      const res = await fetch('/api/admin/inoai/manual', { method: 'POST', body: fd })
+      const data = await res.json()
+      if (!res.ok) {
+        setResult({ type: 'error', msg: data.error ?? `Fehler ${res.status}` })
+      } else if (data.existed) {
+        setAwaitOverwrite({ sourceUrl: data.sourceUrl, title: data.title })
+      } else if (data.duplicate) {
+        setResult({ type: 'allDuplicate', msg: `Alle Inhalte aus „${data.title}" sind bereits in der Wissensbasis vorhanden.` })
+      } else {
+        const skip = data.skipped > 0 ? ` · ${data.skipped} bereits bekannt` : ''
+        setResult({ type: 'success', msg: `✓ ${data.inserted} neue Chunks aus „${data.title}" gespeichert${skip}` })
+        setFile(null); setText(''); setTitle('')
+        if (fileRef.current) fileRef.current.value = ''
+        setAwaitOverwrite(null)
+      }
+    } catch (e: any) {
+      setResult({ type: 'error', msg: e.message })
+    }
+    setLoading(false)
+  }
+
+  async function deleteDoc(sourceUrl: string) {
+    if (!confirm('Dieses Dokument aus der Wissensbasis löschen?')) return
+    await fetch('/api/admin/inoai/manual', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sourceUrl }) })
+    setDocs(prev => prev.filter(d => d.source_url !== sourceUrl))
+  }
+
+  const tabStyle = (t: string) => ({
+    background: 'none', border: 'none', cursor: 'pointer', padding: '8px 0', marginRight: 24,
+    fontSize: 13, fontWeight: tab === t ? 700 : 500,
+    borderBottom: tab === t ? '2px solid #003366' : '2px solid transparent',
+    color: tab === t ? 'var(--adm-text)' : 'var(--adm-text3)',
+  } as React.CSSProperties)
+
+  return (
+    <div>
+      <div style={{ marginBottom: 16 }}>
+        <h2 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: 'var(--adm-text)' }}>📂 Manueller Upload</h2>
+        <p style={{ margin: '2px 0 0', fontSize: 12, color: 'var(--adm-text3)' }}>
+          Beliebige Dateien oder Texte direkt in die Wissensbasis laden — neue Inhalte werden gespeichert, Duplikate übersprungen
+        </p>
+      </div>
+
+      <div style={{ borderBottom: '1px solid var(--adm-border)', marginBottom: 20 }}>
+        <button style={tabStyle('upload')} onClick={() => setTab('upload')}>⬆ Upload</button>
+        <button style={tabStyle('docs')} onClick={() => { setTab('docs') }}>📋 Dokumente</button>
+      </div>
+
+      {tab === 'upload' && (
+        <div>
+          <div
+            onDragOver={e => { e.preventDefault(); setDragging(true) }}
+            onDragLeave={() => setDragging(false)}
+            onDrop={onDrop}
+            onClick={() => fileRef.current?.click()}
+            style={{
+              border: `2px dashed ${dragging ? '#003366' : 'var(--adm-border)'}`,
+              borderRadius: 10, padding: '28px 20px', textAlign: 'center', cursor: 'pointer',
+              background: dragging ? 'rgba(0,51,102,0.06)' : 'var(--adm-card)',
+              transition: 'all 0.15s', marginBottom: 16,
+            }}
+          >
+            <input ref={fileRef} type="file" accept={ACCEPT} style={{ display: 'none' }} onChange={onFileChange} />
+            {file ? (
+              <div>
+                <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: 'var(--adm-text)' }}>📄 {file.name}</p>
+                <p style={{ margin: '4px 0 0', fontSize: 11, color: 'var(--adm-text3)' }}>{(file.size / 1024).toFixed(0)} KB · klicken zum Wechseln</p>
+              </div>
+            ) : (
+              <div>
+                <p style={{ margin: 0, fontSize: 14, color: 'var(--adm-text3)' }}>Datei hierher ziehen oder klicken</p>
+                <p style={{ margin: '4px 0 0', fontSize: 11, color: 'var(--adm-text3)' }}>PDF, DOCX, TXT, MD, CSV, HTML, XML, JSON</p>
+              </div>
+            )}
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+            <div style={{ flex: 1, height: 1, background: 'var(--adm-border)' }} />
+            <span style={{ fontSize: 11, color: 'var(--adm-text3)' }}>oder Text direkt eingeben</span>
+            <div style={{ flex: 1, height: 1, background: 'var(--adm-border)' }} />
+          </div>
+
+          <textarea
+            value={text}
+            onChange={e => setText(e.target.value)}
+            placeholder="Text hier einfügen…"
+            rows={5}
+            style={{
+              width: '100%', padding: '10px 12px', fontSize: 13, borderRadius: 8,
+              border: '1px solid var(--adm-border)', background: 'var(--adm-card)',
+              color: 'var(--adm-text)', resize: 'vertical', outline: 'none',
+              fontFamily: 'inherit', boxSizing: 'border-box', marginBottom: 14,
+            }}
+          />
+
+          <div style={{ display: 'flex', gap: 10, marginBottom: 14, flexWrap: 'wrap' }}>
+            <input
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+              placeholder="Titel (optional)"
+              style={{
+                flex: '1 1 180px', padding: '8px 12px', fontSize: 13, borderRadius: 6,
+                border: '1px solid var(--adm-border)', background: 'var(--adm-card)',
+                color: 'var(--adm-text)', outline: 'none',
+              }}
+            />
+            <select
+              value={lang}
+              onChange={e => setLang(e.target.value)}
+              style={{
+                padding: '8px 10px', fontSize: 12, borderRadius: 6,
+                border: '1px solid var(--adm-border)', background: 'var(--adm-card)',
+                color: 'var(--adm-text)', cursor: 'pointer',
+              }}
+            >
+              {ALL_LANGS.map(l => <option key={l.code} value={l.code}>{l.label}</option>)}
+            </select>
+          </div>
+
+          {awaitOverwrite && (
+            <div style={{ marginBottom: 14, padding: '12px 14px', borderRadius: 8, background: '#1c1f0a', border: '1px solid #4a4a1a' }}>
+              <p style={{ margin: '0 0 8px', fontSize: 13, color: '#fde68a' }}>
+                „{awaitOverwrite.title}" ist bereits in der Wissensbasis. Überschreiben?
+              </p>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button onClick={() => submit(true)} style={{ padding: '5px 14px', fontSize: 12, borderRadius: 6, cursor: 'pointer', background: '#92400e', border: 'none', color: '#fde68a', fontWeight: 700 }}>Ja, überschreiben</button>
+                <button onClick={() => setAwaitOverwrite(null)} style={{ padding: '5px 14px', fontSize: 12, borderRadius: 6, cursor: 'pointer', background: 'none', border: '1px solid var(--adm-border)', color: 'var(--adm-text3)' }}>Abbrechen</button>
+              </div>
+            </div>
+          )}
+
+          {result && (
+            <div style={{
+              marginBottom: 14, padding: '10px 14px', borderRadius: 8, fontSize: 13,
+              background: result.type === 'success' ? '#0d2010' : result.type === 'allDuplicate' ? '#0d1a2e' : '#1a0d0d',
+              border: `1px solid ${result.type === 'success' ? '#1a4a20' : result.type === 'allDuplicate' ? '#1e3a5f' : '#4a1a1a'}`,
+              color: result.type === 'success' ? '#56d364' : result.type === 'allDuplicate' ? '#93c5fd' : '#f85149',
+            }}>{result.msg}</div>
+          )}
+
+          <button
+            onClick={() => submit()}
+            disabled={loading || (!file && !text.trim())}
+            style={{
+              padding: '9px 24px', fontSize: 13, fontWeight: 700, borderRadius: 7, cursor: 'pointer',
+              background: '#003366', border: 'none', color: '#fff',
+              opacity: loading || (!file && !text.trim()) ? 0.5 : 1,
+            }}
+          >
+            {loading ? '⏳ Verarbeite…' : '⬆ In Wissensbasis speichern'}
+          </button>
+        </div>
+      )}
+
+      {tab === 'docs' && (
+        <div>
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
+            <button onClick={loadDocs} style={{ background: 'none', border: '1px solid var(--adm-border)', borderRadius: 6, padding: '5px 12px', fontSize: 12, color: 'var(--adm-text3)', cursor: 'pointer' }}>⟳ Aktualisieren</button>
+          </div>
+          {docsLoading ? (
+            <p style={{ color: 'var(--adm-text3)', fontSize: 13 }}>Lade…</p>
+          ) : docs.length === 0 ? (
+            <p style={{ color: 'var(--adm-text3)', fontSize: 13 }}>Noch keine manuell hochgeladenen Dokumente.</p>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              {docs.map((doc, i) => {
+                const isFile = !doc.source_url.includes('/text/')
+                const filename = isFile ? decodeURIComponent(doc.source_url.replace('manual://', '')) : doc.title
+                const date = new Date(doc.created_at).toLocaleDateString('de', { day: '2-digit', month: '2-digit', year: '2-digit' })
+                const langLabel = LANG_LABELS[doc.language] ?? doc.language.toUpperCase()
+                return (
+                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 12px', borderRadius: 7, border: '1px solid var(--adm-border)', background: 'var(--adm-card)' }}>
+                    <span style={{ fontSize: 15, flexShrink: 0 }}>{isFile ? '📄' : '📝'}</span>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'var(--adm-text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={doc.title}>{doc.title}</p>
+                      <p style={{ margin: '1px 0 0', fontSize: 11, color: 'var(--adm-text3)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={filename}>{filename}</p>
+                    </div>
+                    <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 20, background: '#1e3a5f', color: '#93c5fd', flexShrink: 0 }}>{langLabel}</span>
+                    <span style={{ fontSize: 11, color: 'var(--adm-text3)', flexShrink: 0 }}>{doc.chunks} Chunks</span>
+                    <span style={{ fontSize: 11, color: 'var(--adm-text3)', flexShrink: 0, minWidth: 46, textAlign: 'right' as const }}>{date}</span>
+                    <button onClick={() => deleteDoc(doc.source_url)} title="Löschen" style={{ flexShrink: 0, background: 'none', border: '1px solid #4a1a1a', borderRadius: 5, padding: '3px 8px', fontSize: 12, color: '#f85149', cursor: 'pointer' }}>✕</button>
+                  </div>
+                )
+              })}
+            </div>
+          )}
         </div>
       )}
     </div>
