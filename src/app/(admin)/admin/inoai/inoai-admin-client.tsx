@@ -575,14 +575,11 @@ function TermChip({ term, index, primary }: { term: string; index: number; prima
 
 function MultilingualSyncButton({ onDone }: { onDone: () => void }) {
   const [syncing, setSyncing] = useState(false)
-  const [result, setResult] = useState<string | null>(null)
 
   async function sync() {
-    setSyncing(true); setResult(null)
+    setSyncing(true)
     const res = await fetch('/api/admin/inoai/synonyms/translate', { method: 'POST' })
-    const data = await res.json()
     setSyncing(false)
-    setResult(data.log?.join(' · ') ?? (res.ok ? 'Fertig' : 'Fehler'))
     if (res.ok) onDone()
   }
 
@@ -598,7 +595,6 @@ function MultilingualSyncButton({ onDone }: { onDone: () => void }) {
         <span style={{ animation: syncing ? 'spin 1s linear infinite' : 'none', display: 'inline-block' }}>🌍</span>
         {syncing ? 'KI übersetzt…' : 'Sprachen sync'}
       </button>
-      {result && <div style={{ fontSize: 10, color: '#1e40af', marginTop: 4, maxWidth: 180 }}>{result}</div>}
     </div>
   )
 }
