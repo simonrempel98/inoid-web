@@ -571,6 +571,53 @@ function TermChip({ term, index, primary }: { term: string; index: number; prima
   )
 }
 
+// ── Matrix-Sync-Button ───────────────────────────────────────────────────────
+
+function SyncMatrixButton({ onSync }: { onSync: (newCombos: CombinationRow[]) => void }) {
+  const [syncing, setSyncing] = useState(false)
+  const [log, setLog] = useState<string[]>([])
+  const [done, setDone] = useState(false)
+
+  async function sync() {
+    setSyncing(true); setLog([]); setDone(false)
+    const res = await fetch('/api/admin/inoai/combinations/sync', { method: 'POST' })
+    const data = await res.json()
+    setLog(data.log ?? [])
+    setDone(true)
+    setSyncing(false)
+    // Nach Sync Kombinationen neu laden
+    const combosRes = await fetch('/api/admin/inoai/combinations')
+    if (combosRes.ok) onSync(await combosRes.json())
+  }
+
+  return (
+    <div style={{ flexShrink: 0 }}>
+      <button onClick={sync} disabled={syncing} title="KI klassifiziert Gruppen und generiert fehlende Kombinationen" style={{
+        background: syncing ? '#1e3a5f' : 'linear-gradient(135deg, #003366, #0055aa)',
+        color: 'white', border: 'none', borderRadius: 9,
+        padding: '8px 14px', fontSize: 12, fontWeight: 700,
+        cursor: syncing ? 'default' : 'pointer', display: 'flex', alignItems: 'center', gap: 6,
+        whiteSpace: 'nowrap',
+      }}>
+        <span style={{
+          display: 'inline-block',
+          animation: syncing ? 'spin 1s linear infinite' : 'none',
+        }}>⊞</span>
+        {syncing ? 'KI läuft…' : 'KI-Sync'}
+      </button>
+      {done && log.length > 0 && (
+        <div style={{
+          position: 'absolute', background: '#111827', border: '1px solid #374151',
+          borderRadius: 9, padding: '8px 12px', marginTop: 6, zIndex: 10,
+          fontSize: 11, color: '#e5e7eb', maxWidth: 280, lineHeight: 1.6,
+        }}>
+          {log.map((l, i) => <div key={i}>{l}</div>)}
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ── Kreuzreferenz-Matrix ──────────────────────────────────────────────────────
 
 type CellEditorState = {
@@ -1129,16 +1176,22 @@ function SynonymManager() {
                 marginBottom: 20, display: 'flex', gap: 14, alignItems: 'flex-start',
               }}>
                 <span style={{ fontSize: 20, flexShrink: 0 }}>⊞</span>
-                <div>
+                <div style={{ flex: 1 }}>
                   <p style={{ margin: '0 0 3px', fontSize: 13, fontWeight: 700, color: '#93c5fd' }}>
                     Kreuzreferenz-Matrix
                   </p>
                   <p style={{ margin: 0, fontSize: 12, color: '#9ca3af', lineHeight: 1.6 }}>
                     Jede Zelle verbindet ein <strong style={{ color: '#93c5fd' }}>Basisobjekt</strong> (Zeile) mit einem{' '}
                     <strong style={{ color: '#6ee7b7' }}>Modifikator</strong> (Spalte). Aktive Zellen erweitern die KI-Suche
-                    automatisch um kombinierte Fachbegriffe wie „Aniloxreinigung". Klicke eine Zelle zum Bearbeiten.
+                    automatisch um kombinierte Fachbegriffe wie „Aniloxreinigung". Klicke eine Zelle zum Bearbeiten.{' '}
+                    Die Matrix wird nach jedem Crawl automatisch aktualisiert.
                   </p>
                 </div>
+                <SyncMatrixButton onSync={(newCombos) => setCombinations(prev => {
+                  const map = new Map(prev.map(c => [c.id, c]))
+                  newCombos.forEach((c: CombinationRow) => map.set(c.id, c))
+                  return Array.from(map.values())
+                })} />
               </div>
               <SynonymMatrix
                 groups={groups}

@@ -256,6 +256,118 @@ Beispiel: anilox, rasterwalze, aniloxwalze`,
   }
 }
 
+// ── Synonym-Matrix automatisch pflegen ───────────────────────────────────────
+// Läuft nach jedem erfolgreichen Crawl:
+// 1. Klassifiziert ungetaggte Gruppen als base/modifier/standalone per KI
+// 2. Generiert fehlende Kombinationsbegriffe für base×modifier-Paare per KI
+
+export async function syncSynonymMatrix(
+  admin: ReturnType<typeof createAdminClient>,
+  log: (msg: string) => void,
+): Promise<void> {
+  try {
+    const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+
+    // 1. Alle Gruppen laden
+    const { data: groups } = await admin.from('inoai_synonyms').select('id, terms, group_type')
+    if (!groups?.length) return
+
+    // 2. Ungetaggte Gruppen klassifizieren
+    const untagged = groups.filter((g: any) => g.group_type === 'standalone')
+    if (untagged.length > 0) {
+      const classifyRes = await anthropic.messages.create({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 600,
+        messages: [{
+          role: 'user',
+          content: `Classify these flexo printing synonym groups for a search matrix.
+"base" = physical objects/components (anilox, rakel, walze, sleeve, druckplatte, trockner, druckmaschine, keramik, substrat, farbe)
+"modifier" = actions/properties (reinigung, verschleiß, wartung, beschichtung, kalibrierung, gravur, viskosität, prüfung, härtung, tonwertzuwachs)
+"standalone" = everything else (processes, technologies, materials, general concepts)
+
+Groups (id: primary_term):
+${untagged.map((g: any) => `${g.id}: ${(g.terms as string[])[0]}`).join('\n')}
+
+Respond ONLY with compact JSON array, no explanation:
+[{"id":1,"t":"base"},{"id":2,"t":"modifier"},{"id":3,"t":"standalone"}]`,
+        }],
+      })
+      const raw = classifyRes.content[0]?.type === 'text' ? classifyRes.content[0].text : ''
+      const jsonMatch = raw.match(/\[[\s\S]*\]/)
+      if (jsonMatch) {
+        const classifications: { id: number; t: string }[] = JSON.parse(jsonMatch[0])
+        let updated = 0
+        for (const c of classifications) {
+          if (c.t === 'base' || c.t === 'modifier') {
+            await admin.from('inoai_synonyms').update({ group_type: c.t }).eq('id', c.id)
+            updated++
+          }
+        }
+        if (updated > 0) log(`🏷️  ${updated} Synonym-Gruppen klassifiziert (Basis/Modifikator)`)
+      }
+    }
+
+    // 3. Aktuelle Klassifizierung neu laden
+    const { data: current } = await admin.from('inoai_synonyms').select('id, terms, group_type')
+    const bases = (current ?? []).filter((g: any) => g.group_type === 'base')
+    const modifiers = (current ?? []).filter((g: any) => g.group_type === 'modifier')
+    if (bases.length === 0 || modifiers.length === 0) return
+
+    // 4. Fehlende Kombinationen finden
+    const { data: existing } = await admin.from('inoai_synonym_combinations').select('base_id, modifier_id')
+    const existingSet = new Set((existing ?? []).map((c: any) => `${c.base_id}-${c.modifier_id}`))
+
+    const missing: { base: any; mod: any }[] = []
+    for (const b of bases) {
+      for (const m of modifiers) {
+        if (!existingSet.has(`${b.id}-${m.id}`)) missing.push({ base: b, mod: m })
+      }
+    }
+    if (missing.length === 0) return
+
+    // 5. Kombinationsbegriffe in Batches generieren (max 12 pro Anfrage)
+    const BATCH = 12
+    let generated = 0
+    for (let i = 0; i < missing.length; i += BATCH) {
+      const batch = missing.slice(i, i + BATCH)
+      const genRes = await anthropic.messages.create({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 800,
+        messages: [{
+          role: 'user',
+          content: `Generate 3-5 German/English compound search terms for flexo printing concept pairs.
+Only include terms that would actually appear in technical texts about flexo printing.
+If a combination doesn't make practical sense, return an empty array for it.
+
+Pairs (index: base × modifier):
+${batch.map((p, j) => `${j}: ${(p.base.terms as string[])[0]} × ${(p.mod.terms as string[])[0]}`).join('\n')}
+
+Respond ONLY with compact JSON, no explanation:
+[{"i":0,"terms":["compound1","compound2"]},{"i":1,"terms":[]}]`,
+        }],
+      })
+      const raw2 = genRes.content[0]?.type === 'text' ? genRes.content[0].text : ''
+      const jsonMatch2 = raw2.match(/\[[\s\S]*\]/)
+      if (!jsonMatch2) continue
+      const results: { i: number; terms: string[] }[] = JSON.parse(jsonMatch2[0])
+      for (const r of results) {
+        const pair = batch[r.i]
+        if (!pair || r.terms.length === 0) continue
+        const { error } = await admin.from('inoai_synonym_combinations').insert({
+          base_id: pair.base.id,
+          modifier_id: pair.mod.id,
+          extra_terms: r.terms.map((t: string) => t.toLowerCase()),
+          active: true,
+        }).select()
+        if (!error) generated++
+      }
+    }
+    if (generated > 0) log(`⊞ ${generated} Kreuzreferenz-Kombinationen automatisch generiert`)
+  } catch (e: any) {
+    log(`⚠️ Matrix-Pflege: ${e.message}`)
+  }
+}
+
 export async function runCrawlJob(jobId: string): Promise<void> {
   const admin = createAdminClient()
 
@@ -317,10 +429,11 @@ export async function runCrawlJob(jobId: string): Promise<void> {
         if (added.length === 0 && removed.length === 0) log(`↔ Keine Änderungen gegenüber letztem Crawl`)
       }
 
-      // Synonymdatenbank automatisch erweitern
+      // Synonymdatenbank automatisch erweitern + Matrix pflegen
       log(`\n🔤 Analysiere Inhalte für neue Synonyme…`)
       await flushLog(true)
       await autoExtendSynonyms(admin, job.crawler_id, log)
+      await syncSynonymMatrix(admin, log)
       await flushLog(true)
 
       await admin.from('inoai_crawl_jobs').update({
