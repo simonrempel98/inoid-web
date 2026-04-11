@@ -71,27 +71,46 @@ function extractTitle(html: string): string {
   return title ? title[1].replace(/\s*[-|–]\s*.*$/, '').trim() : 'Unbekannte Seite'
 }
 
+function extractPdfs(html: string, pageUrl: string): Set<string> {
+  const pdfs = new Set<string>()
+  // 1. href/src/data-href/data-src/data-file Attribute
+  const attrRe = /(?:href|src|data-href|data-src|data-file|data-url|data-link|action)=["']([^"']*\.pdf[^"']*?)["']/gi
+  // 2. PDF-URLs in JavaScript-Strings, JSON, onclick, window.open(...)
+  const jsRe = /["'`]((?:https?:\/\/|\/)[^"'`\s<>]*\.pdf[^"'`\s<>]*?)["'`]/gi
+  // 3. Direkte absolute URLs im Text (z.B. in <p> oder Kommentaren)
+  const absRe = /https?:\/\/[^\s"'<>]*\.pdf(?:[?#][^\s"'<>]*)?/gi
+
+  for (const re of [attrRe, jsRe, absRe]) {
+    let m
+    while ((m = re.exec(html)) !== null) {
+      const raw = (m[1] ?? m[0]).trim()
+      try {
+        const url = new URL(raw, pageUrl)
+        url.hash = ''
+        if (['http:', 'https:'].includes(url.protocol)) pdfs.add(url.href)
+      } catch { /* ignore */ }
+    }
+  }
+  return pdfs
+}
+
 function extractLinks(html: string, pageUrl: string, rootUrl: URL): { links: Set<string>; pdfs: Set<string> } {
   const links = new Set<string>()
-  const pdfs = new Set<string>()
-  // href="..." oder href='...' – auch leere und #-Links werden gematcht, dann gefiltert
+
+  // Alle PDF-URLs aus dem gesamten HTML-Quelltext
+  const pdfs = extractPdfs(html, pageUrl)
+
+  // HTML-Links für Weiter-Crawling
   const hrefRe = /href=["']([^"']+)["']/gi
   let match
   while ((match = hrefRe.exec(html)) !== null) {
     const raw = match[1].trim()
     if (!raw || raw.startsWith('#') || raw.startsWith('mailto:') || raw.startsWith('tel:') || raw.startsWith('javascript:')) continue
+    if (/\.pdf/i.test(raw)) continue // bereits in pdfs
     try {
       const url = new URL(raw, pageUrl)
       url.hash = ''
       if (!['http:', 'https:'].includes(url.protocol)) continue
-
-      // PDFs von beliebigen Domains erlauben (CDN, Subdomains, etc.)
-      if (/\.pdf($|\?)/i.test(url.pathname + url.search) || /\.pdf($|\?)/i.test(url.href)) {
-        pdfs.add(url.href)
-        continue
-      }
-
-      // Für HTML-Seiten: nur gleiche Domain + gleicher Pfad-Präfix
       if (url.hostname !== rootUrl.hostname) continue
       if (SKIP_PATTERNS.some(p => p.test(url.pathname + url.search))) continue
       if (!url.pathname.startsWith(rootUrl.pathname)) continue
@@ -226,7 +245,9 @@ export async function runCrawl(
 
       const { links, pdfs } = extractLinks(html, url, rootUrl)
       for (const l of links) if (!visited.has(l) && !queue.includes(l)) queue.push(l)
-      for (const p of pdfs) if (!visitedPdfs.has(p) && !pdfQueue.includes(p)) pdfQueue.push(p)
+      let newPdfs = 0
+      for (const p of pdfs) { if (!visitedPdfs.has(p) && !pdfQueue.includes(p)) { pdfQueue.push(p); newPdfs++ } }
+      if (newPdfs > 0) log(`    📎 ${newPdfs} PDF(s) entdeckt`)
     } catch (e: any) {
       log(`  ❌ ${url.replace(rootUrl.origin, '')} → ${e.message}`)
       stats.errors++

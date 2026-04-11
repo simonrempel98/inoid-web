@@ -16,11 +16,10 @@ CREATE POLICY "Authenticated can read crawlers"
 CREATE POLICY "Service role can manage crawlers"
   ON inoai_crawlers FOR ALL TO service_role USING (true) WITH CHECK (true);
 
--- Bestehende 5 Crawler als Startwerte eintragen
+-- Start-Crawler eintragen (4 Stück)
 INSERT INTO inoai_crawlers (id, name, url, lang) VALUES
-  ('inometa-de',  'INOMETA (DE)',            'https://www.inometa.de/',           'de'),
-  ('inometa-en',  'INOMETA (EN)',            'https://www.inometa.de/en/',         'en'),
-  ('printing-de', 'Printing INOMETA (DE)',   'https://printing.inometa.de/',       'de'),
-  ('printing-en', 'Printing INOMETA (EN)',   'https://printing.inometa.de/en/',    'en'),
-  ('apex-de',     'APEX International (DE)', 'https://de.apexinternational.com/',  'de')
+  ('inometa-de',  'INOMETA (DE)',          'https://www.inometa.de/',         'de'),
+  ('inometa-en',  'INOMETA (EN)',          'https://www.inometa.de/en/',      'en'),
+  ('printing-de', 'Printing INOMETA (DE)', 'https://printing.inometa.de/',    'de'),
+  ('printing-en', 'Printing INOMETA (EN)', 'https://printing.inometa.de/en/', 'en')
 ON CONFLICT (id) DO NOTHING;
