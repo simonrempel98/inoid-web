@@ -175,7 +175,7 @@ function CrawlerCard({
     if (!res.ok) return
     const { jobId } = await res.json()
     setJob({ id: jobId, crawler_id: crawler.id, status: 'queued', log: ['⏳ In Warteschlange…'], stats: null, diff: null, created_at: new Date().toISOString(), started_at: null, finished_at: null })
-    setLogOpen(true)
+    setLogOpen(false)
   }
 
   async function cancelCrawl() {
