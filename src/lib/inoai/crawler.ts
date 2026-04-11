@@ -373,7 +373,12 @@ Respond ONLY with compact JSON, no explanation:
 // Reichert bestehende Gruppen mit Übersetzungen in allen Sprachen an.
 // Manuell triggerbar + läuft nach jedem Crawl auf ungefüllten Gruppen.
 
-const SUPPORTED_LANGS = ['de', 'en', 'fr', 'es', 'it', 'nl', 'pl', 'pt', 'ru', 'tr', 'cs', 'sv', 'hu', 'ro', 'ja', 'zh', 'ko', 'ar']
+// Alle App-Sprachen aus src/i18n/config.ts
+const SUPPORTED_LANGS = [
+  'de', 'en', 'fr', 'es', 'it', 'pt', 'nl', 'pl', 'tr',
+  'ru', 'uk', 'bg', 'ro', 'cs', 'sk', 'hu', 'hr', 'sr',
+  'el', 'fi', 'sv', 'da', 'no', 'lt', 'lv', 'et', 'ja', 'zh',
+]
 
 export async function syncMultilingualSynonyms(
   admin: ReturnType<typeof createAdminClient>,
