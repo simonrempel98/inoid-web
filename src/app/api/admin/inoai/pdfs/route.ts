@@ -14,18 +14,23 @@ export async function GET(req: Request) {
 
   const admin = createAdminClient()
 
-  // All PDF chunks — deduplicate server-side by source_url
-  const { data: rows, error } = await admin
+  // Debug: count all rows + breakdown by source_type
+  const { data: allRows } = await admin
     .from('inometa_knowledge')
-    .select('title, source_url, language, crawler_id, created_at')
-    .eq('source_type', 'datasheet')
+    .select('source_type, source_url, title, language, crawler_id, created_at')
     .order('created_at', { ascending: false })
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  const typeCounts: Record<string, number> = {}
+  for (const r of allRows ?? []) {
+    typeCounts[r.source_type] = (typeCounts[r.source_type] ?? 0) + 1
+  }
 
-  // Keep first occurrence per source_url (= newest title/metadata)
+  // All PDF chunks — deduplicate server-side by source_url
+  // Accept 'datasheet' and 'pdf' (in case source_type differs)
+  const pdfTypes = new Set(['datasheet', 'pdf', 'brochure'])
   const seen = new Set<string>()
-  const pdfs = (rows ?? []).filter(r => {
+  const pdfs = (allRows ?? []).filter(r => {
+    if (!pdfTypes.has(r.source_type)) return false
     if (seen.has(r.source_url)) return false
     seen.add(r.source_url)
     return true
@@ -36,5 +41,5 @@ export async function GET(req: Request) {
     .from('inoai_crawlers')
     .select('id, name')
 
-  return NextResponse.json({ pdfs, crawlers: crawlers ?? [] })
+  return NextResponse.json({ pdfs, crawlers: crawlers ?? [], _debug: { total: allRows?.length ?? 0, typeCounts } })
 }
