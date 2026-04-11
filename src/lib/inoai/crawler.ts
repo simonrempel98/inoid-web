@@ -448,9 +448,9 @@ export async function syncMultilingualSynonyms(
 
     // Nur Gruppen mit wenigen Termen anreichern (wahrscheinlich einsprachig)
     const needsEnrichment = (groups as any[]).filter(g => (g.terms as string[]).length < 5)
-    if (needsEnrichment.length === 0) { log('🌍 Alle Gruppen bereits mehrsprachig'); return }
+    if (needsEnrichment.length === 0) return
 
-    const BATCH = 10
+    const BATCH = 5
     let enriched = 0
 
     for (let i = 0; i < needsEnrichment.length; i += BATCH) {
@@ -458,20 +458,19 @@ export async function syncMultilingualSynonyms(
 
       const res = await anthropic.messages.create({
         model: 'claude-haiku-4-5-20251001',
-        max_tokens: 1500,
+        max_tokens: 800,
         messages: [{
           role: 'user',
-          content: `You are an expert in flexo printing and roller technology.
-Enrich these synonym groups with translations in relevant languages: ${SUPPORTED_LANGS.join(', ')}.
-Only add terms that are GENUINELY used in flexo printing technical literature in that language.
-Skip a language if there is no real technical term (e.g., do not translate brand-specific names).
-Keep all existing terms. Return only groups where you actually added new terms.
+          content: `Flexo printing expert. Add translations for these synonym groups.
+Languages: ${SUPPORTED_LANGS.join(', ')}.
+Only add terms genuinely used in flexo printing technical texts. Skip brand names.
+Return only groups where you added terms.
 
-Groups (id: current_terms):
+Groups (id: terms):
 ${batch.map((g: any) => `${g.id}: ${(g.terms as string[]).join(', ')}`).join('\n')}
 
-Respond ONLY with compact JSON, no explanation:
-[{"id":1,"terms":["existing1","existing2","new_fr","new_es"]},{"id":3,"terms":["..."]},...]`,
+Respond ONLY with JSON array:
+[{"id":1,"terms":["existing1","new_fr","new_es"]}]`,
         }],
       })
 
@@ -479,10 +478,16 @@ Respond ONLY with compact JSON, no explanation:
       const match = raw.match(/\[[\s\S]*\]/)
       if (!match) continue
 
-      const updates: { id: number; terms: string[] }[] = JSON.parse(match[0])
+      let updates: { id: number; terms: string[] }[]
+      try {
+        updates = JSON.parse(match[0])
+      } catch {
+        continue
+      }
+
       for (const u of updates) {
         const original = batch.find((g: any) => g.id === u.id)
-        if (!original) continue
+        if (!original || !Array.isArray(u.terms)) continue
         const merged = [...new Set([...(original.terms as string[]), ...u.terms.map((t: string) => t.toLowerCase())])]
         if (merged.length > (original.terms as string[]).length) {
           await admin.from('inoai_synonyms').update({ terms: merged }).eq('id', u.id)
