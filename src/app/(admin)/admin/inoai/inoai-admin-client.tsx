@@ -114,6 +114,7 @@ function CrawlerCard({
   onStatsRefresh,
   onDelete,
   onUpdate,
+  onJobChange,
 }: {
   crawler: CrawlerRow
   stats: CrawlerStats | undefined
@@ -121,6 +122,7 @@ function CrawlerCard({
   onStatsRefresh: () => void
   onDelete: (id: string) => void
   onUpdate: (c: CrawlerRow) => void
+  onJobChange?: (j: JobRow) => void
 }) {
   const [crawler, setCrawler] = useState(initialCrawler)
   const [job, setJob] = useState<JobRow | undefined>(initialJob)
@@ -146,6 +148,7 @@ function CrawlerCard({
       if (!res.ok) return
       const updated: JobRow = await res.json()
       setJob(updated)
+      onJobChange?.(updated)
       if (updated.status === 'done' || updated.status === 'error') {
         clearInterval(pollRef.current!)
         onStatsRefresh()
@@ -490,6 +493,7 @@ export function INOaiAdminClient({
   const [crawlers, setCrawlers] = useState<CrawlerRow[]>(initialCrawlers)
   const [stats, setStats] = useState<StatsMap>(initialStats)
   const [totalCount, setTotalCount] = useState(total)
+  const [jobs, setJobs] = useState<Record<string, JobRow>>(initialJobs)
 
   async function refreshStats() {
     const res = await fetch('/api/admin/inoai/stats')
@@ -498,6 +502,16 @@ export function INOaiAdminClient({
     setStats(data.perCrawler)
     setTotalCount(data.total)
   }
+
+  // Chunk-Zähler alle 10s aktualisieren solange ein Crawler läuft
+  useEffect(() => {
+    const hasActive = Object.values(jobs).some(
+      j => j.status === 'queued' || j.status === 'running' || j.status === 'paused'
+    )
+    if (!hasActive) return
+    const id = setInterval(refreshStats, 10_000)
+    return () => clearInterval(id)
+  }, [JSON.stringify(Object.values(jobs).map(j => j.status))])
 
   function handleDelete(id: string) {
     setCrawlers(c => c.filter(x => x.id !== id))
@@ -527,6 +541,7 @@ export function INOaiAdminClient({
           onStatsRefresh={refreshStats}
           onDelete={handleDelete}
           onUpdate={handleUpdate}
+          onJobChange={j => setJobs(prev => ({ ...prev, [c.id]: j }))}
         />
       ))}
 
