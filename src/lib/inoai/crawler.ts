@@ -200,60 +200,117 @@ async function selfTriggerCrawl() {
   } catch { /* ignore */ }
 }
 
-// ── Synonyme automatisch nach Crawl erweitern ────────────────────────────────
+// ── Synonyme aus Crawl-Daten anreichern ──────────────────────────────────────
+// Nach jedem erfolgreichen Crawl:
+// 1. Bestehende Gruppen mit neuen Termen ergänzen (aus Seitentiteln + Inhalt)
+// 2. Komplett neue Gruppen für bisher unbekannte Fachbegriffe anlegen
+// 3. Strikte Duplikatprüfung über ALLE bekannten Terme
 
-async function autoExtendSynonyms(
+async function enrichSynonymsFromCrawl(
   admin: ReturnType<typeof createAdminClient>,
   crawlerId: string,
   log: (msg: string) => void,
 ): Promise<void> {
   try {
-    const [{ data: items }, { data: existing }] = await Promise.all([
-      admin.from('inometa_knowledge').select('title').eq('crawler_id', crawlerId).limit(120),
-      admin.from('inoai_synonyms').select('terms'),
+    // Gecrawlte Inhalte + alle bestehenden Gruppen parallel laden
+    const [{ data: knowledge }, { data: existingGroups }] = await Promise.all([
+      admin.from('inometa_knowledge')
+        .select('title, content')
+        .eq('crawler_id', crawlerId)
+        .limit(80),
+      admin.from('inoai_synonyms').select('id, terms, group_type'),
     ])
-    if (!items?.length) return
+    if (!knowledge?.length) return
 
-    const existingTerms = new Set(
-      (existing ?? []).flatMap((g: any) => (g.terms as string[]).map(t => t.toLowerCase()))
-    )
-    const titles = [...new Set(items.map((i: any) => i.title).filter(Boolean))].slice(0, 60).join('\n')
+    // Alle bekannten Terme in einer Menge (für Duplikatcheck)
+    const allKnown = new Map<string, number>() // term → group id
+    for (const g of (existingGroups ?? []) as any[]) {
+      for (const t of g.terms as string[]) allKnown.set(t.toLowerCase(), g.id)
+    }
+
+    // Textmaterial: Titel + erste 300 Zeichen jedes Chunks
+    const textSample = (knowledge as any[])
+      .map(k => `${k.title ?? ''}\n${(k.content as string).slice(0, 300)}`)
+      .join('\n---\n')
+      .slice(0, 6000)
+
+    // Bestehende Gruppen kompakt als "id: primaryTerm" für den Prompt
+    const groupIndex = ((existingGroups ?? []) as any[])
+      .map(g => `${g.id}:${(g.terms as string[])[0]}`)
+      .join(', ')
 
     const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
     const response = await anthropic.messages.create({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1000,
+      max_tokens: 1200,
       messages: [{
         role: 'user',
-        content: `You are an expert in flexo printing and roller technology (INOMETA GmbH).
-Analyze these page titles from a crawled website and derive new multilingual synonym groups for technical terms.
+        content: `You are a flexo printing terminology expert. Analyze crawled content and improve the synonym database.
 
-Already in database (do NOT repeat): ${[...existingTerms].slice(0, 80).join(', ')}
+EXISTING GROUPS (id:primaryTerm) — do NOT create duplicates for these:
+${groupIndex}
 
-Page titles:
-${titles}
+ALL KNOWN TERMS (never repeat any of these): ${[...allKnown.keys()].slice(0, 120).join(', ')}
 
-Create 5-8 NEW synonym groups for technical terms NOT already in the database.
-Each group should include the term in all relevant languages (German, English, French, Spanish, Italian, Dutch, Polish – include a language variant only if it is genuinely used in flexo printing literature).
-Output: one group per line, terms comma-separated, all lowercase, no explanations.
-Example: anilox, rasterwalze, anilox walze, anilox roll, cylindre anilox, cilindro anilox, rasterrol`,
+CRAWLED CONTENT SAMPLE:
+${textSample}
+
+Your tasks:
+1. ENRICH existing groups: find technical terms in the content that clearly belong to an existing group but are missing. Include multilingual variants (all 28 app languages where genuinely used in technical literature).
+2. NEW groups: find technical flexo printing terms not covered by any existing group. Each new group must be multilingual from the start.
+
+Rules:
+- Never repeat a term already in "ALL KNOWN TERMS"
+- A term can only belong to ONE group
+- Minimum 2 terms per group
+- All terms lowercase
+
+Respond ONLY with compact JSON, no explanation:
+{
+  "enrich": [{"id": 12, "add": ["neuerterm", "nouveau terme"]}, ...],
+  "new": [["term1","term2","term3"], ...]
+}`,
       }],
     })
 
-    const text = response.content[0]?.type === 'text' ? response.content[0].text.trim() : ''
-    const lines = text.split('\n').map((l: string) => l.trim()).filter(Boolean)
+    const raw = response.content[0]?.type === 'text' ? response.content[0].text : ''
+    const jsonMatch = raw.match(/\{[\s\S]*\}/)
+    if (!jsonMatch) return
 
-    let added = 0
-    for (const line of lines) {
-      const terms = line.replace(/^[-*•]\s*/, '').split(',').map((t: string) => t.trim().toLowerCase()).filter(Boolean)
-      if (terms.length < 2) continue
-      if (terms.some((t: string) => existingTerms.has(t))) continue // schon bekannt
-      const { error } = await admin.from('inoai_synonyms').insert({ terms })
-      if (!error) { added++; terms.forEach((t: string) => existingTerms.add(t)) }
+    const result: { enrich?: { id: number; add: string[] }[]; new?: string[][] } = JSON.parse(jsonMatch[0])
+
+    let enriched = 0
+    let created = 0
+
+    // 1. Bestehende Gruppen anreichern
+    for (const e of result.enrich ?? []) {
+      const group = (existingGroups as any[])?.find((g: any) => g.id === e.id)
+      if (!group) continue
+      const fresh = e.add
+        .map((t: string) => t.toLowerCase().trim())
+        .filter((t: string) => t.length > 1 && !allKnown.has(t))
+      if (fresh.length === 0) continue
+      const merged = [...new Set([...(group.terms as string[]), ...fresh])]
+      const { error } = await admin.from('inoai_synonyms').update({ terms: merged }).eq('id', e.id)
+      if (!error) { fresh.forEach((t: string) => allKnown.set(t, e.id)); enriched++ }
     }
-    if (added > 0) log(`🔤 ${added} neue Synonym-Gruppen automatisch hinzugefügt`)
+
+    // 2. Neue Gruppen anlegen
+    for (const terms of result.new ?? []) {
+      const clean = [...new Set(
+        terms.map((t: string) => t.toLowerCase().trim()).filter((t: string) => t.length > 1 && !allKnown.has(t))
+      )]
+      if (clean.length < 2) continue
+      const { data, error } = await admin.from('inoai_synonyms').insert({ terms: clean }).select('id').single()
+      if (!error && data) { clean.forEach((t: string) => allKnown.set(t, (data as any).id)); created++ }
+    }
+
+    const parts = []
+    if (enriched > 0) parts.push(`${enriched} Gruppen erweitert`)
+    if (created > 0) parts.push(`${created} neue Gruppen`)
+    if (parts.length > 0) log(`🔤 Synonyme: ${parts.join(' · ')}`)
   } catch (e: any) {
-    log(`⚠️ Synonym-Erweiterung: ${e.message}`)
+    log(`⚠️ Synonym-Anreicherung: ${e.message}`)
   }
 }
 
@@ -504,7 +561,7 @@ export async function runCrawlJob(jobId: string): Promise<void> {
       // Synonymdatenbank automatisch erweitern + Matrix pflegen
       log(`\n🔤 Analysiere Inhalte für neue Synonyme…`)
       await flushLog(true)
-      await autoExtendSynonyms(admin, job.crawler_id, log)
+      await enrichSynonymsFromCrawl(admin, job.crawler_id, log)
       await syncMultilingualSynonyms(admin, log)
       await syncSynonymMatrix(admin, log)
       await flushLog(true)
