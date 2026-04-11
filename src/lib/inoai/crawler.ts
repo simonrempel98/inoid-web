@@ -222,20 +222,21 @@ async function autoExtendSynonyms(
     const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
     const response = await anthropic.messages.create({
       model: 'claude-haiku-4-5-20251001',
-      max_tokens: 800,
+      max_tokens: 1000,
       messages: [{
         role: 'user',
-        content: `Du bist Experte für Flexodruck und Walzentechnologie (INOMETA GmbH).
-Analysiere diese Seitentitel einer gecrawlten Webseite und leite daraus neue Synonym-Gruppen für technische Fachbegriffe ab.
+        content: `You are an expert in flexo printing and roller technology (INOMETA GmbH).
+Analyze these page titles from a crawled website and derive new multilingual synonym groups for technical terms.
 
-Bereits in der Datenbank (nicht wiederholen): ${[...existingTerms].slice(0, 80).join(', ')}
+Already in database (do NOT repeat): ${[...existingTerms].slice(0, 80).join(', ')}
 
-Seitentitel:
+Page titles:
 ${titles}
 
-Erstelle 5-8 neue Synonym-Gruppen für Fachbegriffe die noch NICHT in der Datenbank sind.
-Ausgabe: Eine Gruppe pro Zeile, Begriffe kommagetrennt, alles kleingeschrieben, keine Erklärungen.
-Beispiel: anilox, rasterwalze, aniloxwalze`,
+Create 5-8 NEW synonym groups for technical terms NOT already in the database.
+Each group should include the term in all relevant languages (German, English, French, Spanish, Italian, Dutch, Polish – include a language variant only if it is genuinely used in flexo printing literature).
+Output: one group per line, terms comma-separated, all lowercase, no explanations.
+Example: anilox, rasterwalze, anilox walze, anilox roll, cylindre anilox, cilindro anilox, rasterrol`,
       }],
     })
 
@@ -368,6 +369,72 @@ Respond ONLY with compact JSON, no explanation:
   }
 }
 
+// ── Mehrsprachige Synonyme ergänzen ──────────────────────────────────────────
+// Reichert bestehende Gruppen mit Übersetzungen in allen Sprachen an.
+// Manuell triggerbar + läuft nach jedem Crawl auf ungefüllten Gruppen.
+
+const SUPPORTED_LANGS = ['de', 'en', 'fr', 'es', 'it', 'nl', 'pl', 'pt', 'ru', 'tr', 'cs', 'sv', 'hu', 'ro', 'ja', 'zh', 'ko', 'ar']
+
+export async function syncMultilingualSynonyms(
+  admin: ReturnType<typeof createAdminClient>,
+  log: (msg: string) => void,
+): Promise<void> {
+  try {
+    const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+    const { data: groups } = await admin.from('inoai_synonyms').select('id, terms')
+    if (!groups?.length) return
+
+    // Nur Gruppen mit wenigen Termen anreichern (wahrscheinlich einsprachig)
+    const needsEnrichment = (groups as any[]).filter(g => (g.terms as string[]).length < 5)
+    if (needsEnrichment.length === 0) { log('🌍 Alle Gruppen bereits mehrsprachig'); return }
+
+    const BATCH = 10
+    let enriched = 0
+
+    for (let i = 0; i < needsEnrichment.length; i += BATCH) {
+      const batch = needsEnrichment.slice(i, i + BATCH)
+
+      const res = await anthropic.messages.create({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1500,
+        messages: [{
+          role: 'user',
+          content: `You are an expert in flexo printing and roller technology.
+Enrich these synonym groups with translations in relevant languages: ${SUPPORTED_LANGS.join(', ')}.
+Only add terms that are GENUINELY used in flexo printing technical literature in that language.
+Skip a language if there is no real technical term (e.g., do not translate brand-specific names).
+Keep all existing terms. Return only groups where you actually added new terms.
+
+Groups (id: current_terms):
+${batch.map((g: any) => `${g.id}: ${(g.terms as string[]).join(', ')}`).join('\n')}
+
+Respond ONLY with compact JSON, no explanation:
+[{"id":1,"terms":["existing1","existing2","new_fr","new_es"]},{"id":3,"terms":["..."]},...]`,
+        }],
+      })
+
+      const raw = res.content[0]?.type === 'text' ? res.content[0].text : ''
+      const match = raw.match(/\[[\s\S]*\]/)
+      if (!match) continue
+
+      const updates: { id: number; terms: string[] }[] = JSON.parse(match[0])
+      for (const u of updates) {
+        const original = batch.find((g: any) => g.id === u.id)
+        if (!original) continue
+        const merged = [...new Set([...(original.terms as string[]), ...u.terms.map((t: string) => t.toLowerCase())])]
+        if (merged.length > (original.terms as string[]).length) {
+          await admin.from('inoai_synonyms').update({ terms: merged }).eq('id', u.id)
+          enriched++
+        }
+      }
+    }
+
+    log(`🌍 ${enriched} Synonym-Gruppen mehrsprachig erweitert`)
+  } catch (e: any) {
+    log(`⚠️ Mehrsprachig-Sync: ${e.message}`)
+  }
+}
+
 export async function runCrawlJob(jobId: string): Promise<void> {
   const admin = createAdminClient()
 
@@ -433,6 +500,7 @@ export async function runCrawlJob(jobId: string): Promise<void> {
       log(`\n🔤 Analysiere Inhalte für neue Synonyme…`)
       await flushLog(true)
       await autoExtendSynonyms(admin, job.crawler_id, log)
+      await syncMultilingualSynonyms(admin, log)
       await syncSynonymMatrix(admin, log)
       await flushLog(true)
 

@@ -571,6 +571,38 @@ function TermChip({ term, index, primary }: { term: string; index: number; prima
   )
 }
 
+// ── Multilingual-Sync-Button ─────────────────────────────────────────────────
+
+function MultilingualSyncButton({ onDone }: { onDone: () => void }) {
+  const [syncing, setSyncing] = useState(false)
+  const [result, setResult] = useState<string | null>(null)
+
+  async function sync() {
+    setSyncing(true); setResult(null)
+    const res = await fetch('/api/admin/inoai/synonyms/translate', { method: 'POST' })
+    const data = await res.json()
+    setSyncing(false)
+    setResult(data.log?.join(' · ') ?? (res.ok ? 'Fertig' : 'Fehler'))
+    if (res.ok) onDone()
+  }
+
+  return (
+    <div style={{ flexShrink: 0, textAlign: 'right' }}>
+      <button onClick={sync} disabled={syncing} title="KI ergänzt alle Gruppen mit Übersetzungen in allen Sprachen" style={{
+        background: syncing ? '#bfdbfe' : '#1e40af',
+        color: 'white', border: 'none', borderRadius: 9,
+        padding: '7px 13px', fontSize: 11, fontWeight: 700,
+        cursor: syncing ? 'default' : 'pointer',
+        display: 'flex', alignItems: 'center', gap: 5, whiteSpace: 'nowrap',
+      }}>
+        <span style={{ animation: syncing ? 'spin 1s linear infinite' : 'none', display: 'inline-block' }}>🌍</span>
+        {syncing ? 'KI übersetzt…' : 'Sprachen sync'}
+      </button>
+      {result && <div style={{ fontSize: 10, color: '#1e40af', marginTop: 4, maxWidth: 180 }}>{result}</div>}
+    </div>
+  )
+}
+
 // ── Matrix-Sync-Button ───────────────────────────────────────────────────────
 
 function SyncMatrixButton({ onSync }: { onSync: (newCombos: CombinationRow[]) => void }) {
@@ -1015,17 +1047,17 @@ function SynonymManager() {
                 marginBottom: 20, display: 'flex', gap: 14, alignItems: 'flex-start',
               }}>
                 <span style={{ fontSize: 20, flexShrink: 0 }}>🔤</span>
-                <div>
+                <div style={{ flex: 1 }}>
                   <p style={{ margin: '0 0 3px', fontSize: 13, fontWeight: 700, color: '#1e3a5f' }}>
                     Wie Synonyme die KI verbessern
                   </p>
                   <p style={{ margin: 0, fontSize: 12, color: '#374151', lineHeight: 1.6 }}>
-                    Fragt ein Nutzer nach „Rasterwalze", erweitert die KI die Suche auf alle Synonyme dieser Gruppe.
-                    <strong> Basis-Gruppen</strong> (Objekte) × <strong>Modifikator-Gruppen</strong> (Aktionen) erzeugen
-                    in der Matrix zusätzliche Kombinationsbegriffe wie „Aniloxreinigung".
-                    Nach jedem Crawl werden neue Synonyme automatisch abgeleitet.
+                    Die KI sucht in allen Sprachen gleichzeitig — jede Gruppe enthält Begriffe auf DE, EN, FR, ES, IT, NL, PL, PT und weiteren Sprachen.
+                    Anfragen auf Französisch, Chinesisch oder Polnisch finden dieselben Inhalte wie auf Deutsch.
+                    Nach jedem Crawl werden neue Synonyme automatisch mehrsprachig ergänzt.
                   </p>
                 </div>
+                <MultilingualSyncButton onDone={load} />
               </div>
 
               {/* Neue Gruppe */}
