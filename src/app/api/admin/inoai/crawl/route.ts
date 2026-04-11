@@ -1,53 +1,51 @@
 // @ts-nocheck
 import { createClient } from '@/lib/supabase/server'
-import { runCrawl } from '@/lib/inoai/crawler'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { NextResponse } from 'next/server'
 
-export const maxDuration = 60
-
-export async function POST(req: Request) {
+async function guard() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return new Response('Unauthorized', { status: 401 })
+  if (!user) return false
+  const { data: p } = await supabase.from('profiles').select('is_platform_admin').eq('id', user.id).single()
+  return !!p?.is_platform_admin
+}
 
-  const { data: profile } = await supabase
-    .from('profiles').select('is_platform_admin').eq('id', user.id).single()
-  if (!profile?.is_platform_admin) return new Response('Forbidden', { status: 403 })
+// Job starten – erzeugt DB-Eintrag, Cron übernimmt Ausführung
+export async function POST(req: Request) {
+  if (!await guard()) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  const { crawlerId } = await req.json()
+  if (!crawlerId) return NextResponse.json({ error: 'crawlerId fehlt' }, { status: 400 })
 
-  const { crawlerId, resume } = await req.json()
-  if (!crawlerId) return new Response('crawlerId fehlt', { status: 400 })
+  const admin = createAdminClient()
 
-  const encoder = new TextEncoder()
-  const stream = new ReadableStream({
-    async start(controller) {
-      function log(msg: string) {
-        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ msg })}\n\n`))
-      }
-      try {
-        if (!resume) log(`🚀 Starte Crawler "${crawlerId}"…`)
-        const result = await runCrawl(crawlerId, log, resume ?? undefined)
+  // Laufende/ausstehende Jobs für diesen Crawler beenden
+  await admin.from('inoai_crawl_jobs')
+    .update({ status: 'error', finished_at: new Date().toISOString() })
+    .eq('crawler_id', crawlerId)
+    .in('status', ['queued', 'running', 'paused'])
 
-        if (result.done) {
-          const s = result.stats
-          log(`\n✅ Fertig! ${s.pagesFound} Seiten · ${s.pdfsFound} PDFs · ${s.chunksInserted} Chunks · ${s.errors} Fehler`)
-          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ done: true, stats: s })}\n\n`))
-        } else {
-          // Noch nicht fertig – Client soll nächste Instanz starten
-          controller.enqueue(encoder.encode(`data: ${JSON.stringify({ continue: true, resume: result.resume, stats: result.stats })}\n\n`))
-        }
-      } catch (e: any) {
-        log(`❌ Fehler: ${e.message}`)
-        controller.enqueue(encoder.encode(`data: ${JSON.stringify({ done: true, error: e.message })}\n\n`))
-      } finally {
-        controller.close()
-      }
-    },
-  })
+  const { data: job, error } = await admin.from('inoai_crawl_jobs').insert({
+    crawler_id: crawlerId,
+    status: 'queued',
+    log: ['⏳ In Warteschlange – Cron startet in Kürze…'],
+  }).select().single()
 
-  return new Response(stream, {
-    headers: {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache',
-      'Connection': 'keep-alive',
-    },
-  })
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  return NextResponse.json({ jobId: job.id })
+}
+
+// Job abbrechen
+export async function DELETE(req: Request) {
+  if (!await guard()) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  const { jobId } = await req.json()
+  if (!jobId) return NextResponse.json({ error: 'jobId fehlt' }, { status: 400 })
+
+  const admin = createAdminClient()
+  await admin.from('inoai_crawl_jobs')
+    .update({ status: 'error', finished_at: new Date().toISOString() })
+    .eq('id', jobId)
+    .in('status', ['queued', 'running', 'paused'])
+
+  return NextResponse.json({ ok: true })
 }

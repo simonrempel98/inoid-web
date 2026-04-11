@@ -5,9 +5,13 @@ import { INOaiAdminClient } from './inoai-admin-client'
 export default async function AdminINOaiPage() {
   const admin = createAdminClient()
 
-  const [{ data: crawlers }, { data: rows }] = await Promise.all([
+  const [{ data: crawlers }, { data: rows }, { data: jobRows }] = await Promise.all([
     admin.from('inoai_crawlers').select('*').order('created_at'),
     admin.from('inometa_knowledge').select('crawler_id, source_url, source_type, created_at'),
+    admin.from('inoai_crawl_jobs')
+      .select('id, crawler_id, status, stats, diff, created_at, started_at, finished_at')
+      .order('created_at', { ascending: false })
+      .limit(50),
   ])
 
   const perCrawler: Record<string, { chunks: number; pages: number; docs: number; lastUpdated: string | null }> = {}
@@ -37,10 +41,17 @@ export default async function AdminINOaiPage() {
     perCrawler[id].docs = docUrls[id]?.size ?? 0
   }
 
+  // Letzten Job pro Crawler für Admin-UI
+  const latestJobs: Record<string, object> = {}
+  for (const job of jobRows ?? []) {
+    if (!latestJobs[job.crawler_id]) latestJobs[job.crawler_id] = job
+  }
+
   return (
     <INOaiAdminClient
       initialCrawlers={crawlers ?? []}
       initialStats={perCrawler}
+      initialJobs={latestJobs}
       total={total}
     />
   )

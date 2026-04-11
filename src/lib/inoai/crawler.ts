@@ -180,6 +180,95 @@ export type CrawlResult = {
   stats: CrawlStats
 }
 
+// ── DB-Job-basierter Crawl (browserunabhängig) ───────────────────────────────
+
+export async function runCrawlJob(jobId: string): Promise<void> {
+  const admin = createAdminClient()
+
+  const { data: job, error: jobErr } = await admin
+    .from('inoai_crawl_jobs').select('*').eq('id', jobId).single()
+  if (jobErr || !job) throw new Error(`Job nicht gefunden: ${jobId}`)
+
+  if (job.status === 'done' || job.status === 'error') return
+
+  await admin.from('inoai_crawl_jobs').update({
+    status: 'running',
+    started_at: job.started_at ?? new Date().toISOString(),
+  }).eq('id', jobId)
+
+  // Puffer für Log-Einträge – in Gruppen in DB schreiben
+  const flushedLog: string[] = [...(job.log ?? [])]
+  const pending: string[] = []
+
+  async function flushLog(force = false) {
+    if (!force && pending.length < 8) return
+    if (pending.length === 0) return
+    flushedLog.push(...pending.splice(0))
+    await admin.from('inoai_crawl_jobs').update({ log: flushedLog }).eq('id', jobId)
+  }
+
+  function log(msg: string) {
+    pending.push(msg)
+    flushLog() // fire-and-forget
+  }
+
+  try {
+    const resume = job.resume_state as ResumeState | undefined
+
+    // Vor erstem Crawl: bestehende URLs snapshotten (für Diff)
+    let beforeUrls: string[] = (job.diff as any)?.before ?? []
+    if (!resume && beforeUrls.length === 0) {
+      const { data: existing } = await admin
+        .from('inometa_knowledge').select('source_url').eq('crawler_id', job.crawler_id)
+      beforeUrls = [...new Set((existing ?? []).map((r: any) => r.source_url))]
+    }
+
+    const result = await runCrawl(job.crawler_id, log, resume)
+    await flushLog(true)
+
+    if (result.done) {
+      const { data: newRows } = await admin
+        .from('inometa_knowledge').select('source_url').eq('crawler_id', job.crawler_id)
+      const afterUrls = [...new Set((newRows ?? []).map((r: any) => r.source_url))]
+      const beforeSet = new Set(beforeUrls)
+      const afterSet = new Set(afterUrls)
+      const added = afterUrls.filter(u => !beforeSet.has(u))
+      const removed = beforeUrls.filter(u => !afterSet.has(u))
+
+      const s = result.stats
+      log(`\n✅ Fertig! ${s.pagesFound} Seiten · ${s.pdfsFound} PDFs · ${s.chunksInserted} Chunks · ${s.errors} Fehler`)
+      if (beforeUrls.length > 0) {
+        if (added.length > 0) log(`📈 ${added.length} neue Seiten/Dokumente`)
+        if (removed.length > 0) log(`📉 ${removed.length} entfernt`)
+        if (added.length === 0 && removed.length === 0) log(`↔ Keine Änderungen gegenüber letztem Crawl`)
+      }
+      await flushLog(true)
+
+      await admin.from('inoai_crawl_jobs').update({
+        status: 'done',
+        stats: result.stats as any,
+        diff: { added, removed, before: beforeUrls } as any,
+        resume_state: null,
+        finished_at: new Date().toISOString(),
+      }).eq('id', jobId)
+    } else {
+      await admin.from('inoai_crawl_jobs').update({
+        status: 'paused',
+        stats: result.stats as any,
+        resume_state: result.resume as any,
+        diff: { before: beforeUrls } as any,
+      }).eq('id', jobId)
+    }
+  } catch (e: any) {
+    pending.push(`❌ Fehler: ${e.message}`)
+    await flushLog(true)
+    await admin.from('inoai_crawl_jobs').update({
+      status: 'error',
+      finished_at: new Date().toISOString(),
+    }).eq('id', jobId)
+  }
+}
+
 export async function runCrawl(
   crawlerId: string,
   log: (msg: string) => void,
