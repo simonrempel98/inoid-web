@@ -553,9 +553,23 @@ export function INOaiAdminClient({
         <SynonymManager />
       </div>
 
+      <div style={{ marginTop: 40, borderTop: '1px solid var(--adm-border)', paddingTop: 32 }}>
+        <PdfLibrary crawlers={crawlers} />
+      </div>
+
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>
   )
+}
+
+// ── PDF-Bibliothek ───────────────────────────────────────────────────────────
+
+type PdfDoc = {
+  title: string
+  source_url: string
+  language: string
+  crawler_id: string
+  created_at: string
 }
 
 // ── Synonym-Manager ──────────────────────────────────────────────────────────
@@ -1366,6 +1380,220 @@ function SynonymManager() {
               />
             </div>
           )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── PDF-Bibliothek ───────────────────────────────────────────────────────────
+
+const LANG_LABELS: Record<string, string> = {
+  de: 'DE', en: 'EN', fr: 'FR', es: 'ES', it: 'IT', pt: 'PT', nl: 'NL', pl: 'PL',
+  tr: 'TR', ru: 'RU', uk: 'UK', bg: 'BG', ro: 'RO', cs: 'CS', sk: 'SK', hu: 'HU',
+  hr: 'HR', sr: 'SR', el: 'EL', fi: 'FI', sv: 'SV', da: 'DA', no: 'NO', lt: 'LT',
+  lv: 'LV', et: 'ET', ja: 'JA', zh: 'ZH',
+}
+
+function PdfLibrary({ crawlers }: { crawlers: CrawlerRow[] }) {
+  const [docs, setDocs] = useState<PdfDoc[]>([])
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
+  const [filterCrawler, setFilterCrawler] = useState('all')
+  const [filterLang, setFilterLang] = useState('all')
+  const [collapsed, setCollapsed] = useState<Set<string>>(new Set())
+
+  useEffect(() => { load() }, [])
+
+  async function load() {
+    setLoading(true)
+    const res = await fetch('/api/admin/inoai/pdfs')
+    if (res.ok) {
+      const data = await res.json()
+      setDocs(data.pdfs ?? [])
+    }
+    setLoading(false)
+  }
+
+  const crawlerNames = new Map(crawlers.map(c => [c.id, c.name]))
+  const langs = [...new Set(docs.map(d => d.language))].sort()
+  const crawlerIds = [...new Set(docs.map(d => d.crawler_id))]
+
+  const q = search.trim().toLowerCase()
+  const filtered = docs.filter(d => {
+    if (filterCrawler !== 'all' && d.crawler_id !== filterCrawler) return false
+    if (filterLang !== 'all' && d.language !== filterLang) return false
+    if (q && !d.title.toLowerCase().includes(q)) return false
+    return true
+  })
+
+  // Group by crawler_id
+  const groups = new Map<string, PdfDoc[]>()
+  for (const d of filtered) {
+    if (!groups.has(d.crawler_id)) groups.set(d.crawler_id, [])
+    groups.get(d.crawler_id)!.push(d)
+  }
+
+  function toggleCollapse(id: string) {
+    setCollapsed(prev => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  return (
+    <div>
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+        <div>
+          <h2 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: 'var(--adm-text)' }}>
+            📄 Dokumente
+          </h2>
+          <p style={{ margin: '2px 0 0', fontSize: 12, color: 'var(--adm-text3)' }}>
+            {docs.length} PDFs · {crawlerIds.length} Quellen
+          </p>
+        </div>
+        <button onClick={load} disabled={loading} style={{
+          background: 'none', border: '1px solid var(--adm-border)', borderRadius: 6,
+          padding: '5px 12px', fontSize: 12, color: 'var(--adm-text3)', cursor: loading ? 'default' : 'pointer',
+        }}>
+          {loading ? '…' : '⟳ Aktualisieren'}
+        </button>
+      </div>
+
+      {/* Filter-Leiste */}
+      <div style={{ display: 'flex', gap: 8, marginBottom: 18, flexWrap: 'wrap' }}>
+        <input
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          placeholder="Titel suchen…"
+          style={{
+            flex: '1 1 180px', padding: '7px 12px', fontSize: 13, borderRadius: 6,
+            border: '1px solid var(--adm-border)', background: 'var(--adm-card)',
+            color: 'var(--adm-text)', outline: 'none',
+          }}
+        />
+        <select
+          value={filterCrawler}
+          onChange={e => setFilterCrawler(e.target.value)}
+          style={{
+            padding: '7px 10px', fontSize: 12, borderRadius: 6,
+            border: '1px solid var(--adm-border)', background: 'var(--adm-card)',
+            color: 'var(--adm-text)', cursor: 'pointer',
+          }}
+        >
+          <option value="all">Alle Quellen</option>
+          {crawlerIds.map(id => (
+            <option key={id} value={id}>{crawlerNames.get(id) ?? id}</option>
+          ))}
+        </select>
+        <select
+          value={filterLang}
+          onChange={e => setFilterLang(e.target.value)}
+          style={{
+            padding: '7px 10px', fontSize: 12, borderRadius: 6,
+            border: '1px solid var(--adm-border)', background: 'var(--adm-card)',
+            color: 'var(--adm-text)', cursor: 'pointer',
+          }}
+        >
+          <option value="all">Alle Sprachen</option>
+          {langs.map(l => (
+            <option key={l} value={l}>{LANG_LABELS[l] ?? l.toUpperCase()}</option>
+          ))}
+        </select>
+        {(q || filterCrawler !== 'all' || filterLang !== 'all') && (
+          <button onClick={() => { setSearch(''); setFilterCrawler('all'); setFilterLang('all') }} style={{
+            background: 'none', border: '1px solid var(--adm-border)', borderRadius: 6,
+            padding: '7px 10px', fontSize: 12, color: 'var(--adm-text3)', cursor: 'pointer',
+          }}>✕ Reset</button>
+        )}
+      </div>
+
+      {/* Ergebnis */}
+      {loading ? (
+        <p style={{ color: 'var(--adm-text3)', fontSize: 13 }}>Lade…</p>
+      ) : filtered.length === 0 ? (
+        <p style={{ color: 'var(--adm-text3)', fontSize: 13 }}>Keine Dokumente gefunden.</p>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          {Array.from(groups.entries()).map(([crawlerId, pdfs]) => {
+            const name = crawlerNames.get(crawlerId) ?? crawlerId
+            const isCollapsed = collapsed.has(crawlerId)
+            return (
+              <div key={crawlerId} style={{
+                border: '1px solid var(--adm-border)', borderRadius: 10, overflow: 'hidden',
+              }}>
+                {/* Cluster-Header */}
+                <button
+                  onClick={() => toggleCollapse(crawlerId)}
+                  style={{
+                    width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '10px 14px', background: 'var(--adm-card)', border: 'none',
+                    cursor: 'pointer', textAlign: 'left',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--adm-text)' }}>{name}</span>
+                    <span style={{
+                      fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
+                      background: '#003366', color: '#93c5fd',
+                    }}>{pdfs.length} PDFs</span>
+                  </div>
+                  <span style={{ fontSize: 11, color: 'var(--adm-text3)' }}>{isCollapsed ? '▶' : '▼'}</span>
+                </button>
+
+                {/* PDF-Liste */}
+                {!isCollapsed && (
+                  <div style={{ borderTop: '1px solid var(--adm-border)' }}>
+                    {pdfs.map((doc, i) => {
+                      const filename = decodeURIComponent(doc.source_url.split('/').pop() ?? doc.source_url)
+                      const date = new Date(doc.created_at).toLocaleDateString('de', { day: '2-digit', month: '2-digit', year: '2-digit' })
+                      const lang = LANG_LABELS[doc.language] ?? doc.language.toUpperCase()
+                      const isEven = i % 2 === 0
+                      return (
+                        <div key={doc.source_url} style={{
+                          display: 'flex', alignItems: 'center', gap: 10,
+                          padding: '8px 14px',
+                          background: isEven ? 'transparent' : 'rgba(0,0,0,0.04)',
+                          borderTop: i > 0 ? '1px solid var(--adm-border)' : undefined,
+                        }}>
+                          <span style={{ fontSize: 15, flexShrink: 0 }}>📄</span>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <p style={{
+                              margin: 0, fontSize: 13, fontWeight: 600, color: 'var(--adm-text)',
+                              whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                            }} title={doc.title}>{doc.title}</p>
+                            <p style={{
+                              margin: '1px 0 0', fontSize: 11, color: 'var(--adm-text3)',
+                              whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                            }} title={filename}>{filename}</p>
+                          </div>
+                          <span style={{
+                            fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 20, flexShrink: 0,
+                            background: '#1e3a5f', color: '#93c5fd',
+                          }}>{lang}</span>
+                          <span style={{ fontSize: 11, color: 'var(--adm-text3)', flexShrink: 0, minWidth: 50, textAlign: 'right' }}>{date}</span>
+                          <a
+                            href={doc.source_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            style={{
+                              flexShrink: 0, fontSize: 12, padding: '3px 8px', borderRadius: 5,
+                              border: '1px solid var(--adm-border)', color: 'var(--adm-text3)',
+                              textDecoration: 'none', lineHeight: 1,
+                            }}
+                            title="PDF öffnen"
+                          >↗</a>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
+              </div>
+            )
+          })}
         </div>
       )}
     </div>
