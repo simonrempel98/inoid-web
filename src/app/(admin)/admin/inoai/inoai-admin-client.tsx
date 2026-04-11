@@ -1095,9 +1095,8 @@ function SynonymManager() {
                     Wie Synonyme die KI verbessern
                   </p>
                   <p style={{ margin: 0, fontSize: 12, color: '#374151', lineHeight: 1.6 }}>
-                    Die KI sucht in allen Sprachen gleichzeitig — jede Gruppe enthält Begriffe auf DE, EN, FR, ES, IT, NL, PL, PT und weiteren Sprachen.
-                    Anfragen auf Französisch, Chinesisch oder Polnisch finden dieselben Inhalte wie auf Deutsch.
-                    Nach jedem Crawl werden neue Synonyme automatisch mehrsprachig ergänzt.
+                    Die KI sucht in allen 28 App-Sprachen gleichzeitig — DE, EN, FR, ES, IT, PT, NL, PL, TR, RU, UK, BG, RO, CS, SK, HU, HR, SR, EL, FI, SV, DA, NO, LT, LV, ET, JA, ZH.
+                    Nach jedem Crawl werden alle Synonym-Gruppen automatisch mehrsprachig angereichert.
                   </p>
                 </div>
                 <MultilingualSyncButton onDone={load} />
