@@ -1582,7 +1582,6 @@ function PdfLibrary({ crawlers }: { crawlers: CrawlerRow[] }) {
   const [docs, setDocs] = useState<PdfDoc[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [debug, setDebug] = useState<{ total: number; typeCounts: Record<string, number> } | null>(null)
   const [search, setSearch] = useState('')
   const [filterCrawler, setFilterCrawler] = useState('all')
   const [filterLang, setFilterLang] = useState('all')
@@ -1598,7 +1597,6 @@ function PdfLibrary({ crawlers }: { crawlers: CrawlerRow[] }) {
       const data = await res.json()
       if (!res.ok) { setError(data.error ?? `HTTP ${res.status}`); setLoading(false); return }
       setDocs(data.pdfs ?? [])
-      if (data._debug) setDebug(data._debug)
     } catch (e: any) {
       setError(e.message)
     }
@@ -1700,13 +1698,6 @@ function PdfLibrary({ crawlers }: { crawlers: CrawlerRow[] }) {
           }}>✕ Reset</button>
         )}
       </div>
-
-      {/* Debug-Info */}
-      {debug && (
-        <div style={{ marginBottom: 12, padding: '8px 12px', background: '#0d1117', borderRadius: 6, border: '1px solid #30363d', fontSize: 11, color: '#8b949e', fontFamily: 'monospace' }}>
-          DB gesamt: {debug.total} Zeilen · Typen: {Object.entries(debug.typeCounts).map(([t, n]) => `${t}=${n}`).join(', ') || '(leer)'}
-        </div>
-      )}
 
       {/* Ergebnis */}
       {loading ? (
