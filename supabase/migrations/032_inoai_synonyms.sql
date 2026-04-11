@@ -22,7 +22,7 @@ CREATE OR REPLACE FUNCTION search_inometa_knowledge(
   max_results int DEFAULT 6
 )
 RETURNS TABLE (
-  id          bigint,
+  id          uuid,
   title       text,
   content     text,
   source_url  text,
