@@ -157,16 +157,22 @@ export default async function AssetsPage({
                     overflow: 'hidden',
                   }}>
                     {asset.image_urls?.[0] ? (
-                      <img src={asset.image_urls[0]} alt={asset.title}
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    ) : (
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="#96aed2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="3" y="3" width="18" height="18" rx="2"/>
-                        <circle cx="8.5" cy="8.5" r="1.5"/>
-                        <polyline points="21 15 16 10 5 21"/>
-                      </svg>
-                    )}
+                      <img src={asset.image_urls[0]} alt=""
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        onError={e => {
+                          const img = e.currentTarget
+                          img.style.display = 'none'
+                          const svg = img.nextElementSibling as HTMLElement | null
+                          if (svg) svg.style.display = 'block'
+                        }} />
+                    ) : null}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                      stroke="#96aed2" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
+                      style={{ display: asset.image_urls?.[0] ? 'none' : 'block' }}>
+                      <rect x="3" y="3" width="18" height="18" rx="2"/>
+                      <circle cx="8.5" cy="8.5" r="1.5"/>
+                      <polyline points="21 15 16 10 5 21"/>
+                    </svg>
                   </div>
 
                   {/* Info */}

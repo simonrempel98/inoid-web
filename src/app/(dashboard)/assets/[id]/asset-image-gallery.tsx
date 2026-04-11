@@ -3,9 +3,26 @@
 import { useState } from 'react'
 import { Search } from 'lucide-react'
 
+function ImagePlaceholder({ size = 48 }: { size?: number }) {
+  return (
+    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f4f6f9' }}>
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="#c8d4e8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+    </div>
+  )
+}
+
 export function AssetImageGallery({ imageUrls, title }: { imageUrls: string[]; title: string }) {
   const [activeIndex, setActiveIndex] = useState(0)
   const [lightbox, setLightbox] = useState(false)
+  const [broken, setBroken] = useState<Set<number>>(new Set())
+
+  function markBroken(i: number) {
+    setBroken(prev => new Set(prev).add(i))
+  }
 
   if (imageUrls.length === 0) {
     return (
@@ -13,11 +30,7 @@ export function AssetImageGallery({ imageUrls, title }: { imageUrls: string[]; t
         width: '100%', aspectRatio: '16/9', maxHeight: 260,
         backgroundColor: '#f4f6f9', display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#c8d4e8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="3" y="3" width="18" height="18" rx="2"/>
-          <circle cx="8.5" cy="8.5" r="1.5"/>
-          <polyline points="21 15 16 10 5 21"/>
-        </svg>
+        <ImagePlaceholder size={48} />
       </div>
     )
   }
@@ -29,12 +42,19 @@ export function AssetImageGallery({ imageUrls, title }: { imageUrls: string[]; t
     <>
       {/* Hauptbild */}
       <div style={{ position: 'relative', width: '100%', backgroundColor: '#f4f6f9', overflow: 'hidden', maxHeight: 300 }}>
-        <img
-          src={imageUrls[activeIndex]}
-          alt={title}
-          onClick={() => setLightbox(true)}
-          style={{ width: '100%', maxHeight: 300, objectFit: 'cover', display: 'block', cursor: 'zoom-in' }}
-        />
+        {broken.has(activeIndex) ? (
+          <div style={{ width: '100%', height: 220, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <ImagePlaceholder size={48} />
+          </div>
+        ) : (
+          <img
+            src={imageUrls[activeIndex]}
+            alt={title}
+            onClick={() => setLightbox(true)}
+            onError={() => markBroken(activeIndex)}
+            style={{ width: '100%', maxHeight: 300, objectFit: 'cover', display: 'block', cursor: 'zoom-in' }}
+          />
+        )}
 
         {/* Pfeil links */}
         {imageUrls.length > 1 && (
@@ -99,8 +119,13 @@ export function AssetImageGallery({ imageUrls, title }: { imageUrls: string[]; t
                 border: `2px solid ${i === activeIndex ? '#003366' : '#c8d4e8'}`,
                 overflow: 'hidden', cursor: 'pointer', background: 'none',
               }}>
-              <img src={url} alt={`Bild ${i + 1}`}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              {broken.has(i) ? (
+                <ImagePlaceholder size={24} />
+              ) : (
+                <img src={url} alt=""
+                  onError={() => markBroken(i)}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              )}
             </button>
           ))}
         </div>
@@ -116,12 +141,17 @@ export function AssetImageGallery({ imageUrls, title }: { imageUrls: string[]; t
             flexDirection: 'column', gap: 16,
           }}
         >
-          <img
-            src={imageUrls[activeIndex]}
-            alt={title}
-            onClick={e => e.stopPropagation()}
-            style={{ maxWidth: '95vw', maxHeight: '80vh', objectFit: 'contain', borderRadius: 8 }}
-          />
+          {broken.has(activeIndex) ? (
+            <div style={{ width: 300, height: 200 }}><ImagePlaceholder size={48} /></div>
+          ) : (
+            <img
+              src={imageUrls[activeIndex]}
+              alt={title}
+              onClick={e => e.stopPropagation()}
+              onError={() => markBroken(activeIndex)}
+              style={{ maxWidth: '95vw', maxHeight: '80vh', objectFit: 'contain', borderRadius: 8 }}
+            />
+          )}
 
           {/* Lightbox Navigation */}
           {imageUrls.length > 1 && (
@@ -154,7 +184,10 @@ export function AssetImageGallery({ imageUrls, title }: { imageUrls: string[]; t
                     border: `2px solid ${i === activeIndex ? 'white' : 'rgba(255,255,255,0.2)'}`,
                     overflow: 'hidden', cursor: 'pointer', background: 'none',
                   }}>
-                  <img src={url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  {broken.has(i) ? <ImagePlaceholder size={20} /> : (
+                    <img src={url} alt="" onError={() => markBroken(i)}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                  )}
                 </button>
               ))}
             </div>
