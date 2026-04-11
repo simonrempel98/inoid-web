@@ -2,6 +2,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { runCrawlJob } from '@/lib/inoai/crawler'
+import { waitUntil } from '@vercel/functions'
 import { NextResponse } from 'next/server'
 
 export const maxDuration = 60
@@ -36,8 +37,8 @@ export async function POST(req: Request) {
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
-  // Sofort starten (fire-and-forget) – Cron übernimmt Fortsetzung nach Pausen
-  runCrawlJob(job.id).catch(console.error)
+  // Sofort starten – waitUntil hält die Serverless Function am Leben bis zum Ende
+  waitUntil(runCrawlJob(job.id))
 
   return NextResponse.json({ jobId: job.id })
 }
