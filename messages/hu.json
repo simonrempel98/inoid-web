@@ -807,8 +807,8 @@
       "sub": "Az INOid az Ön digitális eszközkezelő rendszere — üzembe helyezéstől a kivonásig. 5 percen belül kész.",
       "s1val": "5 min",
       "s1label": "az első eszközig",
-      "s2val": "9+",
-      "s2label": "funkcionális terület",
+      "s2val": "11+",
+      "s2label": "funkciós terület",
       "s3val": "100%",
       "s3label": "böngészőalapú"
     },
@@ -831,7 +831,9 @@
       "s3title": "Szervizrekord létrehozása",
       "s3desc": "Nyisson meg egy eszközt → Szerviznapló → \"+ Bejegyzés\". Dokumentálja a karbantartást, javításokat és ellenőrzéseket.",
       "s4title": "Karbantartási intervallum beállítása",
-      "s4desc": "A szerviznaplóban → \"+ Intervallum\". Válasszon intervallumot (heti-től 2 évente) és állítsa be a következő határidőt."
+      "s4desc": "A szerviznaplóban → \"+ Intervallum\". Válasszon intervallumot (heti-től 2 évente) és állítsa be a következő határidőt.",
+      "s5title": "INOai kérdezése",
+      "s5desc": "Nyissa meg az INOai-t a navigációban. Tegyen fel termékkérdéseket INOMETA hengerekről, kaparólapokról és hüvelyekről — minden válasz megadja a forrásait."
     },
     "feat": {
       "intro": "Koppintson egy funkcióra a részletek megtekintéséhez.",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "AI",
-              "desc": "Your AI assistant for product and technology questions. Based on real INOMETA website content and datasheets.",
-              "points": [
-                      "Ask questions about INOMETA products",
-                      "Answers based on crawled websites and PDFs",
-                      "Shows sources for every answer",
-                      "Multilingual content supported",
-                      "Optional add-on module"
-              ]
+        "title": "INOai",
+        "badge": "AI",
+        "desc": "AI-asszisztense INOMETA termékekhez, hengertechnológiához és flexográfiai nyomtatáshoz. Weboldalak, adatlapok és feltöltött dokumentumok valódi tartalmán alapul — azonnal válaszol, minden beszélgetést ment.",
+        "points": [
+          "Raszteres hengerekre, kaparólapokra, hüvelyekre és flexonyomtatásra vonatkozó kérdések azonnali megválaszolása",
+          "Feltérképezett weboldalak, PDF-ek és manuálisan feltöltött dokumentumok alapján adott válaszok",
+          "Strukturált kimenet: táblázatok, félkövér szöveg, kódblokkok és számozott listák (Markdown)",
+          "Minden válasznál idézett források — weboldal, adatlap vagy dokumentum",
+          "Teljes beszélgetési előzmények: minden csevegés automatikusan mentésre kerül",
+          "Korábbi beszélgetések betöltése és folytatása egyetlen érintéssel",
+          "Az Ön által írt nyelven válaszol — teljesen többnyelvű",
+          "Opcionális kiegészítő modul — az adminisztrátor aktiválhatja"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "Profil",
           "b": "Bal oldalsáv → Profil és beállítások"
+        },
+        {
+          "a": "INOai",
+          "b": "Oldalsáv / Alsó nav → INOai (✦)"
         }
       ],
       "contactTitle": "Van még kérdése?",
-      "contactDesc": "Forduljon adminisztrátorához, vagy vegye fel a kapcsolatot az INOid támogatással közvetlenül az Inomet GmbH-n keresztül."
+      "contactDesc": "Forduljon adminisztrátorához, vagy vegye fel a kapcsolatot az INOid támogatással közvetlenül az Inomet GmbH-n keresztül.",
+      "t6": "Az INOid teljes mértékben optimalizálva van okostelefonokra: minden többoszlopos elrendezés egyetlen oszlopra szűkül mobilon, az INOai-csevegés pontosan kitölti a látható képernyőterületet, és a hosszú műszaki kifejezések mindig helyesen törnek."
     }
   },
   "eventTypes": {

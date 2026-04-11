@@ -807,8 +807,8 @@
       "sub": "INOid 是您的数字资产管理系统 — 从投入使用到退役。5分钟即可准备就绪。",
       "s1val": "5 min",
       "s1label": "到第一个资产",
-      "s2val": "9+",
-      "s2label": "功能领域",
+      "s2val": "11+",
+      "s2label": "功能区域",
       "s3val": "100%",
       "s3label": "基于浏览器"
     },
@@ -831,7 +831,9 @@
       "s3title": "创建服务记录",
       "s3desc": "打开资产 → 服务日志 → \"+ 记录\"。记录维护、维修和检查。",
       "s4title": "设置维护间隔",
-      "s4desc": "在服务日志中 → \"+ 间隔\"。选择间隔（每周至每两年），并设置下一个截止日期。"
+      "s4desc": "在服务日志中 → \"+ 间隔\"。选择间隔（每周至每两年），并设置下一个截止日期。",
+      "s5title": "询问 INOai",
+      "s5desc": "在导航栏中打开 INOai。提问有关 INOMETA 辊筒、刮墨刀和套筒的产品问题 — 每个回答都会引用来源。"
     },
     "feat": {
       "intro": "点击功能查看详情。",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "AI",
-              "desc": "Your AI assistant for product and technology questions. Based on real INOMETA website content and datasheets.",
-              "points": [
-                      "Ask questions about INOMETA products",
-                      "Answers based on crawled websites and PDFs",
-                      "Shows sources for every answer",
-                      "Multilingual content supported",
-                      "Optional add-on module"
-              ]
+        "title": "INOai",
+        "badge": "人工智能",
+        "desc": "您的 AI 助手，专为 INOMETA 产品、辊筒技术和柔版印刷设计。基于网站、数据表和上传文档的真实内容 — 即时回答，自动保存每次对话。",
+        "points": [
+          "关于网纹辊、刮墨刀、套筒和柔版印刷的问题即时回答",
+          "回答基于已爬取的网站、PDF 和手动上传的文档",
+          "结构化输出：表格、粗体文字、代码块和有序列表（Markdown）",
+          "每个回答都注明来源 — 网站、数据表或文档",
+          "完整的对话历史：每次聊天都自动保存",
+          "一键加载并继续之前的对话",
+          "以您书写的语言回答 — 完全多语言",
+          "可选附加模块 — 可由管理员激活"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "个人资料",
           "b": "左侧边栏 → 个人资料和设置"
+        },
+        {
+          "a": "INOai",
+          "b": "侧边栏 / 底部导航 → INOai (✦)"
         }
       ],
       "contactTitle": "还有问题？",
-      "contactDesc": "联系您的管理员或通过Inomet GmbH直接联系INOid支持团队。"
+      "contactDesc": "联系您的管理员或通过Inomet GmbH直接联系INOid支持团队。",
+      "t6": "INOid 完全针对智能手机进行了优化：所有多列布局在移动端折叠为单列，INOai 聊天精确填充可见屏幕区域，长技术术语始终正确换行。"
     }
   },
   "eventTypes": {

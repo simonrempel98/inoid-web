@@ -807,8 +807,8 @@
       "sub": "INOid on digitaalinen resurssinhallintajärjestelmäsi — käyttöönotosta käytöstäpoistoon. Valmis 5 minuutissa.",
       "s1val": "5 min",
       "s1label": "ensimmäiseen resurssiin",
-      "s2val": "9+",
-      "s2label": "toimintoaluetta",
+      "s2val": "11+",
+      "s2label": "toiminta-aluetta",
       "s3val": "100%",
       "s3label": "selainpohjainen"
     },
@@ -831,7 +831,9 @@
       "s3title": "Luo huoltomerkintä",
       "s3desc": "Avaa resurssi → Huoltoloki → \"+ Merkintä\". Dokumentoi huollot, korjaukset ja tarkastukset.",
       "s4title": "Aseta huoltoväli",
-      "s4desc": "Huoltologissa → \"+ Väli\". Valitse väli (viikoittain 2 vuoteen) ja aseta seuraava eräpäivä."
+      "s4desc": "Huoltologissa → \"+ Väli\". Valitse väli (viikoittain 2 vuoteen) ja aseta seuraava eräpäivä.",
+      "s5title": "Kysy INOailta",
+      "s5desc": "Avaa INOai navigoinnissa. Kysy tuotekysymyksiä INOMETA-teloista, raakeleista ja hihnoista — jokainen vastaus mainitsee lähteensä."
     },
     "feat": {
       "intro": "Napauta toimintoa nähdäksesi tiedot.",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "AI",
-              "desc": "Your AI assistant for product and technology questions. Based on real INOMETA website content and datasheets.",
-              "points": [
-                      "Ask questions about INOMETA products",
-                      "Answers based on crawled websites and PDFs",
-                      "Shows sources for every answer",
-                      "Multilingual content supported",
-                      "Optional add-on module"
-              ]
+        "title": "INOai",
+        "badge": "AI",
+        "desc": "AI-avustajasi INOMETA-tuotteille, telatekniikalle ja fleksopainatukselle. Perustuu todelliseen sisältöön verkkosivuilta, tietolehdistä ja ladatuista dokumenteista — vastaa välittömästi, tallentaa jokaisen keskustelun.",
+        "points": [
+          "Kysymykset rasteriteloista, raakeleista, hihnoista ja fleksopainatuksesta vastataan välittömästi",
+          "Vastaukset perustuvat indeksoituihin verkkosivuihin, PDF-tiedostoihin ja manuaalisesti ladattuihin dokumentteihin",
+          "Jäsennelty ulostulo: taulukot, lihavoitu teksti, koodilohkot ja järjestetyt luettelot (Markdown)",
+          "Lähteet mainittu jokaiselle vastaukselle — verkkosivusto, tietolehti tai dokumentti",
+          "Täydellinen keskusteluhistoria: jokainen chat tallennetaan automaattisesti",
+          "Lataa ja jatka aiempia keskusteluja yhdellä napautuksella",
+          "Vastaa kielelläsi — täysin monikielinen",
+          "Valinnainen lisämoduuli — järjestelmänvalvoja voi aktivoida"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "Profiili",
           "b": "Vasen sivupalkki → Profiili ja Asetukset"
+        },
+        {
+          "a": "INOai",
+          "b": "Sivupalkki / Alanavigaatio → INOai (✦)"
         }
       ],
       "contactTitle": "Onko lisäkysymyksiä?",
-      "contactDesc": "Ota yhteyttä järjestelmänvalvojaasi tai tavoita INOid-tuki suoraan Inomet GmbH:n kautta."
+      "contactDesc": "Ota yhteyttä järjestelmänvalvojaasi tai tavoita INOid-tuki suoraan Inomet GmbH:n kautta.",
+      "t6": "INOid on täysin optimoitu älypuhelimille: kaikki monisarakkeinen asettelu supistuu yhdeksi sarakkeeksi mobiilissa, INOai-chat täyttää täsmälleen näkyvän näyttöalueen ja pitkät tekniset termit katkeavat aina oikein."
     }
   },
   "eventTypes": {

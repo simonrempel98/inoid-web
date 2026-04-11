@@ -807,8 +807,8 @@
       "sub": "INOid je váš digitální systém správy aktiv — od uvedení do provozu po vyřazení. Připraveno za 5 minut.",
       "s1val": "5 min",
       "s1label": "do prvního aktiva",
-      "s2val": "9+",
-      "s2label": "funkční oblasti",
+      "s2val": "11+",
+      "s2label": "oblastí funkcí",
       "s3val": "100%",
       "s3label": "bez instalace aplikace"
     },
@@ -831,7 +831,9 @@
       "s3title": "Vytvořit záznam servisu",
       "s3desc": "Otevřete aktivum → Servisní deník → \"+ Záznam\". Dokumentujte údržbu, opravy a inspekce.",
       "s4title": "Nastavit interval údržby",
-      "s4desc": "V servisním deníku → \"+ Interval\". Vyberte interval (týdně až 2 roky) a nastavte příští termín."
+      "s4desc": "V servisním deníku → \"+ Interval\". Vyberte interval (týdně až 2 roky) a nastavte příští termín.",
+      "s5title": "Zeptat se INOai",
+      "s5desc": "Otevřete INOai v navigaci. Ptejte se na produkty INOMETA, válce, raklové nože a návleky — každá odpověď uvádí zdroje."
     },
     "feat": {
       "intro": "Klepněte na funkci pro zobrazení podrobností.",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "AI",
-              "desc": "Your AI assistant for product and technology questions. Based on real INOMETA website content and datasheets.",
-              "points": [
-                      "Ask questions about INOMETA products",
-                      "Answers based on crawled websites and PDFs",
-                      "Shows sources for every answer",
-                      "Multilingual content supported",
-                      "Optional add-on module"
-              ]
+        "title": "INOai",
+        "badge": "AI",
+        "desc": "Váš AI asistent pro produkty INOMETA, technologii válců a flexografický tisk. Vychází ze skutečného obsahu webových stránek, datových listů a nahraných dokumentů — odpovídá okamžitě, ukládá každý rozhovor.",
+        "points": [
+          "Otázky o rastrových válcích, raklových nožích, návlecích a flexotisku zodpovězeny okamžitě",
+          "Odpovědi na základě prohledaných webů, PDF a ručně nahraných dokumentů",
+          "Strukturovaný výstup: tabulky, tučné písmo, bloky kódu a číslované seznamy (Markdown)",
+          "Zdroje uvedeny u každé odpovědi — web, datový list nebo dokument",
+          "Kompletní historie konverzací: každý chat je automaticky uložen",
+          "Načtení a pokračování předchozích konverzací jedním klepnutím",
+          "Odpovídá v jazyce, ve kterém píšete — plně vícejazyčný",
+          "Volitelný doplňkový modul — aktivovatelný administrátorem"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "Profil",
           "b": "Levý postranní panel → Profil a Nastavení"
+        },
+        {
+          "a": "INOai",
+          "b": "Postranní panel / Spodní nav → INOai (✦)"
         }
       ],
       "contactTitle": "Máte další otázky?",
-      "contactDesc": "Obraťte se na svého administrátora nebo kontaktujte podporu INOid přímo přes Inomet GmbH."
+      "contactDesc": "Obraťte se na svého administrátora nebo kontaktujte podporu INOid přímo přes Inomet GmbH.",
+      "t6": "INOid je plně optimalizován pro chytré telefony: všechna vícesl sloupcová rozvržení se na mobilu sbalí do jednoho sloupce, chat INOai přesně vyplňuje viditelnou plochu obrazovky a dlouhé technické pojmy se vždy správně zalomí."
     }
   },
   "eventTypes": {

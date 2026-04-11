@@ -807,7 +807,7 @@
       "sub": "INOid es tu gestión digital de activos — desde la puesta en marcha hasta la retirada. Listo en 5 minutos.",
       "s1val": "5 min",
       "s1label": "hasta el primer activo",
-      "s2val": "9+",
+      "s2val": "11+",
       "s2label": "áreas de funciones",
       "s3val": "100%",
       "s3label": "basado en navegador"
@@ -831,7 +831,9 @@
       "s3title": "Crear entrada de servicio",
       "s3desc": "Abre un activo → Registro de servicio → \"+ Entrada\". Documenta mantenimientos, reparaciones e inspecciones.",
       "s4title": "Configurar intervalo de mantenimiento",
-      "s4desc": "En el registro → \"+ Intervalo\". Elige un intervalo (semanal a 2 años) y fija la próxima fecha."
+      "s4desc": "En el registro → \"+ Intervalo\". Elige un intervalo (semanal a 2 años) y fija la próxima fecha.",
+      "s5title": "Preguntar a INOai",
+      "s5desc": "Abre INOai en la navegación. Haz preguntas sobre rodillos INOMETA, cuchillas rasquetas y manguitos — cada respuesta cita sus fuentes."
     },
     "feat": {
       "intro": "Toca una función para ver los detalles.",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "IA",
-              "desc": "Tu asistente de IA para preguntas sobre productos y tecnología. Basado en el contenido real de los sitios web y hojas de datos de INOMETA.",
-              "points": [
-                      "Haz preguntas sobre productos INOMETA",
-                      "Respuestas basadas en páginas web y PDFs rastreados",
-                      "Muestra fuentes para cada respuesta",
-                      "Contenido multilingüe (DE, EN, ...)",
-                      "Módulo adicional opcional – activable por el administrador"
-              ]
+        "title": "INOai",
+        "badge": "IA",
+        "desc": "Tu asistente de IA para productos INOMETA, tecnología de rodillos e impresión flexográfica. Basado en contenido real de sitios web, fichas técnicas y documentos subidos — responde de inmediato, guarda cada conversación.",
+        "points": [
+          "Preguntas sobre rodillos anilox, cuchillas rasquetas, manguitos e impresión flexo respondidas al instante",
+          "Respuestas basadas en sitios web rastreados, PDFs y documentos subidos manualmente",
+          "Salida estructurada: tablas, negrita, bloques de código y listas ordenadas (Markdown)",
+          "Fuentes citadas para cada respuesta — sitio web, ficha técnica o documento",
+          "Historial completo de conversaciones: cada chat se guarda automáticamente",
+          "Cargar y continuar conversaciones anteriores con un toque",
+          "Responde en el idioma en que escribes — completamente multilingüe",
+          "Módulo adicional opcional — activable por el administrador"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "Perfil",
           "b": "Barra izquierda → Perfil & Ajustes"
+        },
+        {
+          "a": "INOai",
+          "b": "Barra lateral / Nav inferior → INOai (✦)"
         }
       ],
       "contactTitle": "¿Tienes más preguntas?",
-      "contactDesc": "Contacta a tu administrador o al soporte de INOid a través de Inomet GmbH."
+      "contactDesc": "Contacta a tu administrador o al soporte de INOid a través de Inomet GmbH.",
+      "t6": "INOid está completamente optimizado para smartphones: todos los diseños de varias columnas se contraen a una sola columna en móvil, el chat INOai llena exactamente el área de pantalla visible y los términos técnicos largos siempre se ajustan correctamente."
     }
   },
   "eventTypes": {

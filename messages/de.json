@@ -807,7 +807,7 @@
       "sub": "INOid ist dein digitales Betriebsmittelmanagement — von der Erstzulassung bis zur Entsorgung. In 5 Minuten ready.",
       "s1val": "5 min",
       "s1label": "bis zum ersten Asset",
-      "s2val": "9+",
+      "s2val": "11+",
       "s2label": "Feature-Bereiche",
       "s3val": "100%",
       "s3label": "browserbasiert"
@@ -831,7 +831,9 @@
       "s3title": "Serviceeintrag erstellen",
       "s3desc": "Öffne ein Asset → Serviceheft → „+ Eintrag“. Dokumentiere Wartungen, Reparaturen und Inspektionen.",
       "s4title": "Wartungsintervall einrichten",
-      "s4desc": "Im Serviceheft → „+ Intervall“. Wähle ein Intervall (wöchentlich bis 2-jährlich) und setze die nächste Fälligkeit."
+      "s4desc": "Im Serviceheft → „+ Intervall“. Wähle ein Intervall (wöchentlich bis 2-jährlich) und setze die nächste Fälligkeit.",
+      "s5title": "INOai fragen",
+      "s5desc": "Öffne INOai in der Navigation. Stelle Produktfragen zu INOMETA-Walzen, Rakelklingen und Sleeves — jede Antwort nennt ihre Quellen."
     },
     "feat": {
       "intro": "Tippe auf ein Feature, um Details zu sehen.",
@@ -961,13 +963,16 @@
       "f11": {
         "title": "INOai",
         "badge": "KI",
-        "desc": "Dein KI-Assistent für Produkt- und Technologiefragen. Basiert auf dem echten Inhalt der INOMETA-Webseiten und Datenblättern – beantwortet Fragen direkt aus der Wissensbasis.",
+        "desc": "Dein KI-Assistent für INOMETA-Produkte, Walzentechnologie und Flexodruck. Basiert auf echten Inhalten aus Webseiten, Datenblättern und hochgeladenen Dokumenten — antwortet sofort, speichert jedes Gespräch.",
         "points": [
-          "Stellt Fragen zu INOMETA-Produkten und Walzentechnologie",
-          "Antwortet auf Basis gecrawlter Webseiten und PDFs",
-          "Zeigt Quellen zu jeder Antwort an",
-          "Unterstützt mehrsprachige Inhalte (DE, EN, ...)",
-          "Opt-in Zusatzmodul – vom Admin aktivierbar"
+          "Fragen zu Rasterwalzen, Rakelklingen, Sleeves und Flexodruck sofort beantwortet",
+          "Antworten auf Basis gecrawlter Webseiten, PDFs und manuell hochgeladener Dokumente",
+          "Strukturierte Ausgabe: Tabellen, Fettschrift, Codeblöcke und Listen (Markdown)",
+          "Quellen für jede Antwort angegeben — Website, Datenblatt oder Dokument",
+          "Vollständiger Gesprächsverlauf: jeder Chat wird automatisch gespeichert",
+          "Frühere Gespräche mit einem Tipp laden und fortsetzen",
+          "Antwortet in der Sprache, in der du schreibst — vollständig mehrsprachig",
+          "Optionales Zusatzmodul — durch Admin aktivierbar"
         ]
       }
     },
@@ -1092,10 +1097,15 @@
         {
           "a": "Profil",
           "b": "Linke Sidebar → Profil & Einstellungen"
+        },
+        {
+          "a": "INOai",
+          "b": "Seitenleiste / Bottom-Nav → INOai (✦)"
         }
       ],
       "contactTitle": "Noch Fragen?",
-      "contactDesc": "Wende dich an deinen Administrator oder kontaktiere den INOid-Support direkt über Inomet GmbH."
+      "contactDesc": "Wende dich an deinen Administrator oder kontaktiere den INOid-Support direkt über Inomet GmbH.",
+      "t6": "INOid ist vollständig für Smartphones optimiert: Alle Mehrspaltenlayouts wechseln auf Mobile zu einer Spalte, der INOai-Chat füllt den sichtbaren Bereich exakt aus, und lange Fachbegriffe werden immer korrekt umgebrochen."
     }
   },
   "eventTypes": {

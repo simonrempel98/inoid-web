@@ -807,8 +807,8 @@
       "sub": "INOid ir jūsu digitālā aktīvu pārvaldības sistēma — no nodošanas ekspluatācijā līdz izņemšanai. Gatavs 5 minūtēs.",
       "s1val": "5 min",
       "s1label": "līdz pirmajam aktīvam",
-      "s2val": "9+",
-      "s2label": "funkcionālās jomas",
+      "s2val": "11+",
+      "s2label": "funkciju jomas",
       "s3val": "100%",
       "s3label": "pārlūkprogrammā"
     },
@@ -831,7 +831,9 @@
       "s3title": "Izveidot servisa ierakstu",
       "s3desc": "Atveriet aktīvu → Servisa žurnāls → \"+ Ieraksts\". Dokumentējiet apkopi, remontus un pārbaudes.",
       "s4title": "Iestatīt apkopes intervālu",
-      "s4desc": "Servisa žurnālā → \"+ Intervāls\". Izvēlieties intervālu (ik nedēļu līdz 2 gadiem) un iestatiet nākamo termiņu."
+      "s4desc": "Servisa žurnālā → \"+ Intervāls\". Izvēlieties intervālu (ik nedēļu līdz 2 gadiem) un iestatiet nākamo termiņu.",
+      "s5title": "Jautājiet INOai",
+      "s5desc": "Atveriet INOai navigācijā. Uzdodiet jautājumus par INOMETA produktiem, veltņiem, rakeles asmeņiem un piedurknēm — katra atbilde norāda avotus."
     },
     "feat": {
       "intro": "Pieskarieties funkcijai, lai redzētu informāciju.",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "AI",
-              "desc": "Your AI assistant for product and technology questions. Based on real INOMETA website content and datasheets.",
-              "points": [
-                      "Ask questions about INOMETA products",
-                      "Answers based on crawled websites and PDFs",
-                      "Shows sources for every answer",
-                      "Multilingual content supported",
-                      "Optional add-on module"
-              ]
+        "title": "INOai",
+        "badge": "AI",
+        "desc": "Jūsu AI asistents INOMETA produktiem, veltņu tehnoloģijai un fleksogrāfiskajai drukai. Balstīts uz reālu saturu no tīmekļa vietnēm, datu lapām un augšupielādētiem dokumentiem — atbild nekavējoties, saglabā katru sarunu.",
+        "points": [
+          "Jautājumi par rastrveltņiem, rakeles asmeņiem, piedurknēm un fleksodrukas tehnoloģiju atbildēti tūlīt",
+          "Atbildes pamatotas uz indeksētām tīmekļa vietnēm, PDF failiem un manuāli augšupielādētiem dokumentiem",
+          "Strukturēts izvads: tabulas, treknraksts, koda bloki un numurēti saraksti (Markdown)",
+          "Avoti norādīti katrai atbildei — tīmekļa vietne, datu lapa vai dokuments",
+          "Pilna sarunu vēsture: katra saruna tiek automātiski saglabāta",
+          "Ielādēt un turpināt iepriekšējās sarunas ar vienu pieskārienu",
+          "Atbild jūsu rakstītajā valodā — pilnīgi daudzvalodu",
+          "Izvēles papildu modulis — administrators var aktivizēt"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "Profils",
           "b": "Kreisā sānjosla → Profils un Iestatījumi"
+        },
+        {
+          "a": "INOai",
+          "b": "Sānu josla / Apakšnavigācija → INOai (✦)"
         }
       ],
       "contactTitle": "Vēl jautājumi?",
-      "contactDesc": "Sazinieties ar savu administratoru vai sazinieties ar INOid atbalstu tieši caur Inomet GmbH."
+      "contactDesc": "Sazinieties ar savu administratoru vai sazinieties ar INOid atbalstu tieši caur Inomet GmbH.",
+      "t6": "INOid ir pilnībā optimizēts viedtālruņiem: visi vairāksleju izkārtojumi mobilajā ierīcē saspiežas vienā slejā, INOai tērzēšana precīzi aizpilda redzamo ekrāna laukumu un gari tehniskie termini vienmēr tiek pareizi pārtraukti."
     }
   },
   "eventTypes": {

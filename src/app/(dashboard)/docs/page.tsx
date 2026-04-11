@@ -92,6 +92,7 @@ export default function DocsPage() {
     { step: '02', title: t('qs.s2title'), desc: t('qs.s2desc'), href: '/scan', color: '#003366' },
     { step: '03', title: t('qs.s3title'), desc: t('qs.s3desc'), href: '/assets', color: '#005c8a' },
     { step: '04', title: t('qs.s4title'), desc: t('qs.s4desc'), href: '/wartung', color: '#00a8c8' },
+    { step: '05', title: t('qs.s5title'), desc: t('qs.s5desc'), href: '/inoai', color: '#7c3aed' },
   ]
 
   const FEATURES: FeatureItem[] = [
@@ -121,6 +122,7 @@ export default function DocsPage() {
     { icon: ShieldCheck, text: t('tips.t3') },
     { icon: Smartphone, text: t('tips.t4') },
     { icon: Bell, text: t('tips.t5') },
+    { icon: Sparkles, text: t('tips.t6') },
   ]
 
   const NAV_ITEMS = t.raw('tips.nav') as { a: string; b: string }[]

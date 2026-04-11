@@ -807,7 +807,7 @@
       "sub": "INOid is your digital asset management system — from commissioning to decommissioning. Ready in 5 minutes.",
       "s1val": "5 min",
       "s1label": "to the first asset",
-      "s2val": "9+",
+      "s2val": "11+",
       "s2label": "feature areas",
       "s3val": "100%",
       "s3label": "browser-based"
@@ -831,7 +831,9 @@
       "s3title": "Create service entry",
       "s3desc": "Open an asset → Service log → \"+ Entry\". Document maintenance, repairs and inspections.",
       "s4title": "Set up maintenance interval",
-      "s4desc": "In the service log → \"+ Interval\". Choose an interval (weekly to 2-yearly) and set the next due date."
+      "s4desc": "In the service log → \"+ Interval\". Choose an interval (weekly to 2-yearly) and set the next due date.",
+      "s5title": "Ask INOai",
+      "s5desc": "Open INOai in the navigation. Ask product questions about INOMETA rolls, doctor blades, and sleeves — every answer cites its sources."
     },
     "feat": {
       "intro": "Tap a feature to see details.",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "AI",
-              "desc": "Your AI assistant for product and technology questions. Based on real content from INOMETA websites and datasheets – answers questions directly from the knowledge base.",
-              "points": [
-                      "Ask questions about INOMETA products and roll technology",
-                      "Answers based on crawled websites and PDFs",
-                      "Shows sources for every answer",
-                      "Supports multilingual content (DE, EN, ...)",
-                      "Optional add-on module – can be activated by admin"
-              ]
+        "title": "INOai",
+        "badge": "AI",
+        "desc": "Your AI assistant for INOMETA products, roll technology and flexographic printing. Based on real content from websites, datasheets and uploaded documents — answers immediately, saves every conversation.",
+        "points": [
+          "Questions about anilox rolls, doctor blades, sleeves and flexographic printing answered instantly",
+          "Answers based on crawled websites, PDFs and manually uploaded documents",
+          "Structured output: tables, bold text, code blocks and ordered lists (Markdown)",
+          "Sources cited for every answer — website, datasheet or document",
+          "Complete conversation history: every chat is automatically saved",
+          "Load and continue previous conversations with one tap",
+          "Answers in the language you write in — fully multilingual",
+          "Optional add-on module — can be activated by the admin"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "Profile",
           "b": "Left sidebar → Profile & Settings"
+        },
+        {
+          "a": "INOai",
+          "b": "Sidebar / Bottom Nav → INOai (✦)"
         }
       ],
       "contactTitle": "Still have questions?",
-      "contactDesc": "Contact your administrator or reach INOid support directly via Inomet GmbH."
+      "contactDesc": "Contact your administrator or reach INOid support directly via Inomet GmbH.",
+      "t6": "INOid is fully optimized for smartphones: all multi-column layouts collapse to a single column on mobile, the INOai chat fills the visible screen area exactly, and long technical terms always wrap correctly."
     }
   },
   "eventTypes": {

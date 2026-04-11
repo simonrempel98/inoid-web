@@ -807,7 +807,7 @@
       "sub": "INOid è la tua gestione digitale degli asset — dalla messa in servizio alla dismissione. Pronto in 5 minuti.",
       "s1val": "5 min",
       "s1label": "al primo asset",
-      "s2val": "9+",
+      "s2val": "11+",
       "s2label": "aree funzionali",
       "s3val": "100%",
       "s3label": "basato su browser"
@@ -831,7 +831,9 @@
       "s3title": "Crea voce di servizio",
       "s3desc": "Apri un asset → Registro di servizio → \"+ Voce\". Documenta manutenzioni, riparazioni e ispezioni.",
       "s4title": "Configura intervallo di manutenzione",
-      "s4desc": "Nel registro → \"+ Intervallo\". Scegli un intervallo e imposta la prossima scadenza."
+      "s4desc": "Nel registro → \"+ Intervallo\". Scegli un intervallo e imposta la prossima scadenza.",
+      "s5title": "Chiedi a INOai",
+      "s5desc": "Apri INOai nella navigazione. Fai domande sui prodotti INOMETA, rulli, lame raccogli-inchiostro e manicotti — ogni risposta cita le sue fonti."
     },
     "feat": {
       "intro": "Tocca una funzionalità per vedere i dettagli.",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "AI",
-              "desc": "Il tuo assistente AI per domande su prodotti e tecnologie. Basato sui contenuti reali dei siti web e dei datasheet INOMETA.",
-              "points": [
-                      "Fai domande sui prodotti INOMETA",
-                      "Risposte basate su pagine web e PDF crawlati",
-                      "Mostra le fonti per ogni risposta",
-                      "Contenuto multilingue (DE, EN, ...)",
-                      "Modulo opzionale – attivabile dall'amministratore"
-              ]
+        "title": "INOai",
+        "badge": "IA",
+        "desc": "Il tuo assistente AI per prodotti INOMETA, tecnologia dei rulli e stampa flessografica. Basato su contenuti reali da siti web, schede tecniche e documenti caricati — risponde immediatamente, salva ogni conversazione.",
+        "points": [
+          "Domande su rulli anilox, lame raccogli-inchiostro, manicotti e stampa flessografica risposte all'istante",
+          "Risposte basate su siti web scansionati, PDF e documenti caricati manualmente",
+          "Output strutturato: tabelle, grassetto, blocchi di codice ed elenchi ordinati (Markdown)",
+          "Fonti citate per ogni risposta — sito web, scheda tecnica o documento",
+          "Cronologia completa delle conversazioni: ogni chat viene salvata automaticamente",
+          "Carica e riprendi conversazioni precedenti con un tap",
+          "Risponde nella lingua in cui scrivi — completamente multilingue",
+          "Modulo aggiuntivo opzionale — attivabile dall'amministratore"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "Profilo",
           "b": "Barra sinistra → Profilo & Impostazioni"
+        },
+        {
+          "a": "INOai",
+          "b": "Barra laterale / Nav inferiore → INOai (✦)"
         }
       ],
       "contactTitle": "Hai ancora domande?",
-      "contactDesc": "Contatta il tuo amministratore o il supporto INOid tramite Inomet GmbH."
+      "contactDesc": "Contatta il tuo amministratore o il supporto INOid tramite Inomet GmbH.",
+      "t6": "INOid è completamente ottimizzato per smartphone: tutti i layout multi-colonna si riducono a una singola colonna su mobile, la chat INOai riempie esattamente l'area dello schermo visibile e i termini tecnici lunghi vengono sempre spezzati correttamente."
     }
   },
   "eventTypes": {

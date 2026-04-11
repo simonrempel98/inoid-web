@@ -807,7 +807,7 @@
       "sub": "INOid er ditt digitale driftsmiddelstyringssystem — fra idriftsetting til avvikling. Klar på 5 minutter.",
       "s1val": "5 min",
       "s1label": "til første ressurs",
-      "s2val": "9+",
+      "s2val": "11+",
       "s2label": "funksjonsområder",
       "s3val": "100%",
       "s3label": "nettleserbasert"
@@ -831,7 +831,9 @@
       "s3title": "Opprett serviceoppføring",
       "s3desc": "Åpne en ressurs → Servicelogg → \"+ Oppføring\". Dokumenter vedlikehold, reparasjoner og inspeksjoner.",
       "s4title": "Sett opp vedlikeholdsintervall",
-      "s4desc": "I serviceloggen → \"+ Intervall\". Velg et intervall (ukentlig til 2-årlig) og sett neste forfallsdato."
+      "s4desc": "I serviceloggen → \"+ Intervall\". Velg et intervall (ukentlig til 2-årlig) og sett neste forfallsdato.",
+      "s5title": "Spør INOai",
+      "s5desc": "Åpne INOai i navigasjonen. Still produktspørsmål om INOMETA-valser, rakler og hylser — hvert svar angir kildene sine."
     },
     "feat": {
       "intro": "Trykk på en funksjon for å se detaljer.",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "AI",
-              "desc": "Your AI assistant for product and technology questions. Based on real INOMETA website content and datasheets.",
-              "points": [
-                      "Ask questions about INOMETA products",
-                      "Answers based on crawled websites and PDFs",
-                      "Shows sources for every answer",
-                      "Multilingual content supported",
-                      "Optional add-on module"
-              ]
+        "title": "INOai",
+        "badge": "KI",
+        "desc": "Din KI-assistent for INOMETA-produkter, valseteknologi og fleksotrykt. Basert på ekte innhold fra nettsider, datablad og opplastede dokumenter — svarer umiddelbart, lagrer alle samtaler.",
+        "points": [
+          "Spørsmål om rastervalser, rakler, hylser og fleksotrykt besvart umiddelbart",
+          "Svar basert på crawlede nettsider, PDF-er og manuelt opplastede dokumenter",
+          "Strukturert utdata: tabeller, fet tekst, kodeblokker og nummererte lister (Markdown)",
+          "Kilder angitt for hvert svar — nettside, datablad eller dokument",
+          "Komplett samtalehistorikk: alle chatter lagres automatisk",
+          "Last inn og fortsett tidligere samtaler med ett trykk",
+          "Svarer på språket du skriver på — fullt flerspråklig",
+          "Valgfri tilleggsmodul — kan aktiveres av administrator"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "Profil",
           "b": "Venstre sidebar → Profil og Innstillinger"
+        },
+        {
+          "a": "INOai",
+          "b": "Sidefelt / Nedre nav → INOai (✦)"
         }
       ],
       "contactTitle": "Har du flere spørsmål?",
-      "contactDesc": "Kontakt administratoren din eller nå INOid-support direkte via Inomet GmbH."
+      "contactDesc": "Kontakt administratoren din eller nå INOid-support direkte via Inomet GmbH.",
+      "t6": "INOid er fullt optimalisert for smarttelefoner: alle flerspalte-oppsett komprimeres til én kolonne på mobil, INOai-chatten fyller nøyaktig det synlige skjermområdet og lange tekniske begreper brytes alltid riktig."
     }
   },
   "eventTypes": {

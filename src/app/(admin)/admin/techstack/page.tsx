@@ -359,6 +359,16 @@ export default function TechStackPage() {
               desc: 'Protokolliert alle Admin-Aktionen (wer hat was wann getan).',
               cols: ['id, admin_id', 'action, target_type, target_id', 'details (JSONB)', 'created_at'],
             },
+            {
+              table: 'inoai_chat_sessions', color: '#7c3aed',
+              desc: 'Eine INOai-Gesprächssitzung. Gehört einem User und optional einer Org. Titel = erste 60 Zeichen der ersten Nachricht.',
+              cols: ['id (UUID, PK)', 'user_id → auth.users', 'org_id → organizations', 'title (text, default: Neues Gespräch)', 'created_at, updated_at'],
+            },
+            {
+              table: 'inoai_chat_messages', color: '#a78bfa',
+              desc: 'Einzelne Nachricht in einem INOai-Gespräch. role = user | assistant. sources = gefundene Wissensbasis-Chunks (JSONB).',
+              cols: ['id (UUID, PK)', 'session_id → inoai_chat_sessions', 'role (CHECK: user | assistant)', 'content (text)', 'sources (JSONB, nullable)', 'created_at'],
+            },
           ].map(t => (
             <div key={t.table} style={{ background: 'var(--adm-bg)', borderRadius: 10, border: `1px solid ${t.color}33`, padding: '14px' }}>
               <p style={{ margin: '0 0 4px', fontSize: 14, fontWeight: 700, color: t.color, fontFamily: "'Courier New', monospace" }}>{t.table}</p>
@@ -413,6 +423,15 @@ export default function TechStackPage() {
               ['022', 'Avatar-Bucket: storage-Bucket für Profilbilder'],
               ['023', 'Chat-Edit: Nachrichten nachträglich bearbeitbar'],
               ['024', 'Flexodruck-Modul: 9 Tabellen (flexo_machines, druckwerke, fixed_slots, templates, template_machines, template_slots, template_assignments, setups, setup_steps), RLS, current_user_org_id()'],
+              ['025-028', 'Flexodruck-Erweiterungen: Template-Sharing, Cross-Machine-Assignments, Setup-Wizard-Status, Schritt-Typen'],
+              ['029', 'INOai: inometa_knowledge Tabelle + tsvector-Index + search_inometa_knowledge() SQL-Funktion'],
+              ['030', 'INOai Crawler-Admin: crawler_configs Tabelle (URL, Status, failedPages/failedPdfs JSONB)'],
+              ['031', 'INOai PDF-Bibliothek: pdf_library Tabelle für manuell hochgeladene Dokumente'],
+              ['032', 'INOai Storage Bucket: inometa-docs Bucket + RLS-Policies für PDF-Upload (Admin only)'],
+              ['033', 'Crawler-Resilienz: failedPages, failedPdfs JSONB-Felder + 5 User-Agent-Rotation'],
+              ['034', 'Avatar-Storage: avatars Bucket + RLS für Profilbilder'],
+              ['035', 'Chat-Nachrichten bearbeitbar: edited_at Spalte + RLS-Update-Policy für eigene Nachrichten'],
+              ['036', 'INOai Chat-History: inoai_chat_sessions + inoai_chat_messages, RLS (user sieht nur eigene Sessions)'],
             ].map(([id, desc]) => (
               <React.Fragment key={id as string}>
                 <span style={{ fontSize: 11, fontFamily: "'Courier New', monospace", color: '#34d399' }}>{id as string}</span>
@@ -468,6 +487,14 @@ export default function TechStackPage() {
           { req: 'plan, billingName, billingAddress, billingCity, billingZip, billingCountry, vatId?', res: '{ invoiceId, invoiceNumber }', auth: 'Eingeloggter Admin/Superadmin der Org', notes: 'Generiert PDF via pdf-lib, lädt es in Supabase Storage, sendet E-Mail mit Rechnung via Resend. Erstellt invoice-Eintrag mit HMAC-Code-Hash.' })}
         {apiBlock(['POST'], '/api/billing/activate-code', 'Einmalcode einlösen → Plan upgraden',
           { req: 'code: string (9 Stellen)', res: '{ plan, activatedAt }', auth: 'Eingeloggter Admin/Superadmin', notes: 'Prüft HMAC-SHA256-Hash des Codes gegen alle offenen Rechnungen der Org. Bei Match: Plan wird geändert + Rechnung als bezahlt markiert.' })}
+
+        <h3 style={{ ...S.h3, marginBottom: 12, marginTop: 24 }}>INOai-Endpunkte (eingeloggte Org-Nutzer, Feature-Toggle inoai !== false)</h3>
+        {apiBlock(['POST'], '/api/inoai/chat', 'INOai-Frage stellen + Antwort generieren',
+          { req: 'query: string, session_id?: string', res: '{ answer, sources[], session_id }', auth: 'Eingeloggter Nutzer der Org, Feature-Toggle inoai !== false', notes: 'Sucht in inometa_knowledge via tsvector (search_inometa_knowledge), sendet Kontext + Frage an Claude Haiku. Speichert User-Frage + Antwort als inoai_chat_messages. Erstellt neue Session wenn keine session_id übergeben wird (Titel = erste 60 Zeichen). Gibt session_id zurück.' })}
+        {apiBlock(['GET', 'DELETE'], '/api/inoai/sessions', 'Chat-Sitzungen auflisten / löschen',
+          { req: '(DELETE) { session_id }', res: '(GET) { sessions[] } | (DELETE) { ok: true }', auth: 'Eingeloggter Nutzer (eigene Sessions only, RLS)', notes: 'GET gibt max. 50 Sessions zurück, sortiert nach updated_at DESC. DELETE prüft user_id-Ownership.' })}
+        {apiBlock(['GET'], '/api/inoai/sessions/[id]', 'Alle Nachrichten einer Session laden',
+          { res: '{ session: { id, title }, messages: [{ id, role, content, sources, created_at }] }', auth: 'Eingeloggter Nutzer, muss Owner der Session sein', notes: 'Gibt vollständige Konversationshistorie zurück. Nachrichten aufsteigend nach created_at sortiert.' })}
 
         <h3 style={{ ...S.h3, marginBottom: 12, marginTop: 24 }}>Flexodruck-Endpunkte (eingeloggte Org-Nutzer, Feature-Toggle erforderlich)</h3>
         {apiBlock(['GET', 'POST'], '/api/flexodruck/machines', 'Maschinen abrufen / anlegen',
@@ -597,7 +624,7 @@ export default function TechStackPage() {
             { module: 'Team-Chat', color: '#fb923c', route: '/teams/chat', desc: 'Echtzeit-Team-Chat pro Organisation. Nachrichten können Assets erwähnen (@[AssetName]) und erzeugen klickbare Links.', features: ['Supabase Realtime WebSocket', '@Asset-Erwähnungen mit Suche', 'Automatisches Löschen (30 Tage)', 'Feature-Toggle per Org', 'Gruppiertung nach Datum'] },
             { module: 'Billing', color: '#38bdf8', route: '/settings/billing', desc: 'Plan-Verwaltung ohne Stripe. Rechnungsbasiertes System: Rechnung anfragen → Überweisung → 9-stelligen Code einlösen.', features: ['Rechnung als PDF per E-Mail', 'HMAC-SHA256 für Codes', 'Plan-Upgrade per Code', 'Keine automatische Zahlung'] },
             { module: 'Flexodruck', color: '#fb923c', route: '/flexodruck', desc: 'Spezialisierter Setup-Manager für Flexodruck-Maschinen. Verwaltet Druckwerke, Trägerstangen, Vorlagen und geführte Rüstvorgänge. Opt-in Feature-Toggle (features.flexodruck === true).', features: ['Maschinen mit N Druckwerken (1–20)', '2 feste Trägerstangen je Druckwerk', 'Variable Slot-Typen je Vorlage', 'Cross-Machine Template-Sharing', 'Geführter Rüst-Wizard (Schritt-Status)', 'Geplant → In Bearbeitung → Abgeschlossen'] },
-            { module: 'INOai', color: '#0099cc', route: '/inoai', desc: 'KI-Produktassistent auf Basis gecrawlter INOMETA-Webseiten und Datenblätter. RAG-System: Volltextsuche in inometa_knowledge → Kontext an Claude Haiku. Opt-in Feature-Toggle (features.inoai !== false).', features: ['Web-Crawler für beliebige Domains (admin konfigurierbar)', 'PDF-Parsing via pdf-parse v1.1.1 (Node.js)', 'Resumable Crawl: 50s Vercel-Instanzen, auto-Weiterführung', 'Suche via tsvector + search_inometa_knowledge() SQL-Funktion', 'Claude claude-haiku-4-5-20251001 für Antwort-Generierung', 'Dynamische Crawler-Verwaltung im Admin-Panel (/admin/inoai)', 'Statistiken: Unterseiten, Dokumente, Chunks pro Crawler'] },
+            { module: 'INOai', color: '#7c3aed', route: '/inoai', desc: 'KI-Produktassistent auf Basis gecrawlter INOMETA-Webseiten und Datenblätter. RAG-System: Volltextsuche in inometa_knowledge → Kontext an Claude Haiku. Chat-History persistent in DB. Opt-in Feature-Toggle (features.inoai !== false).', features: ['Web-Crawler für beliebige Domains (admin konfigurierbar)', 'PDF-Parsing via pdf-parse v1.1.1 (Node.js)', 'Resumable Crawl: 50s Vercel-Instanzen, auto-Weiterführung', 'Suche via tsvector + search_inometa_knowledge() SQL-Funktion', 'Claude claude-haiku-4-5-20251001 für Antwort-Generierung', 'Markdown-Rendering: react-markdown + remark-gfm (Tabellen, Code, Listen, Fett/Kursiv)', 'Chat-History: Sessions + Nachrichten persistent in inoai_chat_sessions/inoai_chat_messages', 'Seitenpanel: Session-Verlauf, Session öffnen/löschen, Neues Gespräch', 'Dynamische Crawler-Verwaltung im Admin-Panel (/admin/inoai)', 'Statistiken: Unterseiten, Dokumente, Chunks pro Crawler'] },
             { module: 'i18n / Sprachen', color: '#818cf8', route: 'next-intl', desc: '28 Sprachen unterstützt. Übersetzungen liegen in messages/[lang].json. Das Admin-Panel ist bewusst ausgenommen.', features: ['Auto-Detection via HTTP-Header', 'Server + Client Components', '28 Sprach-Dateien', 'Namespaces: assets, service, wartung, teams, docs, billing, flexodruck, …'] },
           ].map(m => (
             <div key={m.module} style={{ ...S.card, marginBottom: 0 }}>
@@ -700,6 +727,9 @@ export default function TechStackPage() {
                 ['qrcode', '^1.5.4', 'QR-Code als PNG/SVG generieren'],
                 ['jsqr', '^1.4.0', 'QR-Code aus Kamerabild dekodieren (Client)'],
                 ['pdf-lib', '^1.17.1', 'PDF-Komprimierung und -Erstellung client-seitig'],
+                ['pdf-parse', '^1.1.1', 'PDF-Text extrahieren für INOai Wissensbasis (Server)'],
+                ['react-markdown', '^9.x', 'Markdown → React-Komponenten für INOai-Antworten'],
+                ['remark-gfm', '^4.x', 'GitHub Flavored Markdown (Tabellen, Checkboxen, Durchstreichung)'],
                 ['resend', '^6.10.0', 'E-Mail-Versand (Rechnungen, Einladungen, Passwort-Reset)'],
                 ['@sentry/nextjs', '^10.47.0', 'Error Monitoring – Fehler automatisch an Sentry melden'],
               ]
@@ -764,6 +794,8 @@ export default function TechStackPage() {
             {reqRow('FA-018', 'Technische Daten mit Einheiten erfassen', '130+ Einheiten (m, kg, kW, etc.), Tabellen-Editor für technical_data JSONB', 'erfüllt')}
             {reqRow('FA-019', 'Module können pro Org aktiviert/deaktiviert werden', 'organizations.features JSONB: serviceheft, wartung, teamchat (default: an, !== false), flexodruck (opt-in: === true)', 'erfüllt')}
             {reqRow('FA-020', 'Passwort-Verwaltung für Nutzer', 'Passwort-Reset per E-Mail, must_change_password Flag, Admin kann Reset auslösen', 'erfüllt')}
+            {reqRow('FA-021', 'INOai: KI-Assistent mit Gesprächshistorie', 'RAG-System mit inoai_chat_sessions/-messages, Markdown-Rendering, Session-Verlauf abrufbar, 3 API-Endpunkte', 'erfüllt')}
+            {reqRow('FA-022', 'Mobile-optimierte Darstellung (Smartphone-Browser)', 'Viewport Meta Tag, 100dvh, calc(100dvh - 63px) für mobile Browser-Chrome, responsive Grid-Klassen (rg-2/rg-3)', 'erfüllt')}
           </div>
         </div>
         <div style={S.card}>
@@ -776,7 +808,7 @@ export default function TechStackPage() {
             {reqRow('NFA-001', 'Datenisolation: Kunden sehen keine fremden Daten', 'RLS auf allen Tabellen, organization_id-basierte Policies, getestet', 'erfüllt')}
             {reqRow('NFA-002', 'Sicherheit: Keine API-Keys im Frontend-Code', 'SUPABASE_SERVICE_ROLE_KEY nur server-seitig, NEXT_PUBLIC_ nur für sichere Keys', 'erfüllt')}
             {reqRow('NFA-003', 'Performance: Seiten laden schnell', 'Server Components (SSR), Bildkomprimierung, Supabase Edge Network', 'erfüllt')}
-            {reqRow('NFA-004', 'Mobile-fähig (Smartphones/Tablets)', 'Responsive Layouts, Mobile-Navigation (Drawer), QR/NFC-Scanner mobil optimiert', 'erfüllt')}
+            {reqRow('NFA-004', 'Mobile-fähig (Smartphones/Tablets)', 'Viewport Meta Tag (device-width/1), 100dvh (Dynamic Viewport Height), responsive Grids (.rg-2/.rg-3), Mobile-Navigation (Drawer), QR/NFC-Scanner mobil optimiert, INOai Chat mobile-ready', 'erfüllt')}
             {reqRow('NFA-005', 'Skalierbarkeit: Mehr Kunden ohne Umbau', 'Multi-Tenant-Architektur, Supabase managed DB, Vercel autoscaling', 'erfüllt')}
             {reqRow('NFA-006', 'Fehler-Monitoring: Bugs werden automatisch gemeldet', 'Sentry (Frontend + Backend), Alert bei kritischen Fehlern', 'erfüllt')}
             {reqRow('NFA-007', 'Bot-Schutz auf öffentlichen Formularen', 'Cloudflare Turnstile auf /register Seite', 'erfüllt')}
@@ -891,8 +923,12 @@ export default function TechStackPage() {
               { indent: 3, text: 'teams/             → Team-Verwaltung + Chat', color: 'var(--adm-text3)' },
               { indent: 3, text: 'settings/          → Profil, Billing, Rollen', color: 'var(--adm-text3)' },
               { indent: 3, text: 'flexodruck/        → Maschinen, Vorlagen, Rüstvorgänge (Feature-Toggle)', color: 'var(--adm-text3)' },
+              { indent: 3, text: 'inoai/             → KI-Produktassistent (Chat + History)', color: 'var(--adm-text3)' },
               { indent: 2, text: '(auth)/            → Login, Register, Einladung, PW-Reset', color: '#fbbf24' },
               { indent: 2, text: 'api/               → API-Endpunkte (Route Handlers)', color: '#f87171' },
+              { indent: 3, text: 'api/inoai/chat     → RAG-Anfrage + Session-Persistenz', color: 'var(--adm-text3)' },
+              { indent: 3, text: 'api/inoai/sessions → Session-Liste + löschen', color: 'var(--adm-text3)' },
+              { indent: 3, text: 'api/inoai/sessions/[id] → Session-Nachrichten laden', color: 'var(--adm-text3)' },
               { indent: 1, text: 'src/lib/', color: '#60a5fa' },
               { indent: 2, text: 'supabase/client.ts  → Browser-Client (mit RLS)', color: 'var(--adm-text3)' },
               { indent: 2, text: 'supabase/server.ts  → Server-Client (mit RLS)', color: 'var(--adm-text3)' },
@@ -905,7 +941,7 @@ export default function TechStackPage() {
               { indent: 2, text: 'nav-bottom.tsx      → Mobile-Navigation (Drawer)', color: 'var(--adm-text3)' },
               { indent: 2, text: 'admin-theme-provider.tsx → Dark/Light-Mode Context', color: 'var(--adm-text3)' },
               { indent: 1, text: 'messages/           → 28 Sprach-Dateien (JSON)', color: '#fb923c' },
-              { indent: 1, text: 'supabase/migrations/ → 024 SQL-Migrations-Dateien', color: '#38bdf8' },
+              { indent: 1, text: 'supabase/migrations/ → 036 SQL-Migrations-Dateien', color: '#38bdf8' },
             ].map((line, i) => (
               <div key={i} style={{ paddingLeft: line.indent * 20, color: line.color }}>
                 {line.text}

@@ -807,7 +807,7 @@
       "sub": "INOidは、委託から廃棄まで対応するデジタル資産管理システムです。5分で準備完了。",
       "s1val": "5 min",
       "s1label": "最初の資産まで",
-      "s2val": "9+",
+      "s2val": "11+",
       "s2label": "機能エリア",
       "s3val": "100%",
       "s3label": "ブラウザベース"
@@ -831,7 +831,9 @@
       "s3title": "サービス記録を作成",
       "s3desc": "資産を開く → サービスログ → \"+ 記録\"。メンテナンス、修理、点検を記録します。",
       "s4title": "メンテナンス間隔を設定",
-      "s4desc": "サービスログで → \"+ 間隔\"。間隔を選択（毎週から2年ごとまで）し、次の期日を設定します。"
+      "s4desc": "サービスログで → \"+ 間隔\"。間隔を選択（毎週から2年ごとまで）し、次の期日を設定します。",
+      "s5title": "INOaiに質問する",
+      "s5desc": "ナビゲーションでINOaiを開き、INOMETAのロール、ドクターブレード、スリーブに関する製品の質問をしてください — すべての回答は出典を明示します。"
     },
     "feat": {
       "intro": "機能をタップして詳細を確認してください。",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "AI",
-              "desc": "Your AI assistant for product and technology questions. Based on real INOMETA website content and datasheets.",
-              "points": [
-                      "Ask questions about INOMETA products",
-                      "Answers based on crawled websites and PDFs",
-                      "Shows sources for every answer",
-                      "Multilingual content supported",
-                      "Optional add-on module"
-              ]
+        "title": "INOai",
+        "badge": "AI",
+        "desc": "INOMETAの製品、ローラー技術、フレキソ印刷のためのAIアシスタント。ウェブサイト、データシート、アップロードされたドキュメントの実際のコンテンツに基づき、即座に回答し、すべての会話を自動保存します。",
+        "points": [
+          "アニロックスロール、ドクターブレード、スリーブ、フレキソ印刷に関する質問に即座に回答",
+          "クロールしたウェブサイト、PDF、手動アップロードしたドキュメントに基づく回答",
+          "構造化出力：表、太字、コードブロック、番号付きリスト（Markdown）",
+          "すべての回答に出典を明記 — ウェブサイト、データシート、またはドキュメント",
+          "完全な会話履歴：すべてのチャットが自動的に保存される",
+          "ワンタップで過去の会話を読み込んで再開",
+          "書いた言語で回答 — 完全多言語対応",
+          "オプションのアドオンモジュール — 管理者が有効化可能"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "プロフィール",
           "b": "左サイドバー → プロフィールと設定"
+        },
+        {
+          "a": "INOai",
+          "b": "サイドバー / ボトムナビ → INOai (✦)"
         }
       ],
       "contactTitle": "まだ質問がありますか？",
-      "contactDesc": "管理者に連絡するか、Inomet GmbHを通じてINOidサポートに直接お問い合わせください。"
+      "contactDesc": "管理者に連絡するか、Inomet GmbHを通じてINOidサポートに直接お問い合わせください。",
+      "t6": "INOidはスマートフォンに完全最適化されています：すべての複数列レイアウトはモバイルで1列に折りたたまれ、INOaiチャットは表示画面エリアを正確に埋め、長い技術用語は常に正しく折り返されます。"
     }
   },
   "eventTypes": {

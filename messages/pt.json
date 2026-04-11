@@ -807,8 +807,8 @@
       "sub": "INOid é o seu sistema digital de gestão de ativos — do comissionamento ao descomissionamento. Pronto em 5 minutos.",
       "s1val": "5 min",
       "s1label": "até o primeiro ativo",
-      "s2val": "9+",
-      "s2label": "áreas de funcionalidades",
+      "s2val": "11+",
+      "s2label": "áreas de funcionalidade",
       "s3val": "100%",
       "s3label": "baseado em navegador"
     },
@@ -831,7 +831,9 @@
       "s3title": "Criar entrada de serviço",
       "s3desc": "Abra um ativo → Diário de serviço → \"+ Entrada\". Documente manutenções, reparos e inspeções.",
       "s4title": "Configurar intervalo de manutenção",
-      "s4desc": "No diário → \"+ Intervalo\". Escolha um intervalo e defina a próxima data."
+      "s4desc": "No diário → \"+ Intervalo\". Escolha um intervalo e defina a próxima data.",
+      "s5title": "Perguntar ao INOai",
+      "s5desc": "Abra o INOai na navegação. Faça perguntas sobre produtos INOMETA, rolos, lâminas de tinteiro e mangas — cada resposta cita as suas fontes."
     },
     "feat": {
       "intro": "Toque em uma funcionalidade para ver detalhes.",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "AI",
-              "desc": "Your AI assistant for product and technology questions. Based on real INOMETA website content and datasheets.",
-              "points": [
-                      "Ask questions about INOMETA products",
-                      "Answers based on crawled websites and PDFs",
-                      "Shows sources for every answer",
-                      "Multilingual content supported",
-                      "Optional add-on module"
-              ]
+        "title": "INOai",
+        "badge": "IA",
+        "desc": "O seu assistente de IA para produtos INOMETA, tecnologia de rolos e impressão flexográfica. Baseado em conteúdo real de sites, fichas técnicas e documentos enviados — responde imediatamente, guarda cada conversa.",
+        "points": [
+          "Perguntas sobre rolos anilox, lâminas de tinteiro, mangas e impressão flexográfica respondidas instantaneamente",
+          "Respostas baseadas em sites rastreados, PDFs e documentos enviados manualmente",
+          "Saída estruturada: tabelas, negrito, blocos de código e listas ordenadas (Markdown)",
+          "Fontes citadas para cada resposta — site, ficha técnica ou documento",
+          "Histórico completo de conversas: cada chat é guardado automaticamente",
+          "Carregar e continuar conversas anteriores com um toque",
+          "Responde no idioma em que escreve — totalmente multilingue",
+          "Módulo adicional opcional — ativável pelo administrador"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "Perfil",
           "b": "Barra esquerda → Perfil & Configurações"
+        },
+        {
+          "a": "INOai",
+          "b": "Barra lateral / Nav inferior → INOai (✦)"
         }
       ],
       "contactTitle": "Ainda tem perguntas?",
-      "contactDesc": "Entre em contato com seu administrador ou com o suporte INOid via Inomet GmbH."
+      "contactDesc": "Entre em contato com seu administrador ou com o suporte INOid via Inomet GmbH.",
+      "t6": "O INOid está totalmente otimizado para smartphones: todos os layouts de várias colunas colapsam para uma única coluna no mobile, o chat INOai preenche exatamente a área visível do ecrã e os termos técnicos longos são sempre quebrados corretamente."
     }
   },
   "eventTypes": {

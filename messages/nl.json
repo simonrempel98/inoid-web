@@ -807,7 +807,7 @@
       "sub": "INOid is uw digitale beheer van bedrijfsmiddelen — van ingebruikstelling tot buiten gebruik stelling. Klaar in 5 minuten.",
       "s1val": "5 min",
       "s1label": "tot het eerste asset",
-      "s2val": "9+",
+      "s2val": "11+",
       "s2label": "functiegebieden",
       "s3val": "100%",
       "s3label": "browsergebaseerd"
@@ -831,7 +831,9 @@
       "s3title": "Servicemelding aanmaken",
       "s3desc": "Open een asset → Servicelogboek → \"+ Melding\". Documenteer onderhoud, reparaties en inspecties.",
       "s4title": "Onderhoudsinterval instellen",
-      "s4desc": "In het servicelogboek → \"+ Interval\". Kies een interval en stel de volgende vervaldatum in."
+      "s4desc": "In het servicelogboek → \"+ Interval\". Kies een interval en stel de volgende vervaldatum in.",
+      "s5title": "INOai vragen",
+      "s5desc": "Open INOai in de navigatie. Stel productvragen over INOMETA-rollen, rakelbladen en mouwen — elk antwoord vermeldt zijn bronnen."
     },
     "feat": {
       "intro": "Tik op een functie om details te zien.",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "AI",
-              "desc": "Uw AI-assistent voor product- en technologievragen. Gebaseerd op echte inhoud van INOMETA-websites en datasheets.",
-              "points": [
-                      "Stel vragen over INOMETA-producten",
-                      "Antwoorden op basis van gecrawlde paginas en PDFs",
-                      "Toont bronnen bij elk antwoord",
-                      "Meertalige inhoud (DE, EN, ...)",
-                      "Optionele module – activeerbaar door beheerder"
-              ]
+        "title": "INOai",
+        "badge": "AI",
+        "desc": "Jouw AI-assistent voor INOMETA-producten, roltechnologie en flexodruk. Gebaseerd op echte inhoud van websites, datasheets en geüploade documenten — antwoordt direct, slaat elk gesprek op.",
+        "points": [
+          "Vragen over rasterrollen, rakelbladen, mouwen en flexodruk direct beantwoord",
+          "Antwoorden gebaseerd op gecrawlde websites, PDFs en handmatig geüploade documenten",
+          "Gestructureerde uitvoer: tabellen, vetgedrukte tekst, codeblokken en geordende lijsten (Markdown)",
+          "Bronnen vermeld bij elk antwoord — website, datasheet of document",
+          "Volledige gespreksgeschiedenis: elk gesprek wordt automatisch opgeslagen",
+          "Eerdere gesprekken laden en hervatten met één tik",
+          "Antwoordt in de taal waarin je schrijft — volledig meertalig",
+          "Optionele add-on module — activeerbaar door de beheerder"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "Profiel",
           "b": "Linker zijbalk → Profiel & Instellingen"
+        },
+        {
+          "a": "INOai",
+          "b": "Zijbalk / Bottom-Nav → INOai (✦)"
         }
       ],
       "contactTitle": "Nog vragen?",
-      "contactDesc": "Neem contact op met uw beheerder of de INOid-support via Inomet GmbH."
+      "contactDesc": "Neem contact op met uw beheerder of de INOid-support via Inomet GmbH.",
+      "t6": "INOid is volledig geoptimaliseerd voor smartphones: alle meerkolomsindelingen worden op mobiel teruggebracht tot één kolom, de INOai-chat vult het zichtbare schermgebied exact, en lange technische termen worden altijd correct afgebroken."
     }
   },
   "eventTypes": {

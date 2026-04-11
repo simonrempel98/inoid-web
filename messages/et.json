@@ -807,7 +807,7 @@
       "sub": "INOid on teie digitaalne varahaldussüsteem — kasutuselevõtust kasutuselt kõrvaldamiseni. Valmis 5 minutiga.",
       "s1val": "5 min",
       "s1label": "esimese varani",
-      "s2val": "9+",
+      "s2val": "11+",
       "s2label": "funktsioonivaldkonda",
       "s3val": "100%",
       "s3label": "brauseripõhine"
@@ -831,7 +831,9 @@
       "s3title": "Loo hooldusmerkintä",
       "s3desc": "Ava vara → Hoolduslogg → \"+ Kanne\". Dokumenteeri hooldused, remonditööd ja inspektsioonid.",
       "s4title": "Seadista hooldusintervall",
-      "s4desc": "Hoolduslogis → \"+ Intervall\". Vali intervall (iganädalasest kuni 2-aastaseni) ja määra järgmine tähtaeg."
+      "s4desc": "Hoolduslogis → \"+ Intervall\". Vali intervall (iganädalasest kuni 2-aastaseni) ja määra järgmine tähtaeg.",
+      "s5title": "Küsi INOaillt",
+      "s5desc": "Avage INOai navigatsioonis. Esitage tooteküsimusi INOMETA rullide, raakli­teradede ja varrukate kohta — iga vastus viitab allikatele."
     },
     "feat": {
       "intro": "Puuduta funktsiooni üksikasjade nägemiseks.",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "AI",
-              "desc": "Your AI assistant for product and technology questions. Based on real INOMETA website content and datasheets.",
-              "points": [
-                      "Ask questions about INOMETA products",
-                      "Answers based on crawled websites and PDFs",
-                      "Shows sources for every answer",
-                      "Multilingual content supported",
-                      "Optional add-on module"
-              ]
+        "title": "INOai",
+        "badge": "AI",
+        "desc": "Teie AI-assistent INOMETA toodete, rulli tehnoloogia ja fleksograafilise trüki jaoks. Põhineb tegelikul sisul veebisaitidelt, andmelehtedelt ja üleslaaditud dokumentidest — vastab kohe, salvestab iga vestluse.",
+        "points": [
+          "Küsimused rasterrullide, raakliteradede, varrukate ja fleksoprintimise kohta vastatakse kohe",
+          "Vastused indekseeritud veebisaitide, PDF-ide ja käsitsi üleslaaditud dokumentide põhjal",
+          "Struktureeritud väljund: tabelid, paks tekst, koodiblokid ja järjestatud loendid (Markdown)",
+          "Iga vastuse juures viidatud allikad — veebisait, andmeleht või dokument",
+          "Täielik vestlusajalugu: iga vestlus salvestatakse automaatselt",
+          "Laadige eelmised vestlused ja jätkake neid ühe puudutusega",
+          "Vastab keeles, milles kirjutate — täiesti mitmekeelne",
+          "Valikuline lisandmoodul — administraator saab aktiveerida"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "Profiil",
           "b": "Vasak külgriba → Profiil ja Seaded"
+        },
+        {
+          "a": "INOai",
+          "b": "Külgriba / Alanavigatsiooni → INOai (✦)"
         }
       ],
       "contactTitle": "Veel küsimusi?",
-      "contactDesc": "Võtke ühendust oma administraatoriga või jõudke INOid toeni otse Inomet GmbH kaudu."
+      "contactDesc": "Võtke ühendust oma administraatoriga või jõudke INOid toeni otse Inomet GmbH kaudu.",
+      "t6": "INOid on täielikult optimeeritud nutitelefonidele: kõik mitmeveeru­küljendused tihenduvad mobiilis üheks veeruks, INOai vestlus täidab täpselt nähtava ekraaniala ja pikad tehnilised terminid murtakse alati õigesti."
     }
   },
   "eventTypes": {

@@ -807,8 +807,8 @@
       "sub": "INOid je vaš digitalni sustav upravljanja imovinom — od puštanja u rad do povlačenja. Spreman za 5 minuta.",
       "s1val": "5 min",
       "s1label": "do prve imovine",
-      "s2val": "9+",
-      "s2label": "funkcionalna područja",
+      "s2val": "11+",
+      "s2label": "područja funkcija",
       "s3val": "100%",
       "s3label": "temeljeno na pregledniku"
     },
@@ -831,7 +831,9 @@
       "s3title": "Stvori zapis o servisu",
       "s3desc": "Otvorite imovinu → Servisni dnevnik → \"+ Zapis\". Dokumentirajte održavanje, popravke i inspekcije.",
       "s4title": "Postavite interval održavanja",
-      "s4desc": "U servisnom dnevniku → \"+ Interval\". Odaberite interval (tjedno do 2 godine) i postavite sljedeći rok."
+      "s4desc": "U servisnom dnevniku → \"+ Interval\". Odaberite interval (tjedno do 2 godine) i postavite sljedeći rok.",
+      "s5title": "Pitaj INOai",
+      "s5desc": "Otvorite INOai u navigaciji. Postavljajte pitanja o INOMETA proizvodima, valjcima, rakelima i rukavima — svaki odgovor navodi izvore."
     },
     "feat": {
       "intro": "Tapnite funkciju da vidite detalje.",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "AI",
-              "desc": "Your AI assistant for product and technology questions. Based on real INOMETA website content and datasheets.",
-              "points": [
-                      "Ask questions about INOMETA products",
-                      "Answers based on crawled websites and PDFs",
-                      "Shows sources for every answer",
-                      "Multilingual content supported",
-                      "Optional add-on module"
-              ]
+        "title": "INOai",
+        "badge": "AI",
+        "desc": "Vaš AI asistent za INOMETA proizvode, tehnologiju valjaka i fleksografski tisak. Temelji se na stvarnom sadržaju s web stranica, tehničkih listova i učitanih dokumenata — odmah odgovara, sprema svaki razgovor.",
+        "points": [
+          "Pitanja o rasterskim valjcima, rakelima, rukavima i flekso tisku odmah odgovorena",
+          "Odgovori temeljeni na pregledanim web stranicama, PDF-ovima i ručno učitanim dokumentima",
+          "Strukturirani izlaz: tablice, podebljani tekst, blokovi koda i uređeni popisi (Markdown)",
+          "Navedeni izvori za svaki odgovor — web stranica, tehnički list ili dokument",
+          "Potpuna povijest razgovora: svaki chat se automatski sprema",
+          "Učitajte i nastavite prethodne razgovore jednim dodirom",
+          "Odgovara na jeziku kojim pišete — potpuno višejezičan",
+          "Opcionalni dodatni modul — može ga aktivirati administrator"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "Profil",
           "b": "Lijeva bočna traka → Profil i Postavke"
+        },
+        {
+          "a": "INOai",
+          "b": "Bočna traka / Donja nav → INOai (✦)"
         }
       ],
       "contactTitle": "Imate još pitanja?",
-      "contactDesc": "Obratite se svom administratoru ili kontaktirajte INOid podršku izravno putem Inomet GmbH."
+      "contactDesc": "Obratite se svom administratoru ili kontaktirajte INOid podršku izravno putem Inomet GmbH.",
+      "t6": "INOid je potpuno optimiziran za pametne telefone: svi višestupčasti rasporedi sažimaju se u jedan stupac na mobilnim uređajima, INOai chat točno ispunjava vidljivo područje zaslona, a dugi tehnički izrazi uvijek se pravilno prelome."
     }
   },
   "eventTypes": {

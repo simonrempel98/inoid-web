@@ -807,8 +807,8 @@
       "sub": "INOid este sistemul dvs. digital de gestionare a activelor — de la punerea în funcțiune până la dezafectare. Gata în 5 minute.",
       "s1val": "5 min",
       "s1label": "până la primul activ",
-      "s2val": "9+",
-      "s2label": "domenii funcționale",
+      "s2val": "11+",
+      "s2label": "domenii de funcții",
       "s3val": "100%",
       "s3label": "bazat pe browser"
     },
@@ -831,7 +831,9 @@
       "s3title": "Creați o înregistrare de service",
       "s3desc": "Deschideți un activ → Jurnal service → \"+ Înregistrare\". Documentați întreținerea, reparațiile și inspecțiile.",
       "s4title": "Configurați intervalul de întreținere",
-      "s4desc": "În jurnalul de service → \"+ Interval\". Alegeți un interval (săptămânal până la 2 ani) și setați data următoare."
+      "s4desc": "În jurnalul de service → \"+ Interval\". Alegeți un interval (săptămânal până la 2 ani) și setați data următoare.",
+      "s5title": "Întreabă INOai",
+      "s5desc": "Deschideți INOai în navigație. Puneți întrebări despre produsele INOMETA, role, raclete și mâneci — fiecare răspuns citează sursele."
     },
     "feat": {
       "intro": "Atingeți o funcție pentru a vedea detaliile.",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "AI",
-              "desc": "Your AI assistant for product and technology questions. Based on real INOMETA website content and datasheets.",
-              "points": [
-                      "Ask questions about INOMETA products",
-                      "Answers based on crawled websites and PDFs",
-                      "Shows sources for every answer",
-                      "Multilingual content supported",
-                      "Optional add-on module"
-              ]
+        "title": "INOai",
+        "badge": "AI",
+        "desc": "Asistentul dvs. AI pentru produse INOMETA, tehnologia rolelor și imprimarea flexografică. Bazat pe conținut real de pe site-uri web, fișe tehnice și documente încărcate — răspunde imediat, salvează fiecare conversație.",
+        "points": [
+          "Întrebări despre role anilox, raclete, mâneci și imprimare flexografică răspunse instantaneu",
+          "Răspunsuri bazate pe site-uri web accesate automat, PDF-uri și documente încărcate manual",
+          "Ieșire structurată: tabele, text îngroșat, blocuri de cod și liste ordonate (Markdown)",
+          "Surse citate pentru fiecare răspuns — site web, fișă tehnică sau document",
+          "Istoric complet al conversațiilor: fiecare chat este salvat automat",
+          "Încărcați și continuați conversațiile anterioare cu o atingere",
+          "Răspunde în limba în care scrieți — complet multilingv",
+          "Modul suplimentar opțional — activabil de administrator"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "Profil",
           "b": "Bara laterală stângă → Profil și Setări"
+        },
+        {
+          "a": "INOai",
+          "b": "Bară laterală / Nav jos → INOai (✦)"
         }
       ],
       "contactTitle": "Mai aveți întrebări?",
-      "contactDesc": "Contactați administratorul dvs. sau ajungeți la suportul INOid direct prin Inomet GmbH."
+      "contactDesc": "Contactați administratorul dvs. sau ajungeți la suportul INOid direct prin Inomet GmbH.",
+      "t6": "INOid este complet optimizat pentru smartphone-uri: toate aspectele multi-coloană se restrâng la o singură coloană pe mobil, chat-ul INOai umple exact zona vizibilă a ecranului, iar termenii tehnici lungi se împart întotdeauna corect."
     }
   },
   "eventTypes": {

@@ -807,8 +807,8 @@
       "sub": "INOid – jūsų skaitmeninė turto valdymo sistema – nuo paleidimo iki nurašymo. Paruošta per 5 minutes.",
       "s1val": "5 min",
       "s1label": "iki pirmojo turto",
-      "s2val": "9+",
-      "s2label": "funkcinės sritys",
+      "s2val": "11+",
+      "s2label": "funkcijų sritys",
       "s3val": "100%",
       "s3label": "naršyklės pagrindu"
     },
@@ -831,7 +831,9 @@
       "s3title": "Sukurti aptarnavimo įrašą",
       "s3desc": "Atidarykite turtą → Aptarnavimo žurnalas → \"+ Įrašas\". Dokumentuokite techninę priežiūrą, remontą ir patikrinimus.",
       "s4title": "Nustatyti priežiūros intervalą",
-      "s4desc": "Aptarnavimo žurnale → \"+ Intervalas\". Pasirinkite intervalą (kas savaitę iki 2 metų) ir nustatykite kitą terminą."
+      "s4desc": "Aptarnavimo žurnale → \"+ Intervalas\". Pasirinkite intervalą (kas savaitę iki 2 metų) ir nustatykite kitą terminą.",
+      "s5title": "Klauskite INOai",
+      "s5desc": "Atidarykite INOai naršymoje. Užduokite produktų klausimus apie INOMETA velenėlius, raklelius ir mufas — kiekvienas atsakymas nurodo šaltinius."
     },
     "feat": {
       "intro": "Bakstelėkite funkciją, kad pamatytumėte išsamią informaciją.",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "AI",
-              "desc": "Your AI assistant for product and technology questions. Based on real INOMETA website content and datasheets.",
-              "points": [
-                      "Ask questions about INOMETA products",
-                      "Answers based on crawled websites and PDFs",
-                      "Shows sources for every answer",
-                      "Multilingual content supported",
-                      "Optional add-on module"
-              ]
+        "title": "INOai",
+        "badge": "DI",
+        "desc": "Jūsų DI asistentas INOMETA produktams, velenėlių technologijai ir fleksografiniam spaudui. Pagrįstas tikru turiniu iš svetainių, techninių lapų ir įkeltų dokumentų — atsako nedelsiant, išsaugo kiekvieną pokalbį.",
+        "points": [
+          "Klausimai apie rastro velenėlius, raklelius, mufas ir fleksografinį spaudą atsakomi akimirksniu",
+          "Atsakymai remiantis nuskaitytos svetainės, PDF ir rankiniu būdu įkeltais dokumentais",
+          "Struktūrizuota išvestis: lentelės, pusjuodis tekstas, kodo blokai ir sunumeruoti sąrašai (Markdown)",
+          "Kiekviename atsakyme nurodyti šaltiniai — svetainė, techninis lapas ar dokumentas",
+          "Pilna pokalbių istorija: kiekvienas pokalbis išsaugomas automatiškai",
+          "Įkelkite ir tęskite ankstesnius pokalbius vienu paspaudimu",
+          "Atsako jūsų rašymo kalba — visiškai daugiakalbis",
+          "Pasirinktinis papildomas modulis — gali suaktyvinti administratorius"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "Profilis",
           "b": "Kairė šoninė juosta → Profilis ir Nustatymai"
+        },
+        {
+          "a": "INOai",
+          "b": "Šoninis skydelis / Apačios nav → INOai (✦)"
         }
       ],
       "contactTitle": "Dar klausimų?",
-      "contactDesc": "Susisiekite su savo administratoriumi arba kreipkitės į INOid palaikymą tiesiogiai per Inomet GmbH."
+      "contactDesc": "Susisiekite su savo administratoriumi arba kreipkitės į INOid palaikymą tiesiogiai per Inomet GmbH.",
+      "t6": "INOid yra visiškai optimizuotas išmaniesiems telefonams: visi kelių stulpelių išdėstymai mobiliajame įrenginyje suspaudžiami į vieną stulpelį, INOai pokalbis tiksliai užpildo matomą ekrano sritį, o ilgi techniniai terminai visada teisingai laužomi."
     }
   },
   "eventTypes": {

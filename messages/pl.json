@@ -807,8 +807,8 @@
       "sub": "INOid to cyfrowe zarządzanie aktywami — od uruchomienia do wycofania z użycia. Gotowe w 5 minut.",
       "s1val": "5 min",
       "s1label": "do pierwszego zasobu",
-      "s2val": "9+",
-      "s2label": "obszary funkcji",
+      "s2val": "11+",
+      "s2label": "obszarów funkcji",
       "s3val": "100%",
       "s3label": "oparte na przeglądarce"
     },
@@ -831,7 +831,9 @@
       "s3title": "Utwórz wpis serwisowy",
       "s3desc": "Otwórz zasób → Dziennik serwisowy → \"+ Wpis\". Dokumentuj konserwacje, naprawy i inspekcje.",
       "s4title": "Ustaw interwał konserwacji",
-      "s4desc": "W dzienniku → \"+ Interwał\". Wybierz interwał i ustaw następny termin."
+      "s4desc": "W dzienniku → \"+ Interwał\". Wybierz interwał i ustaw następny termin.",
+      "s5title": "Zapytaj INOai",
+      "s5desc": "Otwórz INOai w nawigacji. Zadawaj pytania o produkty INOMETA, wałki, rakle i tuleje — każda odpowiedź podaje swoje źródła."
     },
     "feat": {
       "intro": "Dotknij funkcji, aby zobaczyć szczegóły.",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "AI",
-              "desc": "Twój asystent AI do pytań o produkty i technologie. Oparty na rzeczywistej zawartości stron internetowych i kart katalogowych INOMETA.",
-              "points": [
-                      "Zadawaj pytania o produkty INOMETA",
-                      "Odpowiedzi na podstawie przeszukanych stron i PDF-ów",
-                      "Wyświetla źródła dla każdej odpowiedzi",
-                      "Treści wielojęzyczne (DE, EN, ...)",
-                      "Opcjonalny moduł – może być aktywowany przez administratora"
-              ]
+        "title": "INOai",
+        "badge": "AI",
+        "desc": "Twój asystent AI dla produktów INOMETA, technologii wałków i druku fleksograficznego. Oparty na rzeczywistych treściach ze stron internetowych, kart katalogowych i przesłanych dokumentów — odpowiada natychmiast, zapisuje każdą rozmowę.",
+        "points": [
+          "Pytania o wałki rastrowe, rakle, tuleje i druk fleksograficzny odpowiadane natychmiast",
+          "Odpowiedzi na podstawie przeszukanych stron, PDF-ów i ręcznie przesłanych dokumentów",
+          "Strukturowane wyjście: tabele, pogrubienie, bloki kodu i listy numerowane (Markdown)",
+          "Źródła podane przy każdej odpowiedzi — strona, karta katalogowa lub dokument",
+          "Pełna historia rozmów: każdy czat jest automatycznie zapisywany",
+          "Wczytaj i kontynuuj poprzednie rozmowy jednym dotknięciem",
+          "Odpowiada w języku, w którym piszesz — w pełni wielojęzyczny",
+          "Opcjonalny moduł dodatkowy — możliwy do aktywacji przez administratora"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "Profil",
           "b": "Lewy pasek → Profil & Ustawienia"
+        },
+        {
+          "a": "INOai",
+          "b": "Pasek boczny / Dolna nawigacja → INOai (✦)"
         }
       ],
       "contactTitle": "Masz jeszcze pytania?",
-      "contactDesc": "Skontaktuj się z administratorem lub wsparciem INOid przez Inomet GmbH."
+      "contactDesc": "Skontaktuj się z administratorem lub wsparciem INOid przez Inomet GmbH.",
+      "t6": "INOid jest w pełni zoptymalizowany pod smartfony: wszystkie wielokolumnowe układy zwijają się do jednej kolumny na urządzeniach mobilnych, czat INOai wypełnia dokładnie widoczny obszar ekranu, a długie terminy techniczne zawsze zawijają się poprawnie."
     }
   },
   "eventTypes": {

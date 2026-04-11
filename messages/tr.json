@@ -807,8 +807,8 @@
       "sub": "INOid, dijital varlık yönetim sisteminizdir — devreye almadan hizmetten çıkarmaya kadar. 5 dakikada hazır.",
       "s1val": "5 min",
       "s1label": "ilk varlığa",
-      "s2val": "9+",
-      "s2label": "özellik alanları",
+      "s2val": "11+",
+      "s2label": "özellik alanı",
       "s3val": "100%",
       "s3label": "tarayıcı tabanlı"
     },
@@ -831,7 +831,9 @@
       "s3title": "Servis kaydı oluştur",
       "s3desc": "Bir varlık açın → Servis günlüğü → \"+ Kayıt\". Bakım, onarım ve denetimleri belgeleyin.",
       "s4title": "Bakım aralığı ayarla",
-      "s4desc": "Servis günlüğünde → \"+ Aralık\". Bir aralık seçin (haftalıktan 2 yıllığa) ve bir sonraki tarihi belirleyin."
+      "s4desc": "Servis günlüğünde → \"+ Aralık\". Bir aralık seçin (haftalıktan 2 yıllığa) ve bir sonraki tarihi belirleyin.",
+      "s5title": "INOai'ye Sor",
+      "s5desc": "Gezinmede INOai'yi açın. INOMETA silindirleri, rakel bıçakları ve manşonlar hakkında ürün soruları sorun — her yanıt kaynaklarını belirtir."
     },
     "feat": {
       "intro": "Ayrıntıları görmek için bir özelliğe dokunun.",
@@ -959,16 +961,19 @@
         ]
       },
       "f11": {
-              "title": "INOai",
-              "badge": "AI",
-              "desc": "Your AI assistant for product and technology questions. Based on real INOMETA website content and datasheets.",
-              "points": [
-                      "Ask questions about INOMETA products",
-                      "Answers based on crawled websites and PDFs",
-                      "Shows sources for every answer",
-                      "Multilingual content supported",
-                      "Optional add-on module"
-              ]
+        "title": "INOai",
+        "badge": "YZ",
+        "desc": "INOMETA ürünleri, silindir teknolojisi ve fleksografik baskı için yapay zeka asistanınız. Web siteleri, veri sayfaları ve yüklenen belgelerden gerçek içeriğe dayanır — anında yanıtlar, her konuşmayı kaydeder.",
+        "points": [
+          "Aniloks silindirleri, rakel bıçakları, manşonlar ve flekso baskı hakkındaki sorular anında yanıtlanır",
+          "Taranan web siteleri, PDF'ler ve manuel olarak yüklenen belgelere dayalı yanıtlar",
+          "Yapılandırılmış çıktı: tablolar, kalın metin, kod blokları ve sıralı listeler (Markdown)",
+          "Her yanıt için belirtilen kaynaklar — web sitesi, veri sayfası veya belge",
+          "Tam konuşma geçmişi: her sohbet otomatik olarak kaydedilir",
+          "Önceki konuşmaları tek dokunuşla yükleyin ve devam edin",
+          "Yazdığınız dilde yanıt verir — tamamen çok dilli",
+          "İsteğe bağlı eklenti modül — yönetici tarafından etkinleştirilebilir"
+        ]
       }
     },
     "roles": {
@@ -1092,10 +1097,15 @@
         {
           "a": "Profil",
           "b": "Sol yan çubuk → Profil ve Ayarlar"
+        },
+        {
+          "a": "INOai",
+          "b": "Kenar çubuğu / Alt nav → INOai (✦)"
         }
       ],
       "contactTitle": "Daha fazla sorunuz var mı?",
-      "contactDesc": "Yöneticinizle iletişime geçin veya Inomet GmbH aracılığıyla doğrudan INOid desteğine ulaşın."
+      "contactDesc": "Yöneticinizle iletişime geçin veya Inomet GmbH aracılığıyla doğrudan INOid desteğine ulaşın.",
+      "t6": "INOid tamamen akıllı telefon için optimize edilmiştir: tüm çok sütunlu düzenler mobilde tek sütuna daraltılır, INOai sohbeti görünür ekran alanını tam olarak doldurur ve uzun teknik terimler her zaman doğru şekilde kırılır."
     }
   },
   "eventTypes": {
