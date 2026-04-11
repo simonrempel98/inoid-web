@@ -134,10 +134,11 @@ function CrawlerCard({
   const [saving, setSaving] = useState(false)
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const logEndRef = useRef<HTMLDivElement>(null)
+  const lastTriggerRef = useRef<number>(0)
 
   const isActive = job?.status === 'queued' || job?.status === 'running' || job?.status === 'paused'
 
-  // Polling wenn Job aktiv
+  // Polling wenn Job aktiv – bei "paused" auch Cron-Endpunkt anstoßen
   useEffect(() => {
     if (!isActive || !job) return
     pollRef.current = setInterval(async () => {
@@ -148,6 +149,13 @@ function CrawlerCard({
       if (updated.status === 'done' || updated.status === 'error') {
         clearInterval(pollRef.current!)
         onStatsRefresh()
+      } else if (updated.status === 'paused') {
+        // Browser als Backup-Trigger: Admin-Endpunkt anstoßen wenn Job feststeckt
+        const now = Date.now()
+        if (now - lastTriggerRef.current > 30_000) {
+          lastTriggerRef.current = now
+          fetch('/api/admin/inoai/trigger-crawl', { method: 'POST' }).catch(() => {})
+        }
       }
     }, 3000)
     return () => clearInterval(pollRef.current!)
