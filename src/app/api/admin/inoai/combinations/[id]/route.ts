@@ -14,11 +14,13 @@ async function guard() {
 export async function PATCH(req: Request, { params }: { params: { id: string } }) {
   if (!await guard()) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   const body = await req.json()
-  const update: Record<string, unknown> = {}
-  if (body.terms !== undefined) update.terms = body.terms
-  if (body.group_type !== undefined) update.group_type = body.group_type
   const admin = createAdminClient()
-  const { data, error } = await admin.from('inoai_synonyms').update(update).eq('id', params.id).select().single()
+  const { data, error } = await admin
+    .from('inoai_synonym_combinations')
+    .update(body)
+    .eq('id', params.id)
+    .select()
+    .single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json(data)
 }
@@ -26,7 +28,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
 export async function DELETE(_req: Request, { params }: { params: { id: string } }) {
   if (!await guard()) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   const admin = createAdminClient()
-  const { error } = await admin.from('inoai_synonyms').delete().eq('id', params.id)
+  const { error } = await admin.from('inoai_synonym_combinations').delete().eq('id', params.id)
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json({ ok: true })
 }

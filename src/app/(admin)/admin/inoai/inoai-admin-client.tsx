@@ -545,7 +545,8 @@ export function INOaiAdminClient({
 
 // ── Synonym-Manager ──────────────────────────────────────────────────────────
 
-type SynonymRow = { id: number; terms: string[] }
+type SynonymRow = { id: number; terms: string[]; group_type: 'standalone' | 'base' | 'modifier' }
+type CombinationRow = { id: string; base_id: number; modifier_id: number; extra_terms: string[]; active: boolean }
 
 // Pastelfarben für Term-Chips (rotierend nach Index)
 const CHIP_COLORS = [
@@ -570,20 +571,293 @@ function TermChip({ term, index, primary }: { term: string; index: number; prima
   )
 }
 
+// ── Kreuzreferenz-Matrix ──────────────────────────────────────────────────────
+
+type CellEditorState = {
+  baseId: number
+  modifierId: number
+  basePrimary: string
+  modifierPrimary: string
+  comboId: string | null
+  extraTerms: string[]
+}
+
+function SynonymMatrix({ groups, combinations, onCombosChange }: {
+  groups: SynonymRow[]
+  combinations: CombinationRow[]
+  onCombosChange: (combos: CombinationRow[]) => void
+}) {
+  const [editor, setEditor] = useState<CellEditorState | null>(null)
+  const [editInput, setEditInput] = useState('')
+  const [saving, setSaving] = useState(false)
+
+  const bases = groups.filter(g => g.group_type === 'base').sort((a, b) => a.terms[0].localeCompare(b.terms[0]))
+  const modifiers = groups.filter(g => g.group_type === 'modifier').sort((a, b) => a.terms[0].localeCompare(b.terms[0]))
+
+  const comboMap = new Map<string, CombinationRow>()
+  for (const c of combinations) comboMap.set(`${c.base_id}-${c.modifier_id}`, c)
+
+  function openCell(base: SynonymRow, mod: SynonymRow) {
+    const key = `${base.id}-${mod.id}`
+    const existing = comboMap.get(key)
+    setEditor({
+      baseId: base.id,
+      modifierId: mod.id,
+      basePrimary: base.terms[0],
+      modifierPrimary: mod.terms[0],
+      comboId: existing?.id ?? null,
+      extraTerms: existing?.extra_terms ?? [],
+    })
+    setEditInput(existing?.extra_terms.join(', ') ?? '')
+  }
+
+  async function saveCombo() {
+    if (!editor) return
+    const terms = editInput.split(',').map(t => t.trim().toLowerCase()).filter(Boolean)
+    setSaving(true)
+    if (editor.comboId) {
+      const res = await fetch(`/api/admin/inoai/combinations/${editor.comboId}`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ extra_terms: terms, active: true }),
+      })
+      if (res.ok) {
+        const updated = await res.json()
+        onCombosChange(combinations.map(c => c.id === updated.id ? updated : c))
+      }
+    } else {
+      const res = await fetch('/api/admin/inoai/combinations', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ base_id: editor.baseId, modifier_id: editor.modifierId, extra_terms: terms }),
+      })
+      if (res.ok) {
+        const created = await res.json()
+        onCombosChange([...combinations, created])
+      }
+    }
+    setSaving(false)
+    setEditor(null)
+  }
+
+  async function deleteCombo() {
+    if (!editor?.comboId) { setEditor(null); return }
+    setSaving(true)
+    await fetch(`/api/admin/inoai/combinations/${editor.comboId}`, { method: 'DELETE' })
+    onCombosChange(combinations.filter(c => c.id !== editor.comboId))
+    setSaving(false)
+    setEditor(null)
+  }
+
+  if (bases.length === 0 || modifiers.length === 0) {
+    return (
+      <div style={{ textAlign: 'center', padding: '24px', color: 'var(--adm-text3)', fontSize: 13 }}>
+        Migration 035 ausführen um Gruppen zu klassifizieren.
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      {/* Legende */}
+      <div style={{ display: 'flex', gap: 16, marginBottom: 14, flexWrap: 'wrap', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div style={{ width: 14, height: 14, borderRadius: 3, background: 'linear-gradient(135deg,#003366,#0055aa)' }} />
+          <span style={{ fontSize: 11, color: 'var(--adm-text3)' }}>Aktive Kombination</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div style={{ width: 14, height: 14, borderRadius: 3, border: '2px dashed var(--adm-border)', background: 'var(--adm-bg)' }} />
+          <span style={{ fontSize: 11, color: 'var(--adm-text3)' }}>Keine Kombination – klicken zum Erstellen</span>
+        </div>
+        <span style={{ fontSize: 11, color: 'var(--adm-text3)', marginLeft: 'auto' }}>
+          {combinations.filter(c => c.active).length} aktive Kombinationen
+        </span>
+      </div>
+
+      {/* Matrix */}
+      <div style={{ overflowX: 'auto', borderRadius: 12, border: '1px solid var(--adm-border)' }}>
+        <table style={{ borderCollapse: 'collapse', width: '100%', tableLayout: 'fixed' }}>
+          <thead>
+            <tr>
+              <th style={{
+                width: 110, minWidth: 110, padding: '10px 12px',
+                background: '#0a0f1a', borderBottom: '2px solid var(--adm-border)',
+                borderRight: '1px solid var(--adm-border)',
+                fontSize: 10, fontWeight: 700, color: '#4b5563', textAlign: 'left', letterSpacing: '0.06em',
+              }}>BASIS → MOD</th>
+              {modifiers.map(m => (
+                <th key={m.id} style={{
+                  padding: '8px 6px', background: '#0a0f1a',
+                  borderBottom: '2px solid var(--adm-border)',
+                  borderRight: '1px solid #1e2330',
+                  fontSize: 10, fontWeight: 700, color: '#93c5fd',
+                  textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden',
+                  textOverflow: 'ellipsis', maxWidth: 80, letterSpacing: '0.03em',
+                  textTransform: 'uppercase',
+                }}>
+                  {m.terms[0].length > 10 ? m.terms[0].slice(0, 9) + '…' : m.terms[0]}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {bases.map((base, ri) => (
+              <tr key={base.id}>
+                <td style={{
+                  padding: '8px 12px', background: ri % 2 === 0 ? '#0d1117' : '#0a0f1a',
+                  borderRight: '1px solid var(--adm-border)',
+                  borderBottom: '1px solid #1e2330',
+                  fontSize: 11, fontWeight: 700, color: '#e2e8f0',
+                  whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                }}>
+                  {base.terms[0].charAt(0).toUpperCase() + base.terms[0].slice(1)}
+                </td>
+                {modifiers.map(mod => {
+                  const combo = comboMap.get(`${base.id}-${mod.id}`)
+                  const active = combo?.active && (combo.extra_terms?.length ?? 0) > 0
+                  return (
+                    <td key={mod.id}
+                      onClick={() => openCell(base, mod)}
+                      title={combo ? combo.extra_terms.join(', ') : `${base.terms[0]} × ${mod.terms[0]} – klicken zum Definieren`}
+                      style={{
+                        padding: 4, textAlign: 'center',
+                        background: ri % 2 === 0 ? '#0d1117' : '#0a0f1a',
+                        borderRight: '1px solid #1e2330',
+                        borderBottom: '1px solid #1e2330',
+                        cursor: 'pointer', transition: 'background 0.12s',
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.background = '#1a2a3a')}
+                      onMouseLeave={e => (e.currentTarget.style.background = ri % 2 === 0 ? '#0d1117' : '#0a0f1a')}
+                    >
+                      {active ? (
+                        <div style={{
+                          display: 'inline-flex', flexDirection: 'column', alignItems: 'center',
+                          justifyContent: 'center', width: 40, height: 32, borderRadius: 6,
+                          background: 'linear-gradient(135deg, #003366 0%, #0055aa 100%)',
+                          boxShadow: '0 1px 6px rgba(0,85,170,0.4)',
+                        }}>
+                          <span style={{ fontSize: 13, fontWeight: 800, color: 'white', lineHeight: 1 }}>{combo!.extra_terms.length}</span>
+                          <span style={{ fontSize: 8, color: '#93c5fd', lineHeight: 1 }}>TERMS</span>
+                        </div>
+                      ) : (
+                        <div style={{
+                          display: 'inline-block', width: 40, height: 32, borderRadius: 6,
+                          border: '1px dashed #2d3748',
+                        }} />
+                      )}
+                    </td>
+                  )
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Cell-Editor Modal */}
+      {editor && (
+        <div style={{
+          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          zIndex: 9999,
+        }} onClick={e => { if (e.target === e.currentTarget) setEditor(null) }}>
+          <div style={{
+            background: '#111827', border: '1px solid #374151', borderRadius: 16,
+            padding: 24, width: 440, maxWidth: '90vw', boxShadow: '0 20px 60px rgba(0,0,0,0.8)',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+              <span style={{
+                fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 20,
+                background: '#1e3a5f', color: '#93c5fd', textTransform: 'uppercase',
+              }}>{editor.basePrimary}</span>
+              <span style={{ color: '#6b7280', fontSize: 14 }}>×</span>
+              <span style={{
+                fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 20,
+                background: '#14532d', color: '#6ee7b7', textTransform: 'uppercase',
+              }}>{editor.modifierPrimary}</span>
+              <span style={{ marginLeft: 'auto', fontSize: 11, color: '#6b7280' }}>
+                {editor.comboId ? 'Bearbeiten' : 'Neue Kombination'}
+              </span>
+            </div>
+
+            <label style={{ fontSize: 11, fontWeight: 700, color: '#9ca3af', display: 'block', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              Kombinierte Suchbegriffe
+            </label>
+            <textarea
+              value={editInput}
+              onChange={e => setEditInput(e.target.value)}
+              placeholder={`z.B. ${editor.basePrimary}reinigung, ${editor.basePrimary} cleaning, …`}
+              rows={3}
+              style={{
+                width: '100%', padding: '10px 12px', borderRadius: 9, fontSize: 12,
+                background: '#1f2937', border: '1px solid #374151', color: '#e5e7eb',
+                fontFamily: 'monospace', resize: 'vertical', boxSizing: 'border-box' as const,
+                lineHeight: 1.6,
+              }}
+            />
+            {editInput.trim() && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 8 }}>
+                {editInput.split(',').map(t => t.trim().toLowerCase()).filter(Boolean).map((t, i) => (
+                  <span key={i} style={{
+                    fontSize: 11, padding: '2px 9px', borderRadius: 20,
+                    background: '#1e3a5f', color: '#93c5fd',
+                  }}>{t}</span>
+                ))}
+              </div>
+            )}
+
+            <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
+              <button onClick={saveCombo} disabled={saving || !editInput.trim()} style={{
+                flex: 1, background: editInput.trim() ? '#003366' : '#374151',
+                color: 'white', border: 'none', borderRadius: 9,
+                padding: '10px', fontSize: 13, fontWeight: 700,
+                cursor: (saving || !editInput.trim()) ? 'default' : 'pointer',
+              }}>{saving ? '…' : '✓ Speichern'}</button>
+              {editor.comboId && (
+                <button onClick={deleteCombo} disabled={saving} style={{
+                  background: 'none', border: '1px solid #ef4444', borderRadius: 9,
+                  padding: '10px 14px', fontSize: 12, color: '#ef4444',
+                  cursor: saving ? 'default' : 'pointer',
+                }}>🗑 Löschen</button>
+              )}
+              <button onClick={() => setEditor(null)} style={{
+                background: 'none', border: '1px solid #374151', borderRadius: 9,
+                padding: '10px 14px', fontSize: 13, color: '#9ca3af', cursor: 'pointer',
+              }}>✕</button>
+            </div>
+
+            <p style={{ margin: '12px 0 0', fontSize: 11, color: '#6b7280', lineHeight: 1.5 }}>
+              Diese Begriffe werden zur KI-Suche hinzugefügt wenn eine Anfrage sowohl
+              <strong style={{ color: '#93c5fd' }}> {editor.basePrimary}</strong> als auch
+              <strong style={{ color: '#6ee7b7' }}> {editor.modifierPrimary}</strong> enthält.
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 function SynonymManager() {
   const [groups, setGroups] = useState<SynonymRow[]>([])
+  const [combinations, setCombinations] = useState<CombinationRow[]>([])
   const [loaded, setLoaded] = useState(false)
   const [open, setOpen] = useState(false)
+  const [tab, setTab] = useState<'gruppen' | 'matrix'>('gruppen')
   const [search, setSearch] = useState('')
   const [newTerms, setNewTerms] = useState('')
+  const [newGroupType, setNewGroupType] = useState<'standalone' | 'base' | 'modifier'>('standalone')
   const [saving, setSaving] = useState(false)
   const [editId, setEditId] = useState<number | null>(null)
   const [editTerms, setEditTerms] = useState('')
+  const [editGroupType, setEditGroupType] = useState<'standalone' | 'base' | 'modifier'>('standalone')
   const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null)
 
   async function load() {
-    const res = await fetch('/api/admin/inoai/synonyms')
-    if (res.ok) setGroups(await res.json())
+    const [synRes, comboRes] = await Promise.all([
+      fetch('/api/admin/inoai/synonyms'),
+      fetch('/api/admin/inoai/combinations'),
+    ])
+    if (synRes.ok) setGroups(await synRes.json())
+    if (comboRes.ok) setCombinations(await comboRes.json())
     setLoaded(true)
   }
 
@@ -598,9 +872,9 @@ function SynonymManager() {
     setSaving(true)
     const res = await fetch('/api/admin/inoai/synonyms', {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ terms }),
+      body: JSON.stringify({ terms, group_type: newGroupType }),
     })
-    if (res.ok) { const row = await res.json(); setGroups(g => [row, ...g]); setNewTerms('') }
+    if (res.ok) { const row = await res.json(); setGroups(g => [row, ...g]); setNewTerms(''); setNewGroupType('standalone') }
     setSaving(false)
   }
 
@@ -609,9 +883,9 @@ function SynonymManager() {
     if (terms.length < 2) return
     const res = await fetch(`/api/admin/inoai/synonyms/${id}`, {
       method: 'PATCH', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ terms }),
+      body: JSON.stringify({ terms, group_type: editGroupType }),
     })
-    if (res.ok) { setGroups(g => g.map(x => x.id === id ? { ...x, terms } : x)); setEditId(null) }
+    if (res.ok) { setGroups(g => g.map(x => x.id === id ? { ...x, terms, group_type: editGroupType } : x)); setEditId(null) }
   }
 
   async function deleteGroup(id: number) {
@@ -631,6 +905,12 @@ function SynonymManager() {
     fontFamily: 'inherit',
   }
 
+  const groupTypeBadge = (gt: SynonymRow['group_type']) => {
+    if (gt === 'base') return { label: 'Basis', bg: '#1e3a5f', color: '#93c5fd' }
+    if (gt === 'modifier') return { label: 'Modifik.', bg: '#14532d', color: '#6ee7b7' }
+    return { label: 'Allg.', bg: '#1f2937', color: '#9ca3af' }
+  }
+
   return (
     <div>
       {/* Header */}
@@ -646,7 +926,7 @@ function SynonymManager() {
           <span style={{ fontSize: 17, fontWeight: 800, color: 'var(--adm-text)' }}>Synonym-Datenbank</span>
           {loaded && (
             <span style={{ marginLeft: 10, fontSize: 12, color: 'var(--adm-text3)' }}>
-              {groups.length} Gruppen · {totalTerms} Begriffe
+              {groups.length} Gruppen · {totalTerms} Begriffe · {combinations.filter(c => c.active).length} Kombinationen
             </span>
           )}
         </div>
@@ -658,150 +938,215 @@ function SynonymManager() {
 
       {open && (
         <div>
-          {/* Info-Banner */}
-          <div style={{
-            background: 'linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%)',
-            border: '1px solid #bfdbfe', borderRadius: 12, padding: '12px 16px',
-            marginBottom: 20, display: 'flex', gap: 14, alignItems: 'flex-start',
-          }}>
-            <span style={{ fontSize: 20, flexShrink: 0 }}>🔤</span>
-            <div>
-              <p style={{ margin: '0 0 3px', fontSize: 13, fontWeight: 700, color: '#1e3a5f' }}>
-                Wie Synonyme die KI verbessern
-              </p>
-              <p style={{ margin: 0, fontSize: 12, color: '#374151', lineHeight: 1.6 }}>
-                Fragt ein Nutzer nach „Rasterwalze", erweitert die KI die Suche automatisch auf
-                alle Synonyme dieser Gruppe — z.B. auch „Anilox", „Aniloxsleeve" und „Rastersleeve".
-                So werden mehr relevante Texte gefunden. Nach jedem Crawl werden neue Synonyme
-                automatisch aus dem Seiteninhalt abgeleitet.
-              </p>
-            </div>
-          </div>
-
-          {/* Neue Gruppe hinzufügen */}
-          <div style={{
-            background: 'var(--adm-surface)', border: '1px solid var(--adm-border)',
-            borderRadius: 12, padding: '14px 16px', marginBottom: 16,
-          }}>
-            <p style={{ margin: '0 0 10px', fontSize: 12, fontWeight: 700, color: 'var(--adm-text3)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-              Neue Gruppe
-            </p>
-            <div style={{ display: 'flex', gap: 8 }}>
-              <div style={{ flex: 1 }}>
-                <input
-                  value={newTerms}
-                  onChange={e => setNewTerms(e.target.value)}
-                  placeholder="Begriff 1, Begriff 2, Begriff 3, …  (mind. 2)"
-                  style={{ ...inp, width: '100%' }}
-                  onKeyDown={e => e.key === 'Enter' && addGroup()}
-                />
-                {newTerms.trim() && (
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 8 }}>
-                    {newTerms.split(',').map(t => t.trim().toLowerCase()).filter(Boolean).map((t, i) => (
-                      <TermChip key={i} term={t} index={i + 1} primary={i === 0} />
-                    ))}
-                  </div>
-                )}
-              </div>
-              <button onClick={addGroup} disabled={saving || newTerms.split(',').filter(t => t.trim()).length < 2} style={{
-                background: '#003366', color: 'white', border: 'none', borderRadius: 9,
-                padding: '0 18px', fontSize: 13, fontWeight: 700,
-                cursor: saving ? 'default' : 'pointer', flexShrink: 0, minHeight: 40,
-                opacity: newTerms.split(',').filter(t => t.trim()).length < 2 ? 0.5 : 1,
+          {/* Tabs */}
+          <div style={{ display: 'flex', gap: 4, marginBottom: 20, borderBottom: '1px solid var(--adm-border)', paddingBottom: 0 }}>
+            {(['gruppen', 'matrix'] as const).map(t => (
+              <button key={t} onClick={() => setTab(t)} style={{
+                padding: '8px 18px', background: 'none', border: 'none',
+                borderBottom: tab === t ? '2px solid #003366' : '2px solid transparent',
+                color: tab === t ? 'var(--adm-text)' : 'var(--adm-text3)',
+                fontSize: 13, fontWeight: tab === t ? 700 : 500, cursor: 'pointer',
+                transition: 'all 0.15s', marginBottom: -1,
               }}>
-                {saving ? '…' : '+ Hinzufügen'}
+                {t === 'gruppen' ? `Synonym-Gruppen` : '⊞ Kreuzreferenz-Matrix'}
               </button>
-            </div>
+            ))}
           </div>
 
-          {/* Suche */}
-          <div style={{ position: 'relative', marginBottom: 14 }}>
-            <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', fontSize: 13, color: 'var(--adm-text3)' }}>🔍</span>
-            <input
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              placeholder={`${groups.length} Gruppen durchsuchen…`}
-              style={{ ...inp, width: '100%', paddingLeft: 34, boxSizing: 'border-box' }}
-            />
-          </div>
-
-          {/* Gruppen-Liste */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {filtered.map(g => (
-              <div key={g.id} style={{
-                background: 'var(--adm-surface)', border: '1px solid var(--adm-border)',
-                borderRadius: 11, overflow: 'hidden',
-                transition: 'border-color 0.15s',
+          {tab === 'gruppen' && (
+            <div>
+              {/* Info-Banner */}
+              <div style={{
+                background: 'linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%)',
+                border: '1px solid #bfdbfe', borderRadius: 12, padding: '12px 16px',
+                marginBottom: 20, display: 'flex', gap: 14, alignItems: 'flex-start',
               }}>
-                {editId === g.id ? (
-                  <div style={{ padding: '12px 14px', display: 'flex', gap: 8, alignItems: 'center' }}>
+                <span style={{ fontSize: 20, flexShrink: 0 }}>🔤</span>
+                <div>
+                  <p style={{ margin: '0 0 3px', fontSize: 13, fontWeight: 700, color: '#1e3a5f' }}>
+                    Wie Synonyme die KI verbessern
+                  </p>
+                  <p style={{ margin: 0, fontSize: 12, color: '#374151', lineHeight: 1.6 }}>
+                    Fragt ein Nutzer nach „Rasterwalze", erweitert die KI die Suche auf alle Synonyme dieser Gruppe.
+                    <strong> Basis-Gruppen</strong> (Objekte) × <strong>Modifikator-Gruppen</strong> (Aktionen) erzeugen
+                    in der Matrix zusätzliche Kombinationsbegriffe wie „Aniloxreinigung".
+                    Nach jedem Crawl werden neue Synonyme automatisch abgeleitet.
+                  </p>
+                </div>
+              </div>
+
+              {/* Neue Gruppe */}
+              <div style={{
+                background: 'var(--adm-surface)', border: '1px solid var(--adm-border)',
+                borderRadius: 12, padding: '14px 16px', marginBottom: 16,
+              }}>
+                <p style={{ margin: '0 0 10px', fontSize: 12, fontWeight: 700, color: 'var(--adm-text3)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  Neue Gruppe
+                </p>
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                  <select value={newGroupType} onChange={e => setNewGroupType(e.target.value as SynonymRow['group_type'])} style={{
+                    ...inp, width: 130, flexShrink: 0,
+                  }}>
+                    <option value="standalone">Allgemein</option>
+                    <option value="base">Basis (Objekt)</option>
+                    <option value="modifier">Modifikator</option>
+                  </select>
+                  <div style={{ flex: 1, minWidth: 200 }}>
                     <input
-                      value={editTerms} onChange={e => setEditTerms(e.target.value)}
-                      style={{ ...inp, flex: 1 }}
-                      onKeyDown={e => e.key === 'Enter' && saveEdit(g.id)}
-                      autoFocus
+                      value={newTerms}
+                      onChange={e => setNewTerms(e.target.value)}
+                      placeholder="Begriff 1, Begriff 2, Begriff 3, …  (mind. 2)"
+                      style={{ ...inp, width: '100%' }}
+                      onKeyDown={e => e.key === 'Enter' && addGroup()}
                     />
-                    <button onClick={() => saveEdit(g.id)} style={{
-                      background: '#003366', color: 'white', border: 'none', borderRadius: 7,
-                      padding: '7px 14px', fontSize: 12, fontWeight: 700, cursor: 'pointer',
-                    }}>✓ Speichern</button>
-                    <button onClick={() => setEditId(null)} style={{
-                      background: 'none', border: '1px solid var(--adm-border)', borderRadius: 7,
-                      padding: '7px 10px', fontSize: 12, color: 'var(--adm-text3)', cursor: 'pointer',
-                    }}>✕</button>
+                    {newTerms.trim() && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 8 }}>
+                        {newTerms.split(',').map(t => t.trim().toLowerCase()).filter(Boolean).map((t, i) => (
+                          <TermChip key={i} term={t} index={i + 1} primary={i === 0} />
+                        ))}
+                      </div>
+                    )}
                   </div>
-                ) : (
-                  <div style={{ padding: '11px 14px', display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <div style={{ flex: 1, display: 'flex', flexWrap: 'wrap', gap: 5 }}>
-                      {g.terms.map((t, i) => (
-                        <TermChip key={i} term={t} index={i + 1} primary={i === 0} />
-                      ))}
-                    </div>
-                    <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
-                      {confirmDeleteId === g.id ? (
-                        <>
-                          <button onClick={() => deleteGroup(g.id)} style={{
-                            background: '#ef4444', color: 'white', border: 'none', borderRadius: 7,
-                            padding: '5px 12px', fontSize: 11, fontWeight: 700, cursor: 'pointer',
-                          }}>Löschen</button>
-                          <button onClick={() => setConfirmDeleteId(null)} style={{
-                            background: 'none', border: '1px solid var(--adm-border)', borderRadius: 7,
-                            padding: '5px 8px', fontSize: 11, color: 'var(--adm-text3)', cursor: 'pointer',
-                          }}>✕</button>
-                        </>
+                  <button onClick={addGroup} disabled={saving || newTerms.split(',').filter(t => t.trim()).length < 2} style={{
+                    background: '#003366', color: 'white', border: 'none', borderRadius: 9,
+                    padding: '0 18px', fontSize: 13, fontWeight: 700,
+                    cursor: saving ? 'default' : 'pointer', flexShrink: 0, minHeight: 40,
+                    opacity: newTerms.split(',').filter(t => t.trim()).length < 2 ? 0.5 : 1,
+                  }}>
+                    {saving ? '…' : '+ Hinzufügen'}
+                  </button>
+                </div>
+              </div>
+
+              {/* Suche */}
+              <div style={{ position: 'relative', marginBottom: 14 }}>
+                <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', fontSize: 13, color: 'var(--adm-text3)' }}>🔍</span>
+                <input
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  placeholder={`${groups.length} Gruppen durchsuchen…`}
+                  style={{ ...inp, width: '100%', paddingLeft: 34, boxSizing: 'border-box' }}
+                />
+              </div>
+
+              {/* Gruppen-Liste */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {filtered.map(g => {
+                  const badge = groupTypeBadge(g.group_type)
+                  return (
+                    <div key={g.id} style={{
+                      background: 'var(--adm-surface)', border: '1px solid var(--adm-border)',
+                      borderRadius: 11, overflow: 'hidden',
+                    }}>
+                      {editId === g.id ? (
+                        <div style={{ padding: '12px 14px' }}>
+                          <div style={{ display: 'flex', gap: 8, marginBottom: 8, alignItems: 'center' }}>
+                            <select value={editGroupType} onChange={e => setEditGroupType(e.target.value as SynonymRow['group_type'])} style={{ ...inp, fontSize: 11 }}>
+                              <option value="standalone">Allgemein</option>
+                              <option value="base">Basis (Objekt)</option>
+                              <option value="modifier">Modifikator</option>
+                            </select>
+                          </div>
+                          <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                            <input
+                              value={editTerms} onChange={e => setEditTerms(e.target.value)}
+                              style={{ ...inp, flex: 1 }}
+                              onKeyDown={e => e.key === 'Enter' && saveEdit(g.id)}
+                              autoFocus
+                            />
+                            <button onClick={() => saveEdit(g.id)} style={{
+                              background: '#003366', color: 'white', border: 'none', borderRadius: 7,
+                              padding: '7px 14px', fontSize: 12, fontWeight: 700, cursor: 'pointer',
+                            }}>✓</button>
+                            <button onClick={() => setEditId(null)} style={{
+                              background: 'none', border: '1px solid var(--adm-border)', borderRadius: 7,
+                              padding: '7px 10px', fontSize: 12, color: 'var(--adm-text3)', cursor: 'pointer',
+                            }}>✕</button>
+                          </div>
+                        </div>
                       ) : (
-                        <>
-                          <button onClick={() => { setEditId(g.id); setEditTerms(g.terms.join(', ')) }} style={{
-                            background: 'none', border: '1px solid var(--adm-border)', borderRadius: 7,
-                            padding: '5px 10px', fontSize: 11, color: 'var(--adm-text3)', cursor: 'pointer',
-                          }}>✏️</button>
-                          <button onClick={() => setConfirmDeleteId(g.id)} style={{
-                            background: 'none', border: '1px solid var(--adm-border)', borderRadius: 7,
-                            padding: '5px 10px', fontSize: 11, color: '#9ca3af', cursor: 'pointer',
-                          }}>🗑</button>
-                        </>
+                        <div style={{ padding: '11px 14px', display: 'flex', alignItems: 'center', gap: 10 }}>
+                          <span style={{
+                            fontSize: 9, fontWeight: 700, padding: '2px 7px', borderRadius: 20, flexShrink: 0,
+                            background: badge.bg, color: badge.color, letterSpacing: '0.04em',
+                          }}>{badge.label}</span>
+                          <div style={{ flex: 1, display: 'flex', flexWrap: 'wrap', gap: 5 }}>
+                            {g.terms.map((t, i) => (
+                              <TermChip key={i} term={t} index={i + 1} primary={i === 0} />
+                            ))}
+                          </div>
+                          <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+                            {confirmDeleteId === g.id ? (
+                              <>
+                                <button onClick={() => deleteGroup(g.id)} style={{
+                                  background: '#ef4444', color: 'white', border: 'none', borderRadius: 7,
+                                  padding: '5px 12px', fontSize: 11, fontWeight: 700, cursor: 'pointer',
+                                }}>Löschen</button>
+                                <button onClick={() => setConfirmDeleteId(null)} style={{
+                                  background: 'none', border: '1px solid var(--adm-border)', borderRadius: 7,
+                                  padding: '5px 8px', fontSize: 11, color: 'var(--adm-text3)', cursor: 'pointer',
+                                }}>✕</button>
+                              </>
+                            ) : (
+                              <>
+                                <button onClick={() => { setEditId(g.id); setEditTerms(g.terms.join(', ')); setEditGroupType(g.group_type) }} style={{
+                                  background: 'none', border: '1px solid var(--adm-border)', borderRadius: 7,
+                                  padding: '5px 10px', fontSize: 11, color: 'var(--adm-text3)', cursor: 'pointer',
+                                }}>✏️</button>
+                                <button onClick={() => setConfirmDeleteId(g.id)} style={{
+                                  background: 'none', border: '1px solid var(--adm-border)', borderRadius: 7,
+                                  padding: '5px 10px', fontSize: 11, color: '#9ca3af', cursor: 'pointer',
+                                }}>🗑</button>
+                              </>
+                            )}
+                          </div>
+                        </div>
                       )}
                     </div>
+                  )
+                })}
+
+                {loaded && groups.length === 0 && (
+                  <div style={{ textAlign: 'center', padding: '32px 20px', border: '2px dashed var(--adm-border)', borderRadius: 12 }}>
+                    <p style={{ fontSize: 14, color: 'var(--adm-text3)', margin: '0 0 4px' }}>Noch keine Synonym-Gruppen</p>
+                    <p style={{ fontSize: 12, color: 'var(--adm-text4)', margin: 0 }}>Führe Migration 032 aus oder füge manuell Gruppen hinzu.</p>
                   </div>
                 )}
+                {loaded && groups.length > 0 && filtered.length === 0 && (
+                  <p style={{ fontSize: 12, color: 'var(--adm-text3)', textAlign: 'center', padding: 16 }}>
+                    Keine Gruppe enthält „{search}"
+                  </p>
+                )}
               </div>
-            ))}
+            </div>
+          )}
 
-            {loaded && groups.length === 0 && (
+          {tab === 'matrix' && (
+            <div>
               <div style={{
-                textAlign: 'center', padding: '32px 20px',
-                border: '2px dashed var(--adm-border)', borderRadius: 12,
+                background: 'linear-gradient(135deg, #0a0f1a 0%, #111827 100%)',
+                border: '1px solid #1e3a5f', borderRadius: 12, padding: '12px 16px',
+                marginBottom: 20, display: 'flex', gap: 14, alignItems: 'flex-start',
               }}>
-                <p style={{ fontSize: 14, color: 'var(--adm-text3)', margin: '0 0 4px' }}>Noch keine Synonym-Gruppen</p>
-                <p style={{ fontSize: 12, color: 'var(--adm-text4)', margin: 0 }}>Führe Migration 032 aus oder füge manuell Gruppen hinzu.</p>
+                <span style={{ fontSize: 20, flexShrink: 0 }}>⊞</span>
+                <div>
+                  <p style={{ margin: '0 0 3px', fontSize: 13, fontWeight: 700, color: '#93c5fd' }}>
+                    Kreuzreferenz-Matrix
+                  </p>
+                  <p style={{ margin: 0, fontSize: 12, color: '#9ca3af', lineHeight: 1.6 }}>
+                    Jede Zelle verbindet ein <strong style={{ color: '#93c5fd' }}>Basisobjekt</strong> (Zeile) mit einem{' '}
+                    <strong style={{ color: '#6ee7b7' }}>Modifikator</strong> (Spalte). Aktive Zellen erweitern die KI-Suche
+                    automatisch um kombinierte Fachbegriffe wie „Aniloxreinigung". Klicke eine Zelle zum Bearbeiten.
+                  </p>
+                </div>
               </div>
-            )}
-            {loaded && groups.length > 0 && filtered.length === 0 && (
-              <p style={{ fontSize: 12, color: 'var(--adm-text3)', textAlign: 'center', padding: 16 }}>
-                Keine Gruppe enthält „{search}"
-              </p>
-            )}
-          </div>
+              <SynonymMatrix
+                groups={groups}
+                combinations={combinations}
+                onCombosChange={setCombinations}
+              />
+            </div>
+          )}
         </div>
       )}
     </div>

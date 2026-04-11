@@ -10,15 +10,29 @@ async function expandWithSynonyms(
   query: string,
   admin: ReturnType<typeof import('@/lib/supabase/admin').createAdminClient>
 ): Promise<string> {
-  const { data: groups } = await admin.from('inoai_synonyms').select('terms')
+  const [{ data: groups }, { data: combos }] = await Promise.all([
+    admin.from('inoai_synonyms').select('id, terms, group_type'),
+    admin.from('inoai_synonym_combinations').select('base_id, modifier_id, extra_terms').eq('active', true),
+  ])
   if (!groups?.length) return query
 
   const lower = query.toLowerCase()
   const extras = new Set<string>()
+  const matchedBaseIds = new Set<number>()
+  const matchedModifierIds = new Set<number>()
 
   for (const group of groups) {
     if ((group.terms as string[]).some(t => lower.includes(t.toLowerCase()))) {
       ;(group.terms as string[]).forEach(t => extras.add(t))
+      if (group.group_type === 'base') matchedBaseIds.add(group.id as number)
+      if (group.group_type === 'modifier') matchedModifierIds.add(group.id as number)
+    }
+  }
+
+  // Kombinationsbegriffe hinzufügen wenn sowohl Base als auch Modifier matchen
+  for (const combo of combos ?? []) {
+    if (matchedBaseIds.has(combo.base_id as number) && matchedModifierIds.has(combo.modifier_id as number)) {
+      ;(combo.extra_terms as string[]).forEach(t => extras.add(t))
     }
   }
 

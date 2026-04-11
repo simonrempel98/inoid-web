@@ -20,12 +20,12 @@ export async function GET() {
 
 export async function POST(req: Request) {
   if (!await guard()) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
-  const { terms } = await req.json()
+  const { terms, group_type = 'standalone' } = await req.json()
   if (!Array.isArray(terms) || terms.length < 2) {
     return NextResponse.json({ error: 'Mindestens 2 Begriffe erforderlich' }, { status: 400 })
   }
   const admin = createAdminClient()
-  const { data, error } = await admin.from('inoai_synonyms').insert({ terms }).select().single()
+  const { data, error } = await admin.from('inoai_synonyms').insert({ terms, group_type }).select().single()
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
   return NextResponse.json(data)
 }
