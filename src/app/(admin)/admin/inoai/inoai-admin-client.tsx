@@ -1707,7 +1707,7 @@ const ALL_LANGS = [
   { code: 'ja', label: '日本語' }, { code: 'zh', label: '中文' },
 ]
 
-const ACCEPT = '.pdf,.docx,.txt,.md,.csv,.html,.htm,.xml,.json,.log,.rtf'
+const ACCEPT = '.pdf,.docx,.pptx,.txt,.md,.csv,.html,.htm,.xml,.json,.log,.rtf'
 
 function ManualUpload() {
   const [tab, setTab] = useState<'upload' | 'docs'>('upload')
@@ -1827,7 +1827,7 @@ function ManualUpload() {
             ) : (
               <div>
                 <p style={{ margin: 0, fontSize: 14, color: 'var(--adm-text3)' }}>Datei hierher ziehen oder klicken</p>
-                <p style={{ margin: '4px 0 0', fontSize: 11, color: 'var(--adm-text3)' }}>PDF, DOCX, TXT, MD, CSV, HTML, XML, JSON</p>
+                <p style={{ margin: '4px 0 0', fontSize: 11, color: 'var(--adm-text3)' }}>PDF, DOCX, PPTX, TXT, MD, CSV, HTML, XML, JSON</p>
               </div>
             )}
           </div>

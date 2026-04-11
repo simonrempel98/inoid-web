@@ -43,6 +43,30 @@ async function extractText(
     return { text: result.value.replace(/\s{2,}/g, ' ').trim(), title: baseName }
   }
 
+  // PPTX — extract text from slide XML files inside the ZIP
+  if (ext === 'pptx' || mimeType.includes('presentationml')) {
+    const AdmZip = require('adm-zip')
+    const zip = new AdmZip(buffer)
+    const entries = zip.getEntries()
+    // Collect slide files in order (slide1.xml, slide2.xml, ...)
+    const slideEntries = entries
+      .filter((e: any) => /^ppt\/slides\/slide\d+\.xml$/.test(e.entryName))
+      .sort((a: any, b: any) => {
+        const numA = parseInt(a.entryName.match(/\d+/)?.[0] ?? '0')
+        const numB = parseInt(b.entryName.match(/\d+/)?.[0] ?? '0')
+        return numA - numB
+      })
+    const parts: string[] = []
+    for (const entry of slideEntries) {
+      const xml = entry.getData().toString('utf-8')
+      // Extract all <a:t> text nodes (DrawingML text runs)
+      const texts = [...xml.matchAll(/<a:t[^>]*>([^<]+)<\/a:t>/g)].map(m => m[1])
+      if (texts.length > 0) parts.push(texts.join(' '))
+    }
+    const text = parts.join('\n\n').replace(/\s{2,}/g, ' ').trim()
+    return { text, title: baseName }
+  }
+
   // Plain text variants
   if (['txt', 'md', 'csv', 'log', 'rtf'].includes(ext) || mimeType.startsWith('text/')) {
     const text = buffer.toString('utf-8').replace(/\s{2,}/g, ' ').trim()
