@@ -19,6 +19,7 @@ export async function GET(req: Request) {
     .from('inometa_knowledge')
     .select('source_type, source_url, title, language, crawler_id, created_at')
     .order('created_at', { ascending: false })
+    .limit(100_000)
 
   const typeCounts: Record<string, number> = {}
   for (const r of allRows ?? []) {

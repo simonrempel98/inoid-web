@@ -13,9 +13,17 @@ export async function GET() {
   if (!profile?.is_platform_admin) return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
   const admin = createAdminClient()
+
+  // Exact total count without fetching all rows
+  const { count: total } = await admin
+    .from('inometa_knowledge')
+    .select('*', { count: 'exact', head: true })
+
+  // Per-crawler breakdown — fetch all rows with high limit
   const { data: rows } = await admin
     .from('inometa_knowledge')
     .select('crawler_id, source_url, source_type, created_at')
+    .limit(100_000)
 
   const perCrawler: Record<string, {
     chunks: number
@@ -24,6 +32,9 @@ export async function GET() {
     lastUpdated: string | null
   }> = {}
 
+  const pageUrls: Record<string, Set<string>> = {}
+  const docUrls: Record<string, Set<string>> = {}
+
   for (const row of rows ?? []) {
     const id = row.crawler_id ?? 'legacy'
     if (!perCrawler[id]) perCrawler[id] = { chunks: 0, pages: 0, docs: 0, lastUpdated: null }
@@ -31,13 +42,6 @@ export async function GET() {
     if (!perCrawler[id].lastUpdated || row.created_at > perCrawler[id].lastUpdated) {
       perCrawler[id].lastUpdated = row.created_at
     }
-  }
-
-  // Unique URLs pro Crawler + Typ zählen
-  const pageUrls: Record<string, Set<string>> = {}
-  const docUrls: Record<string, Set<string>> = {}
-  for (const row of rows ?? []) {
-    const id = row.crawler_id ?? 'legacy'
     if (row.source_type === 'website') {
       if (!pageUrls[id]) pageUrls[id] = new Set()
       pageUrls[id].add(row.source_url)
@@ -46,10 +50,11 @@ export async function GET() {
       docUrls[id].add(row.source_url)
     }
   }
+
   for (const id of Object.keys(perCrawler)) {
     perCrawler[id].pages = pageUrls[id]?.size ?? 0
     perCrawler[id].docs = docUrls[id]?.size ?? 0
   }
 
-  return NextResponse.json({ perCrawler, total: rows?.length ?? 0 })
+  return NextResponse.json({ perCrawler, total: total ?? 0 })
 }
