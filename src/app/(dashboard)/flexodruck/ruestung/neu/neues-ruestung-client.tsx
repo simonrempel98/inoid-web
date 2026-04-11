@@ -163,7 +163,7 @@ export function NeuesRuestungClient({
             <input value={name} onChange={e => setName(e.target.value)}
               placeholder="z.B. Rüstung Job 2024-001" required style={input} />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }} className="rg-2">
             <div>
               <label style={labelStyle}>{t('jobNumber')}</label>
               <input value={jobNumber} onChange={e => setJobNumber(e.target.value)}

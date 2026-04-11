@@ -54,7 +54,7 @@ export default async function WartungPage() {
   }
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', paddingBottom: 40 }}>
+    <div style={{ fontFamily: 'Arial, sans-serif', paddingBottom: 40 }} className="page-pad">
       <div style={{ padding: '20px 20px 16px' }}>
         <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 2px' }}>{t('wartung.title')}</h1>
         <p style={{ fontSize: 13, color: '#666', margin: 0 }}>
@@ -62,7 +62,7 @@ export default async function WartungPage() {
         </p>
       </div>
 
-      <div style={{ padding: '0 20px 20px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+      <div style={{ padding: '0 20px 20px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }} className="rg-2">
         {stats.map(s => (
           <div key={s.label} style={{
             background: 'white', borderRadius: 14, padding: '14px 16px',

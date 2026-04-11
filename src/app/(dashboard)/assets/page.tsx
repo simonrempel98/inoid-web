@@ -75,7 +75,7 @@ export default async function AssetsPage({
   const hasFilters = !!(status || cat || (sort && sort !== 'newest'))
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif' }}>
+    <div style={{ fontFamily: 'Arial, sans-serif' }} className="page-pad">
       {/* Header */}
       <div style={{
         padding: '20px 20px 0',

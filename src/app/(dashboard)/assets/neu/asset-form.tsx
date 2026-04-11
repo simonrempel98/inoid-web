@@ -400,7 +400,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
             <label style={labelStyle}>{t('assets.form.nameRequired')}</label>
             <input value={title} onChange={e => setTitle(e.target.value)} style={inputStyle} placeholder={t('assets.form.namePlaceholder')} autoFocus />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }} className="rg-2">
             <div>
               <label style={labelStyle}>{t('assets.form.articleNumber')}</label>
               <input value={articleNumber} onChange={e => setArticleNumber(e.target.value)} style={inputStyle} placeholder="WZ-2024-001" />
@@ -410,7 +410,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
               <input value={serialNumber} onChange={e => setSerialNumber(e.target.value)} style={inputStyle} placeholder="INO-SN-2024-001" />
             </div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }} className="rg-2">
             <div>
               <label style={labelStyle}>{t('assets.form.orderNumber')}</label>
               <input value={orderNumber} onChange={e => setOrderNumber(e.target.value)} style={inputStyle} placeholder="ORD-WZ-2024" />
@@ -420,7 +420,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
               <CategoryCombobox value={category} onChange={setCategory} categories={categories} inputStyle={inputStyle} />
             </div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }} className="rg-2">
             <div>
               <label style={labelStyle}>{t('assets.form.manufacturer')}</label>
               <input value={manufacturer} onChange={e => setManufacturer(e.target.value)} style={inputStyle} placeholder="z.B. INOMETA GmbH" />
@@ -480,7 +480,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
                 Wird komprimiert…
               </div>
             )}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 4 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8, marginBottom: 4 }} className="rg-3">
               {imagePreviews.map((src, i) => (
                 <div key={i} style={{
                   position: 'relative', aspectRatio: '1', borderRadius: 10, overflow: 'hidden',

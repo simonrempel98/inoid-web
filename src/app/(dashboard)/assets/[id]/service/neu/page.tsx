@@ -487,7 +487,7 @@ export default function NeuerServiceEintragPage() {
         </div>
 
         {/* 2-Spalter: Durchgeführt von + Firma */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }} className="rg-2">
           <div>
             <label style={labelStyle}>{t('service.entry.performedBy')}</label>
             <input value={performedBy} onChange={e => setPerformedBy(e.target.value)} placeholder={t('service.entry.performedByPlaceholder')} style={inputStyle} />

@@ -246,7 +246,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
             <label style={labelStyle}>{t('assets.form.nameRequired')}</label>
             <input value={title} onChange={e => setTitle(e.target.value)} style={inputStyle} />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }} className="rg-2">
             <div>
               <label style={labelStyle}>{t('assets.form.articleNumber')}</label>
               <input value={articleNumber} onChange={e => setArticleNumber(e.target.value)} style={inputStyle} placeholder="WZ-2024-001" />
@@ -256,7 +256,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
               <input value={serialNumber} onChange={e => setSerialNumber(e.target.value)} style={inputStyle} placeholder="INO-SN-2024-001" />
             </div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }} className="rg-2">
             <div>
               <label style={labelStyle}>{t('assets.form.orderNumber')}</label>
               <input value={orderNumber} onChange={e => setOrderNumber(e.target.value)} style={inputStyle} />
@@ -266,7 +266,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
               <CategoryCombobox value={category} onChange={setCategory} categories={categories} inputStyle={inputStyle} />
             </div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }} className="rg-2">
             <div>
               <label style={labelStyle}>{t('assets.form.manufacturer')}</label>
               <input value={manufacturer} onChange={e => setManufacturer(e.target.value)} style={inputStyle} />
@@ -362,7 +362,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
           <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Camera size={15} /> {t('assets.form.steps.fotos')}</p>
           <input ref={fileInputRef} type="file" accept="image/*" multiple onChange={handleFileSelect} style={{ display: 'none' }} />
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }} className="rg-3">
             {existingUrls.map((url, i) => (
               <div key={url} style={{ position: 'relative', aspectRatio: '1', borderRadius: 10, overflow: 'hidden', border: '1px solid #c8d4e8' }}>
                 <img src={url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />

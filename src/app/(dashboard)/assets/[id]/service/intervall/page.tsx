@@ -310,7 +310,7 @@ export default function IntervalPage() {
         </div>
 
         {/* Letzter + Nächster Termin */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }} className="rg-2">
           <div>
             <label style={labelStyle}>{t('service.interval.lastDone')}</label>
             <input type="date" value={lastDate} onChange={e => onLastDateChange(e.target.value)} style={inputStyle} />

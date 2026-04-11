@@ -68,7 +68,7 @@ export default async function ServicePage({
       </div>
 
       {/* Statistik-Karten */}
-      <div style={{ padding: '0 20px 20px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
+      <div style={{ padding: '0 20px 20px', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }} className="rg-3">
         <StatCard label={t('service.entries')} value={String(events?.length ?? 0)} icon={<ClipboardList size={14} />} />
         <StatCard label={t('service.totalCost')} value={totalCost > 0 ? `${totalCost.toLocaleString(locale)} €` : '–'} icon={<Euro size={14} />} />
         <StatCard label={t('service.intervals')} value={String(schedules?.length ?? 0)} icon={<RefreshCw size={14} />} />

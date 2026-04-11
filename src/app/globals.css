@@ -184,3 +184,162 @@
     font-family: Arial, Helvetica, sans-serif;
   }
 }
+
+/* ── Responsive Grid Utilities ── */
+/* These override inline styles via !important at mobile breakpoints */
+
+/* 2-column grids → 1 column on mobile */
+.rg-2 {
+  display: grid !important;
+}
+@media (max-width: 640px) {
+  .rg-2 {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* 3-column grids → 1 col mobile, 2 col tablet */
+.rg-3 {
+  display: grid !important;
+}
+@media (max-width: 640px) {
+  .rg-3 {
+    grid-template-columns: 1fr !important;
+  }
+}
+@media (min-width: 641px) and (max-width: 900px) {
+  .rg-3 {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* 4-column grids → 1 col mobile, 2 col tablet */
+.rg-4 {
+  display: grid !important;
+}
+@media (max-width: 640px) {
+  .rg-4 {
+    grid-template-columns: 1fr !important;
+  }
+}
+@media (min-width: 641px) and (max-width: 900px) {
+  .rg-4 {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}
+
+/* Stats row (auto-fill cards) → wrap on mobile */
+.rg-stats {
+  display: grid !important;
+}
+@media (max-width: 640px) {
+  .rg-stats {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+  }
+}
+
+/* Full-width page containers → reduce side padding on mobile */
+@media (max-width: 640px) {
+  .page-container {
+    padding: 12px !important;
+    margin: 0 !important;
+  }
+  /* page-pad: reduces side padding on any child divs of page wrappers */
+  .page-pad > div {
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+  }
+}
+
+/* Card padding reduction on mobile */
+@media (max-width: 640px) {
+  .mobile-card {
+    padding: 12px !important;
+  }
+}
+
+/* Hide text labels on mobile (icon-only buttons) */
+@media (max-width: 640px) {
+  .mobile-icon-only span.label {
+    display: none !important;
+  }
+}
+
+/* Overflow-x scroll for wide tables on mobile */
+@media (max-width: 640px) {
+  .mobile-scroll {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}
+
+/* Full-width buttons on mobile */
+@media (max-width: 640px) {
+  .mobile-full-btn {
+    width: 100% !important;
+  }
+}
+
+/* Stack flex rows on mobile */
+@media (max-width: 640px) {
+  .mobile-stack {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+  .mobile-stack > * {
+    width: 100% !important;
+  }
+}
+
+/* ── Long word / text overflow handling on mobile ── */
+/* Prevent long URLs, technical IDs, serial numbers etc. from breaking layout */
+@media (max-width: 640px) {
+  /* Break any word that overflows its container */
+  body {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  /* Table cells: allow breaking */
+  td, th {
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    max-width: 0; /* forces table to respect container width */
+    min-width: 0;
+  }
+
+  /* Cards and list items: truncate with ellipsis by default */
+  .db-stat-card,
+  [class*="card"],
+  [class*="Card"] {
+    overflow: hidden;
+  }
+
+  /* Headings and labels: allow breaking rather than overflowing */
+  h1, h2, h3, h4, h5, h6 {
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+    hyphens: auto;
+  }
+
+  /* Any element with inline ellipsis style should keep it on mobile */
+  [style*="textOverflow: 'ellipsis'"],
+  [style*="text-overflow: ellipsis"] {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  /* Flex containers: prevent children from forcing parent to widen */
+  .mobile-no-overflow {
+    overflow: hidden !important;
+    min-width: 0 !important;
+  }
+
+  /* Inputs and textareas: never overflow on mobile */
+  input, textarea, select {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+}

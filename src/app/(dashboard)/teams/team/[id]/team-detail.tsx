@@ -315,7 +315,7 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
                   {i > 0 && <div style={{ height: 1, background: '#e8eef6', margin: '0 16px' }} />}
                   {editingMemberId === m.id ? (
                     <div style={{ padding: '12px 16px' }}>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 10 }}>
+                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 10 }} className="rg-2">
                         <div>
                           <label style={{ display: 'block', fontSize: 10, color: '#96aed2', fontWeight: 700, marginBottom: 4 }}>{t('colFirstName')}</label>
                           <input value={editForm.first_name} onChange={e => setEditForm(f => ({ ...f, first_name: e.target.value }))} style={inputStyle} />

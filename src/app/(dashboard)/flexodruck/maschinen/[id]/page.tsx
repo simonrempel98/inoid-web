@@ -186,7 +186,7 @@ export default async function MaschinenDetailPage({ params }: { params: Promise<
       <MachineDiagram druckwerke={diagramDWs} canEdit={canEdit} machineId={id} />
 
       {/* Vorlagen + Rüstvorgänge */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }} className="rg-2">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {/* Vorlagen */}
           <div>

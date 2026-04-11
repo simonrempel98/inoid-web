@@ -139,7 +139,7 @@ export default async function AssetDetailPage({
       </div>
 
       {/* Quick Info Karten */}
-      <div style={{ padding: '0 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
+      <div style={{ padding: '0 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }} className="rg-2">
         {asset.category && (
           <InfoCard icon={<Tag size={14} />} label={t('assets.fields.category')} value={asset.category} />
         )}
@@ -326,7 +326,7 @@ function DataGrid({ title, icon, entries }: { title: string; icon: React.ReactNo
   return (
     <div style={{ padding: '0 16px 16px' }}>
       <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 6 }}>{icon}{title}</h2>
-      <div style={{
+      <div className="rg-3" style={{
         background: 'white', borderRadius: 14, border: '1px solid #c8d4e8',
         display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
         overflow: 'hidden',

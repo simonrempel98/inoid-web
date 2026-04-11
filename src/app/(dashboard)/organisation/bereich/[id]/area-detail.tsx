@@ -182,7 +182,7 @@ export function AreaDetail({ area, assets, customStatuses }: {
 
       {/* Info-Karten */}
       {!editing && (
-        <div style={{ padding: '0 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
+        <div style={{ padding: '0 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }} className="rg-2">
           {area.responsible_name && <InfoCard icon={<User size={14} />} label={t('responsible')} value={area.responsible_name} />}
           {area.shift_model && <InfoCard icon={<Clock size={14} />} label={t('shiftModel')} value={area.shift_model} />}
           {area.area_sqm && <InfoCard icon={<Maximize2 size={14} />} label={t('areaSqm')} value={`${area.area_sqm.toLocaleString('de-DE')} m²`} />}

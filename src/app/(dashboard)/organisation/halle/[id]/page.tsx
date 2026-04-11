@@ -94,7 +94,7 @@ export default async function HalleDetailPage({
         </div>
 
         {/* Übersicht-Karten */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }} className="rg-2">
           <div style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid #e8eef6' }}>
             <p style={{ margin: 0, fontSize: 11, color: '#96aed2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{t('assetsTotal')}</p>
             <p style={{ margin: '4px 0 0', fontSize: 24, fontWeight: 700, color: '#003366' }}>{totalCount}</p>

@@ -230,7 +230,7 @@ export default function NeueVorlagePage() {
             <textarea value={description} onChange={e => setDescription(e.target.value)}
               rows={2} style={{ ...inputStyle, resize: 'none' }} placeholder={t('descPlaceholder')} />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }} className="rg-2">
             <div>
               <label style={labelStyle}>{t('categoryLabel')}</label>
               <input value={category} onChange={e => setCategory(e.target.value)}

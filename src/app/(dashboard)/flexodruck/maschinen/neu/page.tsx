@@ -73,7 +73,7 @@ export default function NeueMaschinePage() {
             <input value={name} onChange={e => setName(e.target.value)} placeholder="z.B. Flexodruckmaschine 1" required style={input} />
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 14 }} className="rg-2">
             <div>
               <label style={label}>{t('manufacturer')}</label>
               <input value={manufacturer} onChange={e => setManufacturer(e.target.value)} placeholder="z.B. WINDMÖLLER & HÖLSCHER" style={input} />

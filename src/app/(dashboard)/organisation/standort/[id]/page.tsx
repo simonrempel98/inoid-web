@@ -107,7 +107,7 @@ export default async function StandortDetailPage({
         </div>
 
         {/* Übersicht-Karten */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, marginTop: 16 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, marginTop: 16 }} className="rg-3">
           <div style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid #e8eef6' }}>
             <p style={{ margin: 0, fontSize: 10, color: '#96aed2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{t('assetsLabel')}</p>
             <p style={{ margin: '4px 0 0', fontSize: 24, fontWeight: 700, color: '#003366' }}>{totalCount}</p>

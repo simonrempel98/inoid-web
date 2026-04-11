@@ -249,7 +249,7 @@ export function MachineEditClient({
             <label style={labelStyle}>Name *</label>
             <input value={name} onChange={e => setName(e.target.value)} required style={inputStyle} />
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 12 }} className="rg-2">
             <div>
               <label style={labelStyle}>Hersteller</label>
               <input value={manufacturer} onChange={e => setManufacturer(e.target.value)} style={inputStyle} />
