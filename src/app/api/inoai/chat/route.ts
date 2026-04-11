@@ -6,6 +6,29 @@ import Anthropic from '@anthropic-ai/sdk'
 
 const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
+async function expandWithSynonyms(
+  query: string,
+  admin: ReturnType<typeof import('@/lib/supabase/admin').createAdminClient>
+): Promise<string> {
+  const { data: groups } = await admin.from('inoai_synonyms').select('terms')
+  if (!groups?.length) return query
+
+  const lower = query.toLowerCase()
+  const extras = new Set<string>()
+
+  for (const group of groups) {
+    if ((group.terms as string[]).some(t => lower.includes(t.toLowerCase()))) {
+      ;(group.terms as string[]).forEach(t => extras.add(t))
+    }
+  }
+
+  if (!extras.size) return query
+
+  // websearch_to_tsquery-kompatibles OR-Format
+  const allTerms = [query, ...Array.from(extras)]
+  return allTerms.map(t => `"${t}"`).join(' OR ')
+}
+
 const SYSTEM_PROMPT = `Du bist INOai, der KI-Assistent der INOMETA GmbH.
 Du beantwortest Fragen zu INOMETA-Produkten, Walzentechnologie und Druckmaschinenzubehör.
 Du antwortest ausschließlich auf Basis der bereitgestellten Wissensbasis.
@@ -24,8 +47,11 @@ export async function POST(req: Request) {
 
   const admin = createAdminClient()
 
+  // Query mit Synonymen erweitern
+  const expandedQuery = await expandWithSynonyms(message, admin)
+
   const { data: chunks } = await admin.rpc('search_inometa_knowledge', {
-    query: message,
+    query: expandedQuery,
     max_results: 6,
   })
 

@@ -94,6 +94,14 @@ function extractPdfs(html: string, pageUrl: string): Set<string> {
   return pdfs
 }
 
+function hasDoubledSegment(url: URL): boolean {
+  const parts = url.pathname.split('/').filter(Boolean)
+  for (let i = 0; i < parts.length - 1; i++) {
+    if (parts[i] === parts[i + 1]) return true
+  }
+  return false
+}
+
 function extractLinks(html: string, pageUrl: string, rootUrl: URL): { links: Set<string>; pdfs: Set<string> } {
   const links = new Set<string>()
 
@@ -114,6 +122,7 @@ function extractLinks(html: string, pageUrl: string, rootUrl: URL): { links: Set
       if (url.hostname !== rootUrl.hostname) continue
       if (SKIP_PATTERNS.some(p => p.test(url.pathname + url.search))) continue
       if (!url.pathname.startsWith(rootUrl.pathname)) continue
+      if (hasDoubledSegment(url)) continue
       links.add(url.href)
     } catch { /* ignore */ }
   }
