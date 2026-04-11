@@ -281,7 +281,7 @@ export function INOaiChat() {
   }
 
   return (
-    <div style={{ display: 'flex', height: 'calc(100vh - 60px)', fontFamily: 'Arial, sans-serif', position: 'relative' }}>
+    <div style={{ display: 'flex', flex: 1, minHeight: 0, fontFamily: 'Arial, sans-serif', position: 'relative' }}>
 
       {/* ── History Sidebar ──────────────────────────────────────────────── */}
       {sidebarOpen && (
@@ -382,12 +382,12 @@ export function INOaiChat() {
       )}
 
       {/* ── Chat-Bereich ──────────────────────────────────────────────────── */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', maxWidth: 800, width: '100%', margin: '0 auto' }}>
+      <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column', maxWidth: 800, width: '100%', margin: '0 auto' }}>
 
         {/* Topbar */}
-        <div style={{
-          padding: '12px 20px', borderBottom: '1px solid #e8edf4',
-          display: 'flex', alignItems: 'center', gap: 12, background: 'white',
+        <div className="inoai-topbar" style={{
+          padding: '10px 16px', borderBottom: '1px solid #e8edf4',
+          display: 'flex', alignItems: 'center', gap: 10, background: 'white', flexShrink: 0,
         }}>
           {/* History Button */}
           <button
@@ -404,7 +404,7 @@ export function INOaiChat() {
               <line x1="3" y1="12" x2="21" y2="12"/>
               <line x1="3" y1="18" x2="15" y2="18"/>
             </svg>
-            Verlauf
+            <span className="inoai-topbar-label">Verlauf</span>
           </button>
 
           {/* Titel */}
@@ -435,7 +435,7 @@ export function INOaiChat() {
         </div>
 
         {/* Message list */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '20px 20px', display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <div className="inoai-msgs" style={{ flex: 1, minHeight: 0, overflowY: 'auto', padding: '16px 16px', display: 'flex', flexDirection: 'column', gap: 16 }}>
           {messages.map(msg => (
             <div key={msg.id} style={{
               display: 'flex',
@@ -444,7 +444,7 @@ export function INOaiChat() {
             }}>
               {msg.role === 'assistant' && <Avatar />}
 
-              <div style={{ maxWidth: '82%', minWidth: 0 }}>
+              <div className="inoai-bubble-wrap" style={{ maxWidth: '82%', minWidth: 0 }}>
                 {/* Bubble */}
                 <div style={{
                   background: msg.role === 'user'
@@ -524,7 +524,7 @@ export function INOaiChat() {
         </div>
 
         {/* Input */}
-        <div style={{ padding: '12px 20px 20px', borderTop: '1px solid #e8edf4', background: '#f8faff' }}>
+        <div className="inoai-input-area" style={{ padding: '10px 14px 14px', borderTop: '1px solid #e8edf4', background: '#f8faff', flexShrink: 0 }}>
           <div style={{
             display: 'flex', gap: 10, background: 'white',
             border: '1.5px solid #c8d4e8', borderRadius: 16,
@@ -572,8 +572,9 @@ export function INOaiChat() {
               </svg>
             </button>
           </div>
-          <p style={{ margin: '7px 0 0', fontSize: 11, color: '#9ca3af', textAlign: 'center' }}>
-            INOai nutzt INOMETA-Produktinformationen · Enter zum Senden · Shift+Enter für Zeilenumbruch
+          <p className="inoai-hint" style={{ margin: '6px 0 0', fontSize: 11, color: '#9ca3af', textAlign: 'center' }}>
+            <span className="inoai-topbar-label">INOai nutzt INOMETA-Produktinformationen · Enter zum Senden · </span>
+            Shift+Enter für Zeilenumbruch
           </p>
         </div>
       </div>
@@ -587,6 +588,20 @@ export function INOaiChat() {
         .inoai-md p:last-child { margin-bottom: 0 !important; }
         /* Zebra-Streifen für Tabellen */
         .inoai-md tbody tr:nth-child(even) { background: #f8faff; }
+
+        /* ── Mobile Optimierungen ── */
+        @media (max-width: 767px) {
+          /* Bubbles breiter auf Mobile */
+          .inoai-bubble-wrap { max-width: 92% !important; }
+          /* Weniger horizontales Padding bei Nachrichten */
+          .inoai-msgs { padding: 12px 10px !important; gap: 12px !important; }
+          /* Input-Bereich: extra Padding unten für Bottom-Nav (56px) */
+          .inoai-input-area { padding: 8px 10px 68px !important; }
+          /* Topbar kompakter */
+          .inoai-topbar { padding: 8px 12px !important; }
+          /* Topbar "Verlauf"-Text auf Mobile ausblenden, nur Icon */
+          .inoai-topbar-label { display: none !important; }
+        }
       `}</style>
     </div>
   )

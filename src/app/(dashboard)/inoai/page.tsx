@@ -22,35 +22,56 @@ export default async function INOaiPage() {
   if (features.inoai === false) redirect('/dashboard')
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
-      {/* Header */}
-      <div style={{
-        padding: '16px 24px', borderBottom: '1px solid #e8edf4',
-        background: 'white', display: 'flex', alignItems: 'center', gap: 14, flexShrink: 0,
-      }}>
-        <div style={{
-          width: 40, height: 40, borderRadius: 12, flexShrink: 0,
-          background: 'linear-gradient(135deg, #003366 0%, #0099cc 100%)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-        }}>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/>
-            <path d="M8 14s1.5 2 4 2 4-2 4-2"/>
-            <line x1="9" y1="9" x2="9.01" y2="9" strokeWidth="3"/>
-            <line x1="15" y1="9" x2="15.01" y2="9" strokeWidth="3"/>
-          </svg>
-        </div>
-        <div>
-          <h1 style={{ margin: 0, fontSize: 18, fontWeight: 900, color: '#003366', fontFamily: 'Arial, sans-serif' }}>
-            INOai
-          </h1>
-          <p style={{ margin: 0, fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>
-            Produktassistent · powered by INOMETA-Wissensbasis
-          </p>
-        </div>
-      </div>
+    <>
+      {/*
+        Desktop: sidebar 230px links, kein mobile header → volle dvh
+        Mobile:  sticky header ~63px oben, bottom nav 56px unten (fixed)
+                 → calc(100dvh - 63px) mit padding-bottom 56px im Input
+      */}
+      <style>{`
+        .inoai-page-wrap {
+          display: flex;
+          flex-direction: column;
+          height: 100dvh;
+          overflow: hidden;
+        }
+        @media (max-width: 767px) {
+          .inoai-page-wrap {
+            height: calc(100dvh - 63px);
+          }
+        }
+      `}</style>
 
-      <INOaiChat />
-    </div>
+      <div className="inoai-page-wrap">
+        {/* Page-Header */}
+        <div style={{
+          padding: '12px 18px',
+          borderBottom: '1px solid #e8edf4',
+          background: 'white',
+          display: 'flex', alignItems: 'center', gap: 12,
+          flexShrink: 0,
+        }}>
+          <div style={{
+            width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+            background: 'linear-gradient(135deg, #003366 0%, #0099cc 100%)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          </div>
+          <div>
+            <h1 style={{ margin: 0, fontSize: 16, fontWeight: 900, color: '#003366', fontFamily: 'Arial, sans-serif' }}>
+              INOai
+            </h1>
+            <p style={{ margin: 0, fontSize: 11, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>
+              Produktassistent · INOMETA-Wissensbasis
+            </p>
+          </div>
+        </div>
+
+        <INOaiChat />
+      </div>
+    </>
   )
 }
