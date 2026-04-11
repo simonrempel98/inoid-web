@@ -1,7 +1,10 @@
 // @ts-nocheck
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { runCrawlJob } from '@/lib/inoai/crawler'
 import { NextResponse } from 'next/server'
+
+export const maxDuration = 60
 
 async function guard() {
   const supabase = await createClient()
@@ -28,10 +31,14 @@ export async function POST(req: Request) {
   const { data: job, error } = await admin.from('inoai_crawl_jobs').insert({
     crawler_id: crawlerId,
     status: 'queued',
-    log: ['⏳ In Warteschlange – Cron startet in Kürze…'],
+    log: ['🚀 Starte…'],
   }).select().single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+
+  // Sofort starten (fire-and-forget) – Cron übernimmt Fortsetzung nach Pausen
+  runCrawlJob(job.id).catch(console.error)
+
   return NextResponse.json({ jobId: job.id })
 }
 
