@@ -16,9 +16,8 @@ CREATE POLICY "Authenticated can read crawlers"
 CREATE POLICY "Service role can manage crawlers"
   ON inoai_crawlers FOR ALL TO service_role USING (true) WITH CHECK (true);
 
--- Start-Crawler eintragen (3 Stück)
+-- Start-Crawler eintragen (2 Stück)
 INSERT INTO inoai_crawlers (id, name, url, lang) VALUES
-  ('inometa-de',  'INOMETA',               'https://www.inometa.de/',         'de'),
-  ('printing-de', 'Printing INOMETA (DE)', 'https://printing.inometa.de/',    'de'),
-  ('printing-en', 'Printing INOMETA (EN)', 'https://printing.inometa.de/en/', 'en')
+  ('inometa-de',  'INOMETA',         'https://www.inometa.de/',      'de'),
+  ('printing-de', 'Printing INOMETA', 'https://printing.inometa.de/', 'de')
 ON CONFLICT (id) DO NOTHING;
