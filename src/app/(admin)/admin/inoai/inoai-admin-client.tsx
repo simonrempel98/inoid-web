@@ -539,14 +539,39 @@ export function INOaiAdminClient({
 
 type SynonymRow = { id: number; terms: string[] }
 
+// Pastelfarben für Term-Chips (rotierend nach Index)
+const CHIP_COLORS = [
+  { bg: '#dbeafe', color: '#1e40af' }, // blau – Hauptbegriff
+  { bg: '#d1fae5', color: '#065f46' },
+  { bg: '#fce7f3', color: '#9d174d' },
+  { bg: '#fef3c7', color: '#92400e' },
+  { bg: '#ede9fe', color: '#4c1d95' },
+  { bg: '#fee2e2', color: '#991b1b' },
+  { bg: '#e0f2fe', color: '#0369a1' },
+]
+
+function TermChip({ term, index, primary }: { term: string; index: number; primary?: boolean }) {
+  const c = primary ? { bg: '#003366', color: 'white' } : CHIP_COLORS[index % CHIP_COLORS.length]
+  return (
+    <span style={{
+      fontSize: 11, fontWeight: primary ? 700 : 500,
+      padding: '3px 10px', borderRadius: 20,
+      background: c.bg, color: c.color,
+      letterSpacing: primary ? '0.02em' : 0,
+    }}>{term}</span>
+  )
+}
+
 function SynonymManager() {
   const [groups, setGroups] = useState<SynonymRow[]>([])
   const [loaded, setLoaded] = useState(false)
   const [open, setOpen] = useState(false)
+  const [search, setSearch] = useState('')
   const [newTerms, setNewTerms] = useState('')
   const [saving, setSaving] = useState(false)
   const [editId, setEditId] = useState<number | null>(null)
   const [editTerms, setEditTerms] = useState('')
+  const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null)
 
   async function load() {
     const res = await fetch('/api/admin/inoai/synonyms')
@@ -567,7 +592,7 @@ function SynonymManager() {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ terms }),
     })
-    if (res.ok) { const row = await res.json(); setGroups(g => [...g, row]); setNewTerms('') }
+    if (res.ok) { const row = await res.json(); setGroups(g => [row, ...g]); setNewTerms('') }
     setSaving(false)
   }
 
@@ -584,81 +609,189 @@ function SynonymManager() {
   async function deleteGroup(id: number) {
     await fetch(`/api/admin/inoai/synonyms/${id}`, { method: 'DELETE' })
     setGroups(g => g.filter(x => x.id !== id))
+    setConfirmDeleteId(null)
   }
 
-  const inputStyle: React.CSSProperties = {
-    width: '100%', padding: '8px 12px', borderRadius: 8, fontSize: 13, boxSizing: 'border-box',
-    background: 'var(--adm-input-bg)', border: '1px solid var(--adm-border)', color: 'var(--adm-text)',
+  const totalTerms = groups.reduce((n, g) => n + g.terms.length, 0)
+  const filtered = search.trim()
+    ? groups.filter(g => g.terms.some(t => t.includes(search.toLowerCase())))
+    : groups
+
+  const inp: React.CSSProperties = {
+    padding: '8px 12px', borderRadius: 9, fontSize: 13, boxSizing: 'border-box' as const,
+    background: 'var(--adm-bg)', border: '1px solid var(--adm-border)', color: 'var(--adm-text)',
+    fontFamily: 'inherit',
   }
 
   return (
     <div>
+      {/* Header */}
       <button onClick={toggle} style={{
-        display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none',
-        cursor: 'pointer', padding: 0, marginBottom: open ? 16 : 0,
+        display: 'flex', alignItems: 'center', gap: 10, background: 'none', border: 'none',
+        cursor: 'pointer', padding: 0, marginBottom: open ? 20 : 0, width: '100%', textAlign: 'left',
       }}>
-        <span style={{ fontSize: 9, color: 'var(--adm-text3)', transition: 'transform 0.15s', display: 'inline-block', transform: open ? 'rotate(90deg)' : 'rotate(0deg)' }}>▶</span>
-        <span style={{ fontSize: 16, fontWeight: 800, color: 'var(--adm-text)' }}>Synonym-Datenbank</span>
-        <span style={{ fontSize: 12, color: 'var(--adm-text3)' }}>({loaded ? groups.length : '…'} Gruppen)</span>
+        <span style={{
+          fontSize: 9, color: 'var(--adm-text3)', transition: 'transform 0.2s', display: 'inline-block',
+          transform: open ? 'rotate(90deg)' : 'rotate(0deg)',
+        }}>▶</span>
+        <div style={{ flex: 1 }}>
+          <span style={{ fontSize: 17, fontWeight: 800, color: 'var(--adm-text)' }}>Synonym-Datenbank</span>
+          {loaded && (
+            <span style={{ marginLeft: 10, fontSize: 12, color: 'var(--adm-text3)' }}>
+              {groups.length} Gruppen · {totalTerms} Begriffe
+            </span>
+          )}
+        </div>
+        <span style={{
+          fontSize: 10, fontWeight: 700, padding: '3px 10px', borderRadius: 20,
+          background: '#dbeafe', color: '#1e40af',
+        }}>KI-Suche aktiv</span>
       </button>
 
       {open && (
         <div>
-          <p style={{ margin: '0 0 16px', fontSize: 12, color: 'var(--adm-text3)', lineHeight: 1.6 }}>
-            Synonyme verbessern die Suche: wenn jemand „Druckwalze" fragt, findet die KI auch Texte mit „Anilox" oder „Rasterwalze".
-            Begriffe einer Gruppe durch Komma trennen.
-          </p>
-
-          <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
-            <input
-              value={newTerms}
-              onChange={e => setNewTerms(e.target.value)}
-              placeholder="anilox, rasterwalze, rastersleeve, anilox sleeve"
-              style={{ ...inputStyle, flex: 1 }}
-              onKeyDown={e => e.key === 'Enter' && addGroup()}
-            />
-            <button onClick={addGroup} disabled={saving} style={{
-              background: '#003366', color: 'white', border: 'none', borderRadius: 8,
-              padding: '8px 16px', fontSize: 13, fontWeight: 700, cursor: 'pointer', whiteSpace: 'nowrap',
-            }}>+ Gruppe</button>
+          {/* Info-Banner */}
+          <div style={{
+            background: 'linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%)',
+            border: '1px solid #bfdbfe', borderRadius: 12, padding: '12px 16px',
+            marginBottom: 20, display: 'flex', gap: 14, alignItems: 'flex-start',
+          }}>
+            <span style={{ fontSize: 20, flexShrink: 0 }}>🔤</span>
+            <div>
+              <p style={{ margin: '0 0 3px', fontSize: 13, fontWeight: 700, color: '#1e3a5f' }}>
+                Wie Synonyme die KI verbessern
+              </p>
+              <p style={{ margin: 0, fontSize: 12, color: '#374151', lineHeight: 1.6 }}>
+                Fragt ein Nutzer nach „Rasterwalze", erweitert die KI die Suche automatisch auf
+                alle Synonyme dieser Gruppe — z.B. auch „Anilox", „Aniloxsleeve" und „Rastersleeve".
+                So werden mehr relevante Texte gefunden. Nach jedem Crawl werden neue Synonyme
+                automatisch aus dem Seiteninhalt abgeleitet.
+              </p>
+            </div>
           </div>
 
+          {/* Neue Gruppe hinzufügen */}
+          <div style={{
+            background: 'var(--adm-surface)', border: '1px solid var(--adm-border)',
+            borderRadius: 12, padding: '14px 16px', marginBottom: 16,
+          }}>
+            <p style={{ margin: '0 0 10px', fontSize: 12, fontWeight: 700, color: 'var(--adm-text3)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              Neue Gruppe
+            </p>
+            <div style={{ display: 'flex', gap: 8 }}>
+              <div style={{ flex: 1 }}>
+                <input
+                  value={newTerms}
+                  onChange={e => setNewTerms(e.target.value)}
+                  placeholder="Begriff 1, Begriff 2, Begriff 3, …  (mind. 2)"
+                  style={{ ...inp, width: '100%' }}
+                  onKeyDown={e => e.key === 'Enter' && addGroup()}
+                />
+                {newTerms.trim() && (
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginTop: 8 }}>
+                    {newTerms.split(',').map(t => t.trim().toLowerCase()).filter(Boolean).map((t, i) => (
+                      <TermChip key={i} term={t} index={i + 1} primary={i === 0} />
+                    ))}
+                  </div>
+                )}
+              </div>
+              <button onClick={addGroup} disabled={saving || newTerms.split(',').filter(t => t.trim()).length < 2} style={{
+                background: '#003366', color: 'white', border: 'none', borderRadius: 9,
+                padding: '0 18px', fontSize: 13, fontWeight: 700,
+                cursor: saving ? 'default' : 'pointer', flexShrink: 0, minHeight: 40,
+                opacity: newTerms.split(',').filter(t => t.trim()).length < 2 ? 0.5 : 1,
+              }}>
+                {saving ? '…' : '+ Hinzufügen'}
+              </button>
+            </div>
+          </div>
+
+          {/* Suche */}
+          <div style={{ position: 'relative', marginBottom: 14 }}>
+            <span style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', fontSize: 13, color: 'var(--adm-text3)' }}>🔍</span>
+            <input
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder={`${groups.length} Gruppen durchsuchen…`}
+              style={{ ...inp, width: '100%', paddingLeft: 34, boxSizing: 'border-box' }}
+            />
+          </div>
+
+          {/* Gruppen-Liste */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-            {groups.map(g => (
+            {filtered.map(g => (
               <div key={g.id} style={{
                 background: 'var(--adm-surface)', border: '1px solid var(--adm-border)',
-                borderRadius: 10, padding: '10px 14px',
-                display: 'flex', alignItems: 'center', gap: 10,
+                borderRadius: 11, overflow: 'hidden',
+                transition: 'border-color 0.15s',
               }}>
                 {editId === g.id ? (
-                  <>
+                  <div style={{ padding: '12px 14px', display: 'flex', gap: 8, alignItems: 'center' }}>
                     <input
                       value={editTerms} onChange={e => setEditTerms(e.target.value)}
-                      style={{ ...inputStyle, flex: 1 }}
+                      style={{ ...inp, flex: 1 }}
                       onKeyDown={e => e.key === 'Enter' && saveEdit(g.id)}
                       autoFocus
                     />
-                    <button onClick={() => saveEdit(g.id)} style={{ background: '#003366', color: 'white', border: 'none', borderRadius: 6, padding: '6px 12px', fontSize: 12, cursor: 'pointer' }}>✓</button>
-                    <button onClick={() => setEditId(null)} style={{ background: 'none', border: '1px solid var(--adm-border)', borderRadius: 6, padding: '6px 10px', fontSize: 12, color: 'var(--adm-text3)', cursor: 'pointer' }}>✕</button>
-                  </>
+                    <button onClick={() => saveEdit(g.id)} style={{
+                      background: '#003366', color: 'white', border: 'none', borderRadius: 7,
+                      padding: '7px 14px', fontSize: 12, fontWeight: 700, cursor: 'pointer',
+                    }}>✓ Speichern</button>
+                    <button onClick={() => setEditId(null)} style={{
+                      background: 'none', border: '1px solid var(--adm-border)', borderRadius: 7,
+                      padding: '7px 10px', fontSize: 12, color: 'var(--adm-text3)', cursor: 'pointer',
+                    }}>✕</button>
+                  </div>
                 ) : (
-                  <>
+                  <div style={{ padding: '11px 14px', display: 'flex', alignItems: 'center', gap: 10 }}>
                     <div style={{ flex: 1, display: 'flex', flexWrap: 'wrap', gap: 5 }}>
                       {g.terms.map((t, i) => (
-                        <span key={i} style={{
-                          fontSize: 11, padding: '2px 8px', borderRadius: 20,
-                          background: 'var(--adm-border)', color: 'var(--adm-text2)',
-                        }}>{t}</span>
+                        <TermChip key={i} term={t} index={i + 1} primary={i === 0} />
                       ))}
                     </div>
-                    <button onClick={() => { setEditId(g.id); setEditTerms(g.terms.join(', ')) }} style={{ background: 'none', border: '1px solid var(--adm-border)', borderRadius: 6, padding: '4px 10px', fontSize: 11, color: 'var(--adm-text3)', cursor: 'pointer' }}>Bearbeiten</button>
-                    <button onClick={() => deleteGroup(g.id)} style={{ background: 'none', border: '1px solid #f87171', borderRadius: 6, padding: '4px 10px', fontSize: 11, color: '#f87171', cursor: 'pointer' }}>✕</button>
-                  </>
+                    <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+                      {confirmDeleteId === g.id ? (
+                        <>
+                          <button onClick={() => deleteGroup(g.id)} style={{
+                            background: '#ef4444', color: 'white', border: 'none', borderRadius: 7,
+                            padding: '5px 12px', fontSize: 11, fontWeight: 700, cursor: 'pointer',
+                          }}>Löschen</button>
+                          <button onClick={() => setConfirmDeleteId(null)} style={{
+                            background: 'none', border: '1px solid var(--adm-border)', borderRadius: 7,
+                            padding: '5px 8px', fontSize: 11, color: 'var(--adm-text3)', cursor: 'pointer',
+                          }}>✕</button>
+                        </>
+                      ) : (
+                        <>
+                          <button onClick={() => { setEditId(g.id); setEditTerms(g.terms.join(', ')) }} style={{
+                            background: 'none', border: '1px solid var(--adm-border)', borderRadius: 7,
+                            padding: '5px 10px', fontSize: 11, color: 'var(--adm-text3)', cursor: 'pointer',
+                          }}>✏️</button>
+                          <button onClick={() => setConfirmDeleteId(g.id)} style={{
+                            background: 'none', border: '1px solid var(--adm-border)', borderRadius: 7,
+                            padding: '5px 10px', fontSize: 11, color: '#9ca3af', cursor: 'pointer',
+                          }}>🗑</button>
+                        </>
+                      )}
+                    </div>
+                  </div>
                 )}
               </div>
             ))}
+
             {loaded && groups.length === 0 && (
-              <p style={{ fontSize: 12, color: 'var(--adm-text4)', margin: 0 }}>Noch keine Synonyme. Migration 032 ausführen für Startwerte.</p>
+              <div style={{
+                textAlign: 'center', padding: '32px 20px',
+                border: '2px dashed var(--adm-border)', borderRadius: 12,
+              }}>
+                <p style={{ fontSize: 14, color: 'var(--adm-text3)', margin: '0 0 4px' }}>Noch keine Synonym-Gruppen</p>
+                <p style={{ fontSize: 12, color: 'var(--adm-text4)', margin: 0 }}>Führe Migration 032 aus oder füge manuell Gruppen hinzu.</p>
+              </div>
+            )}
+            {loaded && groups.length > 0 && filtered.length === 0 && (
+              <p style={{ fontSize: 12, color: 'var(--adm-text3)', textAlign: 'center', padding: 16 }}>
+                Keine Gruppe enthält „{search}"
+              </p>
             )}
           </div>
         </div>

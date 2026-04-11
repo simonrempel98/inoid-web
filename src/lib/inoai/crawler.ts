@@ -1,5 +1,6 @@
 // @ts-nocheck
 import { createAdminClient } from '@/lib/supabase/admin'
+import Anthropic from '@anthropic-ai/sdk'
 
 export type CrawlerConfig = {
   id: string
@@ -182,6 +183,62 @@ export type CrawlResult = {
 
 // ── DB-Job-basierter Crawl (browserunabhängig) ───────────────────────────────
 
+// ── Synonyme automatisch nach Crawl erweitern ────────────────────────────────
+
+async function autoExtendSynonyms(
+  admin: ReturnType<typeof createAdminClient>,
+  crawlerId: string,
+  log: (msg: string) => void,
+): Promise<void> {
+  try {
+    const [{ data: items }, { data: existing }] = await Promise.all([
+      admin.from('inometa_knowledge').select('title').eq('crawler_id', crawlerId).limit(120),
+      admin.from('inoai_synonyms').select('terms'),
+    ])
+    if (!items?.length) return
+
+    const existingTerms = new Set(
+      (existing ?? []).flatMap((g: any) => (g.terms as string[]).map(t => t.toLowerCase()))
+    )
+    const titles = [...new Set(items.map((i: any) => i.title).filter(Boolean))].slice(0, 60).join('\n')
+
+    const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+    const response = await anthropic.messages.create({
+      model: 'claude-haiku-4-5-20251001',
+      max_tokens: 800,
+      messages: [{
+        role: 'user',
+        content: `Du bist Experte für Flexodruck und Walzentechnologie (INOMETA GmbH).
+Analysiere diese Seitentitel einer gecrawlten Webseite und leite daraus neue Synonym-Gruppen für technische Fachbegriffe ab.
+
+Bereits in der Datenbank (nicht wiederholen): ${[...existingTerms].slice(0, 80).join(', ')}
+
+Seitentitel:
+${titles}
+
+Erstelle 5-8 neue Synonym-Gruppen für Fachbegriffe die noch NICHT in der Datenbank sind.
+Ausgabe: Eine Gruppe pro Zeile, Begriffe kommagetrennt, alles kleingeschrieben, keine Erklärungen.
+Beispiel: anilox, rasterwalze, aniloxwalze`,
+      }],
+    })
+
+    const text = response.content[0]?.type === 'text' ? response.content[0].text.trim() : ''
+    const lines = text.split('\n').map((l: string) => l.trim()).filter(Boolean)
+
+    let added = 0
+    for (const line of lines) {
+      const terms = line.replace(/^[-*•]\s*/, '').split(',').map((t: string) => t.trim().toLowerCase()).filter(Boolean)
+      if (terms.length < 2) continue
+      if (terms.some((t: string) => existingTerms.has(t))) continue // schon bekannt
+      const { error } = await admin.from('inoai_synonyms').insert({ terms })
+      if (!error) { added++; terms.forEach((t: string) => existingTerms.add(t)) }
+    }
+    if (added > 0) log(`🔤 ${added} neue Synonym-Gruppen automatisch hinzugefügt`)
+  } catch (e: any) {
+    log(`⚠️ Synonym-Erweiterung: ${e.message}`)
+  }
+}
+
 export async function runCrawlJob(jobId: string): Promise<void> {
   const admin = createAdminClient()
 
@@ -242,6 +299,11 @@ export async function runCrawlJob(jobId: string): Promise<void> {
         if (removed.length > 0) log(`📉 ${removed.length} entfernt`)
         if (added.length === 0 && removed.length === 0) log(`↔ Keine Änderungen gegenüber letztem Crawl`)
       }
+
+      // Synonymdatenbank automatisch erweitern
+      log(`\n🔤 Analysiere Inhalte für neue Synonyme…`)
+      await flushLog(true)
+      await autoExtendSynonyms(admin, job.crawler_id, log)
       await flushLog(true)
 
       await admin.from('inoai_crawl_jobs').update({
