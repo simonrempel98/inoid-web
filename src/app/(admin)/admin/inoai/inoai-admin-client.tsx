@@ -669,6 +669,14 @@ function SynonymMatrix({ groups, combinations, onCombosChange }: {
   const [editor, setEditor] = useState<CellEditorState | null>(null)
   const [editInput, setEditInput] = useState('')
   const [saving, setSaving] = useState(false)
+  const [fullscreen, setFullscreen] = useState(false)
+
+  useEffect(() => {
+    if (!fullscreen) return
+    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape' && !editor) setFullscreen(false) }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [fullscreen, editor])
 
   const bases = groups.filter(g => g.group_type === 'base').sort((a, b) => a.terms[0].localeCompare(b.terms[0]))
   const modifiers = groups.filter(g => g.group_type === 'modifier').sort((a, b) => a.terms[0].localeCompare(b.terms[0]))
@@ -734,25 +742,35 @@ function SynonymMatrix({ groups, combinations, onCombosChange }: {
     )
   }
 
-  return (
-    <div>
-      {/* Legende */}
-      <div style={{ display: 'flex', gap: 16, marginBottom: 14, flexWrap: 'wrap', alignItems: 'center' }}>
+  const matrixContent = (
+    <div style={{ display: 'flex', flexDirection: 'column', height: fullscreen ? '100%' : 'auto' }}>
+      {/* Legende + Vollbild-Toggle */}
+      <div style={{ display: 'flex', gap: 16, marginBottom: 14, flexWrap: 'wrap', alignItems: 'center', flexShrink: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
           <div style={{ width: 14, height: 14, borderRadius: 3, background: 'linear-gradient(135deg,#003366,#0055aa)' }} />
-          <span style={{ fontSize: 11, color: 'var(--adm-text3)' }}>Aktive Kombination</span>
+          <span style={{ fontSize: 11, color: fullscreen ? '#9ca3af' : 'var(--adm-text3)' }}>Aktive Kombination</span>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <div style={{ width: 14, height: 14, borderRadius: 3, border: '2px dashed var(--adm-border)', background: 'var(--adm-bg)' }} />
-          <span style={{ fontSize: 11, color: 'var(--adm-text3)' }}>Keine Kombination – klicken zum Erstellen</span>
+          <div style={{ width: 14, height: 14, borderRadius: 3, border: '2px dashed #374151', background: 'transparent' }} />
+          <span style={{ fontSize: 11, color: fullscreen ? '#9ca3af' : 'var(--adm-text3)' }}>Keine – klicken zum Erstellen</span>
         </div>
-        <span style={{ fontSize: 11, color: 'var(--adm-text3)', marginLeft: 'auto' }}>
+        <span style={{ fontSize: 11, color: fullscreen ? '#9ca3af' : 'var(--adm-text3)' }}>
           {combinations.filter(c => c.active).length} aktive Kombinationen
         </span>
+        <button
+          onClick={() => setFullscreen(v => !v)}
+          title={fullscreen ? 'Vollbild schließen (Esc)' : 'Vollbild öffnen'}
+          style={{
+            marginLeft: 'auto', background: 'none',
+            border: `1px solid ${fullscreen ? '#374151' : 'var(--adm-border)'}`,
+            borderRadius: 7, padding: '5px 10px', cursor: 'pointer',
+            color: fullscreen ? '#9ca3af' : 'var(--adm-text3)', fontSize: 13,
+          }}
+        >{fullscreen ? '✕ Schließen' : '⛶ Vollbild'}</button>
       </div>
 
       {/* Matrix */}
-      <div style={{ overflowX: 'auto', borderRadius: 12, border: '1px solid var(--adm-border)' }}>
+      <div style={{ overflowX: 'auto', overflowY: fullscreen ? 'auto' : 'visible', flex: fullscreen ? 1 : 'none', borderRadius: 12, border: '1px solid #1e2d3d' }}>
         <table style={{ borderCollapse: 'collapse', width: '100%', tableLayout: 'fixed' }}>
           <thead>
             <tr>
@@ -834,9 +852,9 @@ function SynonymMatrix({ groups, combinations, onCombosChange }: {
       {/* Cell-Editor Modal */}
       {editor && (
         <div style={{
-          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)',
+          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.7)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          zIndex: 9999,
+          zIndex: 10000,
         }} onClick={e => { if (e.target === e.currentTarget) setEditor(null) }}>
           <div style={{
             background: '#111827', border: '1px solid #374151', borderRadius: 16,
@@ -913,6 +931,35 @@ function SynonymMatrix({ groups, combinations, onCombosChange }: {
       )}
     </div>
   )
+
+  // Vollbild-Overlay oder normale Darstellung
+  if (fullscreen) {
+    return (
+      <>
+        {/* Backdrop + Vollbild-Container */}
+        <div
+          onKeyDown={e => e.key === 'Escape' && setFullscreen(false)}
+          tabIndex={-1}
+          style={{
+            position: 'fixed', inset: 0, background: '#060a12',
+            zIndex: 9998, display: 'flex', flexDirection: 'column',
+            padding: 24, outline: 'none',
+          }}
+        >
+          {/* Fullscreen-Header */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16, flexShrink: 0 }}>
+            <span style={{ fontSize: 16, fontWeight: 800, color: '#93c5fd' }}>⊞ Kreuzreferenz-Matrix</span>
+            <span style={{ fontSize: 12, color: '#4b5563' }}>
+              {bases.length} Basis-Gruppen × {modifiers.length} Modifikatoren
+            </span>
+          </div>
+          {matrixContent}
+        </div>
+      </>
+    )
+  }
+
+  return matrixContent
 }
 
 function SynonymManager() {
