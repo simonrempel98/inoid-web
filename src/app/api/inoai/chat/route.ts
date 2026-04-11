@@ -29,7 +29,6 @@ async function expandWithSynonyms(
     }
   }
 
-  // Kombinationsbegriffe hinzufügen wenn sowohl Base als auch Modifier matchen
   for (const combo of combos ?? []) {
     if (matchedBaseIds.has(combo.base_id as number) && matchedModifierIds.has(combo.modifier_id as number)) {
       ;(combo.extra_terms as string[]).forEach(t => extras.add(t))
@@ -38,7 +37,6 @@ async function expandWithSynonyms(
 
   if (!extras.size) return query
 
-  // websearch_to_tsquery-kompatibles OR-Format
   const allTerms = [query, ...Array.from(extras)]
   return allTerms.map(t => `"${t}"`).join(' OR ')
 }
@@ -52,7 +50,9 @@ LANGUAGE RULE: Always respond in the exact language the user writes in.
 Supported languages include: German, English, French, Spanish, Italian, Portuguese, Dutch, Polish, Turkish, Russian, Ukrainian, Bulgarian, Romanian, Czech, Slovak, Hungarian, Croatian, Serbian, Greek, Finnish, Swedish, Danish, Norwegian, Lithuanian, Latvian, Estonian, Japanese, Chinese — and any other language the user may write in.
 Never switch languages unless the user explicitly asks you to.
 
-Be precise and professional. No emojis. Structure long answers with paragraphs.`
+FORMATTING: Use Markdown to structure your answers. Use **bold** for key terms, tables for comparisons, bullet lists for enumerations, and headings (##) for longer answers with multiple sections. Keep responses concise but well-structured.
+
+Be precise and professional. No emojis.`
 
 export async function POST(req: Request) {
   const supabase = await createClient()
@@ -60,12 +60,46 @@ export async function POST(req: Request) {
   if (!user) return NextResponse.json({ error: 'Nicht angemeldet' }, { status: 401 })
 
   const body = await req.json()
-  const { message, history = [] }: { message: string; history: { role: string; content: string }[] } = body
+  const {
+    message,
+    history = [],
+    session_id: existingSessionId,
+  }: { message: string; history: { role: string; content: string }[]; session_id?: string } = body
+
   if (!message?.trim()) return NextResponse.json({ error: 'Keine Nachricht' }, { status: 400 })
 
   const admin = createAdminClient()
 
-  // Query mit Synonymen erweitern
+  // ── Session anlegen oder wiederverwenden ──────────────────────────────────
+  let sessionId = existingSessionId ?? null
+
+  if (!sessionId) {
+    // Titel aus den ersten 60 Zeichen der Frage
+    const title = message.trim().slice(0, 60) + (message.trim().length > 60 ? '…' : '')
+
+    // Org-ID des Users laden
+    const { data: profile } = await supabase
+      .from('profiles').select('organization_id').eq('id', user.id).single()
+
+    const { data: session } = await supabase
+      .from('inoai_chat_sessions')
+      .insert({ user_id: user.id, org_id: profile?.organization_id ?? null, title })
+      .select('id')
+      .single()
+
+    sessionId = session?.id ?? null
+  }
+
+  // User-Nachricht speichern
+  if (sessionId) {
+    await supabase.from('inoai_chat_messages').insert({
+      session_id: sessionId,
+      role: 'user',
+      content: message,
+    })
+  }
+
+  // ── RAG: Synonyme + Suche ─────────────────────────────────────────────────
   const expandedQuery = await expandWithSynonyms(message, admin)
 
   const { data: chunks } = await admin.rpc('search_inometa_knowledge', {
@@ -98,7 +132,24 @@ export async function POST(req: Request) {
     })
 
     const reply = response.content[0]?.type === 'text' ? response.content[0].text : ''
-    return NextResponse.json({ reply, sources: chunks ?? [] })
+
+    // Antwort speichern
+    if (sessionId) {
+      const sources = (chunks ?? []).filter((c: any) => c.rank > 0)
+      await supabase.from('inoai_chat_messages').insert({
+        session_id: sessionId,
+        role: 'assistant',
+        content: reply,
+        sources: sources.length > 0 ? sources : null,
+      })
+      // updated_at der Session aktualisieren
+      await supabase
+        .from('inoai_chat_sessions')
+        .update({ updated_at: new Date().toISOString() })
+        .eq('id', sessionId)
+    }
+
+    return NextResponse.json({ reply, sources: chunks ?? [], session_id: sessionId })
   } catch (err: unknown) {
     console.error('INOai error:', err)
     const msg = err instanceof Error ? err.message : String(err)
