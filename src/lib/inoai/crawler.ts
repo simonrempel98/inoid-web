@@ -185,15 +185,19 @@ export type CrawlResult = {
 
 // ── Self-trigger: nächsten Chunk ohne Cron starten ───────────────────────────
 
-function selfTriggerCrawl() {
+async function selfTriggerCrawl() {
   const base =
     process.env.NEXT_PUBLIC_APP_URL ??
     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ??
     'http://localhost:3000'
   const secret = process.env.CRON_SECRET ?? ''
-  fetch(`${base}/api/cron/inoai-crawl`, {
-    headers: { Authorization: `Bearer ${secret}` },
-  }).catch(() => {/* ignore */})
+  try {
+    // Await bis der Cron-Endpoint die 200-Antwort schickt (nicht bis der Job fertig ist)
+    await fetch(`${base}/api/cron/inoai-crawl`, {
+      headers: { Authorization: `Bearer ${secret}` },
+      signal: AbortSignal.timeout(8000),
+    })
+  } catch { /* ignore */ }
 }
 
 // ── Synonyme automatisch nach Crawl erweitern ────────────────────────────────
@@ -334,8 +338,8 @@ export async function runCrawlJob(jobId: string): Promise<void> {
         diff: { before: beforeUrls } as any,
       }).eq('id', jobId)
 
-      // Self-trigger: nächsten Chunk sofort starten, kein Cron nötig
-      selfTriggerCrawl()
+      // Self-trigger: await bis Cron-Endpoint 200 antwortet, dann ist Kette gesichert
+      await selfTriggerCrawl()
     }
   } catch (e: any) {
     pending.push(`❌ Fehler: ${e.message}`)
