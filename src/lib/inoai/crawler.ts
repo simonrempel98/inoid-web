@@ -183,6 +183,19 @@ export type CrawlResult = {
 
 // ── DB-Job-basierter Crawl (browserunabhängig) ───────────────────────────────
 
+// ── Self-trigger: nächsten Chunk ohne Cron starten ───────────────────────────
+
+function selfTriggerCrawl() {
+  const base =
+    process.env.NEXT_PUBLIC_APP_URL ??
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null) ??
+    'http://localhost:3000'
+  const secret = process.env.CRON_SECRET ?? ''
+  fetch(`${base}/api/cron/inoai-crawl`, {
+    headers: { Authorization: `Bearer ${secret}` },
+  }).catch(() => {/* ignore */})
+}
+
 // ── Synonyme automatisch nach Crawl erweitern ────────────────────────────────
 
 async function autoExtendSynonyms(
@@ -320,6 +333,9 @@ export async function runCrawlJob(jobId: string): Promise<void> {
         resume_state: result.resume as any,
         diff: { before: beforeUrls } as any,
       }).eq('id', jobId)
+
+      // Self-trigger: nächsten Chunk sofort starten, kein Cron nötig
+      selfTriggerCrawl()
     }
   } catch (e: any) {
     pending.push(`❌ Fehler: ${e.message}`)
