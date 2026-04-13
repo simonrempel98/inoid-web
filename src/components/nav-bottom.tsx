@@ -25,6 +25,7 @@ const icons = {
   docs:      (c: string) => icon(<><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></>, 24, c),
   profile:   (c: string) => icon(<><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></>, 24, c),
   flexo:     (c: string) => icon(<><rect x="2" y="7" width="20" height="10" rx="2"/><path d="M6 7V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2"/><line x1="6" y1="12" x2="6.01" y2="12" strokeWidth="3"/><line x1="10" y1="12" x2="14" y2="12"/></>, 24, c),
+  anilox:    (c: string) => icon(<><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="8" /><line x1="12" y1="4" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="20"/><line x1="4" y1="12" x2="2" y2="12"/><line x1="22" y1="12" x2="20" y2="12"/></>, 24, c),
   inoai:     (c: string) => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill={c} stroke="none">
       <path d="M12 2L13.5 10.5L22 12L13.5 13.5L12 22L10.5 13.5L2 12L10.5 10.5Z"/>
@@ -62,6 +63,7 @@ export function BottomNav({
   const isActive = (href: string) => {
     if (href === '/assets') return pathname.startsWith('/assets')
     if (href === '/dashboard') return pathname === '/dashboard'
+    if (href === '/flexodruck') return pathname === '/flexodruck'
     return pathname === href || pathname.startsWith(href + '/')
   }
 
@@ -69,12 +71,15 @@ export function BottomNav({
     ? userName.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
     : (userEmail?.[0] ?? '?').toUpperCase()
 
-  const DRAWER_ITEMS = [
+  const DRAWER_ITEMS: { href: string; labelKey?: string; staticLabel?: string; color: string; iconFn: (c: string) => React.ReactNode }[] = [
     { href: '/mehr',         labelKey: 'nav.profile',       color: '#003366', iconFn: icons.profile },
     { href: '/organisation', labelKey: 'nav.organisation',  color: '#0077b6', iconFn: icons.org },
     { href: '/teams',        labelKey: 'nav.teams',         color: '#005c8a', iconFn: icons.teams },
     { href: '/docs',         labelKey: 'nav.docs',          color: '#0099cc', iconFn: icons.docs },
-    ...(showFlexo ? [{ href: '/flexodruck', labelKey: 'nav.flexodruck', color: '#7c3aed', iconFn: icons.flexo }] : []),
+    ...(showFlexo ? [
+      { href: '/flexodruck',                  staticLabel: 'Guided Setup',     color: '#7c3aed', iconFn: icons.flexo },
+      { href: '/flexodruck/anilox-rechner',   staticLabel: 'Anilox-Rechner',   color: '#7c3aed', iconFn: icons.anilox },
+    ] : []),
     ...(showInoai ? [{ href: '/inoai', labelKey: 'nav.inoai', color: '#0099cc', iconFn: icons.inoai }] : []),
   ]
 
@@ -176,7 +181,7 @@ export function BottomNav({
                     textAlign: 'center', lineHeight: 1.2,
                     fontFamily: 'Arial, sans-serif',
                   }}>
-                    {t(item.labelKey)}
+                    {item.staticLabel ?? (item.labelKey ? t(item.labelKey) : '')}
                   </span>
                 </div>
               </Link>

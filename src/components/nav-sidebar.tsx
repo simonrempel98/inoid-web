@@ -90,6 +90,10 @@ export function Sidebar({ userEmail, userName, avatarUrl, features = {} }: {
               <line x1="10" y1="12" x2="14" y2="12"/>
             </svg>
           ),
+          children: [
+            { href: '/flexodruck', label: 'Guided Setup' },
+            { href: '/flexodruck/anilox-rechner', label: 'Anilox-Rechner' },
+          ],
         }] : []),
         ...(showInoai ? [{
           href: '/inoai',
@@ -160,6 +164,7 @@ export function Sidebar({ userEmail, userName, avatarUrl, features = {} }: {
 
   const isActive = (href: string) => {
     if (href === '/assets') return pathname === '/assets' || pathname.startsWith('/assets/')
+    if (href === '/flexodruck') return pathname === '/flexodruck' || pathname.startsWith('/flexodruck/')
     if (href === '/dashboard') return pathname === '/dashboard'
     return pathname.startsWith(href)
   }
@@ -167,6 +172,7 @@ export function Sidebar({ userEmail, userName, avatarUrl, features = {} }: {
   const isChildActive = (href: string) => pathname.startsWith(href)
 
   const assetsOpen = pathname.startsWith('/assets')
+  const flexoOpen = pathname.startsWith('/flexodruck')
 
   return (
     <aside style={{
@@ -204,7 +210,10 @@ export function Sidebar({ userEmail, userName, avatarUrl, features = {} }: {
             {section.items.map(item => {
               const active = isActive(item.href)
               const hasChildren = 'children' in item && item.children && item.children.length > 0
-              const showChildren = hasChildren && item.href === '/assets' && assetsOpen
+              const showChildren = hasChildren && (
+                (item.href === '/assets' && assetsOpen) ||
+                (item.href === '/flexodruck' && flexoOpen)
+              )
 
               return (
                 <div key={item.href}>
