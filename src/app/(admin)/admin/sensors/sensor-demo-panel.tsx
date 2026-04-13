@@ -72,7 +72,7 @@ export function SensorDemoPanel({ initialSensors, appUrl }: { initialSensors: Se
         addLog(`${sensor.name}: Fehler — ${data.error ?? res.status}`, false)
       }
     } catch (e) {
-      addLog(`${sensor.name}: Netzwerkfehler`, false)
+      addLog(`${sensor.name}: ${e instanceof Error ? e.message : 'Netzwerkfehler'}`, false)
     }
     setSending(s => ({ ...s, [sensor.id]: false }))
   }
@@ -110,8 +110,8 @@ export function SensorDemoPanel({ initialSensors, appUrl }: { initialSensors: Se
         } else {
           addLog(`Batch-Fehler: ${data.error ?? res.status}`, false)
         }
-      } catch {
-        addLog('Batch: Netzwerkfehler', false)
+      } catch (e) {
+        addLog(`Batch: ${e instanceof Error ? e.message : 'Netzwerkfehler'}`, false)
       }
     }
     setSendingAll(false)

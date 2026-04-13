@@ -8,11 +8,11 @@ export default async function AdminSensorsPage() {
   // Sensoren, Assets und Orgs separat laden (kein Join — Schema-Cache-Problem vermeiden)
   const [{ data: sensors }, { data: assets }, { data: orgs }] = await Promise.all([
     supabase.from('sensors').select('id, name, type, unit, asset_id, organization_id').eq('is_active', true).order('created_at', { ascending: false }),
-    supabase.from('assets').select('id, name'),
+    supabase.from('assets').select('id, title').is('deleted_at', null),
     supabase.from('organizations').select('id, name, sensor_api_key'),
   ])
 
-  const assetMap = Object.fromEntries((assets ?? []).map(a => [a.id, a.name]))
+  const assetMap = Object.fromEntries((assets ?? []).map(a => [a.id, a.title]))
   const orgMap   = Object.fromEntries((orgs ?? []).map(o => [o.id, { name: o.name, key: o.sensor_api_key ?? '' }]))
 
   // Letzter Messwert pro Sensor — je Sensor einzeln (verhindert riesige IN-Query)
