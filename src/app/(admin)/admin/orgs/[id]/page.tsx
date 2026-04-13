@@ -54,7 +54,7 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
   return (
     <div>
       {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 28 }}>
+      <div className="adm-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 28 }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
             <Link href="/admin/orgs" style={{ color: 'var(--adm-text3)', fontSize: 13, textDecoration: 'none' }}>
@@ -64,11 +64,12 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
           <h1 style={{ fontSize: 22, fontWeight: 900, color: 'var(--adm-text)', margin: '0 0 4px' }}>{org.name}</h1>
           <p style={{ fontSize: 12, color: 'var(--adm-text3)', margin: 0 }}>Slug: {org.slug}</p>
         </div>
-        <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
           <a href={`/admin/view/${id}`} style={{
             background: 'var(--adm-border2)', color: 'var(--adm-text5)',
             padding: '10px 18px', borderRadius: 50, textDecoration: 'none',
             fontSize: 13, fontWeight: 600, border: '1px solid var(--adm-border2)',
+            whiteSpace: 'nowrap',
           }}>
             Als Kunde ansehen →
           </a>
@@ -76,7 +77,7 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div className="rg-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
         {/* Org bearbeiten */}
         <div>
           <OrgEditForm org={org} />

@@ -63,7 +63,7 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* KPI Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
+      <div className="rg-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 24 }}>
         {kpiCard('Organisationen', orgCount ?? 0, `${activeOrgCount ?? 0} aktiv`, '#60a5fa')}
         {kpiCard('Nutzer gesamt', userCount ?? 0, 'alle Tenants', '#34d399')}
         {kpiCard('Assets gesamt', assetCount ?? 0, 'nicht gelöscht', '#f59e0b')}
@@ -71,14 +71,14 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Zweite Reihe */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 32 }}>
+      <div className="rg-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 32 }}>
         {kpiCard('Free', planCounts['free'] ?? 0, 'Orgs', '#9ca3af')}
         {kpiCard('Starter', planCounts['starter'] ?? 0, 'Orgs', '#60a5fa')}
         {kpiCard('Professional', planCounts['professional'] ?? 0, 'Orgs', '#34d399')}
         {kpiCard('Enterprise', planCounts['enterprise'] ?? 0, 'Orgs', '#f59e0b')}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div className="rg-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
 
         {/* Neueste Organisationen */}
         <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden' }}>
@@ -158,7 +158,7 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Quick Actions */}
-      <div style={{ marginTop: 24, display: 'flex', gap: 12 }}>
+      <div style={{ marginTop: 24, display: 'flex', gap: 12, flexWrap: 'wrap' }}>
         <Link href="/admin/orgs/neu" style={{
           display: 'inline-flex', alignItems: 'center', gap: 8,
           background: '#003366', color: 'white',

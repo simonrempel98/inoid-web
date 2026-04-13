@@ -37,7 +37,7 @@ export default async function AdminOrgsPage() {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+      <div className="adm-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <div>
           <h1 style={{ fontSize: 22, fontWeight: 900, color: 'var(--adm-text)', margin: '0 0 4px' }}>Organisationen</h1>
           <p style={{ fontSize: 13, color: 'var(--adm-text3)', margin: 0 }}>{(orgs ?? []).length} Tenants gesamt</p>
@@ -45,70 +45,73 @@ export default async function AdminOrgsPage() {
         <Link href="/admin/orgs/neu" style={{
           background: '#003366', color: 'white', padding: '10px 20px',
           borderRadius: 50, textDecoration: 'none', fontSize: 14, fontWeight: 700,
+          whiteSpace: 'nowrap',
         }}>
           + Neue Organisation
         </Link>
       </div>
 
-      <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden' }}>
-        {/* Header */}
-        <div style={{
-          display: 'grid', gridTemplateColumns: '2fr 1fr 80px 80px 80px 60px',
-          padding: '10px 20px', borderBottom: '1px solid var(--adm-border)',
-        }}>
-          {['Organisation', 'Plan', 'Assets', 'Nutzer', 'Limit', 'Status'].map(h => (
-            <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: 'var(--adm-text4)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>
-          ))}
-        </div>
+      <div className="adm-table-scroll">
+        <div className="adm-table-min" style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden' }}>
+          {/* Header */}
+          <div style={{
+            display: 'grid', gridTemplateColumns: '2fr 1fr 80px 80px 80px 60px',
+            padding: '10px 20px', borderBottom: '1px solid var(--adm-border)',
+          }}>
+            {['Organisation', 'Plan', 'Assets', 'Nutzer', 'Datum', 'Status'].map(h => (
+              <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: 'var(--adm-text4)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>
+            ))}
+          </div>
 
-        {(orgs ?? []).map(org => {
-          const pc = planColor(org.plan)
-          const assetCount = assetsPerOrg[org.id] ?? 0
-          const memberCount = membersPerOrg[org.id] ?? 0
-          return (
-            <Link key={org.id} href={`/admin/orgs/${org.id}`} style={{ textDecoration: 'none' }}>
-              <div style={{
-                display: 'grid', gridTemplateColumns: '2fr 1fr 80px 80px 80px 60px',
-                padding: '14px 20px', borderBottom: '1px solid var(--adm-border)',
-                alignItems: 'center',
-              }}>
-                <div>
-                  <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--adm-text)' }}>{org.name}</p>
-                  <p style={{ margin: 0, fontSize: 11, color: 'var(--adm-text3)' }}>{org.slug}</p>
-                </div>
-                <div style={{ justifySelf: 'start' }}>
+          {(orgs ?? []).map(org => {
+            const pc = planColor(org.plan)
+            const assetCount = assetsPerOrg[org.id] ?? 0
+            const memberCount = membersPerOrg[org.id] ?? 0
+            return (
+              <Link key={org.id} href={`/admin/orgs/${org.id}`} style={{ textDecoration: 'none' }}>
+                <div style={{
+                  display: 'grid', gridTemplateColumns: '2fr 1fr 80px 80px 80px 60px',
+                  padding: '14px 20px', borderBottom: '1px solid var(--adm-border)',
+                  alignItems: 'center',
+                }}>
+                  <div>
+                    <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--adm-text)' }}>{org.name}</p>
+                    <p style={{ margin: 0, fontSize: 11, color: 'var(--adm-text3)' }}>{org.slug}</p>
+                  </div>
+                  <div style={{ justifySelf: 'start' }}>
+                    <span style={{
+                      display: 'inline-block', fontSize: 11, fontWeight: 700,
+                      padding: '3px 10px', borderRadius: 20,
+                      background: pc.bg, color: pc.color,
+                    }}>
+                      {org.plan}
+                    </span>
+                  </div>
+                  <p style={{ margin: 0, fontSize: 14, color: 'var(--adm-text5)' }}>
+                    {assetCount}<span style={{ color: 'var(--adm-text4)', fontSize: 11 }}>/{org.asset_limit}</span>
+                  </p>
+                  <p style={{ margin: 0, fontSize: 14, color: 'var(--adm-text5)' }}>
+                    {memberCount}<span style={{ color: 'var(--adm-text4)', fontSize: 11 }}>/{org.user_limit ?? '∞'}</span>
+                  </p>
+                  <p style={{ margin: 0, fontSize: 11, color: 'var(--adm-text3)' }}>
+                    {new Date(org.created_at).toLocaleDateString('de-DE')}
+                  </p>
                   <span style={{
-                    display: 'inline-block', fontSize: 11, fontWeight: 700,
-                    padding: '3px 10px', borderRadius: 20,
-                    background: pc.bg, color: pc.color,
-                  }}>
-                    {org.plan}
-                  </span>
+                    width: 8, height: 8, borderRadius: '50%',
+                    background: org.is_active !== false ? '#34d399' : '#6b7280',
+                    display: 'inline-block',
+                  }} />
                 </div>
-                <p style={{ margin: 0, fontSize: 14, color: 'var(--adm-text5)' }}>
-                  {assetCount}<span style={{ color: 'var(--adm-text4)', fontSize: 11 }}>/{org.asset_limit}</span>
-                </p>
-                <p style={{ margin: 0, fontSize: 14, color: 'var(--adm-text5)' }}>
-                  {memberCount}<span style={{ color: 'var(--adm-text4)', fontSize: 11 }}>/{org.user_limit ?? '∞'}</span>
-                </p>
-                <p style={{ margin: 0, fontSize: 11, color: 'var(--adm-text3)' }}>
-                  {new Date(org.created_at).toLocaleDateString('de-DE')}
-                </p>
-                <span style={{
-                  width: 8, height: 8, borderRadius: '50%',
-                  background: org.is_active !== false ? '#34d399' : '#6b7280',
-                  display: 'inline-block',
-                }} />
-              </div>
-            </Link>
-          )
-        })}
+              </Link>
+            )
+          })}
 
-        {(orgs ?? []).length === 0 && (
-          <p style={{ padding: '40px', color: 'var(--adm-text3)', fontSize: 14, textAlign: 'center', margin: 0 }}>
-            Noch keine Organisationen
-          </p>
-        )}
+          {(orgs ?? []).length === 0 && (
+            <p style={{ padding: '40px', color: 'var(--adm-text3)', fontSize: 14, textAlign: 'center', margin: 0 }}>
+              Noch keine Organisationen
+            </p>
+          )}
+        </div>
       </div>
     </div>
   )

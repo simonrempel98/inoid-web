@@ -136,7 +136,7 @@ export default async function AdminSystemPage() {
 
       {/* ── Service-Status ──────────────────────────────────────────────────── */}
       <SectionTitle>Service-Status</SectionTitle>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 32 }}>
+      <div className="rg-2" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 32 }}>
 
         {/* Supabase */}
         {(() => {
@@ -194,7 +194,7 @@ export default async function AdminSystemPage() {
       <SectionTitle>Aktives Deployment</SectionTitle>
       <div style={{ background: 'var(--adm-surface)', border: '1px solid var(--adm-border)', borderRadius: 14, padding: '20px', marginBottom: 32 }}>
         {isVercel ? (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
+          <div className="rg-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16 }}>
             <div>
               <p style={{ margin: '0 0 4px', fontSize: 11, color: 'var(--adm-text4)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Umgebung</p>
               <span style={{
@@ -258,7 +258,8 @@ export default async function AdminSystemPage() {
       {/* ── Gesamt-Speicher pro Bucket ──────────────────────────────────────── */}
       <SectionTitle>Speicherverbrauch (Supabase Storage)</SectionTitle>
       {bucketStats && bucketStats.length > 0 ? (
-        <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden', marginBottom: 32 }}>
+        <div className="adm-table-scroll" style={{ marginBottom: 32 }}>
+        <div className="adm-table-min" style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', padding: '10px 20px', borderBottom: '1px solid var(--adm-border)' }}>
             {['Bucket', 'Dateien', 'Speicher'].map(h => (
               <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: 'var(--adm-text4)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>
@@ -282,6 +283,7 @@ export default async function AdminSystemPage() {
             </p>
             <p style={{ margin: 0, fontSize: 14, fontWeight: 900, color: '#34d399' }}>{formatBytes(totalStorageBytes)}</p>
           </div>
+        </div>
         </div>
       ) : (
         <div style={{ background: 'var(--adm-surface)', border: '1px solid var(--adm-border)', borderRadius: 14, padding: '20px', marginBottom: 32 }}>
@@ -328,7 +330,8 @@ export default async function AdminSystemPage() {
       {/* ── Speicher pro Organisation ───────────────────────────────────────── */}
       <SectionTitle>Speicher & Uploads pro Organisation</SectionTitle>
       {orgStorage && orgStorage.length > 0 ? (
-        <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden', marginBottom: 32 }}>
+        <div className="adm-table-scroll" style={{ marginBottom: 32 }}>
+        <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden', minWidth: 680 }}>
           {/* Header */}
           <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1fr 1fr 1fr 1.6fr 110px', padding: '10px 20px', borderBottom: '1px solid var(--adm-border)' }}>
             {['Organisation', 'Bilder', 'Dokumente', 'Service', 'Speicher-Aufschlüsselung', ''].map(h => (
@@ -412,6 +415,7 @@ export default async function AdminSystemPage() {
             )
           })}
         </div>
+        </div>
       ) : (
         <div style={{ background: 'var(--adm-surface)', border: '1px solid var(--adm-border)', borderRadius: 14, padding: '20px', marginBottom: 32 }}>
           <p style={{ margin: 0, fontSize: 13, color: 'var(--adm-text3)' }}>Keine Organisationen vorhanden.</p>
@@ -420,13 +424,13 @@ export default async function AdminSystemPage() {
 
       {/* ── DB-Statistiken ──────────────────────────────────────────────────── */}
       <SectionTitle>Datenbank</SectionTitle>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10, marginBottom: 16 }}>
+      <div className="rg-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10, marginBottom: 16 }}>
         {statRow('Organisationen', totalOrgs, `${activeOrgs} aktiv`)}
         {statRow('Nutzer', totalUsers)}
         {statRow('Assets (aktiv)', totalAssets)}
         {statRow('Service-Einträge', totalServiceEntries)}
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10, marginBottom: 32 }}>
+      <div className="rg-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 10, marginBottom: 32 }}>
         {statRow('Dokumente', totalDocs)}
         {statRow('PW-Änderung ausstehend', pendingPwChange, 'müssen PW ändern', true)}
         {statRow('Inaktive Orgs', (totalOrgs ?? 0) - (activeOrgs ?? 0))}
@@ -435,7 +439,8 @@ export default async function AdminSystemPage() {
 
       {/* ── Admin-Audit-Log ─────────────────────────────────────────────────── */}
       <SectionTitle>Admin-Audit-Log (letzte 20)</SectionTitle>
-      <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden' }}>
+      <div className="adm-table-scroll">
+      <div className="adm-table-min" style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', padding: '10px 20px', borderBottom: '1px solid var(--adm-border)' }}>
           {['Aktion', 'Ziel', 'Zeit'].map(h => (
             <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: 'var(--adm-text4)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>
@@ -455,6 +460,7 @@ export default async function AdminSystemPage() {
             Keine Logs vorhanden
           </p>
         )}
+      </div>
       </div>
     </div>
   )

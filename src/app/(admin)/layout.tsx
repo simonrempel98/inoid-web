@@ -21,7 +21,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <AdminThemeProvider>
       {/* Admin Top Bar */}
-      <div style={{
+      <div className="adm-topbar" style={{
         background: 'var(--adm-surface)',
         borderBottom: '1px solid var(--adm-border)',
         padding: '0 24px',
@@ -33,8 +33,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
         top: 0,
         zIndex: 100,
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-          <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--adm-text)', letterSpacing: 1 }}>
+        {/* Left: Logo + Nav */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 16, minWidth: 0, flex: 1 }}>
+          <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--adm-text)', letterSpacing: 1, flexShrink: 0 }}>
             INO<span style={{ color: '#0099cc' }}>id</span>
             <span style={{
               marginLeft: 8, fontSize: 10, fontWeight: 700,
@@ -44,34 +45,38 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             }}>ADMIN</span>
           </div>
 
-          <nav style={{ display: 'flex', gap: 4 }}>
-            {[
-              { href: '/admin', label: 'Dashboard' },
-              { href: '/admin/orgs', label: 'Organisationen' },
-              { href: '/admin/team', label: 'Platform-Team' },
-              { href: '/admin/system', label: 'System' },
-              { href: '/admin/inoai', label: 'INOai' },
-              { href: '/admin/techstack', label: 'Tech Docs' },
-            ].map(item => (
-              <a key={item.href} href={item.href} style={{
-                padding: '6px 14px', borderRadius: 8,
-                color: 'var(--adm-text2)', fontSize: 13, fontWeight: 600,
-                textDecoration: 'none',
-              }}>
-                {item.label}
-              </a>
-            ))}
-          </nav>
+          <div className="adm-nav-scroll">
+            <nav style={{ display: 'flex', gap: 2, whiteSpace: 'nowrap' }}>
+              {[
+                { href: '/admin', label: 'Dashboard' },
+                { href: '/admin/orgs', label: 'Organisationen' },
+                { href: '/admin/team', label: 'Team' },
+                { href: '/admin/system', label: 'System' },
+                { href: '/admin/inoai', label: 'INOai' },
+                { href: '/admin/techstack', label: 'Docs' },
+              ].map(item => (
+                <a key={item.href} href={item.href} style={{
+                  padding: '6px 12px', borderRadius: 8,
+                  color: 'var(--adm-text2)', fontSize: 13, fontWeight: 600,
+                  textDecoration: 'none',
+                }}>
+                  {item.label}
+                </a>
+              ))}
+            </nav>
+          </div>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontSize: 12, color: 'var(--adm-text3)' }}>
+        {/* Right: Actions */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+          <span className="adm-hide-mobile" style={{ fontSize: 12, color: 'var(--adm-text3)' }}>
             {profile.email}
           </span>
           <AdminThemeToggle />
           <a href="/dashboard" style={{
             fontSize: 12, color: '#0099cc', textDecoration: 'none', fontWeight: 600,
-            padding: '5px 12px', border: '1px solid #0099cc', borderRadius: 6,
+            padding: '5px 10px', border: '1px solid #0099cc', borderRadius: 6,
+            whiteSpace: 'nowrap',
           }}>
             → App
           </a>
@@ -80,7 +85,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       </div>
 
       {/* Content */}
-      <div style={{ padding: '24px' }}>
+      <div className="adm-content" style={{ padding: '24px' }}>
         {children}
       </div>
     </AdminThemeProvider>

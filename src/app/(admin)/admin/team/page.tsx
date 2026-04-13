@@ -30,7 +30,7 @@ export default async function AdminTeamPage() {
 
   return (
     <div style={{ maxWidth: 760 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 28 }}>
+      <div className="adm-page-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 28 }}>
         <div>
           <h1 style={{ fontSize: 22, fontWeight: 900, color: 'var(--adm-text)', margin: '0 0 4px' }}>Platform-Team</h1>
           <p style={{ fontSize: 13, color: 'var(--adm-text3)', margin: 0 }}>
@@ -63,7 +63,8 @@ export default async function AdminTeamPage() {
         </div>
       </div>
 
-      <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden' }}>
+      <div className="adm-table-scroll">
+      <div className="adm-table-min" style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1.5fr 1fr 1fr', padding: '10px 20px', borderBottom: '1px solid var(--adm-border)' }}>
           {['Mitglied', 'Zuletzt aktiv', 'Status', 'Aktion'].map(h => (
             <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: 'var(--adm-text4)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>
@@ -115,6 +116,7 @@ export default async function AdminTeamPage() {
             Keine Platform-Admins gefunden
           </p>
         )}
+      </div>
       </div>
 
       <p style={{ marginTop: 16, fontSize: 12, color: 'var(--adm-text4)' }}>

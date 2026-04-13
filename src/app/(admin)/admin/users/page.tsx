@@ -16,7 +16,8 @@ export default async function AdminUsersPage() {
         <p style={{ fontSize: 13, color: 'var(--adm-text3)', margin: 0 }}>{(profiles ?? []).length} Nutzer gesamt</p>
       </div>
 
-      <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden' }}>
+      <div className="adm-table-scroll">
+      <div className="adm-table-min" style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1.5fr 1fr 80px 80px', padding: '10px 20px', borderBottom: '1px solid var(--adm-border)' }}>
           {['Nutzer', 'Organisation', 'Zuletzt aktiv', 'PW', 'Status'].map(h => (
             <p key={h} style={{ margin: 0, fontSize: 11, fontWeight: 700, color: 'var(--adm-text4)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>{h}</p>
@@ -61,6 +62,7 @@ export default async function AdminUsersPage() {
             Keine Nutzer
           </p>
         )}
+      </div>
       </div>
     </div>
   )
