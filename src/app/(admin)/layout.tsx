@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation'
+import Image from 'next/image'
 import { createClient } from '@/lib/supabase/server'
 import { AdminThemeProvider } from '@/components/admin-theme-provider'
 import { AdminThemeToggle } from '@/components/admin-theme-toggle'
@@ -35,14 +36,24 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       }}>
         {/* Left: Logo + Nav */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, minWidth: 0, flex: 1 }}>
-          <div style={{ fontSize: 18, fontWeight: 900, color: 'var(--adm-text)', letterSpacing: 1, flexShrink: 0 }}>
-            INO<span style={{ color: '#0099cc' }}>id</span>
-            <span style={{
-              marginLeft: 8, fontSize: 10, fontWeight: 700,
-              background: '#dc2626', color: 'white',
-              padding: '2px 7px', borderRadius: 4, letterSpacing: '0.1em',
-              verticalAlign: 'middle',
-            }}>ADMIN</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+            <Image
+              src="/Inometa_INOid_21x13mm.png"
+              alt="INOid"
+              width={72}
+              height={44}
+              className="adm-logo-img"
+              style={{ objectFit: 'contain', display: 'block' }}
+            />
+            <div style={{
+              display: 'flex', alignItems: 'center',
+              borderLeft: '1px solid var(--adm-border)', paddingLeft: 10, gap: 6,
+            }}>
+              <span style={{
+                fontSize: 10, fontWeight: 800, letterSpacing: '0.14em',
+                color: 'var(--adm-text3)', textTransform: 'uppercase',
+              }}>Admin</span>
+            </div>
           </div>
 
           <div className="adm-nav-scroll">

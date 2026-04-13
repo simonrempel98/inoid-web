@@ -429,6 +429,14 @@
   }
 }
 
+/* ── Admin Logo Dark Mode ── */
+[data-admin-theme="light"] .adm-logo-img {
+  filter: none;
+}
+[data-admin-theme="dark"] .adm-logo-img {
+  filter: brightness(0) invert(1);
+}
+
 /* ── Admin Area – Mobile Responsive ── */
 @media (max-width: 768px) {
   /* Top bar: wrap logo + nav, hide email */
