@@ -227,14 +227,15 @@ export function AssetImportModal({ onClose }: { onClose: () => void }) {
       style={{
         position: 'fixed', inset: 0, zIndex: 1000,
         background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(4px)',
-        display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '16px',
       }}
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
       <div style={{
-        background: 'white', borderRadius: '20px 20px 0 0',
-        width: '100%', maxWidth: 600,
-        maxHeight: '92dvh', display: 'flex', flexDirection: 'column',
+        background: 'white', borderRadius: 20,
+        width: '100%', maxWidth: 560,
+        maxHeight: '90dvh', display: 'flex', flexDirection: 'column',
         fontFamily: 'Arial, sans-serif',
         boxShadow: '0 -8px 40px rgba(0,0,0,0.15)',
       }}>

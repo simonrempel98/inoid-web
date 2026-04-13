@@ -161,8 +161,13 @@ function hslToRgb(h: number, s: number, l: number): [number, number, number] {
 export async function fileToBase64ForApi(file: File, maxDim = 1200): Promise<{ base64: string; mediaType: string }> {
   if (file.type === 'application/pdf') {
     const ab = await file.arrayBuffer()
-    const base64 = btoa(String.fromCharCode(...new Uint8Array(ab)))
-    return { base64, mediaType: 'application/pdf' }
+    const bytes = new Uint8Array(ab)
+    let binary = ''
+    const chunk = 8192
+    for (let i = 0; i < bytes.length; i += chunk) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + chunk))
+    }
+    return { base64: btoa(binary), mediaType: 'application/pdf' }
   }
 
   return new Promise((resolve, reject) => {
