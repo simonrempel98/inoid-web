@@ -14,7 +14,7 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
   const [{ data: org }, { data: members }, { data: assets }] = await Promise.all([
     supabase
       .from('organizations')
-      .select('id, name, slug, plan, asset_limit, user_limit, is_active, contact_email, notes, created_at, features, settings')
+      .select('id, name, slug, plan, asset_limit, user_limit, is_active, contact_email, notes, created_at, features, settings, sensor_api_key')
       .eq('id', id)
       .single(),
     supabase
@@ -85,6 +85,35 @@ export default async function AdminOrgDetailPage({ params }: { params: Promise<{
             orgId={id}
             features={(org.features as Record<string, boolean>) ?? { serviceheft: true, wartung: true }}
           />
+
+          {/* Sensor API-Key (nur anzeigen wenn sensorik aktiviert) */}
+          {((org.features as Record<string, boolean>)?.sensorik === true) && (
+            <div style={{ background: 'var(--adm-surface)', borderRadius: 14, border: '1px solid var(--adm-border)', overflow: 'hidden', marginTop: 20 }}>
+              <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--adm-border)' }}>
+                <h2 style={{ fontSize: 14, fontWeight: 700, color: 'var(--adm-text)', margin: 0 }}>Sensor API-Zugang</h2>
+              </div>
+              <div style={{ padding: '16px 20px' }}>
+                <p style={{ margin: '0 0 6px', fontSize: 12, color: 'var(--adm-text3)' }}>API-Key (Bearer Token für Ingest-Endpoint)</p>
+                <div style={{
+                  background: 'var(--adm-surface2)', borderRadius: 8, padding: '10px 14px',
+                  fontFamily: 'monospace', fontSize: 12, color: 'var(--adm-text)',
+                  border: '1px solid var(--adm-border)', wordBreak: 'break-all',
+                  marginBottom: 10,
+                }}>
+                  {(org as any).sensor_api_key ?? '–'}
+                </div>
+                <p style={{ margin: '0 0 6px', fontSize: 12, color: 'var(--adm-text3)' }}>Ingest-Endpunkt</p>
+                <div style={{
+                  background: 'var(--adm-surface2)', borderRadius: 8, padding: '10px 14px',
+                  fontFamily: 'monospace', fontSize: 12, color: 'var(--adm-text)',
+                  border: '1px solid var(--adm-border)',
+                }}>
+                  POST https://inoid.app/api/sensors/ingest
+                </div>
+              </div>
+            </div>
+          )}
+
           <ImageCompressionSettings
             orgId={id}
             settings={(org.settings as Record<string, unknown>) ?? null}

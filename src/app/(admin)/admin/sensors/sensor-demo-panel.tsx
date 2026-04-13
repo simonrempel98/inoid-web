@@ -38,22 +38,37 @@ function randomValue(type: string): number {
   return parseFloat(raw.toFixed(r.decimals))
 }
 
-export function SensorDemoPanel({ initialSensors, appUrl }: { initialSensors: SensorRow[]; appUrl: string }) {
+const INGEST_URL = '/api/sensors/ingest'
+
+export function SensorDemoPanel({ initialSensors }: { initialSensors: SensorRow[] }) {
   const [sensors, setSensors] = useState<SensorRow[]>(initialSensors)
   const [sending, setSending] = useState<Record<string, boolean>>({})
   const [sendingAll, setSendingAll] = useState(false)
   const [log, setLog] = useState<{ ts: string; msg: string; ok: boolean }[]>([])
+  const [apiReachable, setApiReachable] = useState<boolean | null>(null)
 
   function addLog(msg: string, ok: boolean) {
     const ts = new Date().toLocaleTimeString('de-DE')
     setLog(prev => [{ ts, msg, ok }, ...prev].slice(0, 50))
   }
 
+  // API-Erreichbarkeit testen (GET health-check)
+  async function testApi() {
+    try {
+      const res = await fetch(INGEST_URL, { method: 'GET' })
+      setApiReachable(res.ok)
+      addLog(`API-Test: ${res.ok ? 'Endpunkt erreichbar ✓' : `HTTP ${res.status}`}`, res.ok)
+    } catch (e) {
+      setApiReachable(false)
+      addLog(`API-Test fehlgeschlagen: ${e instanceof Error ? e.message : 'Netzwerkfehler'}`, false)
+    }
+  }
+
   async function sendOne(sensor: SensorRow) {
     setSending(s => ({ ...s, [sensor.id]: true }))
     const value = randomValue(sensor.type)
     try {
-      const res = await fetch(`${appUrl || ''}/api/sensors/ingest`, {
+      const res = await fetch(INGEST_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -72,7 +87,9 @@ export function SensorDemoPanel({ initialSensors, appUrl }: { initialSensors: Se
         addLog(`${sensor.name}: Fehler — ${data.error ?? res.status}`, false)
       }
     } catch (e) {
-      addLog(`${sensor.name}: ${e instanceof Error ? e.message : 'Netzwerkfehler'}`, false)
+      const msg = e instanceof Error ? e.message : 'Netzwerkfehler'
+      addLog(`${sensor.name}: ${msg} — Endpunkt erreichbar? Prüfe API-Test`, false)
+      setApiReachable(false)
     }
     setSending(s => ({ ...s, [sensor.id]: false }))
   }
@@ -92,7 +109,7 @@ export function SensorDemoPanel({ initialSensors, appUrl }: { initialSensors: Se
 
     for (const [, { apiKey, readings }] of Object.entries(byOrg)) {
       try {
-        const res = await fetch(`${appUrl || ''}/api/sensors/ingest`, {
+        const res = await fetch(INGEST_URL, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -152,6 +169,21 @@ export function SensorDemoPanel({ initialSensors, appUrl }: { initialSensors: Se
             : <><Send size={14} /> Alle senden</>
           }
         </button>
+
+        {/* API-Erreichbarkeit testen */}
+        <button
+          onClick={testApi}
+          style={{
+            background: apiReachable === true ? '#27AE6022' : apiReachable === false ? '#ef444422' : 'var(--adm-surface2)',
+            color: apiReachable === true ? '#27AE60' : apiReachable === false ? '#ef4444' : 'var(--adm-text3)',
+            border: `1px solid ${apiReachable === true ? '#27AE6044' : apiReachable === false ? '#ef444444' : 'var(--adm-border)'}`,
+            cursor: 'pointer', borderRadius: 50, padding: '10px 18px', fontSize: 13, fontWeight: 700,
+            display: 'flex', alignItems: 'center', gap: 6, fontFamily: 'Arial, sans-serif',
+          }}
+        >
+          {apiReachable === true ? '✓ API erreichbar' : apiReachable === false ? '✗ API nicht erreichbar' : 'API testen'}
+        </button>
+
         <span style={{ fontSize: 12, color: 'var(--adm-text3)' }}>
           Sendet einen zufälligen Messwert pro Sensor (realistischer Bereich je Typ)
         </span>

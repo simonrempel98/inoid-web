@@ -15,6 +15,7 @@ const FEATURES: Feature[] = [
   { key: 'serviceheft', label: 'Serviceheft',  desc: 'Serviceeinträge & Dokumentation pro Asset',                                        defaultOn: true  },
   { key: 'wartung',     label: 'Wartung',      desc: 'Wartungspläne, Aufgaben & Gantt-Chart',                                            defaultOn: true  },
   { key: 'teamchat',    label: 'Team-Chat',    desc: 'Team-interne Nachrichten mit Asset-Erwähnungen (30 Tage Verlauf)',                  defaultOn: true  },
+  { key: 'sensorik',   label: 'Sensorik',     desc: 'Echtzeit-Sensordaten je Asset: Temperatur, Vibration, Drehzahl u.v.m.',             defaultOn: false },
   { key: 'flexodruck',  label: 'Flexodruck',   desc: 'Setup-Manager für Flexodruck-Maschinen: Druckwerke, Vorlagen & Rüstvorgänge',       defaultOn: false },
   { key: 'inoai',      label: 'INOai',        desc: 'KI-Produktassistent auf Basis der INOMETA-Wissensbasis',                              defaultOn: false },
 ]
