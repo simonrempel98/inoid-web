@@ -807,7 +807,7 @@
       "sub": "INOid ir jūsu digitālā aktīvu pārvaldības sistēma — no nodošanas ekspluatācijā līdz izņemšanai. Gatavs 5 minūtēs.",
       "s1val": "5 min",
       "s1label": "līdz pirmajam aktīvam",
-      "s2val": "11+",
+      "s2val": "12+",
       "s2label": "funkciju jomas",
       "s3val": "100%",
       "s3label": "pārlūkprogrammā"
@@ -974,6 +974,20 @@
           "Atbild jūsu rakstītajā valodā — pilnīgi daudzvalodu",
           "Izvēles papildu modulis — administrators var aktivizēt"
         ]
+      },
+      "f12": {
+        "title": "Fleksodrukas moduļi",
+        "badge": "Flexo",
+        "desc": "Specializēti rīki fleksodrukas profesionāļiem. Anilox kalkulators aprēķina šūnas tilpumu, tintes patēriņu, plēves biezumu un izmaksas — aprēķini tiek saglabāti katram lietotājam ar nosaukumu un piezīmi.",
+        "points": [
+          "Anilox kalkulators: 5 režīmi — Tilpums, Tintes patēriņš, Plēves biezums, Apgrieztais, Salīdzinājums",
+          "Vienību izvēle: metriskās (cm³/m²) vai US (BCM)",
+          "Visas 6 šūnu ģeometrijas: Sešstūrainā, Tri-helikālā, Taisnstūra, Dimanta, Kanāla, Knurl",
+          "Tintes pārvaldība: piegādātājs, tips, blīvums un izmaksas (€/kg)",
+          "Izmaksu aprēķins: €/stundā, €/1 000 l.m., €/10 000 l.m.",
+          "Aprēķinu saglabāšana ar nosaukumu, piezīmi un vēsturi",
+          "Izvēles papildu modulis — administrators var aktivizēt"
+        ]
       }
     },
     "roles": {
@@ -1101,11 +1115,16 @@
         {
           "a": "INOai",
           "b": "Sānu josla / Apakšnavigācija → INOai (✦)"
+        },
+        {
+          "a": "Flexodruck",
+          "b": "Sānu josla → Flexo → Guided Setup / Anilox kalkulators"
         }
       ],
       "contactTitle": "Vēl jautājumi?",
       "contactDesc": "Sazinieties ar savu administratoru vai sazinieties ar INOid atbalstu tieši caur Inomet GmbH.",
-      "t6": "INOid ir pilnībā optimizēts viedtālruņiem: visi vairāksleju izkārtojumi mobilajā ierīcē saspiežas vienā slejā, INOai tērzēšana precīzi aizpilda redzamo ekrāna laukumu un gari tehniskie termini vienmēr tiek pareizi pārtraukti."
+      "t6": "INOid ir pilnībā optimizēts viedtālruņiem: visi vairāksleju izkārtojumi mobilajā ierīcē saspiežas vienā slejā, INOai tērzēšana precīzi aizpilda redzamo ekrāna laukumu un gari tehniskie termini vienmēr tiek pareizi pārtraukti.",
+      "t7": "Flexo modulī: reģistrējiet savas tintes vienu reizi ar blīvumu un cenu — Anilox kalkulators automātiski aizpildīs blīvumu un aprēķinās izmaksas stundā un lineārajā metrā."
     }
   },
   "eventTypes": {

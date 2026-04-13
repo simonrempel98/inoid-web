@@ -807,7 +807,7 @@
       "sub": "INOid is uw digitale beheer van bedrijfsmiddelen — van ingebruikstelling tot buiten gebruik stelling. Klaar in 5 minuten.",
       "s1val": "5 min",
       "s1label": "tot het eerste asset",
-      "s2val": "11+",
+      "s2val": "12+",
       "s2label": "functiegebieden",
       "s3val": "100%",
       "s3label": "browsergebaseerd"
@@ -974,6 +974,20 @@
           "Antwoordt in de taal waarin je schrijft — volledig meertalig",
           "Optionele add-on module — activeerbaar door de beheerder"
         ]
+      },
+      "f12": {
+        "title": "Flexodruk-modules",
+        "badge": "Flexo",
+        "desc": "Gespecialiseerde tools voor flexodruk-professionals. De Anilox-rekenmachine berekent celvolume, inktverbruik, filmdikte en kosten — berekeningen worden per gebruiker opgeslagen met naam en notitie.",
+        "points": [
+          "Anilox-rekenmachine: 5 modi — Volume, Inktverbruik, Filmdikte, Omgekeerd, Vergelijking",
+          "Eenheden kiezen: metrisch (cm³/m²) of US (BCM)",
+          "Alle 6 celgeometrieën: Hexagonaal, Tri-helisch, Quadrangulair, Diamant, Kanaal, Knurl",
+          "Inktbeheer: leverancier, type, dichtheid en kosten (€/kg)",
+          "Kostenberekening: €/uur, €/1.000 lm, €/10.000 lm",
+          "Berekeningen opslaan met naam, notitie en geschiedenis",
+          "Optionele aanvullende module — activeerbaar door beheerder"
+        ]
       }
     },
     "roles": {
@@ -1101,11 +1115,16 @@
         {
           "a": "INOai",
           "b": "Zijbalk / Bottom-Nav → INOai (✦)"
+        },
+        {
+          "a": "Flexodruck",
+          "b": "Zijbalk → Flexo → Guided Setup / Anilox-rekenmachine"
         }
       ],
       "contactTitle": "Nog vragen?",
       "contactDesc": "Neem contact op met uw beheerder of de INOid-support via Inomet GmbH.",
-      "t6": "INOid is volledig geoptimaliseerd voor smartphones: alle meerkolomsindelingen worden op mobiel teruggebracht tot één kolom, de INOai-chat vult het zichtbare schermgebied exact, en lange technische termen worden altijd correct afgebroken."
+      "t6": "INOid is volledig geoptimaliseerd voor smartphones: alle meerkolomsindelingen worden op mobiel teruggebracht tot één kolom, de INOai-chat vult het zichtbare schermgebied exact, en lange technische termen worden altijd correct afgebroken.",
+      "t7": "In de Flexo-module: sla uw inkten één keer op met dichtheid en prijs — de Anilox-rekenmachine vult de dichtheid automatisch in en berekent kosten per uur en per lopende meter."
     }
   },
   "eventTypes": {

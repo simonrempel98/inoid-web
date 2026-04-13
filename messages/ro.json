@@ -807,7 +807,7 @@
       "sub": "INOid este sistemul dvs. digital de gestionare a activelor — de la punerea în funcțiune până la dezafectare. Gata în 5 minute.",
       "s1val": "5 min",
       "s1label": "până la primul activ",
-      "s2val": "11+",
+      "s2val": "12+",
       "s2label": "domenii de funcții",
       "s3val": "100%",
       "s3label": "bazat pe browser"
@@ -974,6 +974,20 @@
           "Răspunde în limba în care scrieți — complet multilingv",
           "Modul suplimentar opțional — activabil de administrator"
         ]
+      },
+      "f12": {
+        "title": "Module flexografie",
+        "badge": "Flexo",
+        "desc": "Instrumente specializate pentru profesioniști în flexografie. Calculatorul Anilox calculează volumul celulei, consumul de cerneală, grosimea filmului și costurile — calculele sunt salvate per utilizator cu nume și notă.",
+        "points": [
+          "Calculator Anilox: 5 moduri — Volum, Consum cerneală, Grosime film, Invers, Comparație",
+          "Alegere unități: metric (cm³/m²) sau US (BCM)",
+          "Toate cele 6 geometrii de celule: Hexagonal, Tri-elicoidal, Dreptunghiular, Diamant, Canal, Knurl",
+          "Gestionare cerneluri: furnizor, tip, densitate și cost (€/kg)",
+          "Calculul costurilor: €/oră, €/1.000 ml, €/10.000 ml",
+          "Salvarea calculelor cu nume, notă și istoric",
+          "Modul suplimentar opțional — activat de administrator"
+        ]
       }
     },
     "roles": {
@@ -1101,11 +1115,16 @@
         {
           "a": "INOai",
           "b": "Bară laterală / Nav jos → INOai (✦)"
+        },
+        {
+          "a": "Flexodruck",
+          "b": "Bara laterală → Flexo → Guided Setup / Calculator Anilox"
         }
       ],
       "contactTitle": "Mai aveți întrebări?",
       "contactDesc": "Contactați administratorul dvs. sau ajungeți la suportul INOid direct prin Inomet GmbH.",
-      "t6": "INOid este complet optimizat pentru smartphone-uri: toate aspectele multi-coloană se restrâng la o singură coloană pe mobil, chat-ul INOai umple exact zona vizibilă a ecranului, iar termenii tehnici lungi se împart întotdeauna corect."
+      "t6": "INOid este complet optimizat pentru smartphone-uri: toate aspectele multi-coloană se restrâng la o singură coloană pe mobil, chat-ul INOai umple exact zona vizibilă a ecranului, iar termenii tehnici lungi se împart întotdeauna corect.",
+      "t7": "În modulul Flexo: înregistrați cerneliurile o dată cu densitate și preț — calculatorul Anilox completează automat densitatea și calculează costurile pe oră și pe metru liniar."
     }
   },
   "eventTypes": {

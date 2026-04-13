@@ -807,7 +807,7 @@
       "sub": "INOid, dijital varlık yönetim sisteminizdir — devreye almadan hizmetten çıkarmaya kadar. 5 dakikada hazır.",
       "s1val": "5 min",
       "s1label": "ilk varlığa",
-      "s2val": "11+",
+      "s2val": "12+",
       "s2label": "özellik alanı",
       "s3val": "100%",
       "s3label": "tarayıcı tabanlı"
@@ -974,6 +974,20 @@
           "Yazdığınız dilde yanıt verir — tamamen çok dilli",
           "İsteğe bağlı eklenti modül — yönetici tarafından etkinleştirilebilir"
         ]
+      },
+      "f12": {
+        "title": "Fleksografi Modülleri",
+        "badge": "Flexo",
+        "desc": "Fleksografi profesyonelleri için özel araçlar. Anilox Hesaplayıcı hücre hacmini, mürekkep tüketimini, film kalınlığını ve maliyetleri hesaplar — hesaplamalar kullanıcı başına ad ve notla kaydedilir.",
+        "points": [
+          "Anilox Hesaplayıcı: 5 mod — Hacim, Mürekkep Tüketimi, Film Kalınlığı, Ters, Karşılaştırma",
+          "Birim seçimi: metrik (cm³/m²) veya US (BCM)",
+          "Tüm 6 hücre geometrisi: Altıgen, Tri-helikal, Dörtgen, Elmas, Kanal, Knurl",
+          "Mürekkep yönetimi: tedarikçi, tür, yoğunluk ve maliyet (€/kg)",
+          "Maliyet hesaplama: €/saat, €/1.000 lm, €/10.000 lm",
+          "Hesaplamaları ad, not ve geçmişle kaydetme",
+          "İsteğe bağlı ek modül — yönetici tarafından etkinleştirilebilir"
+        ]
       }
     },
     "roles": {
@@ -1101,11 +1115,16 @@
         {
           "a": "INOai",
           "b": "Kenar çubuğu / Alt nav → INOai (✦)"
+        },
+        {
+          "a": "Flexodruck",
+          "b": "Kenar çubuğu → Flexo → Guided Setup / Anilox Hesaplayıcı"
         }
       ],
       "contactTitle": "Daha fazla sorunuz var mı?",
       "contactDesc": "Yöneticinizle iletişime geçin veya Inomet GmbH aracılığıyla doğrudan INOid desteğine ulaşın.",
-      "t6": "INOid tamamen akıllı telefon için optimize edilmiştir: tüm çok sütunlu düzenler mobilde tek sütuna daraltılır, INOai sohbeti görünür ekran alanını tam olarak doldurur ve uzun teknik terimler her zaman doğru şekilde kırılır."
+      "t6": "INOid tamamen akıllı telefon için optimize edilmiştir: tüm çok sütunlu düzenler mobilde tek sütuna daraltılır, INOai sohbeti görünür ekran alanını tam olarak doldurur ve uzun teknik terimler her zaman doğru şekilde kırılır.",
+      "t7": "Flexo modülünde: renklerinizi bir kez yoğunluk ve fiyatla kaydedin — Anilox Hesaplayıcı yoğunluğu otomatik olarak doldurur ve saat başı ve metre başı maliyetleri hesaplar."
     }
   },
   "eventTypes": {

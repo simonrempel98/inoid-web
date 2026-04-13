@@ -807,7 +807,7 @@
       "sub": "INOid je váš digitální systém správy aktiv — od uvedení do provozu po vyřazení. Připraveno za 5 minut.",
       "s1val": "5 min",
       "s1label": "do prvního aktiva",
-      "s2val": "11+",
+      "s2val": "12+",
       "s2label": "oblastí funkcí",
       "s3val": "100%",
       "s3label": "bez instalace aplikace"
@@ -974,6 +974,20 @@
           "Odpovídá v jazyce, ve kterém píšete — plně vícejazyčný",
           "Volitelný doplňkový modul — aktivovatelný administrátorem"
         ]
+      },
+      "f12": {
+        "title": "Moduly pro flexotisk",
+        "badge": "Flexo",
+        "desc": "Specializované nástroje pro profesionály flexotisku. Kalkulačka Anilox vypočítává objem buňky, spotřebu barvy, tloušťku filmu a náklady — výpočty se ukládají na uživatele se jménem a poznámkou.",
+        "points": [
+          "Kalkulačka Anilox: 5 režimů — Objem, Spotřeba barvy, Tloušťka filmu, Zpětný, Porovnání",
+          "Výběr jednotek: metrické (cm³/m²) nebo US (BCM)",
+          "Všech 6 geometrií buněk: Šestihranná, Tri-helikální, Pravoúhlá, Diamant, Kanál, Knurl",
+          "Správa barev: dodavatel, typ, hustota a náklady (€/kg)",
+          "Výpočet nákladů: €/hod., €/1 000 mb, €/10 000 mb",
+          "Uložení výpočtů se jménem, poznámkou a historií",
+          "Volitelný doplňkový modul — aktivovatelný správcem"
+        ]
       }
     },
     "roles": {
@@ -1101,11 +1115,16 @@
         {
           "a": "INOai",
           "b": "Postranní panel / Spodní nav → INOai (✦)"
+        },
+        {
+          "a": "Flexodruck",
+          "b": "Postranní panel → Flexo → Guided Setup / Kalkulačka Anilox"
         }
       ],
       "contactTitle": "Máte další otázky?",
       "contactDesc": "Obraťte se na svého administrátora nebo kontaktujte podporu INOid přímo přes Inomet GmbH.",
-      "t6": "INOid je plně optimalizován pro chytré telefony: všechna vícesl sloupcová rozvržení se na mobilu sbalí do jednoho sloupce, chat INOai přesně vyplňuje viditelnou plochu obrazovky a dlouhé technické pojmy se vždy správně zalomí."
+      "t6": "INOid je plně optimalizován pro chytré telefony: všechna vícesl sloupcová rozvržení se na mobilu sbalí do jednoho sloupce, chat INOai přesně vyplňuje viditelnou plochu obrazovky a dlouhé technické pojmy se vždy správně zalomí.",
+      "t7": "V modulu Flexo: zadejte barvy jednou s hustotou a cenou — kalkulačka Anilox automaticky vyplní hustotu a vypočítá náklady na hodinu a na lineární metr."
     }
   },
   "eventTypes": {

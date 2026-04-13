@@ -807,7 +807,7 @@
       "sub": "INOid je vaš digitalni sistem upravljanja sredstvima — od puštanja u rad do povlačenja. Spreman za 5 minuta.",
       "s1val": "5 min",
       "s1label": "do prvog sredstva",
-      "s2val": "11+",
+      "s2val": "12+",
       "s2label": "oblasti funkcija",
       "s3val": "100%",
       "s3label": "zasnovano na pregledaču"
@@ -974,6 +974,20 @@
           "Odgovara na jeziku na kom pišete — potpuno višejezičan",
           "Opcionalni dodatni modul — može ga aktivirati administrator"
         ]
+      },
+      "f12": {
+        "title": "Модули за флексографски штамп",
+        "badge": "Flexo",
+        "desc": "Специјализовани алати за стручњаке флексографског штампања. Анилокс калкулатор израчунава запремину ћелије, потрошњу боје, дебљину филма и трошкове — прорачуни се чувају по кориснику са именом и напоменом.",
+        "points": [
+          "Анилокс калкулатор: 5 режима — Запремина, Потрошња боје, Дебљина филма, Обрнуто, Поређење",
+          "Избор јединица: метричке (cm³/m²) или US (BCM)",
+          "Свих 6 геометрија ћелија: Шестоугаона, Три-хеликална, Правоугаона, Дијамант, Канал, Knurl",
+          "Управљање бојама: добављач, тип, густина и трошак (€/kg)",
+          "Израчун трошкова: €/сат, €/1.000 тм, €/10.000 тм",
+          "Чување прорачуна са именом, напоменом и историјом",
+          "Необавезни додатни модул — може активирати администратор"
+        ]
       }
     },
     "roles": {
@@ -1101,11 +1115,16 @@
         {
           "a": "INOai",
           "b": "Bočna traka / Donja nav → INOai (✦)"
+        },
+        {
+          "a": "Flexodruck",
+          "b": "Бочна трака → Flexo → Guided Setup / Анилокс калкулатор"
         }
       ],
       "contactTitle": "Imate još pitanja?",
       "contactDesc": "Obratite se svom administratoru ili kontaktirajte INOid podršku direktno putem Inomet GmbH.",
-      "t6": "INOid je potpuno optimizovan za pametne telefone: svi višekolonski rasporedi sažimaju se u jednu kolonu na mobilnim uređajima, INOai čet tačno ispunjava vidljivo područje ekrana, a dugi tehnički izrazi uvijek se pravilno prelome."
+      "t6": "INOid je potpuno optimizovan za pametne telefone: svi višekolonski rasporedi sažimaju se u jednu kolonu na mobilnim uređajima, INOai čet tačno ispunjava vidljivo područje ekrana, a dugi tehnički izrazi uvijek se pravilno prelome.",
+      "t7": "У Flexo модулу: унесите бојеједном са густином и ценом — Анилокс калкулатор аутоматски попуњава густину и израчунава трошкове по сату и по текућем метру."
     }
   },
   "eventTypes": {

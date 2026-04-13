@@ -807,7 +807,7 @@
       "sub": "Az INOid az Ön digitális eszközkezelő rendszere — üzembe helyezéstől a kivonásig. 5 percen belül kész.",
       "s1val": "5 min",
       "s1label": "az első eszközig",
-      "s2val": "11+",
+      "s2val": "12+",
       "s2label": "funkciós terület",
       "s3val": "100%",
       "s3label": "böngészőalapú"
@@ -974,6 +974,20 @@
           "Az Ön által írt nyelven válaszol — teljesen többnyelvű",
           "Opcionális kiegészítő modul — az adminisztrátor aktiválhatja"
         ]
+      },
+      "f12": {
+        "title": "Flexonyomtatás-modulok",
+        "badge": "Flexo",
+        "desc": "Speciális eszközök flexonyomtatási szakembereknek. Az Anilox-kalkulátor kiszámítja a cellatérfogatot, festékfelhasználást, filmvastagságot és a költségeket — a számítások névvel és megjegyzéssel tárolhatók felhasználónként.",
+        "points": [
+          "Anilox-kalkulátor: 5 mód — Térfogat, Festékfelhasználás, Filmvastagság, Fordított, Összehasonlítás",
+          "Mértékegységek: metrikus (cm³/m²) vagy US (BCM)",
+          "Mind a 6 cellageometria: Hatszögű, Tri-helikális, Négyszögletes, Gyémánt, Csatorna, Knurl",
+          "Festékkezelés: szállító, típus, sűrűség és költség (€/kg)",
+          "Költségszámítás: €/óra, €/1 000 fm, €/10 000 fm",
+          "Számítások mentése névvel, megjegyzéssel és előzményekkel",
+          "Opcionális kiegészítő modul — adminisztrátor aktiválhatja"
+        ]
       }
     },
     "roles": {
@@ -1101,11 +1115,16 @@
         {
           "a": "INOai",
           "b": "Oldalsáv / Alsó nav → INOai (✦)"
+        },
+        {
+          "a": "Flexodruck",
+          "b": "Oldalsáv → Flexo → Guided Setup / Anilox-kalkulátor"
         }
       ],
       "contactTitle": "Van még kérdése?",
       "contactDesc": "Forduljon adminisztrátorához, vagy vegye fel a kapcsolatot az INOid támogatással közvetlenül az Inomet GmbH-n keresztül.",
-      "t6": "Az INOid teljes mértékben optimalizálva van okostelefonokra: minden többoszlopos elrendezés egyetlen oszlopra szűkül mobilon, az INOai-csevegés pontosan kitölti a látható képernyőterületet, és a hosszú műszaki kifejezések mindig helyesen törnek."
+      "t6": "Az INOid teljes mértékben optimalizálva van okostelefonokra: minden többoszlopos elrendezés egyetlen oszlopra szűkül mobilon, az INOai-csevegés pontosan kitölti a látható képernyőterületet, és a hosszú műszaki kifejezések mindig helyesen törnek.",
+      "t7": "A Flexo modulban: rögzítse festékeit egyszer sűrűséggel és árral — az Anilox-kalkulátor automatikusan kitölti a sűrűséget, és kiszámítja az óránkénti és folyóméterenkénti költségeket."
     }
   },
   "eventTypes": {

@@ -807,7 +807,7 @@
       "sub": "INOid es tu gestión digital de activos — desde la puesta en marcha hasta la retirada. Listo en 5 minutos.",
       "s1val": "5 min",
       "s1label": "hasta el primer activo",
-      "s2val": "11+",
+      "s2val": "12+",
       "s2label": "áreas de funciones",
       "s3val": "100%",
       "s3label": "basado en navegador"
@@ -974,6 +974,20 @@
           "Responde en el idioma en que escribes — completamente multilingüe",
           "Módulo adicional opcional — activable por el administrador"
         ]
+      },
+      "f12": {
+        "title": "Módulos de Flexografía",
+        "badge": "Flexo",
+        "desc": "Herramientas especializadas para profesionales de la flexografía. La calculadora Anilox calcula el volumen de celda, consumo de tinta, espesor de película y costes — los cálculos se guardan por usuario con nombre y nota.",
+        "points": [
+          "Calculadora Anilox: 5 modos — Volumen, Consumo de tinta, Espesor de película, Inverso, Comparación",
+          "Elegir unidades: métrico (cm³/m²) o US (BCM)",
+          "Las 6 geometrías de celda: Hexagonal, Tri-helicoidal, Cuadrangular, Diamante, Canal, Moleteado",
+          "Gestión de tintas: proveedor, tipo, densidad y coste (€/kg)",
+          "Cálculo de costes: €/hora, €/1.000 ml, €/10.000 ml",
+          "Guardar cálculos con nombre, nota e historial",
+          "Módulo adicional opcional — activable por el administrador"
+        ]
       }
     },
     "roles": {
@@ -1101,11 +1115,16 @@
         {
           "a": "INOai",
           "b": "Barra lateral / Nav inferior → INOai (✦)"
+        },
+        {
+          "a": "Flexodruck",
+          "b": "Barra lateral → Flexo → Configuración guiada / Calculadora Anilox"
         }
       ],
       "contactTitle": "¿Tienes más preguntas?",
       "contactDesc": "Contacta a tu administrador o al soporte de INOid a través de Inomet GmbH.",
-      "t6": "INOid está completamente optimizado para smartphones: todos los diseños de varias columnas se contraen a una sola columna en móvil, el chat INOai llena exactamente el área de pantalla visible y los términos técnicos largos siempre se ajustan correctamente."
+      "t6": "INOid está completamente optimizado para smartphones: todos los diseños de varias columnas se contraen a una sola columna en móvil, el chat INOai llena exactamente el área de pantalla visible y los términos técnicos largos siempre se ajustan correctamente.",
+      "t7": "En el módulo Flexo: registra tus tintas una vez con densidad y precio — la calculadora Anilox rellena la densidad automáticamente y calcula los costes por hora y por metro lineal."
     }
   },
   "eventTypes": {

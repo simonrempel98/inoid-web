@@ -807,7 +807,7 @@
       "sub": "INOid je vaš digitalni sustav upravljanja imovinom — od puštanja u rad do povlačenja. Spreman za 5 minuta.",
       "s1val": "5 min",
       "s1label": "do prve imovine",
-      "s2val": "11+",
+      "s2val": "12+",
       "s2label": "područja funkcija",
       "s3val": "100%",
       "s3label": "temeljeno na pregledniku"
@@ -974,6 +974,20 @@
           "Odgovara na jeziku kojim pišete — potpuno višejezičan",
           "Opcionalni dodatni modul — može ga aktivirati administrator"
         ]
+      },
+      "f12": {
+        "title": "Moduli za fleksografski tisak",
+        "badge": "Flexo",
+        "desc": "Specijalizirani alati za profesionalce fleksografskog tiska. Anilox kalkulator izračunava volumen ćelije, potrošnju tinte, debljinu filma i troškove — izračuni se spremaju po korisniku s imenom i napomenom.",
+        "points": [
+          "Anilox kalkulator: 5 načina — Volumen, Potrošnja tinte, Debljina filma, Obrnuto, Usporedba",
+          "Izbor jedinica: metrički (cm³/m²) ili US (BCM)",
+          "Svih 6 geometrija ćelija: Šesterokutna, Tri-helikalna, Pravokutna, Dijamant, Kanal, Knurl",
+          "Upravljanje tintama: dobavljač, vrsta, gustoća i trošak (€/kg)",
+          "Izračun troškova: €/sat, €/1.000 tm, €/10.000 tm",
+          "Spremanje izračuna s imenom, napomenom i poviješću",
+          "Neobavezni dodatni modul — može aktivirati administrator"
+        ]
       }
     },
     "roles": {
@@ -1101,11 +1115,16 @@
         {
           "a": "INOai",
           "b": "Bočna traka / Donja nav → INOai (✦)"
+        },
+        {
+          "a": "Flexodruck",
+          "b": "Bočna traka → Flexo → Guided Setup / Anilox kalkulator"
         }
       ],
       "contactTitle": "Imate još pitanja?",
       "contactDesc": "Obratite se svom administratoru ili kontaktirajte INOid podršku izravno putem Inomet GmbH.",
-      "t6": "INOid je potpuno optimiziran za pametne telefone: svi višestupčasti rasporedi sažimaju se u jedan stupac na mobilnim uređajima, INOai chat točno ispunjava vidljivo područje zaslona, a dugi tehnički izrazi uvijek se pravilno prelome."
+      "t6": "INOid je potpuno optimiziran za pametne telefone: svi višestupčasti rasporedi sažimaju se u jedan stupac na mobilnim uređajima, INOai chat točno ispunjava vidljivo područje zaslona, a dugi tehnički izrazi uvijek se pravilno prelome.",
+      "t7": "U Flexo modulu: unesite tinte jednom s gustoćom i cijenom — Anilox kalkulator automatski popunjava gustoću i izračunava troškove po satu i po tekućem metru."
     }
   },
   "eventTypes": {

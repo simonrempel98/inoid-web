@@ -7,7 +7,7 @@ import {
   ClipboardList, ScanLine, CalendarClock, MapPin, Users,
   FileText, QrCode, CheckCircle2, ChevronDown,
   Zap, ShieldCheck, Smartphone, Upload, Bell, ArrowRight,
-  ListChecks, MessageSquare, Sparkles,
+  ListChecks, MessageSquare, Sparkles, Calculator,
 } from 'lucide-react'
 
 // ─── Feature card ─────────────────────────────────────────────────────────────
@@ -107,6 +107,7 @@ export default function DocsPage() {
     { icon: QrCode, color: '#96aed2', title: t('feat.f9.title'), badge: t('feat.f9.badge'), desc: t('feat.f9.desc'), points: t.raw('feat.f9.points') as string[] },
     { icon: MessageSquare, color: '#0099cc', title: t('feat.f10.title'), badge: t('feat.f10.badge'), desc: t('feat.f10.desc'), points: t.raw('feat.f10.points') as string[] },
     { icon: Sparkles, color: '#0099cc', title: t('feat.f11.title'), badge: t('feat.f11.badge'), desc: t('feat.f11.desc'), points: t.raw('feat.f11.points') as string[] },
+    { icon: Calculator, color: '#7c3aed', title: t('feat.f12.title'), badge: t('feat.f12.badge'), desc: t('feat.f12.desc'), points: t.raw('feat.f12.points') as string[] },
   ]
 
   const ROLES = [
@@ -123,6 +124,7 @@ export default function DocsPage() {
     { icon: Smartphone, text: t('tips.t4') },
     { icon: Bell, text: t('tips.t5') },
     { icon: Sparkles, text: t('tips.t6') },
+    { icon: Calculator, text: t('tips.t7') },
   ]
 
   const NAV_ITEMS = t.raw('tips.nav') as { a: string; b: string }[]

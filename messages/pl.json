@@ -807,7 +807,7 @@
       "sub": "INOid to cyfrowe zarządzanie aktywami — od uruchomienia do wycofania z użycia. Gotowe w 5 minut.",
       "s1val": "5 min",
       "s1label": "do pierwszego zasobu",
-      "s2val": "11+",
+      "s2val": "12+",
       "s2label": "obszarów funkcji",
       "s3val": "100%",
       "s3label": "oparte na przeglądarce"
@@ -974,6 +974,20 @@
           "Odpowiada w języku, w którym piszesz — w pełni wielojęzyczny",
           "Opcjonalny moduł dodatkowy — możliwy do aktywacji przez administratora"
         ]
+      },
+      "f12": {
+        "title": "Moduły fleksograficzne",
+        "badge": "Flexo",
+        "desc": "Specjalistyczne narzędzia dla profesjonalistów fleksografii. Kalkulator Anilox oblicza objętość komórki, zużycie tuszu, grubość filmu i koszty — obliczenia są zapisywane na użytkownika z nazwą i notatką.",
+        "points": [
+          "Kalkulator Anilox: 5 trybów — Objętość, Zużycie tuszu, Grubość filmu, Odwrotny, Porównanie",
+          "Wybór jednostek: metryczne (cm³/m²) lub US (BCM)",
+          "Wszystkie 6 geometrii komórek: Heksagonalna, Tri-helikalna, Prostokątna, Diament, Kanał, Radełkowanie",
+          "Zarządzanie tuszami: dostawca, typ, gęstość i koszt (€/kg)",
+          "Obliczanie kosztów: €/godz., €/1 000 mb, €/10 000 mb",
+          "Zapisywanie obliczeń z nazwą, notatką i historią",
+          "Opcjonalny moduł dodatkowy — aktywowany przez administratora"
+        ]
       }
     },
     "roles": {
@@ -1101,11 +1115,16 @@
         {
           "a": "INOai",
           "b": "Pasek boczny / Dolna nawigacja → INOai (✦)"
+        },
+        {
+          "a": "Flexodruck",
+          "b": "Pasek boczny → Flexo → Guided Setup / Kalkulator Anilox"
         }
       ],
       "contactTitle": "Masz jeszcze pytania?",
       "contactDesc": "Skontaktuj się z administratorem lub wsparciem INOid przez Inomet GmbH.",
-      "t6": "INOid jest w pełni zoptymalizowany pod smartfony: wszystkie wielokolumnowe układy zwijają się do jednej kolumny na urządzeniach mobilnych, czat INOai wypełnia dokładnie widoczny obszar ekranu, a długie terminy techniczne zawsze zawijają się poprawnie."
+      "t6": "INOid jest w pełni zoptymalizowany pod smartfony: wszystkie wielokolumnowe układy zwijają się do jednej kolumny na urządzeniach mobilnych, czat INOai wypełnia dokładnie widoczny obszar ekranu, a długie terminy techniczne zawsze zawijają się poprawnie.",
+      "t7": "W module Flexo: dodaj swoje tusze raz z gęstością i ceną — kalkulator Anilox automatycznie wstawi gęstość i obliczy koszty na godzinę i na metr bieżący."
     }
   },
   "eventTypes": {

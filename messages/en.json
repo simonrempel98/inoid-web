@@ -807,7 +807,7 @@
       "sub": "INOid is your digital asset management system — from commissioning to decommissioning. Ready in 5 minutes.",
       "s1val": "5 min",
       "s1label": "to the first asset",
-      "s2val": "11+",
+      "s2val": "12+",
       "s2label": "feature areas",
       "s3val": "100%",
       "s3label": "browser-based"
@@ -974,6 +974,20 @@
           "Answers in the language you write in — fully multilingual",
           "Optional add-on module — can be activated by the admin"
         ]
+      },
+      "f12": {
+        "title": "Flexo Printing Modules",
+        "badge": "Flexo",
+        "desc": "Specialised tools for flexo printing professionals. The Anilox Calculator computes cell volume, ink consumption, film thickness and costs — calculations are saved per user with name and note.",
+        "points": [
+          "Anilox Calculator: 5 modes — Volume, Ink Consumption, Film Thickness, Reverse, Comparison",
+          "Choose units: metric (cm³/m²) or US (BCM)",
+          "All 6 cell geometries: Hexagonal, Tri-helical, Quadrangular, Diamond, Channel, Knurl",
+          "Ink management: store supplier, type, density and cost (€/kg)",
+          "Cost calculation: €/hour, €/1,000 lm and €/10,000 lm",
+          "Save calculations with name, note and history view",
+          "Optional add-on module — activatable by admin"
+        ]
       }
     },
     "roles": {
@@ -1101,11 +1115,16 @@
         {
           "a": "INOai",
           "b": "Sidebar / Bottom Nav → INOai (✦)"
+        },
+        {
+          "a": "Flexodruck",
+          "b": "Sidebar → Flexo → Guided Setup / Anilox Calculator"
         }
       ],
       "contactTitle": "Still have questions?",
       "contactDesc": "Contact your administrator or reach INOid support directly via Inomet GmbH.",
-      "t6": "INOid is fully optimized for smartphones: all multi-column layouts collapse to a single column on mobile, the INOai chat fills the visible screen area exactly, and long technical terms always wrap correctly."
+      "t6": "INOid is fully optimized for smartphones: all multi-column layouts collapse to a single column on mobile, the INOai chat fills the visible screen area exactly, and long technical terms always wrap correctly.",
+      "t7": "In the Flexo module: set up your inks once with density and price — the Anilox Calculator auto-fills the density and calculates costs per hour and per linear metre."
     }
   },
   "eventTypes": {

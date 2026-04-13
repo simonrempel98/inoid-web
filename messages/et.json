@@ -807,7 +807,7 @@
       "sub": "INOid on teie digitaalne varahaldussüsteem — kasutuselevõtust kasutuselt kõrvaldamiseni. Valmis 5 minutiga.",
       "s1val": "5 min",
       "s1label": "esimese varani",
-      "s2val": "11+",
+      "s2val": "12+",
       "s2label": "funktsioonivaldkonda",
       "s3val": "100%",
       "s3label": "brauseripõhine"
@@ -974,6 +974,20 @@
           "Vastab keeles, milles kirjutate — täiesti mitmekeelne",
           "Valikuline lisandmoodul — administraator saab aktiveerida"
         ]
+      },
+      "f12": {
+        "title": "Fleksotorke moodulid",
+        "badge": "Flexo",
+        "desc": "Spetsialiseeritud tööriistad fleksotorke professionaalidele. Aniloxi kalkulaator arvutab raku mahu, tindi tarbimise, kile paksuse ja kulud — arvutused salvestatakse kasutaja kohta nime ja märkusega.",
+        "points": [
+          "Aniloxi kalkulaator: 5 režiimi — Maht, Tindi tarbimine, Kile paksus, Pöördväärtus, Võrdlus",
+          "Ühikute valimine: meetriline (cm³/m²) või US (BCM)",
+          "Kõik 6 raku geomeetriat: Kuusnurkne, Tri-helikaalne, Ristkülikukujuline, Teemant, Kanal, Knurl",
+          "Tindihaldus: tarnija, tüüp, tihedus ja maksumus (€/kg)",
+          "Kulutuste arvutamine: €/tund, €/1 000 jm, €/10 000 jm",
+          "Arvutuste salvestamine nime, märkuse ja ajalooga",
+          "Valikuline lisandmoodul — administraator saab aktiveerida"
+        ]
       }
     },
     "roles": {
@@ -1101,11 +1115,16 @@
         {
           "a": "INOai",
           "b": "Külgriba / Alanavigatsiooni → INOai (✦)"
+        },
+        {
+          "a": "Flexodruck",
+          "b": "Külgriba → Flexo → Guided Setup / Aniloxi kalkulaator"
         }
       ],
       "contactTitle": "Veel küsimusi?",
       "contactDesc": "Võtke ühendust oma administraatoriga või jõudke INOid toeni otse Inomet GmbH kaudu.",
-      "t6": "INOid on täielikult optimeeritud nutitelefonidele: kõik mitmeveeru­küljendused tihenduvad mobiilis üheks veeruks, INOai vestlus täidab täpselt nähtava ekraaniala ja pikad tehnilised terminid murtakse alati õigesti."
+      "t6": "INOid on täielikult optimeeritud nutitelefonidele: kõik mitmeveeru­küljendused tihenduvad mobiilis üheks veeruks, INOai vestlus täidab täpselt nähtava ekraaniala ja pikad tehnilised terminid murtakse alati õigesti.",
+      "t7": "Flexo moodulis: registreerige oma tindid kord tiheduse ja hinnaga — Aniloxi kalkulaator täidab tiheduse automaatselt ja arvutab kulud tunnis ja jooksumetris."
     }
   },
   "eventTypes": {

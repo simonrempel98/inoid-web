@@ -807,7 +807,7 @@
       "sub": "INOid ist dein digitales Betriebsmittelmanagement — von der Erstzulassung bis zur Entsorgung. In 5 Minuten ready.",
       "s1val": "5 min",
       "s1label": "bis zum ersten Asset",
-      "s2val": "11+",
+      "s2val": "12+",
       "s2label": "Feature-Bereiche",
       "s3val": "100%",
       "s3label": "browserbasiert"
@@ -974,6 +974,20 @@
           "Antwortet in der Sprache, in der du schreibst — vollständig mehrsprachig",
           "Optionales Zusatzmodul — durch Admin aktivierbar"
         ]
+      },
+      "f12": {
+        "title": "Flexodruck-Module",
+        "badge": "Flexo",
+        "desc": "Spezialisierte Werkzeuge für Flexodruck-Profis. Der Anilox-Rechner berechnet Zellvolumen, Farbverbrauch, Filmdicke und Kosten — Berechnungen werden pro Nutzer mit Name und Notiz gespeichert.",
+        "points": [
+          "Anilox-Rechner: 5 Modi — Volumen, Farbverbrauch, Filmdicke, Volumen rückwärts, Vergleich",
+          "Einheiten wählen: metrisch (cm³/m²) oder US (BCM)",
+          "Alle 6 Zellgeometrien: Hexagonal, Tri-helical, Quadrangulär, Diamant, Kanal, Knurl",
+          "Farbverwaltung: Lieferant, Typ, Dichte und Kosten (€/kg) hinterlegen",
+          "Kostenberechnung: €/Stunde, €/1.000 lm und €/10.000 lm",
+          "Berechnungen speicherbar mit Name, Notiz und Verlauf",
+          "Optionales Zusatzmodul — durch Admin aktivierbar"
+        ]
       }
     },
     "roles": {
@@ -1101,11 +1115,16 @@
         {
           "a": "INOai",
           "b": "Seitenleiste / Bottom-Nav → INOai (✦)"
+        },
+        {
+          "a": "Flexodruck",
+          "b": "Seitenleiste → Flexodruck → Guided Setup / Anilox-Rechner"
         }
       ],
       "contactTitle": "Noch Fragen?",
       "contactDesc": "Wende dich an deinen Administrator oder kontaktiere den INOid-Support direkt über Inomet GmbH.",
-      "t6": "INOid ist vollständig für Smartphones optimiert: Alle Mehrspaltenlayouts wechseln auf Mobile zu einer Spalte, der INOai-Chat füllt den sichtbaren Bereich exakt aus, und lange Fachbegriffe werden immer korrekt umgebrochen."
+      "t6": "INOid ist vollständig für Smartphones optimiert: Alle Mehrspaltenlayouts wechseln auf Mobile zu einer Spalte, der INOai-Chat füllt den sichtbaren Bereich exakt aus, und lange Fachbegriffe werden immer korrekt umgebrochen.",
+      "t7": "Im Flexodruck-Modul: Lege deine Farben einmal mit Dichte und Preis an — der Anilox-Rechner trägt die Dichte automatisch ein und berechnet die Kosten pro Stunde und pro Laufmeter."
     }
   },
   "eventTypes": {

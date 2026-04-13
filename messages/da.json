@@ -807,7 +807,7 @@
       "sub": "INOid er dit digitale driftsmiddelstyringssystem — fra idriftsættelse til udfasning. Klar på 5 minutter.",
       "s1val": "5 min",
       "s1label": "til første aktiv",
-      "s2val": "11+",
+      "s2val": "12+",
       "s2label": "funktionsområder",
       "s3val": "100%",
       "s3label": "browserbaseret"
@@ -974,6 +974,20 @@
           "Svarer på det sprog du skriver på — fuldt flersproget",
           "Valgfrit tillægsmodul — kan aktiveres af administratoren"
         ]
+      },
+      "f12": {
+        "title": "Flexotryk-moduler",
+        "badge": "Flexo",
+        "desc": "Specialiserede værktøjer til flexotryk-professionelle. Anilox-beregneren beregner cellevolumen, blækforbrug, filmtykkelse og omkostninger — beregninger gemmes pr. bruger med navn og bemærkning.",
+        "points": [
+          "Anilox-beregner: 5 tilstande — Volumen, Blækforbrug, Filmtykkelse, Omvendt, Sammenligning",
+          "Vælg enheder: metrisk (cm³/m²) eller US (BCM)",
+          "Alle 6 cellegeometrier: Hexagonal, Tri-helikal, Rektangulær, Diamant, Kanal, Knurl",
+          "Blækstyring: leverandør, type, densitet og omkostninger (€/kg)",
+          "Omkostningsberegning: €/time, €/1.000 lm, €/10.000 lm",
+          "Gem beregninger med navn, bemærkning og historik",
+          "Valgfrit tillægsmodul — kan aktiveres af administrator"
+        ]
       }
     },
     "roles": {
@@ -1101,11 +1115,16 @@
         {
           "a": "INOai",
           "b": "Sidebjælke / Nedre nav → INOai (✦)"
+        },
+        {
+          "a": "Flexodruck",
+          "b": "Sidebjælke → Flexo → Guided Setup / Anilox-beregner"
         }
       ],
       "contactTitle": "Har du flere spørgsmål?",
       "contactDesc": "Kontakt din administrator eller nå INOid-support direkte via Inomet GmbH.",
-      "t6": "INOid er fuldt optimeret til smartphones: alle flerspalte-layouts komprimeres til én kolonne på mobil, INOai-chatten udfylder præcis det synlige skærmområde og lange tekniske begreber brydes altid korrekt."
+      "t6": "INOid er fuldt optimeret til smartphones: alle flerspalte-layouts komprimeres til én kolonne på mobil, INOai-chatten udfylder præcis det synlige skærmområde og lange tekniske begreber brydes altid korrekt.",
+      "t7": "I Flexo-modulet: registrer dine blæktyper én gang med densitet og pris — Anilox-beregneren udfylder automatisk densiteten og beregner omkostninger pr. time og pr. løbende meter."
     }
   },
   "eventTypes": {

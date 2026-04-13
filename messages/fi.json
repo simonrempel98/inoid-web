@@ -807,7 +807,7 @@
       "sub": "INOid on digitaalinen resurssinhallintajärjestelmäsi — käyttöönotosta käytöstäpoistoon. Valmis 5 minuutissa.",
       "s1val": "5 min",
       "s1label": "ensimmäiseen resurssiin",
-      "s2val": "11+",
+      "s2val": "12+",
       "s2label": "toiminta-aluetta",
       "s3val": "100%",
       "s3label": "selainpohjainen"
@@ -974,6 +974,20 @@
           "Vastaa kielelläsi — täysin monikielinen",
           "Valinnainen lisämoduuli — järjestelmänvalvoja voi aktivoida"
         ]
+      },
+      "f12": {
+        "title": "Fleksopainatus-moduulit",
+        "badge": "Flexo",
+        "desc": "Erikoistuneet työkalut fleksopainatus-ammattilaisille. Anilox-laskin laskee solun tilavuuden, musteen kulutuksen, kalvon paksuuden ja kustannukset — laskelmat tallennetaan käyttäjäkohtaisesti nimellä ja muistiinpanolla.",
+        "points": [
+          "Anilox-laskin: 5 tilaa — Tilavuus, Musteen kulutus, Kalvon paksuus, Käänteinen, Vertailu",
+          "Valitse yksiköt: metrinen (cm³/m²) tai US (BCM)",
+          "Kaikki 6 solugeometriaa: Kuusikulmainen, Tri-helikaalinen, Suorakulmainen, Timantti, Kanava, Knurl",
+          "Musteen hallinta: toimittaja, tyyppi, tiheys ja kustannus (€/kg)",
+          "Kustannuslaskenta: €/tunti, €/1 000 jm, €/10 000 jm",
+          "Tallenna laskelmat nimellä, muistiinpanolla ja historialla",
+          "Valinnainen lisämoduuli — järjestelmänvalvoja voi aktivoida"
+        ]
       }
     },
     "roles": {
@@ -1101,11 +1115,16 @@
         {
           "a": "INOai",
           "b": "Sivupalkki / Alanavigaatio → INOai (✦)"
+        },
+        {
+          "a": "Flexodruck",
+          "b": "Sivupalkki → Flexo → Guided Setup / Anilox-laskin"
         }
       ],
       "contactTitle": "Onko lisäkysymyksiä?",
       "contactDesc": "Ota yhteyttä järjestelmänvalvojaasi tai tavoita INOid-tuki suoraan Inomet GmbH:n kautta.",
-      "t6": "INOid on täysin optimoitu älypuhelimille: kaikki monisarakkeinen asettelu supistuu yhdeksi sarakkeeksi mobiilissa, INOai-chat täyttää täsmälleen näkyvän näyttöalueen ja pitkät tekniset termit katkeavat aina oikein."
+      "t6": "INOid on täysin optimoitu älypuhelimille: kaikki monisarakkeinen asettelu supistuu yhdeksi sarakkeeksi mobiilissa, INOai-chat täyttää täsmälleen näkyvän näyttöalueen ja pitkät tekniset termit katkeavat aina oikein.",
+      "t7": "Flexo-moduulissa: rekisteröi musteesi kerran tiheydellä ja hinnalla — Anilox-laskin täyttää tiheyden automaattisesti ja laskee kustannukset tunnissa ja juoksumetrissä."
     }
   },
   "eventTypes": {

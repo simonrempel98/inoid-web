@@ -807,7 +807,7 @@
       "sub": "INOid – jūsų skaitmeninė turto valdymo sistema – nuo paleidimo iki nurašymo. Paruošta per 5 minutes.",
       "s1val": "5 min",
       "s1label": "iki pirmojo turto",
-      "s2val": "11+",
+      "s2val": "12+",
       "s2label": "funkcijų sritys",
       "s3val": "100%",
       "s3label": "naršyklės pagrindu"
@@ -974,6 +974,20 @@
           "Atsako jūsų rašymo kalba — visiškai daugiakalbis",
           "Pasirinktinis papildomas modulis — gali suaktyvinti administratorius"
         ]
+      },
+      "f12": {
+        "title": "Fleksospaudos moduliai",
+        "badge": "Flexo",
+        "desc": "„Anilox\" skaičiuotuvas apskaičiuoja ląstelės tūrį, dažų suvartojimą, plėvelės storį ir išlaidas — skaičiavimai saugomi kiekvienam vartotojui su pavadinimu ir pastaba.",
+        "points": [
+          "Anilox skaičiuotuvas: 5 režimai — Tūris, Dažų suvartojimas, Plėvelės storis, Atvirkštinis, Palyginimas",
+          "Vienetų pasirinkimas: metriniai (cm³/m²) arba US (BCM)",
+          "Visos 6 ląstelių geometrijos: Šešiakampė, Tri-helikinė, Stačiakampė, Deimantas, Kanalas, Knurl",
+          "Dažų valdymas: tiekėjas, tipas, tankis ir kaina (€/kg)",
+          "Išlaidų skaičiavimas: €/val., €/1 000 mb, €/10 000 mb",
+          "Skaičiavimų išsaugojimas su pavadinimu, pastaba ir istorija",
+          "Neprivalomas papildomas modulis — administratorius gali suaktyvinti"
+        ]
       }
     },
     "roles": {
@@ -1101,11 +1115,16 @@
         {
           "a": "INOai",
           "b": "Šoninis skydelis / Apačios nav → INOai (✦)"
+        },
+        {
+          "a": "Flexodruck",
+          "b": "Šoninė juosta → Flexo → Guided Setup / Anilox skaičiuotuvas"
         }
       ],
       "contactTitle": "Dar klausimų?",
       "contactDesc": "Susisiekite su savo administratoriumi arba kreipkitės į INOid palaikymą tiesiogiai per Inomet GmbH.",
-      "t6": "INOid yra visiškai optimizuotas išmaniesiems telefonams: visi kelių stulpelių išdėstymai mobiliajame įrenginyje suspaudžiami į vieną stulpelį, INOai pokalbis tiksliai užpildo matomą ekrano sritį, o ilgi techniniai terminai visada teisingai laužomi."
+      "t6": "INOid yra visiškai optimizuotas išmaniesiems telefonams: visi kelių stulpelių išdėstymai mobiliajame įrenginyje suspaudžiami į vieną stulpelį, INOai pokalbis tiksliai užpildo matomą ekrano sritį, o ilgi techniniai terminai visada teisingai laužomi.",
+      "t7": "Flexo modulyje: įveskite savo dažus vieną kartą su tankiu ir kaina — Anilox skaičiuotuvas automatiškai užpildo tankį ir apskaičiuoja išlaidas per valandą ir vienam linijiniam metrui."
     }
   },
   "eventTypes": {

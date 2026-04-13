@@ -807,7 +807,7 @@
       "sub": "INOid est votre gestion numérique des équipements — de la mise en service à la mise hors service. Prêt en 5 minutes.",
       "s1val": "5 min",
       "s1label": "jusqu'au premier actif",
-      "s2val": "11+",
+      "s2val": "12+",
       "s2label": "domaines fonctionnels",
       "s3val": "100%",
       "s3label": "basé sur navigateur"
@@ -974,6 +974,20 @@
           "Répond dans la langue dans laquelle vous écrivez — entièrement multilingue",
           "Module complémentaire optionnel — activable par l'administrateur"
         ]
+      },
+      "f12": {
+        "title": "Modules Flexographie",
+        "badge": "Flexo",
+        "desc": "Outils spécialisés pour les professionnels de la flexographie. Le calculateur Anilox calcule le volume de cellule, la consommation d'encre, l'épaisseur du film et les coûts — les calculs sont sauvegardés par utilisateur avec nom et note.",
+        "points": [
+          "Calculateur Anilox : 5 modes — Volume, Consommation d'encre, Épaisseur de film, Inverse, Comparaison",
+          "Unités au choix : métrique (cm³/m²) ou US (BCM)",
+          "Les 6 géométries de cellules : Hexagonale, Tri-hélicoïdale, Rectangulaire, Diamant, Canal, Moletage",
+          "Gestion des encres : fournisseur, type, densité et coût (€/kg)",
+          "Calcul des coûts : €/heure, €/1 000 ml, €/10 000 ml",
+          "Sauvegarde des calculs avec nom, note et historique",
+          "Module complémentaire optionnel — activable par l'administrateur"
+        ]
       }
     },
     "roles": {
@@ -1101,11 +1115,16 @@
         {
           "a": "INOai",
           "b": "Barre latérale / Nav bas → INOai (✦)"
+        },
+        {
+          "a": "Flexodruck",
+          "b": "Barre latérale → Flexo → Configuration guidée / Calculateur Anilox"
         }
       ],
       "contactTitle": "Encore des questions ?",
       "contactDesc": "Contactez votre administrateur ou le support INOid via Inomet GmbH.",
-      "t6": "INOid est entièrement optimisé pour les smartphones : toutes les mises en page multi-colonnes se replient en une seule colonne sur mobile, le chat INOai remplit exactement la zone d'écran visible, et les termes techniques longs sont toujours correctement coupés."
+      "t6": "INOid est entièrement optimisé pour les smartphones : toutes les mises en page multi-colonnes se replient en une seule colonne sur mobile, le chat INOai remplit exactement la zone d'écran visible, et les termes techniques longs sont toujours correctement coupés.",
+      "t7": "Dans le module Flexo : enregistrez vos encres une fois avec densité et prix — le calculateur Anilox remplit automatiquement la densité et calcule les coûts par heure et par mètre linéaire."
     }
   },
   "eventTypes": {
