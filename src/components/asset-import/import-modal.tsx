@@ -614,6 +614,7 @@ export function AssetImportModal({ onClose }: { onClose: () => void }) {
         <div style={{
           padding: '14px 20px',
           borderTop: '1px solid #e8edf4',
+          borderRadius: '0 0 20px 20px',
           display: 'flex', gap: 10, flexShrink: 0,
           background: 'white',
         }}>
