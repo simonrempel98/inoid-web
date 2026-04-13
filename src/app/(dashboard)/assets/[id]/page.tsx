@@ -12,6 +12,7 @@ import { AssetDocuments } from './asset-documents'
 import { getStatusConfig } from '@/lib/asset-statuses'
 import { Tag, Factory, MapPin, Calendar, Settings2, Briefcase, Wrench, Smartphone } from 'lucide-react'
 import { LocationHistory } from './location-history'
+import { SensorPanel, type SensorInitial } from './sensor-panel'
 
 export default async function AssetDetailPage({
   params,
@@ -70,6 +71,41 @@ export default async function AssetDetailPage({
 
   const techEntries = Object.entries((asset.technical_data as Record<string, string>) ?? {}).filter(([, v]) => v)
   const commEntries = Object.entries((asset.commercial_data as Record<string, string>) ?? {}).filter(([, v]) => v)
+
+  // ── Sensordaten ────────────────────────────────────────────────────────────
+  const { data: sensorsRaw } = await supabase
+    .from('sensors')
+    .select('id, name, type, unit')
+    .eq('asset_id', id)
+    .eq('is_active', true)
+    .order('created_at')
+
+  // Letzten Messwert + letzte 60 Werte (Sparkline) pro Sensor parallel laden
+  const sensorsWithData: SensorInitial[] = await Promise.all(
+    (sensorsRaw ?? []).map(async s => {
+      const { data: readings } = await supabase
+        .from('sensor_readings')
+        .select('value, recorded_at')
+        .eq('sensor_id', s.id)
+        .order('recorded_at', { ascending: false })
+        .limit(60)
+
+      const ordered = (readings ?? []).reverse()
+      return {
+        ...s,
+        latestValue: ordered.length ? ordered[ordered.length - 1].value : null,
+        latestAt:    ordered.length ? ordered[ordered.length - 1].recorded_at : null,
+        history:     ordered.map(r => r.value),
+      }
+    })
+  )
+
+  // Org API-Key für Sensor-Ingest
+  const { data: orgApiKeyRow } = await supabase
+    .from('organizations')
+    .select('sensor_api_key')
+    .single()
+  const orgSensorApiKey = (orgApiKeyRow as { sensor_api_key?: string } | null)?.sensor_api_key ?? ''
 
   const eventTypeLabel: Record<string, string> = {
     maintenance: t('eventTypes.maintenance'), overhaul: t('eventTypes.overhaul'), coating: t('eventTypes.coating'),
@@ -242,6 +278,14 @@ export default async function AssetDetailPage({
         initialUrls={(asset as any).document_urls ?? []}
         canEdit={perms.editAssets}
         docMaxSizeMb={docMaxSizeMb}
+      />
+
+      {/* Sensordaten */}
+      <SensorPanel
+        assetId={id}
+        initialSensors={sensorsWithData}
+        orgApiKey={orgSensorApiKey}
+        canEdit={perms.editAssets}
       />
 
       {/* QR Code + NFC */}
