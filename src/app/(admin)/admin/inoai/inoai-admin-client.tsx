@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 type CrawlerRow = { id: string; name: string; url: string; lang: string; created_at: string }
-type CrawlerStats = { chunks: number; pages: number; docs: number; lastUpdated: string | null }
+type CrawlerStats = { chunks: number; pages: number; lastUpdated: string | null }
 type StatsMap = Record<string, CrawlerStats>
 type JobStatus = 'queued' | 'running' | 'paused' | 'done' | 'error'
 type JobRow = {
@@ -312,7 +312,6 @@ function CrawlerCard({
               {stats ? (
                 <div style={{ marginTop: 5, display: 'flex', flexWrap: 'wrap', gap: '6px 14px' }}>
                   <StatBadge icon="🌐" label="Unterseiten" value={stats.pages} />
-                  <StatBadge icon="📄" label="Dokumente" value={stats.docs} />
                   <StatBadge icon="🧩" label="Chunks" value={stats.chunks} />
                   {stats.lastUpdated && (
                     <span style={{ fontSize: 10, color: 'var(--adm-text3)', alignSelf: 'center' }}>
@@ -614,7 +613,7 @@ export function INOaiAdminClient({
   }
 
   const hasActive = Object.values(jobs).some(j => ['queued', 'running', 'paused'].includes(j.status))
-  const totalDocs = Object.values(stats).reduce((a, b) => a + (b.docs ?? 0), 0)
+  const totalDocs = 0
   const totalPages = Object.values(stats).reduce((a, b) => a + (b.pages ?? 0), 0)
   const activeCount = Object.values(jobs).filter(j => ['queued', 'running', 'paused'].includes(j.status)).length
 
