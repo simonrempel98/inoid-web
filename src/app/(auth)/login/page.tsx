@@ -7,6 +7,125 @@ import { useTranslations, useLocale } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
 import { Turnstile } from '@marsidev/react-turnstile'
 
+function ContactHint() {
+  const [open, setOpen] = useState(false)
+
+  return (
+    <div
+      style={{ textAlign: 'center', marginTop: 20, position: 'relative', display: 'inline-block', width: '100%' }}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
+      onFocus={() => setOpen(true)}
+      onBlur={() => setOpen(false)}
+    >
+      <span style={{
+        fontSize: 12, color: '#96aed2', cursor: 'default',
+        borderBottom: '1px dashed #96aed299',
+      }}>
+        Noch kein Account?
+      </span>
+
+      {/* Hover-Karte */}
+      {open && (
+        <div style={{
+          position: 'absolute', bottom: 'calc(100% + 10px)', left: '50%',
+          transform: 'translateX(-50%)',
+          width: 300, zIndex: 50,
+          background: 'white', borderRadius: 16,
+          boxShadow: '0 8px 32px rgba(0,51,102,0.18), 0 2px 8px rgba(0,0,0,0.08)',
+          border: '1px solid #e8edf5',
+          overflow: 'hidden',
+          textAlign: 'left',
+          animation: 'fadeUp 0.15s ease',
+        }}>
+          <style>{`
+            @keyframes fadeUp {
+              from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+              to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+            }
+          `}</style>
+
+          {/* Header */}
+          <div style={{
+            background: 'linear-gradient(135deg, #003366 0%, #005599 100%)',
+            padding: '14px 18px',
+          }}>
+            <div style={{ fontSize: 13, fontWeight: 800, color: 'white' }}>Zugang anfragen</div>
+            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.65)', marginTop: 2 }}>
+              INOid · Asset Management by INOMETA
+            </div>
+          </div>
+
+          {/* Kontakte */}
+          <div style={{ padding: '12px 6px 10px' }}>
+            {/* Allgemein */}
+            <a href="mailto:info@inometa.de" style={{
+              display: 'flex', alignItems: 'center', gap: 12,
+              padding: '8px 12px', borderRadius: 10, textDecoration: 'none',
+              transition: 'background 0.12s',
+            }}
+              onMouseEnter={e => (e.currentTarget.style.background = '#f0f6ff')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+            >
+              <div style={{
+                width: 34, height: 34, borderRadius: 10, flexShrink: 0,
+                background: '#e8edf5',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 16,
+              }}>✉️</div>
+              <div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: '#003366' }}>Allgemeine Anfragen</div>
+                <div style={{ fontSize: 11, color: '#0099cc', marginTop: 1 }}>info@inometa.de</div>
+              </div>
+            </a>
+
+            {/* Vertriebsansprechpartner */}
+            <a href="mailto:srl@inometa.de" style={{
+              display: 'flex', alignItems: 'center', gap: 12,
+              padding: '8px 12px', borderRadius: 10, textDecoration: 'none',
+              transition: 'background 0.12s',
+            }}
+              onMouseEnter={e => (e.currentTarget.style.background = '#f0f6ff')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+            >
+              <div style={{
+                width: 34, height: 34, borderRadius: 10, flexShrink: 0,
+                background: '#003366',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                color: 'white', fontSize: 13, fontWeight: 800,
+              }}>SR</div>
+              <div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: '#003366' }}>Simon Rempel</div>
+                <div style={{ fontSize: 10, color: '#96aed2', marginTop: 1 }}>
+                  Verantwortlich für digitale Lösungen
+                </div>
+                <div style={{ fontSize: 11, color: '#0099cc', marginTop: 1 }}>srl@inometa.de</div>
+              </div>
+            </a>
+          </div>
+
+          {/* Footer */}
+          <div style={{
+            borderTop: '1px solid #e8edf5', padding: '8px 18px',
+            fontSize: 10, color: '#96aed2', textAlign: 'center',
+          }}>
+            Sprechen Sie uns an — wir richten Ihren Zugang ein.
+          </div>
+
+          {/* Pfeil nach unten */}
+          <div style={{
+            position: 'absolute', bottom: -6, left: '50%',
+            transform: 'translateX(-50%) rotate(45deg)',
+            width: 10, height: 10,
+            background: 'white', border: '1px solid #e8edf5',
+            borderTop: 'none', borderLeft: 'none',
+          }} />
+        </div>
+      )}
+    </div>
+  )
+}
+
 function LoginForm() {
   const t = useTranslations('loginPage')
   const locale = useLocale()
@@ -127,12 +246,7 @@ function LoginForm() {
         </button>
       </form>
 
-      <p style={{ textAlign: 'center', marginTop: 20, fontSize: 12, color: '#96aed2' }}>
-        Noch kein Account?{' '}
-        <a href="mailto:srl@inometa.de" style={{ color: '#0099cc', textDecoration: 'none', fontWeight: 600 }}>
-          srl@inometa.de
-        </a>
-      </p>
+      <ContactHint />
 
     </div>
   )
