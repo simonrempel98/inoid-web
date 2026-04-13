@@ -52,6 +52,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
                 { href: '/admin/orgs', label: 'Organisationen' },
                 { href: '/admin/team', label: 'Team' },
                 { href: '/admin/system', label: 'System' },
+                { href: '/admin/sensors', label: 'Sensoren' },
                 { href: '/admin/inoai', label: 'INOai' },
                 { href: '/admin/techstack', label: 'Docs' },
               ].map(item => (
