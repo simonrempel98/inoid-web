@@ -377,7 +377,7 @@ function ConsumptionCalc({ unit, onResult }: { unit: Unit; onResult: (r: any, in
           <Input value={coverage} onChange={setCoverage} placeholder="100" unit="%" min="1" max="100" />
         </div>
         <div>
-          <Label hint="Typisch 50–70%" tooltip="Anteil der Tinte in den Zellen, der tatsächlich auf den Bedruckstoff übertragen wird. Typisch 50–70%, abhängig von Tintenrheologie, Substrat und Druckgeschwindigkeit.">Übertragung</Label>
+          <Label tooltip="Anteil der Tinte in den Zellen, der tatsächlich auf den Bedruckstoff übertragen wird. Typisch 50–70%, abhängig von Tintenrheologie, Substrat und Druckgeschwindigkeit.">Übertragung</Label>
           <Input value={transfer} onChange={setTransfer} placeholder="60" unit="%" min="10" max="100" />
         </div>
         <div>
