@@ -11,8 +11,8 @@ type JobRow = {
   crawler_id: string
   status: JobStatus
   log: string[]
-  stats: { pagesFound: number; pdfsFound: number; chunksInserted: number; errors: number } | null
-  diff: { added: string[]; removed: string[]; failedPages: string[]; failedPdfs: string[] } | null
+  stats: { pagesFound: number; chunksInserted: number; errors: number } | null
+  diff: { added: string[]; removed: string[]; failedPages: string[] } | null
   created_at: string
   started_at: string | null
   finished_at: string | null
@@ -109,54 +109,26 @@ function DiffSummary({ diff }: { diff: NonNullable<JobRow['diff']> }) {
 
 function FailedUrlsSummary({ diff }: { diff: NonNullable<JobRow['diff']> }) {
   const [showPages, setShowPages] = useState(false)
-  const [showPdfs, setShowPdfs] = useState(false)
   const pages = diff.failedPages ?? []
-  const pdfs = diff.failedPdfs ?? []
-  if (pages.length === 0 && pdfs.length === 0) return null
+  if (pages.length === 0) return null
 
   return (
     <div style={{ padding: '10px 14px', background: '#0d1117', borderTop: '1px solid #30363d' }}>
       <p style={{ margin: '0 0 6px', fontSize: 11, color: '#8b949e', fontWeight: 700 }}>Nicht erreichbar (nach allen Versuchen)</p>
-      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-        {pages.length > 0 && (
-          <div>
-            <button onClick={() => setShowPages(v => !v)} style={{
-              background: 'none', border: 'none', cursor: 'pointer', padding: 0,
-              fontSize: 11, color: '#f85149', fontWeight: 700,
-            }}>🌐 {pages.length} Seite{pages.length !== 1 ? 'n' : ''} {showPages ? '▲' : '▼'}</button>
-            {showPages && (
-              <div style={{ marginTop: 4, maxHeight: 160, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 2 }}>
-                {pages.map((u, i) => (
-                  <a key={i} href={u} target="_blank" rel="noopener noreferrer" style={{
-                    fontSize: 10, color: '#f85149', fontFamily: 'monospace',
-                    whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                    maxWidth: 420, display: 'block', textDecoration: 'none',
-                  }} title={u}>{u}</a>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-        {pdfs.length > 0 && (
-          <div>
-            <button onClick={() => setShowPdfs(v => !v)} style={{
-              background: 'none', border: 'none', cursor: 'pointer', padding: 0,
-              fontSize: 11, color: '#f85149', fontWeight: 700,
-            }}>📄 {pdfs.length} PDF{pdfs.length !== 1 ? 's' : ''} {showPdfs ? '▲' : '▼'}</button>
-            {showPdfs && (
-              <div style={{ marginTop: 4, maxHeight: 160, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 2 }}>
-                {pdfs.map((u, i) => {
-                  const filename = decodeURIComponent(u.split('/').pop() ?? u)
-                  return (
-                    <a key={i} href={u} target="_blank" rel="noopener noreferrer" style={{
-                      fontSize: 10, color: '#f85149', fontFamily: 'monospace',
-                      whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                      maxWidth: 420, display: 'block', textDecoration: 'none',
-                    }} title={u}>{filename}</a>
-                  )
-                })}
-              </div>
-            )}
+      <div>
+        <button onClick={() => setShowPages(v => !v)} style={{
+          background: 'none', border: 'none', cursor: 'pointer', padding: 0,
+          fontSize: 11, color: '#f85149', fontWeight: 700,
+        }}>🌐 {pages.length} Seite{pages.length !== 1 ? 'n' : ''} {showPages ? '▲' : '▼'}</button>
+        {showPages && (
+          <div style={{ marginTop: 4, maxHeight: 160, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {pages.map((u, i) => (
+              <a key={i} href={u} target="_blank" rel="noopener noreferrer" style={{
+                fontSize: 10, color: '#f85149', fontFamily: 'monospace',
+                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+                maxWidth: 420, display: 'block', textDecoration: 'none',
+              }} title={u}>{u}</a>
+            ))}
           </div>
         )}
       </div>

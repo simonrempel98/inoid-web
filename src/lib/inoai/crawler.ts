@@ -12,16 +12,12 @@ export type CrawlerConfig = {
 export type ResumeState = {
   queue: string[]
   visited: string[]
-  pdfQueue: string[]
-  visitedPdfs: string[]
   failedPages: string[]
-  failedPdfs: string[]
 }
 
 const CRAWL_DELAY_MS = 300
 const MAX_RUN_MS = 50_000
 
-// User-Agents to rotate through on retries
 const USER_AGENTS = [
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
   'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15',
@@ -31,7 +27,7 @@ const USER_AGENTS = [
 ]
 
 const SKIP_PATTERNS = [
-  /\.(jpg|jpeg|png|gif|svg|webp|mp4|zip|docx?|xlsx?)$/i,
+  /\.(jpg|jpeg|png|gif|svg|webp|mp4|zip|docx?|xlsx?|pdf)$/i,
   /\?(utm_|ref=|session)/i,
   /#/,
   /\/wp-admin/,
@@ -48,7 +44,6 @@ function sleep(ms: number) {
   return new Promise(r => setTimeout(r, ms))
 }
 
-// Resilient page fetch: tries every User-Agent in order until one works
 async function fetchWithRetry(
   url: string,
   referer = '',
@@ -68,58 +63,10 @@ async function fetchWithRetry(
         redirect: 'follow',
       })
       if (res.ok) return res
-      if (res.status === 404 || res.status === 410) return null // permanent – don't retry
-      if (res.status === 429) await sleep(1500) // rate limit – wait before next UA
+      if (res.status === 404 || res.status === 410) return null
+      if (res.status === 429) await sleep(1500)
     } catch {
       await sleep(250)
-    }
-  }
-  return null
-}
-
-// Resilient PDF fetch: tries multiple UA × URL variants until text is extracted
-async function fetchPdfWithFallback(url: string): Promise<string | null> {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const pdfParse = require('pdf-parse')
-  const origin = (() => { try { return new URL(url).origin } catch { return '' } })()
-
-  // URL variants: original, without query params, path-decoded, path-encoded
-  const variants = [...new Set([
-    url,
-    url.split('?')[0],
-    url.split('?')[0].replace(/%20/g, '+'),
-    url.split('?')[0].replace(/\+/g, '%20'),
-  ])]
-
-  for (const variant of variants) {
-    for (const ua of USER_AGENTS) {
-      try {
-        const headers: Record<string, string> = {
-          'User-Agent': ua,
-          Accept: 'application/pdf,application/octet-stream,*/*;q=0.8',
-          'Accept-Language': 'de-DE,de;q=0.9,en;q=0.8',
-        }
-        if (origin) headers['Referer'] = origin + '/'
-        const res = await fetch(variant, {
-          headers,
-          signal: AbortSignal.timeout(28000),
-          redirect: 'follow',
-        })
-        if (!res.ok) {
-          if (res.status === 404 || res.status === 410) break // this variant dead
-          await sleep(200)
-          continue
-        }
-        const ct = res.headers.get('content-type') ?? ''
-        // Skip if server returned an HTML page instead of a PDF (e.g. login wall)
-        if (ct.includes('text/html')) { await sleep(200); continue }
-        const buffer = Buffer.from(await res.arrayBuffer())
-        const data = await pdfParse(buffer)
-        const text = data.text.replace(/\s{2,}/g, ' ').trim()
-        if (text.length > 80) return text
-      } catch {
-        await sleep(250)
-      }
     }
   }
   return null
@@ -160,29 +107,6 @@ function extractTitle(html: string): string {
   return title ? title[1].replace(/\s*[-|–]\s*.*$/, '').trim() : 'Unbekannte Seite'
 }
 
-function extractPdfs(html: string, pageUrl: string): Set<string> {
-  const pdfs = new Set<string>()
-  // 1. href/src/data-href/data-src/data-file Attribute
-  const attrRe = /(?:href|src|data-href|data-src|data-file|data-url|data-link|action)=["']([^"']*\.pdf[^"']*?)["']/gi
-  // 2. PDF-URLs in JavaScript-Strings, JSON, onclick, window.open(...)
-  const jsRe = /["'`]((?:https?:\/\/|\/)[^"'`\s<>]*\.pdf[^"'`\s<>]*?)["'`]/gi
-  // 3. Direkte absolute URLs im Text (z.B. in <p> oder Kommentaren)
-  const absRe = /https?:\/\/[^\s"'<>]*\.pdf(?:[?#][^\s"'<>]*)?/gi
-
-  for (const re of [attrRe, jsRe, absRe]) {
-    let m
-    while ((m = re.exec(html)) !== null) {
-      const raw = (m[1] ?? m[0]).trim()
-      try {
-        const url = new URL(raw, pageUrl)
-        url.hash = ''
-        if (['http:', 'https:'].includes(url.protocol)) pdfs.add(url.href)
-      } catch { /* ignore */ }
-    }
-  }
-  return pdfs
-}
-
 function hasDoubledSegment(url: URL): boolean {
   const parts = url.pathname.split('/').filter(Boolean)
   for (let i = 0; i < parts.length - 1; i++) {
@@ -191,19 +115,13 @@ function hasDoubledSegment(url: URL): boolean {
   return false
 }
 
-function extractLinks(html: string, pageUrl: string, rootUrl: URL): { links: Set<string>; pdfs: Set<string> } {
+function extractLinks(html: string, pageUrl: string, rootUrl: URL): Set<string> {
   const links = new Set<string>()
-
-  // Alle PDF-URLs aus dem gesamten HTML-Quelltext
-  const pdfs = extractPdfs(html, pageUrl)
-
-  // HTML-Links für Weiter-Crawling
   const hrefRe = /href=["']([^"']+)["']/gi
   let match
   while ((match = hrefRe.exec(html)) !== null) {
     const raw = match[1].trim()
     if (!raw || raw.startsWith('#') || raw.startsWith('mailto:') || raw.startsWith('tel:') || raw.startsWith('javascript:')) continue
-    if (/\.pdf/i.test(raw)) continue // bereits in pdfs
     try {
       const url = new URL(raw, pageUrl)
       url.hash = ''
@@ -215,20 +133,7 @@ function extractLinks(html: string, pageUrl: string, rootUrl: URL): { links: Set
       links.add(url.href)
     } catch { /* ignore */ }
   }
-  return { links, pdfs }
-}
-
-async function parsePdf(url: string): Promise<string> {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const pdfParse = require('pdf-parse')
-  const res = await fetch(url, {
-    headers: { 'User-Agent': 'INOid-KI-Bot/1.0' },
-    signal: AbortSignal.timeout(20000),
-  })
-  if (!res.ok) throw new Error(`HTTP ${res.status}`)
-  const buffer = Buffer.from(await res.arrayBuffer())
-  const data = await pdfParse(buffer)
-  return data.text.replace(/\s{2,}/g, ' ').trim()
+  return links
 }
 
 async function saveChunks(
@@ -236,7 +141,6 @@ async function saveChunks(
   url: string,
   title: string,
   text: string,
-  sourceType: string,
   lang: string,
   crawlerId: string,
   log: (msg: string) => void,
@@ -246,7 +150,7 @@ async function saveChunks(
     title: chunks.length > 1 ? `${title} (${i + 1}/${chunks.length})` : title,
     content,
     source_url: url,
-    source_type: sourceType,
+    source_type: 'website',
     language: lang,
     crawler_id: crawlerId,
     chunk_index: i,
@@ -258,7 +162,6 @@ async function saveChunks(
 
 export type CrawlStats = {
   pagesFound: number
-  pdfsFound: number
   chunksInserted: number
   errors: number
 }
@@ -268,12 +171,9 @@ export type CrawlResult = {
   resume?: ResumeState
   stats: CrawlStats
   failedPages: string[]
-  failedPdfs: string[]
 }
 
-// ── DB-Job-basierter Crawl (browserunabhängig) ───────────────────────────────
-
-// ── Self-trigger: nächsten Chunk ohne Cron starten ───────────────────────────
+// ── Self-trigger ─────────────────────────────────────────────────────────────
 
 async function selfTriggerCrawl() {
   const base =
@@ -282,7 +182,6 @@ async function selfTriggerCrawl() {
     'http://localhost:3000'
   const secret = process.env.CRON_SECRET ?? ''
   try {
-    // Await bis der Cron-Endpoint die 200-Antwort schickt (nicht bis der Job fertig ist)
     await fetch(`${base}/api/cron/inoai-crawl`, {
       headers: { Authorization: `Bearer ${secret}` },
       signal: AbortSignal.timeout(8000),
@@ -290,11 +189,7 @@ async function selfTriggerCrawl() {
   } catch { /* ignore */ }
 }
 
-// ── Synonyme aus Crawl-Daten anreichern ──────────────────────────────────────
-// Nach jedem erfolgreichen Crawl:
-// 1. Bestehende Gruppen mit neuen Termen ergänzen (aus Seitentiteln + Inhalt)
-// 2. Komplett neue Gruppen für bisher unbekannte Fachbegriffe anlegen
-// 3. Strikte Duplikatprüfung über ALLE bekannten Terme
+// ── Synonym-Anreicherung ─────────────────────────────────────────────────────
 
 async function enrichSynonymsFromCrawl(
   admin: ReturnType<typeof createAdminClient>,
@@ -302,7 +197,6 @@ async function enrichSynonymsFromCrawl(
   log: (msg: string) => void,
 ): Promise<void> {
   try {
-    // Gecrawlte Inhalte + alle bestehenden Gruppen parallel laden
     const [{ data: knowledge }, { data: existingGroups }] = await Promise.all([
       admin.from('inometa_knowledge')
         .select('title, content')
@@ -312,19 +206,16 @@ async function enrichSynonymsFromCrawl(
     ])
     if (!knowledge?.length) return
 
-    // Alle bekannten Terme in einer Menge (für Duplikatcheck)
-    const allKnown = new Map<string, number>() // term → group id
+    const allKnown = new Map<string, number>()
     for (const g of (existingGroups ?? []) as any[]) {
       for (const t of g.terms as string[]) allKnown.set(t.toLowerCase(), g.id)
     }
 
-    // Textmaterial: Titel + erste 300 Zeichen jedes Chunks
     const textSample = (knowledge as any[])
       .map(k => `${k.title ?? ''}\n${(k.content as string).slice(0, 300)}`)
       .join('\n---\n')
       .slice(0, 6000)
 
-    // Bestehende Gruppen kompakt als "id: primaryTerm" für den Prompt
     const groupIndex = ((existingGroups ?? []) as any[])
       .map(g => `${g.id}:${(g.terms as string[])[0]}`)
       .join(', ')
@@ -368,11 +259,9 @@ Respond ONLY with compact JSON, no explanation:
     if (!jsonMatch) return
 
     const result: { enrich?: { id: number; add: string[] }[]; new?: string[][] } = JSON.parse(jsonMatch[0])
-
     let enriched = 0
     let created = 0
 
-    // 1. Bestehende Gruppen anreichern
     for (const e of result.enrich ?? []) {
       const group = (existingGroups as any[])?.find((g: any) => g.id === e.id)
       if (!group) continue
@@ -385,7 +274,6 @@ Respond ONLY with compact JSON, no explanation:
       if (!error) { fresh.forEach((t: string) => allKnown.set(t, e.id)); enriched++ }
     }
 
-    // 2. Neue Gruppen anlegen
     for (const terms of result.new ?? []) {
       const clean = [...new Set(
         terms.map((t: string) => t.toLowerCase().trim()).filter((t: string) => t.length > 1 && !allKnown.has(t))
@@ -404,23 +292,15 @@ Respond ONLY with compact JSON, no explanation:
   }
 }
 
-// ── Synonym-Matrix automatisch pflegen ───────────────────────────────────────
-// Läuft nach jedem erfolgreichen Crawl:
-// 1. Klassifiziert ungetaggte Gruppen als base/modifier/standalone per KI
-// 2. Generiert fehlende Kombinationsbegriffe für base×modifier-Paare per KI
-
 export async function syncSynonymMatrix(
   admin: ReturnType<typeof createAdminClient>,
   log: (msg: string) => void,
 ): Promise<void> {
   try {
     const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
-
-    // 1. Alle Gruppen laden
     const { data: groups } = await admin.from('inoai_synonyms').select('id, terms, group_type')
     if (!groups?.length) return
 
-    // 2. Ungetaggte Gruppen klassifizieren
     const untagged = groups.filter((g: any) => g.group_type === 'standalone')
     if (untagged.length > 0) {
       const classifyRes = await anthropic.messages.create({
@@ -451,17 +331,15 @@ Respond ONLY with compact JSON array, no explanation:
             updated++
           }
         }
-        if (updated > 0) log(`🏷️  ${updated} Synonym-Gruppen klassifiziert (Basis/Modifikator)`)
+        if (updated > 0) log(`🏷️  ${updated} Synonym-Gruppen klassifiziert`)
       }
     }
 
-    // 3. Aktuelle Klassifizierung neu laden
     const { data: current } = await admin.from('inoai_synonyms').select('id, terms, group_type')
     const bases = (current ?? []).filter((g: any) => g.group_type === 'base')
     const modifiers = (current ?? []).filter((g: any) => g.group_type === 'modifier')
     if (bases.length === 0 || modifiers.length === 0) return
 
-    // 4. Fehlende Kombinationen finden
     const { data: existing } = await admin.from('inoai_synonym_combinations').select('base_id, modifier_id')
     const existingSet = new Set((existing ?? []).map((c: any) => `${c.base_id}-${c.modifier_id}`))
 
@@ -473,7 +351,6 @@ Respond ONLY with compact JSON array, no explanation:
     }
     if (missing.length === 0) return
 
-    // 5. Kombinationsbegriffe in Batches generieren (max 12 pro Anfrage)
     const BATCH = 12
     let generated = 0
     for (let i = 0; i < missing.length; i += BATCH) {
@@ -501,26 +378,21 @@ Respond ONLY with compact JSON, no explanation:
       for (const r of results) {
         const pair = batch[r.i]
         if (!pair || r.terms.length === 0) continue
-        const { error } = await admin.from('inoai_synonym_combinations').insert({
+        await admin.from('inoai_synonym_combinations').insert({
           base_id: pair.base.id,
           modifier_id: pair.mod.id,
           extra_terms: r.terms.map((t: string) => t.toLowerCase()),
           active: true,
-        }).select()
-        if (!error) generated++
+        })
+        generated++
       }
     }
-    if (generated > 0) log(`⊞ ${generated} Kreuzreferenz-Kombinationen automatisch generiert`)
+    if (generated > 0) log(`⊞ ${generated} Kreuzreferenz-Kombinationen generiert`)
   } catch (e: any) {
     log(`⚠️ Matrix-Pflege: ${e.message}`)
   }
 }
 
-// ── Mehrsprachige Synonyme ergänzen ──────────────────────────────────────────
-// Reichert bestehende Gruppen mit Übersetzungen in allen Sprachen an.
-// Manuell triggerbar + läuft nach jedem Crawl auf ungefüllten Gruppen.
-
-// Alle App-Sprachen aus src/i18n/config.ts
 const SUPPORTED_LANGS = [
   'de', 'en', 'fr', 'es', 'it', 'pt', 'nl', 'pl', 'tr',
   'ru', 'uk', 'bg', 'ro', 'cs', 'sk', 'hu', 'hr', 'sr',
@@ -536,7 +408,6 @@ export async function syncMultilingualSynonyms(
     const { data: groups } = await admin.from('inoai_synonyms').select('id, terms')
     if (!groups?.length) return
 
-    // Nur Gruppen mit wenigen Termen anreichern (wahrscheinlich einsprachig)
     const needsEnrichment = (groups as any[]).filter(g => (g.terms as string[]).length < 5)
     if (needsEnrichment.length === 0) return
 
@@ -545,7 +416,6 @@ export async function syncMultilingualSynonyms(
 
     for (let i = 0; i < needsEnrichment.length; i += BATCH) {
       const batch = needsEnrichment.slice(i, i + BATCH)
-
       const res = await anthropic.messages.create({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 800,
@@ -569,11 +439,7 @@ Respond ONLY with JSON array:
       if (!match) continue
 
       let updates: { id: number; terms: string[] }[]
-      try {
-        updates = JSON.parse(match[0])
-      } catch {
-        continue
-      }
+      try { updates = JSON.parse(match[0]) } catch { continue }
 
       for (const u of updates) {
         const original = batch.find((g: any) => g.id === u.id)
@@ -592,6 +458,97 @@ Respond ONLY with JSON array:
   }
 }
 
+// ── Haupt-Crawl ──────────────────────────────────────────────────────────────
+
+export async function runCrawl(
+  crawlerId: string,
+  log: (msg: string) => void,
+  resume?: ResumeState,
+): Promise<CrawlResult> {
+  const admin = createAdminClient()
+  const startTime = Date.now()
+
+  const { data: config, error: cfgErr } = await admin
+    .from('inoai_crawlers')
+    .select('*')
+    .eq('id', crawlerId)
+    .single()
+  if (cfgErr || !config) throw new Error(`Crawler nicht gefunden: ${crawlerId}`)
+
+  const stats: CrawlStats = { pagesFound: 0, chunksInserted: 0, errors: 0 }
+  const rootUrl = new URL(config.url)
+
+  if (!resume) {
+    log(`🗑️  Lösche bestehende Einträge für "${config.name}"…`)
+    const { error: delErr } = await admin
+      .from('inometa_knowledge')
+      .delete()
+      .eq('crawler_id', crawlerId)
+    if (delErr) throw new Error(`Löschen fehlgeschlagen: ${delErr.message}`)
+    log(`✓ Einträge gelöscht`)
+    log(`\n🕷️  Crawle ${config.url}…`)
+  } else {
+    log(`▶ Weiter: ${resume.queue.length} Seiten verbleibend…`)
+  }
+
+  const visited = new Set<string>(resume?.visited ?? [])
+  const queue: string[] = resume?.queue ?? [config.url]
+  const failedPages: string[] = resume?.failedPages ?? []
+
+  while (queue.length > 0) {
+    if (Date.now() - startTime > MAX_RUN_MS) {
+      log(`⏱️  Zeitlimit erreicht – pausiere (${queue.length} Seiten verbleibend)`)
+      return {
+        done: false,
+        resume: { queue, visited: Array.from(visited), failedPages },
+        stats,
+        failedPages,
+      }
+    }
+
+    const url = queue.shift()!
+    if (visited.has(url)) continue
+    visited.add(url)
+
+    await sleep(CRAWL_DELAY_MS)
+    const res = await fetchWithRetry(url, rootUrl.href)
+    if (!res) {
+      log(`  ❌ ${url.replace(rootUrl.origin, '')} → nicht erreichbar`)
+      failedPages.push(url)
+      stats.errors++
+      continue
+    }
+
+    try {
+      const ct = res.headers.get('content-type') ?? ''
+      if (!ct.includes('text/html')) continue
+
+      const html = await res.text()
+      const title = extractTitle(html)
+      const text = stripHtml(html)
+      const wc = text.split(/\s+/).filter(Boolean).length
+      if (wc < 50) continue
+
+      log(`  📄 [${visited.size}] ${url.replace(rootUrl.origin, '')} → "${title}" (${wc} Wörter)`)
+
+      const { inserted, error } = await saveChunks(admin, url, title, text, config.lang, crawlerId, log)
+      if (error) stats.errors++
+      else { stats.chunksInserted += inserted; stats.pagesFound++ }
+
+      const links = extractLinks(html, url, rootUrl)
+      for (const l of links) if (!visited.has(l) && !queue.includes(l)) queue.push(l)
+    } catch (e: any) {
+      log(`  ❌ ${url.replace(rootUrl.origin, '')} → ${e.message}`)
+      failedPages.push(url)
+      stats.errors++
+    }
+  }
+
+  return { done: true, stats, failedPages }
+}
+
+// ── DB-Job-Runner ────────────────────────────────────────────────────────────
+
 export async function runCrawlJob(jobId: string): Promise<void> {
   const admin = createAdminClient()
 
@@ -606,7 +563,6 @@ export async function runCrawlJob(jobId: string): Promise<void> {
     started_at: job.started_at ?? new Date().toISOString(),
   }).eq('id', jobId)
 
-  // Puffer für Log-Einträge – in Gruppen in DB schreiben
   const flushedLog: string[] = [...(job.log ?? [])]
   const pending: string[] = []
 
@@ -619,13 +575,12 @@ export async function runCrawlJob(jobId: string): Promise<void> {
 
   function log(msg: string) {
     pending.push(msg)
-    flushLog() // fire-and-forget
+    flushLog()
   }
 
   try {
     const resume = job.resume_state as ResumeState | undefined
 
-    // Vor erstem Crawl: bestehende URLs snapshotten (für Diff)
     let beforeUrls: string[] = (job.diff as any)?.before ?? []
     if (!resume && beforeUrls.length === 0) {
       const { data: existing } = await admin
@@ -647,17 +602,14 @@ export async function runCrawlJob(jobId: string): Promise<void> {
 
       const s = result.stats
       const fp = result.failedPages.length
-      const fd = result.failedPdfs.length
-      log(`\n✅ Fertig! ${s.pagesFound} Seiten · ${s.pdfsFound} PDFs · ${s.chunksInserted} Chunks · ${s.errors} Fehler`)
+      log(`\n✅ Fertig! ${s.pagesFound} Seiten · ${s.chunksInserted} Chunks · ${s.errors} Fehler`)
       if (fp > 0) log(`⚠️  ${fp} Seite(n) nicht erreichbar`)
-      if (fd > 0) log(`⚠️  ${fd} PDF(s) nicht erreichbar`)
       if (beforeUrls.length > 0) {
-        if (added.length > 0) log(`📈 ${added.length} neue Seiten/Dokumente`)
+        if (added.length > 0) log(`📈 ${added.length} neue Seiten`)
         if (removed.length > 0) log(`📉 ${removed.length} entfernt`)
         if (added.length === 0 && removed.length === 0) log(`↔ Keine Änderungen gegenüber letztem Crawl`)
       }
 
-      // Synonymdatenbank automatisch erweitern + Matrix pflegen
       log(`\n🔤 Analysiere Inhalte für neue Synonyme…`)
       await flushLog(true)
       await enrichSynonymsFromCrawl(admin, job.crawler_id, log)
@@ -668,7 +620,7 @@ export async function runCrawlJob(jobId: string): Promise<void> {
       await admin.from('inoai_crawl_jobs').update({
         status: 'done',
         stats: result.stats as any,
-        diff: { added, removed, before: beforeUrls, failedPages: result.failedPages, failedPdfs: result.failedPdfs } as any,
+        diff: { added, removed, before: beforeUrls, failedPages: result.failedPages } as any,
         resume_state: null,
         finished_at: new Date().toISOString(),
       }).eq('id', jobId)
@@ -677,10 +629,9 @@ export async function runCrawlJob(jobId: string): Promise<void> {
         status: 'paused',
         stats: result.stats as any,
         resume_state: result.resume as any,
-        diff: { before: beforeUrls, failedPages: result.failedPages, failedPdfs: result.failedPdfs } as any,
+        diff: { before: beforeUrls, failedPages: result.failedPages } as any,
       }).eq('id', jobId)
 
-      // Self-trigger: await bis Cron-Endpoint 200 antwortet, dann ist Kette gesichert
       await selfTriggerCrawl()
     }
   } catch (e: any) {
@@ -691,135 +642,4 @@ export async function runCrawlJob(jobId: string): Promise<void> {
       finished_at: new Date().toISOString(),
     }).eq('id', jobId)
   }
-}
-
-export async function runCrawl(
-  crawlerId: string,
-  log: (msg: string) => void,
-  resume?: ResumeState,
-): Promise<CrawlResult> {
-  const admin = createAdminClient()
-  const startTime = Date.now()
-
-  const { data: config, error: cfgErr } = await admin
-    .from('inoai_crawlers')
-    .select('*')
-    .eq('id', crawlerId)
-    .single()
-  if (cfgErr || !config) throw new Error(`Crawler nicht gefunden: ${crawlerId}`)
-
-  const stats: CrawlStats = { pagesFound: 0, pdfsFound: 0, chunksInserted: 0, errors: 0 }
-  const rootUrl = new URL(config.url)
-
-  if (!resume) {
-    log(`🗑️  Lösche bestehende Einträge für "${config.name}"…`)
-    const { error: delErr } = await admin
-      .from('inometa_knowledge')
-      .delete()
-      .eq('crawler_id', crawlerId)
-    if (delErr) throw new Error(`Löschen fehlgeschlagen: ${delErr.message}`)
-    log(`✓ Einträge gelöscht`)
-    log(`\n🕷️  Crawle ${config.url}…`)
-  } else {
-    log(`▶ Weiter: ${resume.queue.length} Seiten + ${resume.pdfQueue.length} PDFs verbleibend…`)
-  }
-
-  const visited = new Set<string>(resume?.visited ?? [])
-  const visitedPdfs = new Set<string>(resume?.visitedPdfs ?? [])
-  const queue: string[] = resume?.queue ?? [config.url]
-  const pdfQueue: string[] = resume?.pdfQueue ?? []
-  const failedPages: string[] = resume?.failedPages ?? []
-  const failedPdfs: string[] = resume?.failedPdfs ?? []
-
-  while (queue.length > 0) {
-    if (Date.now() - startTime > MAX_RUN_MS) {
-      log(`⏱️  Zeitlimit erreicht – pausiere (${queue.length} Seiten + ${pdfQueue.length} PDFs verbleibend)`)
-      return {
-        done: false,
-        resume: { queue, visited: Array.from(visited), pdfQueue, visitedPdfs: Array.from(visitedPdfs), failedPages, failedPdfs },
-        stats, failedPages, failedPdfs,
-      }
-    }
-
-    const url = queue.shift()!
-    if (visited.has(url)) continue
-    visited.add(url)
-
-    await sleep(CRAWL_DELAY_MS)
-    const res = await fetchWithRetry(url, rootUrl.href)
-    if (!res) {
-      log(`  ❌ ${url.replace(rootUrl.origin, '')} → nicht erreichbar (alle Versuche fehlgeschlagen)`)
-      failedPages.push(url)
-      stats.errors++
-      continue
-    }
-
-    try {
-      const ct = res.headers.get('content-type') ?? ''
-      if (!ct.includes('text/html')) continue
-
-      const html = await res.text()
-      const title = extractTitle(html)
-      const text = stripHtml(html)
-      const wc = text.split(/\s+/).filter(Boolean).length
-      if (wc < 50) continue
-
-      log(`  📄 [${visited.size}] ${url.replace(rootUrl.origin, '')} → "${title}" (${wc} Wörter)`)
-
-      const { inserted, error } = await saveChunks(admin, url, title, text, 'website', config.lang, crawlerId, log)
-      if (error) stats.errors++
-      else { stats.chunksInserted += inserted; stats.pagesFound++ }
-
-      const { links, pdfs } = extractLinks(html, url, rootUrl)
-      for (const l of links) if (!visited.has(l) && !queue.includes(l)) queue.push(l)
-      let newPdfs = 0
-      for (const p of pdfs) { if (!visitedPdfs.has(p) && !pdfQueue.includes(p)) { pdfQueue.push(p); newPdfs++ } }
-      if (newPdfs > 0) log(`    📎 ${newPdfs} PDF(s) entdeckt`)
-    } catch (e: any) {
-      log(`  ❌ ${url.replace(rootUrl.origin, '')} → ${e.message}`)
-      failedPages.push(url)
-      stats.errors++
-    }
-  }
-
-  if (pdfQueue.length > 0) {
-    log(`\n  📑 ${pdfQueue.length} PDFs – lade herunter…`)
-    while (pdfQueue.length > 0) {
-      if (Date.now() - startTime > MAX_RUN_MS) {
-        log(`⏱️  Zeitlimit erreicht – pausiere (${pdfQueue.length} PDFs verbleibend)`)
-        return {
-          done: false,
-          resume: { queue: [], visited: Array.from(visited), pdfQueue, visitedPdfs: Array.from(visitedPdfs), failedPages, failedPdfs },
-          stats, failedPages, failedPdfs,
-        }
-      }
-
-      const pdfUrl = pdfQueue.shift()!
-      visitedPdfs.add(pdfUrl)
-      const filename = decodeURIComponent(pdfUrl.split('/').pop() ?? pdfUrl)
-      await sleep(CRAWL_DELAY_MS)
-      const text = await fetchPdfWithFallback(pdfUrl)
-      if (!text) {
-        log(`  ❌ PDF ${filename} → nicht erreichbar (alle Varianten fehlgeschlagen)`)
-        failedPdfs.push(pdfUrl)
-        stats.errors++
-        continue
-      }
-      try {
-        const wc = text.split(/\s+/).filter(Boolean).length
-        if (wc < 30) continue
-        const title = filename.replace(/\.pdf$/i, '').replace(/[-_]/g, ' ')
-        log(`  📄 PDF: "${title}" (${wc} Wörter)`)
-        const { inserted, error } = await saveChunks(admin, pdfUrl, title, text, 'datasheet', config.lang, crawlerId, log)
-        if (error) stats.errors++
-        else { stats.chunksInserted += inserted; stats.pdfsFound++ }
-      } catch (e: any) {
-        log(`  ❌ PDF ${filename} → ${e.message}`)
-        failedPdfs.push(pdfUrl)
-        stats.errors++
-      }
-    }
-  }
-
-  return { done: true, stats, failedPages, failedPdfs }
 }
