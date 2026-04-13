@@ -35,6 +35,14 @@ export default async function INOaiPage() {
           height: 100dvh;
           overflow: hidden;
         }
+        /* Layout hat paddingBottom: 80 auf <main> – das macht die Seite scrollbar.
+           :has() zielt den übergeordneten main/body an und verhindert dieses Scrollen. */
+        main:has(.inoai-page-wrap) {
+          padding-bottom: 0 !important;
+        }
+        body:has(.inoai-page-wrap) {
+          overflow: hidden;
+        }
         @media (max-width: 767px) {
           .inoai-page-wrap {
             height: calc(100dvh - 63px);
