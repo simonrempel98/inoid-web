@@ -988,6 +988,20 @@
           "Számítások mentése névvel, megjegyzéssel és előzményekkel",
           "Opcionális kiegészítő modul — adminisztrátor aktiválhatja"
         ]
+      },
+      "f13": {
+        "title": "AI eszköz-import",
+        "badge": "AI",
+        "desc": "Töltsen fel fényképeket, PDF-eket vagy dokumentumokat, és hagyja, hogy az AI automatikusan felismerje és kitöltse az összes eszközadatot.",
+        "points": [
+          "Húzd és ejtsd vagy fájl kiválasztása: képek, PDF, DOCX, PPTX stb.",
+          "Automatikus képjavítás: kontraszt, élesség és színek optimalizálva",
+          "Az AI (Claude Vision) felismeri: megnevezés, gyártó, cikkszám, sorozatszám, kategória",
+          "Műszaki és kereskedelmi adatok is kinyerve",
+          "3 lépéses varázsló: Feltöltés → AI elemzés → Ellenőrzés és létrehozás",
+          "Minden felismert mező manuálisan javítható mentés előtt",
+          "A képek közvetlenül az eszközhöz kapcsolódnak"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "Van még kérdése?",
       "contactDesc": "Forduljon adminisztrátorához, vagy vegye fel a kapcsolatot az INOid támogatással közvetlenül az Inomet GmbH-n keresztül.",
       "t6": "Az INOid teljes mértékben optimalizálva van okostelefonokra: minden többoszlopos elrendezés egyetlen oszlopra szűkül mobilon, az INOai-csevegés pontosan kitölti a látható képernyőterületet, és a hosszú műszaki kifejezések mindig helyesen törnek.",
-      "t7": "A Flexo modulban: rögzítse festékeit egyszer sűrűséggel és árral — az Anilox-kalkulátor automatikusan kitölti a sűrűséget, és kiszámítja az óránkénti és folyóméterenkénti költségeket."
+      "t7": "A Flexo modulban: rögzítse festékeit egyszer sűrűséggel és árral — az Anilox-kalkulátor automatikusan kitölti a sűrűséget, és kiszámítja az óránkénti és folyóméterenkénti költségeket.",
+      "t8": "AI import: Fényképezze le a névtáblát vagy töltsön fel adatlapot — az AI automatikusan kitölti az összes mezőt. Áttekinti, javítja és menti egy kattintással."
     }
   },
   "eventTypes": {

@@ -988,6 +988,20 @@
           "Gem beregninger med navn, bemærkning og historik",
           "Valgfrit tillægsmodul — kan aktiveres af administrator"
         ]
+      },
+      "f13": {
+        "title": "AI asset-import",
+        "badge": "AI",
+        "desc": "Upload fotos, PDF'er eller dokumenter og lad AI automatisk genkende og udfylde alle asset-data.",
+        "points": [
+          "Drag & Drop eller filvalg: billeder, PDF, DOCX, PPTX m.fl.",
+          "Automatisk billedforbedring: kontrast, skarphed og farver optimeres",
+          "AI (Claude Vision) genkender: betegnelse, producent, artikelnummer, serienummer, kategori",
+          "Tekniske og kommercielle data udtrækkes også",
+          "3-trins assistent: Upload → AI-analyse → Gennemse og opret",
+          "Alle genkendte felter kan korrigeres manuelt før lagring",
+          "Billeder linkes direkte til aktivet"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "Har du flere spørgsmål?",
       "contactDesc": "Kontakt din administrator eller nå INOid-support direkte via Inomet GmbH.",
       "t6": "INOid er fuldt optimeret til smartphones: alle flerspalte-layouts komprimeres til én kolonne på mobil, INOai-chatten udfylder præcis det synlige skærmområde og lange tekniske begreber brydes altid korrekt.",
-      "t7": "I Flexo-modulet: registrer dine blæktyper én gang med densitet og pris — Anilox-beregneren udfylder automatisk densiteten og beregner omkostninger pr. time og pr. løbende meter."
+      "t7": "I Flexo-modulet: registrer dine blæktyper én gang med densitet og pris — Anilox-beregneren udfylder automatisk densiteten og beregner omkostninger pr. time og pr. løbende meter.",
+      "t8": "AI-import: Fotografer et typeskilt eller upload et datablad — AI udfylder alle felter automatisk. Du gennemgår, retter og gemmer med ét klik."
     }
   },
   "eventTypes": {

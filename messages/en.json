@@ -988,6 +988,20 @@
           "Save calculations with name, note and history view",
           "Optional add-on module — activatable by admin"
         ]
+      },
+      "f13": {
+        "title": "AI Asset Import",
+        "badge": "AI",
+        "desc": "Upload photos, PDFs or documents and let AI automatically detect and fill in all asset data. Multiple files at once supported.",
+        "points": [
+          "Drag & Drop or file selection: images, PDFs, DOCX, PPTX and more",
+          "Automatic image enhancement: contrast, sharpness and colors are optimized",
+          "AI (Claude Vision) detects: name, manufacturer, article number, serial number, category",
+          "Technical and commercial data are also extracted",
+          "3-step wizard: Upload → AI analysis → Review & Create",
+          "All detected fields can be manually corrected before saving",
+          "Images are directly linked to the asset and uploaded"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "Still have questions?",
       "contactDesc": "Contact your administrator or reach INOid support directly via Inomet GmbH.",
       "t6": "INOid is fully optimized for smartphones: all multi-column layouts collapse to a single column on mobile, the INOai chat fills the visible screen area exactly, and long technical terms always wrap correctly.",
-      "t7": "In the Flexo module: set up your inks once with density and price — the Anilox Calculator auto-fills the density and calculates costs per hour and per linear metre."
+      "t7": "In the Flexo module: set up your inks once with density and price — the Anilox Calculator auto-fills the density and calculates costs per hour and per linear metre.",
+      "t8": "AI Import: Photograph a type plate or upload a datasheet — AI fills in all fields automatically. You review, correct and save with one click."
     }
   },
   "eventTypes": {

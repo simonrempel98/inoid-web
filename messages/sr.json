@@ -988,6 +988,20 @@
           "Чување прорачуна са именом, напоменом и историјом",
           "Необавезни додатни модул — може активирати администратор"
         ]
+      },
+      "f13": {
+        "title": "AI Asset Import",
+        "badge": "AI",
+        "desc": "Upload photos, PDFs or documents and let AI automatically detect and fill in all asset data. Multiple files at once supported.",
+        "points": [
+          "Drag & Drop or file selection: images, PDFs, DOCX, PPTX and more",
+          "Automatic image enhancement: contrast, sharpness and colors are optimized",
+          "AI (Claude Vision) detects: name, manufacturer, article number, serial number, category",
+          "Technical and commercial data are also extracted",
+          "3-step wizard: Upload → AI analysis → Review & Create",
+          "All detected fields can be manually corrected before saving",
+          "Images are directly linked to the asset and uploaded"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "Imate još pitanja?",
       "contactDesc": "Obratite se svom administratoru ili kontaktirajte INOid podršku direktno putem Inomet GmbH.",
       "t6": "INOid je potpuno optimizovan za pametne telefone: svi višekolonski rasporedi sažimaju se u jednu kolonu na mobilnim uređajima, INOai čet tačno ispunjava vidljivo područje ekrana, a dugi tehnički izrazi uvijek se pravilno prelome.",
-      "t7": "У Flexo модулу: унесите бојеједном са густином и ценом — Анилокс калкулатор аутоматски попуњава густину и израчунава трошкове по сату и по текућем метру."
+      "t7": "У Flexo модулу: унесите бојеједном са густином и ценом — Анилокс калкулатор аутоматски попуњава густину и израчунава трошкове по сату и по текућем метру.",
+      "t8": "AI Import: Photograph a type plate or upload a datasheet — AI fills in all fields automatically. You review, correct and save with one click."
     }
   },
   "eventTypes": {

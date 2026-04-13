@@ -988,6 +988,20 @@
           "Sauvegarde des calculs avec nom, note et historique",
           "Module complémentaire optionnel — activable par l'administrateur"
         ]
+      },
+      "f13": {
+        "title": "Import d'actifs par IA",
+        "badge": "IA",
+        "desc": "Téléchargez des photos, des PDF ou des documents et laissez l'IA détecter et remplir automatiquement toutes les données de l'actif.",
+        "points": [
+          "Glisser-déposer ou sélection de fichiers : images, PDF, DOCX, PPTX et plus",
+          "Amélioration automatique d'image : contraste, netteté et couleurs optimisés",
+          "L'IA (Claude Vision) détecte : nom, fabricant, numéro d'article, numéro de série, catégorie",
+          "Les données techniques et commerciales sont également extraites",
+          "Assistant en 3 étapes : Téléverser → Analyse IA → Vérifier et créer",
+          "Tous les champs détectés peuvent être corrigés manuellement avant d'enregistrer",
+          "Les images sont directement liées à l'actif"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "Encore des questions ?",
       "contactDesc": "Contactez votre administrateur ou le support INOid via Inomet GmbH.",
       "t6": "INOid est entièrement optimisé pour les smartphones : toutes les mises en page multi-colonnes se replient en une seule colonne sur mobile, le chat INOai remplit exactement la zone d'écran visible, et les termes techniques longs sont toujours correctement coupés.",
-      "t7": "Dans le module Flexo : enregistrez vos encres une fois avec densité et prix — le calculateur Anilox remplit automatiquement la densité et calcule les coûts par heure et par mètre linéaire."
+      "t7": "Dans le module Flexo : enregistrez vos encres une fois avec densité et prix — le calculateur Anilox remplit automatiquement la densité et calcule les coûts par heure et par mètre linéaire.",
+      "t8": "Import IA : Photographiez une plaque signalétique ou téléchargez une fiche technique — l'IA remplit tous les champs automatiquement. Vous vérifiez, corrigez et enregistrez en un clic."
     }
   },
   "eventTypes": {

@@ -988,6 +988,20 @@
           "Tallenna laskelmat nimellä, muistiinpanolla ja historialla",
           "Valinnainen lisämoduuli — järjestelmänvalvoja voi aktivoida"
         ]
+      },
+      "f13": {
+        "title": "AI-omaisuuserien tuonti",
+        "badge": "AI",
+        "desc": "Lataa valokuvia, PDF-tiedostoja tai asiakirjoja ja anna tekoälyn tunnistaa ja täyttää kaikki omaisuustiedot automaattisesti.",
+        "points": [
+          "Drag & Drop tai tiedostojen valinta: kuvat, PDF, DOCX, PPTX jne.",
+          "Automaattinen kuvanparannus: kontrasti, terävyys ja värit optimoidaan",
+          "AI (Claude Vision) tunnistaa: nimitys, valmistaja, tuotenumero, sarjanumero, luokka",
+          "Myös tekniset ja kaupalliset tiedot poimitaan",
+          "3-vaiheinen ohjattu toiminto: Lataus → AI-analyysi → Tarkistus ja luonti",
+          "Kaikki tunnistetut kentät voidaan korjata manuaalisesti ennen tallentamista",
+          "Kuvat linkitetään suoraan omaisuuteen"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "Onko lisäkysymyksiä?",
       "contactDesc": "Ota yhteyttä järjestelmänvalvojaasi tai tavoita INOid-tuki suoraan Inomet GmbH:n kautta.",
       "t6": "INOid on täysin optimoitu älypuhelimille: kaikki monisarakkeinen asettelu supistuu yhdeksi sarakkeeksi mobiilissa, INOai-chat täyttää täsmälleen näkyvän näyttöalueen ja pitkät tekniset termit katkeavat aina oikein.",
-      "t7": "Flexo-moduulissa: rekisteröi musteesi kerran tiheydellä ja hinnalla — Anilox-laskin täyttää tiheyden automaattisesti ja laskee kustannukset tunnissa ja juoksumetrissä."
+      "t7": "Flexo-moduulissa: rekisteröi musteesi kerran tiheydellä ja hinnalla — Anilox-laskin täyttää tiheyden automaattisesti ja laskee kustannukset tunnissa ja juoksumetrissä.",
+      "t8": "AI-tuonti: Kuvaa tyyppikilpi tai lataa tietolomake — AI täyttää kaikki kentät automaattisesti. Tarkistat, korjaat ja tallennat yhdellä napsautuksella."
     }
   },
   "eventTypes": {

@@ -988,6 +988,20 @@
           "Salvarea calculelor cu nume, notă și istoric",
           "Modul suplimentar opțional — activat de administrator"
         ]
+      },
+      "f13": {
+        "title": "Import active cu AI",
+        "badge": "AI",
+        "desc": "Încărcați fotografii, PDF-uri sau documente și lăsați AI-ul să detecteze și să completeze automat toate datele activului.",
+        "points": [
+          "Drag & Drop sau selectare fișier: imagini, PDF, DOCX, PPTX și altele",
+          "Îmbunătățire automată a imaginii: contrast, claritate și culori optimizate",
+          "AI (Claude Vision) detectează: denumire, producător, număr articol, număr serie, categorie",
+          "Datele tehnice și comerciale sunt de asemenea extrase",
+          "Asistent în 3 pași: Încărcare → Analiză AI → Verificare și creare",
+          "Toate câmpurile detectate pot fi corectate manual înainte de salvare",
+          "Imaginile sunt legate direct de activ"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "Mai aveți întrebări?",
       "contactDesc": "Contactați administratorul dvs. sau ajungeți la suportul INOid direct prin Inomet GmbH.",
       "t6": "INOid este complet optimizat pentru smartphone-uri: toate aspectele multi-coloană se restrâng la o singură coloană pe mobil, chat-ul INOai umple exact zona vizibilă a ecranului, iar termenii tehnici lungi se împart întotdeauna corect.",
-      "t7": "În modulul Flexo: înregistrați cerneliurile o dată cu densitate și preț — calculatorul Anilox completează automat densitatea și calculează costurile pe oră și pe metru liniar."
+      "t7": "În modulul Flexo: înregistrați cerneliurile o dată cu densitate și preț — calculatorul Anilox completează automat densitatea și calculează costurile pe oră și pe metru liniar.",
+      "t8": "Import AI: Fotografiați o plăcuță de tip sau încărcați o fișă tehnică — AI completează automat toate câmpurile. Verificați, corectați și salvați cu un singur clic."
     }
   },
   "eventTypes": {

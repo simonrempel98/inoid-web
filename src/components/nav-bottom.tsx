@@ -103,7 +103,7 @@ export function BottomNav({
       <div style={{
         position: 'fixed', left: 0, right: 0, bottom: 0,
         zIndex: 49,
-        background: 'white',
+        background: 'var(--ds-drawer-bg, white)',
         borderRadius: '22px 22px 0 0',
         boxShadow: '0 -6px 40px rgba(0,40,100,0.18)',
         transform: open ? 'translateY(0)' : 'translateY(100%)',
@@ -112,7 +112,7 @@ export function BottomNav({
       }}>
         {/* Handle */}
         <div style={{ display: 'flex', justifyContent: 'center', padding: '10px 0 6px' }}>
-          <div style={{ width: 40, height: 4, borderRadius: 2, background: '#dde4ee' }} />
+          <div style={{ width: 40, height: 4, borderRadius: 2, background: 'var(--ds-border2, #dde4ee)' }} />
         </div>
 
         {/* User Card */}
@@ -161,7 +161,7 @@ export function BottomNav({
                 style={{ textDecoration: 'none' }}
               >
                 <div style={{
-                  background: active ? `${item.color}12` : '#f4f7fb',
+                  background: active ? `${item.color}12` : 'var(--ds-surface2, #f4f7fb)',
                   borderRadius: 16, padding: '14px 8px 12px',
                   display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8,
                   border: `1.5px solid ${active ? item.color + '44' : 'transparent'}`,
@@ -169,7 +169,7 @@ export function BottomNav({
                 }}>
                   <div style={{
                     width: 44, height: 44, borderRadius: 13,
-                    background: active ? `${item.color}20` : 'white',
+                    background: active ? `${item.color}20` : 'var(--ds-surface, white)',
                     boxShadow: active ? 'none' : '0 1px 6px rgba(0,40,100,0.08)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
@@ -190,7 +190,7 @@ export function BottomNav({
         </div>
 
         {/* Divider */}
-        <div style={{ height: 1, background: '#eef1f6', margin: '0 16px 12px' }} />
+        <div style={{ height: 1, background: 'var(--ds-border2, #eef1f6)', margin: '0 16px 12px' }} />
 
         {/* Logout */}
         <div style={{ padding: '0 16px' }}>
@@ -201,8 +201,8 @@ export function BottomNav({
       {/* ── Bottom Bar ── */}
       <nav style={{
         position: 'fixed', bottom: 0, left: 0, right: 0,
-        backgroundColor: 'white',
-        borderTop: '1px solid #dde4ee',
+        backgroundColor: 'var(--ds-nav-bg, white)',
+        borderTop: '1px solid var(--ds-nav-border, #dde4ee)',
         display: 'flex', alignItems: 'flex-end',
         paddingBottom: 'env(safe-area-inset-bottom)',
         zIndex: 50,
@@ -228,7 +228,7 @@ export function BottomNav({
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               boxShadow: '0 4px 18px rgba(0,51,102,0.38)',
               marginTop: -22,
-              border: '3px solid white',
+              border: '3px solid var(--ds-nav-bg, white)',
               transition: 'background 0.2s',
             }}>
               {icons.scan}

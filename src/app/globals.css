@@ -133,6 +133,91 @@
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* ── Dashboard Dark/Light Theme Variables ── */
+[data-ds-theme="light"] {
+  --ds-bg: #f4f6f9;
+  --ds-surface: #ffffff;
+  --ds-surface2: #f8fafc;
+  --ds-border: #c8d4e8;
+  --ds-border2: #dde4ee;
+  --ds-text: #000000;
+  --ds-text2: #333333;
+  --ds-text3: #666666;
+  --ds-text4: #999999;
+  --ds-shadow: rgba(0,51,102,0.06);
+  --ds-shadow2: rgba(0,51,102,0.12);
+  --ds-nav-bg: #ffffff;
+  --ds-nav-border: #dde4ee;
+  --ds-drawer-bg: #ffffff;
+  --ds-card-bg: #ffffff;
+  --ds-input-bg: #ffffff;
+  --ds-hover: rgba(0,0,0,0.04);
+}
+
+[data-ds-theme="dark"] {
+  --ds-bg: #0f1117;
+  --ds-surface: #161b22;
+  --ds-surface2: #1c2333;
+  --ds-border: #30363d;
+  --ds-border2: #21262d;
+  --ds-text: #e6edf3;
+  --ds-text2: #cdd9e5;
+  --ds-text3: #8b949e;
+  --ds-text4: #6e7681;
+  --ds-shadow: rgba(0,0,0,0.3);
+  --ds-shadow2: rgba(0,0,0,0.5);
+  --ds-nav-bg: #161b22;
+  --ds-nav-border: #30363d;
+  --ds-drawer-bg: #1c2333;
+  --ds-card-bg: #161b22;
+  --ds-input-bg: #0f1117;
+  --ds-hover: rgba(255,255,255,0.04);
+}
+
+/* Dark mode overrides for dashboard card backgrounds */
+[data-ds-theme="dark"] .db-stat-card {
+  background: var(--ds-surface) !important;
+  border-color: var(--ds-border) !important;
+}
+[data-ds-theme="dark"] .db-stat-val {
+  color: var(--ds-text) !important;
+}
+
+/* Dark mode: page background */
+[data-ds-theme="dark"] .ds-page-bg {
+  background: var(--ds-bg) !important;
+  color: var(--ds-text) !important;
+}
+
+/* Dark mode: white card/panel overrides */
+[data-ds-theme="dark"] .ds-card,
+[data-ds-theme="dark"] .ds-panel {
+  background: var(--ds-surface) !important;
+  border-color: var(--ds-border) !important;
+  color: var(--ds-text) !important;
+}
+
+/* Dark mode: progress bar tracks */
+[data-ds-theme="dark"] .ds-track {
+  background: var(--ds-border) !important;
+}
+
+/* Dark mode: quick link cards in dashboard */
+[data-ds-theme="dark"] .ds-quicklink {
+  background: var(--ds-surface2) !important;
+  border-color: var(--ds-border) !important;
+}
+
+/* Smooth theme transition */
+[data-ds-theme] * {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+/* But don't animate transforms/sizes */
+[data-ds-theme] img,
+[data-ds-theme] svg {
+  transition: none;
+}
+
 /* ── Admin Dark/Light Theme Variables ── */
 [data-admin-theme="dark"] {
   --adm-bg: #0a0f1e;

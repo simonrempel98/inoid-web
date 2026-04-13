@@ -988,6 +988,20 @@
           "Berechnungen speicherbar mit Name, Notiz und Verlauf",
           "Optionales Zusatzmodul — durch Admin aktivierbar"
         ]
+      },
+      "f13": {
+        "title": "Asset KI-Import",
+        "badge": "KI",
+        "desc": "Lade Fotos, PDFs oder Dokumente hoch und lass die KI alle Asset-Daten automatisch erkennen und eintragen. Mehrere Dateien gleichzeitig möglich.",
+        "points": [
+          "Drag & Drop oder Dateiauswahl: Bilder, PDFs, DOCX, PPTX und mehr",
+          "Automatische Bildverbesserung: Kontrast, Schärfe und Farben werden optimiert",
+          "KI (Claude Vision) erkennt: Bezeichnung, Hersteller, Artikelnummer, Seriennummer, Kategorie",
+          "Technische und kaufmännische Daten werden ebenfalls extrahiert",
+          "3-Schritt-Assistent: Upload → KI-Analyse → Überprüfen & Anlegen",
+          "Alle erkannten Felder vor dem Speichern manuell korrigierbar",
+          "Bilder werden direkt mit dem Asset verknüpft und hochgeladen"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "Noch Fragen?",
       "contactDesc": "Wende dich an deinen Administrator oder kontaktiere den INOid-Support direkt über Inomet GmbH.",
       "t6": "INOid ist vollständig für Smartphones optimiert: Alle Mehrspaltenlayouts wechseln auf Mobile zu einer Spalte, der INOai-Chat füllt den sichtbaren Bereich exakt aus, und lange Fachbegriffe werden immer korrekt umgebrochen.",
-      "t7": "Im Flexodruck-Modul: Lege deine Farben einmal mit Dichte und Preis an — der Anilox-Rechner trägt die Dichte automatisch ein und berechnet die Kosten pro Stunde und pro Laufmeter."
+      "t7": "Im Flexodruck-Modul: Lege deine Farben einmal mit Dichte und Preis an — der Anilox-Rechner trägt die Dichte automatisch ein und berechnet die Kosten pro Stunde und pro Laufmeter.",
+      "t8": "KI-Import: Fotografiere ein Typenschild oder lade ein Datenblatt hoch — die KI trägt alle Felder automatisch ein. Du prüfst, korrigierst und speicherst mit einem Klick."
     }
   },
   "eventTypes": {

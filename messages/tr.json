@@ -988,6 +988,20 @@
           "Hesaplamaları ad, not ve geçmişle kaydetme",
           "İsteğe bağlı ek modül — yönetici tarafından etkinleştirilebilir"
         ]
+      },
+      "f13": {
+        "title": "AI Varlık İçe Aktarma",
+        "badge": "AI",
+        "desc": "Fotoğraf, PDF veya belge yükleyin ve AI'nın tüm varlık verilerini otomatik olarak algılamasına ve doldurmasına izin verin.",
+        "points": [
+          "Sürükle & Bırak veya dosya seçimi: görüntüler, PDF, DOCX, PPTX ve daha fazlası",
+          "Otomatik görüntü iyileştirme: kontrast, keskinlik ve renkler optimize edilir",
+          "AI (Claude Vision) algılar: ad, üretici, makale numarası, seri numarası, kategori",
+          "Teknik ve ticari veriler de çıkarılır",
+          "3 adımlı sihirbaz: Yükle → AI analizi → İncele ve oluştur",
+          "Algılanan tüm alanlar kaydedilmeden önce manuel olarak düzeltilebilir",
+          "Görüntüler doğrudan varlığa bağlanır"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "Daha fazla sorunuz var mı?",
       "contactDesc": "Yöneticinizle iletişime geçin veya Inomet GmbH aracılığıyla doğrudan INOid desteğine ulaşın.",
       "t6": "INOid tamamen akıllı telefon için optimize edilmiştir: tüm çok sütunlu düzenler mobilde tek sütuna daraltılır, INOai sohbeti görünür ekran alanını tam olarak doldurur ve uzun teknik terimler her zaman doğru şekilde kırılır.",
-      "t7": "Flexo modülünde: renklerinizi bir kez yoğunluk ve fiyatla kaydedin — Anilox Hesaplayıcı yoğunluğu otomatik olarak doldurur ve saat başı ve metre başı maliyetleri hesaplar."
+      "t7": "Flexo modülünde: renklerinizi bir kez yoğunluk ve fiyatla kaydedin — Anilox Hesaplayıcı yoğunluğu otomatik olarak doldurur ve saat başı ve metre başı maliyetleri hesaplar.",
+      "t8": "AI içe aktarma: Bir tip levhası fotoğrafı çekin veya teknik veri sayfası yükleyin — AI tüm alanları otomatik olarak doldurur. İnceliyorsunuz, düzeltiyorsunuz ve bir tıklamayla kaydediyorsunuz."
     }
   },
   "eventTypes": {

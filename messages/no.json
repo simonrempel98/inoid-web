@@ -988,6 +988,20 @@
           "Lagre beregninger med navn, merknad og historikk",
           "Valgfri tilleggsmodul — kan aktiveres av administrator"
         ]
+      },
+      "f13": {
+        "title": "AI-import av eiendeler",
+        "badge": "AI",
+        "desc": "Last opp bilder, PDF-er eller dokumenter og la AI automatisk gjenkjenne og fylle ut alle eiendelsdata.",
+        "points": [
+          "Dra og slipp eller filvalg: bilder, PDF, DOCX, PPTX og mer",
+          "Automatisk bildeforbedring: kontrast, skarphet og farger optimaliseres",
+          "AI (Claude Vision) gjenkjenner: betegnelse, produsent, artikkelnummer, serienummer, kategori",
+          "Tekniske og kommersielle data ekstraheres også",
+          "3-trinns assistent: Last opp → AI-analyse → Gjennomgå og opprett",
+          "Alle gjenkjente felt kan korrigeres manuelt før lagring",
+          "Bilder kobles direkte til eiendelen"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "Har du flere spørsmål?",
       "contactDesc": "Kontakt administratoren din eller nå INOid-support direkte via Inomet GmbH.",
       "t6": "INOid er fullt optimalisert for smarttelefoner: alle flerspalte-oppsett komprimeres til én kolonne på mobil, INOai-chatten fyller nøyaktig det synlige skjermområdet og lange tekniske begreper brytes alltid riktig.",
-      "t7": "I Flexo-modulen: registrer blekkene dine én gang med tetthet og pris — Anilox-kalkulatoren fyller inn tettheten automatisk og beregner kostnader per time og per løpende meter."
+      "t7": "I Flexo-modulen: registrer blekkene dine én gang med tetthet og pris — Anilox-kalkulatoren fyller inn tettheten automatisk og beregner kostnader per time og per løpende meter.",
+      "t8": "AI-import: Fotograf et typeskilt eller last opp et datablad — AI fyller ut alle felt automatisk. Du gjennomgår, korrigerer og lagrer med ett klikk."
     }
   },
   "eventTypes": {

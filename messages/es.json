@@ -988,6 +988,20 @@
           "Guardar cálculos con nombre, nota e historial",
           "Módulo adicional opcional — activable por el administrador"
         ]
+      },
+      "f13": {
+        "title": "Importación de activos con IA",
+        "badge": "IA",
+        "desc": "Sube fotos, PDFs o documentos y deja que la IA detecte y complete automáticamente todos los datos del activo.",
+        "points": [
+          "Arrastra y suelta o selección de archivos: imágenes, PDF, DOCX, PPTX y más",
+          "Mejora automática de imagen: contraste, nitidez y colores optimizados",
+          "La IA (Claude Vision) detecta: nombre, fabricante, número de artículo, número de serie, categoría",
+          "También se extraen datos técnicos y comerciales",
+          "Asistente de 3 pasos: Subir → Análisis IA → Revisar y crear",
+          "Todos los campos detectados se pueden corregir manualmente antes de guardar",
+          "Las imágenes se vinculan directamente al activo"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "¿Tienes más preguntas?",
       "contactDesc": "Contacta a tu administrador o al soporte de INOid a través de Inomet GmbH.",
       "t6": "INOid está completamente optimizado para smartphones: todos los diseños de varias columnas se contraen a una sola columna en móvil, el chat INOai llena exactamente el área de pantalla visible y los términos técnicos largos siempre se ajustan correctamente.",
-      "t7": "En el módulo Flexo: registra tus tintas una vez con densidad y precio — la calculadora Anilox rellena la densidad automáticamente y calcula los costes por hora y por metro lineal."
+      "t7": "En el módulo Flexo: registra tus tintas una vez con densidad y precio — la calculadora Anilox rellena la densidad automáticamente y calcula los costes por hora y por metro lineal.",
+      "t8": "Importación con IA: Fotografía una placa de tipo o sube una hoja de datos — la IA rellena todos los campos automáticamente. Revisas, corriges y guardas con un clic."
     }
   },
   "eventTypes": {

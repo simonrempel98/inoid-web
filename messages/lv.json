@@ -988,6 +988,20 @@
           "Aprēķinu saglabāšana ar nosaukumu, piezīmi un vēsturi",
           "Izvēles papildu modulis — administrators var aktivizēt"
         ]
+      },
+      "f13": {
+        "title": "AI aktīvu imports",
+        "badge": "AI",
+        "desc": "Augšupielādējiet fotogrāfijas, PDF vai dokumentus un ļaujiet AI automātiski noteikt un aizpildīt visus aktīva datus.",
+        "points": [
+          "Vilkt un nomest vai faila atlase: attēli, PDF, DOCX, PPTX u.c.",
+          "Automātiska attēla uzlabošana: kontrasts, asums un krāsas tiek optimizētas",
+          "AI (Claude Vision) atpazīst: nosaukums, ražotājs, artikula numurs, sērijas numurs, kategorija",
+          "Tiek iegūti arī tehniskie un komerciālie dati",
+          "3 soļu vednis: Augšupielāde → AI analīze → Pārskatīšana un izveide",
+          "Visus atpazītos laukus var manuāli labot pirms saglabāšanas",
+          "Attēli tiek tieši saistīti ar aktīvu"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "Vēl jautājumi?",
       "contactDesc": "Sazinieties ar savu administratoru vai sazinieties ar INOid atbalstu tieši caur Inomet GmbH.",
       "t6": "INOid ir pilnībā optimizēts viedtālruņiem: visi vairāksleju izkārtojumi mobilajā ierīcē saspiežas vienā slejā, INOai tērzēšana precīzi aizpilda redzamo ekrāna laukumu un gari tehniskie termini vienmēr tiek pareizi pārtraukti.",
-      "t7": "Flexo modulī: reģistrējiet savas tintes vienu reizi ar blīvumu un cenu — Anilox kalkulators automātiski aizpildīs blīvumu un aprēķinās izmaksas stundā un lineārajā metrā."
+      "t7": "Flexo modulī: reģistrējiet savas tintes vienu reizi ar blīvumu un cenu — Anilox kalkulators automātiski aizpildīs blīvumu un aprēķinās izmaksas stundā un lineārajā metrā.",
+      "t8": "AI imports: Nofotografējiet datu plāksni vai augšupielādējiet datu lapu — AI automātiski aizpilda visus laukus. Pārskatiet, labojiet un saglabājiet ar vienu klikšķi."
     }
   },
   "eventTypes": {

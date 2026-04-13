@@ -988,6 +988,20 @@
           "Skaičiavimų išsaugojimas su pavadinimu, pastaba ir istorija",
           "Neprivalomas papildomas modulis — administratorius gali suaktyvinti"
         ]
+      },
+      "f13": {
+        "title": "AI turto importas",
+        "badge": "AI",
+        "desc": "Įkelkite nuotraukas, PDF ar dokumentus ir leiskite AI automatiškai aptikti bei užpildyti visus turto duomenis.",
+        "points": [
+          "Vilkite ir numeskite arba pasirinkite failą: vaizdai, PDF, DOCX, PPTX ir kt.",
+          "Automatinis vaizdo pagerinimas: kontrastas, ryškumas ir spalvos optimizuojamos",
+          "AI (Claude Vision) atpažįsta: pavadinimas, gamintojas, prekės numeris, serijos numeris, kategorija",
+          "Taip pat ištraukiami techniniai ir komerciniai duomenys",
+          "3 žingsnių asistentas: Įkelimas → AI analizė → Peržiūra ir kūrimas",
+          "Visi atpažinti laukai gali būti pataisyti rankiniu būdu prieš išsaugant",
+          "Vaizdai tiesiogiai susiejami su turtu"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "Dar klausimų?",
       "contactDesc": "Susisiekite su savo administratoriumi arba kreipkitės į INOid palaikymą tiesiogiai per Inomet GmbH.",
       "t6": "INOid yra visiškai optimizuotas išmaniesiems telefonams: visi kelių stulpelių išdėstymai mobiliajame įrenginyje suspaudžiami į vieną stulpelį, INOai pokalbis tiksliai užpildo matomą ekrano sritį, o ilgi techniniai terminai visada teisingai laužomi.",
-      "t7": "Flexo modulyje: įveskite savo dažus vieną kartą su tankiu ir kaina — Anilox skaičiuotuvas automatiškai užpildo tankį ir apskaičiuoja išlaidas per valandą ir vienam linijiniam metrui."
+      "t7": "Flexo modulyje: įveskite savo dažus vieną kartą su tankiu ir kaina — Anilox skaičiuotuvas automatiškai užpildo tankį ir apskaičiuoja išlaidas per valandą ir vienam linijiniam metrui.",
+      "t8": "AI importas: Nufotografuokite firminę lentelę arba įkelkite duomenų lapą — AI automatiškai užpildo visus laukus. Peržiūrite, taisote ir išsaugote vienu paspaudimu."
     }
   },
   "eventTypes": {

@@ -25,9 +25,9 @@ function FeatureCard({ f }: { f: FeatureItem }) {
   const [open, setOpen] = useState(false)
   const Icon = f.icon
   return (
-    <div style={{
-      background: 'white', borderRadius: 16,
-      border: `1px solid ${open ? f.color + '44' : '#c8d4e8'}`,
+    <div className="ds-panel" style={{
+      background: 'var(--ds-surface, white)', borderRadius: 16,
+      border: `1px solid ${open ? f.color + '44' : 'var(--ds-border, #c8d4e8)'}`,
       overflow: 'hidden',
       transition: 'border-color 0.2s',
     }}>
@@ -49,13 +49,13 @@ function FeatureCard({ f }: { f: FeatureItem }) {
         </span>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
-            <span style={{ fontSize: 15, fontWeight: 700, color: '#000' }}>{f.title}</span>
+            <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--ds-text, #000)' }}>{f.title}</span>
             <span style={{
               fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 8,
               background: `${f.color}18`, color: f.color,
             }}>{f.badge}</span>
           </div>
-          <p style={{ fontSize: 13, color: '#666', margin: 0, lineHeight: 1.5 }}>{f.desc}</p>
+          <p style={{ fontSize: 13, color: 'var(--ds-text3, #666)', margin: 0, lineHeight: 1.5 }}>{f.desc}</p>
         </div>
         <span style={{
           flexShrink: 0, marginTop: 2, color: '#96aed2',
@@ -71,7 +71,7 @@ function FeatureCard({ f }: { f: FeatureItem }) {
           {f.points.map((p, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <CheckCircle2 size={14} color={f.color} style={{ flexShrink: 0 }} />
-              <span style={{ fontSize: 13, color: '#444' }}>{p}</span>
+              <span style={{ fontSize: 13, color: 'var(--ds-text2, #444)' }}>{p}</span>
             </div>
           ))}
         </div>
@@ -108,6 +108,7 @@ export default function DocsPage() {
     { icon: MessageSquare, color: '#0099cc', title: t('feat.f10.title'), badge: t('feat.f10.badge'), desc: t('feat.f10.desc'), points: t.raw('feat.f10.points') as string[] },
     { icon: Sparkles, color: '#0099cc', title: t('feat.f11.title'), badge: t('feat.f11.badge'), desc: t('feat.f11.desc'), points: t.raw('feat.f11.points') as string[] },
     { icon: Calculator, color: '#7c3aed', title: t('feat.f12.title'), badge: t('feat.f12.badge'), desc: t('feat.f12.desc'), points: t.raw('feat.f12.points') as string[] },
+    { icon: Sparkles, color: '#7c3aed', title: t('feat.f13.title'), badge: t('feat.f13.badge'), desc: t('feat.f13.desc'), points: t.raw('feat.f13.points') as string[] },
   ]
 
   const ROLES = [
@@ -125,12 +126,13 @@ export default function DocsPage() {
     { icon: Bell, text: t('tips.t5') },
     { icon: Sparkles, text: t('tips.t6') },
     { icon: Calculator, text: t('tips.t7') },
+    { icon: Sparkles, text: t('tips.t8') },
   ]
 
   const NAV_ITEMS = t.raw('tips.nav') as { a: string; b: string }[]
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', paddingBottom: 60 }}>
+    <div style={{ fontFamily: 'Arial, sans-serif', paddingBottom: 60, background: 'var(--ds-bg)', minHeight: '100vh' }} className="ds-page-bg">
 
       {/* Header */}
       <div style={{
@@ -155,7 +157,7 @@ export default function DocsPage() {
       {/* Tab bar */}
       <div style={{
         position: 'sticky', top: 0, zIndex: 30,
-        background: 'white', borderBottom: '1px solid #c8d4e8',
+        background: 'var(--ds-surface, white)', borderBottom: '1px solid var(--ds-border, #c8d4e8)',
         display: 'flex', overflowX: 'auto',
         scrollbarWidth: 'none',
       }}>
@@ -186,15 +188,16 @@ export default function DocsPage() {
         {/* ── Quick start ── */}
         {activeSection === 'start' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <p style={{ fontSize: 13, color: '#666', margin: '0 0 4px', lineHeight: 1.6 }}>
+            <p style={{ fontSize: 13, color: 'var(--ds-text3, #666)', margin: '0 0 4px', lineHeight: 1.6 }}>
               {t('qs.intro')}
             </p>
             {QUICKSTART.map((s, i) => (
               <div
                 key={i}
+                className="ds-panel"
                 style={{
-                  background: 'white', borderRadius: 16, padding: '18px 18px 18px 20px',
-                  border: '1px solid #c8d4e8',
+                  background: 'var(--ds-surface, white)', borderRadius: 16, padding: '18px 18px 18px 20px',
+                  border: '1px solid var(--ds-border, #c8d4e8)',
                   display: 'flex', gap: 16, alignItems: 'flex-start',
                   position: 'relative', overflow: 'hidden',
                 }}
@@ -209,8 +212,8 @@ export default function DocsPage() {
                   {s.step}
                 </div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: '0 0 4px' }}>{s.title}</p>
-                  <p style={{ fontSize: 13, color: '#666', margin: '0 0 12px', lineHeight: 1.5 }}>{s.desc}</p>
+                  <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--ds-text, #000)', margin: '0 0 4px' }}>{s.title}</p>
+                  <p style={{ fontSize: 13, color: 'var(--ds-text3, #666)', margin: '0 0 12px', lineHeight: 1.5 }}>{s.desc}</p>
                   <button
                     type="button"
                     onClick={() => router.push(s.href)}
@@ -266,12 +269,12 @@ export default function DocsPage() {
         {/* ── Roles ── */}
         {activeSection === 'roles' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <p style={{ fontSize: 13, color: '#666', margin: '0 0 4px', lineHeight: 1.6 }}>
+            <p style={{ fontSize: 13, color: 'var(--ds-text3, #666)', margin: '0 0 4px', lineHeight: 1.6 }}>
               {t('roles.intro')}
             </p>
             {ROLES.map(r => (
-              <div key={r.role} style={{
-                background: 'white', borderRadius: 16,
+              <div key={r.role} className="ds-panel" style={{
+                background: 'var(--ds-surface, white)', borderRadius: 16,
                 border: `1px solid ${r.color}33`, overflow: 'hidden',
               }}>
                 <div style={{
@@ -286,7 +289,7 @@ export default function DocsPage() {
                   {r.points.map((p, i) => (
                     <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                       <CheckCircle2 size={14} color={r.color} style={{ flexShrink: 0 }} />
-                      <span style={{ fontSize: 13, color: '#444' }}>{p}</span>
+                      <span style={{ fontSize: 13, color: 'var(--ds-text2, #444)' }}>{p}</span>
                     </div>
                   ))}
                 </div>
@@ -309,44 +312,44 @@ export default function DocsPage() {
         {/* ── Tips ── */}
         {activeSection === 'tips' && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <p style={{ fontSize: 13, color: '#666', margin: '0 0 4px', lineHeight: 1.6 }}>
+            <p style={{ fontSize: 13, color: 'var(--ds-text3, #666)', margin: '0 0 4px', lineHeight: 1.6 }}>
               {t('tips.intro')}
             </p>
 
             {TIPS_LIST.map((tip, i) => {
               const Icon = tip.icon
               return (
-                <div key={i} style={{
-                  background: 'white', borderRadius: 14, padding: '16px 18px',
-                  border: '1px solid #c8d4e8',
+                <div key={i} className="ds-panel" style={{
+                  background: 'var(--ds-surface, white)', borderRadius: 14, padding: '16px 18px',
+                  border: '1px solid var(--ds-border, #c8d4e8)',
                   display: 'flex', gap: 14, alignItems: 'flex-start',
                 }}>
                   <span style={{
                     width: 36, height: 36, borderRadius: 10, flexShrink: 0,
-                    background: '#f0f4ff',
+                    background: 'var(--ds-surface2, #f0f4ff)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
                     <Icon size={18} color="#003366" />
                   </span>
-                  <p style={{ fontSize: 14, color: '#333', margin: 0, lineHeight: 1.6 }}>{tip.text}</p>
+                  <p style={{ fontSize: 14, color: 'var(--ds-text2, #333)', margin: 0, lineHeight: 1.6 }}>{tip.text}</p>
                 </div>
               )
             })}
 
             {/* Desktop navigation */}
-            <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
-              <div style={{ padding: '12px 18px', borderBottom: '1px solid #f4f6f9' }}>
+            <div className="ds-panel" style={{ background: 'var(--ds-surface, white)', borderRadius: 14, border: '1px solid var(--ds-border, #c8d4e8)', overflow: 'hidden' }}>
+              <div style={{ padding: '12px 18px', borderBottom: '1px solid var(--ds-border2, #f4f6f9)' }}>
                 <p style={{ fontSize: 13, fontWeight: 700, color: '#003366', margin: 0 }}>{t('tips.navTitle')}</p>
               </div>
               {NAV_ITEMS.map((item, i) => (
                 <div key={i} style={{
                   display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                  padding: '10px 18px', borderBottom: '1px solid #f4f6f9',
+                  padding: '10px 18px', borderBottom: '1px solid var(--ds-border2, #f4f6f9)',
                 }}>
-                  <span style={{ fontSize: 13, color: '#444' }}>{item.a}</span>
+                  <span style={{ fontSize: 13, color: 'var(--ds-text2, #444)' }}>{item.a}</span>
                   <span style={{
                     fontSize: 11, padding: '3px 10px', borderRadius: 8,
-                    background: '#f4f6f9', color: '#666', fontFamily: 'monospace',
+                    background: 'var(--ds-surface2, #f4f6f9)', color: 'var(--ds-text3, #666)', fontFamily: 'monospace',
                   }}>{item.b}</span>
                 </div>
               ))}

@@ -988,6 +988,20 @@
           "Arvutuste salvestamine nime, märkuse ja ajalooga",
           "Valikuline lisandmoodul — administraator saab aktiveerida"
         ]
+      },
+      "f13": {
+        "title": "AI varade import",
+        "badge": "AI",
+        "desc": "Laadi üles fotod, PDF-id või dokumendid ja lase AI-l automaatselt tuvastada ja täita kõik vara andmed.",
+        "points": [
+          "Drag & Drop või faili valimine: pildid, PDF, DOCX, PPTX jne",
+          "Automaatne pildi parendamine: kontrastsus, teravus ja värvid optimeeritakse",
+          "AI (Claude Vision) tuvastab: nimetus, tootja, artiklinumber, seerianumber, kategooria",
+          "Eraldatakse ka tehnilised ja kaubanduslikud andmed",
+          "3-sammuline assistent: Üleslaadimine → AI analüüs → Kontroll ja loomine",
+          "Kõiki tuvastatud välju saab enne salvestamist käsitsi parandada",
+          "Pildid seotakse otse varaga"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "Veel küsimusi?",
       "contactDesc": "Võtke ühendust oma administraatoriga või jõudke INOid toeni otse Inomet GmbH kaudu.",
       "t6": "INOid on täielikult optimeeritud nutitelefonidele: kõik mitmeveeru­küljendused tihenduvad mobiilis üheks veeruks, INOai vestlus täidab täpselt nähtava ekraaniala ja pikad tehnilised terminid murtakse alati õigesti.",
-      "t7": "Flexo moodulis: registreerige oma tindid kord tiheduse ja hinnaga — Aniloxi kalkulaator täidab tiheduse automaatselt ja arvutab kulud tunnis ja jooksumetris."
+      "t7": "Flexo moodulis: registreerige oma tindid kord tiheduse ja hinnaga — Aniloxi kalkulaator täidab tiheduse automaatselt ja arvutab kulud tunnis ja jooksumetris.",
+      "t8": "AI import: Pildista andmesilti või laadi üles andmeleht — AI täidab kõik väljad automaatselt. Vaatate üle, korrigeerite ja salvestate ühe klõpsuga."
     }
   },
   "eventTypes": {

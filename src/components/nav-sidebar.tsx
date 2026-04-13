@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useTranslations } from 'next-intl'
 import { LogoutButton } from './logout-button'
+import { DashboardThemeToggle } from './dashboard-theme-toggle'
 
 export function Sidebar({ userEmail, userName, avatarUrl, features = {} }: {
   userEmail: string
@@ -283,9 +284,10 @@ export function Sidebar({ userEmail, userName, avatarUrl, features = {} }: {
               </span>
             )}
           </div>
-          <p style={{ color: '#c8d4e8', fontSize: 13, margin: 0, fontFamily: 'Arial, sans-serif', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <p style={{ color: '#c8d4e8', fontSize: 13, margin: 0, fontFamily: 'Arial, sans-serif', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1 }}>
             {userName ?? userEmail}
           </p>
+          <DashboardThemeToggle />
         </div>
         <Link href="/docs" style={{
           display: 'flex', alignItems: 'center', gap: 8,

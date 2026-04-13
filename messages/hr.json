@@ -988,6 +988,20 @@
           "Spremanje izračuna s imenom, napomenom i poviješću",
           "Neobavezni dodatni modul — može aktivirati administrator"
         ]
+      },
+      "f13": {
+        "title": "AI uvoz imovine",
+        "badge": "AI",
+        "desc": "Prenesite fotografije, PDF-ove ili dokumente i neka AI automatski prepozna i popuni sve podatke o imovini.",
+        "points": [
+          "Povuci i ispusti ili odabir datoteke: slike, PDF, DOCX, PPTX i više",
+          "Automatsko poboljšanje slike: kontrast, oštrina i boje se optimiziraju",
+          "AI (Claude Vision) prepoznaje: naziv, proizvođač, broj artikla, serijski broj, kategorija",
+          "Također se izvlače tehnički i komercijalni podaci",
+          "Asistent u 3 koraka: Učitavanje → AI analiza → Pregled i kreiranje",
+          "Sva prepoznata polja mogu se ručno ispraviti prije spremanja",
+          "Slike se izravno povezuju s imovinom"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "Imate još pitanja?",
       "contactDesc": "Obratite se svom administratoru ili kontaktirajte INOid podršku izravno putem Inomet GmbH.",
       "t6": "INOid je potpuno optimiziran za pametne telefone: svi višestupčasti rasporedi sažimaju se u jedan stupac na mobilnim uređajima, INOai chat točno ispunjava vidljivo područje zaslona, a dugi tehnički izrazi uvijek se pravilno prelome.",
-      "t7": "U Flexo modulu: unesite tinte jednom s gustoćom i cijenom — Anilox kalkulator automatski popunjava gustoću i izračunava troškove po satu i po tekućem metru."
+      "t7": "U Flexo modulu: unesite tinte jednom s gustoćom i cijenom — Anilox kalkulator automatski popunjava gustoću i izračunava troškove po satu i po tekućem metru.",
+      "t8": "AI uvoz: Fotografirajte natpisnu pločicu ili prenesite tehnički list — AI automatski popunjava sva polja. Pregledavate, ispravljate i spremate jednim klikom."
     }
   },
   "eventTypes": {

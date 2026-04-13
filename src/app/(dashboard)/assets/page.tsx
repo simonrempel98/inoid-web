@@ -76,15 +76,15 @@ export default async function AssetsPage({
   const hasFilters = !!(status || cat || (sort && sort !== 'newest'))
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif' }} className="page-pad">
+    <div style={{ fontFamily: 'Arial, sans-serif', background: 'var(--ds-bg)', minHeight: '100vh' }} className="page-pad">
       {/* Header */}
       <div style={{
         padding: '20px 20px 0',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 2px' }}>Assets</h1>
-          <p style={{ fontSize: 13, color: '#666', margin: 0 }}>
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--ds-text, #000)', margin: '0 0 2px' }}>Assets</h1>
+          <p style={{ fontSize: 13, color: 'var(--ds-text3, #666)', margin: 0 }}>
             {totalCount ?? 0}{org?.asset_limit && org.asset_limit > 0 ? ` / ${org.asset_limit}` : ''} Assets
             {(hasFilters || q) && <> · {assets?.length ?? 0} {t('assets.noResults').toLowerCase()}</>}
           </p>
@@ -124,14 +124,14 @@ export default async function AssetsPage({
       <div style={{ padding: '0 20px 20px' }}>
         {!assets || assets.length === 0 ? (
           <div style={{
-            background: 'white', borderRadius: 16, padding: 40,
-            border: '1px solid #c8d4e8', textAlign: 'center',
+            background: 'var(--ds-surface, white)', borderRadius: 16, padding: 40,
+            border: '1px solid var(--ds-border, #c8d4e8)', textAlign: 'center',
           }}>
             <div style={{ fontSize: 40, marginBottom: 12 }}>📦</div>
-            <p style={{ fontWeight: 700, color: '#000', fontSize: 16, margin: '0 0 8px' }}>
+            <p style={{ fontWeight: 700, color: 'var(--ds-text, #000)', fontSize: 16, margin: '0 0 8px' }}>
               {hasFilters || q ? t('assets.noResults') : t('assets.noAssets')}
             </p>
-            <p style={{ color: '#666', fontSize: 14, margin: '0 0 20px' }}>
+            <p style={{ color: 'var(--ds-text3, #666)', fontSize: 14, margin: '0 0 20px' }}>
               {hasFilters || q ? t('assets.noResults') : t('assets.noAssetsDesc')}
             </p>
             {!hasFilters && !q && (
@@ -149,15 +149,15 @@ export default async function AssetsPage({
             {assets.map(asset => (
               <Link key={asset.id} href={`/assets/${asset.id}`} style={{ textDecoration: 'none' }}>
                 <div style={{
-                  background: 'white', borderRadius: 14, padding: '14px 16px',
-                  border: '1px solid #c8d4e8',
+                  background: 'var(--ds-surface, white)', borderRadius: 14, padding: '14px 16px',
+                  border: '1px solid var(--ds-border, #c8d4e8)',
                   display: 'flex', alignItems: 'center', gap: 14,
-                  boxShadow: '0 1px 3px rgba(0,51,102,0.06)',
+                  boxShadow: '0 1px 3px var(--ds-shadow, rgba(0,51,102,0.06))',
                 }}>
                   {/* Thumbnail */}
                   <div style={{
                     width: 56, height: 56, borderRadius: 10, flexShrink: 0,
-                    backgroundColor: '#f4f6f9', border: '1px solid #c8d4e8',
+                    backgroundColor: 'var(--ds-bg, #f4f6f9)', border: '1px solid var(--ds-border, #c8d4e8)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     overflow: 'hidden',
                   }}>
@@ -166,11 +166,11 @@ export default async function AssetsPage({
 
                   {/* Info */}
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ fontWeight: 700, color: '#000', fontSize: 15, margin: '0 0 3px',
+                    <p style={{ fontWeight: 700, color: 'var(--ds-text, #000)', fontSize: 15, margin: '0 0 3px',
                       overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {asset.title}
                     </p>
-                    <p style={{ color: '#666', fontSize: 12, margin: '0 0 6px' }}>
+                    <p style={{ color: 'var(--ds-text3, #666)', fontSize: 12, margin: '0 0 6px' }}>
                       {[asset.article_number, asset.category].filter(Boolean).join(' · ')}
                     </p>
                     {(() => {

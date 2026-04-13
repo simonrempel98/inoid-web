@@ -988,6 +988,20 @@
           "Berekeningen opslaan met naam, notitie en geschiedenis",
           "Optionele aanvullende module — activeerbaar door beheerder"
         ]
+      },
+      "f13": {
+        "title": "AI asset-import",
+        "badge": "AI",
+        "desc": "Upload foto's, PDF's of documenten en laat de AI automatisch alle assetgegevens herkennen en invullen.",
+        "points": [
+          "Slepen en neerzetten of bestandsselectie: afbeeldingen, PDF, DOCX, PPTX en meer",
+          "Automatische beeldverbetering: contrast, scherpte en kleuren geoptimaliseerd",
+          "AI (Claude Vision) herkent: naam, fabrikant, artikelnummer, serienummer, categorie",
+          "Technische en commerciële gegevens worden ook geëxtraheerd",
+          "3-staps wizard: Uploaden → AI-analyse → Controleren en aanmaken",
+          "Alle herkende velden kunnen vóór opslaan handmatig worden gecorrigeerd",
+          "Afbeeldingen worden rechtstreeks aan het asset gekoppeld"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "Nog vragen?",
       "contactDesc": "Neem contact op met uw beheerder of de INOid-support via Inomet GmbH.",
       "t6": "INOid is volledig geoptimaliseerd voor smartphones: alle meerkolomsindelingen worden op mobiel teruggebracht tot één kolom, de INOai-chat vult het zichtbare schermgebied exact, en lange technische termen worden altijd correct afgebroken.",
-      "t7": "In de Flexo-module: sla uw inkten één keer op met dichtheid en prijs — de Anilox-rekenmachine vult de dichtheid automatisch in en berekent kosten per uur en per lopende meter."
+      "t7": "In de Flexo-module: sla uw inkten één keer op met dichtheid en prijs — de Anilox-rekenmachine vult de dichtheid automatisch in en berekent kosten per uur en per lopende meter.",
+      "t8": "AI-import: Fotografeer een typeplaatje of upload een datasheet — de AI vult alle velden automatisch in. Je controleert, corrigeert en slaat op met één klik."
     }
   },
   "eventTypes": {

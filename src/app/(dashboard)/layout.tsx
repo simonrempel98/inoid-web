@@ -4,6 +4,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { BottomNav } from '@/components/nav-bottom'
 import { Sidebar } from '@/components/nav-sidebar'
+import { DashboardThemeProvider } from '@/components/dashboard-theme-provider'
+import { DashboardThemeToggle } from '@/components/dashboard-theme-toggle'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -31,8 +33,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   }
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f4f6f9', fontFamily: 'Arial, sans-serif' }}>
-
+    <DashboardThemeProvider>
       {/* Desktop Sidebar – nur auf md+ sichtbar (via CSS class) */}
       <div className="hidden md:block">
         <Sidebar
@@ -46,14 +47,15 @@ export default async function DashboardLayout({ children }: { children: React.Re
       {/* Mobile Header */}
       <header className="md:hidden" style={{
         position: 'sticky', top: 0, zIndex: 40,
-        backgroundColor: 'white',
-        borderBottom: '1px solid #c8d4e8',
+        backgroundColor: 'var(--ds-nav-bg)',
+        borderBottom: '1px solid var(--ds-nav-border)',
         padding: '10px 16px',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         <Link href="/dashboard" style={{ display: 'flex' }}>
           <Image src="/Inometa_INOid_21x13mm.png" alt="INOid" width={70} height={43} style={{ objectFit: 'contain' }} />
         </Link>
+        <DashboardThemeToggle style={{ background: 'var(--ds-surface2)', border: '1px solid var(--ds-border)', color: 'var(--ds-text3)' }} />
       </header>
 
       {/* Main Content */}
@@ -70,7 +72,6 @@ export default async function DashboardLayout({ children }: { children: React.Re
           avatarUrl={(profile as any)?.avatar_url ?? undefined}
         />
       </div>
-
-    </div>
+    </DashboardThemeProvider>
   )
 }

@@ -988,6 +988,20 @@
           "Uloženie výpočtov s názvom, poznámkou a históriou",
           "Voliteľný doplnkový modul — aktivovateľný správcom"
         ]
+      },
+      "f13": {
+        "title": "AI import majetku",
+        "badge": "AI",
+        "desc": "Nahrajte fotografie, PDF alebo dokumenty a nechajte AI automaticky rozpoznať a vyplniť všetky údaje majetku.",
+        "points": [
+          "Drag & Drop alebo výber súboru: obrázky, PDF, DOCX, PPTX a ďalšie",
+          "Automatické vylepšenie obrázka: kontrast, ostrosť a farby sú optimalizované",
+          "AI (Claude Vision) rozpozná: názov, výrobca, číslo artiklu, sériové číslo, kategória",
+          "Extrahujú sa aj technické a obchodné údaje",
+          "3-krokový sprievodca: Nahranie → AI analýza → Kontrola a vytvorenie",
+          "Všetky rozpoznané polia je možné manuálne opraviť pred uložením",
+          "Obrázky sú priamo prepojené s majetkom"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "Máte ďalšie otázky?",
       "contactDesc": "Obráťte sa na svojho administrátora alebo kontaktujte podporu INOid priamo cez Inomet GmbH.",
       "t6": "INOid je plne optimalizovaný pre smartfóny: všetky viacstĺpcové rozloženia sa na mobile zbalia do jedného stĺpca, chat INOai presne vypĺňa viditeľnú plochu obrazovky a dlhé technické pojmy sa vždy správne zalomia.",
-      "t7": "V module Flexo: zadajte farby raz s hustotou a cenou — kalkulačka Anilox automaticky vyplní hustotu a vypočíta náklady na hodinu a na lineárny meter."
+      "t7": "V module Flexo: zadajte farby raz s hustotou a cenou — kalkulačka Anilox automaticky vyplní hustotu a vypočíta náklady na hodinu a na lineárny meter.",
+      "t8": "AI import: Odfotografujte typový štítok alebo nahrajte technický list — AI automaticky vyplní všetky polia. Skontrolujete, opravíte a uložíte jedným kliknutím."
     }
   },
   "eventTypes": {

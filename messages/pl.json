@@ -988,6 +988,20 @@
           "Zapisywanie obliczeń z nazwą, notatką i historią",
           "Opcjonalny moduł dodatkowy — aktywowany przez administratora"
         ]
+      },
+      "f13": {
+        "title": "Import zasobów AI",
+        "badge": "AI",
+        "desc": "Prześlij zdjęcia, pliki PDF lub dokumenty i pozwól AI automatycznie wykryć i wypełnić wszystkie dane zasobu.",
+        "points": [
+          "Przeciągnij i upuść lub wybór pliku: obrazy, PDF, DOCX, PPTX i inne",
+          "Automatyczne ulepszanie obrazu: kontrast, ostrość i kolory zoptymalizowane",
+          "AI (Claude Vision) wykrywa: nazwa, producent, numer artykułu, numer seryjny, kategoria",
+          "Dane techniczne i handlowe są również wyodrębniane",
+          "3-krokowy kreator: Prześlij → Analiza AI → Sprawdź i utwórz",
+          "Wszystkie wykryte pola można ręcznie poprawić przed zapisaniem",
+          "Obrazy są bezpośrednio połączone z zasobem"
+        ]
       }
     },
     "roles": {
@@ -1124,7 +1138,8 @@
       "contactTitle": "Masz jeszcze pytania?",
       "contactDesc": "Skontaktuj się z administratorem lub wsparciem INOid przez Inomet GmbH.",
       "t6": "INOid jest w pełni zoptymalizowany pod smartfony: wszystkie wielokolumnowe układy zwijają się do jednej kolumny na urządzeniach mobilnych, czat INOai wypełnia dokładnie widoczny obszar ekranu, a długie terminy techniczne zawsze zawijają się poprawnie.",
-      "t7": "W module Flexo: dodaj swoje tusze raz z gęstością i ceną — kalkulator Anilox automatycznie wstawi gęstość i obliczy koszty na godzinę i na metr bieżący."
+      "t7": "W module Flexo: dodaj swoje tusze raz z gęstością i ceną — kalkulator Anilox automatycznie wstawi gęstość i obliczy koszty na godzinę i na metr bieżący.",
+      "t8": "Import AI: Sfotografuj tabliczkę znamionową lub prześlij kartę techniczną — AI automatycznie wypełnia wszystkie pola. Sprawdzasz, poprawiasz i zapisujesz jednym kliknięciem."
     }
   },
   "eventTypes": {

@@ -29,9 +29,9 @@ type ProgressBarProps = { value: number; max: number; color?: string }
 function StatCard({ label, value, sub, icon, color, accent, trend }: StatCardProps) {
   return (
     <div className="db-stat-card" style={{
-      background: 'white', borderRadius: 16, padding: '20px',
-      border: '1px solid #e8edf5',
-      boxShadow: '0 2px 8px rgba(0,51,102,0.06)',
+      background: 'var(--ds-surface, white)', borderRadius: 16, padding: '20px',
+      border: '1px solid var(--ds-border, #e8edf5)',
+      boxShadow: '0 2px 8px var(--ds-shadow, rgba(0,51,102,0.06))',
       display: 'flex', flexDirection: 'column', gap: 12,
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
@@ -54,11 +54,11 @@ function StatCard({ label, value, sub, icon, color, accent, trend }: StatCardPro
         )}
       </div>
       <div>
-        <div className="db-stat-val" style={{ fontSize: 28, fontWeight: 800, color: accent ?? '#003366', lineHeight: 1 }}>
+        <div className="db-stat-val" style={{ fontSize: 28, fontWeight: 800, color: accent ?? 'var(--ds-text, #003366)', lineHeight: 1 }}>
           {value}
         </div>
-        <div style={{ fontSize: 13, color: '#555', marginTop: 4, fontWeight: 600 }}>{label}</div>
-        {sub && <div style={{ fontSize: 11, color: '#999', marginTop: 2 }}>{sub}</div>}
+        <div style={{ fontSize: 13, color: 'var(--ds-text3, #555)', marginTop: 4, fontWeight: 600 }}>{label}</div>
+        {sub && <div style={{ fontSize: 11, color: 'var(--ds-text4, #999)', marginTop: 2 }}>{sub}</div>}
       </div>
     </div>
   )
@@ -72,10 +72,10 @@ function ProgressBar({ value, max, color = '#0099cc' }: ProgressBarProps) {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 5, fontSize: 12 }}>
-        <span style={{ color: '#555', fontWeight: 600 }}>{value} / {max}</span>
+        <span style={{ color: 'var(--ds-text3, #555)', fontWeight: 600 }}>{value} / {max}</span>
         <span style={{ fontWeight: 700, color: barColor }}>{pct} %</span>
       </div>
-      <div style={{ height: 8, borderRadius: 8, backgroundColor: '#e8edf5', overflow: 'hidden' }}>
+      <div className="ds-track" style={{ height: 8, borderRadius: 8, backgroundColor: 'var(--ds-border, #e8edf5)', overflow: 'hidden' }}>
         <div style={{ height: '100%', width: `${pct}%`, borderRadius: 8, backgroundColor: barColor, transition: 'width 0.5s ease' }} />
       </div>
     </div>
@@ -202,7 +202,7 @@ export default async function DashboardPage() {
   const roleLabel = profile?.is_platform_admin ? 'Superadmin' : (ROLE_LABEL_MAP[appRole] ?? appRole)
 
   return (
-    <div style={{ padding: '28px 20px 40px', maxWidth: 1100, fontFamily: 'Arial, sans-serif' }} className="db-wrap">
+    <div style={{ padding: '28px 20px 40px', maxWidth: 1100, fontFamily: 'Arial, sans-serif', background: 'var(--ds-bg)', minHeight: '100vh' }} className="db-wrap ds-page-bg">
     <style>{`
       @media (max-width: 640px) {
         .db-wrap { padding: 18px 14px 36px !important; }
@@ -229,7 +229,7 @@ export default async function DashboardPage() {
       <div style={{ marginBottom: 28, display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 }}>
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
-            <span style={{ fontSize: 18, fontWeight: 700, color: '#1a2940' }} className="db-greeting">
+            <span style={{ fontSize: 18, fontWeight: 700, color: 'var(--ds-text, #1a2940)' }} className="db-greeting">
               {profile?.full_name ?? user.email}
             </span>
             <span style={{
@@ -300,9 +300,9 @@ export default async function DashboardPage() {
       <div style={{ display: 'grid', gridTemplateColumns: showWartung ? '1fr 1fr' : '1fr', gap: 14, marginBottom: 28 }} className="db-mid">
 
         {/* Asset-Auslastung */}
-        <div style={{
-          background: 'white', borderRadius: 16, padding: '20px',
-          border: '1px solid #e8edf5', boxShadow: '0 2px 8px rgba(0,51,102,0.06)',
+        <div className="ds-panel" style={{
+          background: 'var(--ds-surface, white)', borderRadius: 16, padding: '20px',
+          border: '1px solid var(--ds-border, #e8edf5)', boxShadow: '0 2px 8px var(--ds-shadow, rgba(0,51,102,0.06))',
         }}>
           <SectionTitle>{t('dashboard.sections.assetUtilization')}</SectionTitle>
           <ProgressBar value={totalAssets} max={assetLimit} />
@@ -318,14 +318,14 @@ export default async function DashboardPage() {
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4, fontSize: 12 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                       <div style={{ width: 8, height: 8, borderRadius: '50%', background: s.color }} />
-                      <span style={{ color: '#444', fontWeight: 600 }}>{s.label}</span>
+                      <span style={{ color: 'var(--ds-text2, #444)', fontWeight: 600 }}>{s.label}</span>
                     </div>
                     <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                       <span style={{ fontWeight: 800, color: s.color, fontSize: 14 }}>{s.count}</span>
-                      <span style={{ color: '#aab8cc', fontSize: 11 }}>{pct} %</span>
+                      <span style={{ color: 'var(--ds-text4, #aab8cc)', fontSize: 11 }}>{pct} %</span>
                     </div>
                   </div>
-                  <div style={{ height: 6, borderRadius: 6, backgroundColor: '#e8edf5', overflow: 'hidden' }}>
+                  <div className="ds-track" style={{ height: 6, borderRadius: 6, backgroundColor: 'var(--ds-border, #e8edf5)', overflow: 'hidden' }}>
                     <div style={{ height: '100%', width: `${pct}%`, borderRadius: 6, backgroundColor: s.color, transition: 'width 0.5s ease' }} />
                   </div>
                 </div>
@@ -336,9 +336,9 @@ export default async function DashboardPage() {
 
         {/* Wartungsübersicht */}
         {showWartung && (
-          <div style={{
-            background: 'white', borderRadius: 16, padding: '20px',
-            border: '1px solid #e8edf5', boxShadow: '0 2px 8px rgba(0,51,102,0.06)',
+          <div className="ds-panel" style={{
+            background: 'var(--ds-surface, white)', borderRadius: 16, padding: '20px',
+            border: '1px solid var(--ds-border, #e8edf5)', boxShadow: '0 2px 8px var(--ds-shadow, rgba(0,51,102,0.06))',
           }}>
             <SectionTitle>{t('dashboard.sections.maintenanceOverview')}</SectionTitle>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
@@ -370,22 +370,22 @@ export default async function DashboardPage() {
       <div style={{ display: 'grid', gridTemplateColumns: showServiceheft ? '1fr 2fr' : '1fr', gap: 14, marginBottom: 28 }} className="db-bot">
 
         {/* Top-Kategorien */}
-        <div style={{
-          background: 'white', borderRadius: 16, padding: '20px',
-          border: '1px solid #e8edf5', boxShadow: '0 2px 8px rgba(0,51,102,0.06)',
+        <div className="ds-panel" style={{
+          background: 'var(--ds-surface, white)', borderRadius: 16, padding: '20px',
+          border: '1px solid var(--ds-border, #e8edf5)', boxShadow: '0 2px 8px var(--ds-shadow, rgba(0,51,102,0.06))',
         }}>
           <SectionTitle>{t('dashboard.sections.assetsByCategory')}</SectionTitle>
           {topCategories.length === 0 ? (
-            <p style={{ fontSize: 13, color: '#999', margin: 0 }}>{t('dashboard.sections.noCategories')}</p>
+            <p style={{ fontSize: 13, color: 'var(--ds-text4, #999)', margin: 0 }}>{t('dashboard.sections.noCategories')}</p>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
               {topCategories.map(([name, count]) => (
                 <div key={name}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4, fontSize: 12 }}>
-                    <span style={{ color: '#444', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '70%' }}>{name}</span>
-                    <span style={{ color: '#003366', fontWeight: 700 }}>{count}</span>
+                    <span style={{ color: 'var(--ds-text2, #444)', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '70%' }}>{name}</span>
+                    <span style={{ color: 'var(--ds-text, #003366)', fontWeight: 700 }}>{count}</span>
                   </div>
-                  <div style={{ height: 5, borderRadius: 5, backgroundColor: '#e8edf5', overflow: 'hidden' }}>
+                  <div className="ds-track" style={{ height: 5, borderRadius: 5, backgroundColor: 'var(--ds-border, #e8edf5)', overflow: 'hidden' }}>
                     <div style={{
                       height: '100%', borderRadius: 5,
                       width: `${totalAssets > 0 ? (count / totalAssets) * 100 : 0}%`,
@@ -400,14 +400,14 @@ export default async function DashboardPage() {
 
         {/* Letzte Aktivitäten */}
         {showServiceheft && (
-          <div style={{
-            background: 'white', borderRadius: 16, padding: '20px',
-            border: '1px solid #e8edf5', boxShadow: '0 2px 8px rgba(0,51,102,0.06)',
+          <div className="ds-panel" style={{
+            background: 'var(--ds-surface, white)', borderRadius: 16, padding: '20px',
+            border: '1px solid var(--ds-border, #e8edf5)', boxShadow: '0 2px 8px var(--ds-shadow, rgba(0,51,102,0.06))',
             gridColumn: 'span 1',
           }}>
             <SectionTitle>{t('dashboard.sections.recentActivity')}</SectionTitle>
             {!recentEvents || recentEvents.length === 0 ? (
-              <p style={{ fontSize: 13, color: '#999', margin: 0 }}>{t('dashboard.sections.noActivity')}</p>
+              <p style={{ fontSize: 13, color: 'var(--ds-text4, #999)', margin: 0 }}>{t('dashboard.sections.noActivity')}</p>
             ) : (
               <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
                 {(recentEvents as Array<{
@@ -420,18 +420,18 @@ export default async function DashboardPage() {
                   <div key={e.id} style={{
                     display: 'flex', alignItems: 'center', gap: 12,
                     padding: '9px 0',
-                    borderTop: i > 0 ? '1px solid #f0f4f8' : 'none',
+                    borderTop: i > 0 ? '1px solid var(--ds-border2, #f0f4f8)' : 'none',
                   }}>
                     <div style={{
                       width: 32, height: 32, borderRadius: 8, flexShrink: 0,
-                      background: '#f0f6ff',
+                      background: 'var(--ds-surface2, #f0f6ff)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       fontSize: 15,
                     }}>
                       {eventTypeIcon[e.event_type] ?? '📝'}
                     </div>
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 13, fontWeight: 700, color: '#1a2940', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: 'var(--ds-text, #1a2940)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {e.title}
                       </div>
                       <div style={{ fontSize: 11, color: '#96aed2' }}>
@@ -505,9 +505,9 @@ export default async function DashboardPage() {
         </div>
 
         {/* Schnell-Links */}
-        <div style={{
-          background: 'white', borderRadius: 16, padding: '20px',
-          border: '1px solid #e8edf5', boxShadow: '0 2px 8px rgba(0,51,102,0.06)',
+        <div className="ds-panel" style={{
+          background: 'var(--ds-surface, white)', borderRadius: 16, padding: '20px',
+          border: '1px solid var(--ds-border, #e8edf5)', boxShadow: '0 2px 8px var(--ds-shadow, rgba(0,51,102,0.06))',
         }}>
           <SectionTitle>{t('dashboard.sections.quickAccess')}</SectionTitle>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }} className="db-quicklinks">
@@ -522,11 +522,11 @@ export default async function DashboardPage() {
             ] as { href: string; label: string; icon: React.ReactNode; color: string; show: boolean }[])
               .filter(l => l.show)
               .map(l => (
-              <a key={l.href} href={l.href} style={{
+              <a key={l.href} href={l.href} className="ds-quicklink" style={{
                 display: 'flex', alignItems: 'center', gap: 9,
                 padding: '11px 12px', borderRadius: 10,
-                background: '#f8faff', border: '1px solid #e8edf5',
-                color: '#1a2940', textDecoration: 'none',
+                background: 'var(--ds-surface2, #f8faff)', border: '1px solid var(--ds-border, #e8edf5)',
+                color: 'var(--ds-text, #1a2940)', textDecoration: 'none',
                 fontSize: 13, fontWeight: 600,
                 transition: 'background 0.15s',
               }}>

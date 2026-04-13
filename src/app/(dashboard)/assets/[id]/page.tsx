@@ -78,7 +78,7 @@ export default async function AssetDetailPage({
   }
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', paddingBottom: 40 }}>
+    <div style={{ fontFamily: 'Arial, sans-serif', paddingBottom: 40, background: 'var(--ds-bg)', minHeight: '100vh' }}>
 
       {/* Zurück + Status – sticky, überlagert die Galerie */}
       <div style={{ position: 'sticky', top: 0, height: 0, overflow: 'visible', zIndex: 50 }}>
@@ -117,7 +117,7 @@ export default async function AssetDetailPage({
 
       {/* Titel + Nummern */}
       <div style={{ padding: '16px 16px 0' }}>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 6px' }}>
+        <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--ds-text, #000)', margin: '0 0 6px' }}>
           {asset.title}
         </h1>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 12 }}>
@@ -132,7 +132,7 @@ export default async function AssetDetailPage({
           )}
         </div>
         {asset.description && (
-          <p style={{ color: '#666', fontSize: 14, margin: '0 0 16px', lineHeight: 1.5 }}>
+          <p style={{ color: 'var(--ds-text3, #666)', fontSize: 14, margin: '0 0 16px', lineHeight: 1.5 }}>
             {asset.description}
           </p>
         )}
@@ -173,17 +173,17 @@ export default async function AssetDetailPage({
       {/* Letzte Service-Einträge */}
       {showServiceheft && <div style={{ padding: '0 16px 16px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <Link href={`/assets/${id}/service`} style={{ fontSize: 15, fontWeight: 700, color: '#000', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}><Wrench size={14} /> {t('service.title')}</Link>
+          <Link href={`/assets/${id}/service`} style={{ fontSize: 15, fontWeight: 700, color: 'var(--ds-text, #000)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 6 }}><Wrench size={14} /> {t('service.title')}</Link>
           <Link href={`/assets/${id}/service`} style={{ fontSize: 13, color: '#0099cc', textDecoration: 'none', fontWeight: 600 }}>
             {t('assets.detail.showAll')}
           </Link>
         </div>
         {!events || events.length === 0 ? (
           <div style={{
-            background: 'white', borderRadius: 12, padding: '20px 16px',
-            border: '1px solid #c8d4e8', textAlign: 'center',
+            background: 'var(--ds-surface, white)', borderRadius: 12, padding: '20px 16px',
+            border: '1px solid var(--ds-border, #c8d4e8)', textAlign: 'center',
           }}>
-            <p style={{ color: '#999', fontSize: 13, margin: '0 0 12px' }}>{t('service.timeline.noEntries')}</p>
+            <p style={{ color: 'var(--ds-text4, #999)', fontSize: 13, margin: '0 0 12px' }}>{t('service.timeline.noEntries')}</p>
             {perms.editService && (
               <Link href={`/assets/${id}/service/neu`} style={{
                 backgroundColor: '#003366', color: 'white',
@@ -198,19 +198,18 @@ export default async function AssetDetailPage({
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
             {events.map(ev => (
               <div key={ev.id} style={{
-                background: 'white', borderRadius: 12, padding: '12px 14px',
-                border: '1px solid #c8d4e8',
+                background: 'var(--ds-surface, white)', borderRadius: 12, padding: '12px 14px',
+                border: '1px solid var(--ds-border, #c8d4e8)',
                 display: 'flex', gap: 12, alignItems: 'center',
               }}>
                 <div style={{
                   width: 36, height: 36, borderRadius: 10, flexShrink: 0,
-                  backgroundColor: '#f0f4ff',
+                  backgroundColor: 'var(--ds-surface2, #f0f4ff)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   color: '#003366',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}><Wrench size={16} /></div>
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{ fontWeight: 700, fontSize: 13, color: '#000', margin: '0 0 2px',
+                  <p style={{ fontWeight: 700, fontSize: 13, color: 'var(--ds-text, #000)', margin: '0 0 2px',
                     overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {ev.title}
                   </p>
@@ -225,9 +224,9 @@ export default async function AssetDetailPage({
             {perms.editService && (
             <Link href={`/assets/${id}/service/neu`} style={{
               display: 'block', textAlign: 'center',
-              backgroundColor: 'white', color: '#003366',
+              backgroundColor: 'var(--ds-surface, white)', color: '#003366',
               padding: '10px', borderRadius: 12,
-              border: '1px dashed #c8d4e8',
+              border: '1px dashed var(--ds-border, #c8d4e8)',
               textDecoration: 'none', fontSize: 13, fontWeight: 700,
             }}>
               {t('assets.detail.newEntry')}
@@ -247,10 +246,10 @@ export default async function AssetDetailPage({
 
       {/* QR Code + NFC */}
       <div style={{ padding: '0 16px 16px' }}>
-        <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 6 }}><Smartphone size={14} /> {t('assets.detail.qrNfc')}</h2>
+        <h2 style={{ fontSize: 15, fontWeight: 700, color: 'var(--ds-text, #000)', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 6 }}><Smartphone size={14} /> {t('assets.detail.qrNfc')}</h2>
         <div style={{
-          background: 'white', borderRadius: 14, padding: 20,
-          border: '1px solid #c8d4e8',
+          background: 'var(--ds-surface, white)', borderRadius: 14, padding: 20,
+          border: '1px solid var(--ds-border, #c8d4e8)',
           display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap',
         }}>
           {asset.qr_code ? (
@@ -258,8 +257,8 @@ export default async function AssetDetailPage({
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               <div style={{
-                width: 160, height: 160, borderRadius: 12, backgroundColor: '#f4f6f9',
-                border: '1px solid #c8d4e8', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                width: 160, height: 160, borderRadius: 12, backgroundColor: 'var(--ds-bg, #f4f6f9)',
+                border: '1px solid var(--ds-border, #c8d4e8)', display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
                 <span style={{ color: '#96aed2', fontSize: 12 }}>{t('assets.detail.noQr')}</span>
               </div>
@@ -267,7 +266,7 @@ export default async function AssetDetailPage({
                 <p style={{ fontSize: 11, color: '#96aed2', fontWeight: 700, margin: '0 0 4px', fontFamily: 'Arial, sans-serif' }}>
                   UUID / NFC-Tag
                 </p>
-                <p style={{ fontSize: 11, color: '#003366', fontFamily: 'monospace', wordBreak: 'break-all', margin: 0 }}>
+                <p style={{ fontSize: 11, color: 'var(--ds-text, #003366)', fontFamily: 'monospace', wordBreak: 'break-all', margin: 0 }}>
                   {asset.id}
                 </p>
               </div>
@@ -301,20 +300,20 @@ export default async function AssetDetailPage({
 
 const chipStyle: React.CSSProperties = {
   display: 'inline-block', fontSize: 11, padding: '3px 10px', borderRadius: 20,
-  backgroundColor: '#f4f6f9', color: '#666666', border: '1px solid #c8d4e8',
+  backgroundColor: 'var(--ds-surface2, #f4f6f9)', color: 'var(--ds-text3, #666666)', border: '1px solid var(--ds-border, #c8d4e8)',
   fontFamily: 'Arial, sans-serif',
 }
 
 function InfoCard({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
     <div style={{
-      background: 'white', borderRadius: 12, padding: '12px 14px',
-      border: '1px solid #c8d4e8',
+      background: 'var(--ds-surface, white)', borderRadius: 12, padding: '12px 14px',
+      border: '1px solid var(--ds-border, #c8d4e8)',
     }}>
       <p style={{ fontSize: 11, color: '#96aed2', margin: '0 0 3px', fontWeight: 700, fontFamily: 'Arial, sans-serif', display: 'flex', alignItems: 'center', gap: 4 }}>
         {icon}{label}
       </p>
-      <p style={{ fontSize: 13, color: '#000', margin: 0, fontWeight: 600, fontFamily: 'Arial, sans-serif',
+      <p style={{ fontSize: 13, color: 'var(--ds-text, #000)', margin: 0, fontWeight: 600, fontFamily: 'Arial, sans-serif',
         overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
         {value}
       </p>
@@ -325,23 +324,23 @@ function InfoCard({ icon, label, value }: { icon: React.ReactNode; label: string
 function DataGrid({ title, icon, entries }: { title: string; icon: React.ReactNode; entries: [string, string][] }) {
   return (
     <div style={{ padding: '0 16px 16px' }}>
-      <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 6 }}>{icon}{title}</h2>
+      <h2 style={{ fontSize: 15, fontWeight: 700, color: 'var(--ds-text, #000)', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 6 }}>{icon}{title}</h2>
       <div className="rg-3" style={{
-        background: 'white', borderRadius: 14, border: '1px solid #c8d4e8',
+        background: 'var(--ds-surface, white)', borderRadius: 14, border: '1px solid var(--ds-border, #c8d4e8)',
         display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
         overflow: 'hidden',
       }}>
         {entries.map(([key, value], i) => (
           <div key={key} style={{
             padding: '12px 14px',
-            borderRight: (i + 1) % 3 !== 0 ? '1px solid #c8d4e8' : 'none',
-            borderBottom: i < entries.length - (entries.length % 3 === 0 ? 3 : entries.length % 3) ? '1px solid #c8d4e8' : 'none',
+            borderRight: (i + 1) % 3 !== 0 ? '1px solid var(--ds-border, #c8d4e8)' : 'none',
+            borderBottom: i < entries.length - (entries.length % 3 === 0 ? 3 : entries.length % 3) ? '1px solid var(--ds-border, #c8d4e8)' : 'none',
           }}>
             <p style={{ fontSize: 11, color: '#96aed2', fontWeight: 700, margin: '0 0 3px', fontFamily: 'Arial, sans-serif',
               overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {key}
             </p>
-            <p style={{ fontSize: 14, color: '#000', fontWeight: 700, margin: 0, fontFamily: 'Arial, sans-serif',
+            <p style={{ fontSize: 14, color: 'var(--ds-text, #000)', fontWeight: 700, margin: 0, fontFamily: 'Arial, sans-serif',
               overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
               {value}
             </p>
