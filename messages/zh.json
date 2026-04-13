@@ -807,7 +807,7 @@
       "sub": "INOid 是您的数字资产管理系统 — 从投入使用到退役。5分钟即可准备就绪。",
       "s1val": "5 min",
       "s1label": "到第一个资产",
-      "s2val": "12+",
+      "s2val": "14+",
       "s2label": "功能区域",
       "s3val": "100%",
       "s3label": "基于浏览器"
@@ -1002,6 +1002,20 @@
           "保存前可手动更正所有识别的字段",
           "图像直接与资产关联并上传"
         ]
+      },
+      "f14": {
+        "title": "Real-time Sensor Data",
+        "badge": "IoT",
+        "desc": "Connect machines and systems directly to INOid. Current measured values, sparkline trend charts and live status for every asset — updated automatically every few seconds.",
+        "points": [
+          "Sensor types: temperature, vibration, pressure, current, power, RPM, CO₂ and more",
+          "Sparkline trend chart per sensor — fades elegantly from oldest to newest reading",
+          "Live status indicator: green WiFi icon when data is less than 5 minutes old",
+          "REST API with Bearer token: simple integration for any IoT device or PLC",
+          "Batch ingestion: send multiple sensor readings in a single request",
+          "Supabase Realtime: new values appear instantly without page reload",
+          "Optional add-on module — activated per organization by admin"
+        ]
       }
     },
     "roles": {
@@ -1139,7 +1153,8 @@
       "contactDesc": "联系您的管理员或通过Inomet GmbH直接联系INOid支持团队。",
       "t6": "INOid 完全针对智能手机进行了优化：所有多列布局在移动端折叠为单列，INOai 聊天精确填充可见屏幕区域，长技术术语始终正确换行。",
       "t7": "在Flexo模块中：一次性录入油墨的密度和价格 — 网纹辊计算器会自动填入密度，并计算每小时和每线性米的成本。",
-      "t8": "AI导入：拍摄铭牌或上传数据表 — AI自动填写所有字段。您审查、修正后一键保存。"
+      "t8": "AI导入：拍摄铭牌或上传数据表 — AI自动填写所有字段。您审查、修正后一键保存。",
+      "t9": "Sensor data: connect any machine via REST API with a Bearer token. Activate the Sensorik module per organization in the admin panel — then assign sensors to assets and monitor live values with real-time sparkline charts."
     }
   },
   "eventTypes": {

@@ -807,7 +807,7 @@
       "sub": "INOid er ditt digitale driftsmiddelstyringssystem — fra idriftsetting til avvikling. Klar på 5 minutter.",
       "s1val": "5 min",
       "s1label": "til første ressurs",
-      "s2val": "12+",
+      "s2val": "14+",
       "s2label": "funksjonsområder",
       "s3val": "100%",
       "s3label": "nettleserbasert"
@@ -1002,6 +1002,20 @@
           "Alle gjenkjente felt kan korrigeres manuelt før lagring",
           "Bilder kobles direkte til eiendelen"
         ]
+      },
+      "f14": {
+        "title": "Real-time Sensor Data",
+        "badge": "IoT",
+        "desc": "Connect machines and systems directly to INOid. Current measured values, sparkline trend charts and live status for every asset — updated automatically every few seconds.",
+        "points": [
+          "Sensor types: temperature, vibration, pressure, current, power, RPM, CO₂ and more",
+          "Sparkline trend chart per sensor — fades elegantly from oldest to newest reading",
+          "Live status indicator: green WiFi icon when data is less than 5 minutes old",
+          "REST API with Bearer token: simple integration for any IoT device or PLC",
+          "Batch ingestion: send multiple sensor readings in a single request",
+          "Supabase Realtime: new values appear instantly without page reload",
+          "Optional add-on module — activated per organization by admin"
+        ]
       }
     },
     "roles": {
@@ -1139,7 +1153,8 @@
       "contactDesc": "Kontakt administratoren din eller nå INOid-support direkte via Inomet GmbH.",
       "t6": "INOid er fullt optimalisert for smarttelefoner: alle flerspalte-oppsett komprimeres til én kolonne på mobil, INOai-chatten fyller nøyaktig det synlige skjermområdet og lange tekniske begreper brytes alltid riktig.",
       "t7": "I Flexo-modulen: registrer blekkene dine én gang med tetthet og pris — Anilox-kalkulatoren fyller inn tettheten automatisk og beregner kostnader per time og per løpende meter.",
-      "t8": "AI-import: Fotograf et typeskilt eller last opp et datablad — AI fyller ut alle felt automatisk. Du gjennomgår, korrigerer og lagrer med ett klikk."
+      "t8": "AI-import: Fotograf et typeskilt eller last opp et datablad — AI fyller ut alle felt automatisk. Du gjennomgår, korrigerer og lagrer med ett klikk.",
+      "t9": "Sensor data: connect any machine via REST API with a Bearer token. Activate the Sensorik module per organization in the admin panel — then assign sensors to assets and monitor live values with real-time sparkline charts."
     }
   },
   "eventTypes": {

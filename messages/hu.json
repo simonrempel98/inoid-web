@@ -807,7 +807,7 @@
       "sub": "Az INOid az Ön digitális eszközkezelő rendszere — üzembe helyezéstől a kivonásig. 5 percen belül kész.",
       "s1val": "5 min",
       "s1label": "az első eszközig",
-      "s2val": "12+",
+      "s2val": "14+",
       "s2label": "funkciós terület",
       "s3val": "100%",
       "s3label": "böngészőalapú"
@@ -1002,6 +1002,20 @@
           "Minden felismert mező manuálisan javítható mentés előtt",
           "A képek közvetlenül az eszközhöz kapcsolódnak"
         ]
+      },
+      "f14": {
+        "title": "Real-time Sensor Data",
+        "badge": "IoT",
+        "desc": "Connect machines and systems directly to INOid. Current measured values, sparkline trend charts and live status for every asset — updated automatically every few seconds.",
+        "points": [
+          "Sensor types: temperature, vibration, pressure, current, power, RPM, CO₂ and more",
+          "Sparkline trend chart per sensor — fades elegantly from oldest to newest reading",
+          "Live status indicator: green WiFi icon when data is less than 5 minutes old",
+          "REST API with Bearer token: simple integration for any IoT device or PLC",
+          "Batch ingestion: send multiple sensor readings in a single request",
+          "Supabase Realtime: new values appear instantly without page reload",
+          "Optional add-on module — activated per organization by admin"
+        ]
       }
     },
     "roles": {
@@ -1139,7 +1153,8 @@
       "contactDesc": "Forduljon adminisztrátorához, vagy vegye fel a kapcsolatot az INOid támogatással közvetlenül az Inomet GmbH-n keresztül.",
       "t6": "Az INOid teljes mértékben optimalizálva van okostelefonokra: minden többoszlopos elrendezés egyetlen oszlopra szűkül mobilon, az INOai-csevegés pontosan kitölti a látható képernyőterületet, és a hosszú műszaki kifejezések mindig helyesen törnek.",
       "t7": "A Flexo modulban: rögzítse festékeit egyszer sűrűséggel és árral — az Anilox-kalkulátor automatikusan kitölti a sűrűséget, és kiszámítja az óránkénti és folyóméterenkénti költségeket.",
-      "t8": "AI import: Fényképezze le a névtáblát vagy töltsön fel adatlapot — az AI automatikusan kitölti az összes mezőt. Áttekinti, javítja és menti egy kattintással."
+      "t8": "AI import: Fényképezze le a névtáblát vagy töltsön fel adatlapot — az AI automatikusan kitölti az összes mezőt. Áttekinti, javítja és menti egy kattintással.",
+      "t9": "Sensor data: connect any machine via REST API with a Bearer token. Activate the Sensorik module per organization in the admin panel — then assign sensors to assets and monitor live values with real-time sparkline charts."
     }
   },
   "eventTypes": {

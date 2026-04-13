@@ -807,7 +807,7 @@
       "sub": "INOid — ваша цифрова система управління активами — від введення в експлуатацію до списання. Готово за 5 хвилин.",
       "s1val": "5 min",
       "s1label": "до першого активу",
-      "s2val": "12+",
+      "s2val": "14+",
       "s2label": "функціональних областей",
       "s3val": "100%",
       "s3label": "на основі браузера"
@@ -1002,6 +1002,20 @@
           "Усі розпізнані поля можна вручну виправити перед збереженням",
           "Зображення безпосередньо прив'язуються до активу"
         ]
+      },
+      "f14": {
+        "title": "Real-time Sensor Data",
+        "badge": "IoT",
+        "desc": "Connect machines and systems directly to INOid. Current measured values, sparkline trend charts and live status for every asset — updated automatically every few seconds.",
+        "points": [
+          "Sensor types: temperature, vibration, pressure, current, power, RPM, CO₂ and more",
+          "Sparkline trend chart per sensor — fades elegantly from oldest to newest reading",
+          "Live status indicator: green WiFi icon when data is less than 5 minutes old",
+          "REST API with Bearer token: simple integration for any IoT device or PLC",
+          "Batch ingestion: send multiple sensor readings in a single request",
+          "Supabase Realtime: new values appear instantly without page reload",
+          "Optional add-on module — activated per organization by admin"
+        ]
       }
     },
     "roles": {
@@ -1139,7 +1153,8 @@
       "contactDesc": "Зверніться до вашого адміністратора або зв'яжіться з підтримкою INOid напряму через Inomet GmbH.",
       "t6": "INOid повністю оптимізований для смартфонів: усі багатоколонкові макети на мобільних пристроях зводяться до одного стовпця, чат INOai точно заповнює видиму область екрана, а довгі технічні терміни завжди правильно переносяться.",
       "t7": "У модулі Flexo: введіть свої фарби один раз із щільністю та ціною — калькулятор Анілокс автоматично заповнить щільність і розрахує витрати за годину та за погонний метр.",
-      "t8": "ШІ-імпорт: Сфотографуйте паспортну табличку або завантажте технічний паспорт — ШІ автоматично заповнить усі поля. Переглядаєте, виправляєте та зберігаєте одним кліком."
+      "t8": "ШІ-імпорт: Сфотографуйте паспортну табличку або завантажте технічний паспорт — ШІ автоматично заповнить усі поля. Переглядаєте, виправляєте та зберігаєте одним кліком.",
+      "t9": "Sensor data: connect any machine via REST API with a Bearer token. Activate the Sensorik module per organization in the admin panel — then assign sensors to assets and monitor live values with real-time sparkline charts."
     }
   },
   "eventTypes": {

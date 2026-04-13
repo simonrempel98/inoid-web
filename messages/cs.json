@@ -807,7 +807,7 @@
       "sub": "INOid je váš digitální systém správy aktiv — od uvedení do provozu po vyřazení. Připraveno za 5 minut.",
       "s1val": "5 min",
       "s1label": "do prvního aktiva",
-      "s2val": "12+",
+      "s2val": "14+",
       "s2label": "oblastí funkcí",
       "s3val": "100%",
       "s3label": "bez instalace aplikace"
@@ -1002,6 +1002,20 @@
           "Všechna rozpoznaná pole lze před uložením ručně opravit",
           "Obrázky jsou přímo propojeny s aktivem"
         ]
+      },
+      "f14": {
+        "title": "Real-time Sensor Data",
+        "badge": "IoT",
+        "desc": "Connect machines and systems directly to INOid. Current measured values, sparkline trend charts and live status for every asset — updated automatically every few seconds.",
+        "points": [
+          "Sensor types: temperature, vibration, pressure, current, power, RPM, CO₂ and more",
+          "Sparkline trend chart per sensor — fades elegantly from oldest to newest reading",
+          "Live status indicator: green WiFi icon when data is less than 5 minutes old",
+          "REST API with Bearer token: simple integration for any IoT device or PLC",
+          "Batch ingestion: send multiple sensor readings in a single request",
+          "Supabase Realtime: new values appear instantly without page reload",
+          "Optional add-on module — activated per organization by admin"
+        ]
       }
     },
     "roles": {
@@ -1139,7 +1153,8 @@
       "contactDesc": "Obraťte se na svého administrátora nebo kontaktujte podporu INOid přímo přes Inomet GmbH.",
       "t6": "INOid je plně optimalizován pro chytré telefony: všechna vícesl sloupcová rozvržení se na mobilu sbalí do jednoho sloupce, chat INOai přesně vyplňuje viditelnou plochu obrazovky a dlouhé technické pojmy se vždy správně zalomí.",
       "t7": "V modulu Flexo: zadejte barvy jednou s hustotou a cenou — kalkulačka Anilox automaticky vyplní hustotu a vypočítá náklady na hodinu a na lineární metr.",
-      "t8": "AI import: Vyfoťte typový štítek nebo nahrajte datový list — AI automaticky vyplní všechna pole. Zkontrolujete, opravíte a uložíte jedním kliknutím."
+      "t8": "AI import: Vyfoťte typový štítek nebo nahrajte datový list — AI automaticky vyplní všechna pole. Zkontrolujete, opravíte a uložíte jedním kliknutím.",
+      "t9": "Sensor data: connect any machine via REST API with a Bearer token. Activate the Sensorik module per organization in the admin panel — then assign sensors to assets and monitor live values with real-time sparkline charts."
     }
   },
   "eventTypes": {

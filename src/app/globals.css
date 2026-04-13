@@ -478,6 +478,55 @@
   }
 }
 
+/* ── Sensor Panel – Mobile ──────────────────────────────────────────────── */
+@media (max-width: 400px) {
+  /* Sparkline etwas kleiner auf sehr engen Bildschirmen */
+  .sp-sparkline svg {
+    width: 80px !important;
+  }
+  /* Sensor-Wert kompakter */
+  .sp-value {
+    font-size: 18px !important;
+    min-width: 44px !important;
+  }
+}
+
+/* Lange Sensor-Namen nicht brechen */
+.sp-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* API-Code-Blöcke: horizontal scrollbar auf mobil */
+@media (max-width: 640px) {
+  pre {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Inline-Code und monospace IDs umbrechen auf mobil */
+@media (max-width: 640px) {
+  code, .mono-id {
+    word-break: break-all;
+    overflow-wrap: break-word;
+  }
+}
+
+/* ── Docs-Seite – Mobile ─────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  /* Feature-Card Punkt-Einrückung reduzieren */
+  .docs-feat-points {
+    padding-left: 16px !important;
+  }
+  /* Tab-Bar Schrift etwas kleiner damit alle Tabs passen */
+  .docs-tabbar button {
+    padding: 13px 12px !important;
+    font-size: 12px !important;
+  }
+}
+
 /* ── Chat-Vollbild innerhalb des Dashboard-Layouts ──────────────────────── */
 /* Mobile: 100dvh minus sticky Header (63px) minus Bottom-Nav (56px) minus main padding (80px) */
 .ds-chat-fullscreen {

@@ -48,7 +48,7 @@ export default async function AdminSensorsPage() {
     }
   })
 
-  const appUrl = (process.env.NEXT_PUBLIC_APP_URL ?? '').replace(/\/$/, '')
+  // appUrl nicht mehr nötig — Client nutzt relative URL
 
   // Statistiken
   const orgCount   = new Set(rows.map(r => r.org_name)).size
@@ -98,7 +98,7 @@ export default async function AdminSensorsPage() {
           textTransform: 'uppercase', letterSpacing: '0.04em' }}>
           Test-Daten senden
         </p>
-        <SensorDemoPanel initialSensors={rows} appUrl={appUrl} />
+        <SensorDemoPanel initialSensors={rows} />
       </div>
     </div>
   )

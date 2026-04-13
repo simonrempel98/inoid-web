@@ -807,7 +807,7 @@
       "sub": "INOid ist dein digitales Betriebsmittelmanagement — von der Erstzulassung bis zur Entsorgung. In 5 Minuten ready.",
       "s1val": "5 min",
       "s1label": "bis zum ersten Asset",
-      "s2val": "12+",
+      "s2val": "14+",
       "s2label": "Feature-Bereiche",
       "s3val": "100%",
       "s3label": "browserbasiert"
@@ -1002,6 +1002,20 @@
           "Alle erkannten Felder vor dem Speichern manuell korrigierbar",
           "Bilder werden direkt mit dem Asset verknüpft und hochgeladen"
         ]
+      },
+      "f14": {
+        "title": "Echtzeit-Sensordaten",
+        "badge": "IoT",
+        "desc": "Maschinen und Anlagen direkt mit INOid verbinden. Aktuelle Messwerte, Trendkurven und Live-Status für jedes Asset — automatisch alle paar Sekunden aktualisiert.",
+        "points": [
+          "Sensortypen: Temperatur, Vibration, Druck, Strom, Leistung, Drehzahl, CO₂ und mehr",
+          "Sparkline-Trendkurve je Sensor — verblasst elegant von alt nach neu",
+          "Live-Status-Indikator: grünes WLAN-Symbol wenn Daten jünger als 5 Minuten",
+          "REST-API mit Bearer-Token: einfache Integration für jedes IoT-Gerät oder SPS",
+          "Batch-Ingest: mehrere Sensorwerte in einer einzigen Anfrage übermitteln",
+          "Supabase Realtime: neue Werte erscheinen sofort ohne Seitenreload",
+          "Optionales Zusatzmodul — pro Organisation durch Admin aktivierbar"
+        ]
       }
     },
     "roles": {
@@ -1139,7 +1153,8 @@
       "contactDesc": "Wende dich an deinen Administrator oder kontaktiere den INOid-Support direkt über Inomet GmbH.",
       "t6": "INOid ist vollständig für Smartphones optimiert: Alle Mehrspaltenlayouts wechseln auf Mobile zu einer Spalte, der INOai-Chat füllt den sichtbaren Bereich exakt aus, und lange Fachbegriffe werden immer korrekt umgebrochen.",
       "t7": "Im Flexodruck-Modul: Lege deine Farben einmal mit Dichte und Preis an — der Anilox-Rechner trägt die Dichte automatisch ein und berechnet die Kosten pro Stunde und pro Laufmeter.",
-      "t8": "KI-Import: Fotografiere ein Typenschild oder lade ein Datenblatt hoch — die KI trägt alle Felder automatisch ein. Du prüfst, korrigierst und speicherst mit einem Klick."
+      "t8": "KI-Import: Fotografiere ein Typenschild oder lade ein Datenblatt hoch — die KI trägt alle Felder automatisch ein. Du prüfst, korrigierst und speicherst mit einem Klick.",
+      "t9": "Sensordaten: Jede Maschine per REST-API mit Bearer-Token verbinden. Sensorik-Modul im Admin-Panel pro Organisation aktivieren — dann Sensoren zu Assets zuweisen und Live-Werte mit Echtzeit-Sparklines beobachten."
     }
   },
   "eventTypes": {

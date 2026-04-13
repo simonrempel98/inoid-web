@@ -807,7 +807,7 @@
       "sub": "INOid es tu gestión digital de activos — desde la puesta en marcha hasta la retirada. Listo en 5 minutos.",
       "s1val": "5 min",
       "s1label": "hasta el primer activo",
-      "s2val": "12+",
+      "s2val": "14+",
       "s2label": "áreas de funciones",
       "s3val": "100%",
       "s3label": "basado en navegador"
@@ -1002,6 +1002,20 @@
           "Todos los campos detectados se pueden corregir manualmente antes de guardar",
           "Las imágenes se vinculan directamente al activo"
         ]
+      },
+      "f14": {
+        "title": "Datos de sensores en tiempo real",
+        "badge": "IoT",
+        "desc": "Conecte máquinas y sistemas directamente a INOid. Valores medidos actuales, gráficos de tendencia y estado en vivo para cada activo — actualizados automáticamente cada pocos segundos.",
+        "points": [
+          "Tipos de sensores: temperatura, vibración, presión, corriente, potencia, RPM, CO₂ y más",
+          "Gráfico de tendencia Sparkline por sensor — se desvanece elegantemente de antiguo a nuevo",
+          "Indicador de estado en vivo: icono WiFi verde si los datos tienen menos de 5 minutos",
+          "API REST con token Bearer: integración sencilla para cualquier dispositivo IoT o PLC",
+          "Ingestión por lotes: envíe múltiples valores de sensor en una sola solicitud",
+          "Supabase Realtime: nuevos valores aparecen al instante sin recargar la página",
+          "Módulo adicional opcional — activable por organización por el administrador"
+        ]
       }
     },
     "roles": {
@@ -1139,7 +1153,8 @@
       "contactDesc": "Contacta a tu administrador o al soporte de INOid a través de Inomet GmbH.",
       "t6": "INOid está completamente optimizado para smartphones: todos los diseños de varias columnas se contraen a una sola columna en móvil, el chat INOai llena exactamente el área de pantalla visible y los términos técnicos largos siempre se ajustan correctamente.",
       "t7": "En el módulo Flexo: registra tus tintas una vez con densidad y precio — la calculadora Anilox rellena la densidad automáticamente y calcula los costes por hora y por metro lineal.",
-      "t8": "Importación con IA: Fotografía una placa de tipo o sube una hoja de datos — la IA rellena todos los campos automáticamente. Revisas, corriges y guardas con un clic."
+      "t8": "Importación con IA: Fotografía una placa de tipo o sube una hoja de datos — la IA rellena todos los campos automáticamente. Revisas, corriges y guardas con un clic.",
+      "t9": "Datos de sensores: conecte cualquier máquina vía API REST con token Bearer. Active el módulo Sensorik por organización en el panel de administración — luego asigne sensores a activos y monitoree valores en vivo."
     }
   },
   "eventTypes": {

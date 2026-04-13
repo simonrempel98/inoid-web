@@ -807,7 +807,7 @@
       "sub": "INOid is uw digitale beheer van bedrijfsmiddelen — van ingebruikstelling tot buiten gebruik stelling. Klaar in 5 minuten.",
       "s1val": "5 min",
       "s1label": "tot het eerste asset",
-      "s2val": "12+",
+      "s2val": "14+",
       "s2label": "functiegebieden",
       "s3val": "100%",
       "s3label": "browsergebaseerd"
@@ -1002,6 +1002,20 @@
           "Alle herkende velden kunnen vóór opslaan handmatig worden gecorrigeerd",
           "Afbeeldingen worden rechtstreeks aan het asset gekoppeld"
         ]
+      },
+      "f14": {
+        "title": "Realtime sensorgegevens",
+        "badge": "IoT",
+        "desc": "Verbind machines en systemen rechtstreeks met INOid. Actuele meetwaarden, trendgrafieken en live-status voor elk asset — automatisch bijgewerkt elke paar seconden.",
+        "points": [
+          "Sensortypen: temperatuur, trillingen, druk, stroom, vermogen, toerental, CO₂ en meer",
+          "Sparkline trendgrafiek per sensor — vervaagt elegant van oud naar nieuw",
+          "Live statusindicator: groen WiFi-icoon als data jonger dan 5 minuten is",
+          "REST API met Bearer token: eenvoudige integratie voor elk IoT-apparaat of PLC",
+          "Batch-ingestie: stuur meerdere sensorwaarden in één verzoek",
+          "Supabase Realtime: nieuwe waarden verschijnen direct zonder pagina te herladen",
+          "Optionele uitbreidingsmodule — per organisatie activeerbaar door admin"
+        ]
       }
     },
     "roles": {
@@ -1139,7 +1153,8 @@
       "contactDesc": "Neem contact op met uw beheerder of de INOid-support via Inomet GmbH.",
       "t6": "INOid is volledig geoptimaliseerd voor smartphones: alle meerkolomsindelingen worden op mobiel teruggebracht tot één kolom, de INOai-chat vult het zichtbare schermgebied exact, en lange technische termen worden altijd correct afgebroken.",
       "t7": "In de Flexo-module: sla uw inkten één keer op met dichtheid en prijs — de Anilox-rekenmachine vult de dichtheid automatisch in en berekent kosten per uur en per lopende meter.",
-      "t8": "AI-import: Fotografeer een typeplaatje of upload een datasheet — de AI vult alle velden automatisch in. Je controleert, corrigeert en slaat op met één klik."
+      "t8": "AI-import: Fotografeer een typeplaatje of upload een datasheet — de AI vult alle velden automatisch in. Je controleert, corrigeert en slaat op met één klik.",
+      "t9": "Sensorgegevens: verbind elke machine via REST API met Bearer token. Activeer de Sensorik-module per organisatie in het adminpaneel — wijs dan sensoren toe aan assets en monitor live waarden."
     }
   },
   "eventTypes": {

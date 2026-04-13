@@ -807,7 +807,7 @@
       "sub": "INOid är ditt digitala driftsmedelshanteringssystem — från idrifttagning till avveckling. Redo på 5 minuter.",
       "s1val": "5 min",
       "s1label": "till första tillgången",
-      "s2val": "12+",
+      "s2val": "14+",
       "s2label": "funktionsområden",
       "s3val": "100%",
       "s3label": "webbläsarbaserat"
@@ -1002,6 +1002,20 @@
           "Alla identifierade fält kan korrigeras manuellt innan sparande",
           "Bilder länkas direkt till tillgången"
         ]
+      },
+      "f14": {
+        "title": "Realtidssensordata",
+        "badge": "IoT",
+        "desc": "Anslut maskiner och system direkt till INOid. Aktuella mätvärden, trenddiagram och live-status för varje tillgång — uppdateras automatiskt var några sekunder.",
+        "points": [
+          "Sensortyper: temperatur, vibration, tryck, ström, effekt, varvtal, CO₂ med mera",
+          "Sparkline-trenddiagram per sensor — tonar elegant från äldst till nyast",
+          "Live-statusindikator: grön WiFi-ikon om data är yngre än 5 minuter",
+          "REST API med Bearer-token: enkel integration för IoT-enheter eller PLC",
+          "Batchinmatning: skicka flera sensorvärden i en enda förfrågan",
+          "Supabase Realtime: nya värden visas direkt utan sidomladdning",
+          "Valfri tilläggsmodul — aktiveras per organisation av admin"
+        ]
       }
     },
     "roles": {
@@ -1139,7 +1153,8 @@
       "contactDesc": "Kontakta din administratör eller nå INOid-support direkt via Inomet GmbH.",
       "t6": "INOid är fullt optimerat för smartphones: alla flerspaltsliga layouter komprimeras till en enda kolumn på mobil, INOai-chatten fyller exakt det synliga skärmområdet och långa tekniska termer bryts alltid korrekt.",
       "t7": "I Flexo-modulen: registrera dina bläck en gång med densitet och pris — Anilox-räknaren fyller i densiteten automatiskt och beräknar kostnader per timme och per löpande meter.",
-      "t8": "AI-import: Fotografera en typskylt eller ladda upp ett datablad — AI fyller i alla fält automatiskt. Du granskar, korrigerar och sparar med ett klick."
+      "t8": "AI-import: Fotografera en typskylt eller ladda upp ett datablad — AI fyller i alla fält automatiskt. Du granskar, korrigerar och sparar med ett klick.",
+      "t9": "Sensordata: anslut valfri maskin via REST API med Bearer-token. Aktivera Sensorik-modulen per organisation i adminpanelen — tilldela sedan sensorer till tillgångar och övervaka live-värden."
     }
   },
   "eventTypes": {

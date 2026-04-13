@@ -807,7 +807,7 @@
       "sub": "INOid — ваша цифровая система управления активами — от ввода в эксплуатацию до списания. Готово за 5 минут.",
       "s1val": "5 min",
       "s1label": "до первого актива",
-      "s2val": "12+",
+      "s2val": "14+",
       "s2label": "функциональных областей",
       "s3val": "100%",
       "s3label": "на основе браузера"
@@ -1002,6 +1002,20 @@
           "Все распознанные поля можно вручную исправить перед сохранением",
           "Изображения напрямую привязываются к активу"
         ]
+      },
+      "f14": {
+        "title": "Real-time Sensor Data",
+        "badge": "IoT",
+        "desc": "Connect machines and systems directly to INOid. Current measured values, sparkline trend charts and live status for every asset — updated automatically every few seconds.",
+        "points": [
+          "Sensor types: temperature, vibration, pressure, current, power, RPM, CO₂ and more",
+          "Sparkline trend chart per sensor — fades elegantly from oldest to newest reading",
+          "Live status indicator: green WiFi icon when data is less than 5 minutes old",
+          "REST API with Bearer token: simple integration for any IoT device or PLC",
+          "Batch ingestion: send multiple sensor readings in a single request",
+          "Supabase Realtime: new values appear instantly without page reload",
+          "Optional add-on module — activated per organization by admin"
+        ]
       }
     },
     "roles": {
@@ -1139,7 +1153,8 @@
       "contactDesc": "Обратитесь к вашему администратору или свяжитесь с поддержкой INOid напрямую через Inomet GmbH.",
       "t6": "INOid полностью оптимизирован для смартфонов: все многоколонные макеты сворачиваются в один столбец на мобильных устройствах, чат INOai точно заполняет видимую область экрана, а длинные технические термины всегда правильно переносятся.",
       "t7": "В модуле Flexo: добавьте краски один раз с плотностью и ценой — калькулятор Анилокс автоматически заполнит плотность и рассчитает затраты в час и на погонный метр.",
-      "t8": "ИИ-импорт: Сфотографируйте табличку с данными или загрузите техническое описание — ИИ автоматически заполнит все поля. Проверяете, исправляете и сохраняете одним щелчком."
+      "t8": "ИИ-импорт: Сфотографируйте табличку с данными или загрузите техническое описание — ИИ автоматически заполнит все поля. Проверяете, исправляете и сохраняете одним щелчком.",
+      "t9": "Sensor data: connect any machine via REST API with a Bearer token. Activate the Sensorik module per organization in the admin panel — then assign sensors to assets and monitor live values with real-time sparkline charts."
     }
   },
   "eventTypes": {

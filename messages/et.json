@@ -807,7 +807,7 @@
       "sub": "INOid on teie digitaalne varahaldussüsteem — kasutuselevõtust kasutuselt kõrvaldamiseni. Valmis 5 minutiga.",
       "s1val": "5 min",
       "s1label": "esimese varani",
-      "s2val": "12+",
+      "s2val": "14+",
       "s2label": "funktsioonivaldkonda",
       "s3val": "100%",
       "s3label": "brauseripõhine"
@@ -1002,6 +1002,20 @@
           "Kõiki tuvastatud välju saab enne salvestamist käsitsi parandada",
           "Pildid seotakse otse varaga"
         ]
+      },
+      "f14": {
+        "title": "Real-time Sensor Data",
+        "badge": "IoT",
+        "desc": "Connect machines and systems directly to INOid. Current measured values, sparkline trend charts and live status for every asset — updated automatically every few seconds.",
+        "points": [
+          "Sensor types: temperature, vibration, pressure, current, power, RPM, CO₂ and more",
+          "Sparkline trend chart per sensor — fades elegantly from oldest to newest reading",
+          "Live status indicator: green WiFi icon when data is less than 5 minutes old",
+          "REST API with Bearer token: simple integration for any IoT device or PLC",
+          "Batch ingestion: send multiple sensor readings in a single request",
+          "Supabase Realtime: new values appear instantly without page reload",
+          "Optional add-on module — activated per organization by admin"
+        ]
       }
     },
     "roles": {
@@ -1139,7 +1153,8 @@
       "contactDesc": "Võtke ühendust oma administraatoriga või jõudke INOid toeni otse Inomet GmbH kaudu.",
       "t6": "INOid on täielikult optimeeritud nutitelefonidele: kõik mitmeveeru­küljendused tihenduvad mobiilis üheks veeruks, INOai vestlus täidab täpselt nähtava ekraaniala ja pikad tehnilised terminid murtakse alati õigesti.",
       "t7": "Flexo moodulis: registreerige oma tindid kord tiheduse ja hinnaga — Aniloxi kalkulaator täidab tiheduse automaatselt ja arvutab kulud tunnis ja jooksumetris.",
-      "t8": "AI import: Pildista andmesilti või laadi üles andmeleht — AI täidab kõik väljad automaatselt. Vaatate üle, korrigeerite ja salvestate ühe klõpsuga."
+      "t8": "AI import: Pildista andmesilti või laadi üles andmeleht — AI täidab kõik väljad automaatselt. Vaatate üle, korrigeerite ja salvestate ühe klõpsuga.",
+      "t9": "Sensor data: connect any machine via REST API with a Bearer token. Activate the Sensorik module per organization in the admin panel — then assign sensors to assets and monitor live values with real-time sparkline charts."
     }
   },
   "eventTypes": {

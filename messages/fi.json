@@ -807,7 +807,7 @@
       "sub": "INOid on digitaalinen resurssinhallintajärjestelmäsi — käyttöönotosta käytöstäpoistoon. Valmis 5 minuutissa.",
       "s1val": "5 min",
       "s1label": "ensimmäiseen resurssiin",
-      "s2val": "12+",
+      "s2val": "14+",
       "s2label": "toiminta-aluetta",
       "s3val": "100%",
       "s3label": "selainpohjainen"
@@ -1002,6 +1002,20 @@
           "Kaikki tunnistetut kentät voidaan korjata manuaalisesti ennen tallentamista",
           "Kuvat linkitetään suoraan omaisuuteen"
         ]
+      },
+      "f14": {
+        "title": "Real-time Sensor Data",
+        "badge": "IoT",
+        "desc": "Connect machines and systems directly to INOid. Current measured values, sparkline trend charts and live status for every asset — updated automatically every few seconds.",
+        "points": [
+          "Sensor types: temperature, vibration, pressure, current, power, RPM, CO₂ and more",
+          "Sparkline trend chart per sensor — fades elegantly from oldest to newest reading",
+          "Live status indicator: green WiFi icon when data is less than 5 minutes old",
+          "REST API with Bearer token: simple integration for any IoT device or PLC",
+          "Batch ingestion: send multiple sensor readings in a single request",
+          "Supabase Realtime: new values appear instantly without page reload",
+          "Optional add-on module — activated per organization by admin"
+        ]
       }
     },
     "roles": {
@@ -1139,7 +1153,8 @@
       "contactDesc": "Ota yhteyttä järjestelmänvalvojaasi tai tavoita INOid-tuki suoraan Inomet GmbH:n kautta.",
       "t6": "INOid on täysin optimoitu älypuhelimille: kaikki monisarakkeinen asettelu supistuu yhdeksi sarakkeeksi mobiilissa, INOai-chat täyttää täsmälleen näkyvän näyttöalueen ja pitkät tekniset termit katkeavat aina oikein.",
       "t7": "Flexo-moduulissa: rekisteröi musteesi kerran tiheydellä ja hinnalla — Anilox-laskin täyttää tiheyden automaattisesti ja laskee kustannukset tunnissa ja juoksumetrissä.",
-      "t8": "AI-tuonti: Kuvaa tyyppikilpi tai lataa tietolomake — AI täyttää kaikki kentät automaattisesti. Tarkistat, korjaat ja tallennat yhdellä napsautuksella."
+      "t8": "AI-tuonti: Kuvaa tyyppikilpi tai lataa tietolomake — AI täyttää kaikki kentät automaattisesti. Tarkistat, korjaat ja tallennat yhdellä napsautuksella.",
+      "t9": "Sensor data: connect any machine via REST API with a Bearer token. Activate the Sensorik module per organization in the admin panel — then assign sensors to assets and monitor live values with real-time sparkline charts."
     }
   },
   "eventTypes": {

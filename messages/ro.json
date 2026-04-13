@@ -807,7 +807,7 @@
       "sub": "INOid este sistemul dvs. digital de gestionare a activelor — de la punerea în funcțiune până la dezafectare. Gata în 5 minute.",
       "s1val": "5 min",
       "s1label": "până la primul activ",
-      "s2val": "12+",
+      "s2val": "14+",
       "s2label": "domenii de funcții",
       "s3val": "100%",
       "s3label": "bazat pe browser"
@@ -1002,6 +1002,20 @@
           "Toate câmpurile detectate pot fi corectate manual înainte de salvare",
           "Imaginile sunt legate direct de activ"
         ]
+      },
+      "f14": {
+        "title": "Real-time Sensor Data",
+        "badge": "IoT",
+        "desc": "Connect machines and systems directly to INOid. Current measured values, sparkline trend charts and live status for every asset — updated automatically every few seconds.",
+        "points": [
+          "Sensor types: temperature, vibration, pressure, current, power, RPM, CO₂ and more",
+          "Sparkline trend chart per sensor — fades elegantly from oldest to newest reading",
+          "Live status indicator: green WiFi icon when data is less than 5 minutes old",
+          "REST API with Bearer token: simple integration for any IoT device or PLC",
+          "Batch ingestion: send multiple sensor readings in a single request",
+          "Supabase Realtime: new values appear instantly without page reload",
+          "Optional add-on module — activated per organization by admin"
+        ]
       }
     },
     "roles": {
@@ -1139,7 +1153,8 @@
       "contactDesc": "Contactați administratorul dvs. sau ajungeți la suportul INOid direct prin Inomet GmbH.",
       "t6": "INOid este complet optimizat pentru smartphone-uri: toate aspectele multi-coloană se restrâng la o singură coloană pe mobil, chat-ul INOai umple exact zona vizibilă a ecranului, iar termenii tehnici lungi se împart întotdeauna corect.",
       "t7": "În modulul Flexo: înregistrați cerneliurile o dată cu densitate și preț — calculatorul Anilox completează automat densitatea și calculează costurile pe oră și pe metru liniar.",
-      "t8": "Import AI: Fotografiați o plăcuță de tip sau încărcați o fișă tehnică — AI completează automat toate câmpurile. Verificați, corectați și salvați cu un singur clic."
+      "t8": "Import AI: Fotografiați o plăcuță de tip sau încărcați o fișă tehnică — AI completează automat toate câmpurile. Verificați, corectați și salvați cu un singur clic.",
+      "t9": "Sensor data: connect any machine via REST API with a Bearer token. Activate the Sensorik module per organization in the admin panel — then assign sensors to assets and monitor live values with real-time sparkline charts."
     }
   },
   "eventTypes": {

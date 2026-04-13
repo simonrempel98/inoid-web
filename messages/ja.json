@@ -807,7 +807,7 @@
       "sub": "INOidは、委託から廃棄まで対応するデジタル資産管理システムです。5分で準備完了。",
       "s1val": "5 min",
       "s1label": "最初の資産まで",
-      "s2val": "12+",
+      "s2val": "14+",
       "s2label": "機能エリア",
       "s3val": "100%",
       "s3label": "ブラウザベース"
@@ -1002,6 +1002,20 @@
           "検出されたすべてのフィールドは保存前に手動修正可能",
           "画像は直接資産にリンクされてアップロードされます"
         ]
+      },
+      "f14": {
+        "title": "Real-time Sensor Data",
+        "badge": "IoT",
+        "desc": "Connect machines and systems directly to INOid. Current measured values, sparkline trend charts and live status for every asset — updated automatically every few seconds.",
+        "points": [
+          "Sensor types: temperature, vibration, pressure, current, power, RPM, CO₂ and more",
+          "Sparkline trend chart per sensor — fades elegantly from oldest to newest reading",
+          "Live status indicator: green WiFi icon when data is less than 5 minutes old",
+          "REST API with Bearer token: simple integration for any IoT device or PLC",
+          "Batch ingestion: send multiple sensor readings in a single request",
+          "Supabase Realtime: new values appear instantly without page reload",
+          "Optional add-on module — activated per organization by admin"
+        ]
       }
     },
     "roles": {
@@ -1139,7 +1153,8 @@
       "contactDesc": "管理者に連絡するか、Inomet GmbHを通じてINOidサポートに直接お問い合わせください。",
       "t6": "INOidはスマートフォンに完全最適化されています：すべての複数列レイアウトはモバイルで1列に折りたたまれ、INOaiチャットは表示画面エリアを正確に埋め、長い技術用語は常に正しく折り返されます。",
       "t7": "Flexoモジュールで: 密度と価格を指定してインクを一度登録するだけ — アニロックス計算機が密度を自動入力し、1時間あたりおよびメートルあたりのコストを計算します。",
-      "t8": "AIインポート：銘板を撮影するかデータシートをアップロードすると、AIがすべての欄を自動入力します。確認・修正してワンクリックで保存できます。"
+      "t8": "AIインポート：銘板を撮影するかデータシートをアップロードすると、AIがすべての欄を自動入力します。確認・修正してワンクリックで保存できます。",
+      "t9": "Sensor data: connect any machine via REST API with a Bearer token. Activate the Sensorik module per organization in the admin panel — then assign sensors to assets and monitor live values with real-time sparkline charts."
     }
   },
   "eventTypes": {

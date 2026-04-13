@@ -807,7 +807,7 @@
       "sub": "INOid to cyfrowe zarządzanie aktywami — od uruchomienia do wycofania z użycia. Gotowe w 5 minut.",
       "s1val": "5 min",
       "s1label": "do pierwszego zasobu",
-      "s2val": "12+",
+      "s2val": "14+",
       "s2label": "obszarów funkcji",
       "s3val": "100%",
       "s3label": "oparte na przeglądarce"
@@ -1002,6 +1002,20 @@
           "Wszystkie wykryte pola można ręcznie poprawić przed zapisaniem",
           "Obrazy są bezpośrednio połączone z zasobem"
         ]
+      },
+      "f14": {
+        "title": "Dane czujników w czasie rzeczywistym",
+        "badge": "IoT",
+        "desc": "Podłącz maszyny i systemy bezpośrednio do INOid. Aktualne wartości pomiarowe, wykresy trendów i status na żywo dla każdego zasobu — automatycznie aktualizowane co kilka sekund.",
+        "points": [
+          "Typy czujników: temperatura, wibracje, ciśnienie, prąd, moc, obroty, CO₂ i więcej",
+          "Sparkline wykres trendu na czujnik — elegancko zanika od najstarszego do najnowszego",
+          "Wskaźnik statusu na żywo: zielona ikona WiFi gdy dane mają mniej niż 5 minut",
+          "API REST z tokenem Bearer: prosta integracja dla urządzeń IoT lub PLC",
+          "Ingestia wsadowa: wysyłaj wiele wartości czujników w jednym żądaniu",
+          "Supabase Realtime: nowe wartości pojawiają się natychmiast bez przeładowania strony",
+          "Opcjonalny moduł dodatkowy — aktywowany przez administratora dla każdej organizacji"
+        ]
       }
     },
     "roles": {
@@ -1139,7 +1153,8 @@
       "contactDesc": "Skontaktuj się z administratorem lub wsparciem INOid przez Inomet GmbH.",
       "t6": "INOid jest w pełni zoptymalizowany pod smartfony: wszystkie wielokolumnowe układy zwijają się do jednej kolumny na urządzeniach mobilnych, czat INOai wypełnia dokładnie widoczny obszar ekranu, a długie terminy techniczne zawsze zawijają się poprawnie.",
       "t7": "W module Flexo: dodaj swoje tusze raz z gęstością i ceną — kalkulator Anilox automatycznie wstawi gęstość i obliczy koszty na godzinę i na metr bieżący.",
-      "t8": "Import AI: Sfotografuj tabliczkę znamionową lub prześlij kartę techniczną — AI automatycznie wypełnia wszystkie pola. Sprawdzasz, poprawiasz i zapisujesz jednym kliknięciem."
+      "t8": "Import AI: Sfotografuj tabliczkę znamionową lub prześlij kartę techniczną — AI automatycznie wypełnia wszystkie pola. Sprawdzasz, poprawiasz i zapisujesz jednym kliknięciem.",
+      "t9": "Dane czujników: podłącz dowolną maszynę przez REST API z tokenem Bearer. Aktywuj moduł Sensorik dla organizacji w panelu administracyjnym — przypisz czujniki do zasobów i monitoruj wartości na żywo."
     }
   },
   "eventTypes": {

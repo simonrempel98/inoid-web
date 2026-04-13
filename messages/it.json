@@ -807,7 +807,7 @@
       "sub": "INOid è la tua gestione digitale degli asset — dalla messa in servizio alla dismissione. Pronto in 5 minuti.",
       "s1val": "5 min",
       "s1label": "al primo asset",
-      "s2val": "12+",
+      "s2val": "14+",
       "s2label": "aree funzionali",
       "s3val": "100%",
       "s3label": "basato su browser"
@@ -1002,6 +1002,20 @@
           "Tutti i campi rilevati possono essere corretti manualmente prima di salvare",
           "Le immagini vengono collegate direttamente all'asset"
         ]
+      },
+      "f14": {
+        "title": "Dati sensori in tempo reale",
+        "badge": "IoT",
+        "desc": "Collega macchine e impianti direttamente a INOid. Valori misurati attuali, grafici di tendenza e stato live per ogni asset — aggiornati automaticamente ogni pochi secondi.",
+        "points": [
+          "Tipi di sensori: temperatura, vibrazione, pressione, corrente, potenza, giri, CO₂ e altro",
+          "Grafico sparkline per sensore — sfuma elegantemente dal più vecchio al più recente",
+          "Indicatore di stato live: icona WiFi verde se i dati hanno meno di 5 minuti",
+          "API REST con token Bearer: integrazione semplice per qualsiasi dispositivo IoT o PLC",
+          "Ingestione batch: invia più valori sensore in una singola richiesta",
+          "Supabase Realtime: nuovi valori visualizzati istantaneamente senza ricaricare la pagina",
+          "Modulo opzionale — attivabile per organizzazione dall'amministratore"
+        ]
       }
     },
     "roles": {
@@ -1139,7 +1153,8 @@
       "contactDesc": "Contatta il tuo amministratore o il supporto INOid tramite Inomet GmbH.",
       "t6": "INOid è completamente ottimizzato per smartphone: tutti i layout multi-colonna si riducono a una singola colonna su mobile, la chat INOai riempie esattamente l'area dello schermo visibile e i termini tecnici lunghi vengono sempre spezzati correttamente.",
       "t7": "Nel modulo Flexo: registra i tuoi inchiostri una volta con densità e prezzo — il calcolatore Anilox inserisce automaticamente la densità e calcola i costi per ora e per metro lineare.",
-      "t8": "Import AI: Fotografa una targhetta dati o carica una scheda tecnica — l'AI compila tutti i campi automaticamente. Controlli, correggi e salvi con un clic."
+      "t8": "Import AI: Fotografa una targhetta dati o carica una scheda tecnica — l'AI compila tutti i campi automaticamente. Controlli, correggi e salvi con un clic.",
+      "t9": "Dati sensori: collega qualsiasi macchina via API REST con token Bearer. Attiva il modulo Sensorik per organizzazione nel pannello admin — poi assegna sensori agli asset e monitora i valori live."
     }
   },
   "eventTypes": {
