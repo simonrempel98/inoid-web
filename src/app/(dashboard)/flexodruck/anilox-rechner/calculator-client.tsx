@@ -9,13 +9,31 @@ const BCM_FACTOR = 1.55 // 1 BCM = 1.55 cm³/m²
 type Unit = 'metric' | 'us'
 type Mode = 'volume' | 'consumption' | 'film' | 'reverse' | 'comparison'
 
+type FlexoColor = {
+  id: string
+  name: string
+  supplier?: string | null
+  color_type?: string | null
+  density?: number | null
+  cost_per_kg?: number | null
+  notes?: string | null
+  created_at: string
+}
+
+const COLOR_TYPES: Record<string, string> = {
+  waterbase: 'Wasserbasis',
+  uv: 'UV',
+  solvent: 'Lösemittel',
+  other: 'Sonstige',
+}
+
 const MODES: { id: Mode; label: string; desc: string; svg: React.ReactNode }[] = [
   {
     id: 'volume', label: 'Volumen', desc: 'Zellvolumen aus Geometrie berechnen',
     svg: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/></svg>,
   },
   {
-    id: 'consumption', label: 'Tintenverbrauch', desc: 'Verbrauch pro Stunde & Auftrag',
+    id: 'consumption', label: 'Farbverbrauch', desc: 'Farbauftrag, Verbrauch & Kosten',
     svg: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>,
   },
   {
@@ -336,15 +354,27 @@ function VolumeResult({ result, unit }: { result: any; unit: Unit }) {
   )
 }
 
-// ── Kalkulationssektion: Tintenverbrauch ──────────────────────────────────────
+// ── Kalkulationssektion: Farbverbrauch ───────────────────────────────────────
 
-function ConsumptionCalc({ unit, onResult }: { unit: Unit; onResult: (r: any, inp: any) => void }) {
+function ConsumptionCalc({ unit, onResult, colors, onAddColor }: {
+  unit: Unit; onResult: (r: any, inp: any) => void
+  colors: FlexoColor[]; onAddColor: () => void
+}) {
   const [vol, setVol] = useState('')
   const [speed, setSpeed] = useState('')
   const [width, setWidth] = useState('')
   const [coverage, setCoverage] = useState('100')
   const [transfer, setTransfer] = useState('60')
   const [density, setDensity] = useState('1.0')
+  const [selectedColorId, setSelectedColorId] = useState('')
+
+  const selectedColor = colors.find(c => c.id === selectedColorId) ?? null
+
+  const handleColorChange = (id: string) => {
+    setSelectedColorId(id)
+    const color = colors.find(c => c.id === id)
+    if (color?.density) setDensity(String(color.density))
+  }
 
   const calculate = () => {
     const v = toMetricVol(parseFloat(vol), unit)
@@ -352,36 +382,74 @@ function ConsumptionCalc({ unit, onResult }: { unit: Unit; onResult: (r: any, in
     const cov = parseFloat(coverage), tr = parseFloat(transfer), den = parseFloat(density)
     if ([v, sp, w, cov, tr, den].some(x => isNaN(x) || x <= 0)) return
     const res = calcConsumption(v, sp, w, cov, tr, den)
-    onResult(res, { volume: parseFloat(vol), unit, speed: sp, width: w, coverage: cov, transfer: tr, density: den })
+    onResult(
+      { ...res, costPerKg: selectedColor?.cost_per_kg ?? null, colorName: selectedColor?.name ?? null },
+      { volume: parseFloat(vol), unit, speed: sp, width: w, coverage: cov, transfer: tr, density: den, colorId: selectedColor?.id ?? null }
+    )
   }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+      {/* Farbauswahl */}
+      <div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 5 }}>
+          <Label tooltip="Wähle eine gespeicherte Farbe. Wenn eine Dichte hinterlegt ist, wird sie auto-eingetragen. Mit hinterlegtem Preis werden die Kosten berechnet.">Farbe auswählen</Label>
+          <button type="button" onClick={onAddColor} style={{
+            padding: '3px 10px', border: '1.5px solid #0099cc', borderRadius: 6,
+            background: 'none', cursor: 'pointer', fontSize: 11, fontWeight: 700, color: '#0099cc',
+          }}>+ Neue Farbe</button>
+        </div>
+        <Select
+          value={selectedColorId}
+          onChange={handleColorChange}
+          options={[
+            { value: '', label: '— Keine Farbe ausgewählt —' },
+            ...colors.map(c => ({
+              value: c.id,
+              label: [c.name, c.supplier, c.cost_per_kg ? `${c.cost_per_kg} €/kg` : ''].filter(Boolean).join(' · ')
+            }))
+          ]}
+        />
+        {selectedColor && (
+          <div style={{
+            marginTop: 6, padding: '6px 10px',
+            background: '#f0f9ff', border: '1px solid #bae6fd',
+            borderRadius: 8, fontSize: 12, color: '#0369a1',
+            display: 'flex', gap: 10, flexWrap: 'wrap' as const,
+          }}>
+            {selectedColor.color_type && <span>{COLOR_TYPES[selectedColor.color_type] ?? selectedColor.color_type}</span>}
+            {selectedColor.density && <span>Dichte: {selectedColor.density} g/cm³ — auto-eingetragen</span>}
+            {selectedColor.cost_per_kg && <span>{selectedColor.cost_per_kg} €/kg — Kosten werden berechnet</span>}
+          </div>
+        )}
+      </div>
+
       <div>
         <Label tooltip="Das Zellvolumen der Anilox-Walze — aus dem Volumen-Rechner ermittelt oder vom Hersteller im Walzenzertifikat angegeben.">Anilox-Volumen *</Label>
         <Input value={vol} onChange={setVol} placeholder={unit === 'metric' ? 'z.B. 10' : 'z.B. 6.5'} unit={unitLabel(unit)} />
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
         <div>
-          <Label tooltip="Laufgeschwindigkeit der Druckmaschine in Metern pro Minute. Bestimmt zusammen mit der Druckbreite den Tintenverbrauch pro Zeiteinheit.">Druckgeschwindigkeit *</Label>
+          <Label tooltip="Laufgeschwindigkeit der Druckmaschine in Metern pro Minute.">Druckgeschwindigkeit *</Label>
           <Input value={speed} onChange={setSpeed} placeholder="z.B. 150" unit="m/min" />
         </div>
         <div>
-          <Label tooltip="Nutzbare Druckbreite (Bahnbreite) in Millimetern. Zusammen mit der Geschwindigkeit ergibt sich die bedruckte Fläche pro Minute.">Druckbreite *</Label>
+          <Label tooltip="Nutzbare Druckbreite (Bahnbreite) in Millimetern.">Druckbreite *</Label>
           <Input value={width} onChange={setWidth} placeholder="z.B. 800" unit="mm" />
         </div>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
         <div>
-          <Label hint="Flächendeckung" tooltip="Prozentualer Anteil der bedruckten Fläche am Gesamtformat. 100% = Vollton, 50% = halbe Fläche gedruckt. Beeinflusst direkt den Tintenverbrauch.">Deckung</Label>
+          <Label hint="Flächendeckung" tooltip="Prozentualer Anteil der bedruckten Fläche am Gesamtformat. 100% = Vollton.">Deckung</Label>
           <Input value={coverage} onChange={setCoverage} placeholder="100" unit="%" min="1" max="100" />
         </div>
         <div>
-          <Label tooltip="Anteil der Tinte in den Zellen, der tatsächlich auf den Bedruckstoff übertragen wird. Typisch 50–70%, abhängig von Tintenrheologie, Substrat und Druckgeschwindigkeit.">Übertragung</Label>
+          <Label tooltip="Anteil der Farbe, der aus den Zellen auf den Bedruckstoff übertragen wird. Typisch 50–70%.">Übertragung</Label>
           <Input value={transfer} onChange={setTransfer} placeholder="60" unit="%" min="10" max="100" />
         </div>
         <div>
-          <Label hint="Tintendichte" tooltip="Dichte der verwendeten Tinte in g/cm³. Wasserbasiert: ~1,0–1,1 · UV-Tinten: ~1,1–1,2 · Lösemitteltinten: ~0,9–1,0. Vom Tintenhersteller angegeben.">Dichte</Label>
+          <Label tooltip="Dichte der Farbe in g/cm³. Wird auto-eingetragen wenn eine Farbe mit bekannter Dichte gewählt ist. Wasserbasis: ~1,0 · UV: ~1,1–1,2 · Lösemittel: ~0,9.">Dichte</Label>
           <Input value={density} onChange={setDensity} placeholder="1.0" unit="g/cm³" />
         </div>
       </div>
@@ -391,13 +459,31 @@ function ConsumptionCalc({ unit, onResult }: { unit: Unit; onResult: (r: any, in
 }
 
 function ConsumptionResult({ result }: { result: any }) {
+  const hasCost = result.costPerKg != null && result.costPerKg > 0
+  const costPerHour  = hasCost ? r(result.costPerKg * result.kgHour, 2) : null
+  const costPer1000  = hasCost ? r(result.costPerKg * result.kgPer1000m, 3) : null
+  const costPer10000 = hasCost ? r(result.costPerKg * result.kgPer1000m * 10, 2) : null
   return (
     <div>
-      <BigResult value={result.inkGm2} unit="g/m²" label="Tintenauftrag pro m²" />
+      <BigResult value={result.inkGm2} unit="g/m²" label="Farbauftrag pro m²" />
       <div style={{ borderTop: '1px solid #f3f4f6', paddingTop: 12 }}>
         <SecondaryResult label="Verbrauch" value={result.kgHour} unit="kg/Stunde" />
         <SecondaryResult label="Verbrauch" value={result.kgPer1000m} unit="kg pro 1.000 lm" />
         <SecondaryResult label="Verbrauch" value={r(result.kgPer1000m * 10, 2)} unit="kg pro 10.000 lm" />
+        {hasCost && (
+          <>
+            <div style={{ height: 1, background: '#e5e7eb', margin: '10px 0 8px' }} />
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+              <span style={{ fontSize: 11, fontWeight: 700, color: '#059669', textTransform: 'uppercase' as const, letterSpacing: '0.05em' }}>Kosten</span>
+              {result.colorName && (
+                <span style={{ fontSize: 11, color: '#6b7280' }}>{result.colorName} · {result.costPerKg} €/kg</span>
+              )}
+            </div>
+            <SecondaryResult label="Kosten/Stunde" value={costPerHour!} unit="€" />
+            <SecondaryResult label="Kosten pro 1.000 lm" value={costPer1000!} unit="€" />
+            <SecondaryResult label="Kosten pro 10.000 lm" value={costPer10000!} unit="€" />
+          </>
+        )}
       </div>
     </div>
   )
@@ -743,6 +829,142 @@ function SaveModal({ open, onClose, onSave, defaultName }: {
   )
 }
 
+// ── Farbe anlegen Modal ───────────────────────────────────────────────────────
+
+function ColorModal({ open, onClose, onSave }: {
+  open: boolean; onClose: () => void
+  onSave: (c: { name: string; supplier: string; color_type: string; density: string; cost_per_kg: string; notes: string }) => void
+}) {
+  const [name, setName] = useState('')
+  const [supplier, setSupplier] = useState('')
+  const [colorType, setColorType] = useState('waterbase')
+  const [density, setDensity] = useState('')
+  const [costPerKg, setCostPerKg] = useState('')
+  const [notes, setNotes] = useState('')
+
+  if (!open) return null
+
+  const handleSave = () => {
+    if (!name.trim()) return
+    onSave({ name: name.trim(), supplier: supplier.trim(), color_type: colorType, density, cost_per_kg: costPerKg, notes: notes.trim() })
+    setName(''); setSupplier(''); setColorType('waterbase'); setDensity(''); setCostPerKg(''); setNotes('')
+  }
+
+  return (
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 200,
+      background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(4px)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20,
+    }} onClick={onClose}>
+      <div style={{
+        background: 'white', borderRadius: 20, padding: 28,
+        width: '100%', maxWidth: 480,
+        boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
+        maxHeight: '90vh', overflowY: 'auto' as const,
+      }} onClick={e => e.stopPropagation()}>
+        <h3 style={{ margin: '0 0 20px', fontSize: 18, fontWeight: 800, color: '#003366' }}>Neue Farbe anlegen</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <div>
+            <Label>Farbname *</Label>
+            <Input value={name} onChange={setName} type="text" placeholder="z.B. Cyan Process" />
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div>
+              <Label>Lieferant</Label>
+              <Input value={supplier} onChange={setSupplier} type="text" placeholder="z.B. Flint Group" />
+            </div>
+            <div>
+              <Label>Typ</Label>
+              <Select value={colorType} onChange={setColorType}
+                options={Object.entries(COLOR_TYPES).map(([v, l]) => ({ value: v, label: l }))} />
+            </div>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            <div>
+              <Label tooltip="Dichte der Farbe in g/cm³. Wird beim Farbverbrauch-Rechner automatisch eingetragen wenn diese Farbe ausgewählt ist.">Dichte</Label>
+              <Input value={density} onChange={setDensity} placeholder="z.B. 1.05" unit="g/cm³" />
+            </div>
+            <div>
+              <Label tooltip="Einkaufspreis der Farbe pro Kilogramm in Euro. Ermöglicht die Kostenberechnung im Farbverbrauch-Rechner.">Kosten</Label>
+              <Input value={costPerKg} onChange={setCostPerKg} placeholder="z.B. 8.50" unit="€/kg" />
+            </div>
+          </div>
+          <div>
+            <Label hint="optional">Eigenschaften / Notizen</Label>
+            <textarea
+              value={notes} onChange={e => setNotes(e.target.value)}
+              placeholder="z.B. Viskosität 25 s, Pantone 485, für UV-Linie"
+              rows={3}
+              style={{
+                width: '100%', boxSizing: 'border-box' as const, padding: '10px 14px',
+                border: '1.5px solid #d1d5db', borderRadius: 10,
+                fontSize: 14, color: '#111827', resize: 'vertical' as const,
+                fontFamily: 'Arial, sans-serif', outline: 'none',
+              }}
+            />
+          </div>
+        </div>
+        <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
+          <button type="button" onClick={onClose} style={{
+            flex: 1, padding: '11px', border: '1.5px solid #d1d5db', borderRadius: 10,
+            background: 'none', cursor: 'pointer', fontSize: 14, fontWeight: 600, color: '#6b7280',
+          }}>Abbrechen</button>
+          <button type="button" onClick={handleSave} style={{
+            flex: 2, padding: '11px', border: 'none', borderRadius: 10,
+            background: 'linear-gradient(135deg, #003366, #0099cc)',
+            cursor: 'pointer', fontSize: 14, fontWeight: 700, color: 'white',
+          }}>Farbe speichern</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ── Farb-Karte ────────────────────────────────────────────────────────────────
+
+function ColorCard({ color, onDelete }: { color: FlexoColor; onDelete: () => void }) {
+  const typeLabel = COLOR_TYPES[color.color_type ?? ''] ?? color.color_type ?? null
+  return (
+    <div style={{
+      background: 'white', borderRadius: 14, border: '1px solid #e5e7eb',
+      padding: '12px 14px', display: 'flex', gap: 12, alignItems: 'flex-start',
+    }}>
+      <div style={{
+        width: 36, height: 36, borderRadius: 10, flexShrink: 0,
+        background: '#f0f9ff', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0099cc" strokeWidth="2">
+          <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+        </svg>
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4, flexWrap: 'wrap' as const }}>
+          <span style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>{color.name}</span>
+          {typeLabel && (
+            <span style={{ fontSize: 10, fontWeight: 700, color: '#0369a1', background: '#e0f2fe', padding: '1px 6px', borderRadius: 5 }}>
+              {typeLabel}
+            </span>
+          )}
+        </div>
+        <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: 12, fontSize: 12, color: '#6b7280' }}>
+          {color.supplier && <span>{color.supplier}</span>}
+          {color.density    && <span>{color.density} g/cm³</span>}
+          {color.cost_per_kg && <span style={{ fontWeight: 700, color: '#059669' }}>{color.cost_per_kg} €/kg</span>}
+        </div>
+        {color.notes && (
+          <p style={{ margin: '4px 0 0', fontSize: 11, color: '#9ca3af', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>
+            {color.notes}
+          </p>
+        )}
+      </div>
+      <button type="button" onClick={onDelete} style={{
+        padding: '5px 10px', border: '1.5px solid #fee2e2', borderRadius: 7,
+        background: '#fef2f2', cursor: 'pointer', fontSize: 11, fontWeight: 700, color: '#dc2626', flexShrink: 0,
+      }}>Löschen</button>
+    </div>
+  )
+}
+
 // ── Verlauf ───────────────────────────────────────────────────────────────────
 
 function relDate(iso: string) {
@@ -755,7 +977,7 @@ function relDate(iso: string) {
 }
 
 const MODE_LABELS: Record<string, string> = {
-  volume: 'Volumen', consumption: 'Verbrauch', film: 'Filmdicke', reverse: 'Volumen rückwärts', comparison: 'Vergleich'
+  volume: 'Volumen', consumption: 'Farbverbrauch', film: 'Filmdicke', reverse: 'Volumen rückwärts', comparison: 'Vergleich'
 }
 const MODE_COLORS: Record<string, string> = {
   volume: '#003366', consumption: '#0099cc', film: '#7c3aed', reverse: '#059669', comparison: '#d97706'
@@ -832,13 +1054,23 @@ export function AniloxCalculator() {
   const [historyOpen, setHistoryOpen] = useState(true)
   const [saving, setSaving] = useState(false)
 
+  // Farben
+  const [colors, setColors] = useState<FlexoColor[]>([])
+  const [colorsOpen, setColorsOpen] = useState(false)
+  const [showColorModal, setShowColorModal] = useState(false)
+
   // History laden
   const loadHistory = useCallback(async () => {
     const res = await fetch('/api/flexodruck/anilox-rechner')
     if (res.ok) { const d = await res.json(); setHistory(d.calculations ?? []) }
   }, [])
 
-  useState(() => { loadHistory() })
+  const loadColors = useCallback(async () => {
+    const res = await fetch('/api/flexodruck/farben')
+    if (res.ok) { const d = await res.json(); setColors(d.colors ?? []) }
+  }, [])
+
+  useState(() => { loadHistory(); loadColors() })
 
   const handleResult = (res: any, inp: any) => {
     setResult(res)
@@ -873,6 +1105,25 @@ export function AniloxCalculator() {
     setResult(calc.results)
     setCurrentInputs(calc.inputs)
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const handleSaveColor = async (c: { name: string; supplier: string; color_type: string; density: string; cost_per_kg: string; notes: string }) => {
+    setShowColorModal(false)
+    const res = await fetch('/api/flexodruck/farben', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(c),
+    })
+    if (res.ok) loadColors()
+  }
+
+  const handleDeleteColor = async (id: string) => {
+    await fetch('/api/flexodruck/farben', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }),
+    })
+    setColors(prev => prev.filter(c => c.id !== id))
   }
 
   const defaultSaveName = () => {
@@ -942,7 +1193,7 @@ export function AniloxCalculator() {
           </div>
           <div>
             <h1 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: '#003366' }}>Anilox-Rechner</h1>
-            <p style={{ margin: 0, fontSize: 12, color: '#6b7280' }}>Volumen · Verbrauch · Filmdicke · Volumen rückwärts · Vergleich</p>
+            <p style={{ margin: 0, fontSize: 12, color: '#6b7280' }}>Volumen · Farbverbrauch · Filmdicke · Volumen rückwärts · Vergleich</p>
           </div>
         </div>
         {/* Einheiten-Toggle */}
@@ -1006,7 +1257,7 @@ export function AniloxCalculator() {
         <div style={{ background: 'white', borderRadius: 16, border: '1px solid #e5e7eb', padding: 20, display: 'flex', flexDirection: 'column', gap: 0 }}>
           <p style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 800, color: '#374151' }}>Eingaben</p>
           {mode === 'volume'      && <VolumeCalc unit={unit} onResult={handleResult} />}
-          {mode === 'consumption' && <ConsumptionCalc unit={unit} onResult={handleResult} />}
+          {mode === 'consumption' && <ConsumptionCalc unit={unit} onResult={handleResult} colors={colors} onAddColor={() => setShowColorModal(true)} />}
           {mode === 'film'        && <FilmCalc unit={unit} onResult={handleResult} />}
           {mode === 'reverse'     && <ReverseCalc unit={unit} onResult={handleResult} />}
           {mode === 'comparison'  && <ComparisonCalc unit={unit} onResult={handleResult} />}
@@ -1022,6 +1273,55 @@ export function AniloxCalculator() {
           <p style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 800, color: '#374151' }}>Ergebnis</p>
           <ResultPanel />
         </div>
+      </div>
+
+      {/* Meine Farben */}
+      <div style={{ padding: '0 16px', marginBottom: 12 }}>
+        <button type="button" onClick={() => setColorsOpen(v => !v)} style={{
+          width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '14px 16px', background: 'white', border: '1px solid #e5e7eb',
+          borderRadius: colorsOpen && colors.length > 0 ? '14px 14px 0 0' : 14,
+          cursor: 'pointer', transition: 'background 0.15s',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0099cc" strokeWidth="2">
+              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+            </svg>
+            <span style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>Meine Farben</span>
+            {colors.length > 0 && (
+              <span style={{ fontSize: 11, fontWeight: 700, background: '#0099cc', color: 'white', padding: '2px 8px', borderRadius: 20 }}>
+                {colors.length}
+              </span>
+            )}
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <button type="button" onClick={e => { e.stopPropagation(); setShowColorModal(true) }} style={{
+              padding: '4px 12px', border: '1.5px solid #0099cc', borderRadius: 8,
+              background: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 700, color: '#0099cc',
+            }}>+ Farbe anlegen</button>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"
+              style={{ transform: colorsOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </div>
+        </button>
+
+        {colorsOpen && (
+          <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderTop: 'none', borderRadius: '0 0 14px 14px', padding: 12 }}>
+            {colors.length === 0 ? (
+              <p style={{ textAlign: 'center', color: '#9ca3af', fontSize: 13, margin: '16px 0' }}>
+                Noch keine Farben hinterlegt.<br />
+                <span style={{ fontSize: 12 }}>Lege Farben mit Lieferant, Eigenschaften und Kosten an.</span>
+              </p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {colors.map(color => (
+                  <ColorCard key={color.id} color={color} onDelete={() => handleDeleteColor(color.id)} />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Verlauf */}
@@ -1077,6 +1377,11 @@ export function AniloxCalculator() {
         onClose={() => setShowSave(false)}
         onSave={handleSave}
         defaultName={defaultSaveName()}
+      />
+      <ColorModal
+        open={showColorModal}
+        onClose={() => setShowColorModal(false)}
+        onSave={handleSaveColor}
       />
     </div>
   )
