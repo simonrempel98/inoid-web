@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { OrgTreePicker, getOrgRefLabel, type OrgLocation, type OrgHall, type OrgArea } from '@/components/org-tree-picker'
 import { compressImage, checkDocSize, formatBytes } from '@/lib/compress-image'
 import { compressPdf, PDF_COMPRESS_THRESHOLD_BYTES } from '@/lib/compress-pdf'
-import { FileText, X, Upload, Plus, Trash2, CheckCircle2 } from 'lucide-react'
+import { FileText, X, Upload, Plus, Trash2, CheckCircle2, Sparkles, Loader2 } from 'lucide-react'
 
 const UNIT_GROUPS = [
   { label: 'Länge',               units: ['mm', 'cm', 'dm', 'm', 'km', 'in', 'ft', 'yd'] },
@@ -106,6 +106,11 @@ export function AdminAssetForm({
   const [techUnits, setTechUnits] = useState<Record<string, string>>({})
   const [commUnits, setCommUnits] = useState<Record<string, string>>({})
 
+  // KI-Analyse
+  const aiInputRef = useRef<HTMLInputElement>(null)
+  const [aiLoading, setAiLoading] = useState(false)
+  const [aiError, setAiError] = useState<string | null>(null)
+
   // Submit
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -182,6 +187,57 @@ export function AdminAssetForm({
       urls.push(data.publicUrl)
     }
     return urls
+  }
+
+  async function handleAiAnalyse(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? [])
+    if (!files.length) return
+    e.target.value = ''
+    setAiLoading(true)
+    setAiError(null)
+
+    try {
+      const fileData = await Promise.all(files.map(f => new Promise<{ base64: string; mediaType: string; name: string }>((resolve, reject) => {
+        const reader = new FileReader()
+        reader.onload = ev => resolve({
+          base64: (ev.target?.result as string).split(',')[1],
+          mediaType: f.type || 'image/jpeg',
+          name: f.name,
+        })
+        reader.onerror = reject
+        reader.readAsDataURL(f)
+      })))
+
+      const res = await fetch('/api/assets/extract', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ files: fileData }),
+      })
+
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error ?? 'KI-Analyse fehlgeschlagen')
+
+      const d = json.data
+      if (d.title)         setTitle(d.title)
+      if (d.manufacturer)  setManufacturer(d.manufacturer)
+      if (d.article_number) setArticleNumber(d.article_number)
+      if (d.serial_number)  setSerialNumber(d.serial_number)
+      if (d.category)      setCategory(d.category)
+      if (d.description)   setDescription(d.description)
+
+      if (d.technical_data && typeof d.technical_data === 'object') {
+        const entries = Object.entries(d.technical_data as Record<string, string>).filter(([, v]) => v)
+        setTechFields(entries.map(([key, value]) => ({ key, value: String(value) })))
+      }
+      if (d.commercial_data && typeof d.commercial_data === 'object') {
+        const entries = Object.entries(d.commercial_data as Record<string, string>).filter(([, v]) => v)
+        setCommFields(entries.map(([key, value]) => ({ key, value: String(value) })))
+      }
+    } catch (err) {
+      setAiError(err instanceof Error ? err.message : 'Unbekannter Fehler')
+    } finally {
+      setAiLoading(false)
+    }
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -340,6 +396,58 @@ export function AdminAssetForm({
   // ── Formular ────────────────────────────────────────────────────────────────
   return (
     <form onSubmit={handleSubmit}>
+
+      {/* KI-Analyse Banner */}
+      <input
+        ref={aiInputRef}
+        type="file"
+        accept="image/*,.pdf"
+        multiple
+        onChange={handleAiAnalyse}
+        style={{ display: 'none' }}
+      />
+      <div style={{
+        background: 'linear-gradient(135deg, #0d1f3c 0%, #1a3a6b 100%)',
+        borderRadius: 14, border: '1px solid #1e4080',
+        padding: '16px 20px', marginBottom: 16,
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16,
+        flexWrap: 'wrap',
+      }}>
+        <div>
+          <p style={{ fontSize: 13, fontWeight: 700, color: 'white', margin: '0 0 3px', fontFamily: 'Arial, sans-serif', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <Sparkles size={14} color="#60a5fa" />
+            KI-Analyse
+          </p>
+          <p style={{ fontSize: 11, color: '#93c5fd', margin: 0, fontFamily: 'Arial, sans-serif' }}>
+            Typenschild, Rechnung oder Foto hochladen — Claude füllt das Formular automatisch aus
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => aiInputRef.current?.click()}
+          disabled={aiLoading}
+          style={{
+            background: aiLoading ? '#1e4080' : '#0099cc',
+            color: 'white', border: 'none', borderRadius: 50,
+            padding: '9px 18px', fontSize: 13, fontWeight: 700,
+            cursor: aiLoading ? 'not-allowed' : 'pointer',
+            display: 'flex', alignItems: 'center', gap: 6,
+            fontFamily: 'Arial, sans-serif', flexShrink: 0,
+          }}
+        >
+          {aiLoading
+            ? <><Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} /> Analysiere…</>
+            : <><Sparkles size={13} /> Datei hochladen</>
+          }
+        </button>
+      </div>
+      {aiError && (
+        <p style={{ color: '#f87171', fontSize: 12, marginBottom: 12, fontFamily: 'Arial, sans-serif',
+          background: '#450a0a', padding: '10px 14px', borderRadius: 8 }}>
+          KI-Fehler: {aiError}
+        </p>
+      )}
+
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 16, alignItems: 'start' }}>
 
         {/* ── Linke Spalte ── */}
@@ -472,6 +580,7 @@ export function AdminAssetForm({
           </button>
         </div>
       </div>
+      <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }`}</style>
     </form>
   )
 }
