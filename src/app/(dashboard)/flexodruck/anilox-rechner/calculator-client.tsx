@@ -23,7 +23,7 @@ const MODES: { id: Mode; label: string; desc: string; svg: React.ReactNode }[] =
     svg: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="7" width="20" height="3" rx="1"/><rect x="2" y="12" width="20" height="3" rx="1"/><rect x="2" y="17" width="20" height="3" rx="1"/></svg>,
   },
   {
-    id: 'reverse', label: 'Rückwärts', desc: 'Zielvolumen → Geometrieparameter',
+    id: 'reverse', label: 'Volumen rückwärts', desc: 'Zielvolumen → Geometrieparameter',
     svg: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>,
   },
   {
@@ -716,7 +716,7 @@ function relDate(iso: string) {
 }
 
 const MODE_LABELS: Record<string, string> = {
-  volume: 'Volumen', consumption: 'Verbrauch', film: 'Filmdicke', reverse: 'Rückwärts', comparison: 'Vergleich'
+  volume: 'Volumen', consumption: 'Verbrauch', film: 'Filmdicke', reverse: 'Volumen rückwärts', comparison: 'Vergleich'
 }
 const MODE_COLORS: Record<string, string> = {
   volume: '#003366', consumption: '#0099cc', film: '#7c3aed', reverse: '#059669', comparison: '#d97706'
@@ -903,7 +903,7 @@ export function AniloxCalculator() {
           </div>
           <div>
             <h1 style={{ margin: 0, fontSize: 20, fontWeight: 900, color: '#003366' }}>Anilox-Rechner</h1>
-            <p style={{ margin: 0, fontSize: 12, color: '#6b7280' }}>Volumen · Verbrauch · Filmdicke · Rückwärts · Vergleich</p>
+            <p style={{ margin: 0, fontSize: 12, color: '#6b7280' }}>Volumen · Verbrauch · Filmdicke · Volumen rückwärts · Vergleich</p>
           </div>
         </div>
         {/* Einheiten-Toggle */}
