@@ -117,6 +117,7 @@ function SensorCard({ sensor, onDelete, onCopy, copied }: {
   onCopy: (v: string, k: string) => void
   copied: string | null
 }) {
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const info = typeInfo(sensor.type)
   const isLive = sensor.latestAt
     ? (Date.now() - new Date(sensor.latestAt).getTime()) < 5 * 60 * 1000
@@ -131,9 +132,9 @@ function SensorCard({ sensor, onDelete, onCopy, copied }: {
   return (
     <div style={{
       background: 'var(--ds-surface, white)', borderRadius: 12,
-      border: `1px solid ${isLive ? '#0099cc44' : 'var(--ds-border, #c8d4e8)'}`,
+      border: `1px solid ${confirmDelete ? '#ef444444' : isLive ? '#0099cc44' : 'var(--ds-border, #c8d4e8)'}`,
       padding: '12px 14px',
-      transition: 'border-color 0.3s',
+      transition: 'border-color 0.2s',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
 
@@ -171,37 +172,62 @@ function SensorCard({ sensor, onDelete, onCopy, copied }: {
         </div>
 
         {/* Sparkline */}
-        {sensor.history.length >= 2 && (
+        {!confirmDelete && sensor.history.length >= 2 && (
           <div style={{ flexShrink: 0 }}>
             <Sparkline values={sensor.history} color={isLive ? '#0099cc' : '#c8d4e8'} />
           </div>
         )}
 
         {/* Wert */}
-        <div style={{ textAlign: 'right', minWidth: 56, flexShrink: 0 }}>
-          {displayValue !== null ? (
-            <>
-              <p style={{ fontSize: 22, fontWeight: 900, color: '#0099cc', margin: 0, lineHeight: 1 }}>
-                {displayValue}
-              </p>
-              <p style={{ fontSize: 10, color: '#96aed2', margin: '1px 0 0', fontWeight: 700 }}>
-                {sensor.unit}
-              </p>
-            </>
-          ) : (
-            <p style={{ fontSize: 13, color: 'var(--ds-text4, #999)', margin: 0 }}>–</p>
-          )}
-        </div>
+        {!confirmDelete && (
+          <div style={{ textAlign: 'right', minWidth: 56, flexShrink: 0 }}>
+            {displayValue !== null ? (
+              <>
+                <p style={{ fontSize: 22, fontWeight: 900, color: '#0099cc', margin: 0, lineHeight: 1 }}>
+                  {displayValue}
+                </p>
+                <p style={{ fontSize: 10, color: '#96aed2', margin: '1px 0 0', fontWeight: 700 }}>
+                  {sensor.unit}
+                </p>
+              </>
+            ) : (
+              <p style={{ fontSize: 13, color: 'var(--ds-text4, #999)', margin: 0 }}>–</p>
+            )}
+          </div>
+        )}
 
-        {/* Delete */}
+        {/* Bestätigung oder Delete-Button */}
         {onDelete && (
-          <button onClick={onDelete} style={{
-            background: 'none', border: 'none', cursor: 'pointer',
-            color: 'var(--ds-border, #c8d4e8)', padding: 4, display: 'flex', flexShrink: 0,
-          }}
-          title="Sensor entfernen">
-            <Trash2 size={13} />
-          </button>
+          confirmDelete ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+              <span style={{ fontSize: 11, color: '#ef4444', fontWeight: 700, whiteSpace: 'nowrap' }}>
+                Löschen?
+              </span>
+              <button onClick={onDelete} style={{
+                background: '#ef4444', color: 'white', border: 'none', cursor: 'pointer',
+                borderRadius: 6, padding: '4px 10px', fontSize: 11, fontWeight: 700,
+                fontFamily: 'Arial, sans-serif',
+              }}>
+                Ja
+              </button>
+              <button onClick={() => setConfirmDelete(false)} style={{
+                background: 'none', color: 'var(--ds-text3, #666)',
+                border: '1px solid var(--ds-border, #c8d4e8)', cursor: 'pointer',
+                borderRadius: 6, padding: '4px 10px', fontSize: 11,
+                fontFamily: 'Arial, sans-serif',
+              }}>
+                Nein
+              </button>
+            </div>
+          ) : (
+            <button onClick={() => setConfirmDelete(true)} style={{
+              background: 'none', border: 'none', cursor: 'pointer',
+              color: 'var(--ds-border, #c8d4e8)', padding: 4, display: 'flex', flexShrink: 0,
+            }}
+            title="Sensor entfernen">
+              <Trash2 size={13} />
+            </button>
+          )
         )}
       </div>
 
@@ -326,7 +352,6 @@ export function SensorPanel({
 
   // ── Sensor löschen ───────────────────────────────────────────────────────────
   async function handleDelete(sensorId: string) {
-    if (!confirm('Sensor wirklich entfernen?')) return
     const res = await fetch(`/api/sensors/${sensorId}`, { method: 'DELETE' })
     if (res.ok) setSensors(prev => prev.filter(s => s.id !== sensorId))
   }
