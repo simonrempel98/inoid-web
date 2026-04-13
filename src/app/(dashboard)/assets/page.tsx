@@ -68,8 +68,9 @@ export default async function AssetsPage({
 
   const categories = [...new Set((categoryRows ?? []).map(r => r.category as string).filter(Boolean))].sort()
 
-  const { data: orgData } = await supabase.from('organizations').select('settings').single()
+  const { data: orgData } = await supabase.from('organizations').select('settings, features').single()
   const customStatuses = (orgData?.settings as { custom_statuses?: { value: string; label: string; color: string }[] })?.custom_statuses ?? []
+  const showKiImport = (orgData?.features as Record<string, boolean>)?.ki_import === true
 
   const { getStatusConfig } = await import('@/lib/asset-statuses')
   const t = await getTranslations()
@@ -91,7 +92,7 @@ export default async function AssetsPage({
         </div>
         {perms.editAssets && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <AssetImportButton />
+            {showKiImport && <AssetImportButton />}
             <Link href="/assets/neu" style={{
               backgroundColor: '#003366', color: 'white',
               padding: '10px 18px', borderRadius: 50,

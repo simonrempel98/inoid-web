@@ -22,7 +22,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const messages = await getMessages()
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
+      <head>
+        {/* Blocking script: liest Theme aus localStorage und setzt Attribut auf <html>
+            BEVOR der Browser rendert → verhindert Flash of wrong theme */}
+        <script dangerouslySetInnerHTML={{ __html: `
+(function(){try{
+  var ds=localStorage.getItem('ds-theme');
+  if(ds==='light'||ds==='dark')document.documentElement.setAttribute('data-ds-theme',ds);
+  var adm=localStorage.getItem('admin-theme');
+  if(adm==='light'||adm==='dark')document.documentElement.setAttribute('data-admin-theme',adm);
+}catch(e){}}())
+        ` }} />
+      </head>
       <body style={{ margin: 0, fontFamily: 'Arial, Helvetica, sans-serif' }}>
         <NextIntlClientProvider locale={locale} messages={messages}>
           {children}

@@ -115,7 +115,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
     const urls: string[] = []
     for (const file of newFiles) {
       const ext = file.name.split('.').pop()
-      const path = `${asset.id}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
+      const path = `assets/${asset.id}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
       const { error } = await supabase.storage.from('asset-images').upload(path, file)
       if (error) throw new Error(t('assets.form.uploadFailed') + ': ' + error.message)
       const { data } = supabase.storage.from('asset-images').getPublicUrl(path)

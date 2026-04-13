@@ -18,6 +18,7 @@ const FEATURES: Feature[] = [
   { key: 'sensorik',   label: 'Sensorik',     desc: 'Echtzeit-Sensordaten je Asset: Temperatur, Vibration, Drehzahl u.v.m.',             defaultOn: false },
   { key: 'flexodruck',  label: 'Flexodruck',   desc: 'Setup-Manager für Flexodruck-Maschinen: Druckwerke, Vorlagen & Rüstvorgänge',       defaultOn: false },
   { key: 'inoai',      label: 'INOai',        desc: 'KI-Produktassistent auf Basis der INOMETA-Wissensbasis',                              defaultOn: false },
+  { key: 'ki_import',  label: 'KI-Import',    desc: 'Asset-Import per KI: Daten aus Fotos, Dokumenten oder Text automatisch auslesen',    defaultOn: false },
 ]
 
 export function FeatureToggles({ orgId, features }: {
