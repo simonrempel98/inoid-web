@@ -6,15 +6,34 @@ import { getMessages, getLocale } from 'next-intl/server'
 export const metadata: Metadata = {
   title: "INOid – Asset Management",
   description: "Digitales Asset Management für Maschinenkomponenten | INOMETA GmbH",
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'INOid',
+    startupImage: [
+      { url: '/icons/apple-touch-icon.png' },
+    ],
+  },
   icons: {
-    icon: '/icon.svg',
-    shortcut: '/icon.svg',
+    icon: [
+      { url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/icons/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+    shortcut: '/icons/icon-192.png',
   },
 };
 
 export const viewport = {
   width: 'device-width',
   initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',        // iPhone X Notch / Dynamic Island
+  themeColor: '#003366',
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

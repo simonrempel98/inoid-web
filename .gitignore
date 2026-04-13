@@ -36,6 +36,22 @@ yarn-error.log*
 # vercel
 .vercel
 
+# Capacitor / Android
+android/.gradle/
+android/app/build/
+android/build/
+android/local.properties
+android/app/release/
+*.keystore
+*.jks
+
+# Capacitor / iOS
+ios/App/Pods/
+ios/.xcode.env.local
+
+# App icons (generated)
+# public/icons/*.png  ← bewusst NICHT ignoriert, werden ins Repo committed
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

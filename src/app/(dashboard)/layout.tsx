@@ -6,6 +6,7 @@ import { BottomNav } from '@/components/nav-bottom'
 import { Sidebar } from '@/components/nav-sidebar'
 import { DashboardThemeProvider } from '@/components/dashboard-theme-provider'
 import { DashboardThemeToggle } from '@/components/dashboard-theme-toggle'
+import { NativeAppInit } from '@/components/native-app-init'
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient()
@@ -34,6 +35,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
 
   return (
     <DashboardThemeProvider>
+      <NativeAppInit />
       {/* Desktop Sidebar – nur auf md+ sichtbar (via CSS class) */}
       <div className="hidden md:block">
         <Sidebar
