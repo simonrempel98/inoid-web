@@ -574,7 +574,7 @@ export function INOaiAdminClient({
   const [stats, setStats] = useState<StatsMap>(initialStats)
   const [totalCount, setTotalCount] = useState(total)
   const [jobs, setJobs] = useState<Record<string, JobRow>>(initialJobs)
-  const [open, setOpen] = useState({ crawlers: false, synonyms: false, docs: false, manual: false })
+  const [open, setOpen] = useState({ crawlers: false, synonyms: false, docs: false })
 
   function toggle(k: keyof typeof open) { setOpen(p => ({ ...p, [k]: !p[k] })) }
 
@@ -683,20 +683,12 @@ export function INOaiAdminClient({
         <SynonymManager />
       </AccordionSection>
 
-      {/* ── Dokumente ── */}
+      {/* ── Wissensdokumente ── */}
       <AccordionSection
-        icon="📄" title="Dokumente" accent="#059669" open={open.docs} onToggle={() => toggle('docs')}
-        meta={totalDocs > 0 ? <Chip label={`${totalDocs} PDFs`} color="#052e16" text="#6ee7b7" /> : undefined}
+        icon="📚" title="Wissensdokumente" accent="#059669" open={open.docs} onToggle={() => toggle('docs')}
+        meta={<Chip label="PDF · DOCX · PPTX · TXT · …" color="#052e16" text="#6ee7b7" />}
       >
-        <PdfLibrary crawlers={crawlers} />
-      </AccordionSection>
-
-      {/* ── Manueller Upload ── */}
-      <AccordionSection
-        icon="📂" title="Manueller Upload" accent="#f59e0b" open={open.manual} onToggle={() => toggle('manual')}
-        meta={<Chip label="PDF · DOCX · PPTX · TXT · …" color="#1c1505" text="#fcd34d" />}
-      >
-        <ManualUpload />
+        <KnowledgeLibrary crawlers={crawlers} />
       </AccordionSection>
 
       <style>{`
@@ -705,16 +697,6 @@ export function INOaiAdminClient({
       `}</style>
     </div>
   )
-}
-
-// ── PDF-Bibliothek ───────────────────────────────────────────────────────────
-
-type PdfDoc = {
-  title: string
-  source_url: string
-  language: string
-  crawler_id: string
-  created_at: string
 }
 
 // ── Synonym-Manager ──────────────────────────────────────────────────────────
@@ -1540,223 +1522,20 @@ const LANG_LABELS: Record<string, string> = {
   lv: 'LV', et: 'ET', ja: 'JA', zh: 'ZH',
 }
 
-function PdfLibrary({ crawlers }: { crawlers: CrawlerRow[] }) {
-  const [docs, setDocs] = useState<PdfDoc[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [search, setSearch] = useState('')
-  const [filterCrawler, setFilterCrawler] = useState('all')
-  const [filterLang, setFilterLang] = useState('all')
-  const [collapsed, setCollapsed] = useState<Set<string>>(new Set())
 
-  useEffect(() => { load() }, [])
+// ── Wissensdokumente (unified library) ───────────────────────────────────────
 
-  async function load() {
-    setLoading(true)
-    setError(null)
-    try {
-      const res = await fetch('/api/admin/inoai/pdfs')
-      const data = await res.json()
-      if (!res.ok) { setError(data.error ?? `HTTP ${res.status}`); setLoading(false); return }
-      setDocs(data.pdfs ?? [])
-    } catch (e: any) {
-      setError(e.message)
-    }
-    setLoading(false)
-  }
-
-  const crawlerNames = new Map(crawlers.map(c => [c.id, c.name]))
-  const langs = [...new Set(docs.map(d => d.language))].sort()
-  const crawlerIds = [...new Set(docs.map(d => d.crawler_id))]
-
-  const q = search.trim().toLowerCase()
-  const filtered = docs.filter(d => {
-    if (filterCrawler !== 'all' && d.crawler_id !== filterCrawler) return false
-    if (filterLang !== 'all' && d.language !== filterLang) return false
-    if (q && !d.title.toLowerCase().includes(q)) return false
-    return true
-  })
-
-  // Group by crawler_id
-  const groups = new Map<string, PdfDoc[]>()
-  for (const d of filtered) {
-    if (!groups.has(d.crawler_id)) groups.set(d.crawler_id, [])
-    groups.get(d.crawler_id)!.push(d)
-  }
-
-  function toggleCollapse(id: string) {
-    setCollapsed(prev => {
-      const next = new Set(prev)
-      if (next.has(id)) next.delete(id)
-      else next.add(id)
-      return next
-    })
-  }
-
-  return (
-    <div>
-      {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-        <div>
-          <h2 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: 'var(--adm-text)' }}>
-            📄 Dokumente
-          </h2>
-          <p style={{ margin: '2px 0 0', fontSize: 12, color: 'var(--adm-text3)' }}>
-            {docs.length} PDFs · {crawlerIds.length} Quellen
-          </p>
-        </div>
-        <button onClick={load} disabled={loading} style={{
-          background: 'none', border: '1px solid var(--adm-border)', borderRadius: 6,
-          padding: '5px 12px', fontSize: 12, color: 'var(--adm-text3)', cursor: loading ? 'default' : 'pointer',
-        }}>
-          {loading ? '…' : '⟳ Aktualisieren'}
-        </button>
-      </div>
-
-      {/* Filter-Leiste */}
-      <div style={{ display: 'flex', gap: 8, marginBottom: 18, flexWrap: 'wrap' }}>
-        <input
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          placeholder="Titel suchen…"
-          style={{
-            flex: '1 1 180px', padding: '7px 12px', fontSize: 13, borderRadius: 6,
-            border: '1px solid var(--adm-border)', background: 'var(--adm-card)',
-            color: 'var(--adm-text)', outline: 'none',
-          }}
-        />
-        <select
-          value={filterCrawler}
-          onChange={e => setFilterCrawler(e.target.value)}
-          style={{
-            padding: '7px 10px', fontSize: 12, borderRadius: 6,
-            border: '1px solid var(--adm-border)', background: 'var(--adm-card)',
-            color: 'var(--adm-text)', cursor: 'pointer',
-          }}
-        >
-          <option value="all">Alle Quellen</option>
-          {crawlerIds.map(id => (
-            <option key={id} value={id}>{crawlerNames.get(id) ?? id}</option>
-          ))}
-        </select>
-        <select
-          value={filterLang}
-          onChange={e => setFilterLang(e.target.value)}
-          style={{
-            padding: '7px 10px', fontSize: 12, borderRadius: 6,
-            border: '1px solid var(--adm-border)', background: 'var(--adm-card)',
-            color: 'var(--adm-text)', cursor: 'pointer',
-          }}
-        >
-          <option value="all">Alle Sprachen</option>
-          {langs.map(l => (
-            <option key={l} value={l}>{LANG_LABELS[l] ?? l.toUpperCase()}</option>
-          ))}
-        </select>
-        {(q || filterCrawler !== 'all' || filterLang !== 'all') && (
-          <button onClick={() => { setSearch(''); setFilterCrawler('all'); setFilterLang('all') }} style={{
-            background: 'none', border: '1px solid var(--adm-border)', borderRadius: 6,
-            padding: '7px 10px', fontSize: 12, color: 'var(--adm-text3)', cursor: 'pointer',
-          }}>✕ Reset</button>
-        )}
-      </div>
-
-      {/* Ergebnis */}
-      {loading ? (
-        <p style={{ color: 'var(--adm-text3)', fontSize: 13 }}>Lade…</p>
-      ) : error ? (
-        <p style={{ color: '#f85149', fontSize: 13 }}>Fehler: {error}</p>
-      ) : filtered.length === 0 ? (
-        <p style={{ color: 'var(--adm-text3)', fontSize: 13 }}>
-          {docs.length === 0 ? 'Keine PDFs in der Wissensbasis. Crawl zuerst ausführen.' : 'Keine Dokumente gefunden.'}
-        </p>
-      ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          {Array.from(groups.entries()).map(([crawlerId, pdfs]) => {
-            const name = crawlerNames.get(crawlerId) ?? crawlerId
-            const isCollapsed = collapsed.has(crawlerId)
-            return (
-              <div key={crawlerId} style={{
-                border: '1px solid var(--adm-border)', borderRadius: 10, overflow: 'hidden',
-              }}>
-                {/* Cluster-Header */}
-                <button
-                  onClick={() => toggleCollapse(crawlerId)}
-                  style={{
-                    width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '10px 14px', background: 'var(--adm-card)', border: 'none',
-                    cursor: 'pointer', textAlign: 'left',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--adm-text)' }}>{name}</span>
-                    <span style={{
-                      fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
-                      background: '#003366', color: '#93c5fd',
-                    }}>{pdfs.length} PDFs</span>
-                  </div>
-                  <span style={{ fontSize: 11, color: 'var(--adm-text3)' }}>{isCollapsed ? '▶' : '▼'}</span>
-                </button>
-
-                {/* PDF-Liste */}
-                {!isCollapsed && (
-                  <div style={{ borderTop: '1px solid var(--adm-border)' }}>
-                    {pdfs.map((doc, i) => {
-                      const filename = decodeURIComponent(doc.source_url.split('/').pop() ?? doc.source_url)
-                      const date = new Date(doc.created_at).toLocaleDateString('de', { day: '2-digit', month: '2-digit', year: '2-digit' })
-                      const lang = LANG_LABELS[doc.language] ?? doc.language.toUpperCase()
-                      const isEven = i % 2 === 0
-                      return (
-                        <div key={doc.source_url} style={{
-                          display: 'flex', alignItems: 'center', gap: 10,
-                          padding: '8px 14px',
-                          background: isEven ? 'transparent' : 'rgba(0,0,0,0.04)',
-                          borderTop: i > 0 ? '1px solid var(--adm-border)' : undefined,
-                        }}>
-                          <span style={{ fontSize: 15, flexShrink: 0 }}>📄</span>
-                          <div style={{ flex: 1, minWidth: 0 }}>
-                            <p style={{
-                              margin: 0, fontSize: 13, fontWeight: 600, color: 'var(--adm-text)',
-                              whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                            }} title={doc.title}>{doc.title}</p>
-                            <p style={{
-                              margin: '1px 0 0', fontSize: 11, color: 'var(--adm-text3)',
-                              whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                            }} title={filename}>{filename}</p>
-                          </div>
-                          <span style={{
-                            fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 20, flexShrink: 0,
-                            background: '#1e3a5f', color: '#93c5fd',
-                          }}>{lang}</span>
-                          <span style={{ fontSize: 11, color: 'var(--adm-text3)', flexShrink: 0, minWidth: 50, textAlign: 'right' }}>{date}</span>
-                          <a
-                            href={doc.source_url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            style={{
-                              flexShrink: 0, fontSize: 12, padding: '3px 8px', borderRadius: 5,
-                              border: '1px solid var(--adm-border)', color: 'var(--adm-text3)',
-                              textDecoration: 'none', lineHeight: 1,
-                            }}
-                            title="PDF öffnen"
-                          >↗</a>
-                        </div>
-                      )
-                    })}
-                  </div>
-                )}
-              </div>
-            )
-          })}
-        </div>
-      )}
-    </div>
-  )
+type KnowledgeDoc = {
+  title: string
+  source_url: string
+  language: string
+  created_at: string
+  source_type: string
+  crawler_id: string | null
+  crawler_name: string | null
+  chunks: number
+  tags: string[]
 }
-
-// ── Manueller Upload ─────────────────────────────────────────────────────────
-
-type ManualDoc = { title: string; source_url: string; language: string; created_at: string; chunks: number }
 
 const ALL_LANGS = [
   { code: 'de', label: 'Deutsch' }, { code: 'en', label: 'English' },
@@ -1777,22 +1556,31 @@ const ALL_LANGS = [
 
 const ACCEPT = '.pdf,.docx,.pptx,.txt,.md,.csv,.html,.htm,.xml,.json,.log,.rtf'
 
-function ManualUpload() {
-  const [tab, setTab] = useState<'upload' | 'docs'>('upload')
-  const [file, setFile] = useState<File | null>(null)
+
+function KnowledgeLibrary({ crawlers }: { crawlers: CrawlerRow[] }) {
+  const [tab, setTab] = useState<'upload' | 'library'>('upload')
+
+  // Upload state
+  const [files, setFiles] = useState<File[]>([])
   const [text, setText] = useState('')
-  const [title, setTitle] = useState('')
+  const [textTitle, setTextTitle] = useState('')
   const [lang, setLang] = useState('de')
   const [dragging, setDragging] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [result, setResult] = useState<{ type: 'success' | 'error' | 'duplicate' | 'allDuplicate'; msg: string } | null>(null)
-  const [awaitOverwrite, setAwaitOverwrite] = useState<{ sourceUrl: string; title: string } | null>(null)
-  const [docs, setDocs] = useState<ManualDoc[]>([])
-  const [docsLoading, setDocsLoading] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const [uploadResults, setUploadResults] = useState<{ name: string; status: 'ok' | 'error' | 'duplicate'; msg: string }[]>([])
   const fileRef = useRef<HTMLInputElement>(null)
 
+  // Library state
+  const [docs, setDocs] = useState<KnowledgeDoc[]>([])
+  const [docsLoading, setDocsLoading] = useState(false)
+  const [search, setSearch] = useState('')
+  const [filterType, setFilterType] = useState('all')
+  const [filterLang, setFilterLang] = useState('all')
+  const [sortBy, setSortBy] = useState<'newest' | 'oldest' | 'title' | 'chunks'>('newest')
+  const [activeTag, setActiveTag] = useState<string | null>(null)
+
   useEffect(() => {
-    if (tab === 'docs') loadDocs()
+    if (tab === 'library') loadDocs()
   }, [tab])
 
   async function loadDocs() {
@@ -1804,53 +1592,76 @@ function ManualUpload() {
 
   function onDrop(e: React.DragEvent) {
     e.preventDefault(); setDragging(false)
-    const f = e.dataTransfer.files[0]
-    if (f) { setFile(f); setTitle(f.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ')) }
+    setFiles(prev => [...prev, ...Array.from(e.dataTransfer.files)])
   }
-
   function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const f = e.target.files?.[0]
-    if (f) { setFile(f); setTitle(f.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ')) }
+    setFiles(prev => [...prev, ...Array.from(e.target.files ?? [])])
+    e.target.value = ''
   }
+  function removeFile(i: number) { setFiles(prev => prev.filter((_, idx) => idx !== i)) }
 
-  async function submit(overwrite = false) {
-    if (!file && !text.trim()) return
-    setLoading(true); setResult(null)
+  async function submit() {
+    if (!files.length && !text.trim()) return
+    setUploading(true)
+    setUploadResults([])
     const fd = new FormData()
-    if (file) fd.append('file', file)
-    if (text.trim()) fd.append('text', text)
-    fd.append('title', title)
+    for (const f of files) fd.append('file', f)
+    if (text.trim()) { fd.append('text', text); fd.append('title', textTitle) }
     fd.append('lang', lang)
-    if (overwrite) fd.append('overwrite', 'true')
-
     try {
       const res = await fetch('/api/admin/inoai/manual', { method: 'POST', body: fd })
       const data = await res.json()
-      if (!res.ok) {
-        setResult({ type: 'error', msg: data.error ?? `Fehler ${res.status}` })
-      } else if (data.existed) {
-        setAwaitOverwrite({ sourceUrl: data.sourceUrl, title: data.title })
-      } else if (data.duplicate) {
-        setResult({ type: 'allDuplicate', msg: `Alle Inhalte aus „${data.title}" sind bereits in der Wissensbasis vorhanden.` })
-      } else {
-        const skip = data.skipped > 0 ? ` · ${data.skipped} bereits bekannt` : ''
-        setResult({ type: 'success', msg: `✓ ${data.inserted} neue Chunks aus „${data.title}" gespeichert${skip}` })
-        setFile(null); setText(''); setTitle('')
-        if (fileRef.current) fileRef.current.value = ''
-        setAwaitOverwrite(null)
-      }
+      const results = (data.results ?? []).map((r: any) => ({
+        name: r.title || r.sourceUrl,
+        status: r.error ? 'error' : r.existed ? 'duplicate' : 'ok',
+        msg: r.error ? r.error : r.existed
+          ? 'Bereits vorhanden'
+          : `${r.inserted} Chunks gespeichert${r.skipped > 0 ? `, ${r.skipped} übersprungen` : ''}`,
+      }))
+      setUploadResults(results)
+      if (results.some((r: any) => r.status === 'ok')) { setFiles([]); setText(''); setTextTitle('') }
     } catch (e: any) {
-      setResult({ type: 'error', msg: e.message })
+      setUploadResults([{ name: 'Fehler', status: 'error', msg: e.message }])
     }
-    setLoading(false)
+    setUploading(false)
   }
 
   async function deleteDoc(sourceUrl: string) {
     if (!confirm('Dieses Dokument aus der Wissensbasis löschen?')) return
-    await fetch('/api/admin/inoai/manual', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ sourceUrl }) })
+    await fetch('/api/admin/inoai/manual', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sourceUrl }),
+    })
     setDocs(prev => prev.filter(d => d.source_url !== sourceUrl))
   }
 
+  const q = search.trim().toLowerCase()
+  const filtered = docs.filter(d => {
+    if (filterType === 'manual' && d.source_type !== 'manual') return false
+    if (filterType === 'crawler' && d.source_type === 'manual') return false
+    if (filterLang !== 'all' && d.language !== filterLang) return false
+    if (activeTag && !d.tags.includes(activeTag)) return false
+    if (q && !d.title.toLowerCase().includes(q) && !d.tags.some(t => t.includes(q))) return false
+    return true
+  })
+  const sorted = [...filtered].sort((a, b) => {
+    if (sortBy === 'newest') return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    if (sortBy === 'oldest') return new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+    if (sortBy === 'title') return a.title.localeCompare(b.title, 'de')
+    if (sortBy === 'chunks') return b.chunks - a.chunks
+    return 0
+  })
+  const allTags = [...new Set(docs.flatMap(d => d.tags))].sort()
+  const langs = [...new Set(docs.map(d => d.language))].sort()
+  const manualCount = docs.filter(d => d.source_type === 'manual').length
+  const crawlerCount = docs.filter(d => d.source_type !== 'manual').length
+
+  const inp: React.CSSProperties = {
+    padding: '7px 10px', borderRadius: 7, fontSize: 12, boxSizing: 'border-box' as const,
+    background: 'var(--adm-bg)', border: '1px solid var(--adm-border)',
+    color: 'var(--adm-text)', fontFamily: 'inherit',
+  }
   const tabStyle = (t: string) => ({
     background: 'none', border: 'none', cursor: 'pointer', padding: '8px 0', marginRight: 24,
     fontSize: 13, fontWeight: tab === t ? 700 : 500,
@@ -1860,20 +1671,17 @@ function ManualUpload() {
 
   return (
     <div>
-      <div style={{ marginBottom: 16 }}>
-        <h2 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: 'var(--adm-text)' }}>📂 Manueller Upload</h2>
-        <p style={{ margin: '2px 0 0', fontSize: 12, color: 'var(--adm-text3)' }}>
-          Beliebige Dateien oder Texte direkt in die Wissensbasis laden — neue Inhalte werden gespeichert, Duplikate übersprungen
-        </p>
-      </div>
-
       <div style={{ borderBottom: '1px solid var(--adm-border)', marginBottom: 20 }}>
         <button style={tabStyle('upload')} onClick={() => setTab('upload')}>⬆ Upload</button>
-        <button style={tabStyle('docs')} onClick={() => { setTab('docs') }}>📋 Dokumente</button>
+        <button style={tabStyle('library')} onClick={() => setTab('library')}>
+          📚 Bibliothek {docs.length > 0 && <span style={{ fontSize: 10, opacity: 0.6 }}>({docs.length})</span>}
+        </button>
       </div>
 
+      {/* ── Upload Tab ── */}
       {tab === 'upload' && (
-        <div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          {/* Drop zone */}
           <div
             onDragOver={e => { e.preventDefault(); setDragging(true) }}
             onDragLeave={() => setDragging(false)}
@@ -1881,130 +1689,257 @@ function ManualUpload() {
             onClick={() => fileRef.current?.click()}
             style={{
               border: `2px dashed ${dragging ? '#003366' : 'var(--adm-border)'}`,
-              borderRadius: 10, padding: '28px 20px', textAlign: 'center', cursor: 'pointer',
-              background: dragging ? 'rgba(0,51,102,0.06)' : 'var(--adm-card)',
-              transition: 'all 0.15s', marginBottom: 16,
+              borderRadius: 12, padding: '28px 20px', textAlign: 'center',
+              cursor: 'pointer', background: dragging ? 'rgba(0,51,102,0.06)' : 'var(--adm-card)',
+              transition: 'all 0.15s',
             }}
           >
-            <input ref={fileRef} type="file" accept={ACCEPT} style={{ display: 'none' }} onChange={onFileChange} />
-            {file ? (
-              <div>
-                <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: 'var(--adm-text)' }}>📄 {file.name}</p>
-                <p style={{ margin: '4px 0 0', fontSize: 11, color: 'var(--adm-text3)' }}>{(file.size / 1024).toFixed(0)} KB · klicken zum Wechseln</p>
-              </div>
-            ) : (
-              <div>
-                <p style={{ margin: 0, fontSize: 14, color: 'var(--adm-text3)' }}>Datei hierher ziehen oder klicken</p>
-                <p style={{ margin: '4px 0 0', fontSize: 11, color: 'var(--adm-text3)' }}>PDF, DOCX, PPTX, TXT, MD, CSV, HTML, XML, JSON</p>
-              </div>
-            )}
+            <input ref={fileRef} type="file" accept={ACCEPT} multiple style={{ display: 'none' }} onChange={onFileChange} />
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontSize: 28 }}>📂</span>
+              <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: 'var(--adm-text)' }}>
+                Dateien hierher ziehen oder klicken
+              </p>
+              <p style={{ margin: 0, fontSize: 11, color: 'var(--adm-text3)' }}>
+                PDF · DOCX · PPTX · TXT · MD · CSV · HTML · XML · JSON — auch mehrere gleichzeitig
+              </p>
+            </div>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+          {/* File queue */}
+          {files.length > 0 && (
+            <div style={{ border: '1px solid var(--adm-border)', borderRadius: 10, overflow: 'hidden' }}>
+              <div style={{
+                padding: '8px 14px', background: 'var(--adm-card)',
+                borderBottom: '1px solid var(--adm-border)',
+                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+              }}>
+                <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--adm-text)' }}>
+                  {files.length} Datei{files.length !== 1 ? 'en' : ''} ausgewählt
+                </span>
+                <button onClick={() => setFiles([])} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 11, color: 'var(--adm-text3)' }}>
+                  Alle entfernen
+                </button>
+              </div>
+              <div style={{ maxHeight: 200, overflowY: 'auto' }}>
+                {files.map((f, i) => (
+                  <div key={i} style={{
+                    display: 'flex', alignItems: 'center', gap: 10, padding: '7px 14px',
+                    borderTop: i > 0 ? '1px solid var(--adm-border)' : 'none',
+                  }}>
+                    <span style={{ fontSize: 15 }}>
+                      {f.name.endsWith('.pdf') ? '📄' : f.name.match(/\.docx?$/) ? '📝' : f.name.match(/\.pptx?$/) ? '📊' : '📃'}
+                    </span>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <p style={{ margin: 0, fontSize: 12, fontWeight: 600, color: 'var(--adm-text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{f.name}</p>
+                      <p style={{ margin: 0, fontSize: 10, color: 'var(--adm-text3)' }}>{(f.size / 1024).toFixed(0)} KB</p>
+                    </div>
+                    <button onClick={() => removeFile(i)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--adm-text3)', fontSize: 14 }}>✕</button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Text divider */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{ flex: 1, height: 1, background: 'var(--adm-border)' }} />
             <span style={{ fontSize: 11, color: 'var(--adm-text3)' }}>oder Text direkt eingeben</span>
             <div style={{ flex: 1, height: 1, background: 'var(--adm-border)' }} />
           </div>
 
           <textarea
-            value={text}
-            onChange={e => setText(e.target.value)}
+            value={text} onChange={e => setText(e.target.value)}
             placeholder="Text hier einfügen…"
-            rows={5}
-            style={{
-              width: '100%', padding: '10px 12px', fontSize: 13, borderRadius: 8,
-              border: '1px solid var(--adm-border)', background: 'var(--adm-card)',
-              color: 'var(--adm-text)', resize: 'vertical', outline: 'none',
-              fontFamily: 'inherit', boxSizing: 'border-box', marginBottom: 14,
-            }}
+            rows={4}
+            style={{ ...inp, width: '100%', resize: 'vertical', outline: 'none', fontFamily: 'inherit' }}
           />
 
-          <div style={{ display: 'flex', gap: 10, marginBottom: 14, flexWrap: 'wrap' }}>
-            <input
-              value={title}
-              onChange={e => setTitle(e.target.value)}
-              placeholder="Titel (optional)"
-              style={{
-                flex: '1 1 180px', padding: '8px 12px', fontSize: 13, borderRadius: 6,
-                border: '1px solid var(--adm-border)', background: 'var(--adm-card)',
-                color: 'var(--adm-text)', outline: 'none',
-              }}
-            />
-            <select
-              value={lang}
-              onChange={e => setLang(e.target.value)}
-              style={{
-                padding: '8px 10px', fontSize: 12, borderRadius: 6,
-                border: '1px solid var(--adm-border)', background: 'var(--adm-card)',
-                color: 'var(--adm-text)', cursor: 'pointer',
-              }}
-            >
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            {text.trim() && (
+              <input
+                value={textTitle} onChange={e => setTextTitle(e.target.value)}
+                placeholder="Titel für Text (optional)"
+                style={{ ...inp, flex: '1 1 180px' }}
+              />
+            )}
+            <select value={lang} onChange={e => setLang(e.target.value)} style={{ ...inp, minWidth: 140 }}>
               {ALL_LANGS.map(l => <option key={l.code} value={l.code}>{l.label}</option>)}
             </select>
           </div>
 
-          {awaitOverwrite && (
-            <div style={{ marginBottom: 14, padding: '12px 14px', borderRadius: 8, background: '#1c1f0a', border: '1px solid #4a4a1a' }}>
-              <p style={{ margin: '0 0 8px', fontSize: 13, color: '#fde68a' }}>
-                „{awaitOverwrite.title}" ist bereits in der Wissensbasis. Überschreiben?
-              </p>
-              <div style={{ display: 'flex', gap: 8 }}>
-                <button onClick={() => submit(true)} style={{ padding: '5px 14px', fontSize: 12, borderRadius: 6, cursor: 'pointer', background: '#92400e', border: 'none', color: '#fde68a', fontWeight: 700 }}>Ja, überschreiben</button>
-                <button onClick={() => setAwaitOverwrite(null)} style={{ padding: '5px 14px', fontSize: 12, borderRadius: 6, cursor: 'pointer', background: 'none', border: '1px solid var(--adm-border)', color: 'var(--adm-text3)' }}>Abbrechen</button>
-              </div>
+          {/* Upload results */}
+          {uploadResults.length > 0 && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              {uploadResults.map((r, i) => (
+                <div key={i} style={{
+                  padding: '8px 12px', borderRadius: 8, fontSize: 12, display: 'flex', gap: 8,
+                  background: r.status === 'ok' ? '#0d2010' : r.status === 'duplicate' ? '#0d1a2e' : '#1a0d0d',
+                  border: `1px solid ${r.status === 'ok' ? '#1a4a20' : r.status === 'duplicate' ? '#1e3a5f' : '#4a1a1a'}`,
+                  color: r.status === 'ok' ? '#56d364' : r.status === 'duplicate' ? '#93c5fd' : '#f85149',
+                }}>
+                  <span>{r.status === 'ok' ? '✓' : r.status === 'duplicate' ? 'ℹ' : '✕'}</span>
+                  <span style={{ fontWeight: 600, marginRight: 4 }}>{r.name}</span>
+                  <span style={{ opacity: 0.8 }}>— {r.msg}</span>
+                </div>
+              ))}
             </div>
           )}
 
-          {result && (
-            <div style={{
-              marginBottom: 14, padding: '10px 14px', borderRadius: 8, fontSize: 13,
-              background: result.type === 'success' ? '#0d2010' : result.type === 'allDuplicate' ? '#0d1a2e' : '#1a0d0d',
-              border: `1px solid ${result.type === 'success' ? '#1a4a20' : result.type === 'allDuplicate' ? '#1e3a5f' : '#4a1a1a'}`,
-              color: result.type === 'success' ? '#56d364' : result.type === 'allDuplicate' ? '#93c5fd' : '#f85149',
-            }}>{result.msg}</div>
-          )}
-
           <button
-            onClick={() => submit()}
-            disabled={loading || (!file && !text.trim())}
+            onClick={submit}
+            disabled={uploading || (!files.length && !text.trim())}
             style={{
-              padding: '9px 24px', fontSize: 13, fontWeight: 700, borderRadius: 7, cursor: 'pointer',
-              background: '#003366', border: 'none', color: '#fff',
-              opacity: loading || (!file && !text.trim()) ? 0.5 : 1,
+              padding: '10px 24px', fontSize: 13, fontWeight: 700, borderRadius: 7, cursor: 'pointer',
+              background: '#003366', border: 'none', color: '#fff', alignSelf: 'flex-start',
+              opacity: uploading || (!files.length && !text.trim()) ? 0.5 : 1,
+              display: 'flex', alignItems: 'center', gap: 8,
             }}
           >
-            {loading ? '⏳ Verarbeite…' : '⬆ In Wissensbasis speichern'}
+            {uploading && <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>⟳</span>}
+            {uploading
+              ? `Verarbeite${files.length > 1 ? ' ' + files.length + ' Dateien' : ''}…`
+              : '⬆ In Wissensbasis speichern'}
           </button>
         </div>
       )}
 
-      {tab === 'docs' && (
+      {/* ── Library Tab ── */}
+      {tab === 'library' && (
         <div>
-          <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 12 }}>
-            <button onClick={loadDocs} style={{ background: 'none', border: '1px solid var(--adm-border)', borderRadius: 6, padding: '5px 12px', fontSize: 12, color: 'var(--adm-text3)', cursor: 'pointer' }}>⟳ Aktualisieren</button>
+          {/* Filter row */}
+          <div style={{ display: 'flex', gap: 8, marginBottom: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+            <div style={{ position: 'relative', flex: '1 1 180px' }}>
+              <span style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', fontSize: 11, color: 'var(--adm-text3)', pointerEvents: 'none' }}>🔍</span>
+              <input
+                value={search} onChange={e => setSearch(e.target.value)}
+                placeholder="Titel oder Hashtag suchen…"
+                style={{ ...inp, width: '100%', paddingLeft: 28 }}
+              />
+              {search && (
+                <button onClick={() => setSearch('')} style={{ position: 'absolute', right: 8, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', fontSize: 11, color: 'var(--adm-text3)', padding: '0 2px' }}>✕</button>
+              )}
+            </div>
+            <select value={filterType} onChange={e => setFilterType(e.target.value)} style={inp}>
+              <option value="all">Alle ({docs.length})</option>
+              <option value="manual">Manuell ({manualCount})</option>
+              <option value="crawler">Crawler ({crawlerCount})</option>
+            </select>
+            <select value={filterLang} onChange={e => setFilterLang(e.target.value)} style={inp}>
+              <option value="all">Alle Sprachen</option>
+              {langs.map(l => <option key={l} value={l}>{LANG_LABELS[l] ?? l.toUpperCase()}</option>)}
+            </select>
+            <select value={sortBy} onChange={e => setSortBy(e.target.value as typeof sortBy)} style={inp}>
+              <option value="newest">Neueste</option>
+              <option value="oldest">Älteste</option>
+              <option value="title">A → Z</option>
+              <option value="chunks">Meiste Chunks</option>
+            </select>
+            <button onClick={loadDocs} disabled={docsLoading} style={{ ...inp, cursor: docsLoading ? 'default' : 'pointer', minWidth: 34, textAlign: 'center' as const }}>
+              <span style={{ display: 'inline-block', animation: docsLoading ? 'spin 1s linear infinite' : 'none' }}>⟳</span>
+            </button>
           </div>
+
+          {/* Hashtag cloud */}
+          {allTags.length > 0 && (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 14, padding: '10px 12px', background: 'var(--adm-card)', borderRadius: 10, border: '1px solid var(--adm-border)' }}>
+              <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--adm-text3)', alignSelf: 'center', marginRight: 4 }}>#</span>
+              {allTags.map(tag => (
+                <button key={tag} onClick={() => setActiveTag(activeTag === tag ? null : tag)} style={{
+                  padding: '2px 10px', borderRadius: 20, fontSize: 11, fontWeight: 600, cursor: 'pointer',
+                  border: '1px solid var(--adm-border)',
+                  background: activeTag === tag ? '#003366' : 'transparent',
+                  color: activeTag === tag ? 'white' : 'var(--adm-text3)',
+                  transition: 'all 0.12s',
+                }}>#{tag}</button>
+              ))}
+            </div>
+          )}
+
+          {/* Active filter info */}
+          {(search || filterType !== 'all' || filterLang !== 'all' || activeTag) && (
+            <div style={{ fontSize: 11, color: 'var(--adm-text3)', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span>{sorted.length} von {docs.length} Dokumenten</span>
+              <button onClick={() => { setSearch(''); setFilterType('all'); setFilterLang('all'); setActiveTag(null) }} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 11, color: '#60a5fa', padding: 0 }}>
+                × Filter zurücksetzen
+              </button>
+            </div>
+          )}
+
+          {/* Doc list */}
           {docsLoading ? (
-            <p style={{ color: 'var(--adm-text3)', fontSize: 13 }}>Lade…</p>
-          ) : docs.length === 0 ? (
-            <p style={{ color: 'var(--adm-text3)', fontSize: 13 }}>Noch keine manuell hochgeladenen Dokumente.</p>
+            <p style={{ color: 'var(--adm-text3)', fontSize: 13, textAlign: 'center', padding: '24px' }}>Lade…</p>
+          ) : sorted.length === 0 ? (
+            <div style={{ textAlign: 'center', padding: '32px 20px', border: '2px dashed var(--adm-border)', borderRadius: 12 }}>
+              <p style={{ fontSize: 14, color: 'var(--adm-text3)', margin: '0 0 4px' }}>
+                {docs.length === 0 ? 'Noch keine Dokumente in der Wissensbasis' : 'Keine Treffer'}
+              </p>
+              <p style={{ fontSize: 12, color: 'var(--adm-text3)', margin: 0 }}>
+                {docs.length === 0 ? 'Lade Dateien hoch oder führe einen Crawler-Lauf aus.' : 'Filter anpassen'}
+              </p>
+            </div>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              {docs.map((doc, i) => {
-                const isFile = !doc.source_url.includes('/text/')
-                const filename = isFile ? decodeURIComponent(doc.source_url.replace('manual://', '')) : doc.title
+              {sorted.map(doc => {
+                const isManual = doc.source_type === 'manual'
+                const filename = isManual
+                  ? decodeURIComponent(doc.source_url.replace('manual://', ''))
+                  : doc.source_url
                 const date = new Date(doc.created_at).toLocaleDateString('de', { day: '2-digit', month: '2-digit', year: '2-digit' })
-                const langLabel = LANG_LABELS[doc.language] ?? doc.language.toUpperCase()
+                const langLabel = LANG_LABELS[doc.language] ?? doc.language?.toUpperCase()
+
                 return (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 12px', borderRadius: 7, border: '1px solid var(--adm-border)', background: 'var(--adm-card)' }}>
-                    <span style={{ fontSize: 15, flexShrink: 0 }}>{isFile ? '📄' : '📝'}</span>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: 'var(--adm-text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={doc.title}>{doc.title}</p>
-                      <p style={{ margin: '1px 0 0', fontSize: 11, color: 'var(--adm-text3)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} title={filename}>{filename}</p>
+                  <div key={doc.source_url} style={{
+                    border: '1px solid var(--adm-border)', borderRadius: 10,
+                    background: 'var(--adm-surface)', padding: '10px 14px',
+                    display: 'flex', flexDirection: 'column', gap: 7,
+                  }}>
+                    {/* Top row */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <span style={{ fontSize: 16, flexShrink: 0 }}>
+                        {isManual ? '📂' : doc.source_type === 'pdf' || doc.source_type === 'datasheet' ? '📄' : '🌐'}
+                      </span>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: 'var(--adm-text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={doc.title}>
+                          {doc.title}
+                        </p>
+                        <p style={{ margin: '1px 0 0', fontSize: 10, color: 'var(--adm-text3)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                          {isManual ? filename : doc.crawler_name ?? doc.crawler_id}
+                        </p>
+                      </div>
+                      <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 8px', borderRadius: 20, flexShrink: 0, background: isManual ? '#1c1505' : '#0a1f0a', color: isManual ? '#fcd34d' : '#6ee7b7' }}>
+                        {isManual ? 'Manuell' : 'Crawler'}
+                      </span>
+                      <span style={{ fontSize: 9, fontWeight: 700, padding: '2px 7px', borderRadius: 20, background: '#1e3a5f', color: '#93c5fd', flexShrink: 0 }}>
+                        {langLabel}
+                      </span>
+                      <span style={{ fontSize: 10, color: 'var(--adm-text3)', flexShrink: 0, whiteSpace: 'nowrap' }}>
+                        {doc.chunks} Chunks
+                      </span>
+                      <span style={{ fontSize: 10, color: 'var(--adm-text3)', flexShrink: 0, minWidth: 46, textAlign: 'right' as const }}>
+                        {date}
+                      </span>
+                      {isManual && (
+                        <button onClick={() => deleteDoc(doc.source_url)} title="Löschen" style={{
+                          flexShrink: 0, background: 'none', border: '1px solid #4a1a1a',
+                          borderRadius: 5, padding: '3px 8px', fontSize: 11, color: '#f85149', cursor: 'pointer',
+                        }}>✕</button>
+                      )}
                     </div>
-                    <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 7px', borderRadius: 20, background: '#1e3a5f', color: '#93c5fd', flexShrink: 0 }}>{langLabel}</span>
-                    <span style={{ fontSize: 11, color: 'var(--adm-text3)', flexShrink: 0 }}>{doc.chunks} Chunks</span>
-                    <span style={{ fontSize: 11, color: 'var(--adm-text3)', flexShrink: 0, minWidth: 46, textAlign: 'right' as const }}>{date}</span>
-                    <button onClick={() => deleteDoc(doc.source_url)} title="Löschen" style={{ flexShrink: 0, background: 'none', border: '1px solid #4a1a1a', borderRadius: 5, padding: '3px 8px', fontSize: 12, color: '#f85149', cursor: 'pointer' }}>✕</button>
+
+                    {/* Hashtag row */}
+                    {doc.tags.length > 0 && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, paddingLeft: 26 }}>
+                        {doc.tags.map(tag => (
+                          <button key={tag} onClick={() => setActiveTag(activeTag === tag ? null : tag)} style={{
+                            padding: '1px 8px', borderRadius: 20, fontSize: 10, fontWeight: 600, cursor: 'pointer',
+                            border: '1px solid var(--adm-border)',
+                            background: activeTag === tag ? '#003366' : 'transparent',
+                            color: activeTag === tag ? 'white' : 'var(--adm-text3)',
+                          }}>#{tag}</button>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )
               })}
