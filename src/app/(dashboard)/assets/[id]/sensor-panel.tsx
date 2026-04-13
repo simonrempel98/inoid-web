@@ -246,6 +246,35 @@ export function SensorPanel({
 
   const supabase = createClient()
 
+  // ── Initiale Readings client-seitig nachladen ────────────────────────────────
+  useEffect(() => {
+    if (!sensors.length) return
+    // Für jeden Sensor die letzten 60 Readings via API holen
+    Promise.all(
+      sensors.map(s =>
+        fetch(`/api/sensors/${s.id}/readings?limit=60`)
+          .then(r => r.ok ? r.json() : { readings: [] })
+          .then(({ readings }: { readings: { value: number; recorded_at: string }[] }) => ({
+            sensorId: s.id,
+            readings: readings ?? [],
+          }))
+      )
+    ).then(results => {
+      setSensors(prev => prev.map(s => {
+        const found = results.find(r => r.sensorId === s.id)
+        if (!found || !found.readings.length) return s
+        const history = found.readings.map(r => Number(r.value))
+        const last = found.readings[found.readings.length - 1]
+        return {
+          ...s,
+          latestValue: Number(last.value),
+          latestAt: last.recorded_at,
+          history,
+        }
+      }))
+    })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
   // ── Supabase Realtime: neue Readings live empfangen ─────────────────────────
   useEffect(() => {
     if (!sensors.length) return
@@ -258,15 +287,16 @@ export function SensorPanel({
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'sensor_readings' },
         (payload) => {
-          const r = payload.new as { sensor_id: string; value: number; recorded_at: string }
+          const r = payload.new as { sensor_id: string; value: unknown; recorded_at: string }
           if (!sensorIds.has(r.sensor_id)) return
+          const val = Number(r.value)
           setSensors(prev => prev.map(s => {
             if (s.id !== r.sensor_id) return s
             return {
               ...s,
-              latestValue: r.value,
+              latestValue: val,
               latestAt: r.recorded_at,
-              history: [...s.history.slice(-59), r.value],
+              history: [...s.history.slice(-59), val],
             }
           }))
         }
