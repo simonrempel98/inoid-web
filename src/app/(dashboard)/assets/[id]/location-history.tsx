@@ -51,8 +51,8 @@ export function LocationHistory({ current, history, assetId, locationRef: initia
 
   return (
     <div style={{
-      background: 'white', borderRadius: 14,
-      border: open ? '1px solid #0099cc' : '1px solid #e8eef6',
+      background: 'var(--ds-surface, white)', borderRadius: 14,
+      border: open ? '1px solid #0099cc' : '1px solid var(--ds-border, #e8eef6)',
       overflow: 'visible', transition: 'border-color 0.15s',
       position: 'relative',
     }}>
@@ -64,7 +64,7 @@ export function LocationHistory({ current, history, assetId, locationRef: initia
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, minWidth: 0 }}>
           <div style={{
             width: 30, height: 30, borderRadius: 8,
-            background: '#f0f4ff',
+            background: 'var(--ds-surface2, #f0f4ff)',
             display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
           }}>
             <MapPin size={14} color="#003366" />
@@ -81,14 +81,16 @@ export function LocationHistory({ current, history, assetId, locationRef: initia
                   onChange={setLocationRef}
                   inputStyle={{
                     border: '1px solid #0099cc', borderRadius: 8,
-                    padding: '6px 10px', fontSize: 13, background: 'white',
+                    padding: '6px 10px', fontSize: 13,
+                    background: 'var(--ds-input-bg, white)',
+                    color: 'var(--ds-text, #000)',
                     minWidth: 0,
                   }}
                 />
               </div>
             ) : (
               <p style={{ margin: '2px 0 0', fontSize: 14, fontWeight: 600,
-                color: current ? '#000' : '#aab2bf',
+                color: current ? 'var(--ds-text, #000)' : 'var(--ds-text4, #aab2bf)',
                 overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {current ?? '–'}
               </p>
@@ -139,29 +141,27 @@ export function LocationHistory({ current, history, assetId, locationRef: initia
 
       {/* Verlauf */}
       {open && !editing && (
-        <div style={{ borderTop: '1px solid #e8eef6' }}>
+        <div style={{ borderTop: '1px solid var(--ds-border, #e8eef6)' }}>
           <p style={{ fontSize: 10, fontWeight: 700, color: '#96aed2', textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0, padding: '10px 16px 6px' }}>
             {t('assets.locationHistory')}
           </p>
-          {/* Aktuell */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 16px' }}>
             <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#27AE60', flexShrink: 0, marginLeft: 3 }} />
             <div style={{ flex: 1 }}>
-              <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: current ? '#000' : '#aab2bf' }}>{current ?? '–'}</p>
+              <p style={{ margin: 0, fontSize: 13, fontWeight: 600, color: current ? 'var(--ds-text, #000)' : 'var(--ds-text4, #aab2bf)' }}>{current ?? '–'}</p>
               <p style={{ margin: 0, fontSize: 11, color: '#96aed2' }}>{t('common.active')}</p>
             </div>
           </div>
-          {/* Historie */}
           {[...history].map((entry) => (
             <div key={entry.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 16px' }}>
-              <div style={{ width: 8, height: 8, borderRadius: '50%', background: '#c8d4e8', flexShrink: 0, marginLeft: 3 }} />
+              <div style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--ds-border, #c8d4e8)', flexShrink: 0, marginLeft: 3 }} />
               <div style={{ flex: 1 }}>
-                <p style={{ margin: 0, fontSize: 13, color: '#555' }}>{entry.location ?? '–'}</p>
+                <p style={{ margin: 0, fontSize: 13, color: 'var(--ds-text3, #555)' }}>{entry.location ?? '–'}</p>
                 <p style={{ margin: 0, fontSize: 11, color: '#96aed2' }}>
                   {new Date(entry.changed_at).toLocaleDateString(locale, { day: '2-digit', month: '2-digit', year: 'numeric' })}
                 </p>
               </div>
-              <MoveRight size={12} color="#c8d4e8" />
+              <MoveRight size={12} color="#96aed2" />
             </div>
           ))}
           <div style={{ height: 8 }} />

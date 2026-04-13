@@ -40,11 +40,11 @@ export default async function WartungPage() {
   if (!schedules || schedules.length === 0) {
     return (
       <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 20px' }}>{t('wartung.title')}</h1>
-        <div style={{ background: 'white', borderRadius: 16, padding: 40, border: '1px solid #c8d4e8', textAlign: 'center' }}>
+        <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--ds-text, #000)', margin: '0 0 20px' }}>{t('wartung.title')}</h1>
+        <div style={{ background: 'var(--ds-surface, white)', borderRadius: 16, padding: 40, border: '1px solid var(--ds-border, #c8d4e8)', textAlign: 'center' }}>
           <div style={{ marginBottom: 12, color: '#003366' }}><Wrench size={40} /></div>
-          <p style={{ fontWeight: 700, color: '#000', fontSize: 15, margin: '0 0 8px' }}>{t('wartung.noSchedules')}</p>
-          <p style={{ color: '#666', fontSize: 13, margin: '0 0 20px', lineHeight: 1.5 }}>{t('wartung.noSchedulesDesc')}</p>
+          <p style={{ fontWeight: 700, color: 'var(--ds-text, #000)', fontSize: 15, margin: '0 0 8px' }}>{t('wartung.noSchedules')}</p>
+          <p style={{ color: 'var(--ds-text3, #666)', fontSize: 13, margin: '0 0 20px', lineHeight: 1.5 }}>{t('wartung.noSchedulesDesc')}</p>
           <Link href="/assets" style={{ backgroundColor: '#003366', color: 'white', padding: '12px 24px', borderRadius: 50, textDecoration: 'none', fontSize: 13, fontWeight: 700 }}>
             {t('nav.assets')}
           </Link>
@@ -56,8 +56,8 @@ export default async function WartungPage() {
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', paddingBottom: 40 }} className="page-pad">
       <div style={{ padding: '20px 20px 16px' }}>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 2px' }}>{t('wartung.title')}</h1>
-        <p style={{ fontSize: 13, color: '#666', margin: 0 }}>
+        <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--ds-text, #000)', margin: '0 0 2px' }}>{t('wartung.title')}</h1>
+        <p style={{ fontSize: 13, color: 'var(--ds-text3, #666)', margin: 0 }}>
           {schedules.length} {t('service.intervals').toLowerCase()} · {overdueCount > 0 ? `${overdueCount} ${t('wartung.filter.overdue').toLowerCase()}` : '✓'}
         </p>
       </div>
@@ -65,16 +65,16 @@ export default async function WartungPage() {
       <div style={{ padding: '0 20px 20px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }} className="rg-2">
         {stats.map(s => (
           <div key={s.label} style={{
-            background: 'white', borderRadius: 14, padding: '14px 16px',
-            border: '1px solid #c8d4e8', borderLeft: `4px solid ${s.color}`,
+            background: 'var(--ds-surface, white)', borderRadius: 14, padding: '14px 16px',
+            border: '1px solid var(--ds-border, #c8d4e8)', borderLeft: `4px solid ${s.color}`,
           }}>
             <p style={{ fontSize: 26, fontWeight: 700, color: s.color, margin: '0 0 2px' }}>{s.count}</p>
-            <p style={{ fontSize: 11, color: '#666', margin: 0, fontWeight: 600 }}>{s.label}</p>
+            <p style={{ fontSize: 11, color: 'var(--ds-text3, #666)', margin: 0, fontWeight: 600 }}>{s.label}</p>
           </div>
         ))}
       </div>
 
-      <div style={{ height: 1, background: '#e8eef8', margin: '0 20px 24px' }} />
+      <div style={{ height: 1, background: 'var(--ds-border, #e8eef8)', margin: '0 20px 24px' }} />
 
       <WartungTabs schedules={schedules as ScheduleWithAsset[]} />
     </div>

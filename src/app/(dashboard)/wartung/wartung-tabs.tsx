@@ -95,6 +95,15 @@ export function WartungTabs({ schedules }: { schedules: ScheduleWithAsset[] }) {
     ? t('wartung.filter.noResults')
     : `${filtered.length} ${filtered.length === 1 ? t('wartung.filter.resultSingular') : t('wartung.filter.resultPlural')}${hasFilter ? ` ${t('common.of')} ${schedules.length}` : ''}`
 
+  const inputStyle: React.CSSProperties = {
+    padding: '9px 10px', borderRadius: 10,
+    border: '1px solid var(--ds-border, #c8d4e8)',
+    fontSize: 13, fontFamily: 'Arial, sans-serif',
+    backgroundColor: 'var(--ds-input-bg, white)',
+    color: 'var(--ds-text3, #666)',
+    outline: 'none', cursor: 'pointer',
+  }
+
   return (
     <div>
       {/* Filter Bar */}
@@ -113,9 +122,11 @@ export function WartungTabs({ schedules }: { schedules: ScheduleWithAsset[] }) {
             placeholder={t('wartung.filter.searchPlaceholder')}
             style={{
               width: '100%', padding: '10px 12px 10px 38px', borderRadius: 12,
-              border: `1px solid ${search ? '#003366' : '#c8d4e8'}`,
+              border: `1px solid ${search ? '#003366' : 'var(--ds-border, #c8d4e8)'}`,
               fontSize: 13, fontFamily: 'Arial, sans-serif',
-              backgroundColor: 'white', outline: 'none', boxSizing: 'border-box',
+              backgroundColor: 'var(--ds-input-bg, white)',
+              color: 'var(--ds-text, #000)',
+              outline: 'none', boxSizing: 'border-box',
               transition: 'border-color 0.15s',
             }}
           />
@@ -132,18 +143,18 @@ export function WartungTabs({ schedules }: { schedules: ScheduleWithAsset[] }) {
         {/* Dropdowns */}
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
           <select value={filterUrgency} onChange={e => { setFilterUrgency(e.target.value as UrgencyFilter); setPage(1) }}
-            style={{ flex: 1, minWidth: 120, padding: '9px 10px', borderRadius: 10, border: `1px solid ${filterUrgency !== 'all' ? '#003366' : '#c8d4e8'}`, fontSize: 13, fontFamily: 'Arial, sans-serif', backgroundColor: 'white', outline: 'none', cursor: 'pointer', color: filterUrgency !== 'all' ? '#003366' : '#666', fontWeight: filterUrgency !== 'all' ? 700 : 400 }}>
+            style={{ ...inputStyle, flex: 1, minWidth: 120, border: `1px solid ${filterUrgency !== 'all' ? '#003366' : 'var(--ds-border, #c8d4e8)'}`, color: filterUrgency !== 'all' ? '#003366' : 'var(--ds-text3, #666)', fontWeight: filterUrgency !== 'all' ? 700 : 400 }}>
             {URGENCY_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>
 
           <select value={filterCategory} onChange={e => { setFilterCategory(e.target.value); setPage(1) }}
-            style={{ flex: 1, minWidth: 120, padding: '9px 10px', borderRadius: 10, border: `1px solid ${filterCategory ? '#003366' : '#c8d4e8'}`, fontSize: 13, fontFamily: 'Arial, sans-serif', backgroundColor: 'white', outline: 'none', cursor: 'pointer', color: filterCategory ? '#003366' : '#666', fontWeight: filterCategory ? 700 : 400 }}>
+            style={{ ...inputStyle, flex: 1, minWidth: 120, border: `1px solid ${filterCategory ? '#003366' : 'var(--ds-border, #c8d4e8)'}`, color: filterCategory ? '#003366' : 'var(--ds-text3, #666)', fontWeight: filterCategory ? 700 : 400 }}>
             <option value="">{t('wartung.filter.allCategories')}</option>
             {categories.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
 
           <select value={pageSize} onChange={e => { setPageSize(Number(e.target.value)); setPage(1) }}
-            style={{ padding: '9px 10px', borderRadius: 10, border: '1px solid #c8d4e8', fontSize: 13, fontFamily: 'Arial, sans-serif', backgroundColor: 'white', outline: 'none', cursor: 'pointer', color: '#666' }}>
+            style={inputStyle}>
             <option value={10}>10 / {t('common.perPage')}</option>
             <option value={20}>20 / {t('common.perPage')}</option>
             <option value={50}>50 / {t('common.perPage')}</option>
@@ -151,7 +162,7 @@ export function WartungTabs({ schedules }: { schedules: ScheduleWithAsset[] }) {
 
           {hasFilter && (
             <button type="button" onClick={resetFilters}
-              style={{ padding: '9px 14px', borderRadius: 10, border: '1px solid #c8d4e8', background: 'white', color: '#96aed2', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}>
+              style={{ padding: '9px 14px', borderRadius: 10, border: '1px solid var(--ds-border, #c8d4e8)', background: 'var(--ds-surface, white)', color: '#96aed2', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}>
               × {t('wartung.filter.reset')}
             </button>
           )}
@@ -164,7 +175,7 @@ export function WartungTabs({ schedules }: { schedules: ScheduleWithAsset[] }) {
       </div>
 
       {/* Tab-Leiste */}
-      <div style={{ display: 'flex', padding: '0 20px', borderBottom: '2px solid #e8eef8', marginBottom: 20, gap: 4 }}>
+      <div style={{ display: 'flex', padding: '0 20px', borderBottom: '2px solid var(--ds-border, #e8eef8)', marginBottom: 20, gap: 4 }}>
         <TabButton active={tab === 'tasks'} onClick={() => setTab('tasks')} icon={<CheckCircle2 size={14} />} label={t('wartung.tabs.tasks')} />
         <TabButton active={tab === 'gantt'} onClick={() => setTab('gantt')} icon={<BarChart2 size={14} />} label={t('wartung.tabs.gantt')} />
       </div>
@@ -179,7 +190,7 @@ export function WartungTabs({ schedules }: { schedules: ScheduleWithAsset[] }) {
       {totalPages > 1 && (
         <div style={{ padding: '20px 20px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
           <button type="button" onClick={() => setPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}
-            style={{ width: 34, height: 34, borderRadius: 8, border: '1px solid #c8d4e8', background: currentPage === 1 ? '#f4f6f9' : 'white', color: currentPage === 1 ? '#c8d4e8' : '#003366', cursor: currentPage === 1 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            style={{ width: 34, height: 34, borderRadius: 8, border: '1px solid var(--ds-border, #c8d4e8)', background: currentPage === 1 ? 'var(--ds-surface2, #f4f6f9)' : 'var(--ds-surface, white)', color: currentPage === 1 ? 'var(--ds-border, #c8d4e8)' : '#003366', cursor: currentPage === 1 ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <ChevronLeft size={14} />
           </button>
 
@@ -188,14 +199,14 @@ export function WartungTabs({ schedules }: { schedules: ScheduleWithAsset[] }) {
               ? <span key={`dots-${i}`} style={{ fontSize: 13, color: '#96aed2', padding: '0 2px' }}>…</span>
               : (
                 <button key={p} type="button" onClick={() => setPage(p as number)}
-                  style={{ width: 34, height: 34, borderRadius: 8, border: `1px solid ${p === currentPage ? '#003366' : '#c8d4e8'}`, background: p === currentPage ? '#003366' : 'white', color: p === currentPage ? 'white' : '#666', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
+                  style={{ width: 34, height: 34, borderRadius: 8, border: `1px solid ${p === currentPage ? '#003366' : 'var(--ds-border, #c8d4e8)'}`, background: p === currentPage ? '#003366' : 'var(--ds-surface, white)', color: p === currentPage ? 'white' : 'var(--ds-text3, #666)', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
                   {p}
                 </button>
               )
           )}
 
           <button type="button" onClick={() => setPage(p => Math.min(totalPages, p + 1))} disabled={currentPage === totalPages}
-            style={{ width: 34, height: 34, borderRadius: 8, border: '1px solid #c8d4e8', background: currentPage === totalPages ? '#f4f6f9' : 'white', color: currentPage === totalPages ? '#c8d4e8' : '#003366', cursor: currentPage === totalPages ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            style={{ width: 34, height: 34, borderRadius: 8, border: '1px solid var(--ds-border, #c8d4e8)', background: currentPage === totalPages ? 'var(--ds-surface2, #f4f6f9)' : 'var(--ds-surface, white)', color: currentPage === totalPages ? 'var(--ds-border, #c8d4e8)' : '#003366', cursor: currentPage === totalPages ? 'default' : 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <ChevronRight size={14} />
           </button>
         </div>

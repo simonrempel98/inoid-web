@@ -343,17 +343,19 @@ export default async function DashboardPage() {
             <SectionTitle>{t('dashboard.sections.maintenanceOverview')}</SectionTitle>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {[
-                { label: t('dashboard.maintenance.overdue'), count: overdueSchedules, color: '#ef4444', bg: '#fef2f2' },
-                { label: t('dashboard.maintenance.thisWeek'), count: dueThisWeek, color: '#a855f7', bg: '#faf5ff' },
-                { label: t('dashboard.maintenance.next30Days'), count: dueThirtyDays, color: '#8b5cf6', bg: '#f5f3ff' },
-                { label: t('dashboard.maintenance.totalIntervals'), count: totalSchedules, color: '#0099cc', bg: '#f0f9ff' },
+                { label: t('dashboard.maintenance.overdue'), count: overdueSchedules, color: '#ef4444' },
+                { label: t('dashboard.maintenance.thisWeek'), count: dueThisWeek, color: '#a855f7' },
+                { label: t('dashboard.maintenance.next30Days'), count: dueThirtyDays, color: '#8b5cf6' },
+                { label: t('dashboard.maintenance.totalIntervals'), count: totalSchedules, color: '#0099cc' },
               ].map(row => (
                 <a key={row.label} href="/wartung" style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  padding: '10px 14px', borderRadius: 10, backgroundColor: row.bg,
+                  padding: '10px 14px', borderRadius: 10,
+                  background: 'var(--ds-surface2, #f5f7fa)',
+                  border: `1px solid ${row.color}22`,
                   textDecoration: 'none',
                 }}>
-                  <span style={{ fontSize: 13, color: '#333', fontWeight: 600 }}>{row.label}</span>
+                  <span style={{ fontSize: 13, color: 'var(--ds-text2, #333)', fontWeight: 600 }}>{row.label}</span>
                   <span style={{
                     fontSize: 18, fontWeight: 800, color: row.color,
                     minWidth: 28, textAlign: 'right',

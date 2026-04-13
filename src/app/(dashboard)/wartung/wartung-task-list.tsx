@@ -60,10 +60,10 @@ export function WartungTaskList({ schedules }: { schedules: ScheduleWithAsset[] 
 
   if (schedules.length === 0) {
     return (
-      <div style={{ background: 'white', borderRadius: 16, padding: '40px 20px', border: '1px solid #c8d4e8', textAlign: 'center' }}>
-        <CheckCircle2 size={32} color="#c8d4e8" style={{ marginBottom: 10 }} />
-        <p style={{ fontWeight: 700, color: '#000', fontSize: 15, margin: '0 0 6px' }}>{t('wartung.noSchedules')}</p>
-        <p style={{ color: '#666', fontSize: 13, margin: 0 }}>{t('wartung.noSchedulesDesc')}</p>
+      <div style={{ background: 'var(--ds-surface, white)', borderRadius: 16, padding: '40px 20px', border: '1px solid var(--ds-border, #c8d4e8)', textAlign: 'center' }}>
+        <CheckCircle2 size={32} color="var(--ds-border, #c8d4e8)" style={{ marginBottom: 10 }} />
+        <p style={{ fontWeight: 700, color: 'var(--ds-text, #000)', fontSize: 15, margin: '0 0 6px' }}>{t('wartung.noSchedules')}</p>
+        <p style={{ color: 'var(--ds-text3, #666)', fontSize: 13, margin: 0 }}>{t('wartung.noSchedulesDesc')}</p>
       </div>
     )
   }
@@ -77,26 +77,26 @@ export function WartungTaskList({ schedules }: { schedules: ScheduleWithAsset[] 
             <span style={{ fontSize: 12, fontWeight: 700, color: group.color, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               {group.label}
             </span>
-            <span style={{ fontSize: 12, color: '#c8d4e8', fontWeight: 600 }}>· {group.items.length}</span>
+            <span style={{ fontSize: 12, color: 'var(--ds-border, #c8d4e8)', fontWeight: 600 }}>· {group.items.length}</span>
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {group.items.map(s => (
               <div key={s.id} style={{
-                background: 'white', borderRadius: 14,
+                background: 'var(--ds-surface, white)', borderRadius: 14,
                 border: `1px solid ${group.color}33`,
                 borderLeft: `4px solid ${group.color}`,
                 padding: '12px 14px',
                 display: 'flex', alignItems: 'center', gap: 12,
               }}>
                 <div style={{ flex: 1, minWidth: 0, cursor: 'pointer' }} onClick={() => router.push(`/assets/${s.asset_id}/service`)}>
-                  <p style={{ fontSize: 14, fontWeight: 700, color: '#000', margin: '0 0 2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--ds-text, #000)', margin: '0 0 2px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     {s.assets?.title ?? '–'}
                   </p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                    <span style={{ fontSize: 12, color: '#666' }}>{s.name}</span>
+                    <span style={{ fontSize: 12, color: 'var(--ds-text3, #666)' }}>{s.name}</span>
                     {s.assets?.category && (
-                      <span style={{ fontSize: 11, color: '#96aed2', background: '#f4f6f9', padding: '1px 7px', borderRadius: 8 }}>
+                      <span style={{ fontSize: 11, color: '#96aed2', background: 'var(--ds-surface2, #f4f6f9)', padding: '1px 7px', borderRadius: 8 }}>
                         {s.assets.category}
                       </span>
                     )}
@@ -110,7 +110,7 @@ export function WartungTaskList({ schedules }: { schedules: ScheduleWithAsset[] 
                 </div>
 
                 <button type="button" onClick={() => router.push(`/assets/${s.asset_id}/service`)}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#c8d4e8', padding: 4, display: 'flex', flexShrink: 0 }}>
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--ds-border, #c8d4e8)', padding: 4, display: 'flex', flexShrink: 0 }}>
                   <ChevronRight size={16} />
                 </button>
 
