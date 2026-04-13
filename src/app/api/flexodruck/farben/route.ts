@@ -48,6 +48,32 @@ export async function POST(req: Request) {
   return NextResponse.json({ color: data })
 }
 
+export async function PATCH(req: Request) {
+  const { user, supabase } = await getUser()
+  if (!user) return NextResponse.json({ error: 'Nicht angemeldet' }, { status: 401 })
+
+  const body = await req.json()
+  const { id, name, supplier, color_type, density, cost_per_kg, notes } = body
+  if (!id || !name) return NextResponse.json({ error: 'id/name fehlt' }, { status: 400 })
+
+  const { data, error } = await supabase
+    .from('flexo_colors')
+    .update({
+      name, supplier: supplier || null,
+      color_type: color_type || null,
+      density: density ? parseFloat(density) : null,
+      cost_per_kg: cost_per_kg ? parseFloat(cost_per_kg) : null,
+      notes: notes || null,
+    })
+    .eq('id', id)
+    .eq('user_id', user.id)
+    .select('id, name, supplier, color_type, density, cost_per_kg, notes, created_at')
+    .single()
+
+  if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  return NextResponse.json({ color: data })
+}
+
 export async function DELETE(req: Request) {
   const { user, supabase } = await getUser()
   if (!user) return NextResponse.json({ error: 'Nicht angemeldet' }, { status: 401 })

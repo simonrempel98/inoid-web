@@ -468,8 +468,8 @@ function ConsumptionResult({ result }: { result: any }) {
       <BigResult value={result.inkGm2} unit="g/m²" label="Farbauftrag pro m²" />
       <div style={{ borderTop: '1px solid #f3f4f6', paddingTop: 12 }}>
         <SecondaryResult label="Verbrauch" value={result.kgHour} unit="kg/Stunde" />
-        <SecondaryResult label="Verbrauch" value={result.kgPer1000m} unit="kg pro 1.000 lm" />
-        <SecondaryResult label="Verbrauch" value={r(result.kgPer1000m * 10, 2)} unit="kg pro 10.000 lm" />
+        <SecondaryResult label="Verbrauch" value={result.kgPer1000m} unit="kg/km" />
+        <SecondaryResult label="Verbrauch" value={r(result.kgPer1000m * 10, 2)} unit="kg/10 km" />
         {hasCost && (
           <>
             <div style={{ height: 1, background: '#e5e7eb', margin: '10px 0 8px' }} />
@@ -480,8 +480,8 @@ function ConsumptionResult({ result }: { result: any }) {
               )}
             </div>
             <SecondaryResult label="Kosten/Stunde" value={costPerHour!} unit="€" />
-            <SecondaryResult label="Kosten pro 1.000 lm" value={costPer1000!} unit="€" />
-            <SecondaryResult label="Kosten pro 10.000 lm" value={costPer10000!} unit="€" />
+            <SecondaryResult label="Kosten/km" value={costPer1000!} unit="€" />
+            <SecondaryResult label="Kosten/10 km" value={costPer10000!} unit="€" />
           </>
         )}
       </div>
@@ -831,23 +831,38 @@ function SaveModal({ open, onClose, onSave, defaultName }: {
 
 // ── Farbe anlegen Modal ───────────────────────────────────────────────────────
 
-function ColorModal({ open, onClose, onSave }: {
+function ColorModal({ open, onClose, onSave, editColor }: {
   open: boolean; onClose: () => void
-  onSave: (c: { name: string; supplier: string; color_type: string; density: string; cost_per_kg: string; notes: string }) => void
+  editColor?: FlexoColor | null
+  onSave: (c: { id?: string; name: string; supplier: string; color_type: string; density: string; cost_per_kg: string; notes: string }) => void
 }) {
-  const [name, setName] = useState('')
-  const [supplier, setSupplier] = useState('')
-  const [colorType, setColorType] = useState('waterbase')
-  const [density, setDensity] = useState('')
-  const [costPerKg, setCostPerKg] = useState('')
-  const [notes, setNotes] = useState('')
+  const isEdit = !!editColor
+  const [name, setName] = useState(editColor?.name ?? '')
+  const [supplier, setSupplier] = useState(editColor?.supplier ?? '')
+  const [colorType, setColorType] = useState(editColor?.color_type ?? 'waterbase')
+  const [density, setDensity] = useState(editColor?.density != null ? String(editColor.density) : '')
+  const [costPerKg, setCostPerKg] = useState(editColor?.cost_per_kg != null ? String(editColor.cost_per_kg) : '')
+  const [notes, setNotes] = useState(editColor?.notes ?? '')
+
+  // Felder aktualisieren wenn editColor sich ändert
+  const prevEditId = editColor?.id
+  if (editColor && editColor.id !== prevEditId) {
+    setName(editColor.name)
+    setSupplier(editColor.supplier ?? '')
+    setColorType(editColor.color_type ?? 'waterbase')
+    setDensity(editColor.density != null ? String(editColor.density) : '')
+    setCostPerKg(editColor.cost_per_kg != null ? String(editColor.cost_per_kg) : '')
+    setNotes(editColor.notes ?? '')
+  }
 
   if (!open) return null
 
   const handleSave = () => {
     if (!name.trim()) return
-    onSave({ name: name.trim(), supplier: supplier.trim(), color_type: colorType, density, cost_per_kg: costPerKg, notes: notes.trim() })
-    setName(''); setSupplier(''); setColorType('waterbase'); setDensity(''); setCostPerKg(''); setNotes('')
+    onSave({ id: editColor?.id, name: name.trim(), supplier: supplier.trim(), color_type: colorType, density, cost_per_kg: costPerKg, notes: notes.trim() })
+    if (!isEdit) {
+      setName(''); setSupplier(''); setColorType('waterbase'); setDensity(''); setCostPerKg(''); setNotes('')
+    }
   }
 
   return (
@@ -862,7 +877,9 @@ function ColorModal({ open, onClose, onSave }: {
         boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
         maxHeight: '90vh', overflowY: 'auto' as const,
       }} onClick={e => e.stopPropagation()}>
-        <h3 style={{ margin: '0 0 20px', fontSize: 18, fontWeight: 800, color: '#003366' }}>Neue Farbe anlegen</h3>
+        <h3 style={{ margin: '0 0 20px', fontSize: 18, fontWeight: 800, color: '#003366' }}>
+          {isEdit ? 'Farbe bearbeiten' : 'Neue Farbe anlegen'}
+        </h3>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           <div>
             <Label>Farbname *</Label>
@@ -913,7 +930,7 @@ function ColorModal({ open, onClose, onSave }: {
             flex: 2, padding: '11px', border: 'none', borderRadius: 10,
             background: 'linear-gradient(135deg, #003366, #0099cc)',
             cursor: 'pointer', fontSize: 14, fontWeight: 700, color: 'white',
-          }}>Farbe speichern</button>
+          }}>{isEdit ? 'Änderungen speichern' : 'Farbe speichern'}</button>
         </div>
       </div>
     </div>
@@ -922,7 +939,7 @@ function ColorModal({ open, onClose, onSave }: {
 
 // ── Farb-Karte ────────────────────────────────────────────────────────────────
 
-function ColorCard({ color, onDelete }: { color: FlexoColor; onDelete: () => void }) {
+function ColorCard({ color, onDelete, onEdit }: { color: FlexoColor; onDelete: () => void; onEdit: () => void }) {
   const typeLabel = COLOR_TYPES[color.color_type ?? ''] ?? color.color_type ?? null
   return (
     <div style={{
@@ -957,10 +974,16 @@ function ColorCard({ color, onDelete }: { color: FlexoColor; onDelete: () => voi
           </p>
         )}
       </div>
-      <button type="button" onClick={onDelete} style={{
-        padding: '5px 10px', border: '1.5px solid #fee2e2', borderRadius: 7,
-        background: '#fef2f2', cursor: 'pointer', fontSize: 11, fontWeight: 700, color: '#dc2626', flexShrink: 0,
-      }}>Löschen</button>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 5, flexShrink: 0 }}>
+        <button type="button" onClick={onEdit} style={{
+          padding: '5px 10px', border: '1.5px solid #003366', borderRadius: 7,
+          background: 'none', cursor: 'pointer', fontSize: 11, fontWeight: 700, color: '#003366',
+        }}>Bearbeiten</button>
+        <button type="button" onClick={onDelete} style={{
+          padding: '5px 10px', border: '1.5px solid #fee2e2', borderRadius: 7,
+          background: '#fef2f2', cursor: 'pointer', fontSize: 11, fontWeight: 700, color: '#dc2626',
+        }}>Löschen</button>
+      </div>
     </div>
   )
 }
@@ -1058,6 +1081,7 @@ export function AniloxCalculator() {
   const [colors, setColors] = useState<FlexoColor[]>([])
   const [colorsOpen, setColorsOpen] = useState(false)
   const [showColorModal, setShowColorModal] = useState(false)
+  const [editingColor, setEditingColor] = useState<FlexoColor | null>(null)
 
   // History laden
   const loadHistory = useCallback(async () => {
@@ -1107,10 +1131,12 @@ export function AniloxCalculator() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
-  const handleSaveColor = async (c: { name: string; supplier: string; color_type: string; density: string; cost_per_kg: string; notes: string }) => {
+  const handleSaveColor = async (c: { id?: string; name: string; supplier: string; color_type: string; density: string; cost_per_kg: string; notes: string }) => {
     setShowColorModal(false)
+    setEditingColor(null)
+    const method = c.id ? 'PATCH' : 'POST'
     const res = await fetch('/api/flexodruck/farben', {
-      method: 'POST',
+      method,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(c),
     })
@@ -1257,7 +1283,7 @@ export function AniloxCalculator() {
         <div style={{ background: 'white', borderRadius: 16, border: '1px solid #e5e7eb', padding: 20, display: 'flex', flexDirection: 'column', gap: 0 }}>
           <p style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 800, color: '#374151' }}>Eingaben</p>
           {mode === 'volume'      && <VolumeCalc unit={unit} onResult={handleResult} />}
-          {mode === 'consumption' && <ConsumptionCalc unit={unit} onResult={handleResult} colors={colors} onAddColor={() => setShowColorModal(true)} />}
+          {mode === 'consumption' && <ConsumptionCalc unit={unit} onResult={handleResult} colors={colors} onAddColor={() => { setEditingColor(null); setShowColorModal(true) }} />}
           {mode === 'film'        && <FilmCalc unit={unit} onResult={handleResult} />}
           {mode === 'reverse'     && <ReverseCalc unit={unit} onResult={handleResult} />}
           {mode === 'comparison'  && <ComparisonCalc unit={unit} onResult={handleResult} />}
@@ -1275,54 +1301,61 @@ export function AniloxCalculator() {
         </div>
       </div>
 
-      {/* Meine Farben */}
-      <div style={{ padding: '0 16px', marginBottom: 12 }}>
-        <button type="button" onClick={() => setColorsOpen(v => !v)} style={{
-          width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '14px 16px', background: 'white', border: '1px solid #e5e7eb',
-          borderRadius: colorsOpen && colors.length > 0 ? '14px 14px 0 0' : 14,
-          cursor: 'pointer', transition: 'background 0.15s',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0099cc" strokeWidth="2">
-              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
-            </svg>
-            <span style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>Meine Farben</span>
-            {colors.length > 0 && (
-              <span style={{ fontSize: 11, fontWeight: 700, background: '#0099cc', color: 'white', padding: '2px 8px', borderRadius: 20 }}>
-                {colors.length}
-              </span>
-            )}
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <button type="button" onClick={e => { e.stopPropagation(); setShowColorModal(true) }} style={{
-              padding: '4px 12px', border: '1.5px solid #0099cc', borderRadius: 8,
-              background: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 700, color: '#0099cc',
-            }}>+ Farbe anlegen</button>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"
-              style={{ transform: colorsOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
-              <polyline points="6 9 12 15 18 9"/>
-            </svg>
-          </div>
-        </button>
+      {/* Meine Farben – nur im Farbverbrauch-Modus */}
+      {mode === 'consumption' && (
+        <div style={{ padding: '0 16px', marginBottom: 12 }}>
+          <button type="button" onClick={() => setColorsOpen(v => !v)} style={{
+            width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            padding: '14px 16px', background: 'white', border: '1px solid #e5e7eb',
+            borderRadius: colorsOpen && colors.length > 0 ? '14px 14px 0 0' : 14,
+            cursor: 'pointer', transition: 'background 0.15s',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0099cc" strokeWidth="2">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+              </svg>
+              <span style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>Meine Farben</span>
+              {colors.length > 0 && (
+                <span style={{ fontSize: 11, fontWeight: 700, background: '#0099cc', color: 'white', padding: '2px 8px', borderRadius: 20 }}>
+                  {colors.length}
+                </span>
+              )}
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <button type="button" onClick={e => { e.stopPropagation(); setEditingColor(null); setShowColorModal(true) }} style={{
+                padding: '4px 12px', border: '1.5px solid #0099cc', borderRadius: 8,
+                background: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 700, color: '#0099cc',
+              }}>+ Farbe anlegen</button>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" strokeWidth="2"
+                style={{ transform: colorsOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.2s' }}>
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </div>
+          </button>
 
-        {colorsOpen && (
-          <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderTop: 'none', borderRadius: '0 0 14px 14px', padding: 12 }}>
-            {colors.length === 0 ? (
-              <p style={{ textAlign: 'center', color: '#9ca3af', fontSize: 13, margin: '16px 0' }}>
-                Noch keine Farben hinterlegt.<br />
-                <span style={{ fontSize: 12 }}>Lege Farben mit Lieferant, Eigenschaften und Kosten an.</span>
-              </p>
-            ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {colors.map(color => (
-                  <ColorCard key={color.id} color={color} onDelete={() => handleDeleteColor(color.id)} />
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+          {colorsOpen && (
+            <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderTop: 'none', borderRadius: '0 0 14px 14px', padding: 12 }}>
+              {colors.length === 0 ? (
+                <p style={{ textAlign: 'center', color: '#9ca3af', fontSize: 13, margin: '16px 0' }}>
+                  Noch keine Farben hinterlegt.<br />
+                  <span style={{ fontSize: 12 }}>Lege Farben mit Lieferant, Eigenschaften und Kosten an.</span>
+                </p>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {colors.map(color => (
+                    <ColorCard
+                      key={color.id}
+                      color={color}
+                      onDelete={() => handleDeleteColor(color.id)}
+                      onEdit={() => { setEditingColor(color); setShowColorModal(true) }}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Verlauf */}
       <div style={{ padding: '0 16px' }}>
@@ -1380,8 +1413,9 @@ export function AniloxCalculator() {
       />
       <ColorModal
         open={showColorModal}
-        onClose={() => setShowColorModal(false)}
+        onClose={() => { setShowColorModal(false); setEditingColor(null) }}
         onSave={handleSaveColor}
+        editColor={editingColor}
       />
     </div>
   )
