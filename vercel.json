@@ -3,6 +3,10 @@
     {
       "path": "/api/cron/inoai-crawl",
       "schedule": "* * * * *"
+    },
+    {
+      "path": "/api/cron/sensor-simulate",
+      "schedule": "*/5 * * * *"
     }
   ]
 }
