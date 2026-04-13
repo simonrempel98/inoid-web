@@ -135,22 +135,22 @@
 
 /* ── Dashboard Dark/Light Theme Variables ── */
 [data-ds-theme="light"] {
-  --ds-bg: #f4f6f9;
-  --ds-surface: #ffffff;
-  --ds-surface2: #f8fafc;
+  --ds-bg: #edf0f5;
+  --ds-surface: #f5f7fa;
+  --ds-surface2: #edf0f5;
   --ds-border: #c8d4e8;
-  --ds-border2: #dde4ee;
-  --ds-text: #000000;
-  --ds-text2: #333333;
-  --ds-text3: #666666;
-  --ds-text4: #999999;
-  --ds-shadow: rgba(0,51,102,0.06);
-  --ds-shadow2: rgba(0,51,102,0.12);
-  --ds-nav-bg: #ffffff;
-  --ds-nav-border: #dde4ee;
-  --ds-drawer-bg: #ffffff;
-  --ds-card-bg: #ffffff;
-  --ds-input-bg: #ffffff;
+  --ds-border2: #d8e0ee;
+  --ds-text: #111827;
+  --ds-text2: #374151;
+  --ds-text3: #6b7280;
+  --ds-text4: #9ca3af;
+  --ds-shadow: rgba(0,51,102,0.07);
+  --ds-shadow2: rgba(0,51,102,0.13);
+  --ds-nav-bg: #f5f7fa;
+  --ds-nav-border: #d8e0ee;
+  --ds-drawer-bg: #f5f7fa;
+  --ds-card-bg: #f5f7fa;
+  --ds-input-bg: #f5f7fa;
   --ds-hover: rgba(0,0,0,0.04);
 }
 
