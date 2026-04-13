@@ -161,15 +161,6 @@ function SensorCard({ sensor, onDelete, onCopy, copied }: {
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
 
-        {/* Icon */}
-        <div style={{
-          width: 36, height: 36, borderRadius: 10, flexShrink: 0,
-          background: isLive ? '#0099cc15' : 'var(--ds-surface2, #f0f4ff)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16,
-        }}>
-          {info.icon}
-        </div>
-
         {/* Name + Status */}
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
