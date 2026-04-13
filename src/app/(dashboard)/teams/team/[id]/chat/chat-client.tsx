@@ -90,12 +90,31 @@ export function ChatClient({
   const [mentionIndex, setMentionIndex] = useState(0)
   const [atPos, setAtPos] = useState<number>(-1)
 
-  const bottomRef = useRef<HTMLDivElement>(null)
-  const inputRef  = useRef<HTMLTextAreaElement>(null)
+  const scrollRef  = useRef<HTMLDivElement>(null)
+  const inputRef   = useRef<HTMLTextAreaElement>(null)
+  const isAtBottom = useRef(true)
 
+  // Merken ob Nutzer selbst hochgescrollt hat
+  function handleScroll() {
+    const el = scrollRef.current
+    if (!el) return
+    isAtBottom.current = el.scrollHeight - el.scrollTop - el.clientHeight < 60
+  }
+
+  // Nur ans Ende scrollen wenn schon am Ende (oder neue eigene Nachricht)
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    const el = scrollRef.current
+    if (!el) return
+    if (isAtBottom.current) {
+      el.scrollTop = el.scrollHeight
+    }
   }, [messages])
+
+  // Beim ersten Laden immer ans Ende
+  useEffect(() => {
+    const el = scrollRef.current
+    if (el) el.scrollTop = el.scrollHeight
+  }, [])
 
   // Beim Öffnen des Chats: als gelesen markieren
   useEffect(() => {
@@ -109,10 +128,14 @@ export function ChatClient({
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'chat_messages', filter: `team_id=eq.${teamId}` },
         payload => {
+          const msg = payload.new as ChatMessage
+          // Leere Payloads ignorieren (Supabase Realtime + RLS liefert manchmal unvollständige Rows)
+          if (!msg?.id || !msg?.content?.trim()) return
           setMessages(prev => {
-            if (prev.find(m => m.id === (payload.new as ChatMessage).id)) return prev
-            return [...prev, payload.new as ChatMessage]
+            if (prev.find(m => m.id === msg.id)) return prev
+            return [...prev, msg]
           })
+          isAtBottom.current = true  // Neue Nachricht → ans Ende scrollen
         }
       )
       .on(
@@ -225,6 +248,7 @@ export function ChatClient({
       return
     }
     setInput('')
+    isAtBottom.current = true
     setMentionQuery(null)
     setMentionResults([])
   }
@@ -246,7 +270,7 @@ export function ChatClient({
     <div style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0, fontFamily: 'Arial, sans-serif' }}>
 
       {/* Nachrichten */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '12px 16px' }}>
+      <div ref={scrollRef} onScroll={handleScroll} style={{ flex: 1, overflowY: 'auto', padding: '12px 16px' }}>
         {messages.length === 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100%', gap: 8, color: '#aab', paddingBottom: 40 }}>
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#c8d4e8" strokeWidth="1.5">
@@ -372,7 +396,7 @@ export function ChatClient({
             })}
           </div>
         ))}
-        <div ref={bottomRef} />
+        <div />
       </div>
 
       {/* Mention-Dropdown */}
