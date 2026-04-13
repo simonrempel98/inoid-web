@@ -479,21 +479,16 @@
 }
 
 /* ── Chat-Vollbild innerhalb des Dashboard-Layouts ──────────────────────── */
+/* Mobile: 100dvh minus sticky Header (63px) minus Bottom-Nav (56px) minus main padding (80px) */
 .ds-chat-fullscreen {
-  position: fixed;
-  top: 63px;
-  left: 0;
-  right: 0;
-  bottom: 56px;
-  z-index: 10;
-  background: var(--ds-bg, #f4f6fb);
+  height: calc(100dvh - 63px - 56px - 80px);
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
+/* Desktop: kein Mobile-Header, kein Bottom-Nav — nur main padding abziehen */
 @media (min-width: 768px) {
   .ds-chat-fullscreen {
-    top: 0;
-    left: 230px;
-    bottom: 0;
+    height: calc(100dvh - 80px);
   }
 }
