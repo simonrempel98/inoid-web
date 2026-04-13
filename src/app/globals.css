@@ -477,3 +477,23 @@
     min-width: 540px !important;
   }
 }
+
+/* ── Chat-Vollbild innerhalb des Dashboard-Layouts ──────────────────────── */
+.ds-chat-fullscreen {
+  position: fixed;
+  top: 63px;
+  left: 0;
+  right: 0;
+  bottom: 56px;
+  z-index: 10;
+  background: var(--ds-bg, #f4f6fb);
+  display: flex;
+  flex-direction: column;
+}
+@media (min-width: 768px) {
+  .ds-chat-fullscreen {
+    top: 0;
+    left: 230px;
+    bottom: 0;
+  }
+}

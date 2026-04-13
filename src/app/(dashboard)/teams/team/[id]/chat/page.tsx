@@ -76,7 +76,7 @@ export default async function TeamChatPage({
     .limit(200)
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100dvh', fontFamily: 'Arial, sans-serif' }}>
+    <div className="ds-chat-fullscreen" style={{ fontFamily: 'Arial, sans-serif' }}>
       {/* Header */}
       <div style={{
         padding: '14px 16px 12px',
