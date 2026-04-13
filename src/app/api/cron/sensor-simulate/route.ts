@@ -4,12 +4,17 @@ import { createAdminClient } from '@/lib/supabase/admin'
 /**
  * GET /api/cron/sensor-simulate
  *
- * Wird von Vercel Cron alle 5 Minuten aufgerufen.
- * Generiert für alle aktiven Sensoren einen realistischen Zufallswert
- * und schreibt ihn in sensor_readings — ohne Simulator auf dem Laptop.
+ * Wird von Vercel Cron jede Minute aufgerufen.
+ * Pro Aufruf werden READINGS_PER_RUN Werte je Sensor generiert,
+ * rückwirkend verteilt auf die letzten 60 Sekunden —
+ * ergibt den Effekt von kontinuierlichen Messwerten (z.B. alle 2 s).
  *
  * Absicherung: Vercel sendet automatisch Authorization: Bearer {CRON_SECRET}.
  */
+
+// Wie viele Readings pro Minute und Sensor (60 / INTERVAL_SECONDS)
+const INTERVAL_SECONDS = 2
+const READINGS_PER_RUN = Math.floor(60 / INTERVAL_SECONDS) // = 30
 
 const TYPE_RANGES: Record<string, { min: number; max: number; decimals: number }> = {
   temperature: { min: 20,  max: 85,   decimals: 1 },
@@ -62,12 +67,19 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ ok: true, inserted: 0, message: 'Keine aktiven Sensoren' })
     }
 
-    const now = new Date().toISOString()
-    const readings = sensors.map(s => ({
-      sensor_id: s.id,
-      value:     randomValue(s.type),
-      recorded_at: now,
-    }))
+    // Pro Sensor READINGS_PER_RUN Werte generieren, rückwirkend alle INTERVAL_SECONDS Sekunden
+    const nowMs = Date.now()
+    const readings: { sensor_id: string; value: number; recorded_at: string }[] = []
+
+    for (const s of sensors) {
+      for (let i = READINGS_PER_RUN - 1; i >= 0; i--) {
+        readings.push({
+          sensor_id:   s.id,
+          value:       randomValue(s.type),
+          recorded_at: new Date(nowMs - i * INTERVAL_SECONDS * 1000).toISOString(),
+        })
+      }
+    }
 
     const { error: insertError } = await supabase
       .from('sensor_readings')
