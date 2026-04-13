@@ -48,90 +48,79 @@ function StatusPill({ status }: { status: JobStatus }) {
 }
 
 function logLineColor(line: string): string {
-  if (line.startsWith('❌')) return '#f85149'
-  if (line.startsWith('✅') || line.startsWith('✓') || line.startsWith('↔')) return '#3fb950'
-  if (line.startsWith('⚠️')) return '#f0883e'
-  if (line.startsWith('📈')) return '#56d364'
-  if (line.startsWith('📉')) return '#f0883e'
-  if (line.startsWith('🚀') || line.startsWith('🕷️') || line.startsWith('⏳') || line.startsWith('▶')) return '#79c0ff'
-  return '#e6edf3'
+  if (line.startsWith('❌')) return '#f87171'
+  if (line.startsWith('✅') || line.startsWith('✓') || line.startsWith('↔')) return '#4ade80'
+  if (line.startsWith('⚠️')) return '#fb923c'
+  if (line.startsWith('📈')) return '#4ade80'
+  if (line.startsWith('📉')) return '#fb923c'
+  if (line.startsWith('🚀') || line.startsWith('🕷️') || line.startsWith('⏳') || line.startsWith('▶')) return '#60a5fa'
+  if (line.startsWith('  📄')) return '#94a3b8'
+  return '#cbd5e1'
 }
 
-// ── Diff-Anzeige ─────────────────────────────────────────────────────────────
+// ── Crawl-Footer (Diff + Failed) ─────────────────────────────────────────────
 
-function DiffSummary({ diff }: { diff: NonNullable<JobRow['diff']> }) {
-  const [showAdded, setShowAdded] = useState(false)
-  const [showRemoved, setShowRemoved] = useState(false)
+function CrawlFooter({ diff }: { diff: NonNullable<JobRow['diff']> }) {
+  const [openKey, setOpenKey] = useState<'added' | 'removed' | 'failed' | null>(null)
   const added = diff.added ?? []
   const removed = diff.removed ?? []
-  if (added.length === 0 && removed.length === 0) return null
+  const failed = diff.failedPages ?? []
+  if (added.length === 0 && removed.length === 0 && failed.length === 0) return null
+
+  const toggle = (key: typeof openKey) => setOpenKey(o => o === key ? null : key)
+
+  const chips: { key: typeof openKey; label: string; count: number; bg: string; color: string; border: string; urls: string[]; linkable?: boolean }[] = [
+    added.length > 0   ? { key: 'added',   label: 'neu',         count: added.length,   bg: '#f0fdf4', color: '#166534', border: '#bbf7d0', urls: added }   : null,
+    removed.length > 0 ? { key: 'removed', label: 'entfernt',    count: removed.length, bg: '#fff7ed', color: '#9a3412', border: '#fed7aa', urls: removed } : null,
+    failed.length > 0  ? { key: 'failed',  label: 'nicht erreichbar', count: failed.length, bg: '#fef2f2', color: '#991b1b', border: '#fecaca', urls: failed, linkable: true } : null,
+  ].filter(Boolean) as any[]
 
   return (
-    <div style={{ padding: '10px 14px', background: '#0d1117', borderTop: '1px solid #30363d' }}>
-      <p style={{ margin: '0 0 6px', fontSize: 11, color: '#8b949e', fontWeight: 700 }}>Änderungen gegenüber letztem Crawl</p>
-      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-        {added.length > 0 && (
-          <div>
-            <button onClick={() => setShowAdded(v => !v)} style={{
-              background: 'none', border: 'none', cursor: 'pointer', padding: 0,
-              fontSize: 11, color: '#56d364', fontWeight: 700,
-            }}>📈 +{added.length} neu {showAdded ? '▲' : '▼'}</button>
-            {showAdded && (
-              <div style={{ marginTop: 4, maxHeight: 120, overflowY: 'auto' }}>
-                {added.map((u, i) => (
-                  <div key={i} style={{ fontSize: 10, color: '#56d364', fontFamily: 'monospace', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 400 }}>{u}</div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-        {removed.length > 0 && (
-          <div>
-            <button onClick={() => setShowRemoved(v => !v)} style={{
-              background: 'none', border: 'none', cursor: 'pointer', padding: 0,
-              fontSize: 11, color: '#f0883e', fontWeight: 700,
-            }}>📉 -{removed.length} entfernt {showRemoved ? '▲' : '▼'}</button>
-            {showRemoved && (
-              <div style={{ marginTop: 4, maxHeight: 120, overflowY: 'auto' }}>
-                {removed.map((u, i) => (
-                  <div key={i} style={{ fontSize: 10, color: '#f0883e', fontFamily: 'monospace', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', maxWidth: 400 }}>{u}</div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
+    <div style={{ borderTop: '1px solid var(--adm-border)', background: 'var(--adm-bg2)', borderRadius: '0 0 12px 12px' }}>
+      {/* Chip-Leiste */}
+      <div style={{ padding: '8px 16px', display: 'flex', gap: 8, flexWrap: 'wrap' as const, alignItems: 'center' }}>
+        <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--adm-text3)', textTransform: 'uppercase' as const, letterSpacing: '0.06em' }}>Crawl-Ergebnis</span>
+        {chips.map(chip => (
+          <button key={chip.key} onClick={() => toggle(chip.key)} style={{
+            display: 'flex', alignItems: 'center', gap: 5,
+            padding: '3px 10px 3px 8px', border: `1px solid ${openKey === chip.key ? chip.color : chip.border}`,
+            borderRadius: 20, background: openKey === chip.key ? chip.bg : 'transparent',
+            cursor: 'pointer', fontSize: 11, fontWeight: 700, color: chip.color,
+            transition: 'all 0.15s',
+          }}>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: chip.color, flexShrink: 0 }} />
+            {chip.count} {chip.label}
+            <span style={{ fontSize: 9, opacity: 0.7 }}>{openKey === chip.key ? '▲' : '▼'}</span>
+          </button>
+        ))}
       </div>
-    </div>
-  )
-}
 
-// ── Nicht-erreichbare URLs ───────────────────────────────────────────────────
-
-function FailedUrlsSummary({ diff }: { diff: NonNullable<JobRow['diff']> }) {
-  const [showPages, setShowPages] = useState(false)
-  const pages = diff.failedPages ?? []
-  if (pages.length === 0) return null
-
-  return (
-    <div style={{ padding: '10px 14px', background: '#0d1117', borderTop: '1px solid #30363d' }}>
-      <p style={{ margin: '0 0 6px', fontSize: 11, color: '#8b949e', fontWeight: 700 }}>Nicht erreichbar (nach allen Versuchen)</p>
-      <div>
-        <button onClick={() => setShowPages(v => !v)} style={{
-          background: 'none', border: 'none', cursor: 'pointer', padding: 0,
-          fontSize: 11, color: '#f85149', fontWeight: 700,
-        }}>🌐 {pages.length} Seite{pages.length !== 1 ? 'n' : ''} {showPages ? '▲' : '▼'}</button>
-        {showPages && (
-          <div style={{ marginTop: 4, maxHeight: 160, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 2 }}>
-            {pages.map((u, i) => (
-              <a key={i} href={u} target="_blank" rel="noopener noreferrer" style={{
-                fontSize: 10, color: '#f85149', fontFamily: 'monospace',
-                whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
-                maxWidth: 420, display: 'block', textDecoration: 'none',
-              }} title={u}>{u}</a>
+      {/* Aufgeklappte URL-Liste */}
+      {openKey && (() => {
+        const chip = chips.find(c => c.key === openKey)!
+        return (
+          <div style={{
+            margin: '0 16px 10px', padding: '8px 12px',
+            background: chip.bg, border: `1px solid ${chip.border}`,
+            borderRadius: 8, maxHeight: 160, overflowY: 'auto' as const,
+            display: 'flex', flexDirection: 'column' as const, gap: 2,
+          }}>
+            {chip.urls.map((u: string, i: number) => (
+              chip.linkable
+                ? <a key={i} href={u} target="_blank" rel="noopener noreferrer" style={{
+                    fontSize: 10, color: chip.color, fontFamily: 'monospace',
+                    whiteSpace: 'nowrap' as const, overflow: 'hidden', textOverflow: 'ellipsis',
+                    maxWidth: '100%', display: 'block', textDecoration: 'none',
+                  }}>{u}</a>
+                : <span key={i} style={{
+                    fontSize: 10, color: chip.color, fontFamily: 'monospace',
+                    whiteSpace: 'nowrap' as const, overflow: 'hidden', textOverflow: 'ellipsis',
+                    maxWidth: '100%', display: 'block',
+                  }}>{u}</span>
             ))}
           </div>
-        )}
-      </div>
+        )
+      })()}
     </div>
   )
 }
@@ -371,34 +360,43 @@ function CrawlerCard({
 
       {/* Log */}
       {job && (job.log ?? []).length > 0 && (
-        <div style={{ background: '#0d1117', borderTop: '1px solid #30363d' }}>
-          <div
-            onClick={() => setLogOpen(o => !o)}
-            style={{
-              padding: '7px 14px', borderBottom: logOpen ? '1px solid #30363d' : 'none',
-              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              cursor: 'pointer', userSelect: 'none',
-            }}
-          >
+        <div style={{ borderTop: '1px solid var(--adm-border)' }}>
+          {/* Log-Header */}
+          <div onClick={() => setLogOpen(o => !o)} style={{
+            padding: '8px 16px',
+            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            cursor: 'pointer', userSelect: 'none' as const,
+            background: 'var(--adm-bg2)',
+            borderBottom: logOpen ? '1px solid var(--adm-border)' : 'none',
+            borderRadius: !logOpen && !(job?.diff) ? '0 0 12px 12px' : 0,
+          }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" style={{ transition: 'transform 0.15s', transform: logOpen ? 'rotate(90deg)' : 'rotate(0deg)', flexShrink: 0 }}>
+                <path d="M4 2l4 4-4 4" stroke="var(--adm-text3)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--adm-text2)' }}>Log</span>
               <span style={{
-                fontSize: 10, color: '#8b949e', transition: 'transform 0.15s', display: 'inline-block',
-                transform: logOpen ? 'rotate(90deg)' : 'rotate(0deg)',
-              }}>▶</span>
-              <span style={{ fontSize: 11, color: '#8b949e', fontFamily: 'monospace', fontWeight: 700 }}>Log</span>
-              <span style={{ fontSize: 10, color: '#8b949e' }}>({(job.log ?? []).length} Zeilen)</span>
+                fontSize: 10, fontWeight: 600, padding: '1px 7px', borderRadius: 10,
+                background: 'var(--adm-border)', color: 'var(--adm-text3)',
+              }}>{(job.log ?? []).length} Zeilen</span>
             </div>
             <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
               {job.finished_at && (
-                <span style={{ fontSize: 10, color: '#8b949e' }}>
+                <span style={{ fontSize: 10, color: 'var(--adm-text3)' }}>
                   {new Date(job.finished_at).toLocaleString('de-DE')}
                 </span>
               )}
               <StatusPill status={job.status} />
             </div>
           </div>
+          {/* Log-Inhalt – Terminal-Stil bewusst beibehalten */}
           {logOpen && (
-            <div style={{ padding: '10px 14px', maxHeight: 300, overflowY: 'auto', fontFamily: 'monospace', fontSize: 11, lineHeight: 1.7 }}>
+            <div style={{
+              background: '#0d1117',
+              borderRadius: !(job?.diff) ? '0 0 12px 12px' : 0,
+              padding: '10px 16px', maxHeight: 280, overflowY: 'auto' as const,
+              fontFamily: 'monospace', fontSize: 11, lineHeight: 1.75,
+            }}>
               {(job.log ?? []).map((line, i) => (
                 <div key={i} style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-all', color: logLineColor(line) }}>
                   {line}
@@ -410,15 +408,8 @@ function CrawlerCard({
         </div>
       )}
 
-      {/* Diff-Anzeige */}
-      {job?.status === 'done' && job.diff && (
-        <DiffSummary diff={job.diff} />
-      )}
-
-      {/* Nicht erreichbare URLs */}
-      {job?.diff && (
-        <FailedUrlsSummary diff={job.diff} />
-      )}
+      {/* Crawl-Footer: Diff + Failed als Chips */}
+      {job?.diff && <CrawlFooter diff={job.diff} />}
     </div>
   )
 }
