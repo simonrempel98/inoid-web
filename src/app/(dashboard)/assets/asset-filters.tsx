@@ -40,9 +40,10 @@ export function AssetFilters({ categories, currentStatus, currentSort, currentCa
   ]
 
   const selectStyle: React.CSSProperties = {
-    padding: '8px 12px', borderRadius: 10, border: '1px solid #c8d4e8',
-    fontSize: 13, fontFamily: 'Arial, sans-serif', backgroundColor: 'white',
-    color: '#000', outline: 'none', cursor: 'pointer', width: '100%',
+    padding: '8px 12px', borderRadius: 10, border: '1px solid var(--ds-border, #c8d4e8)',
+    fontSize: 13, fontFamily: 'Arial, sans-serif',
+    backgroundColor: 'var(--ds-input-bg, white)',
+    color: 'var(--ds-text, #000)', outline: 'none', cursor: 'pointer', width: '100%',
     appearance: 'none',
     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2396aed2' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`,
     backgroundRepeat: 'no-repeat',
@@ -77,7 +78,7 @@ export function AssetFilters({ categories, currentStatus, currentSort, currentCa
           startTransition(() => router.replace(`/assets?${params.toString()}`))
         }} style={{
           padding: '8px 14px', borderRadius: 10, border: '1px solid #fecaca',
-          background: 'white', color: '#dc2626', fontSize: 12, fontWeight: 700,
+          background: 'var(--ds-surface, white)', color: '#dc2626', fontSize: 12, fontWeight: 700,
           cursor: 'pointer', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap',
         }}>
           × {t('common.reset')}

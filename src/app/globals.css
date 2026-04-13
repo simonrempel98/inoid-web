@@ -155,23 +155,23 @@
 }
 
 [data-ds-theme="dark"] {
-  --ds-bg: #0f1117;
-  --ds-surface: #161b22;
-  --ds-surface2: #1c2333;
-  --ds-border: #30363d;
-  --ds-border2: #21262d;
-  --ds-text: #e6edf3;
-  --ds-text2: #cdd9e5;
-  --ds-text3: #8b949e;
-  --ds-text4: #6e7681;
-  --ds-shadow: rgba(0,0,0,0.3);
-  --ds-shadow2: rgba(0,0,0,0.5);
-  --ds-nav-bg: #161b22;
-  --ds-nav-border: #30363d;
-  --ds-drawer-bg: #1c2333;
-  --ds-card-bg: #161b22;
-  --ds-input-bg: #0f1117;
-  --ds-hover: rgba(255,255,255,0.04);
+  --ds-bg: #1a1d23;
+  --ds-surface: #22262e;
+  --ds-surface2: #2a2f3a;
+  --ds-border: #363c47;
+  --ds-border2: #2e333e;
+  --ds-text: #e8edf3;
+  --ds-text2: #c8d4e0;
+  --ds-text3: #8b96a5;
+  --ds-text4: #626e7d;
+  --ds-shadow: rgba(0,0,0,0.25);
+  --ds-shadow2: rgba(0,0,0,0.4);
+  --ds-nav-bg: #22262e;
+  --ds-nav-border: #363c47;
+  --ds-drawer-bg: #22262e;
+  --ds-card-bg: #22262e;
+  --ds-input-bg: #1a1d23;
+  --ds-hover: rgba(255,255,255,0.05);
 }
 
 /* Dark mode overrides for dashboard card backgrounds */

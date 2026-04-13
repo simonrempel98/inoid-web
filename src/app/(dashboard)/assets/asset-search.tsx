@@ -31,9 +31,9 @@ export function AssetSearch({ defaultValue }: { defaultValue?: string }) {
         placeholder={t('search')}
         style={{
           width: '100%', padding: '10px 12px 10px 38px',
-          borderRadius: 10, border: '1px solid #c8d4e8',
+          borderRadius: 10, border: '1px solid var(--ds-border, #c8d4e8)',
           fontSize: 14, fontFamily: 'Arial, sans-serif',
-          backgroundColor: 'white', color: '#000',
+          backgroundColor: 'var(--ds-input-bg, white)', color: 'var(--ds-text, #000)',
           outline: 'none', boxSizing: 'border-box',
         }}
       />
