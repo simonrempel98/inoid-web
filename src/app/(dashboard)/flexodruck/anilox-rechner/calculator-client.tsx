@@ -74,11 +74,12 @@ function calcFilm(volMetric: number, transfer: number, coverage: number, solidCo
 
 // ── Kleine UI-Hilfskomponenten ────────────────────────────────────────────────
 
-function Label({ children, hint }: { children: React.ReactNode; hint?: string }) {
+function Label({ children, hint, tooltip }: { children: React.ReactNode; hint?: string; tooltip?: string }) {
   return (
-    <div style={{ marginBottom: 5 }}>
+    <div style={{ marginBottom: 5, display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 2 }}>
       <span style={{ fontSize: 12, fontWeight: 700, color: '#374151', letterSpacing: '0.03em', textTransform: 'uppercase' as const }}>{children}</span>
-      {hint && <span style={{ fontSize: 11, color: '#9ca3af', marginLeft: 6 }}>{hint}</span>}
+      {hint && <span style={{ fontSize: 11, color: '#9ca3af', marginLeft: 4 }}>{hint}</span>}
+      {tooltip && <Tooltip text={tooltip} />}
     </div>
   )
 }
@@ -174,6 +175,44 @@ function InfoChip({ text }: { text: string }) {
   )
 }
 
+function Tooltip({ text }: { text: string }) {
+  const [show, setShow] = useState(false)
+  return (
+    <span style={{ position: 'relative', display: 'inline-block', marginLeft: 5, verticalAlign: 'middle' }}>
+      <span
+        onMouseEnter={() => setShow(true)}
+        onMouseLeave={() => setShow(false)}
+        onTouchStart={() => setShow(v => !v)}
+        style={{
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          width: 15, height: 15, borderRadius: '50%',
+          background: '#e5e7eb', cursor: 'help',
+          fontSize: 10, fontWeight: 800, color: '#6b7280',
+          userSelect: 'none',
+        }}
+      >?</span>
+      {show && (
+        <div style={{
+          position: 'absolute', bottom: 'calc(100% + 8px)', left: '50%', transform: 'translateX(-50%)',
+          width: 240, background: '#1f2937', color: 'white',
+          padding: '10px 13px', borderRadius: 10, fontSize: 12, lineHeight: 1.55,
+          zIndex: 999, pointerEvents: 'none',
+          boxShadow: '0 8px 24px rgba(0,0,0,0.22)',
+          whiteSpace: 'normal',
+        }}>
+          {text}
+          <div style={{
+            position: 'absolute', top: '100%', left: '50%', transform: 'translateX(-50%)',
+            width: 0, height: 0,
+            borderLeft: '6px solid transparent', borderRight: '6px solid transparent',
+            borderTop: '6px solid #1f2937',
+          }} />
+        </div>
+      )}
+    </span>
+  )
+}
+
 // ── LPC/LPI Doppelfeld ────────────────────────────────────────────────────────
 
 function RulingInput({ lpc, lpi, onLpcChange, onLpiChange }: {
@@ -257,22 +296,22 @@ function VolumeCalc({ unit, onResult }: { unit: Unit; onResult: (r: any, inp: an
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div>
-        <Label hint="optional">Lineatur (Screenruling)</Label>
+        <Label hint="optional" tooltip="Wie viele Zellen pro cm (LPC) oder Inch (LPI) auf der Walze graviert sind. Feinere Lineatur = kleinere, aber mehr Zellen. Hat keinen direkten Einfluss auf das Volumen — das ergibt sich allein aus Tiefe × offener Fläche.">Lineatur (Screenruling)</Label>
         <RulingInput lpc={lpc} lpi={lpi} onLpcChange={handleLpc} onLpiChange={handleLpi} />
         <div style={{ marginTop: 8 }}>
           <InfoChip text="Die Lineatur beeinflusst nicht direkt das Volumen – sie bestimmt die Zellgröße. Das Volumen ergibt sich aus Tiefe × offener Fläche." />
         </div>
       </div>
       <div>
-        <Label>Zelltiefe *</Label>
+        <Label tooltip="Tiefe einer einzelnen gravierten Zelle in Mikrometern (μm). Typisch: 15–50 μm für Prozessfarben, 40–80 μm für Lacke und Klebstoffe. Tiefere Zellen = höheres Volumen = mehr Tintenauftrag.">Zelltiefe *</Label>
         <Input value={depth} onChange={setDepth} placeholder="z.B. 30" unit="μm" min="1" max="200" />
       </div>
       <div>
-        <Label>Zellgeometrie *</Label>
+        <Label tooltip="Form der gravierten Zellen. Beeinflusst den Geometriefaktor in der Volumenformel. Hexagonal (60°) ist Industriestandard mit höchster Packungsdichte (~74% offene Fläche). Tri-helical hat drei Kanäle für sehr gleichmäßige Übertragung.">Zellgeometrie *</Label>
         <GeoSelect value={geo} onChange={handleGeo} />
       </div>
       <div>
-        <Label hint="Empfehlung autom. gesetzt">Offene Fläche *</Label>
+        <Label hint="Empfehlung autom. gesetzt" tooltip="Prozentualer Anteil der gravierten (offenen) Fläche an der Gesamtoberfläche. Abhängig von der Geometrie, typisch 58–74%. Wird vom Graveurhersteller nach Vorgabe eingestellt und ist im Walzenzertifikat angegeben.">Offene Fläche *</Label>
         <Input value={openArea} onChange={setOpenArea} placeholder="z.B. 74" unit="%" min="20" max="90" />
       </div>
       <CalcButton onClick={calculate} />
@@ -319,30 +358,30 @@ function ConsumptionCalc({ unit, onResult }: { unit: Unit; onResult: (r: any, in
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div>
-        <Label>Anilox-Volumen *</Label>
+        <Label tooltip="Das Zellvolumen der Anilox-Walze — aus dem Volumen-Rechner ermittelt oder vom Hersteller im Walzenzertifikat angegeben.">Anilox-Volumen *</Label>
         <Input value={vol} onChange={setVol} placeholder={unit === 'metric' ? 'z.B. 10' : 'z.B. 6.5'} unit={unitLabel(unit)} />
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
         <div>
-          <Label>Druckgeschwindigkeit *</Label>
+          <Label tooltip="Laufgeschwindigkeit der Druckmaschine in Metern pro Minute. Bestimmt zusammen mit der Druckbreite den Tintenverbrauch pro Zeiteinheit.">Druckgeschwindigkeit *</Label>
           <Input value={speed} onChange={setSpeed} placeholder="z.B. 150" unit="m/min" />
         </div>
         <div>
-          <Label>Druckbreite *</Label>
+          <Label tooltip="Nutzbare Druckbreite (Bahnbreite) in Millimetern. Zusammen mit der Geschwindigkeit ergibt sich die bedruckte Fläche pro Minute.">Druckbreite *</Label>
           <Input value={width} onChange={setWidth} placeholder="z.B. 800" unit="mm" />
         </div>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 12 }}>
         <div>
-          <Label hint="Flächendeckung">Deckung</Label>
+          <Label hint="Flächendeckung" tooltip="Prozentualer Anteil der bedruckten Fläche am Gesamtformat. 100% = Vollton, 50% = halbe Fläche gedruckt. Beeinflusst direkt den Tintenverbrauch.">Deckung</Label>
           <Input value={coverage} onChange={setCoverage} placeholder="100" unit="%" min="1" max="100" />
         </div>
         <div>
-          <Label hint="Typisch 50–70%">Übertragung</Label>
+          <Label hint="Typisch 50–70%" tooltip="Anteil der Tinte in den Zellen, der tatsächlich auf den Bedruckstoff übertragen wird. Typisch 50–70%, abhängig von Tintenrheologie, Substrat und Druckgeschwindigkeit.">Übertragung</Label>
           <Input value={transfer} onChange={setTransfer} placeholder="60" unit="%" min="10" max="100" />
         </div>
         <div>
-          <Label hint="Tintendichte">Dichte</Label>
+          <Label hint="Tintendichte" tooltip="Dichte der verwendeten Tinte in g/cm³. Wasserbasiert: ~1,0–1,1 · UV-Tinten: ~1,1–1,2 · Lösemitteltinten: ~0,9–1,0. Vom Tintenhersteller angegeben.">Dichte</Label>
           <Input value={density} onChange={setDensity} placeholder="1.0" unit="g/cm³" />
         </div>
       </div>
@@ -383,21 +422,21 @@ function FilmCalc({ unit, onResult }: { unit: Unit; onResult: (r: any, inp: any)
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div>
-        <Label>Anilox-Volumen *</Label>
+        <Label tooltip="Das Zellvolumen der Anilox-Walze — aus dem Volumen-Rechner ermittelt oder vom Hersteller angegeben. Basis für die Berechnung der Schichtdicke.">Anilox-Volumen *</Label>
         <Input value={vol} onChange={setVol} placeholder={unit === 'metric' ? 'z.B. 8' : 'z.B. 5.2'} unit={unitLabel(unit)} />
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
         <div>
-          <Label hint="Typisch 50–70%">Übertragungsrate</Label>
+          <Label hint="Typisch 50–70%" tooltip="Anteil der Tinte aus den Zellen, der auf das Substrat übertragen wird. Typisch 50–70% — abhängig von Tinte, Substrat und Druckbedingungen.">Übertragungsrate</Label>
           <Input value={transfer} onChange={setTransfer} placeholder="60" unit="%" />
         </div>
         <div>
-          <Label hint="Motivdeckung">Flächendeckung</Label>
+          <Label hint="Motivdeckung" tooltip="Prozentualer Anteil der bedruckten Fläche am Gesamtformat. 100% = Vollton. Beeinflusst die effektiv aufgetragene Schichtdicke.">Flächendeckung</Label>
           <Input value={coverage} onChange={setCoverage} placeholder="100" unit="%" />
         </div>
       </div>
       <div>
-        <Label hint="Für Trockenfilm">Feststoffgehalt Tinte</Label>
+        <Label hint="Für Trockenfilm" tooltip="Anteil der Festbestandteile (Pigmente, Binder) in der Tinte ohne Wasser/Lösemittel. Bestimmt die Trockenschichtdicke nach Verdampfen des Trägers. Wasserbasiert: 20–45% · UV: 80–100%.">Feststoffgehalt Tinte</Label>
         <Input value={solid} onChange={setSolid} placeholder="40" unit="%" />
       </div>
       <InfoChip text="Formel: 1 cm³/m² = 1 μm Nassschichtdicke bei 100% Übertragung und Deckung." />
@@ -450,11 +489,11 @@ function ReverseCalc({ unit, onResult }: { unit: Unit; onResult: (r: any, inp: a
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       <div>
-        <Label>Ziel-Volumen *</Label>
+        <Label tooltip="Das gewünschte Zellvolumen als Ausgangspunkt. Aus diesem Zielwert wird rückwärts die benötigte Zelltiefe oder offene Fläche errechnet.">Ziel-Volumen *</Label>
         <Input value={targetVol} onChange={setTargetVol} placeholder={unit === 'metric' ? 'z.B. 12' : 'z.B. 7.7'} unit={unitLabel(unit)} />
       </div>
       <div>
-        <Label>Zellgeometrie *</Label>
+        <Label tooltip="Form der gravierten Zellen. Bestimmt den Geometriefaktor, der in die Rückrechnung einfließt. Hexagonal (60°) ist Industriestandard.">Zellgeometrie *</Label>
         <GeoSelect value={geo} onChange={handleGeo} />
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0, background: '#f3f4f6', borderRadius: 10, padding: 3 }}>
@@ -473,12 +512,12 @@ function ReverseCalc({ unit, onResult }: { unit: Unit; onResult: (r: any, inp: a
       </div>
       {mode === 'findDepth' ? (
         <div>
-          <Label hint="bekannt">Offene Fläche</Label>
+          <Label hint="bekannt" tooltip="Die bereits bekannte offene Fläche der Walze (z.B. aus Walzenzertifikat). Daraus wird die benötigte Zelltiefe errechnet, um das Zielvolumen zu erreichen.">Offene Fläche</Label>
           <Input value={openArea} onChange={setOpenArea} placeholder="74" unit="%" min="20" max="90" />
         </div>
       ) : (
         <div>
-          <Label hint="bekannte Tiefe">Zelltiefe</Label>
+          <Label hint="bekannte Tiefe" tooltip="Die bereits feststehende Zelltiefe (z.B. durch Gravurmaschinen-Limitierung vorgegeben). Daraus wird die benötigte offene Fläche errechnet, um das Zielvolumen zu erreichen.">Zelltiefe</Label>
           <Input value={fixedVal} onChange={setFixedVal} placeholder="z.B. 30" unit="μm" />
         </div>
       )}
@@ -521,19 +560,19 @@ function AniloxInputGroup({ label, accent, lpc, lpi, depth, geo, openArea, onLpc
       <p style={{ margin: '0 0 12px', fontSize: 13, fontWeight: 800, color: accent }}>{label}</p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         <div>
-          <Label>Lineatur (optional)</Label>
+          <Label tooltip="Wie viele Zellen pro cm (LPC) oder Inch (LPI) auf der Walze graviert sind. Nur zur Dokumentation — hat keinen Einfluss auf das berechnete Volumen.">Lineatur (optional)</Label>
           <RulingInput lpc={lpc} lpi={lpi} onLpcChange={onLpcChange} onLpiChange={onLpiChange} />
         </div>
         <div>
-          <Label>Zelltiefe *</Label>
+          <Label tooltip="Tiefe einer einzelnen gravierten Zelle in μm. Typisch: 15–50 μm für Prozessfarben, 40–80 μm für Lacke.">Zelltiefe *</Label>
           <Input value={depth} onChange={onDepthChange} placeholder="z.B. 30" unit="μm" />
         </div>
         <div>
-          <Label>Geometrie</Label>
+          <Label tooltip="Form der gravierten Zellen. Beeinflusst den Geometriefaktor. Hexagonal (60°) ist Industriestandard.">Geometrie</Label>
           <GeoSelect value={geo} onChange={onGeoChange} />
         </div>
         <div>
-          <Label>Offene Fläche</Label>
+          <Label tooltip="Prozentualer Anteil der gravierten Fläche an der Gesamtoberfläche. Typisch 58–74%, abhängig von der Geometrie.">Offene Fläche</Label>
           <Input value={openArea} onChange={onOpenChange} placeholder="74" unit="%" />
         </div>
       </div>
