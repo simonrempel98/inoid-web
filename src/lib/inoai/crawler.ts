@@ -109,8 +109,15 @@ function extractTitle(html: string): string {
 
 function hasDoubledSegment(url: URL): boolean {
   const parts = url.pathname.split('/').filter(Boolean)
+  // Direct consecutive duplicates
   for (let i = 0; i < parts.length - 1; i++) {
     if (parts[i] === parts[i + 1]) return true
+  }
+  // Non-consecutive: if any segment appears more than once (catches /produkte/.../produkte/...)
+  const seen = new Set<string>()
+  for (const p of parts) {
+    if (seen.has(p)) return true
+    seen.add(p)
   }
   return false
 }
@@ -122,6 +129,10 @@ function extractLinks(html: string, pageUrl: string, rootUrl: URL): Set<string> 
   while ((match = hrefRe.exec(html)) !== null) {
     const raw = match[1].trim()
     if (!raw || raw.startsWith('#') || raw.startsWith('mailto:') || raw.startsWith('tel:') || raw.startsWith('javascript:')) continue
+    // Skip truly relative paths (no leading slash, not a full URL) — they resolve
+    // against the current page directory and produce compounding nested URLs on
+    // CMS sites (e.g. TYPO3) that use href="produkte/rasterwalzen" instead of "/produkte/rasterwalzen".
+    if (!raw.startsWith('/') && !raw.startsWith('http://') && !raw.startsWith('https://')) continue
     try {
       const url = new URL(raw, pageUrl)
       url.hash = ''
