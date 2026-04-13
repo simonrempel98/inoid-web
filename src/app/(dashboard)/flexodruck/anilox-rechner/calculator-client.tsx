@@ -618,11 +618,11 @@ function ComparisonCalc({ unit, onResult }: { unit: Unit; onResult: (r: any, inp
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <AniloxInputGroup label="Walze A" accent="#003366"
+      <AniloxInputGroup label="Anilox 1" accent="#003366"
         lpc={a.lpc} lpi={a.lpi} depth={a.depth} geo={a.geo} openArea={a.openArea}
         onLpcChange={updA('lpc')} onLpiChange={updA('lpi')} onDepthChange={updA('depth')}
         onGeoChange={updA('geo')} onOpenChange={updA('openArea')} />
-      <AniloxInputGroup label="Walze B" accent="#0099cc"
+      <AniloxInputGroup label="Anilox 2" accent="#0099cc"
         lpc={b.lpc} lpi={b.lpi} depth={b.depth} geo={b.geo} openArea={b.openArea}
         onLpcChange={updB('lpc')} onLpiChange={updB('lpi')} onDepthChange={updB('depth')}
         onGeoChange={updB('geo')} onOpenChange={updB('openArea')} />
@@ -638,18 +638,18 @@ function ComparisonResult({ result, unit }: { result: any; unit: Unit }) {
     <div>
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 16 }}>
         <div style={{ background: '#f0f4ff', borderRadius: 12, padding: '14px 12px', textAlign: 'center' as const }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: '#003366', textTransform: 'uppercase' as const, marginBottom: 4 }}>Walze A</div>
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#003366', textTransform: 'uppercase' as const, marginBottom: 4 }}>Anilox 1</div>
           <div style={{ fontSize: 28, fontWeight: 900, color: '#003366' }}>{displayVol(result.vA, unit)}</div>
           <div style={{ fontSize: 13, color: '#4b5563' }}>{unitLabel(unit)}</div>
         </div>
         <div style={{ background: '#e0f2fe', borderRadius: 12, padding: '14px 12px', textAlign: 'center' as const }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: '#0099cc', textTransform: 'uppercase' as const, marginBottom: 4 }}>Walze B</div>
+          <div style={{ fontSize: 11, fontWeight: 700, color: '#0099cc', textTransform: 'uppercase' as const, marginBottom: 4 }}>Anilox 2</div>
           <div style={{ fontSize: 28, fontWeight: 900, color: '#0099cc' }}>{displayVol(result.vB, unit)}</div>
           <div style={{ fontSize: 13, color: '#4b5563' }}>{unitLabel(unit)}</div>
         </div>
       </div>
       <div style={{ background: '#f9fafb', borderRadius: 12, padding: '14px 16px', textAlign: 'center' as const, marginBottom: 12 }}>
-        <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>Differenz B − A</div>
+        <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 4 }}>Differenz 2 − 1</div>
         <div style={{ fontSize: 24, fontWeight: 900, color: diffColor }}>
           {result.diff > 0 ? '+' : ''}{displayVol(result.diff, unit)} {unitLabel(unit)}
         </div>
@@ -662,8 +662,8 @@ function ComparisonResult({ result, unit }: { result: any; unit: Unit }) {
         borderRadius: 10, fontSize: 13, color: '#166534',
       }}>
         {result.diff === 0
-          ? '↔ Beide Walzen haben identisches Volumen.'
-          : `→ Walze ${bigger} überträgt ${Math.abs(result.pct)}% ${result.pct > 0 ? 'mehr' : 'weniger'} Tinte.`}
+          ? '↔ Beide Anilox-Walzen haben identisches Volumen.'
+          : `→ Anilox ${bigger === 'A' ? '1' : '2'} überträgt ${Math.abs(result.pct)}% ${result.pct > 0 ? 'mehr' : 'weniger'} Tinte.`}
       </div>
     </div>
   )
