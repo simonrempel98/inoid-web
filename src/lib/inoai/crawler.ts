@@ -129,12 +129,14 @@ function extractLinks(html: string, pageUrl: string, rootUrl: URL): Set<string> 
   while ((match = hrefRe.exec(html)) !== null) {
     const raw = match[1].trim()
     if (!raw || raw.startsWith('#') || raw.startsWith('mailto:') || raw.startsWith('tel:') || raw.startsWith('javascript:')) continue
-    // Skip truly relative paths (no leading slash, not a full URL) — they resolve
-    // against the current page directory and produce compounding nested URLs on
-    // CMS sites (e.g. TYPO3) that use href="produkte/rasterwalzen" instead of "/produkte/rasterwalzen".
-    if (!raw.startsWith('/') && !raw.startsWith('http://') && !raw.startsWith('https://')) continue
     try {
-      const url = new URL(raw, pageUrl)
+      // Relative hrefs without a leading slash (e.g. TYPO3: "produkte/rasterwalzen") must be
+      // resolved from the site root, not the current page directory. Otherwise they compound:
+      // "/produkte/cfk-adapter" + "produkte/rasterwalzen" → "/produkte/cfk-adapter/produkte/rasterwalzen".
+      const base = (raw.startsWith('/') || raw.startsWith('http://') || raw.startsWith('https://'))
+        ? pageUrl
+        : rootUrl.origin
+      const url = new URL(raw, base)
       url.hash = ''
       if (!['http:', 'https:'].includes(url.protocol)) continue
       if (url.hostname !== rootUrl.hostname) continue
