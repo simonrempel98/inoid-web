@@ -42,45 +42,68 @@ function typeInfo(type: string) {
 // ── Sparkline ────────────────────────────────────────────────────────────────
 
 function Sparkline({ values, color = '#0099cc' }: { values: number[]; color?: string }) {
-  if (values.length < 2) {
-    return <svg width={100} height={32} />
-  }
+  if (values.length < 2) return <svg width={110} height={32} />
 
-  const W = 100, H = 28
+  const W = 110, H = 30
   const min = Math.min(...values)
   const max = Math.max(...values)
   const range = max - min || 1
+  const pad = 5
 
-  const pts = values.map((v, i) => {
-    const x = (i / (values.length - 1)) * W
-    const y = H - ((v - min) / range) * (H - 6) - 3
-    return `${x.toFixed(1)},${y.toFixed(1)}`
-  })
+  const pts = values.map((v, i): [number, number] => [
+    (i / (values.length - 1)) * W,
+    H - pad - ((v - min) / range) * (H - pad * 2),
+  ])
 
-  const lastX = W
-  const lastY = H - ((values[values.length - 1] - min) / range) * (H - 6) - 3
+  // SVG path statt polyline für saubere Darstellung
+  const linePath = pts
+    .map(([x, y], i) => `${i === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`)
+    .join(' ')
 
-  // Fläche unter der Kurve
-  const areaPoints = `0,${H} ${pts.join(' ')} ${W},${H}`
+  const areaPath =
+    `M0,${H} ` +
+    pts.map(([x, y]) => `L${x.toFixed(1)},${y.toFixed(1)}`).join(' ') +
+    ` L${W},${H} Z`
+
+  const [dotX, dotY] = pts[pts.length - 1]
+  const id = color.replace(/[^a-z0-9]/gi, '')
 
   return (
-    <svg width={W} height={H + 4} style={{ overflow: 'visible', display: 'block' }}>
+    <svg width={W} height={H} style={{ display: 'block', overflow: 'visible' }}>
       <defs>
-        <linearGradient id={`grad-${color.replace('#', '')}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity="0.2" />
-          <stop offset="100%" stopColor={color} stopOpacity="0" />
+        {/* Horizontale Maske: links → transparent, rechts → sichtbar */}
+        <linearGradient id={`sp-fade-${id}`} x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%"   stopColor="white" stopOpacity="0"   />
+          <stop offset="50%"  stopColor="white" stopOpacity="0.5" />
+          <stop offset="100%" stopColor="white" stopOpacity="1"   />
+        </linearGradient>
+        <mask id={`sp-mask-${id}`}>
+          <rect x="0" y="0" width={W} height={H} fill={`url(#sp-fade-${id})`} />
+        </mask>
+
+        {/* Vertikaler Flächen-Gradient */}
+        <linearGradient id={`sp-area-${id}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stopColor={color} stopOpacity="0.18" />
+          <stop offset="100%" stopColor={color} stopOpacity="0"    />
         </linearGradient>
       </defs>
-      <polygon points={areaPoints} fill={`url(#grad-${color.replace('#', '')})`} />
-      <polyline
-        points={pts.join(' ')}
-        fill="none"
-        stroke={color}
-        strokeWidth="1.8"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <circle cx={lastX} cy={lastY} r="3" fill={color} />
+
+      {/* Fläche + Linie — beide durch Fade-Maske */}
+      <g mask={`url(#sp-mask-${id})`}>
+        <path d={areaPath} fill={`url(#sp-area-${id})`} />
+        <path
+          d={linePath}
+          fill="none"
+          stroke={color}
+          strokeWidth="1.4"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          opacity="0.85"
+        />
+      </g>
+
+      {/* Endpunkt-Dot — außerhalb der Maske, immer voll sichtbar */}
+      <circle cx={dotX.toFixed(1)} cy={dotY.toFixed(1)} r="2.5" fill={color} />
     </svg>
   )
 }
