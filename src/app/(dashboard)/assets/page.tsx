@@ -5,6 +5,7 @@ import { AssetFilters } from './asset-filters'
 import { AssetCardActions } from './asset-card-actions'
 import { AssetDeleteButton } from './asset-delete-button'
 import { AssetThumbnail } from './asset-thumbnail'
+import { AssetImportButton } from './import-button'
 import { getRole } from '@/lib/get-role'
 import { can } from '@/lib/permissions'
 import { getTranslations } from 'next-intl/server'
@@ -89,14 +90,17 @@ export default async function AssetsPage({
           </p>
         </div>
         {perms.editAssets && (
-          <Link href="/assets/neu" style={{
-            backgroundColor: '#003366', color: 'white',
-            padding: '10px 18px', borderRadius: 50,
-            textDecoration: 'none', fontSize: 14, fontWeight: 700,
-            display: 'flex', alignItems: 'center', gap: 6,
-          }}>
-            <span style={{ fontSize: 18, lineHeight: 1 }}>+</span> {t('common.new').replace('+ ', '')}
-          </Link>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <AssetImportButton />
+            <Link href="/assets/neu" style={{
+              backgroundColor: '#003366', color: 'white',
+              padding: '10px 18px', borderRadius: 50,
+              textDecoration: 'none', fontSize: 14, fontWeight: 700,
+              display: 'flex', alignItems: 'center', gap: 6,
+            }}>
+              <span style={{ fontSize: 18, lineHeight: 1 }}>+</span> {t('common.new').replace('+ ', '')}
+            </Link>
+          </div>
         )}
       </div>
 
