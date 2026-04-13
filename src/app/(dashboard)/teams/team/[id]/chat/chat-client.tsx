@@ -16,6 +16,7 @@ type ChatMessage = {
 }
 
 type AssetHit = { id: string; title: string; category: string | null }
+type AssetPreview = { id: string; title: string; category: string | null; description: string | null }
 
 const ROLE_COLOR: Record<string, string> = {
   superadmin: '#a78bfa',
@@ -40,18 +41,21 @@ function formatTime(iso: string) {
   return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' }) + ' ' + time
 }
 
+// Rendert Nachrichteninhalt: @[Name](uuid) → klickbarer Chip (nur Name, keine UUID)
 function renderContent(content: string) {
   const parts = content.split(/(@\[[^\]]+\]\([^)]+\))/g)
   return parts.map((part, i) => {
     const m = part.match(/^@\[([^\]]+)\]\(([^)]+)\)$/)
     if (m) {
       return (
-        <Link key={i} href={`/assets/${m[2]}`} style={{
-          color: '#0099cc', fontWeight: 700, textDecoration: 'none',
-          background: '#e8f4fb', borderRadius: 4, padding: '0 3px', fontSize: 'inherit',
+        <span key={i} style={{
+          display: 'inline-flex', alignItems: 'center', gap: 3,
+          background: 'rgba(0,153,204,0.15)', color: '#0099cc',
+          borderRadius: 6, padding: '1px 6px 1px 4px',
+          fontWeight: 700, fontSize: '0.95em', cursor: 'default',
         }}>
-          @{m[1]}
-        </Link>
+          <span style={{ fontSize: '0.8em', opacity: 0.7 }}>@</span>{m[1]}
+        </span>
       )
     }
     return <span key={i}>{part}</span>
@@ -60,6 +64,63 @@ function renderContent(content: string) {
 
 function getInitials(name: string) {
   return name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
+}
+
+function AssetPreviewCard({ asset, isMine }: { asset: AssetPreview; isMine: boolean }) {
+  return (
+    <Link href={`/assets/${asset.id}`} style={{ textDecoration: 'none', display: 'block' }}>
+      <div style={{
+        marginTop: 6,
+        borderRadius: 10,
+        overflow: 'hidden',
+        border: isMine ? '1px solid rgba(255,255,255,0.18)' : '1px solid #e2eaf5',
+        borderLeft: '3px solid #0099cc',
+        background: isMine ? 'rgba(255,255,255,0.08)' : '#f7fafd',
+        display: 'flex', alignItems: 'center', gap: 10,
+        padding: '8px 12px',
+        transition: 'background 0.15s',
+        cursor: 'pointer',
+      }}>
+        {/* Icon */}
+        <div style={{
+          width: 34, height: 34, borderRadius: 8, flexShrink: 0,
+          background: isMine ? 'rgba(0,153,204,0.25)' : '#e8f4fb',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0099cc" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+            <rect x="8" y="2" width="8" height="4" rx="1"/>
+          </svg>
+        </div>
+
+        {/* Text */}
+        <div style={{ minWidth: 0, flex: 1 }}>
+          <p style={{
+            margin: 0, fontSize: 12, fontWeight: 700,
+            color: isMine ? 'rgba(255,255,255,0.92)' : '#1a2a3a',
+            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+          }}>
+            {asset.title}
+          </p>
+          {(asset.category || asset.description) && (
+            <p style={{
+              margin: '1px 0 0', fontSize: 10,
+              color: isMine ? 'rgba(255,255,255,0.55)' : '#96aed2',
+              whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+            }}>
+              {asset.category ?? asset.description?.slice(0, 60)}
+            </p>
+          )}
+        </div>
+
+        {/* Arrow */}
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+          stroke={isMine ? 'rgba(255,255,255,0.4)' : '#c8d4e8'} strokeWidth="2.5" strokeLinecap="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </div>
+    </Link>
+  )
 }
 
 export function ChatClient({
@@ -77,7 +138,6 @@ export function ChatClient({
 }) {
   const supabase = createClient()
   const [messages, setMessages] = useState<ChatMessage[]>(initialMessages)
-  const [input, setInput] = useState('')
   const [sending, setSending] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -89,6 +149,10 @@ export function ChatClient({
   const [mentionResults, setMentionResults] = useState<AssetHit[]>([])
   const [mentionIndex, setMentionIndex] = useState(0)
   const [atPos, setAtPos] = useState<number>(-1)
+  const [input, setInput] = useState('')
+
+  // Asset-Cache für Preview-Karten
+  const [assetCache, setAssetCache] = useState<Record<string, AssetPreview>>({})
 
   const scrollRef  = useRef<HTMLDivElement>(null)
   const inputRef   = useRef<HTMLTextAreaElement>(null)
@@ -120,6 +184,31 @@ export function ChatClient({
   useEffect(() => {
     localStorage.setItem(`chat_last_read_${teamId}`, new Date().toISOString())
   }, [teamId])
+
+  // Asset-Previews nachladen für alle erwähnten Assets
+  useEffect(() => {
+    const allIds = new Set<string>()
+    for (const m of messages) {
+      for (const id of m.asset_mentions ?? []) allIds.add(id)
+    }
+    const unknownIds = [...allIds].filter(id => !assetCache[id])
+    if (!unknownIds.length) return
+
+    supabase
+      .from('assets')
+      .select('id, title, category, description')
+      .in('id', unknownIds)
+      .is('deleted_at', null)
+      .then(({ data }) => {
+        if (!data?.length) return
+        setAssetCache(prev => {
+          const next = { ...prev }
+          for (const a of data) next[a.id] = { id: a.id, title: a.title, category: a.category ?? null, description: (a as any).description ?? null }
+          return next
+        })
+      })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [messages])
 
   useEffect(() => {
     const channel = supabase
@@ -294,6 +383,9 @@ export function ChatClient({
               const prevMsg = group.msgs[idx - 1]
               const isSameSender = prevMsg?.user_id === msg.user_id
               const roleColor = ROLE_COLOR[msg.sender_role ?? ''] ?? '#96aed2'
+              const mentionedAssets = (msg.asset_mentions ?? [])
+                .map(id => assetCache[id])
+                .filter(Boolean) as AssetPreview[]
 
               return (
                 <div key={msg.id} style={{
@@ -373,6 +465,11 @@ export function ChatClient({
                           onDoubleClick={() => isMine && startEdit(msg)}
                         >
                           {renderContent(msg.content)}
+
+                          {/* Asset-Preview-Karten (WhatsApp-Style) */}
+                          {mentionedAssets.map(asset => (
+                            <AssetPreviewCard key={asset.id} asset={asset} isMine={isMine} />
+                          ))}
                         </div>
                         <div style={{
                           fontSize: 10, color: '#96aed2', marginTop: 3,
