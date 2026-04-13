@@ -3,6 +3,9 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { ChatClient } from './chat-client'
 
+// Immer frisch vom Server laden – nie aus dem Router-Cache bedienen
+export const dynamic = 'force-dynamic'
+
 type ChatMessage = {
   id: string
   user_id: string

@@ -331,10 +331,17 @@ export function ChatClient({
       body: JSON.stringify({ content, teamId, assetMentions: mentions }),
     })
     setSending(false)
+    const data = await res.json()
     if (!res.ok) {
-      const d = await res.json()
-      setError(d.error ?? 'Fehler beim Senden')
+      setError(data.error ?? 'Fehler beim Senden')
       return
+    }
+    // Eigene Nachricht sofort einfügen – nicht auf Realtime warten (Realtime+RLS kann leer liefern)
+    if (data.message?.id) {
+      setMessages(prev => {
+        if (prev.find(m => m.id === data.message.id)) return prev
+        return [...prev, { ...data.message, edited_at: data.message.edited_at ?? null }]
+      })
     }
     setInput('')
     isAtBottom.current = true
