@@ -162,14 +162,14 @@ export default async function MaschinenDetailPage({ params }: { params: Promise<
             </Link>
           )}
           {canEdit && (
-            <Link href={`/flexodruck/maschinen/${id}/vorlagen/neu`} style={{
+            <Link href={`/flexodruck/ruestung/neu?machine=${id}`} style={{
               background: '#f4f6f9', color: '#003366',
               padding: '9px 18px', borderRadius: 50,
               border: '1px solid var(--ds-border)',
               fontSize: 13, fontWeight: 700,
               fontFamily: 'Arial, sans-serif', textDecoration: 'none',
             }}>
-              + {t('flexodruck.newTemplate')}
+              + Neues Setup
             </Link>
           )}
         </div>
