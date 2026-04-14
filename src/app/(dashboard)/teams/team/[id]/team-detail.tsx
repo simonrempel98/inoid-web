@@ -5,10 +5,10 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 import { createClient } from '@/lib/supabase/client'
-import { updateMember, unassignMemberFromTeam, assignMemberToTeam, setMemberRole } from '../../actions'
+import { updateMember, unassignMemberFromTeam, assignMemberToTeam, setMemberRole, deleteTeam } from '../../actions'
 import {
   Users, MapPin, Pencil, X, Check, UserMinus,
-  UserPlus, KeyRound, Loader, MessageSquare, Search,
+  UserPlus, KeyRound, Loader, MessageSquare, Search, Trash2,
 } from 'lucide-react'
 import { ROLE_COLORS, ROLE_BG, type AppRole } from '@/lib/permissions'
 
@@ -88,6 +88,8 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
   const [assignSearch, setAssignSearch] = useState('')
   const [assigning, setAssigning] = useState<string | null>(null)
   const [unreadCount, setUnreadCount] = useState(0)
+  const [deletingTeam, setDeletingTeam] = useState(false)
+  const [confirmDelete, setConfirmDelete] = useState(false)
 
   useEffect(() => {
     if (!showChat) return
@@ -102,6 +104,17 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
       .gt('created_at', lastRead)
       .then(({ count }) => setUnreadCount(count ?? 0))
   }, [team.id, showChat])
+
+  async function handleDeleteTeam() {
+    setDeletingTeam(true)
+    const result = await deleteTeam(team.id)
+    setDeletingTeam(false)
+    if (result?.error) {
+      alert(result.error)
+      return
+    }
+    router.push('/teams')
+  }
 
   async function saveTeam() {
     setSavingTeam(true)
@@ -223,10 +236,30 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
               </div>
             </div>
             {isAdmin && (
-              <button onClick={() => setEditingTeam(true)}
-                style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 10, padding: '8px 10px', cursor: 'pointer', color: 'white', display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}>
-                <Pencil size={14} /> {t('edit')}
-              </button>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button onClick={() => setEditingTeam(true)}
+                  style={{ background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)', borderRadius: 10, padding: '8px 10px', cursor: 'pointer', color: 'white', display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}>
+                  <Pencil size={14} /> {t('edit')}
+                </button>
+                {!confirmDelete ? (
+                  <button onClick={() => setConfirmDelete(true)}
+                    style={{ background: 'rgba(231,76,60,0.2)', border: '1px solid rgba(231,76,60,0.4)', borderRadius: 10, padding: '8px 10px', cursor: 'pointer', color: '#ff6b6b', display: 'flex', alignItems: 'center', gap: 6, fontSize: 13 }}>
+                    <Trash2 size={14} />
+                  </button>
+                ) : (
+                  <div style={{ display: 'flex', gap: 6, alignItems: 'center', background: 'rgba(231,76,60,0.15)', border: '1px solid rgba(231,76,60,0.4)', borderRadius: 10, padding: '6px 10px' }}>
+                    <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: 12 }}>Team löschen?</span>
+                    <button onClick={handleDeleteTeam} disabled={deletingTeam}
+                      style={{ background: '#E74C3C', border: 'none', borderRadius: 6, padding: '4px 10px', cursor: 'pointer', color: 'white', fontSize: 12, fontWeight: 700 }}>
+                      {deletingTeam ? '…' : 'Ja'}
+                    </button>
+                    <button onClick={() => setConfirmDelete(false)}
+                      style={{ background: 'transparent', border: 'none', cursor: 'pointer', color: 'rgba(255,255,255,0.6)', fontSize: 12, padding: '4px 6px' }}>
+                      Nein
+                    </button>
+                  </div>
+                )}
+              </div>
             )}
           </div>
         )}

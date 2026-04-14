@@ -282,3 +282,28 @@ export async function setMemberRole(userId: string, appRole: AppRole) {
 
   return { error: error?.message }
 }
+
+export async function deleteTeam(teamId: string) {
+  const currentRole = await getCurrentAppRole()
+  if (currentRole !== 'admin' && currentRole !== 'superadmin') return { error: 'Keine Berechtigung' }
+
+  const orgId = await getOrgId()
+  if (!orgId) return { error: 'Keine Organisation' }
+
+  const supabase = await createClient()
+
+  // Mitglieder aus dem Team entfernen
+  await supabase
+    .from('organization_members')
+    .update({ team_id: null })
+    .eq('team_id', teamId)
+
+  // Team löschen (nur wenn es zur eigenen Org gehört)
+  const { error } = await supabase
+    .from('teams')
+    .delete()
+    .eq('id', teamId)
+    .eq('organization_id', orgId)
+
+  return { error: error?.message }
+}
