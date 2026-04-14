@@ -46,21 +46,10 @@ export default async function NeueVorlagePage({ params }: { params: Promise<{ id
     hasFarbe: (slots ?? []).some(s => s.druckwerk_id === dw.id && s.sort_order === 1),
   }))
 
-  // Assets laden
-  const { data: assetsRaw } = await supabase
-    .from('assets')
-    .select('id, title, serial_number, article_number, category')
-    .eq('organization_id', orgId)
-    .is('deleted_at', null)
-    .order('title')
-    .limit(1000)
-  const assets = (assetsRaw ?? []).map((a: any) => ({ ...a, name: a.title }))
-
   return (
     <NeueVorlageClient
       machine={{ id: machine.id, name: machine.name }}
       druckwerke={druckwerkeWithInfo}
-      assets={assets}
     />
   )
 }
