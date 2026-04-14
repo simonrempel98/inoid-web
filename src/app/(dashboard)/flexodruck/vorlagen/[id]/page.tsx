@@ -32,7 +32,7 @@ export default async function VorlageDetailPage({ params }: { params: Promise<{ 
     .eq('id', tpl.primary_machine_id)
     .single()
 
-  // 3. Druckwerke laden
+  // 3. Druckwerke laden (alle der Maschine)
   const { data: druckwerkeRaw } = machine
     ? await supabase
         .from('flexo_druckwerke')
@@ -41,7 +41,14 @@ export default async function VorlageDetailPage({ params }: { params: Promise<{ 
         .order('position')
     : { data: [] }
 
-  const druckwerke = druckwerkeRaw ?? []
+  // 3b. Nur die im Setup ausgewählten Druckwerke anzeigen
+  const { data: includedDWs } = await supabase
+    .from('flexo_template_assignments')
+    .select('druckwerk_id')
+    .eq('template_id', id)
+
+  const includedIds = new Set((includedDWs ?? []).map((a: any) => a.druckwerk_id))
+  const druckwerke = (druckwerkeRaw ?? []).filter(dw => includedIds.has(dw.id))
 
   // 4. Template-Slots laden
   const { data: slotsRaw } = await supabase
