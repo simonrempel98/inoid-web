@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
-import { MachineDiagram } from './machine-diagram'
+import { MachineCanvas } from './machine-canvas'
 
 export default async function MaschinenDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -20,7 +20,7 @@ export default async function MaschinenDetailPage({ params }: { params: Promise<
   // Maschine laden
   const { data: machine, error } = await supabase
     .from('flexo_machines')
-    .select('id, name, manufacturer, model, num_druckwerke, notes, is_active, created_at, image_url')
+    .select('id, name, manufacturer, model, num_druckwerke, notes, is_active, created_at, image_url, canvas_layout')
     .eq('id', id)
     .eq('org_id', profile.organization_id)
     .single()
@@ -83,22 +83,15 @@ export default async function MaschinenDetailPage({ params }: { params: Promise<
     .limit(10)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const canEdit = ['admin', 'superadmin'].includes((profile as any).app_role)
+  const canEdit = (profile as any).app_role !== 'leser'
 
-  // Diagram-Daten (serialisierbar für Client Component)
-  const diagramDWs = (druckwerke ?? []).map(dw => ({
+  // Canvas-Daten für Whiteboard
+  const canvasLayout = (machine as any).canvas_layout ?? null
+  const canvasDWs = (druckwerke ?? []).map(dw => ({
     id: dw.id,
     position: dw.position,
     label: dw.label,
     color_hint: dw.color_hint,
-    slots: (fixedSlots ?? [])
-      .filter(s => s.druckwerk_id === dw.id)
-      .map(s => ({
-        id: s.id,
-        label: s.label,
-        sort_order: s.sort_order,
-        assets: slotAssetsMap[s.id] ?? [],
-      })),
   }))
 
   const statusColor: Record<string, string> = {
@@ -182,8 +175,13 @@ export default async function MaschinenDetailPage({ params }: { params: Promise<
         </div>
       </div>
 
-      {/* Visuelles Maschinendiagramm */}
-      <MachineDiagram druckwerke={diagramDWs} canEdit={canEdit} machineId={id} />
+      {/* Whiteboard Maschinendiagramm */}
+      <MachineCanvas
+        machineId={id}
+        initialLayout={canvasLayout}
+        druckwerke={canvasDWs}
+        canEdit={canEdit}
+      />
 
       {/* Vorlagen + Rüstvorgänge */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }} className="rg-2">
