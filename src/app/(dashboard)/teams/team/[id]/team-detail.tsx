@@ -92,13 +92,14 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
   useEffect(() => {
     if (!showChat) return
     const lastRead = localStorage.getItem(`chat_last_read_${team.id}`)
-    const since = lastRead ?? new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
+    // Kein lastRead = Chat noch nie geöffnet → kein Badge (nicht 30 Tage zurückzählen)
+    if (!lastRead) return
     const supabase = createClient()
     supabase
       .from('chat_messages' as any)
       .select('id', { count: 'exact', head: true })
       .eq('team_id', team.id)
-      .gt('created_at', since)
+      .gt('created_at', lastRead)
       .then(({ count }) => setUnreadCount(count ?? 0))
   }, [team.id, showChat])
 
