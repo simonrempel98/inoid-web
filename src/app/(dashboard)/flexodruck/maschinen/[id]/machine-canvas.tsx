@@ -74,7 +74,7 @@ function makeDefaultLayout(druckwerke: CanvasDW[]): CanvasCircle[] {
       angle = (Math.PI - MAX_RAD) + t * 2 * MAX_RAD
     }
     circles.push({
-      id: uid(),
+      id: dw.id,   // DW-ID direkt als Kreis-ID → Setup-Wizard kann mappen
       x: Math.round(VW / 2 + DIST * Math.cos(angle)),
       y: Math.round(VH / 2 + DIST * Math.sin(angle)),
       r: 36,

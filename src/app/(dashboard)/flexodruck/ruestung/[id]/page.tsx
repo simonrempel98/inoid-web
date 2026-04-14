@@ -23,10 +23,10 @@ export default async function RuestvorgangPage({ params }: { params: Promise<{ i
 
   if (error || !setup) notFound()
 
-  // 2. Maschine laden
+  // 2. Maschine laden (inkl. Canvas-Layout)
   const { data: machine } = await supabase
     .from('flexo_machines')
-    .select('id, name, num_druckwerke')
+    .select('id, name, num_druckwerke, canvas_layout')
     .eq('id', setup.machine_id)
     .single()
 
@@ -108,6 +108,7 @@ export default async function RuestvorgangPage({ params }: { params: Promise<{ i
       stepsByDW={stepsByDW}
       assets={allAssets}
       canEdit={canEdit}
+      canvasLayout={(machine as any)?.canvas_layout ?? null}
     />
   )
 }

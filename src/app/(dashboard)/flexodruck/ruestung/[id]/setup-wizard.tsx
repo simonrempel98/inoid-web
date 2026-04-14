@@ -161,6 +161,131 @@ function hexAlpha(hex: string | null, alpha: number): string {
   return `rgba(${r},${g},${b},${alpha})`
 }
 
+// ── Canvas-Diagramm (aus Whiteboard-Layout) ───────────────────────────────────
+type CanvasCircle = { id: string; x: number; y: number; r: number; label: string; color: string }
+
+function CanvasSetupDiagram({ circles, druckwerke, stepsByDW, currentDwId, onSelect }: {
+  circles: CanvasCircle[]
+  druckwerke: DW[]
+  stepsByDW: Record<string, Step[]>
+  currentDwId: string
+  onSelect: (dwId: string) => void
+}) {
+  const VW = 820, VH = 540
+  const GRID = 20
+
+  // Kreis → Druckwerk mappen: zuerst per ID, dann per Label
+  function getDW(circle: CanvasCircle): DW | null {
+    const byId = druckwerke.find(d => d.id === circle.id)
+    if (byId) return byId
+    const byLabel = druckwerke.find(d =>
+      circle.label === (d.label ?? `DW ${d.position}`) ||
+      circle.label === `DW ${d.position}` ||
+      circle.label === `Druckwerk ${d.position}`
+    )
+    return byLabel ?? null
+  }
+
+  function dwDone(dwId: string) {
+    const steps = stepsByDW[dwId] ?? []
+    return steps.length > 0 && steps.every(s => s.status !== 'pending')
+  }
+  function dwPartial(dwId: string) {
+    const steps = stepsByDW[dwId] ?? []
+    return steps.some(s => s.status !== 'pending') && !dwDone(dwId)
+  }
+
+  return (
+    <svg
+      viewBox={`0 0 ${VW} ${VH}`}
+      style={{ width: '100%', display: 'block' }}
+    >
+      <defs>
+        <pattern id="csdDots" width={GRID} height={GRID} patternUnits="userSpaceOnUse">
+          <circle cx="0.7" cy="0.7" r="0.7" fill="var(--ds-border)" />
+        </pattern>
+      </defs>
+      <rect width={VW} height={VH} fill="var(--ds-surface2)" />
+      <rect width={VW} height={VH} fill="url(#csdDots)" />
+
+      {circles.map(circle => {
+        const dw     = getDW(circle)
+        const isDW   = !!dw
+        const isCur  = dw?.id === currentDwId
+        const done   = dw ? dwDone(dw.id) : false
+        const part   = dw ? dwPartial(dw.id) : false
+
+        const fontSize = circle.r < 24 ? 8 : circle.r < 36 ? 10 : circle.r < 52 ? 12 : 14
+        const lines    = wrapLabel(circle.label)
+        const lineH    = fontSize * 1.3
+        const startY   = -(lines.length - 1) * lineH / 2
+
+        return (
+          <g key={circle.id}
+            onClick={() => dw && onSelect(dw.id)}
+            style={{ cursor: isDW ? 'pointer' : 'default' }}
+          >
+            {/* Auswahl-Ring beim aktiven DW */}
+            {isCur && (
+              <circle cx={circle.x} cy={circle.y} r={circle.r + 7}
+                fill="none" stroke="#0099cc" strokeWidth="2.5" strokeDasharray="6 3" />
+            )}
+
+            {/* Hauptkreis */}
+            <circle cx={circle.x} cy={circle.y} r={circle.r}
+              fill={circle.color}
+              stroke={isCur ? '#0099cc' : 'rgba(255,255,255,0.2)'}
+              strokeWidth={isCur ? 2.5 : 1.5}
+            />
+
+            {/* Beschriftung */}
+            {lines.map((line, li) => (
+              <text key={li}
+                x={circle.x} y={circle.y + startY + li * lineH}
+                textAnchor="middle" dominantBaseline="central"
+                fill="white" fontSize={fontSize} fontWeight="700"
+                fontFamily="Arial, sans-serif"
+                style={{ pointerEvents: 'none', userSelect: 'none' }}
+              >
+                {line}
+              </text>
+            ))}
+
+            {/* Status-Indikator */}
+            {done && (
+              <g>
+                <circle cx={circle.x + circle.r * 0.72} cy={circle.y - circle.r * 0.72}
+                  r={Math.max(6, circle.r * 0.28)} fill="#34d399" stroke="white" strokeWidth="1.5" />
+                <text x={circle.x + circle.r * 0.72} y={circle.y - circle.r * 0.72}
+                  textAnchor="middle" dominantBaseline="central"
+                  fontSize={Math.max(5, circle.r * 0.2)} fill="white" fontWeight="900"
+                  style={{ pointerEvents: 'none' }}>✓</text>
+              </g>
+            )}
+            {part && !done && (
+              <circle cx={circle.x + circle.r * 0.72} cy={circle.y - circle.r * 0.72}
+                r={Math.max(5, circle.r * 0.22)} fill="#f59e0b" stroke="white" strokeWidth="1.5" />
+            )}
+          </g>
+        )
+      })}
+    </svg>
+  )
+}
+
+function wrapLabel(label: string, maxChars = 12): string[] {
+  const words = label.split(' ')
+  const lines: string[] = []
+  let cur = ''
+  for (const w of words) {
+    if ((cur + ' ' + w).trim().length > maxChars && cur) { lines.push(cur.trim()); cur = w }
+    else { cur = (cur + ' ' + w).trim() }
+  }
+  if (cur) lines.push(cur)
+  return lines
+}
+
+// ── Altes Auto-Diagramm (Fallback wenn kein Canvas-Layout) ───────────────────
 function SetupDiagram({ druckwerke, stepsByDW, currentDwId, onSelect }: {
   druckwerke: DW[]; stepsByDW: Record<string, Step[]>; currentDwId: string; onSelect: (id: string) => void
 }) {
@@ -247,11 +372,12 @@ function SetupDiagram({ druckwerke, stepsByDW, currentDwId, onSelect }: {
 export function SetupWizard({
   setupId, setupName, jobNumber, status: initialStatus,
   machineName, machineId, templateName,
-  druckwerke, stepsByDW: initialStepsByDW, assets, canEdit,
+  druckwerke, stepsByDW: initialStepsByDW, assets, canEdit, canvasLayout,
 }: {
   setupId: string; setupName: string; jobNumber: string | null; status: string
   machineName: string; machineId: string; templateName: string | null
   druckwerke: DW[]; stepsByDW: Record<string, Step[]>; assets: Asset[]; canEdit: boolean
+  canvasLayout: any[] | null
 }) {
   const t = useTranslations('flexodruck')
   const [currentDwIdx, setCurrentDwIdx] = useState(0)
@@ -403,12 +529,22 @@ export function SetupWizard({
 
       {/* Diagramm */}
       <div style={{ background: 'var(--ds-surface)', borderRadius: 16, border: '1px solid var(--ds-border)', padding: '16px 8px 12px', marginBottom: 20 }}>
-        <SetupDiagram
-          druckwerke={druckwerke}
-          stepsByDW={stepsByDW}
-          currentDwId={currentDW?.id ?? ''}
-          onSelect={id => { const idx = druckwerke.findIndex(d => d.id === id); if (idx >= 0) setCurrentDwIdx(idx) }}
-        />
+        {canvasLayout && canvasLayout.length > 0 ? (
+          <CanvasSetupDiagram
+            circles={canvasLayout}
+            druckwerke={druckwerke}
+            stepsByDW={stepsByDW}
+            currentDwId={currentDW?.id ?? ''}
+            onSelect={id => { const idx = druckwerke.findIndex(d => d.id === id); if (idx >= 0) setCurrentDwIdx(idx) }}
+          />
+        ) : (
+          <SetupDiagram
+            druckwerke={druckwerke}
+            stepsByDW={stepsByDW}
+            currentDwId={currentDW?.id ?? ''}
+            onSelect={id => { const idx = druckwerke.findIndex(d => d.id === id); if (idx >= 0) setCurrentDwIdx(idx) }}
+          />
+        )}
         <div style={{ display: 'flex', justifyContent: 'center', gap: 14, marginTop: 8, flexWrap: 'wrap' }}>
           {[{ color: '#d1d5db', label: 'Offen' }, { color: '#34d399', label: 'Eingebaut' }].map(({ color, label }) => (
             <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
