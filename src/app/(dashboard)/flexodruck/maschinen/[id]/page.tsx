@@ -162,7 +162,7 @@ export default async function MaschinenDetailPage({ params }: { params: Promise<
             </Link>
           )}
           {canEdit && (
-            <Link href={`/flexodruck/ruestung/neu?machine=${id}`} style={{
+            <Link href={`/flexodruck/maschinen/${id}/vorlagen/neu`} style={{
               background: '#f4f6f9', color: '#003366',
               padding: '9px 18px', borderRadius: 50,
               border: '1px solid var(--ds-border)',
@@ -186,10 +186,10 @@ export default async function MaschinenDetailPage({ params }: { params: Promise<
       {/* Vorlagen + Rüstvorgänge */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }} className="rg-2">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          {/* Vorlagen */}
+          {/* Setups */}
           <div>
             <h2 style={{ fontSize: 13, fontWeight: 700, color: '#003366', margin: '0 0 12px', fontFamily: 'Arial, sans-serif', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-              {t('flexodruck.templates')}
+              Setups
             </h2>
             {(!templates || templates.length === 0) ? (
               <div style={{
@@ -197,13 +197,13 @@ export default async function MaschinenDetailPage({ params }: { params: Promise<
                 padding: '24px', textAlign: 'center',
               }}>
                 <p style={{ color: '#6b7280', fontSize: 13, margin: '0 0 10px', fontFamily: 'Arial, sans-serif' }}>
-                  {t('flexodruck.noTemplates')}
+                  Noch keine Setups für diese Maschine.
                 </p>
                 {canEdit && (
                   <Link href={`/flexodruck/maschinen/${id}/vorlagen/neu`} style={{
                     fontSize: 13, color: '#0099cc', fontFamily: 'Arial, sans-serif', textDecoration: 'none', fontWeight: 700,
                   }}>
-                    + {t('flexodruck.newTemplate')}
+                    + Neues Setup
                   </Link>
                 )}
               </div>

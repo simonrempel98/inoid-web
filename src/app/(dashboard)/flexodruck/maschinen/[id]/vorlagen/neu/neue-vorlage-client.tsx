@@ -74,7 +74,7 @@ export function NeueVorlageClient({
         ← {machine.name}
       </Link>
       <h1 style={{ fontSize: 22, fontWeight: 900, color: '#003366', margin: '8px 0 24px' }}>
-        Neue Vorlage
+        Neues Setup
       </h1>
 
       <form onSubmit={handleSubmit}>
@@ -183,7 +183,7 @@ export function NeueVorlageClient({
             padding: '12px 28px', borderRadius: 50, border: 'none',
             fontSize: 14, fontWeight: 700, cursor: loading ? 'default' : 'pointer',
           }}>
-            {loading ? 'Erstellen…' : 'Vorlage erstellen'}
+            {loading ? 'Erstellen…' : 'Setup erstellen'}
           </button>
           <Link href={`/flexodruck/maschinen/${machine.id}`} style={{
             padding: '12px 20px', borderRadius: 50, border: '1px solid var(--ds-border)',
