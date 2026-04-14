@@ -18,22 +18,18 @@ export default function Icon() {
           position: 'relative',
         }}
       >
-        {/* "id" Text */}
         <span
           style={{
             color: 'white',
             fontSize: 17,
             fontWeight: 900,
-            fontFamily: 'Arial, sans-serif',
-            letterSpacing: -1,
-            lineHeight: 1,
+            fontFamily: 'sans-serif',
+            letterSpacing: '-1px',
             marginTop: 1,
           }}
         >
           id
         </span>
-
-        {/* Cyan Punkt oben rechts */}
         <div
           style={{
             position: 'absolute',
