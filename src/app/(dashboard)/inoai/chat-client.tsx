@@ -299,7 +299,7 @@ export function INOaiChat() {
           <div style={{
             position: 'relative', zIndex: 1,
             width: 320, maxWidth: '85vw',
-            background: 'white', borderRight: '1px solid #e8edf4',
+            background: 'var(--ds-surface)', borderRight: '1px solid #e8edf4',
             display: 'flex', flexDirection: 'column',
             boxShadow: '4px 0 24px rgba(0,51,102,0.12)',
           }}>
@@ -387,7 +387,7 @@ export function INOaiChat() {
         {/* Topbar */}
         <div className="inoai-topbar" style={{
           padding: '10px 16px', borderBottom: '1px solid #e8edf4',
-          display: 'flex', alignItems: 'center', gap: 10, background: 'white', flexShrink: 0,
+          display: 'flex', alignItems: 'center', gap: 10, background: 'var(--ds-surface)', flexShrink: 0,
         }}>
           {/* History Button */}
           <button
@@ -499,7 +499,7 @@ export function INOaiChat() {
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: 10 }}>
               <Avatar />
               <div style={{
-                background: 'white', border: '1px solid #e8edf4',
+                background: 'var(--ds-surface)', border: '1px solid #e8edf4',
                 borderRadius: '4px 18px 18px 18px',
                 padding: '14px 20px', display: 'flex', gap: 5, alignItems: 'center',
                 boxShadow: '0 2px 10px rgba(0,0,0,0.07)',
@@ -526,7 +526,7 @@ export function INOaiChat() {
         {/* Input */}
         <div className="inoai-input-area" style={{ padding: '10px 14px 14px', borderTop: '1px solid #e8edf4', background: '#f8faff', flexShrink: 0 }}>
           <div style={{
-            display: 'flex', gap: 10, background: 'white',
+            display: 'flex', gap: 10, background: 'var(--ds-surface)',
             border: '1.5px solid #c8d4e8', borderRadius: 16,
             padding: '8px 8px 8px 16px',
             boxShadow: '0 2px 16px rgba(0,51,102,0.08)',

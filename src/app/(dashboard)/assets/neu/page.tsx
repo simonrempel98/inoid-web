@@ -22,7 +22,7 @@ export default async function NeuesAssetPage() {
     return (
       <div style={{ padding: '40px 20px', textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
         <div style={{ marginBottom: 16 }}><Lock size={48} style={{ color: '#003366' }} /></div>
-        <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', marginBottom: 8 }}>
+        <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--ds-text)', marginBottom: 8 }}>
           Asset-Limit erreicht
         </h1>
         <p style={{ color: '#666', marginBottom: 24 }}>

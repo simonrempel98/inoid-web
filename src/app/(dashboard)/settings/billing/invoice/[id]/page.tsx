@@ -72,7 +72,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
       `}</style>
 
       {/* Print / Back button */}
-      <div className="no-print" style={{ padding: '16px 24px', display: 'flex', gap: 12, alignItems: 'center', borderBottom: '1px solid #c8d4e8' }}>
+      <div className="no-print" style={{ padding: '16px 24px', display: 'flex', gap: 12, alignItems: 'center', borderBottom: '1px solid var(--ds-border)' }}>
         <a href="/settings/billing" style={{ fontSize: 13, color: '#003366', textDecoration: 'none', fontWeight: 700 }}>
           ← {t('back')}
         </a>
@@ -80,7 +80,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
       </div>
 
       {/* Invoice document */}
-      <div style={{ maxWidth: 740, margin: '0 auto', padding: '40px 40px 60px', background: 'white', color: '#000' }}>
+      <div style={{ maxWidth: 740, margin: '0 auto', padding: '40px 40px 60px', background: 'var(--ds-surface)', color: 'var(--ds-text)' }}>
 
         {/* Header */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 40 }}>
@@ -169,7 +169,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
         {/* Payment info */}
         {invoice.status !== 'paid' && (
           <div style={{
-            background: '#f0f6ff', border: '1px solid #c8d4e8',
+            background: '#f0f6ff', border: '1px solid var(--ds-border)',
             borderRadius: 10, padding: '16px 20px', marginBottom: 24, fontSize: 13,
           }}>
             <div style={{ fontWeight: 700, color: '#003366', marginBottom: 8 }}>{t('bankTitle')}</div>

@@ -421,7 +421,7 @@ export function ChatClient({
                   <div style={{ maxWidth: '72%' }}>
                     {!isMine && !isSameSender && (
                       <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3, paddingLeft: 2 }}>
-                        <span style={{ fontSize: 12, fontWeight: 700, color: '#000' }}>{msg.sender_name}</span>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: 'var(--ds-text)' }}>{msg.sender_name}</span>
                         {msg.sender_role && (
                           <span style={{ fontSize: 10, fontWeight: 700, color: roleColor }}>{ROLE_LABEL[msg.sender_role]}</span>
                         )}
@@ -447,7 +447,7 @@ export function ChatClient({
                           rows={Math.max(1, editContent.split('\n').length)}
                         />
                         <div style={{ display: 'flex', gap: 6, justifyContent: 'flex-end' }}>
-                          <button onClick={cancelEdit} style={{ fontSize: 11, padding: '4px 10px', borderRadius: 6, border: '1px solid #c8d4e8', background: 'white', color: '#666', cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
+                          <button onClick={cancelEdit} style={{ fontSize: 11, padding: '4px 10px', borderRadius: 6, border: '1px solid var(--ds-border)', background: 'var(--ds-surface)', color: '#666', cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
                             Abbrechen
                           </button>
                           <button onClick={saveEdit} disabled={savingEdit || !editContent.trim()} style={{ fontSize: 11, padding: '4px 10px', borderRadius: 6, border: 'none', background: '#003366', color: 'white', cursor: 'pointer', fontFamily: 'Arial, sans-serif', fontWeight: 700, opacity: savingEdit ? 0.6 : 1 }}>
@@ -459,14 +459,14 @@ export function ChatClient({
                       <>
                         <div
                           style={{
-                            background: isMine ? '#003366' : 'white',
-                            color: isMine ? 'white' : '#000',
+                            background: isMine ? '#003366' : 'var(--ds-surface)',
+                            color: isMine ? 'white' : 'var(--ds-text)',
                             borderRadius: isMine
                               ? (isSameSender ? '14px 4px 4px 14px' : '14px 4px 14px 14px')
                               : (isSameSender ? '4px 14px 14px 4px' : '4px 14px 14px 14px'),
                             padding: '9px 13px', fontSize: 14, lineHeight: 1.45,
                             boxShadow: '0 1px 4px rgba(0,40,100,0.08)',
-                            border: isMine ? 'none' : '1px solid #e8eef6',
+                            border: isMine ? 'none' : '1px solid var(--ds-border)',
                             wordBreak: 'break-word', cursor: isMine ? 'pointer' : 'default',
                           }}
                           onDoubleClick={() => isMine && startEdit(msg)}
@@ -507,7 +507,7 @@ export function ChatClient({
       {mentionResults.length > 0 && (
         <div style={{
           margin: '0 16px', borderRadius: 12,
-          background: 'white', border: '1px solid #dde4ee',
+          background: 'var(--ds-surface)', border: '1px solid var(--ds-border)',
           boxShadow: '0 4px 20px rgba(0,40,100,0.12)',
           overflow: 'hidden', marginBottom: 4,
         }}>
@@ -529,23 +529,23 @@ export function ChatClient({
                 </svg>
               </div>
               <div>
-                <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: '#000' }}>{a.title}</p>
+                <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: 'var(--ds-text)' }}>{a.title}</p>
                 {a.category && <p style={{ margin: 0, fontSize: 11, color: '#96aed2' }}>{a.category}</p>}
               </div>
             </button>
           ))}
-          <div style={{ padding: '6px 14px', background: '#fafbfc', borderTop: '1px solid #f0f4f8' }}>
+          <div style={{ padding: '6px 14px', background: 'var(--ds-surface2)', borderTop: '1px solid var(--ds-border)' }}>
             <span style={{ fontSize: 10, color: '#c8d4e8' }}>↑↓ navigieren · Enter einfügen · Esc schließen</span>
           </div>
         </div>
       )}
 
       {/* Eingabe */}
-      <div style={{ padding: '8px 16px 16px', background: 'white', borderTop: '1px solid #eef1f6' }}>
+      <div style={{ padding: '8px 16px 16px', background: 'var(--ds-surface)', borderTop: '1px solid var(--ds-border)' }}>
         {error && <p style={{ margin: '0 0 6px', fontSize: 12, color: '#E74C3C' }}>{error}</p>}
         <div style={{
           display: 'flex', gap: 8, alignItems: 'flex-end',
-          background: '#f4f7fb', borderRadius: 16,
+          background: 'var(--ds-surface2)', borderRadius: 16,
           border: '1.5px solid #dde4ee', padding: '8px 8px 8px 14px',
         }}>
           <textarea
@@ -557,7 +557,7 @@ export function ChatClient({
             rows={1}
             style={{
               flex: 1, background: 'transparent', border: 'none', outline: 'none',
-              fontSize: 14, fontFamily: 'Arial, sans-serif', color: '#000',
+              fontSize: 14, fontFamily: 'Arial, sans-serif', color: 'var(--ds-text)',
               resize: 'none', lineHeight: 1.5, maxHeight: 120, overflowY: 'auto', paddingTop: 2,
             }}
             onInput={e => {

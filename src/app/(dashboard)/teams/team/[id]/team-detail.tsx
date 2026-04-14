@@ -162,8 +162,8 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
   const breadcrumb = [team.departments?.divisions?.name, team.departments?.name].filter(Boolean).join(' › ')
   const label = orgRefLabel(team)
 
-  const selectStyle = { width: '100%', outline: 'none', border: 'none', fontSize: 13, fontFamily: 'Arial, sans-serif', background: 'transparent', color: '#000' }
-  const inputStyle = { width: '100%', outline: 'none', border: 'none', borderBottom: '1px solid #e8eef6', fontSize: 13, fontFamily: 'Arial, sans-serif', background: 'transparent', padding: '4px 0', color: '#000' }
+  const selectStyle = { width: '100%', outline: 'none', border: 'none', fontSize: 13, fontFamily: 'Arial, sans-serif', background: 'transparent', color: 'var(--ds-text)' }
+  const inputStyle = { width: '100%', outline: 'none', border: 'none', borderBottom: '1px solid var(--ds-border)', fontSize: 13, fontFamily: 'Arial, sans-serif', background: 'transparent', padding: '4px 0', color: 'var(--ds-text)' }
 
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', paddingBottom: 60 }}>
@@ -195,7 +195,7 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
               </select>
             </div>
             <div style={{ display: 'flex', gap: 8 }}>
-              <button onClick={saveTeam} disabled={savingTeam} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'white', color: '#003366', border: 'none', borderRadius: 20, padding: '8px 18px', fontSize: 13, cursor: 'pointer', fontWeight: 700 }}>
+              <button onClick={saveTeam} disabled={savingTeam} style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'var(--ds-surface)', color: '#003366', border: 'none', borderRadius: 20, padding: '8px 18px', fontSize: 13, cursor: 'pointer', fontWeight: 700 }}>
                 <Check size={13} /> {t('save')}
               </button>
               <button onClick={() => { setEditingTeam(false); setTeamName(team.name); setOrgRef(encodeRef(team)) }}
@@ -243,8 +243,8 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
         )}
 
         {showAssign && (
-          <div style={{ background: 'white', borderRadius: 14, border: '1px solid #0099cc', overflow: 'hidden', marginBottom: 20 }}>
-            <div style={{ padding: '12px 16px', background: '#f0f8ff', borderBottom: '1px solid #c8d4e8', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid #0099cc', overflow: 'hidden', marginBottom: 20 }}>
+            <div style={{ padding: '12px 16px', background: '#f0f8ff', borderBottom: '1px solid var(--ds-border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 13, fontWeight: 700, color: '#003366', display: 'flex', alignItems: 'center', gap: 6 }}>
                 <UserPlus size={14} /> Mitglied diesem Team zuweisen
               </span>
@@ -254,14 +254,14 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
               </button>
             </div>
 
-            <div style={{ padding: '10px 14px', borderBottom: '1px solid #e8eef6', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div style={{ padding: '10px 14px', borderBottom: '1px solid var(--ds-border)', display: 'flex', alignItems: 'center', gap: 8 }}>
               <Search size={14} color="#96aed2" style={{ flexShrink: 0 }} />
               <input
                 value={assignSearch}
                 onChange={e => setAssignSearch(e.target.value)}
                 placeholder="Name oder E-Mail suchen…"
                 autoFocus
-                style={{ flex: 1, outline: 'none', border: 'none', fontSize: 13, fontFamily: 'Arial, sans-serif', background: 'transparent', color: '#000' }}
+                style={{ flex: 1, outline: 'none', border: 'none', fontSize: 13, fontFamily: 'Arial, sans-serif', background: 'transparent', color: 'var(--ds-text)' }}
               />
             </div>
 
@@ -286,7 +286,7 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
                           : initials(m)}
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <p style={{ margin: '0 0 1px', fontSize: 13, fontWeight: 600, color: '#000', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{displayName(m)}</p>
+                        <p style={{ margin: '0 0 1px', fontSize: 13, fontWeight: 600, color: 'var(--ds-text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{displayName(m)}</p>
                         <p style={{ margin: 0, fontSize: 11, color: '#888', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.email}</p>
                       </div>
                       <button
@@ -310,7 +310,7 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
             <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 8px 2px' }}>
               {t('membersSection', { count: members.length })}
             </p>
-            <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
+            <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', overflow: 'hidden' }}>
               {members.map((m, i) => (
                 <div key={m.id}>
                   {i > 0 && <div style={{ height: 1, background: '#e8eef6', margin: '0 16px' }} />}
@@ -340,7 +340,7 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
                           <Check size={12} /> {t('save')}
                         </button>
                         <button onClick={() => setEditingMemberId(null)}
-                          style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'transparent', color: '#666', border: '1px solid #c8d4e8', borderRadius: 7, padding: '7px 14px', fontSize: 12, cursor: 'pointer' }}>
+                          style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'transparent', color: '#666', border: '1px solid var(--ds-border)', borderRadius: 7, padding: '7px 14px', fontSize: 12, cursor: 'pointer' }}>
                           <X size={12} /> {t('cancel')}
                         </button>
                       </div>
@@ -354,7 +354,7 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
                           : initials(m)}
                       </div>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <p style={{ margin: '0 0 2px', fontSize: 14, fontWeight: 600, color: '#000', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{displayName(m)}</p>
+                        <p style={{ margin: '0 0 2px', fontSize: 14, fontWeight: 600, color: 'var(--ds-text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{displayName(m)}</p>
                         <p style={{ margin: 0, fontSize: 12, color: '#888', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{m.email}</p>
                         <span style={{
                           display: 'inline-block', fontSize: 10, fontWeight: 700,
@@ -367,7 +367,7 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
                       {isAdmin && (
                         <div style={{ display: 'flex', gap: 4 }}>
                           <button onClick={() => startEditMember(m)}
-                            style={{ background: '#f5f8fc', border: '1px solid #c8d4e8', borderRadius: 7, padding: '6px 8px', cursor: 'pointer', color: '#003366', display: 'flex' }}>
+                            style={{ background: '#f5f8fc', border: '1px solid var(--ds-border)', borderRadius: 7, padding: '6px 8px', cursor: 'pointer', color: '#003366', display: 'flex' }}>
                             <Pencil size={14} />
                           </button>
                           <button onClick={() => handleUnassign(m.id, displayName(m))}
@@ -385,7 +385,7 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
         )}
 
         {members.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '32px 16px', background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', marginBottom: 16 }}>
+          <div style={{ textAlign: 'center', padding: '32px 16px', background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', marginBottom: 16 }}>
             <Users size={32} color="#c8d4e8" style={{ marginBottom: 10 }} />
             <p style={{ color: '#aaa', fontSize: 14, margin: '0 0 4px', fontWeight: 600 }}>Noch keine Mitglieder</p>
             <p style={{ color: '#c0ccda', fontSize: 12, margin: 0 }}>Weise Mitglieder über die Schaltfläche oben zu.</p>
@@ -393,7 +393,7 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
         )}
 
         {showChat && (
-          <Link href={`/teams/team/${team.id}/chat`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#e8f4fb', borderRadius: 14, border: '1px solid #b3d9f0', padding: '14px 16px', textDecoration: 'none', color: '#000', marginTop: 8 }}>
+          <Link href={`/teams/team/${team.id}/chat`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: '#e8f4fb', borderRadius: 14, border: '1px solid #b3d9f0', padding: '14px 16px', textDecoration: 'none', color: 'var(--ds-text)', marginTop: 8 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <MessageSquare size={16} color="#0099cc" />
               <span style={{ fontSize: 15, fontWeight: 600, color: '#0099cc' }}>Team-Chat</span>
@@ -410,7 +410,7 @@ export function TeamDetail({ team, members, availableMembers, locations, halls, 
           </Link>
         )}
 
-        <Link href="/settings/roles" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '14px 16px', textDecoration: 'none', color: '#000', marginTop: 8 }}>
+        <Link href="/settings/roles" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', padding: '14px 16px', textDecoration: 'none', color: 'var(--ds-text)', marginTop: 8 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <KeyRound size={16} color="#003366" />
             <span style={{ fontSize: 15, fontWeight: 600 }}>{t('rolesAndPermissions')}</span>

@@ -74,7 +74,7 @@ export function AssetStatusActions({ assetId, currentStatus, customStatuses }: P
         {open && (
           <div style={{
             position: 'absolute', bottom: '110%', left: 0, right: 0, zIndex: 50,
-            background: 'white', borderRadius: 16, border: '1px solid #c8d4e8',
+            background: 'var(--ds-surface)', borderRadius: 16, border: '1px solid var(--ds-border)',
             boxShadow: '0 8px 32px rgba(0,51,102,0.15)', overflow: 'hidden',
           }}>
             <p style={{ fontSize: 11, fontWeight: 700, color: '#96aed2', padding: '12px 16px 6px', margin: 0, textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'Arial, sans-serif' }}>
@@ -92,7 +92,7 @@ export function AssetStatusActions({ assetId, currentStatus, customStatuses }: P
                   borderBottom: '1px solid #f4f6f9',
                 }}>
                 <span style={{ width: 10, height: 10, borderRadius: '50%', background: s.color, flexShrink: 0 }} />
-                <span style={{ fontSize: 14, color: '#000', fontFamily: 'Arial, sans-serif', fontWeight: s.value === currentStatus ? 700 : 400 }}>
+                <span style={{ fontSize: 14, color: 'var(--ds-text)', fontFamily: 'Arial, sans-serif', fontWeight: s.value === currentStatus ? 700 : 400 }}>
                   {s.label}
                 </span>
                 {s.value === currentStatus && (
@@ -119,7 +119,7 @@ export function AssetStatusActions({ assetId, currentStatus, customStatuses }: P
                       borderBottom: '1px solid #f4f6f9',
                     }}>
                     <span style={{ width: 10, height: 10, borderRadius: '50%', background: s.color, flexShrink: 0 }} />
-                    <span style={{ fontSize: 14, color: '#000', fontFamily: 'Arial, sans-serif', fontWeight: s.value === currentStatus ? 700 : 400 }}>
+                    <span style={{ fontSize: 14, color: 'var(--ds-text)', fontFamily: 'Arial, sans-serif', fontWeight: s.value === currentStatus ? 700 : 400 }}>
                       {s.label}
                     </span>
                     {s.value === currentStatus && (
@@ -145,7 +145,7 @@ export function AssetStatusActions({ assetId, currentStatus, customStatuses }: P
 
       {/* Löschen Button */}
       <button type="button" onClick={() => setDeleteModal(true)}
-        style={{ width: '100%', padding: '13px', borderRadius: 50, border: '1px solid #fecaca', background: 'white', color: '#dc2626', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
+        style={{ width: '100%', padding: '13px', borderRadius: 50, border: '1px solid #fecaca', background: 'var(--ds-surface)', color: '#dc2626', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
         {t('deleteAsset')}
       </button>
 
@@ -155,7 +155,7 @@ export function AssetStatusActions({ assetId, currentStatus, customStatuses }: P
       {/* Delete Modal */}
       {deleteModal && (
         <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', display: 'flex', alignItems: 'flex-end', justifyContent: 'center', zIndex: 100, padding: '0 16px 32px' }}>
-          <div style={{ background: 'white', borderRadius: 20, padding: 24, width: '100%', maxWidth: 420, fontFamily: 'Arial, sans-serif' }}>
+          <div style={{ background: 'var(--ds-surface)', borderRadius: 20, padding: 24, width: '100%', maxWidth: 420, fontFamily: 'Arial, sans-serif' }}>
             <div style={{ marginBottom: 12, textAlign: 'center', display: 'flex', justifyContent: 'center' }}><Trash2 size={32} style={{ color: '#E74C3C' }} /></div>
             <p style={{ fontWeight: 700, fontSize: 16, color: '#dc2626', margin: '0 0 8px', textAlign: 'center' }}>{t('deleteTitle')}</p>
             <p style={{ color: '#666', fontSize: 14, margin: '0 0 8px', textAlign: 'center', lineHeight: 1.5 }}>
@@ -168,7 +168,7 @@ export function AssetStatusActions({ assetId, currentStatus, customStatuses }: P
               </p>
             )}
             <div style={{ display: 'flex', gap: 10 }}>
-              <button onClick={() => setDeleteModal(false)} style={{ flex: 1, padding: '13px', borderRadius: 50, border: '1px solid #c8d4e8', background: 'white', color: '#666', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
+              <button onClick={() => setDeleteModal(false)} style={{ flex: 1, padding: '13px', borderRadius: 50, border: '1px solid var(--ds-border)', background: 'var(--ds-surface)', color: '#666', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
                 {tc('cancel')}
               </button>
               <button onClick={handleDelete} disabled={loading} style={{ flex: 1, padding: '13px', borderRadius: 50, border: 'none', background: '#dc2626', color: 'white', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>

@@ -177,14 +177,14 @@ export default function IntervalPage() {
         <button type="button" onClick={() => router.back()} style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           width: 36, height: 36, borderRadius: '50%',
-          background: '#f4f6f9', border: '1px solid #c8d4e8', cursor: 'pointer',
+          background: '#f4f6f9', border: '1px solid var(--ds-border)', cursor: 'pointer',
         }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#003366" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </button>
         <div>
-          <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>
+          <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--ds-text)', margin: 0 }}>
             {isEditing ? t('service.interval.editTitle') : t('service.interval.title')}
           </h1>
           <p style={{ fontSize: 12, color: '#96aed2', margin: 0 }}>{t('service.interval.subtitle')}</p>
@@ -220,7 +220,7 @@ export default function IntervalPage() {
           {showNewTypeForm && (
             <div style={{
               marginTop: 10, padding: 14, borderRadius: 12,
-              border: '1px solid #c8d4e8', background: '#f9fbff',
+              border: '1px solid var(--ds-border)', background: '#f9fbff',
               display: 'flex', flexDirection: 'column', gap: 10,
             }}>
               <p style={{ fontSize: 12, fontWeight: 700, color: '#003366', margin: 0 }}>{t('service.interval.newType')}</p>
@@ -240,7 +240,7 @@ export default function IntervalPage() {
                   }} />
                 ))}
                 <input type="color" value={newTypeColor} onChange={e => setNewTypeColor(e.target.value)}
-                  style={{ width: 24, height: 24, borderRadius: '50%', border: '1px solid #c8d4e8', padding: 2, cursor: 'pointer', background: 'none' }} />
+                  style={{ width: 24, height: 24, borderRadius: '50%', border: '1px solid var(--ds-border)', padding: 2, cursor: 'pointer', background: 'none' }} />
                 {newTypeLabel && (
                   <span style={{
                     fontSize: 12, fontWeight: 700, padding: '3px 10px', borderRadius: 16,
@@ -326,7 +326,7 @@ export default function IntervalPage() {
         {name && effectiveDays > 0 && nextDate && (
           <div style={{ background: `${selectedType.color}10`, borderRadius: 12, padding: '14px 16px', border: `1px solid ${selectedType.color}33` }}>
             <p style={{ fontSize: 12, fontWeight: 700, color: selectedType.color, margin: '0 0 4px' }}>{t('service.interval.preview')}</p>
-            <p style={{ fontSize: 14, fontWeight: 700, color: '#000', margin: '0 0 3px', display: 'flex', alignItems: 'center', gap: 6 }}>
+            <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--ds-text)', margin: '0 0 3px', display: 'flex', alignItems: 'center', gap: 6 }}>
               <div style={{ width: 10, height: 10, borderRadius: '50%', background: selectedType.color, flexShrink: 0 }} />
               {name}
             </p>
@@ -367,7 +367,7 @@ export default function IntervalPage() {
               {t('service.interval.noSteps')}
             </div>
           ) : (
-            <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
+            <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', overflow: 'hidden' }}>
               {checklist.map((item, idx) => (
                 <div key={item.id} style={{
                   borderBottom: idx < checklist.length - 1 ? '1px solid #f4f6f9' : 'none',
@@ -470,6 +470,6 @@ const labelStyle: React.CSSProperties = {
 
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '11px 12px', borderRadius: 10,
-  border: '1px solid #c8d4e8', fontSize: 14, fontFamily: 'Arial, sans-serif',
-  backgroundColor: 'white', color: '#000', outline: 'none', boxSizing: 'border-box',
+  border: '1px solid var(--ds-border)', fontSize: 14, fontFamily: 'Arial, sans-serif',
+  backgroundColor: 'white', color: 'var(--ds-text)', outline: 'none', boxSizing: 'border-box',
 }

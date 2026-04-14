@@ -47,7 +47,7 @@ export default async function TeamsPage() {
   return (
     <div style={{ padding: '24px 16px', fontFamily: 'Arial, sans-serif', maxWidth: 600 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000000', margin: 0 }}>{t('teams.title')}</h1>
+        <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--ds-text)', margin: 0 }}>{t('teams.title')}</h1>
         <div style={{ display: 'flex', gap: 8 }}>
           <Link href="/teams/neu" style={{
             display: 'flex', alignItems: 'center', gap: 6,

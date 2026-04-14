@@ -126,7 +126,7 @@ function QrScanner({ onMatch, onClose }: { onMatch: (uuid: string) => void; onCl
           )}
           {found && (
             <div style={{ position: 'absolute', inset: 0, background: 'rgba(39,174,96,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ background: 'white', borderRadius: 20, padding: '18px 28px', display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{ background: 'var(--ds-surface)', borderRadius: 20, padding: '18px 28px', display: 'flex', alignItems: 'center', gap: 10 }}>
                 <span style={{ fontSize: 22 }}>✓</span>
                 <span style={{ fontSize: 15, fontWeight: 700, color: '#27AE60', fontFamily: 'Arial, sans-serif' }}>Asset erkannt!</span>
               </div>
@@ -344,7 +344,7 @@ export function SetupWizard({
         <p style={{ fontSize: 14, color: '#6b7280', margin: '0 0 24px', fontFamily: 'Arial, sans-serif' }}>{setupName}</p>
         <div style={{ display: 'flex', gap: 12, justifyContent: 'center' }}>
           <Link href={`/flexodruck/maschinen/${machineId}`} style={{ background: '#003366', color: 'white', padding: '12px 24px', borderRadius: 50, fontSize: 14, fontWeight: 700, fontFamily: 'Arial, sans-serif', textDecoration: 'none' }}>{t('toMachine')}</Link>
-          <Link href="/flexodruck" style={{ background: '#f4f6f9', color: '#003366', padding: '12px 24px', borderRadius: 50, fontSize: 14, fontWeight: 700, fontFamily: 'Arial, sans-serif', textDecoration: 'none', border: '1px solid #c8d4e8' }}>{t('overview')}</Link>
+          <Link href="/flexodruck" style={{ background: '#f4f6f9', color: '#003366', padding: '12px 24px', borderRadius: 50, fontSize: 14, fontWeight: 700, fontFamily: 'Arial, sans-serif', textDecoration: 'none', border: '1px solid var(--ds-border)' }}>{t('overview')}</Link>
         </div>
       </div>
     )
@@ -402,7 +402,7 @@ export function SetupWizard({
       )}
 
       {/* Diagramm */}
-      <div style={{ background: 'white', borderRadius: 16, border: '1px solid #c8d4e8', padding: '16px 8px 12px', marginBottom: 20 }}>
+      <div style={{ background: 'var(--ds-surface)', borderRadius: 16, border: '1px solid var(--ds-border)', padding: '16px 8px 12px', marginBottom: 20 }}>
         <SetupDiagram
           druckwerke={druckwerke}
           stepsByDW={stepsByDW}
@@ -426,7 +426,7 @@ export function SetupWizard({
             {/* DW Header */}
             <div style={{
               background: currentDW.color_hint ? currentDW.color_hint + '18' : '#f4f6f9',
-              borderRadius: '12px 12px 0 0', border: '1px solid #c8d4e8',
+              borderRadius: '12px 12px 0 0', border: '1px solid var(--ds-border)',
               borderBottom: 'none', padding: '14px 18px',
               display: 'flex', alignItems: 'center', gap: 10,
             }}>
@@ -442,7 +442,7 @@ export function SetupWizard({
               <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
                 {currentDwIdx > 0 && (
                   <button type="button" onClick={() => setCurrentDwIdx(i => i - 1)}
-                    style={{ background: 'white', border: '1px solid #c8d4e8', borderRadius: 20, padding: '4px 12px', cursor: 'pointer', fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>
+                    style={{ background: 'var(--ds-surface)', border: '1px solid var(--ds-border)', borderRadius: 20, padding: '4px 12px', cursor: 'pointer', fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif' }}>
                     ← {t('back')}
                   </button>
                 )}
@@ -456,7 +456,7 @@ export function SetupWizard({
             </div>
 
             {/* Schritte */}
-            <div style={{ background: 'white', border: '1px solid #c8d4e8', borderRadius: '0 0 12px 12px', overflow: 'hidden' }}>
+            <div style={{ background: 'var(--ds-surface)', border: '1px solid var(--ds-border)', borderRadius: '0 0 12px 12px', overflow: 'hidden' }}>
               {currentSteps.map((step, si) => {
                 const isSaving = savingStepId === step.id
                 const isDone = step.status !== 'pending'
@@ -495,8 +495,8 @@ export function SetupWizard({
                           onClick={() => { setScanError(null); setScanStepId(step.id) }}
                           title="Asset scannen"
                           style={{
-                            width: 36, height: 36, borderRadius: 8, border: '1px solid #c8d4e8',
-                            background: 'white', cursor: 'pointer',
+                            width: 36, height: 36, borderRadius: 8, border: '1px solid var(--ds-border)',
+                            background: 'var(--ds-surface)', cursor: 'pointer',
                             display: 'flex', alignItems: 'center', justifyContent: 'center',
                           }}>
                           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -547,7 +547,7 @@ export function SetupWizard({
             {/* Nächstes DW */}
             {currentDwIdx < druckwerke.length - 1 && (
               <button type="button" onClick={() => setCurrentDwIdx(i => i + 1)}
-                style={{ marginTop: 12, width: '100%', padding: '12px', background: '#f4f6f9', color: '#003366', border: '1px solid #c8d4e8', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 700, fontFamily: 'Arial, sans-serif' }}>
+                style={{ marginTop: 12, width: '100%', padding: '12px', background: '#f4f6f9', color: '#003366', border: '1px solid var(--ds-border)', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 700, fontFamily: 'Arial, sans-serif' }}>
                 {t('nextToDW')} {druckwerke[currentDwIdx + 1]?.label ?? `DW ${druckwerke[currentDwIdx + 1]?.position}`} →
               </button>
             )}
@@ -596,7 +596,7 @@ export function SetupWizard({
                 {deleting ? 'Löschen…' : 'Ja, löschen'}
               </button>
               <button type="button" onClick={() => setDeleteConfirm(false)}
-                style={{ background: 'white', color: '#6b7280', border: '1px solid #c8d4e8', borderRadius: 20, padding: '8px 18px', fontSize: 13, cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
+                style={{ background: 'var(--ds-surface)', color: '#6b7280', border: '1px solid var(--ds-border)', borderRadius: 20, padding: '8px 18px', fontSize: 13, cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
                 Abbrechen
               </button>
             </div>

@@ -33,7 +33,7 @@ export default async function OrganisationPage() {
 
   return (
     <div style={{ padding: '24px 16px', fontFamily: 'Arial, sans-serif', maxWidth: 560 }}>
-      <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000000', marginBottom: 4 }}>
+      <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--ds-text)', marginBottom: 4 }}>
         {t('organisation.title')}
       </h1>
       <p style={{ fontSize: 13, color: '#666666', margin: '0 0 24px' }}>

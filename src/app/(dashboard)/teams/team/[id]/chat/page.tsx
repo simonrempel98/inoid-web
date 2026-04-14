@@ -83,8 +83,8 @@ export default async function TeamChatPage({
       {/* Header */}
       <div style={{
         padding: '14px 16px 12px',
-        borderBottom: '1px solid #eef1f6',
-        background: 'white',
+        borderBottom: '1px solid var(--ds-border)',
+        background: 'var(--ds-surface)',
         display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0,
       }}>
         <Link href={`/teams/team/${teamId}`} style={{ color: '#96aed2', textDecoration: 'none', lineHeight: 1, display: 'flex' }}>
@@ -102,7 +102,7 @@ export default async function TeamChatPage({
             </svg>
           </div>
           <div>
-            <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: '#000' }}>{team.name}</p>
+            <p style={{ margin: 0, fontSize: 15, fontWeight: 700, color: 'var(--ds-text)' }}>{team.name}</p>
             <p style={{ margin: 0, fontSize: 11, color: '#96aed2' }}>@ zum Erwähnen eines Assets · 30 Tage Verlauf</p>
           </div>
         </div>

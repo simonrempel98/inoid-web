@@ -105,16 +105,16 @@ export function OrganisationTree({ organizationId, locations, halls, areas, canE
     addingTo?.type === type && addingTo?.parentId === parentId
 
   const inputBox = (placeholder: string, showAddress = false) => (
-    <div style={{ background: 'white', border: '1px solid #0099cc', borderRadius: 10, padding: '10px 12px', marginTop: 6 }}>
+    <div style={{ background: 'var(--ds-surface)', border: '1px solid #0099cc', borderRadius: 10, padding: '10px 12px', marginTop: 6 }}>
       <input autoFocus value={inputValue} onChange={e => setInputValue(e.target.value)}
         onKeyDown={e => { if (e.key === 'Enter') saveNew(); if (e.key === 'Escape') cancelAdding() }}
         placeholder={placeholder}
-        style={{ width: '100%', outline: 'none', border: 'none', fontSize: 14, fontFamily: 'Arial, sans-serif', color: '#000' }} />
+        style={{ width: '100%', outline: 'none', border: 'none', fontSize: 14, fontFamily: 'Arial, sans-serif', color: 'var(--ds-text)' }} />
       {showAddress && (
         <input value={addressValue} onChange={e => setAddressValue(e.target.value)}
           onKeyDown={e => { if (e.key === 'Enter') saveNew(); if (e.key === 'Escape') cancelAdding() }}
           placeholder={t('addressOptional')}
-          style={{ width: '100%', outline: 'none', border: 'none', fontSize: 13, fontFamily: 'Arial, sans-serif', color: '#666', marginTop: 6, borderTop: '1px solid #e8eef6', paddingTop: 6 }} />
+          style={{ width: '100%', outline: 'none', border: 'none', fontSize: 13, fontFamily: 'Arial, sans-serif', color: '#666', marginTop: 6, borderTop: '1px solid var(--ds-border)', paddingTop: 6 }} />
       )}
       <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
         <button onClick={saveNew} disabled={loading || !inputValue.trim()}
@@ -122,7 +122,7 @@ export function OrganisationTree({ organizationId, locations, halls, areas, canE
           {tc('save')}
         </button>
         <button onClick={cancelAdding}
-          style={{ background: 'transparent', color: '#666', border: '1px solid #c8d4e8', borderRadius: 6, padding: '6px 14px', fontSize: 13, cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
+          style={{ background: 'transparent', color: '#666', border: '1px solid var(--ds-border)', borderRadius: 6, padding: '6px 14px', fontSize: 13, cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
           {tc('cancel')}
         </button>
       </div>
@@ -145,7 +145,7 @@ export function OrganisationTree({ organizationId, locations, halls, areas, canE
 
         return (
           <div key={loc.id} style={{ marginBottom: 10 }}>
-            <div style={{ background: 'white', borderRadius: 12, border: `1px solid ${isEditingThis ? '#0099cc' : '#c8d4e8'}`, overflow: 'hidden' }}>
+            <div style={{ background: 'var(--ds-surface)', borderRadius: 12, border: `1px solid ${isEditingThis ? '#0099cc' : '#c8d4e8'}`, overflow: 'hidden' }}>
 
               {/* Location Row – Edit mode */}
               {isEditingThis && editing.type === 'location' ? (
@@ -158,19 +158,19 @@ export function OrganisationTree({ organizationId, locations, halls, areas, canE
                     onChange={e => setEditing({ ...editing, name: e.target.value })}
                     onKeyDown={e => { if (e.key === 'Enter') saveEdit(); if (e.key === 'Escape') cancelEdit() }}
                     placeholder="Name"
-                    style={{ width: '100%', outline: 'none', border: 'none', borderBottom: '1px solid #c8d4e8', fontSize: 15, fontWeight: 600, fontFamily: 'Arial, sans-serif', color: '#000', paddingBottom: 6, marginBottom: 8, background: 'transparent' }} />
+                    style={{ width: '100%', outline: 'none', border: 'none', borderBottom: '1px solid var(--ds-border)', fontSize: 15, fontWeight: 600, fontFamily: 'Arial, sans-serif', color: 'var(--ds-text)', paddingBottom: 6, marginBottom: 8, background: 'transparent' }} />
                   <input value={editing.address}
                     onChange={e => setEditing({ ...editing, address: e.target.value })}
                     onKeyDown={e => { if (e.key === 'Enter') saveEdit(); if (e.key === 'Escape') cancelEdit() }}
                     placeholder={t('addressOptional')}
-                    style={{ width: '100%', outline: 'none', border: 'none', borderBottom: '1px solid #c8d4e8', fontSize: 13, fontFamily: 'Arial, sans-serif', color: '#666', paddingBottom: 6, marginBottom: 10, background: 'transparent' }} />
+                    style={{ width: '100%', outline: 'none', border: 'none', borderBottom: '1px solid var(--ds-border)', fontSize: 13, fontFamily: 'Arial, sans-serif', color: '#666', paddingBottom: 6, marginBottom: 10, background: 'transparent' }} />
                   <div style={{ display: 'flex', gap: 8 }}>
                     <button onClick={saveEdit} disabled={loading}
                       style={{ display: 'flex', alignItems: 'center', gap: 5, background: '#003366', color: 'white', border: 'none', borderRadius: 6, padding: '6px 14px', fontSize: 13, cursor: 'pointer', fontWeight: 600, opacity: loading ? 0.5 : 1 }}>
                       <Check size={13} /> {tc('save')}
                     </button>
                     <button onClick={cancelEdit}
-                      style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'transparent', color: '#666', border: '1px solid #c8d4e8', borderRadius: 6, padding: '6px 14px', fontSize: 13, cursor: 'pointer' }}>
+                      style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'transparent', color: '#666', border: '1px solid var(--ds-border)', borderRadius: 6, padding: '6px 14px', fontSize: 13, cursor: 'pointer' }}>
                       <X size={13} /> {tc('cancel')}
                     </button>
                   </div>
@@ -184,7 +184,7 @@ export function OrganisationTree({ organizationId, locations, halls, areas, canE
                     <MapPin size={16} color="#003366" />
                     <div>
                       <Link href={`/organisation/standort/${loc.id}`} onClick={e => e.stopPropagation()}
-                        style={{ margin: 0, fontWeight: 600, fontSize: 15, color: '#000', textDecoration: 'none' }}>
+                        style={{ margin: 0, fontWeight: 600, fontSize: 15, color: 'var(--ds-text)', textDecoration: 'none' }}>
                         {loc.name}
                       </Link>
                       {loc.address && <p style={{ margin: 0, fontSize: 12, color: '#888' }}>{loc.address}</p>}
@@ -202,7 +202,7 @@ export function OrganisationTree({ organizationId, locations, halls, areas, canE
 
               {/* Hallen */}
               {isOpen && !isEditingThis && (
-                <div style={{ borderTop: '1px solid #e8eef6', padding: '8px 12px 12px 32px' }}>
+                <div style={{ borderTop: '1px solid var(--ds-border)', padding: '8px 12px 12px 32px' }}>
                   {locHalls.map(hall => {
                     const hallAreas = areas.filter(a => a.hall_id === hall.id)
                     const hallOpen = expandedHalls.has(hall.id)
@@ -222,14 +222,14 @@ export function OrganisationTree({ organizationId, locations, halls, areas, canE
                               <input autoFocus value={editing.name}
                                 onChange={e => setEditing({ ...editing, name: e.target.value })}
                                 onKeyDown={e => { if (e.key === 'Enter') saveEdit(); if (e.key === 'Escape') cancelEdit() }}
-                                style={{ width: '100%', outline: 'none', border: 'none', borderBottom: '1px solid #c8d4e8', fontSize: 14, fontWeight: 600, fontFamily: 'Arial, sans-serif', color: '#000', paddingBottom: 5, marginBottom: 8, background: 'transparent' }} />
+                                style={{ width: '100%', outline: 'none', border: 'none', borderBottom: '1px solid var(--ds-border)', fontSize: 14, fontWeight: 600, fontFamily: 'Arial, sans-serif', color: 'var(--ds-text)', paddingBottom: 5, marginBottom: 8, background: 'transparent' }} />
                               <div style={{ display: 'flex', gap: 8 }}>
                                 <button onClick={saveEdit} disabled={loading}
                                   style={{ display: 'flex', alignItems: 'center', gap: 5, background: '#0099cc', color: 'white', border: 'none', borderRadius: 6, padding: '5px 12px', fontSize: 12, cursor: 'pointer', fontWeight: 600, opacity: loading ? 0.5 : 1 }}>
                                   <Check size={12} /> {tc('save')}
                                 </button>
                                 <button onClick={cancelEdit}
-                                  style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'transparent', color: '#666', border: '1px solid #c8d4e8', borderRadius: 6, padding: '5px 12px', fontSize: 12, cursor: 'pointer' }}>
+                                  style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'transparent', color: '#666', border: '1px solid var(--ds-border)', borderRadius: 6, padding: '5px 12px', fontSize: 12, cursor: 'pointer' }}>
                                   <X size={12} /> {tc('cancel')}
                                 </button>
                               </div>
@@ -242,7 +242,7 @@ export function OrganisationTree({ organizationId, locations, halls, areas, canE
                                 {hallOpen ? <ChevronDown size={14} color="#0099cc" /> : <ChevronRight size={14} color="#0099cc" />}
                                 <Building2 size={14} color="#0099cc" />
                                 <Link href={`/organisation/halle/${hall.id}`} onClick={e => e.stopPropagation()}
-                                  style={{ fontSize: 14, color: '#000', fontWeight: 600, textDecoration: 'none' }}>
+                                  style={{ fontSize: 14, color: 'var(--ds-text)', fontWeight: 600, textDecoration: 'none' }}>
                                   {hall.name}
                                 </Link>
                               </div>
@@ -263,7 +263,7 @@ export function OrganisationTree({ organizationId, locations, halls, areas, canE
                                 <div key={area.id} style={{
                                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                                   padding: '7px 8px', borderRadius: 6, marginTop: 4,
-                                  background: 'white', border: '1px solid #e8eef6',
+                                  background: 'var(--ds-surface)', border: '1px solid var(--ds-border)',
                                 }}>
                                   <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
                                     <Grid3x3 size={13} color="#96aed2" />
@@ -310,7 +310,7 @@ export function OrganisationTree({ organizationId, locations, halls, areas, canE
 
       {canEdit && !isAdding('location', undefined) && (
         <button onClick={() => startAdding('location')}
-          style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', background: 'white', border: '2px dashed #c8d4e8', borderRadius: 12, padding: '14px 16px', cursor: 'pointer', color: '#003366', fontFamily: 'Arial, sans-serif', fontSize: 14, fontWeight: 600, marginTop: locations.length > 0 ? 4 : 0 }}>
+          style={{ display: 'flex', alignItems: 'center', gap: 8, width: '100%', background: 'var(--ds-surface)', border: '2px dashed #c8d4e8', borderRadius: 12, padding: '14px 16px', cursor: 'pointer', color: '#003366', fontFamily: 'Arial, sans-serif', fontSize: 14, fontWeight: 600, marginTop: locations.length > 0 ? 4 : 0 }}>
           <Plus size={16} /> {t('addLocation')}
         </button>
       )}

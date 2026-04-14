@@ -98,7 +98,7 @@ export function AssetDocuments({ assetId, initialUrls, canEdit, docMaxSizeMb = 1
   return (
     <div style={{ padding: '0 16px 16px' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-        <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
+        <h2 style={{ fontSize: 15, fontWeight: 700, color: 'var(--ds-text)', margin: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
           <FileText size={14} /> {t('assets.fields.documents')}
           {urls.length > 0 && (
             <span style={{ fontSize: 12, fontWeight: 400, color: '#96aed2', marginLeft: 2 }}>{urls.length}</span>
@@ -132,7 +132,7 @@ export function AssetDocuments({ assetId, initialUrls, canEdit, docMaxSizeMb = 1
       )}
 
       {urls.length === 0 ? (
-        <div style={{ background: 'white', borderRadius: 12, padding: '20px 16px', border: '1px solid #e8eef6', textAlign: 'center' }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 12, padding: '20px 16px', border: '1px solid var(--ds-border)', textAlign: 'center' }}>
           <FileText size={24} color="#c8d4e8" style={{ marginBottom: 8 }} />
           <p style={{ color: '#aaa', fontSize: 13, margin: 0 }}>
             {canEdit ? t('service.entry.addDocument') : t('common.noData')}
@@ -143,8 +143,8 @@ export function AssetDocuments({ assetId, initialUrls, canEdit, docMaxSizeMb = 1
           {urls.map(url => (
             <div key={url} style={{
               display: 'flex', alignItems: 'center', gap: 12,
-              background: 'white', borderRadius: 10, padding: '10px 14px',
-              border: '1px solid #e8eef6',
+              background: 'var(--ds-surface)', borderRadius: 10, padding: '10px 14px',
+              border: '1px solid var(--ds-border)',
             }}>
               <div style={{
                 width: 34, height: 34, borderRadius: 8, flexShrink: 0,
@@ -153,7 +153,7 @@ export function AssetDocuments({ assetId, initialUrls, canEdit, docMaxSizeMb = 1
               }}>
                 <FileText size={16} color={fileIcon(url)} />
               </div>
-              <p style={{ flex: 1, margin: 0, fontSize: 13, fontWeight: 600, color: '#000',
+              <p style={{ flex: 1, margin: 0, fontSize: 13, fontWeight: 600, color: 'var(--ds-text)',
                 overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {fileName(url)}
               </p>

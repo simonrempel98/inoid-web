@@ -233,7 +233,7 @@ export function AssetImportModal({ onClose }: { onClose: () => void }) {
       onClick={e => { if (e.target === e.currentTarget) onClose() }}
     >
       <div style={{
-        background: 'white', borderRadius: 20,
+        background: 'var(--ds-surface)', borderRadius: 20,
         width: '100%', maxWidth: 560,
         maxHeight: '90dvh', display: 'flex', flexDirection: 'column',
         fontFamily: 'Arial, sans-serif',
@@ -249,7 +249,7 @@ export function AssetImportModal({ onClose }: { onClose: () => void }) {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
               <Sparkles size={18} style={{ color: '#003366' }} />
-              <h2 style={{ fontSize: 17, fontWeight: 700, color: '#000', margin: 0 }}>
+              <h2 style={{ fontSize: 17, fontWeight: 700, color: 'var(--ds-text)', margin: 0 }}>
                 KI-Import
               </h2>
             </div>
@@ -362,12 +362,12 @@ export function AssetImportModal({ onClose }: { onClose: () => void }) {
               {/* File previews */}
               {files.length > 0 && (
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  <p style={{ fontSize: 13, fontWeight: 700, color: '#000', margin: 0 }}>
+                  <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--ds-text)', margin: 0 }}>
                     {files.length} Datei{files.length !== 1 ? 'en' : ''} bereit
                   </p>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }}>
                     {files.map((entry, i) => (
-                      <div key={i} style={{ position: 'relative', borderRadius: 10, overflow: 'hidden', border: '1px solid #c8d4e8', aspectRatio: '4/3' }}>
+                      <div key={i} style={{ position: 'relative', borderRadius: 10, overflow: 'hidden', border: '1px solid var(--ds-border)', aspectRatio: '4/3' }}>
                         {entry.isImage && entry.preview ? (
                           <img src={entry.preview} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                         ) : (
@@ -440,7 +440,7 @@ export function AssetImportModal({ onClose }: { onClose: () => void }) {
                 }} />
               </div>
               <div style={{ textAlign: 'center' }}>
-                <p style={{ fontSize: 16, fontWeight: 700, color: '#000', margin: '0 0 6px' }}>
+                <p style={{ fontSize: 16, fontWeight: 700, color: 'var(--ds-text)', margin: '0 0 6px' }}>
                   KI analysiert deine Dokumente
                 </p>
                 <p style={{ fontSize: 13, color: '#666', margin: 0, lineHeight: 1.5 }}>
@@ -499,12 +499,12 @@ export function AssetImportModal({ onClose }: { onClose: () => void }) {
                   <button
                     onClick={() => setShowTechData(p => !p)}
                     style={{
-                      width: '100%', background: '#f8fafc', border: 'none',
+                      width: '100%', background: 'var(--ds-surface2)', border: 'none',
                       padding: '10px 14px', cursor: 'pointer',
                       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     }}
                   >
-                    <span style={{ fontSize: 13, fontWeight: 700, color: '#000' }}>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--ds-text)' }}>
                       Technische Daten ({Object.keys(editTechData).length})
                     </span>
                     {showTechData ? <ChevronUp size={16} style={{ color: '#666' }} /> : <ChevronDown size={16} style={{ color: '#666' }} />}
@@ -518,9 +518,9 @@ export function AssetImportModal({ onClose }: { onClose: () => void }) {
                             value={val}
                             onChange={e => setEditTechData(prev => ({ ...prev, [key]: e.target.value }))}
                             style={{
-                              flex: 1, border: '1px solid #c8d4e8', borderRadius: 6,
-                              padding: '5px 8px', fontSize: 13, color: '#000',
-                              background: 'white', outline: 'none',
+                              flex: 1, border: '1px solid var(--ds-border)', borderRadius: 6,
+                              padding: '5px 8px', fontSize: 13, color: 'var(--ds-text)',
+                              background: 'var(--ds-surface)', outline: 'none',
                             }}
                           />
                           <button
@@ -542,12 +542,12 @@ export function AssetImportModal({ onClose }: { onClose: () => void }) {
                   <button
                     onClick={() => setShowCommData(p => !p)}
                     style={{
-                      width: '100%', background: '#f8fafc', border: 'none',
+                      width: '100%', background: 'var(--ds-surface2)', border: 'none',
                       padding: '10px 14px', cursor: 'pointer',
                       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                     }}
                   >
-                    <span style={{ fontSize: 13, fontWeight: 700, color: '#000' }}>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--ds-text)' }}>
                       Kaufmännische Daten ({Object.keys(editCommData).length})
                     </span>
                     {showCommData ? <ChevronUp size={16} style={{ color: '#666' }} /> : <ChevronDown size={16} style={{ color: '#666' }} />}
@@ -561,9 +561,9 @@ export function AssetImportModal({ onClose }: { onClose: () => void }) {
                             value={val}
                             onChange={e => setEditCommData(prev => ({ ...prev, [key]: e.target.value }))}
                             style={{
-                              flex: 1, border: '1px solid #c8d4e8', borderRadius: 6,
-                              padding: '5px 8px', fontSize: 13, color: '#000',
-                              background: 'white', outline: 'none',
+                              flex: 1, border: '1px solid var(--ds-border)', borderRadius: 6,
+                              padding: '5px 8px', fontSize: 13, color: 'var(--ds-text)',
+                              background: 'var(--ds-surface)', outline: 'none',
                             }}
                           />
                           <button
@@ -580,7 +580,7 @@ export function AssetImportModal({ onClose }: { onClose: () => void }) {
               )}
 
               {/* Uploaded files summary */}
-              <div style={{ background: '#f8fafc', borderRadius: 10, padding: '10px 14px' }}>
+              <div style={{ background: 'var(--ds-surface2)', borderRadius: 10, padding: '10px 14px' }}>
                 <p style={{ fontSize: 12, fontWeight: 700, color: '#666', margin: '0 0 6px' }}>
                   Hochgeladene Dateien ({files.length})
                 </p>
@@ -588,7 +588,7 @@ export function AssetImportModal({ onClose }: { onClose: () => void }) {
                   {files.map((entry, i) => (
                     <div key={i} style={{
                       display: 'flex', alignItems: 'center', gap: 4,
-                      background: 'white', border: '1px solid #c8d4e8',
+                      background: 'var(--ds-surface)', border: '1px solid var(--ds-border)',
                       borderRadius: 6, padding: '3px 8px',
                     }}>
                       {entry.isImage ? <ImageIcon size={11} style={{ color: '#003366' }} /> : <FileText size={11} style={{ color: '#003366' }} />}
@@ -616,7 +616,7 @@ export function AssetImportModal({ onClose }: { onClose: () => void }) {
           borderTop: '1px solid #e8edf4',
           borderRadius: '0 0 20px 20px',
           display: 'flex', gap: 10, flexShrink: 0,
-          background: 'white',
+          background: 'var(--ds-surface)',
         }}>
           {step === 'upload' && (
             <>
@@ -669,8 +669,8 @@ export function AssetImportModal({ onClose }: { onClose: () => void }) {
 function FieldGroup({ label, children }: { label: string; children: React.ReactNode }) {
   return (
     <div style={{ border: '1px solid #e8edf4', borderRadius: 12, overflow: 'hidden' }}>
-      <div style={{ background: '#f8fafc', padding: '8px 14px', borderBottom: '1px solid #e8edf4' }}>
-        <span style={{ fontSize: 13, fontWeight: 700, color: '#000' }}>{label}</span>
+      <div style={{ background: 'var(--ds-surface2)', padding: '8px 14px', borderBottom: '1px solid #e8edf4' }}>
+        <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--ds-text)' }}>{label}</span>
       </div>
       <div style={{ padding: '12px 14px', display: 'flex', flexDirection: 'column', gap: 10 }}>
         {children}
@@ -688,9 +688,9 @@ function LabeledInput({
   multiline?: boolean
 }) {
   const sharedStyle = {
-    border: '1px solid #c8d4e8', borderRadius: 8,
-    padding: '7px 10px', fontSize: 13, color: '#000',
-    background: 'white', outline: 'none', width: '100%',
+    border: '1px solid var(--ds-border)', borderRadius: 8,
+    padding: '7px 10px', fontSize: 13, color: 'var(--ds-text)',
+    background: 'var(--ds-surface)', outline: 'none', width: '100%',
     boxSizing: 'border-box' as const,
     fontFamily: 'Arial, sans-serif',
   }
@@ -723,7 +723,7 @@ const primaryBtnStyle: React.CSSProperties = {
 }
 
 const secondaryBtnStyle: React.CSSProperties = {
-  background: 'white', color: '#333',
-  border: '1px solid #c8d4e8', borderRadius: 50, padding: '12px 20px',
+  background: 'var(--ds-surface)', color: '#333',
+  border: '1px solid var(--ds-border)', borderRadius: 50, padding: '12px 20px',
   fontSize: 14, fontWeight: 600, cursor: 'pointer',
 }

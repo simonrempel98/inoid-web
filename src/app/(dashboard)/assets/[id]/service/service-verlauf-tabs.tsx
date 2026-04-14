@@ -71,7 +71,7 @@ export function ServiceVerlaufTabs({ events, assetId, schedules }: Props) {
 
       {tab === 'gantt' && schedules.length === 0 && (
         <div style={{
-          background: 'white', borderRadius: 14, padding: '32px 20px',
+          background: 'var(--ds-surface)', borderRadius: 14, padding: '32px 20px',
           border: '1px dashed #c8d4e8', textAlign: 'center',
         }}>
           <BarChart2 size={28} color="#c8d4e8" style={{ marginBottom: 10 }} />

@@ -121,15 +121,15 @@ export default function NeueVorlagePage() {
 
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '10px 12px', borderRadius: 10,
-    border: '1px solid #c8d4e8', fontSize: 14, fontFamily: 'Arial, sans-serif',
-    backgroundColor: 'white', color: '#000', outline: 'none', boxSizing: 'border-box',
+    border: '1px solid var(--ds-border)', fontSize: 14, fontFamily: 'Arial, sans-serif',
+    backgroundColor: 'white', color: 'var(--ds-text)', outline: 'none', boxSizing: 'border-box',
   }
   const labelStyle: React.CSSProperties = {
     display: 'block', fontSize: 12, fontWeight: 700, color: '#003366',
     marginBottom: 4, fontFamily: 'Arial, sans-serif',
   }
   const sectionTitle: React.CSSProperties = {
-    fontSize: 15, fontWeight: 700, color: '#000', margin: '0 0 12px',
+    fontSize: 15, fontWeight: 700, color: 'var(--ds-text)', margin: '0 0 12px',
     fontFamily: 'Arial, sans-serif',
   }
 
@@ -143,7 +143,7 @@ export default function NeueVorlagePage() {
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </button>
-        <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>{t('title')}</h1>
+        <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--ds-text)', margin: 0 }}>{t('title')}</h1>
       </div>
 
       <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -157,7 +157,7 @@ export default function NeueVorlagePage() {
         )}
 
         {/* Grunddaten */}
-        <div style={{ background: 'white', borderRadius: 14, padding: 16, border: '1px solid #c8d4e8', display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, padding: 16, border: '1px solid var(--ds-border)', display: 'flex', flexDirection: 'column', gap: 14 }}>
           <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><ClipboardList size={15} /> {t('basics')}</p>
 
           {/* Icon Picker */}
@@ -174,8 +174,8 @@ export default function NeueVorlagePage() {
 
             {showIconPicker && (
               <div style={{
-                marginTop: 8, background: 'white', borderRadius: 14, padding: 14,
-                border: '1px solid #c8d4e8', boxShadow: '0 4px 20px rgba(0,51,102,0.12)',
+                marginTop: 8, background: 'var(--ds-surface)', borderRadius: 14, padding: 14,
+                border: '1px solid var(--ds-border)', boxShadow: '0 4px 20px rgba(0,51,102,0.12)',
               }}>
                 <input
                   value={iconSearch}
@@ -184,7 +184,7 @@ export default function NeueVorlagePage() {
                   autoFocus
                   style={{
                     width: '100%', padding: '8px 12px', borderRadius: 8,
-                    border: '1px solid #c8d4e8', fontSize: 13, fontFamily: 'Arial, sans-serif',
+                    border: '1px solid var(--ds-border)', fontSize: 13, fontFamily: 'Arial, sans-serif',
                     outline: 'none', boxSizing: 'border-box', marginBottom: 12,
                   }}
                 />
@@ -245,7 +245,7 @@ export default function NeueVorlagePage() {
         </div>
 
         {/* Technische Felder */}
-        <div style={{ background: 'white', borderRadius: 14, padding: 16, border: '1px solid #c8d4e8' }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, padding: 16, border: '1px solid var(--ds-border)' }}>
           <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Settings2 size={15} /> {t('techFieldsTitle')}</p>
           <p style={{ fontSize: 12, color: '#666', margin: '0 0 12px' }}>
             {t('techFieldsDesc')}
@@ -294,7 +294,7 @@ export default function NeueVorlagePage() {
         </div>
 
         {/* Kommerzielle Felder */}
-        <div style={{ background: 'white', borderRadius: 14, padding: 16, border: '1px solid #c8d4e8' }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, padding: 16, border: '1px solid var(--ds-border)' }}>
           <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Briefcase size={15} /> {t('commFieldsTitle')}</p>
           <p style={{ fontSize: 12, color: '#666', margin: '0 0 12px' }}>
             {t('commFieldsDesc')}

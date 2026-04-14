@@ -192,19 +192,19 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
 
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '10px 12px', borderRadius: 10,
-    border: '1px solid #c8d4e8', fontSize: 14, fontFamily: 'Arial, sans-serif',
-    backgroundColor: 'white', color: '#000', outline: 'none', boxSizing: 'border-box',
+    border: '1px solid var(--ds-border)', fontSize: 14, fontFamily: 'Arial, sans-serif',
+    backgroundColor: 'white', color: 'var(--ds-text)', outline: 'none', boxSizing: 'border-box',
   }
   const labelStyle: React.CSSProperties = {
     display: 'block', fontSize: 12, fontWeight: 700, color: '#003366',
     marginBottom: 4, fontFamily: 'Arial, sans-serif',
   }
   const sectionStyle: React.CSSProperties = {
-    background: 'white', borderRadius: 14, padding: 16,
-    border: '1px solid #c8d4e8', display: 'flex', flexDirection: 'column', gap: 14,
+    background: 'var(--ds-surface)', borderRadius: 14, padding: 16,
+    border: '1px solid var(--ds-border)', display: 'flex', flexDirection: 'column', gap: 14,
   }
   const sectionTitle: React.CSSProperties = {
-    fontSize: 15, fontWeight: 700, color: '#000', margin: '0 0 4px', fontFamily: 'Arial, sans-serif',
+    fontSize: 15, fontWeight: 700, color: 'var(--ds-text)', margin: '0 0 4px', fontFamily: 'Arial, sans-serif',
   }
 
   const STATUS_OPTIONS = [
@@ -224,7 +224,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
           </svg>
         </button>
         <div>
-          <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>{t('assets.form.editAsset')}</h1>
+          <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--ds-text)', margin: 0 }}>{t('assets.form.editAsset')}</h1>
           <p style={{ fontSize: 12, color: '#96aed2', margin: 0 }}>{asset.title}</p>
         </div>
       </div>
@@ -364,7 +364,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 8 }} className="rg-3">
             {existingUrls.map((url, i) => (
-              <div key={url} style={{ position: 'relative', aspectRatio: '1', borderRadius: 10, overflow: 'hidden', border: '1px solid #c8d4e8' }}>
+              <div key={url} style={{ position: 'relative', aspectRatio: '1', borderRadius: 10, overflow: 'hidden', border: '1px solid var(--ds-border)' }}>
                 <img src={url} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 {i === 0 && (
                   <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, background: 'rgba(0,51,102,0.7)', color: 'white', fontSize: 10, textAlign: 'center', padding: '2px 0', fontFamily: 'Arial, sans-serif', fontWeight: 700 }}>
@@ -418,7 +418,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
           <p style={{ ...sectionTitle, display: 'flex', alignItems: 'center', gap: 6 }}><Smartphone size={15} /> {t('assets.form.qrTitle')}</p>
           <div style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}>
             <div style={{
-              width: 120, height: 120, borderRadius: 12, border: '1px solid #c8d4e8',
+              width: 120, height: 120, borderRadius: 12, border: '1px solid var(--ds-border)',
               background: '#f4f6f9', flexShrink: 0, overflow: 'hidden',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
@@ -445,13 +445,13 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
           <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
             <p style={{
               flex: 1, fontSize: 12, color: '#003366', fontFamily: 'monospace', wordBreak: 'break-all',
-              background: '#f4f6f9', borderRadius: 8, padding: '10px 12px', border: '1px solid #c8d4e8', margin: 0,
+              background: '#f4f6f9', borderRadius: 8, padding: '10px 12px', border: '1px solid var(--ds-border)', margin: 0,
             }}>
               {asset.id}
             </p>
             <button type="button" onClick={copyUuid} style={{
               flexShrink: 0, padding: '10px 14px', borderRadius: 10,
-              border: '1px solid #c8d4e8', background: uuidCopied ? '#e8f5e9' : 'white',
+              border: '1px solid var(--ds-border)', background: uuidCopied ? '#e8f5e9' : 'white',
               color: uuidCopied ? '#2e7d32' : '#003366', fontSize: 12, fontWeight: 700,
               cursor: 'pointer', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap',
             }}>
@@ -477,7 +477,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
             <button type="button" onClick={() => setDeleteConfirm(true)}
               style={{
                 width: '100%', padding: '13px', borderRadius: 50,
-                border: '1px solid #fecaca', background: 'white',
+                border: '1px solid #fecaca', background: 'var(--ds-surface)',
                 color: '#dc2626', fontSize: 14, fontWeight: 700,
                 cursor: 'pointer', fontFamily: 'Arial, sans-serif',
               }}>
@@ -496,7 +496,7 @@ export function AssetEditForm({ asset, locations = [], halls = [], areas = [], c
               </p>
               <div style={{ display: 'flex', gap: 10 }}>
                 <button onClick={() => setDeleteConfirm(false)}
-                  style={{ flex: 1, padding: '11px', borderRadius: 50, border: '1px solid #c8d4e8', background: 'white', color: '#666', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
+                  style={{ flex: 1, padding: '11px', borderRadius: 50, border: '1px solid var(--ds-border)', background: 'var(--ds-surface)', color: '#666', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
                   {t('common.cancel')}
                 </button>
                 <button onClick={handleDelete} disabled={loading}

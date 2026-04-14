@@ -55,7 +55,7 @@ export default async function INOaiPage() {
         <div style={{
           padding: '12px 18px',
           borderBottom: '1px solid #e8edf4',
-          background: 'white',
+          background: 'var(--ds-surface)',
           display: 'flex', alignItems: 'center', gap: 12,
           flexShrink: 0,
         }}>

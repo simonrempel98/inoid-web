@@ -116,7 +116,7 @@ function Input({ value, onChange, type = 'number', placeholder, min, max, step, 
           width: '100%', boxSizing: 'border-box' as const,
           padding: unit ? '10px 44px 10px 14px' : '10px 14px',
           border: '1.5px solid #d1d5db', borderRadius: 10,
-          fontSize: 14, color: '#111827', background: disabled ? '#f9fafb' : 'white',
+          fontSize: 14, color: 'var(--ds-text)', background: disabled ? '#f9fafb' : 'white',
           outline: 'none', fontFamily: 'Arial, sans-serif',
           transition: 'border-color 0.15s',
         }}
@@ -142,7 +142,7 @@ function Select({ value, onChange, options }: {
       value={value} onChange={e => onChange(e.target.value)}
       style={{
         width: '100%', padding: '10px 14px', border: '1.5px solid #d1d5db',
-        borderRadius: 10, fontSize: 14, color: '#111827', background: 'white',
+        borderRadius: 10, fontSize: 14, color: 'var(--ds-text)', background: 'var(--ds-surface)',
         outline: 'none', fontFamily: 'Arial, sans-serif', cursor: 'pointer',
         appearance: 'none' as const,
         backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'12\' height=\'8\' viewBox=\'0 0 12 8\' fill=\'none\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cpath d=\'M1 1l5 5 5-5\' stroke=\'%236b7280\' stroke-width=\'1.5\'/%3E%3C/svg%3E")',
@@ -177,7 +177,7 @@ function SecondaryResult({ label, value, unit }: { label: string; value: string 
       padding: '9px 0', borderBottom: '1px solid #f3f4f6',
     }}>
       <span style={{ fontSize: 13, color: '#6b7280' }}>{label}</span>
-      <span style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>
+      <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--ds-text)' }}>
         {value} <span style={{ fontSize: 12, color: '#9ca3af', fontWeight: 400 }}>{unit}</span>
       </span>
     </div>
@@ -791,7 +791,7 @@ function SaveModal({ open, onClose, onSave, defaultName }: {
       display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20,
     }} onClick={onClose}>
       <div style={{
-        background: 'white', borderRadius: 20, padding: 28, width: '100%', maxWidth: 420,
+        background: 'var(--ds-surface)', borderRadius: 20, padding: 28, width: '100%', maxWidth: 420,
         boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
       }} onClick={e => e.stopPropagation()}>
         <h3 style={{ margin: '0 0 20px', fontSize: 18, fontWeight: 800, color: '#003366' }}>Berechnung speichern</h3>
@@ -808,7 +808,7 @@ function SaveModal({ open, onClose, onSave, defaultName }: {
             style={{
               width: '100%', boxSizing: 'border-box' as const, padding: '10px 14px',
               border: '1.5px solid #d1d5db', borderRadius: 10,
-              fontSize: 14, color: '#111827', resize: 'vertical',
+              fontSize: 14, color: 'var(--ds-text)', resize: 'vertical',
               fontFamily: 'Arial, sans-serif', outline: 'none',
             }}
           />
@@ -872,7 +872,7 @@ function ColorModal({ open, onClose, onSave, editColor }: {
       display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20,
     }} onClick={onClose}>
       <div style={{
-        background: 'white', borderRadius: 20, padding: 28,
+        background: 'var(--ds-surface)', borderRadius: 20, padding: 28,
         width: '100%', maxWidth: 480,
         boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
         maxHeight: '90vh', overflowY: 'auto' as const,
@@ -915,7 +915,7 @@ function ColorModal({ open, onClose, onSave, editColor }: {
               style={{
                 width: '100%', boxSizing: 'border-box' as const, padding: '10px 14px',
                 border: '1.5px solid #d1d5db', borderRadius: 10,
-                fontSize: 14, color: '#111827', resize: 'vertical' as const,
+                fontSize: 14, color: 'var(--ds-text)', resize: 'vertical' as const,
                 fontFamily: 'Arial, sans-serif', outline: 'none',
               }}
             />
@@ -943,7 +943,7 @@ function ColorCard({ color, onDelete, onEdit }: { color: FlexoColor; onDelete: (
   const typeLabel = COLOR_TYPES[color.color_type ?? ''] ?? color.color_type ?? null
   return (
     <div style={{
-      background: 'white', borderRadius: 14, border: '1px solid #e5e7eb',
+      background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid #e5e7eb',
       padding: '12px 14px', display: 'flex', gap: 12, alignItems: 'flex-start',
     }}>
       <div style={{
@@ -956,7 +956,7 @@ function ColorCard({ color, onDelete, onEdit }: { color: FlexoColor; onDelete: (
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4, flexWrap: 'wrap' as const }}>
-          <span style={{ fontSize: 13, fontWeight: 700, color: '#111827' }}>{color.name}</span>
+          <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--ds-text)' }}>{color.name}</span>
           {typeLabel && (
             <span style={{ fontSize: 10, fontWeight: 700, color: '#0369a1', background: '#e0f2fe', padding: '1px 6px', borderRadius: 5 }}>
               {typeLabel}
@@ -1021,7 +1021,7 @@ function HistoryCard({ calc, onLoad, onDelete }: { calc: any; onLoad: () => void
   const color = MODE_COLORS[calc.calc_type] ?? '#003366'
   return (
     <div style={{
-      background: 'white', borderRadius: 14, border: '1px solid #e5e7eb',
+      background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid #e5e7eb',
       padding: '14px 16px', display: 'flex', gap: 12, alignItems: 'flex-start',
       transition: 'box-shadow 0.15s',
     }}
@@ -1036,7 +1036,7 @@ function HistoryCard({ calc, onLoad, onDelete }: { calc: any; onLoad: () => void
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
-          <span style={{ fontSize: 13, fontWeight: 700, color: '#111827', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>{calc.name}</span>
+          <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--ds-text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' as const }}>{calc.name}</span>
           <span style={{ fontSize: 10, fontWeight: 700, color, background: `${color}15`, padding: '1px 6px', borderRadius: 5, flexShrink: 0 }}>
             {MODE_LABELS[calc.calc_type]}
           </span>
@@ -1188,7 +1188,7 @@ export function AniloxCalculator() {
         <div style={{ marginTop: 16 }}>
           <button type="button" onClick={() => setShowSave(true)} disabled={saving} style={{
             width: '100%', padding: '11px', border: '2px solid #003366',
-            borderRadius: 10, background: 'white', cursor: 'pointer',
+            borderRadius: 10, background: 'var(--ds-surface)', cursor: 'pointer',
             fontSize: 14, fontWeight: 700, color: '#003366',
             transition: 'background 0.15s',
           }}
@@ -1280,7 +1280,7 @@ export function AniloxCalculator() {
         `}</style>
 
         {/* Input-Karte */}
-        <div style={{ background: 'white', borderRadius: 16, border: '1px solid #e5e7eb', padding: 20, display: 'flex', flexDirection: 'column', gap: 0 }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 16, border: '1px solid #e5e7eb', padding: 20, display: 'flex', flexDirection: 'column', gap: 0 }}>
           <p style={{ margin: '0 0 16px', fontSize: 14, fontWeight: 800, color: '#374151' }}>Eingaben</p>
           {mode === 'volume'      && <VolumeCalc unit={unit} onResult={handleResult} />}
           {mode === 'consumption' && <ConsumptionCalc unit={unit} onResult={handleResult} colors={colors} onAddColor={() => { setEditingColor(null); setShowColorModal(true) }} />}
@@ -1306,7 +1306,7 @@ export function AniloxCalculator() {
         <div style={{ padding: '0 16px', marginBottom: 12 }}>
           <button type="button" onClick={() => setColorsOpen(v => !v)} style={{
             width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            padding: '14px 16px', background: 'white', border: '1px solid #e5e7eb',
+            padding: '14px 16px', background: 'var(--ds-surface)', border: '1px solid #e5e7eb',
             borderRadius: colorsOpen && colors.length > 0 ? '14px 14px 0 0' : 14,
             cursor: 'pointer', transition: 'background 0.15s',
           }}>
@@ -1314,7 +1314,7 @@ export function AniloxCalculator() {
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0099cc" strokeWidth="2">
                 <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
               </svg>
-              <span style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>Meine Farben</span>
+              <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--ds-text)' }}>Meine Farben</span>
               {colors.length > 0 && (
                 <span style={{ fontSize: 11, fontWeight: 700, background: '#0099cc', color: 'white', padding: '2px 8px', borderRadius: 20 }}>
                   {colors.length}
@@ -1361,7 +1361,7 @@ export function AniloxCalculator() {
       <div style={{ padding: '0 16px' }}>
         <button type="button" onClick={() => setHistoryOpen(v => !v)} style={{
           width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '14px 16px', background: 'white', border: '1px solid #e5e7eb',
+          padding: '14px 16px', background: 'var(--ds-surface)', border: '1px solid #e5e7eb',
           borderRadius: historyOpen && history.length > 0 ? '14px 14px 0 0' : 14,
           cursor: 'pointer', transition: 'background 0.15s',
         }}>
@@ -1369,7 +1369,7 @@ export function AniloxCalculator() {
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#003366" strokeWidth="2">
               <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
             </svg>
-            <span style={{ fontSize: 14, fontWeight: 700, color: '#111827' }}>Letzte Berechnungen</span>
+            <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--ds-text)' }}>Letzte Berechnungen</span>
             {history.length > 0 && (
               <span style={{ fontSize: 11, fontWeight: 700, background: '#003366', color: 'white', padding: '2px 8px', borderRadius: 20 }}>
                 {history.length}

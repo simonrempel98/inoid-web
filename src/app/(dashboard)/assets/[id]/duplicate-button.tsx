@@ -77,7 +77,7 @@ export function DuplicateButton({ asset }: { asset: Asset }) {
         onClick={() => setConfirm(true)}
         style={{
           flex: 1, padding: '13px', borderRadius: 50,
-          border: '1px solid #c8d4e8', background: 'white',
+          border: '1px solid var(--ds-border)', background: 'var(--ds-surface)',
           color: '#003366', fontSize: 14, fontWeight: 700,
           cursor: 'pointer', fontFamily: 'Arial, sans-serif',
         }}
@@ -94,10 +94,10 @@ export function DuplicateButton({ asset }: { asset: Asset }) {
       zIndex: 100, padding: '0 16px 32px',
     }}>
       <div style={{
-        background: 'white', borderRadius: 20, padding: 24, width: '100%', maxWidth: 420,
+        background: 'var(--ds-surface)', borderRadius: 20, padding: 24, width: '100%', maxWidth: 420,
         fontFamily: 'Arial, sans-serif',
       }}>
-        <p style={{ fontWeight: 700, fontSize: 16, color: '#000', margin: '0 0 8px' }}>
+        <p style={{ fontWeight: 700, fontSize: 16, color: 'var(--ds-text)', margin: '0 0 8px' }}>
           {t('title')}
         </p>
         <p style={{ color: '#666', fontSize: 14, margin: '0 0 20px', lineHeight: 1.5 }}>
@@ -109,7 +109,7 @@ export function DuplicateButton({ asset }: { asset: Asset }) {
             onClick={() => setConfirm(false)}
             style={{
               flex: 1, padding: '13px', borderRadius: 50,
-              border: '1px solid #c8d4e8', background: 'white',
+              border: '1px solid var(--ds-border)', background: 'var(--ds-surface)',
               color: '#666', fontSize: 14, fontWeight: 700, cursor: 'pointer',
             }}
           >

@@ -82,7 +82,7 @@ export function NeueVorlageClient({
 
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '10px 12px', borderRadius: 8,
-    border: '1px solid #c8d4e8', background: 'white', color: '#003366',
+    border: '1px solid var(--ds-border)', background: 'var(--ds-surface)', color: '#003366',
     fontSize: 14, fontFamily: 'Arial, sans-serif', outline: 'none', boxSizing: 'border-box',
   }
 
@@ -98,7 +98,7 @@ export function NeueVorlageClient({
 
       <form onSubmit={handleSubmit}>
         {/* Name */}
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: 20, marginBottom: 16 }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', padding: 20, marginBottom: 16 }}>
           <label style={{ display: 'block', fontSize: 11, fontWeight: 700, color: '#6b7280', marginBottom: 6, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
             Name *
           </label>
@@ -123,7 +123,7 @@ export function NeueVorlageClient({
             const searchKeyFarbe = `${dw.id}_farbe`
             return (
               <div key={dw.id} style={{
-                background: 'white', borderRadius: 12, border: `1px solid ${isOn ? '#0099cc' : '#c8d4e8'}`,
+                background: 'var(--ds-surface)', borderRadius: 12, border: `1px solid ${isOn ? '#0099cc' : '#c8d4e8'}`,
                 overflow: 'hidden', transition: 'border-color 0.15s',
               }}>
                 {/* DW Header */}
@@ -201,7 +201,7 @@ export function NeueVorlageClient({
             {loading ? 'Erstellen…' : 'Vorlage erstellen'}
           </button>
           <Link href={`/flexodruck/maschinen/${machine.id}`} style={{
-            padding: '12px 20px', borderRadius: 50, border: '1px solid #c8d4e8',
+            padding: '12px 20px', borderRadius: 50, border: '1px solid var(--ds-border)',
             fontSize: 14, fontWeight: 600, color: '#6b7280', textDecoration: 'none',
           }}>
             Abbrechen
@@ -267,7 +267,7 @@ function SlotPicker({
         onChange={e => onSearchChange(e.target.value)}
         style={{
           width: '100%', padding: '7px 10px', borderRadius: 8,
-          border: '1px solid #c8d4e8', fontSize: 13, outline: 'none',
+          border: '1px solid var(--ds-border)', fontSize: 13, outline: 'none',
           boxSizing: 'border-box', fontFamily: 'Arial, sans-serif',
         }}
       />
@@ -275,7 +275,7 @@ function SlotPicker({
       {/* Liste (nur wenn Suche aktiv oder kein Asset gewählt) */}
       {(searchValue || !selectedId) && (
         <div style={{
-          background: 'white', border: '1px solid #c8d4e8', borderRadius: 8,
+          background: 'var(--ds-surface)', border: '1px solid var(--ds-border)', borderRadius: 8,
           marginTop: 4, maxHeight: 180, overflowY: 'auto',
         }}>
           {!selectedId && (

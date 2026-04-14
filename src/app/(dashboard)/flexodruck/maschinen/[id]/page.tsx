@@ -161,7 +161,7 @@ export default async function MaschinenDetailPage({ params }: { params: Promise<
             <Link href={`/flexodruck/maschinen/${id}/bearbeiten`} style={{
               background: '#f4f6f9', color: '#003366',
               padding: '9px 18px', borderRadius: 50,
-              border: '1px solid #c8d4e8',
+              border: '1px solid var(--ds-border)',
               fontSize: 13, fontWeight: 700,
               fontFamily: 'Arial, sans-serif', textDecoration: 'none',
             }}>
@@ -172,7 +172,7 @@ export default async function MaschinenDetailPage({ params }: { params: Promise<
             <Link href={`/flexodruck/maschinen/${id}/vorlagen/neu`} style={{
               background: '#f4f6f9', color: '#003366',
               padding: '9px 18px', borderRadius: 50,
-              border: '1px solid #c8d4e8',
+              border: '1px solid var(--ds-border)',
               fontSize: 13, fontWeight: 700,
               fontFamily: 'Arial, sans-serif', textDecoration: 'none',
             }}>
@@ -195,7 +195,7 @@ export default async function MaschinenDetailPage({ params }: { params: Promise<
             </h2>
             {(!templates || templates.length === 0) ? (
               <div style={{
-                background: 'white', borderRadius: 12, border: '1px solid #c8d4e8',
+                background: 'var(--ds-surface)', borderRadius: 12, border: '1px solid var(--ds-border)',
                 padding: '24px', textAlign: 'center',
               }}>
                 <p style={{ color: '#6b7280', fontSize: 13, margin: '0 0 10px', fontFamily: 'Arial, sans-serif' }}>
@@ -214,7 +214,7 @@ export default async function MaschinenDetailPage({ params }: { params: Promise<
                 {templates.map((tpl: TemplateData) => (
                   <Link key={tpl.id} href={`/flexodruck/vorlagen/${tpl.id}`} style={{ textDecoration: 'none' }}>
                     <div style={{
-                      background: 'white', borderRadius: 12, border: '1px solid #c8d4e8',
+                      background: 'var(--ds-surface)', borderRadius: 12, border: '1px solid var(--ds-border)',
                       padding: '14px 16px', cursor: 'pointer',
                     }}>
                       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -252,7 +252,7 @@ export default async function MaschinenDetailPage({ params }: { params: Promise<
             </h2>
             {(!setups || setups.length === 0) ? (
               <div style={{
-                background: 'white', borderRadius: 12, border: '1px solid #c8d4e8',
+                background: 'var(--ds-surface)', borderRadius: 12, border: '1px solid var(--ds-border)',
                 padding: '24px', textAlign: 'center',
               }}>
                 <p style={{ color: '#6b7280', fontSize: 13, margin: 0, fontFamily: 'Arial, sans-serif' }}>
@@ -260,7 +260,7 @@ export default async function MaschinenDetailPage({ params }: { params: Promise<
                 </p>
               </div>
             ) : (
-              <div style={{ background: 'white', borderRadius: 12, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
+              <div style={{ background: 'var(--ds-surface)', borderRadius: 12, border: '1px solid var(--ds-border)', overflow: 'hidden' }}>
                 {setups.map((s, i) => (
                   <Link key={s.id} href={`/flexodruck/ruestung/${s.id}`} style={{ textDecoration: 'none' }}>
                     <div style={{

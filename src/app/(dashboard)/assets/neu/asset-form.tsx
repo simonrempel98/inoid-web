@@ -316,8 +316,8 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
                   value={units[key] ?? ''}
                   onChange={e => setUnits(prev => ({ ...prev, [key]: e.target.value }))}
                   style={{
-                    padding: '10px 8px', borderRadius: 10, border: '1px solid #c8d4e8',
-                    fontSize: 13, fontFamily: 'Arial, sans-serif', background: 'white',
+                    padding: '10px 8px', borderRadius: 10, border: '1px solid var(--ds-border)',
+                    fontSize: 13, fontFamily: 'Arial, sans-serif', background: 'var(--ds-surface)',
                     color: units[key] ? '#003366' : '#96aed2', outline: 'none',
                     minWidth: 80, flexShrink: 0,
                   }}
@@ -348,8 +348,8 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
 
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '10px 12px', borderRadius: 10,
-    border: '1px solid #c8d4e8', fontSize: 14, fontFamily: 'Arial, sans-serif',
-    backgroundColor: 'white', color: '#000', outline: 'none', boxSizing: 'border-box',
+    border: '1px solid var(--ds-border)', fontSize: 14, fontFamily: 'Arial, sans-serif',
+    backgroundColor: 'white', color: 'var(--ds-text)', outline: 'none', boxSizing: 'border-box',
   }
   const labelStyle: React.CSSProperties = {
     display: 'block', fontSize: 12, fontWeight: 700, color: '#003366',
@@ -367,14 +367,14 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
       return (
         <div style={{ textAlign: 'center', padding: '20px 0' }}>
           <div style={{ marginBottom: 12 }}><CheckCircle2 size={48} style={{ color: '#003366' }} /></div>
-          <h2 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: '0 0 8px', fontFamily: 'Arial, sans-serif' }}>
+          <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--ds-text)', margin: '0 0 8px', fontFamily: 'Arial, sans-serif' }}>
             {t('assets.form.saved')}
           </h2>
           <p style={{ color: '#666', fontSize: 14, marginBottom: 24, fontFamily: 'Arial, sans-serif' }}>
             {t('assets.form.savedDesc', { title })}
           </p>
           {qrDataUrl && (
-            <div style={{ display: 'inline-block', padding: 16, background: 'white', borderRadius: 16, border: '1px solid #c8d4e8', marginBottom: 24 }}>
+            <div style={{ display: 'inline-block', padding: 16, background: 'var(--ds-surface)', borderRadius: 16, border: '1px solid var(--ds-border)', marginBottom: 24 }}>
               <img src={qrDataUrl} alt="QR Code" style={{ width: 180, height: 180 }} />
               <p style={{ fontSize: 11, color: '#96aed2', margin: '8px 0 0', fontFamily: 'Arial, sans-serif' }}>
                 inoid.app/assets/{savedAssetId.slice(0, 8)}…
@@ -385,7 +385,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
             <button onClick={() => router.push(`/assets/${savedAssetId}`)} style={{ backgroundColor: '#003366', color: 'white', padding: '12px 24px', borderRadius: 50, border: 'none', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
               {t('assets.form.openAsset')}
             </button>
-            <button onClick={() => router.push('/assets')} style={{ backgroundColor: 'white', color: '#003366', padding: '12px 24px', borderRadius: 50, border: '1px solid #c8d4e8', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
+            <button onClick={() => router.push('/assets')} style={{ backgroundColor: 'white', color: '#003366', padding: '12px 24px', borderRadius: 50, border: '1px solid var(--ds-border)', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif' }}>
               {t('assets.form.toOverview')}
             </button>
           </div>
@@ -548,7 +548,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 10 }}>
                 {docs.map((doc, i) => (
                   <div key={i} style={{
-                    background: 'white', borderRadius: 10, border: '1px solid #c8d4e8',
+                    background: 'var(--ds-surface)', borderRadius: 10, border: '1px solid var(--ds-border)',
                     padding: '10px 12px', display: 'flex', alignItems: 'center', gap: 10,
                   }}>
                     <FileText size={18} color="#003366" style={{ flexShrink: 0 }} />
@@ -559,7 +559,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
                         placeholder="Dokumentname"
                         style={{
                           width: '100%', padding: '6px 10px', borderRadius: 8,
-                          border: '1px solid #e8eef6', fontSize: 13,
+                          border: '1px solid var(--ds-border)', fontSize: 13,
                           fontFamily: 'Arial, sans-serif', outline: 'none', boxSizing: 'border-box',
                         }}
                       />
@@ -633,7 +633,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
           </svg>
         </button>
         <div>
-          <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>{t('assets.form.newAsset')}</h1>
+          <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--ds-text)', margin: 0 }}>{t('assets.form.newAsset')}</h1>
           {step < 5 && (
             <p style={{ fontSize: 12, color: '#96aed2', margin: 0 }}>
               {t('assets.form.stepOf', { step: step + 1, total: STEPS.length, name: STEPS[step] })}
@@ -676,7 +676,7 @@ export function AssetForm({ locations = [], halls = [], areas = [], categories =
         <div style={{ padding: '0 20px 32px', display: 'flex', gap: 10 }}>
           {step > 0 && (
             <button type="button" onClick={() => setStep(s => s - 1)} style={{
-              flex: 1, padding: '13px', borderRadius: 50, border: '1px solid #c8d4e8', background: 'white',
+              flex: 1, padding: '13px', borderRadius: 50, border: '1px solid var(--ds-border)', background: 'var(--ds-surface)',
               color: '#003366', fontSize: 14, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif',
             }}>{t('assets.form.back')}</button>
           )}
@@ -710,7 +710,7 @@ function UuidCopyStep({ assetId }: { assetId: string }) {
   }
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-      <div style={{ background: '#f0f4ff', borderRadius: 14, padding: 20, border: '1px solid #c8d4e8' }}>
+      <div style={{ background: '#f0f4ff', borderRadius: 14, padding: 20, border: '1px solid var(--ds-border)' }}>
         <p style={{ fontWeight: 700, fontSize: 14, color: '#003366', margin: '0 0 6px', fontFamily: 'Arial, sans-serif', display: 'flex', alignItems: 'center', gap: 6 }}>
           <Smartphone size={14} /> {t('assets.form.uuidTitle')}
         </p>
@@ -718,11 +718,11 @@ function UuidCopyStep({ assetId }: { assetId: string }) {
           {t('assets.form.uuidDesc')}
         </p>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <p style={{ flex: 1, fontSize: 12, color: '#003366', fontFamily: 'monospace', wordBreak: 'break-all', background: 'white', borderRadius: 8, padding: '10px 12px', border: '1px solid #c8d4e8', margin: 0 }}>
+          <p style={{ flex: 1, fontSize: 12, color: '#003366', fontFamily: 'monospace', wordBreak: 'break-all', background: 'var(--ds-surface)', borderRadius: 8, padding: '10px 12px', border: '1px solid var(--ds-border)', margin: 0 }}>
             {assetId}
           </p>
           <button type="button" onClick={copy} style={{
-            flexShrink: 0, padding: '10px 14px', borderRadius: 10, border: '1px solid #c8d4e8',
+            flexShrink: 0, padding: '10px 14px', borderRadius: 10, border: '1px solid var(--ds-border)',
             background: copied ? '#e8f5e9' : 'white', color: copied ? '#2e7d32' : '#003366',
             fontSize: 12, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap',
           }}>
@@ -730,8 +730,8 @@ function UuidCopyStep({ assetId }: { assetId: string }) {
           </button>
         </div>
       </div>
-      <div style={{ background: 'white', borderRadius: 14, padding: 16, border: '1px solid #c8d4e8' }}>
-        <p style={{ fontWeight: 700, fontSize: 13, color: '#000', margin: '0 0 8px', fontFamily: 'Arial, sans-serif', display: 'flex', alignItems: 'center', gap: 6 }}>
+      <div style={{ background: 'var(--ds-surface)', borderRadius: 14, padding: 16, border: '1px solid var(--ds-border)' }}>
+        <p style={{ fontWeight: 700, fontSize: 13, color: 'var(--ds-text)', margin: '0 0 8px', fontFamily: 'Arial, sans-serif', display: 'flex', alignItems: 'center', gap: 6 }}>
           <Tag size={13} /> {t('assets.form.nfcTitle')}
         </p>
         <p style={{ fontSize: 12, color: '#666', margin: 0, fontFamily: 'Arial, sans-serif', lineHeight: 1.5 }}>

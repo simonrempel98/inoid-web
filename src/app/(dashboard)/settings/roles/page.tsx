@@ -33,7 +33,7 @@ export default async function RolesPage() {
 
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', padding: '24px 16px', maxWidth: 560 }}>
-      <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 4px' }}>
+      <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--ds-text)', margin: '0 0 4px' }}>
         {t('nav.roles')}
       </h1>
       <p style={{ fontSize: 13, color: '#666', margin: '0 0 24px' }}>

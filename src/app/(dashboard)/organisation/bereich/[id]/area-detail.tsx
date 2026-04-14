@@ -159,12 +159,12 @@ export function AreaDetail({ area, assets, customStatuses }: {
       <div style={{ padding: '16px 16px 0' }}>
         {editing ? (
           <input value={form.name} onChange={set('name')} style={{
-            fontSize: 22, fontWeight: 700, color: '#000', border: 'none',
+            fontSize: 22, fontWeight: 700, color: 'var(--ds-text)', border: 'none',
             borderBottom: '2px solid #8B5CF6', outline: 'none', width: '100%',
             background: 'transparent', marginBottom: 8, fontFamily: 'Arial, sans-serif',
           }} />
         ) : (
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 4px' }}>{area.name}</h1>
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--ds-text)', margin: '0 0 4px' }}>{area.name}</h1>
         )}
         {!editing && (locationName || hallName) && (
           <p style={{ color: '#888', fontSize: 12, margin: '0 0 8px' }}>
@@ -193,7 +193,7 @@ export function AreaDetail({ area, assets, customStatuses }: {
       {/* Edit-Formular */}
       {editing && (
         <div style={{ padding: '0 16px 16px' }}>
-          <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden', marginBottom: 12 }}>
+          <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', overflow: 'hidden', marginBottom: 12 }}>
             <div style={{ padding: '12px 14px' }}>
               <label style={{ display: 'block', fontSize: 11, color: '#666', marginBottom: 3 }}>{t('processType')}</label>
               <select value={form.process_type} onChange={set('process_type')} style={{ width: '100%', border: 'none', outline: 'none', fontSize: 14, fontFamily: 'Arial, sans-serif', background: 'transparent' }}>
@@ -237,10 +237,10 @@ export function AreaDetail({ area, assets, customStatuses }: {
       {/* Notizen */}
       {!editing && area.notes && (
         <div style={{ padding: '0 16px 16px' }}>
-          <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: 6 }}>
+          <h2 style={{ fontSize: 15, fontWeight: 700, color: 'var(--ds-text)', margin: '0 0 8px', display: 'flex', alignItems: 'center', gap: 6 }}>
             <ShieldAlert size={14} /> {t('hinweise')}
           </h2>
-          <div style={{ background: 'white', borderRadius: 12, padding: '14px', border: '1px solid #c8d4e8' }}>
+          <div style={{ background: 'var(--ds-surface)', borderRadius: 12, padding: '14px', border: '1px solid var(--ds-border)' }}>
             <p style={{ fontSize: 14, color: '#444', margin: 0, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>{area.notes}</p>
           </div>
         </div>
@@ -249,12 +249,12 @@ export function AreaDetail({ area, assets, customStatuses }: {
       {/* Assets in diesem Bereich */}
       {!editing && (
         <div style={{ padding: '0 16px 16px' }}>
-          <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 6 }}>
+          <h2 style={{ fontSize: 15, fontWeight: 700, color: 'var(--ds-text)', margin: '0 0 10px', display: 'flex', alignItems: 'center', gap: 6 }}>
             <Package size={14} /> Assets
             <span style={{ fontSize: 12, fontWeight: 400, color: '#96aed2', marginLeft: 4 }}>{assets.length}</span>
           </h2>
           {assets.length === 0 ? (
-            <div style={{ background: 'white', borderRadius: 12, padding: '20px 16px', border: '1px solid #e8eef6', textAlign: 'center' }}>
+            <div style={{ background: 'var(--ds-surface)', borderRadius: 12, padding: '20px 16px', border: '1px solid var(--ds-border)', textAlign: 'center' }}>
               <p style={{ color: '#aaa', fontSize: 13, margin: 0 }}>{t('noAssets')}</p>
             </div>
           ) : (
@@ -265,11 +265,11 @@ export function AreaDetail({ area, assets, customStatuses }: {
                   <Link key={a.id} href={`/assets/${a.id}`} style={{ textDecoration: 'none' }}>
                     <div style={{
                       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                      background: 'white', borderRadius: 10, padding: '10px 14px',
-                      border: '1px solid #e8eef6', marginBottom: 6,
+                      background: 'var(--ds-surface)', borderRadius: 10, padding: '10px 14px',
+                      border: '1px solid var(--ds-border)', marginBottom: 6,
                     }}>
                       <div style={{ flex: 1, minWidth: 0 }}>
-                        <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: '#000',
+                        <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--ds-text)',
                           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                           {a.title}
                         </p>
@@ -293,7 +293,7 @@ export function AreaDetail({ area, assets, customStatuses }: {
       {/* Dokumente */}
       <div style={{ padding: '0 16px 16px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-          <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
+          <h2 style={{ fontSize: 15, fontWeight: 700, color: 'var(--ds-text)', margin: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
             <FileText size={14} /> {t('docs')}
           </h2>
           <label style={{ display: 'flex', alignItems: 'center', gap: 5, cursor: 'pointer', fontSize: 13, color: '#0099cc', fontWeight: 600 }}>
@@ -306,7 +306,7 @@ export function AreaDetail({ area, assets, customStatuses }: {
           <div style={{ marginBottom: 10 }}>
             <p style={{ color: '#aaa', fontSize: 12, margin: '0 0 6px' }}>{t('typicalDocs')}</p>
             {['Risikobeurteilung', 'Betriebsanweisung', 'Prüfprotokoll', 'Hallenlayout / Maschinenaufstellung', 'Gefährdungsbeurteilung', 'Wartungsplan'].map(d => (
-              <span key={d} style={{ display: 'inline-block', fontSize: 11, padding: '3px 9px', borderRadius: 20, background: '#f4f6f9', color: '#888', border: '1px solid #c8d4e8', margin: '0 4px 4px 0' }}>
+              <span key={d} style={{ display: 'inline-block', fontSize: 11, padding: '3px 9px', borderRadius: 20, background: '#f4f6f9', color: '#888', border: '1px solid var(--ds-border)', margin: '0 4px 4px 0' }}>
                 {d}
               </span>
             ))}
@@ -316,7 +316,7 @@ export function AreaDetail({ area, assets, customStatuses }: {
         {(area.document_urls ?? []).length > 0 && (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
             {area.document_urls.map(url => (
-              <div key={url} style={{ background: 'white', borderRadius: 10, padding: '10px 14px', border: '1px solid #c8d4e8', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div key={url} style={{ background: 'var(--ds-surface)', borderRadius: 10, padding: '10px 14px', border: '1px solid var(--ds-border)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <a href={url} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', color: '#003366', fontSize: 13, flex: 1, minWidth: 0 }}>
                   <FileText size={14} />
                   <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{docName(url)}</span>
@@ -337,7 +337,7 @@ export function AreaDetail({ area, assets, customStatuses }: {
             {uploadError}
           </p>
         )}
-        <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, border: '2px dashed #c8d4e8', borderRadius: 12, padding: '14px', cursor: 'pointer', fontSize: 13, color: '#96aed2', background: 'white' }}>
+        <label style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, border: '2px dashed #c8d4e8', borderRadius: 12, padding: '14px', cursor: 'pointer', fontSize: 13, color: '#96aed2', background: 'var(--ds-surface)' }}>
           <Upload size={15} /> {uploading ? t('uploadingImage') : t('addImage')}
           <input type="file" accept="image/*" style={{ display: 'none' }} onChange={uploadImage} />
         </label>
@@ -347,7 +347,7 @@ export function AreaDetail({ area, assets, customStatuses }: {
       <div style={{ padding: '0 16px', display: 'flex', gap: 10 }}>
         {editing ? (
           <>
-            <button onClick={() => { setEditing(false); resetForm() }} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, background: 'white', color: '#003366', padding: '13px', borderRadius: 50, border: '2px solid #003366', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
+            <button onClick={() => { setEditing(false); resetForm() }} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, background: 'var(--ds-surface)', color: '#003366', padding: '13px', borderRadius: 50, border: '2px solid #003366', fontSize: 14, fontWeight: 700, cursor: 'pointer' }}>
               <X size={15} /> {tc('cancel')}
             </button>
             <button onClick={save} disabled={saving} style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, background: '#003366', color: 'white', padding: '13px', borderRadius: 50, border: 'none', fontSize: 14, fontWeight: 700, cursor: 'pointer', opacity: saving ? 0.6 : 1 }}>
@@ -366,9 +366,9 @@ export function AreaDetail({ area, assets, customStatuses }: {
 
 function InfoCard({ icon, label, value }: { icon: React.ReactNode; label: string; value: string }) {
   return (
-    <div style={{ background: 'white', borderRadius: 12, padding: '12px 14px', border: '1px solid #c8d4e8' }}>
+    <div style={{ background: 'var(--ds-surface)', borderRadius: 12, padding: '12px 14px', border: '1px solid var(--ds-border)' }}>
       <p style={{ fontSize: 11, color: '#96aed2', margin: '0 0 3px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: 4 }}>{icon} {label}</p>
-      <p style={{ fontSize: 13, color: '#000', margin: 0, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</p>
+      <p style={{ fontSize: 13, color: 'var(--ds-text)', margin: 0, fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{value}</p>
     </div>
   )
 }

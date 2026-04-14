@@ -39,7 +39,7 @@ export function NeuesRuestungClient({
 
   const input: React.CSSProperties = {
     width: '100%', padding: '10px 12px', borderRadius: 8,
-    border: '1px solid #c8d4e8', background: 'white', color: '#003366',
+    border: '1px solid var(--ds-border)', background: 'var(--ds-surface)', color: '#003366',
     fontSize: 14, fontFamily: 'Arial, sans-serif', outline: 'none',
     boxSizing: 'border-box',
   }
@@ -106,7 +106,7 @@ export function NeuesRuestungClient({
 
       <form onSubmit={handleSubmit}>
         {/* Maschine */}
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '20px', marginBottom: 16 }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', padding: '20px', marginBottom: 16 }}>
           <label style={labelStyle}>{t('machine')} *</label>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
             {machines.map(m => (
@@ -157,7 +157,7 @@ export function NeuesRuestungClient({
         </div>
 
         {/* Rüstvorgang-Details */}
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '20px', marginBottom: 16 }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', padding: '20px', marginBottom: 16 }}>
           <div style={{ marginBottom: 14 }}>
             <label style={labelStyle}>{t('setupNameLabel')} *</label>
             <input value={name} onChange={e => setName(e.target.value)}
@@ -197,7 +197,7 @@ export function NeuesRuestungClient({
           <button type="button" onClick={() => router.back()}
             style={{
               background: 'transparent', color: '#6b7280',
-              padding: '12px 20px', borderRadius: 50, border: '1px solid #c8d4e8',
+              padding: '12px 20px', borderRadius: 50, border: '1px solid var(--ds-border)',
               fontSize: 14, fontWeight: 600, cursor: 'pointer',
               fontFamily: 'Arial, sans-serif',
             }}>

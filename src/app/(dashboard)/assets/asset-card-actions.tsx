@@ -73,7 +73,7 @@ export function AssetCardActions(props: Props) {
 
   const btnStyle: React.CSSProperties = {
     width: 32, height: 32, borderRadius: 8,
-    border: '1px solid #c8d4e8', background: 'white',
+    border: '1px solid var(--ds-border)', background: 'var(--ds-surface)',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
     cursor: 'pointer', flexShrink: 0,
   }

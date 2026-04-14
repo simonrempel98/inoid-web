@@ -125,7 +125,7 @@ function CompleteModal({
       {/* Sheet */}
       <div style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 101,
-        background: 'white', borderRadius: '20px 20px 0 0',
+        background: 'var(--ds-surface)', borderRadius: '20px 20px 0 0',
         padding: '0 20px 40px',
         boxShadow: '0 -8px 40px rgba(0,51,102,0.18)',
       }}>
@@ -137,7 +137,7 @@ function CompleteModal({
         {/* Header */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 20, paddingTop: 8 }}>
           <div>
-            <p style={{ fontSize: 18, fontWeight: 700, color: '#000', margin: '0 0 3px' }}>{t('wartung.scheduleList.markDone')}</p>
+            <p style={{ fontSize: 18, fontWeight: 700, color: 'var(--ds-text)', margin: '0 0 3px' }}>{t('wartung.scheduleList.markDone')}</p>
             <p style={{ fontSize: 13, color: '#96aed2', margin: 0 }}>
               {schedule.assets?.title} · {schedule.name ?? schedule.title}
             </p>
@@ -175,7 +175,7 @@ function CompleteModal({
         {date && schedule.interval_days && (
           <div style={{
             background: '#f0f7ff', borderRadius: 12, padding: '10px 14px',
-            marginBottom: 20, border: '1px solid #c8d4e8',
+            marginBottom: 20, border: '1px solid var(--ds-border)',
           }}>
             <p style={{ fontSize: 11, fontWeight: 700, color: '#96aed2', margin: '0 0 2px' }}>{t('wartung.scheduleList.nextDate')}</p>
             <p style={{ fontSize: 14, fontWeight: 700, color: '#003366', margin: 0 }}>
@@ -251,8 +251,8 @@ export function WartungScheduleList({
   if (allItems.length === 0) {
     return (
       <div style={{
-        background: 'white', borderRadius: 14, padding: '32px 20px',
-        border: '1px solid #c8d4e8', textAlign: 'center', color: '#96aed2', fontSize: 13,
+        background: 'var(--ds-surface)', borderRadius: 14, padding: '32px 20px',
+        border: '1px solid var(--ds-border)', textAlign: 'center', color: '#96aed2', fontSize: 13,
       }}>
         {t('wartung.scheduleList.noEntries')}
       </div>
@@ -268,7 +268,7 @@ export function WartungScheduleList({
           const totalInYear = [...months.values()].flatMap(w => [...w.values()].flatMap(d => [...d.values()].flat())).length
 
           return (
-            <div key={year} style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
+            <div key={year} style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', overflow: 'hidden' }}>
 
               {/* Jahr-Header */}
               <button type="button" onClick={() => setOpenYears(prev => ({ ...prev, [year]: !prev[year] }))} style={{
@@ -280,7 +280,7 @@ export function WartungScheduleList({
                   style={{ flexShrink: 0, transition: 'transform 0.2s', transform: yearOpen ? 'rotate(90deg)' : 'none' }}>
                   <polyline points="9 18 15 12 9 6"/>
                 </svg>
-                <span style={{ fontWeight: 700, fontSize: 15, color: '#000', flex: 1 }}>{year}</span>
+                <span style={{ fontWeight: 700, fontSize: 15, color: 'var(--ds-text)', flex: 1 }}>{year}</span>
                 <span style={{ fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 10, background: '#f0f4ff', color: '#003366' }}>
                   {t('wartung.scheduleList.entries', { n: totalInYear })}
                 </span>
@@ -363,7 +363,7 @@ export function WartungScheduleList({
                             return (
                               <div key={dayStr}>
                                 {/* Tag-Label */}
-                                <div style={{ padding: '4px 16px 4px 58px', background: '#fafbfc' }}>
+                                <div style={{ padding: '4px 16px 4px 58px', background: 'var(--ds-surface2)' }}>
                                   <span style={{ fontSize: 10, fontWeight: 700, color: '#c8d4e8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                                     {dayLabel}
                                   </span>
@@ -395,7 +395,7 @@ export function WartungScheduleList({
                                         padding: '10px 12px 10px 58px',
                                         borderTop: '1px solid #f8f9fb',
                                         display: 'flex', alignItems: 'center', gap: 10,
-                                        background: 'white',
+                                        background: 'var(--ds-surface)',
                                       }}
                                     >
                                       <div style={{ width: 8, height: 8, borderRadius: '50%', background: dotColor, flexShrink: 0 }} />
@@ -403,7 +403,7 @@ export function WartungScheduleList({
                                         style={{ flex: 1, minWidth: 0, cursor: 'pointer' }}
                                         onClick={() => router.push(`/assets/${assetId}/service`)}
                                       >
-                                        <p style={{ fontSize: 12, fontWeight: 700, color: '#000', margin: '0 0 1px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                                        <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--ds-text)', margin: '0 0 1px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                           {assetTitle}
                                         </p>
                                         <p style={{ fontSize: 11, color: '#96aed2', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -422,7 +422,7 @@ export function WartungScheduleList({
                                           style={{
                                             display: 'flex', alignItems: 'center', gap: 5,
                                             padding: '6px 12px', borderRadius: 20, flexShrink: 0,
-                                            border: '1.5px solid #27AE60', background: 'white',
+                                            border: '1.5px solid #27AE60', background: 'var(--ds-surface)',
                                             color: '#27AE60', fontSize: 12, fontWeight: 700,
                                             cursor: 'pointer',
                                           }}
@@ -477,7 +477,7 @@ const labelStyle: React.CSSProperties = {
 
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '11px 12px', borderRadius: 10,
-  border: '1px solid #c8d4e8', fontSize: 14,
-  backgroundColor: 'white', color: '#000', outline: 'none',
+  border: '1px solid var(--ds-border)', fontSize: 14,
+  backgroundColor: 'white', color: 'var(--ds-text)', outline: 'none',
   boxSizing: 'border-box', fontFamily: 'Arial, sans-serif',
 }

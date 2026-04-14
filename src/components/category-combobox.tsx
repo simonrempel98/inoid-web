@@ -51,7 +51,7 @@ export function CategoryCombobox({ value, onChange, categories, inputStyle }: {
       {open && filtered.length > 0 && (
         <div style={{
           position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 100,
-          background: 'white', border: '1px solid #c8d4e8', borderRadius: 10,
+          background: 'var(--ds-surface)', border: '1px solid var(--ds-border)', borderRadius: 10,
           boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
           maxHeight: 200, overflowY: 'auto',
           marginTop: 4,
@@ -62,7 +62,7 @@ export function CategoryCombobox({ value, onChange, categories, inputStyle }: {
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                 padding: '9px 14px', cursor: 'pointer', fontSize: 14,
                 background: value === cat ? '#f0f4ff' : 'transparent',
-                color: '#000',
+                color: 'var(--ds-text)',
               }}
               onMouseEnter={e => (e.currentTarget.style.background = '#f8fafd')}
               onMouseLeave={e => (e.currentTarget.style.background = value === cat ? '#f0f4ff' : 'transparent')}

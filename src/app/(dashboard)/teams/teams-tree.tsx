@@ -28,7 +28,7 @@ export function TeamsTree({ teams }: { teams: Team[] }) {
   if (teams.length === 0) {
     return (
       <div style={{
-        background: 'white', borderRadius: 14, border: '2px dashed #c8d4e8',
+        background: 'var(--ds-surface)', borderRadius: 14, border: '2px dashed #c8d4e8',
         padding: '48px 24px', textAlign: 'center',
       }}>
         <Users size={32} color="#c8d4e8" style={{ marginBottom: 12 }} />
@@ -39,7 +39,7 @@ export function TeamsTree({ teams }: { teams: Team[] }) {
   }
 
   return (
-    <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
+    <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', overflow: 'hidden' }}>
       {teams.map((team, i) => {
         const label = orgLabel(team)
         return (
@@ -58,7 +58,7 @@ export function TeamsTree({ teams }: { teams: Team[] }) {
                   <Users size={16} color="#003366" />
                 </div>
                 <div>
-                  <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#000' }}>{team.name}</p>
+                  <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: 'var(--ds-text)' }}>{team.name}</p>
                   {label && (
                     <p style={{ margin: '2px 0 0', fontSize: 12, color: '#96aed2', display: 'flex', alignItems: 'center', gap: 4 }}>
                       <MapPin size={11} /> {label}

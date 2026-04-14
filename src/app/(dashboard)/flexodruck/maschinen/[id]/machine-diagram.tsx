@@ -43,7 +43,7 @@ function SlotPopover({
       <div style={{
         position: 'fixed', bottom: 24, left: '50%', transform: 'translateX(-50%)',
         width: 'min(360px, calc(100vw - 32px))',
-        background: 'white', borderRadius: 20, padding: '20px 20px 18px',
+        background: 'var(--ds-surface)', borderRadius: 20, padding: '20px 20px 18px',
         boxShadow: '0 8px 40px rgba(0,0,0,0.18)',
         zIndex: 100, fontFamily: 'Arial, sans-serif',
       }}>
@@ -205,7 +205,7 @@ export function MachineDiagram({
 
   return (
     <div style={{
-      background: 'white', borderRadius: 16, border: '1px solid #c8d4e8',
+      background: 'var(--ds-surface)', borderRadius: 16, border: '1px solid var(--ds-border)',
       padding: '20px 12px 20px', marginBottom: 20, fontFamily: 'Arial, sans-serif',
     }}>
       {/* Header mit Reorder-Button */}
@@ -214,7 +214,7 @@ export function MachineDiagram({
           {!reorderMode ? (
             <button onClick={() => setReorderMode(true)}
               style={{
-                background: 'none', border: '1px solid #c8d4e8', borderRadius: 20,
+                background: 'none', border: '1px solid var(--ds-border)', borderRadius: 20,
                 padding: '4px 12px', fontSize: 11, color: '#6b7280', cursor: 'pointer',
                 display: 'flex', alignItems: 'center', gap: 5,
               }}>
@@ -223,7 +223,7 @@ export function MachineDiagram({
           ) : (
             <div style={{ display: 'flex', gap: 8 }}>
               <button onClick={cancelReorder}
-                style={{ background: 'none', border: '1px solid #c8d4e8', borderRadius: 20, padding: '4px 12px', fontSize: 11, color: '#6b7280', cursor: 'pointer' }}>
+                style={{ background: 'none', border: '1px solid var(--ds-border)', borderRadius: 20, padding: '4px 12px', fontSize: 11, color: '#6b7280', cursor: 'pointer' }}>
                 Abbrechen
               </button>
               <button onClick={saveOrder} disabled={saving}

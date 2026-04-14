@@ -160,7 +160,7 @@ export function RolesManager({ members, currentUserId, isAdmin, isSuperadmin }: 
         {displayRoles.map(role => (
           <div key={role} style={{
             display: 'flex', alignItems: 'flex-start', gap: 12,
-            background: 'white', borderRadius: 12, padding: '12px 16px',
+            background: 'var(--ds-surface)', borderRadius: 12, padding: '12px 16px',
             border: `1px solid ${ROLE_BG[role]}`,
           }}>
             <div style={{
@@ -191,8 +191,8 @@ export function RolesManager({ members, currentUserId, isAdmin, isSuperadmin }: 
           {members.map(m => (
             <div key={m.id} style={{
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              gap: 12, background: 'white', borderRadius: 12,
-              padding: '12px 16px', border: '1px solid #c8d4e8',
+              gap: 12, background: 'var(--ds-surface)', borderRadius: 12,
+              padding: '12px 16px', border: '1px solid var(--ds-border)',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                 <div style={{
@@ -205,7 +205,7 @@ export function RolesManager({ members, currentUserId, isAdmin, isSuperadmin }: 
                   {initials(m)}
                 </div>
                 <div>
-                  <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: '#000' }}>
+                  <p style={{ margin: 0, fontSize: 13, fontWeight: 700, color: 'var(--ds-text)' }}>
                     {m.full_name ?? m.email}
                   </p>
                   {m.full_name && (

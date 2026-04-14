@@ -62,7 +62,7 @@ export function MachineEditClient({
 
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '10px 12px', borderRadius: 8,
-    border: '1px solid #c8d4e8', background: 'white', color: '#003366',
+    border: '1px solid var(--ds-border)', background: 'var(--ds-surface)', color: '#003366',
     fontSize: 14, fontFamily: 'Arial, sans-serif', outline: 'none', boxSizing: 'border-box',
   }
   const labelStyle: React.CSSProperties = {
@@ -186,14 +186,14 @@ export function MachineEditClient({
       </h1>
 
       {/* ── Profilbild ─────────────────────────────────────────────── */}
-      <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: 20, marginBottom: 16 }}>
+      <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', padding: 20, marginBottom: 16 }}>
         <h2 style={{ fontSize: 13, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 14px' }}>
           Maschinenbild
         </h2>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <div style={{
             width: 80, height: 80, borderRadius: 14, overflow: 'hidden', flexShrink: 0,
-            background: '#f4f6f9', border: '1px solid #c8d4e8',
+            background: '#f4f6f9', border: '1px solid var(--ds-border)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
             {imageUrl ? (
@@ -240,7 +240,7 @@ export function MachineEditClient({
       </div>
 
       {/* ── Basisinformationen ──────────────────────────────────────── */}
-      <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: 20, marginBottom: 16 }}>
+      <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', padding: 20, marginBottom: 16 }}>
         <h2 style={{ fontSize: 13, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 14px' }}>
           Basisinformationen
         </h2>
@@ -281,8 +281,8 @@ export function MachineEditClient({
       </div>
 
       {/* ── Druckwerke ──────────────────────────────────────────────── */}
-      <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden', marginBottom: 16 }}>
-        <div style={{ padding: '14px 20px', borderBottom: '1px solid #c8d4e8' }}>
+      <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', overflow: 'hidden', marginBottom: 16 }}>
+        <div style={{ padding: '14px 20px', borderBottom: '1px solid var(--ds-border)' }}>
           <h2 style={{ fontSize: 13, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.06em', margin: 0 }}>
             Druckwerke ({druckwerke.length})
           </h2>
@@ -300,7 +300,7 @@ export function MachineEditClient({
       </div>
 
       {/* ── Gefahrenzone: Löschen ──────────────────────────────────── */}
-      <div style={{ background: 'white', borderRadius: 14, border: '1px solid #fca5a5', padding: 20 }}>
+      <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid #fca5a5', padding: 20 }}>
         <h2 style={{ fontSize: 13, fontWeight: 700, color: '#dc2626', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 8px' }}>
           Gefahrenzone
         </h2>
@@ -310,7 +310,7 @@ export function MachineEditClient({
         {!deleteConfirm ? (
           <button type="button" onClick={() => setDeleteConfirm(true)}
             style={{
-              background: 'white', color: '#dc2626', border: '1px solid #fca5a5',
+              background: 'var(--ds-surface)', color: '#dc2626', border: '1px solid #fca5a5',
               padding: '9px 20px', borderRadius: 50, fontSize: 13, fontWeight: 700, cursor: 'pointer',
             }}>
             Maschine löschen
@@ -331,7 +331,7 @@ export function MachineEditClient({
               </button>
               <button type="button" onClick={() => setDeleteConfirm(false)}
                 style={{
-                  background: 'white', color: '#6b7280', border: '1px solid #c8d4e8',
+                  background: 'var(--ds-surface)', color: '#6b7280', border: '1px solid var(--ds-border)',
                   padding: '9px 16px', borderRadius: 50, fontSize: 13, cursor: 'pointer',
                 }}>
                 Abbrechen
@@ -360,9 +360,9 @@ function DruckwerkRow({
   const hasFarbe = dw.slots.some(s => s.sort_order === 1)
 
   const inputStyle: React.CSSProperties = {
-    padding: '8px 10px', borderRadius: 8, border: '1px solid #c8d4e8',
+    padding: '8px 10px', borderRadius: 8, border: '1px solid var(--ds-border)',
     fontSize: 13, fontFamily: 'Arial, sans-serif', outline: 'none',
-    background: 'white', color: '#003366',
+    background: 'var(--ds-surface)', color: '#003366',
   }
 
   return (
@@ -409,7 +409,7 @@ function DruckwerkRow({
             title="Keine Farbe"
             style={{
               width: 20, height: 20, borderRadius: '50%', border: '1.5px dashed #c8d4e8',
-              background: 'white', cursor: 'pointer', fontSize: 10, color: '#9ca3af',
+              background: 'var(--ds-surface)', cursor: 'pointer', fontSize: 10, color: '#9ca3af',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}
           >×</button>

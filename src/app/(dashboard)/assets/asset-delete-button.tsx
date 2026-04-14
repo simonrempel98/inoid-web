@@ -27,7 +27,7 @@ export function AssetDeleteButton({ assetId }: { assetId: string }) {
         title={t('common.delete')}
         style={{
           width: 32, height: 32, borderRadius: 8, flexShrink: 0,
-          border: '1px solid #fecaca', background: 'white',
+          border: '1px solid #fecaca', background: 'var(--ds-surface)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer',
         }}>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -44,7 +44,7 @@ export function AssetDeleteButton({ assetId }: { assetId: string }) {
     <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}
       onClick={e => { e.preventDefault(); e.stopPropagation() }}>
       <button type="button" onClick={e => { e.stopPropagation(); setConfirm(false) }}
-        style={{ padding: '4px 10px', borderRadius: 8, border: '1px solid #c8d4e8', background: 'white', color: '#666', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
+        style={{ padding: '4px 10px', borderRadius: 8, border: '1px solid var(--ds-border)', background: 'var(--ds-surface)', color: '#666', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
         {t('common.no')}
       </button>
       <button type="button" onClick={handleDelete} disabled={loading}

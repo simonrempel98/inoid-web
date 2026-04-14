@@ -255,7 +255,7 @@ export function QrScanner() {
     return (
       <div style={{ padding: '40px 20px', textAlign: 'center', fontFamily: 'Arial, sans-serif' }}>
         <div style={{ fontSize: 40, marginBottom: 16 }}>📷</div>
-        <h2 style={{ fontSize: 18, fontWeight: 700, color: '#000', margin: '0 0 8px' }}>{t('scan.permDeniedTitle')}</h2>
+        <h2 style={{ fontSize: 18, fontWeight: 700, color: 'var(--ds-text)', margin: '0 0 8px' }}>{t('scan.permDeniedTitle')}</h2>
         <p style={{ fontSize: 14, color: '#666', margin: '0 0 20px' }}>
           {t('scan.permDeniedHint')}
         </p>
@@ -316,7 +316,7 @@ export function QrScanner() {
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
             <div style={{
-              background: 'white', borderRadius: 20, padding: '20px 32px',
+              background: 'var(--ds-surface)', borderRadius: 20, padding: '20px 32px',
               display: 'flex', alignItems: 'center', gap: 12,
             }}>
               <CheckCircle2 size={28} color="#27AE60" />

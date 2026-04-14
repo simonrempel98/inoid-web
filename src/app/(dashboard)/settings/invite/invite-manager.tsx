@@ -129,7 +129,7 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
     <div>
       {/* Input */}
       <div style={{
-        background: 'white', borderRadius: 14, border: '1px solid #c8d4e8',
+        background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)',
         padding: '14px 16px', marginBottom: 24,
       }}>
         <label style={{ display: 'block', fontSize: 11, color: '#666', marginBottom: 6, fontFamily: 'Arial, sans-serif' }}>
@@ -144,7 +144,7 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
             placeholder="name@firma.de"
             style={{
               flex: 1, outline: 'none', border: 'none', fontSize: 15,
-              fontFamily: 'Arial, sans-serif', background: 'transparent', color: '#000',
+              fontFamily: 'Arial, sans-serif', background: 'transparent', color: 'var(--ds-text)',
             }}
           />
           <button
@@ -173,13 +173,13 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
           }}>
             {t('pending')}
           </p>
-          <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
+          <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', overflow: 'hidden' }}>
             {pending.map((inv, i) => (
               <div key={inv.id}>
                 {i > 0 && <div style={{ height: 1, background: '#c8d4e8', margin: '0 16px' }} />}
                 <div style={{ padding: '12px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ margin: '0 0 2px', fontSize: 14, fontWeight: 600, color: '#000', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    <p style={{ margin: '0 0 2px', fontSize: 14, fontWeight: 600, color: 'var(--ds-text)', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                       {inv.email}
                     </p>
                     <p style={{ margin: 0, fontSize: 11, display: 'flex', alignItems: 'center', gap: 4, color: isExpired(inv) ? '#E74C3C' : '#0099cc' }}>
@@ -192,7 +192,7 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
                         onClick={() => copyLink(inv.invitation_token!)}
                         style={{
                           background: copied === inv.invitation_token ? '#f0fff4' : '#f5f8fc',
-                          border: '1px solid #c8d4e8', borderRadius: 7, padding: '6px 10px',
+                          border: '1px solid var(--ds-border)', borderRadius: 7, padding: '6px 10px',
                           cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5,
                           fontSize: 12, color: copied === inv.invitation_token ? '#27AE60' : '#003366',
                           fontFamily: 'Arial, sans-serif',
@@ -225,7 +225,7 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
           }}>
             {t('members')}
           </p>
-          <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
+          <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', overflow: 'hidden' }}>
             {accepted.map((inv, i) => (
               <div key={inv.id}>
                 {i > 0 && <div style={{ height: 1, background: '#c8d4e8', margin: '0 16px' }} />}
@@ -238,7 +238,7 @@ export function InviteManager({ organizationId, invitations }: { organizationId:
                     {inv.email[0].toUpperCase()}
                   </div>
                   <div>
-                    <p style={{ margin: '0 0 1px', fontSize: 14, color: '#000' }}>{inv.email}</p>
+                    <p style={{ margin: '0 0 1px', fontSize: 14, color: 'var(--ds-text)' }}>{inv.email}</p>
                     <p style={{ margin: 0, fontSize: 11, color: '#27AE60' }}>{t('active')}</p>
                   </div>
                 </div>

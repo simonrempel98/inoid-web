@@ -76,7 +76,7 @@ export function ProfileForm({ fullName, email, userId, avatarUrl: initialAvatarU
   const inputStyle: React.CSSProperties = {
     width: '100%', outline: 'none', border: 'none',
     fontSize: 15, fontFamily: 'Arial, sans-serif',
-    background: 'transparent', color: '#000',
+    background: 'transparent', color: 'var(--ds-text)',
   }
 
   const sectionLabelStyle: React.CSSProperties = {
@@ -87,7 +87,7 @@ export function ProfileForm({ fullName, email, userId, avatarUrl: initialAvatarU
 
   return (
     <div style={{ padding: '24px 16px', fontFamily: 'Arial, sans-serif', maxWidth: 480 }}>
-      <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 24px' }}>{t('title')}</h1>
+      <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--ds-text)', margin: '0 0 24px' }}>{t('title')}</h1>
 
       {/* ── Avatar ── */}
       <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'center' }}>
@@ -155,8 +155,8 @@ export function ProfileForm({ fullName, email, userId, avatarUrl: initialAvatarU
         <p style={sectionLabelStyle}>
           <User size={11} /> {t('title')}
         </p>
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
-          <div style={{ padding: '13px 16px', borderBottom: '1px solid #e8eef6' }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', overflow: 'hidden' }}>
+          <div style={{ padding: '13px 16px', borderBottom: '1px solid var(--ds-border)' }}>
             <label style={{ display: 'block', fontSize: 11, color: '#96aed2', marginBottom: 4, fontWeight: 700 }}>
               {t('email').toUpperCase()}
             </label>
@@ -195,7 +195,7 @@ export function ProfileForm({ fullName, email, userId, avatarUrl: initialAvatarU
         <p style={sectionLabelStyle}>
           <Globe size={11} /> {t('language')}
         </p>
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '14px 16px' }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', padding: '14px 16px' }}>
           <p style={{ fontSize: 12, color: '#96aed2', margin: '0 0 10px' }}>{t('languageSubtitle')}</p>
           <LanguageSelector />
         </div>
@@ -206,8 +206,8 @@ export function ProfileForm({ fullName, email, userId, avatarUrl: initialAvatarU
         <p style={sectionLabelStyle}>
           <KeyRound size={11} /> {t('changePassword')}
         </p>
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
-          <div style={{ padding: '13px 16px', borderBottom: '1px solid #e8eef6' }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', overflow: 'hidden' }}>
+          <div style={{ padding: '13px 16px', borderBottom: '1px solid var(--ds-border)' }}>
             <label style={{ display: 'block', fontSize: 11, color: '#96aed2', marginBottom: 4, fontWeight: 700 }}>
               {t('newPassword').toUpperCase()}
             </label>

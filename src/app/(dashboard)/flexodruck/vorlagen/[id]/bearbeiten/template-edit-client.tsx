@@ -30,7 +30,7 @@ export function TemplateEditClient({
 
   const input: React.CSSProperties = {
     width: '100%', padding: '10px 12px', borderRadius: 8,
-    border: '1px solid #c8d4e8', background: 'white', color: '#003366',
+    border: '1px solid var(--ds-border)', background: 'var(--ds-surface)', color: '#003366',
     fontSize: 14, fontFamily: 'Arial, sans-serif', outline: 'none',
     boxSizing: 'border-box',
   }
@@ -87,7 +87,7 @@ export function TemplateEditClient({
       </div>
 
       <form onSubmit={handleSave}>
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: 20, marginBottom: 16 }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', padding: 20, marginBottom: 16 }}>
 
           <div style={{ marginBottom: 14 }}>
             <label style={labelStyle}>Name *</label>
@@ -122,7 +122,7 @@ export function TemplateEditClient({
             >
               <div style={{
                 position: 'absolute', top: 3, width: 18, height: 18, borderRadius: '50%',
-                background: 'white', boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
+                background: 'var(--ds-surface)', boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
                 left: isActive ? 23 : 3, transition: 'left 0.2s',
               }} />
             </button>
@@ -143,7 +143,7 @@ export function TemplateEditClient({
           <Link href={`/flexodruck/vorlagen/${templateId}`}
             style={{
               background: 'transparent', color: '#6b7280',
-              padding: '12px 20px', borderRadius: 50, border: '1px solid #c8d4e8',
+              padding: '12px 20px', borderRadius: 50, border: '1px solid var(--ds-border)',
               fontSize: 14, fontWeight: 600, textDecoration: 'none',
             }}>
             Abbrechen
@@ -152,7 +152,7 @@ export function TemplateEditClient({
       </form>
 
       {/* Gefahrenzone */}
-      <div style={{ background: 'white', borderRadius: 14, border: '1px solid #fca5a5', padding: 20 }}>
+      <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid #fca5a5', padding: 20 }}>
         <p style={{ margin: '0 0 4px', fontSize: 11, fontWeight: 700, color: '#ef4444', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
           Gefahrenzone
         </p>
@@ -162,7 +162,7 @@ export function TemplateEditClient({
         {!deleteConfirm ? (
           <button type="button" onClick={() => setDeleteConfirm(true)}
             style={{
-              background: 'white', color: '#ef4444', border: '1px solid #fca5a5',
+              background: 'var(--ds-surface)', color: '#ef4444', border: '1px solid #fca5a5',
               padding: '10px 20px', borderRadius: 50, fontSize: 13, fontWeight: 700, cursor: 'pointer',
             }}>
             Vorlage löschen
@@ -179,7 +179,7 @@ export function TemplateEditClient({
             </button>
             <button type="button" onClick={() => setDeleteConfirm(false)}
               style={{
-                background: 'transparent', color: '#6b7280', border: '1px solid #c8d4e8',
+                background: 'transparent', color: '#6b7280', border: '1px solid var(--ds-border)',
                 padding: '10px 16px', borderRadius: 50, fontSize: 13, cursor: 'pointer',
               }}>
               Abbrechen

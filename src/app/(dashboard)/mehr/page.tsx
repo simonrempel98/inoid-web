@@ -15,8 +15,8 @@ const chevron = (
 function MenuCard({ items }: { items: { href: string; label: string; icon: React.ReactNode }[] }) {
   return (
     <div style={{
-      background: 'white', borderRadius: 14,
-      border: '1px solid #c8d4e8',
+      background: 'var(--ds-surface)', borderRadius: 14,
+      border: '1px solid var(--ds-border)',
       overflow: 'hidden',
     }}>
       {items.map((item, i) => (
@@ -24,7 +24,7 @@ function MenuCard({ items }: { items: { href: string; label: string; icon: React
           {i > 0 && <div style={{ height: 1, background: '#c8d4e8', margin: '0 16px' }} />}
           <Link href={item.href} style={{
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            padding: '14px 16px', textDecoration: 'none', color: '#000000',
+            padding: '14px 16px', textDecoration: 'none', color: 'var(--ds-text)',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               <span style={{ display: 'flex', alignItems: 'center' }}>{item.icon}</span>
@@ -161,8 +161,8 @@ export default async function MehrPage() {
 
       {/* Abmelden */}
       <div style={{
-        background: 'white', borderRadius: 14,
-        border: '1px solid #c8d4e8', padding: '14px 16px',
+        background: 'var(--ds-surface)', borderRadius: 14,
+        border: '1px solid var(--ds-border)', padding: '14px 16px',
         display: 'flex', alignItems: 'center', gap: 12,
       }}>
         <LogOut size={18} />

@@ -120,7 +120,7 @@ export function TemplateDetailClient({
               style={{
                 background: '#f4f6f9', color: '#003366',
                 padding: '10px 18px', borderRadius: 50,
-                border: '1px solid #c8d4e8',
+                border: '1px solid var(--ds-border)',
                 fontSize: 13, fontWeight: 700,
                 fontFamily: 'Arial, sans-serif', textDecoration: 'none',
               }}>
@@ -149,8 +149,8 @@ export function TemplateDetailClient({
             <div onClick={closePicker} style={{ position: 'fixed', inset: 0, zIndex: 999 }} />
             <div style={{
               position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-              zIndex: 1000, background: 'white', borderRadius: 16,
-              border: '1px solid #c8d4e8', boxShadow: '0 12px 40px rgba(0,40,100,0.18)',
+              zIndex: 1000, background: 'var(--ds-surface)', borderRadius: 16,
+              border: '1px solid var(--ds-border)', boxShadow: '0 12px 40px rgba(0,40,100,0.18)',
               width: 'min(340px, calc(100vw - 32px))', padding: 16,
               fontFamily: 'Arial, sans-serif',
             }}>
@@ -194,7 +194,7 @@ export function TemplateDetailClient({
                 onChange={e => setPickerSearch(e.target.value)}
                 style={{
                   width: '100%', padding: '8px 10px', borderRadius: 8,
-                  border: '1px solid #c8d4e8', fontSize: 13,
+                  border: '1px solid var(--ds-border)', fontSize: 13,
                   outline: 'none', boxSizing: 'border-box', marginBottom: 8,
                 }}
               />
@@ -245,13 +245,13 @@ export function TemplateDetailClient({
 
       {/* Assignment Matrix */}
       {slots.length === 0 ? (
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '32px', textAlign: 'center' }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', padding: '32px', textAlign: 'center' }}>
           <p style={{ color: '#6b7280', fontSize: 14, margin: 0, fontFamily: 'Arial, sans-serif' }}>
             {t('noSlotsYet')}
           </p>
         </div>
       ) : (
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'auto' }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', overflow: 'auto' }}>
           <p style={{ margin: 0, padding: '12px 16px', fontSize: 12, color: '#6b7280', fontFamily: 'Arial, sans-serif', borderBottom: '1px solid #e8edf4', background: '#f4f6f9' }}>
             {canEdit ? t('matrixHintEdit') : t('matrixHintView')}
           </p>

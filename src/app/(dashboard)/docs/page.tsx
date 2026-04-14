@@ -144,7 +144,7 @@ export default function DocsPage() {
         <button type="button" onClick={() => router.back()} style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           width: 34, height: 34,
-          background: '#f0f4f8', border: 'none', borderRadius: '50%',
+          background: 'var(--ds-surface2)', border: 'none', borderRadius: '50%',
           cursor: 'pointer', flexShrink: 0,
         }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#003366" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

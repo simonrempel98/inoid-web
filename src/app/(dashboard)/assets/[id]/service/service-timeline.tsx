@@ -66,11 +66,11 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
   if (events.length === 0) {
     return (
       <div style={{
-        background: 'white', borderRadius: 16, padding: 40,
-        border: '1px solid #c8d4e8', textAlign: 'center',
+        background: 'var(--ds-surface)', borderRadius: 16, padding: 40,
+        border: '1px solid var(--ds-border)', textAlign: 'center',
       }}>
         <div style={{ marginBottom: 12 }}><Wrench size={32} style={{ color: '#96aed2' }} /></div>
-        <p style={{ fontWeight: 700, color: '#000', fontSize: 15, margin: '0 0 8px' }}>{t('service.timeline.noEntries')}</p>
+        <p style={{ fontWeight: 700, color: 'var(--ds-text)', fontSize: 15, margin: '0 0 8px' }}>{t('service.timeline.noEntries')}</p>
         <p style={{ color: '#666', fontSize: 13, margin: 0 }}>{t('service.timeline.noEntriesDesc')}</p>
       </div>
     )
@@ -88,8 +88,8 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
 
         return (
           <div key={monthKey} style={{
-            background: 'white', borderRadius: 14,
-            border: '1px solid #c8d4e8',
+            background: 'var(--ds-surface)', borderRadius: 14,
+            border: '1px solid var(--ds-border)',
             overflow: 'hidden',
           }}>
             {/* Monats-Header */}
@@ -113,7 +113,7 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
               </svg>
 
               {/* Monat + Jahr */}
-              <span style={{ fontWeight: 700, fontSize: 14, color: '#000', flex: 1 }}>
+              <span style={{ fontWeight: 700, fontSize: 14, color: 'var(--ds-text)', flex: 1 }}>
                 {monthLabel}
               </span>
 
@@ -172,7 +172,7 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
 
                         {/* Titel */}
                         <span style={{
-                          flex: 1, fontSize: 13, fontWeight: 600, color: '#000',
+                          flex: 1, fontSize: 13, fontWeight: 600, color: 'var(--ds-text)',
                           overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                         }}>{event.title}</span>
 
@@ -223,7 +223,7 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
                               style={{
                                 display: 'flex', alignItems: 'center', gap: 4,
                                 padding: '5px 10px', borderRadius: 8,
-                                border: '1px solid #c8d4e8', background: 'white',
+                                border: '1px solid var(--ds-border)', background: 'var(--ds-surface)',
                                 color: '#003366', fontSize: 11, fontWeight: 700,
                                 cursor: 'pointer',
                               }}
@@ -330,7 +330,7 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
                                 const url = p.split('|photo|')[0]
                                 return (
                                   <a key={pi} href={url} target="_blank" rel="noreferrer">
-                                    <img src={url} alt="" style={{ width: 56, height: 56, objectFit: 'cover', borderRadius: 8, border: '1px solid #c8d4e8' }} />
+                                    <img src={url} alt="" style={{ width: 56, height: 56, objectFit: 'cover', borderRadius: 8, border: '1px solid var(--ds-border)' }} />
                                   </a>
                                 )
                               })}
@@ -347,7 +347,7 @@ export function ServiceTimeline({ events, assetId }: { events: Event[]; assetId:
                                 return (
                                   <a key={di} href={url} target="_blank" rel="noreferrer" style={{
                                     display: 'flex', alignItems: 'center', gap: 8, padding: '7px 10px',
-                                    borderRadius: 8, border: '1px solid #c8d4e8', textDecoration: 'none',
+                                    borderRadius: 8, border: '1px solid var(--ds-border)', textDecoration: 'none',
                                     background: '#f4f6f9',
                                   }}>
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#003366" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

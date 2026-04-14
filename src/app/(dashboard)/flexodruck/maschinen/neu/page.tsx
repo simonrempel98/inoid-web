@@ -23,7 +23,7 @@ export default function NeueMaschinePage() {
 
   const input: React.CSSProperties = {
     width: '100%', padding: '10px 12px', borderRadius: 8,
-    border: '1px solid #c8d4e8', background: 'white', color: '#003366',
+    border: '1px solid var(--ds-border)', background: 'var(--ds-surface)', color: '#003366',
     fontSize: 14, fontFamily: 'Arial, sans-serif', outline: 'none',
     boxSizing: 'border-box',
   }
@@ -66,7 +66,7 @@ export default function NeueMaschinePage() {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '20px', marginBottom: 16 }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', padding: '20px', marginBottom: 16 }}>
 
           <div style={{ marginBottom: 14 }}>
             <label style={label}>{t('machine')} *</label>
@@ -126,7 +126,7 @@ export default function NeueMaschinePage() {
         </div>
 
         {/* Druckwerke benennen */}
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: 20, marginBottom: 16 }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', padding: 20, marginBottom: 16 }}>
           <p style={{ margin: '0 0 4px', fontSize: 11, fontWeight: 700, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'Arial, sans-serif' }}>
             Druckwerke benennen
           </p>
@@ -145,9 +145,9 @@ export default function NeueMaschinePage() {
                   placeholder={`DW ${i + 1}`}
                   style={{
                     width: '100%', padding: '8px 10px', borderRadius: 8,
-                    border: '1px solid #c8d4e8', fontSize: 13,
+                    border: '1px solid var(--ds-border)', fontSize: 13,
                     fontFamily: 'Arial, sans-serif', outline: 'none',
-                    background: 'white', color: '#003366', boxSizing: 'border-box',
+                    background: 'var(--ds-surface)', color: '#003366', boxSizing: 'border-box',
                   }}
                 />
               </div>
@@ -173,7 +173,7 @@ export default function NeueMaschinePage() {
             type="button" onClick={() => router.back()}
             style={{
               background: 'transparent', color: '#6b7280',
-              padding: '12px 20px', borderRadius: 50, border: '1px solid #c8d4e8',
+              padding: '12px 20px', borderRadius: 50, border: '1px solid var(--ds-border)',
               fontSize: 14, fontWeight: 600, cursor: 'pointer',
               fontFamily: 'Arial, sans-serif',
             }}

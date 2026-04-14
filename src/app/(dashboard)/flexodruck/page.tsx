@@ -77,7 +77,7 @@ export default async function FlexodruckPage() {
             <Link href="/flexodruck/maschinen/neu" style={{
               background: '#f4f6f9', color: '#003366',
               padding: '10px 20px', borderRadius: 50,
-              border: '1px solid #c8d4e8',
+              border: '1px solid var(--ds-border)',
               fontSize: 13, fontWeight: 700,
               fontFamily: 'Arial, sans-serif', textDecoration: 'none',
             }}>
@@ -94,7 +94,7 @@ export default async function FlexodruckPage() {
 
       {(!machines || machines.length === 0) ? (
         <div style={{
-          background: 'white', borderRadius: 14, border: '1px solid #c8d4e8',
+          background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)',
           padding: '40px', textAlign: 'center', marginBottom: 28,
         }}>
           <p style={{ color: '#6b7280', fontSize: 14, margin: '0 0 12px', fontFamily: 'Arial, sans-serif' }}>
@@ -115,7 +115,7 @@ export default async function FlexodruckPage() {
           {machines.map(m => (
             <Link key={m.id} href={`/flexodruck/maschinen/${m.id}`} style={{ textDecoration: 'none' }}>
               <div style={{
-                background: 'white', borderRadius: 14, border: '1px solid #c8d4e8',
+                background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)',
                 padding: '18px 20px', cursor: 'pointer',
               }}>
                 {/* Maschinen-Bild oder Icon */}
@@ -174,7 +174,7 @@ export default async function FlexodruckPage() {
 
       {(!recentSetups || recentSetups.length === 0) ? (
         <div style={{
-          background: 'white', borderRadius: 14, border: '1px solid #c8d4e8',
+          background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)',
           padding: '28px', textAlign: 'center',
         }}>
           <p style={{ color: '#6b7280', fontSize: 14, margin: 0, fontFamily: 'Arial, sans-serif' }}>
@@ -182,7 +182,7 @@ export default async function FlexodruckPage() {
           </p>
         </div>
       ) : (
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', overflow: 'hidden' }}>
           {recentSetups.map((s, i) => (
             <Link key={s.id} href={`/flexodruck/ruestung/${s.id}`} style={{ textDecoration: 'none' }}>
               <div style={{

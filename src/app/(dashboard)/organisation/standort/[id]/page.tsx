@@ -101,22 +101,22 @@ export default async function StandortDetailPage({
             <MapPin size={20} color="#003366" />
           </div>
           <div>
-            <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: 0 }}>{location.name}</h1>
+            <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--ds-text)', margin: 0 }}>{location.name}</h1>
             {location.address && <p style={{ fontSize: 12, color: '#888', margin: 0 }}>{location.address}</p>}
           </div>
         </div>
 
         {/* Übersicht-Karten */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10, marginTop: 16 }} className="rg-3">
-          <div style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid #e8eef6' }}>
+          <div style={{ background: 'var(--ds-surface)', borderRadius: 12, padding: '14px 16px', border: '1px solid var(--ds-border)' }}>
             <p style={{ margin: 0, fontSize: 10, color: '#96aed2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{t('assetsLabel')}</p>
             <p style={{ margin: '4px 0 0', fontSize: 24, fontWeight: 700, color: '#003366' }}>{totalCount}</p>
           </div>
-          <div style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid #e8eef6' }}>
+          <div style={{ background: 'var(--ds-surface)', borderRadius: 12, padding: '14px 16px', border: '1px solid var(--ds-border)' }}>
             <p style={{ margin: 0, fontSize: 10, color: '#96aed2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{t('hallsLabel')}</p>
             <p style={{ margin: '4px 0 0', fontSize: 24, fontWeight: 700, color: '#003366' }}>{halls?.length ?? 0}</p>
           </div>
-          <div style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid #e8eef6' }}>
+          <div style={{ background: 'var(--ds-surface)', borderRadius: 12, padding: '14px 16px', border: '1px solid var(--ds-border)' }}>
             <p style={{ margin: 0, fontSize: 10, color: '#96aed2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{t('areasLabel')}</p>
             <p style={{ margin: '4px 0 0', fontSize: 24, fontWeight: 700, color: '#003366' }}>{areaIds.length}</p>
           </div>
@@ -137,15 +137,15 @@ export default async function StandortDetailPage({
                 <Link key={hall.id} href={`/organisation/halle/${hall.id}`} style={{ textDecoration: 'none' }}>
                   <div style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    background: 'white', borderRadius: 12, padding: '13px 16px',
-                    border: '1px solid #e8eef6',
+                    background: 'var(--ds-surface)', borderRadius: 12, padding: '13px 16px',
+                    border: '1px solid var(--ds-border)',
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                       <div style={{ width: 34, height: 34, borderRadius: 9, background: '#e6f6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                         <Building2 size={15} color="#0099cc" />
                       </div>
                       <div>
-                        <span style={{ fontSize: 15, fontWeight: 600, color: '#000' }}>{hall.name}</span>
+                        <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--ds-text)' }}>{hall.name}</span>
                         {hallAreaCount > 0 && (
                           <p style={{ margin: 0, fontSize: 11, color: '#96aed2' }}>{hallAreaCount} {t('areas')}</p>
                         )}
@@ -182,11 +182,11 @@ export default async function StandortDetailPage({
               <Link key={a.id} href={`/assets/${a.id}`} style={{ textDecoration: 'none' }}>
                 <div style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  background: 'white', borderRadius: 10, padding: '10px 14px',
-                  border: '1px solid #e8eef6', marginBottom: 6,
+                  background: 'var(--ds-surface)', borderRadius: 10, padding: '10px 14px',
+                  border: '1px solid var(--ds-border)', marginBottom: 6,
                 }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: '#000',
+                    <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--ds-text)',
                       overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {a.title}
                     </p>

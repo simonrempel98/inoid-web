@@ -205,7 +205,7 @@ export function OrgTreePicker({ locations, halls, areas, value, onChange, inputS
       {open && (
         <div style={{
           position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 100,
-          background: 'white', border: '1px solid #c8d4e8', borderRadius: 10,
+          background: 'var(--ds-surface)', border: '1px solid var(--ds-border)', borderRadius: 10,
           boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
           maxHeight: 220, overflowY: 'auto',
           marginTop: 4,

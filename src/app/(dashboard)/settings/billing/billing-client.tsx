@@ -204,7 +204,7 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
       {/* Rechnungsformular */}
       {showInvoiceForm && selectedPlan && (
         <div style={{
-          background: '#f8faff', border: '1px solid #c8d4e8', borderRadius: 14,
+          background: '#f8faff', border: '1px solid var(--ds-border)', borderRadius: 14,
           padding: '20px', marginBottom: 24,
         }}>
           <p style={{ fontSize: 14, fontWeight: 700, color: '#003366', margin: '0 0 14px' }}>
@@ -227,7 +227,7 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
                 placeholder={f.placeholder}
                 style={{
                   width: '100%', padding: '9px 12px', borderRadius: 8,
-                  border: '1px solid #c8d4e8', fontSize: 14, boxSizing: 'border-box',
+                  border: '1px solid var(--ds-border)', fontSize: 14, boxSizing: 'border-box',
                   outline: 'none', fontFamily: 'Arial, sans-serif',
                 }}
               />
@@ -259,7 +259,7 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
         <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 10px' }}>
           {t('settings.billing.redeemCode')}
         </p>
-        <div style={{ background: 'white', border: '1px solid #c8d4e8', borderRadius: 14, padding: '16px' }}>
+        <div style={{ background: 'var(--ds-surface)', border: '1px solid var(--ds-border)', borderRadius: 14, padding: '16px' }}>
           <div style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
             <div style={{ flex: 1 }}>
               <input
@@ -269,7 +269,7 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
                 maxLength={9}
                 style={{
                   width: '100%', padding: '10px 12px', borderRadius: 8,
-                  border: '1px solid #c8d4e8', fontSize: 16, letterSpacing: '0.15em',
+                  border: '1px solid var(--ds-border)', fontSize: 16, letterSpacing: '0.15em',
                   fontFamily: 'monospace', boxSizing: 'border-box', textAlign: 'center',
                 }}
               />
@@ -301,7 +301,7 @@ export default function BillingClient({ currentPlan, orgName, subscriptionStatus
           <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 10px' }}>
             {t('settings.billing.history')}
           </p>
-          <div style={{ background: 'white', border: '1px solid #c8d4e8', borderRadius: 14, overflow: 'hidden' }}>
+          <div style={{ background: 'var(--ds-surface)', border: '1px solid var(--ds-border)', borderRadius: 14, overflow: 'hidden' }}>
             {invoices.map((inv, i) => (
               <div key={inv.id}>
                 {i > 0 && <div style={{ height: 1, background: '#c8d4e8', margin: '0 16px' }} />}

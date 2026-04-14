@@ -90,16 +90,16 @@ export default async function HalleDetailPage({
           <div style={{ width: 40, height: 40, borderRadius: 12, background: '#e6f6ff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
             <Building2 size={20} color="#0099cc" />
           </div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: 0 }}>{hall.name}</h1>
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--ds-text)', margin: 0 }}>{hall.name}</h1>
         </div>
 
         {/* Übersicht-Karten */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }} className="rg-2">
-          <div style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid #e8eef6' }}>
+          <div style={{ background: 'var(--ds-surface)', borderRadius: 12, padding: '14px 16px', border: '1px solid var(--ds-border)' }}>
             <p style={{ margin: 0, fontSize: 11, color: '#96aed2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{t('assetsTotal')}</p>
             <p style={{ margin: '4px 0 0', fontSize: 24, fontWeight: 700, color: '#003366' }}>{totalCount}</p>
           </div>
-          <div style={{ background: 'white', borderRadius: 12, padding: '14px 16px', border: '1px solid #e8eef6' }}>
+          <div style={{ background: 'var(--ds-surface)', borderRadius: 12, padding: '14px 16px', border: '1px solid var(--ds-border)' }}>
             <p style={{ margin: 0, fontSize: 11, color: '#96aed2', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{t('areas')}</p>
             <p style={{ margin: '4px 0 0', fontSize: 24, fontWeight: 700, color: '#003366' }}>{areaIds.length}</p>
           </div>
@@ -119,14 +119,14 @@ export default async function HalleDetailPage({
                 <Link key={area.id} href={`/organisation/bereich/${area.id}`} style={{ textDecoration: 'none' }}>
                   <div style={{
                     display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    background: 'white', borderRadius: 12, padding: '13px 16px',
-                    border: '1px solid #e8eef6',
+                    background: 'var(--ds-surface)', borderRadius: 12, padding: '13px 16px',
+                    border: '1px solid var(--ds-border)',
                   }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                       <div style={{ width: 34, height: 34, borderRadius: 9, background: '#f3eeff', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                         <Grid3x3 size={15} color="#8B5CF6" />
                       </div>
-                      <span style={{ fontSize: 15, fontWeight: 600, color: '#000' }}>{area.name}</span>
+                      <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--ds-text)' }}>{area.name}</span>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       {count > 0 && (
@@ -159,11 +159,11 @@ export default async function HalleDetailPage({
               <Link key={a.id} href={`/assets/${a.id}`} style={{ textDecoration: 'none' }}>
                 <div style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  background: 'white', borderRadius: 10, padding: '10px 14px',
-                  border: '1px solid #e8eef6', marginBottom: 6,
+                  background: 'var(--ds-surface)', borderRadius: 10, padding: '10px 14px',
+                  border: '1px solid var(--ds-border)', marginBottom: 6,
                 }}>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: '#000',
+                    <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--ds-text)',
                       overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                       {a.title}
                     </p>

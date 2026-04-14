@@ -133,7 +133,7 @@ function OrgTreePicker({ locations, halls, areas, value, onChange, noDataLabel }
   }
 
   return (
-    <div style={{ border: '1px solid #c8d4e8', borderRadius: 10, background: '#f8fafd', maxHeight: 220, overflowY: 'auto', padding: '6px' }}>
+    <div style={{ border: '1px solid var(--ds-border)', borderRadius: 10, background: '#f8fafd', maxHeight: 220, overflowY: 'auto', padding: '6px' }}>
       {locations.map(l => {
         const ref = `location:${l.id}`
         const key = `loc-${l.id}`
@@ -214,7 +214,7 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
           </Link>
           <Link href="/teams" style={{
             flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
-            background: 'white', color: '#003366', borderRadius: 50, padding: '13px',
+            background: 'var(--ds-surface)', color: '#003366', borderRadius: 50, padding: '13px',
             border: '2px solid #003366', textDecoration: 'none', fontSize: 14, fontWeight: 700,
           }}>
             {t('toOverview')}
@@ -236,18 +236,18 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </Link>
-        <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: 0 }}>{t('newTeam')}</h1>
+        <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--ds-text)', margin: 0 }}>{t('newTeam')}</h1>
       </div>
 
       {/* Team-Info */}
       <div style={{ marginBottom: 20 }}>
         <p style={{ fontSize: 11, fontWeight: 700, color: '#666', textTransform: 'uppercase', letterSpacing: '0.06em', margin: '0 0 8px 2px' }}>{t('teamInfo')}</p>
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', overflow: 'hidden' }}>
           <div style={{ padding: '13px 16px' }}>
             <label style={{ display: 'block', fontSize: 11, color: '#96aed2', marginBottom: 4, fontWeight: 700 }}>{t('teamNameLabel')}</label>
             <input value={teamName} onChange={e => setTeamName(e.target.value)}
               placeholder={t('teamNamePlaceholder')}
-              style={{ width: '100%', outline: 'none', border: 'none', fontSize: 15, fontWeight: 600, fontFamily: 'Arial, sans-serif', background: 'transparent', color: '#000' }} />
+              style={{ width: '100%', outline: 'none', border: 'none', fontSize: 15, fontWeight: 600, fontFamily: 'Arial, sans-serif', background: 'transparent', color: 'var(--ds-text)' }} />
           </div>
         </div>
       </div>
@@ -270,7 +270,7 @@ export function CreateTeamForm({ locations, halls, areas, roles }: {
             </button>
           )}
         </div>
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '12px 14px' }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', padding: '12px 14px' }}>
           {!orgRef && (
             <p style={{ fontSize: 12, color: '#96aed2', margin: '0 0 10px', fontStyle: 'italic' }}>
               {t('noLocationSelected')}

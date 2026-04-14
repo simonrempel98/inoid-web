@@ -58,8 +58,8 @@ export default function StatusesPage() {
 
   const inputStyle: React.CSSProperties = {
     width: '100%', padding: '10px 12px', borderRadius: 10,
-    border: '1px solid #c8d4e8', fontSize: 14, fontFamily: 'Arial, sans-serif',
-    backgroundColor: 'white', color: '#000', outline: 'none', boxSizing: 'border-box',
+    border: '1px solid var(--ds-border)', fontSize: 14, fontFamily: 'Arial, sans-serif',
+    backgroundColor: 'white', color: 'var(--ds-text)', outline: 'none', boxSizing: 'border-box',
   }
 
   return (
@@ -72,7 +72,7 @@ export default function StatusesPage() {
           </svg>
         </button>
         <div>
-          <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>{t('settings.statuses.title')}</h1>
+          <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--ds-text)', margin: 0 }}>{t('settings.statuses.title')}</h1>
           <p style={{ fontSize: 12, color: '#96aed2', margin: 0 }}>{t('settings.statuses.subtitle')}</p>
         </div>
       </div>
@@ -80,7 +80,7 @@ export default function StatusesPage() {
       <div style={{ padding: 20, display: 'flex', flexDirection: 'column', gap: 20 }}>
 
         {/* System-Statuses */}
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', overflow: 'hidden' }}>
           <p style={{ fontSize: 11, fontWeight: 700, color: '#96aed2', padding: '12px 16px 8px', margin: 0, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
             {t('settings.statuses.systemStatuses')}
           </p>
@@ -91,7 +91,7 @@ export default function StatusesPage() {
               borderTop: i > 0 ? '1px solid #f4f6f9' : 'none',
             }}>
               <span style={{ width: 12, height: 12, borderRadius: '50%', background: s.color, flexShrink: 0 }} />
-              <span style={{ flex: 1, fontSize: 14, color: '#000', fontWeight: 600 }}>
+              <span style={{ flex: 1, fontSize: 14, color: 'var(--ds-text)', fontWeight: 600 }}>
                 {t(`assetStatus.${s.value}` as any) || s.label}
               </span>
               <span style={{ fontSize: 11, color: '#96aed2', fontFamily: 'monospace' }}>{s.value}</span>
@@ -103,7 +103,7 @@ export default function StatusesPage() {
         {/* Eigene Statuses */}
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-            <h2 style={{ fontSize: 15, fontWeight: 700, color: '#000', margin: 0 }}>{t('settings.statuses.customStatuses')}</h2>
+            <h2 style={{ fontSize: 15, fontWeight: 700, color: 'var(--ds-text)', margin: 0 }}>{t('settings.statuses.customStatuses')}</h2>
             <button type="button" onClick={() => setShowForm(v => !v)}
               style={{ padding: '8px 16px', borderRadius: 50, border: 'none', background: '#003366', color: 'white', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
               {t('settings.statuses.newStatus')}
@@ -111,7 +111,7 @@ export default function StatusesPage() {
           </div>
 
           {showForm && (
-            <div style={{ background: 'white', borderRadius: 14, padding: 16, border: '1px solid #c8d4e8', marginBottom: 12, display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <div style={{ background: 'var(--ds-surface)', borderRadius: 14, padding: 16, border: '1px solid var(--ds-border)', marginBottom: 12, display: 'flex', flexDirection: 'column', gap: 12 }}>
               <div>
                 <label style={{ display: 'block', fontSize: 12, fontWeight: 700, color: '#003366', marginBottom: 4 }}>{t('common.label')}</label>
                 <input value={newLabel} onChange={e => setNewLabel(e.target.value)}
@@ -130,7 +130,7 @@ export default function StatusesPage() {
                       }} />
                   ))}
                   <input type="color" value={newColor} onChange={e => setNewColor(e.target.value)}
-                    style={{ width: 28, height: 28, borderRadius: '50%', border: '1px solid #c8d4e8', padding: 2, cursor: 'pointer', background: 'none' }} />
+                    style={{ width: 28, height: 28, borderRadius: '50%', border: '1px solid var(--ds-border)', padding: 2, cursor: 'pointer', background: 'none' }} />
                 </div>
                 {newLabel && (
                   <div style={{ marginTop: 10 }}>
@@ -145,7 +145,7 @@ export default function StatusesPage() {
               </div>
               <div style={{ display: 'flex', gap: 8 }}>
                 <button onClick={() => setShowForm(false)}
-                  style={{ flex: 1, padding: '10px', borderRadius: 50, border: '1px solid #c8d4e8', background: 'white', color: '#666', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
+                  style={{ flex: 1, padding: '10px', borderRadius: 50, border: '1px solid var(--ds-border)', background: 'var(--ds-surface)', color: '#666', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
                   {t('common.cancel')}
                 </button>
                 <button onClick={addStatus} disabled={!newLabel.trim() || saving}
@@ -159,7 +159,7 @@ export default function StatusesPage() {
           {loading ? (
             <p style={{ color: '#96aed2', fontSize: 13, textAlign: 'center' }}>{t('common.loading')}</p>
           ) : customStatuses.length === 0 && !showForm ? (
-            <div style={{ background: 'white', borderRadius: 14, padding: 32, border: '1px solid #c8d4e8', textAlign: 'center' }}>
+            <div style={{ background: 'var(--ds-surface)', borderRadius: 14, padding: 32, border: '1px solid var(--ds-border)', textAlign: 'center' }}>
               <p style={{ color: '#666', fontSize: 14, margin: '0 0 12px' }}>{t('settings.statuses.noCustom')}</p>
               <button onClick={() => setShowForm(true)}
                 style={{ padding: '10px 20px', borderRadius: 50, border: 'none', background: '#003366', color: 'white', fontSize: 13, fontWeight: 700, cursor: 'pointer' }}>
@@ -167,14 +167,14 @@ export default function StatusesPage() {
               </button>
             </div>
           ) : (
-            <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
+            <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', overflow: 'hidden' }}>
               {customStatuses.map((s, i) => (
                 <div key={s.value} style={{
                   display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px',
                   borderTop: i > 0 ? '1px solid #f4f6f9' : 'none',
                 }}>
                   <span style={{ width: 12, height: 12, borderRadius: '50%', background: s.color, flexShrink: 0 }} />
-                  <span style={{ flex: 1, fontSize: 14, color: '#000', fontWeight: 600 }}>{s.label}</span>
+                  <span style={{ flex: 1, fontSize: 14, color: 'var(--ds-text)', fontWeight: 600 }}>{s.label}</span>
                   <span style={{
                     fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 10,
                     backgroundColor: `${s.color}20`, color: s.color,

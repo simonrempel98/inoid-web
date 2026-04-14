@@ -87,7 +87,7 @@ export function MembersList({
 
   const inputStyle: React.CSSProperties = {
     flex: 1, minWidth: 120, padding: '9px 10px', borderRadius: 10,
-    border: '1px solid #c8d4e8', fontSize: 13,
+    border: '1px solid var(--ds-border)', fontSize: 13,
     fontFamily: 'Arial, sans-serif', backgroundColor: 'white',
     outline: 'none', cursor: 'pointer', color: '#666',
   }
@@ -106,7 +106,7 @@ export function MembersList({
           {initials(m)}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: '#000',
+          <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: 'var(--ds-text)',
             overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {m.full_name || m.email}
             {m.id === currentUserId && (
@@ -175,7 +175,7 @@ export function MembersList({
         {hasFilter && (
           <button
             onClick={() => { setSearch(''); setFilterRole(''); setFilterTeam('') }}
-            style={{ padding: '9px 14px', borderRadius: 10, border: '1px solid #c8d4e8', background: 'white', color: '#96aed2', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}
+            style={{ padding: '9px 14px', borderRadius: 10, border: '1px solid var(--ds-border)', background: 'var(--ds-surface)', color: '#96aed2', fontSize: 13, fontWeight: 700, cursor: 'pointer', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap' }}
           >
             Zurücksetzen
           </button>
@@ -183,7 +183,7 @@ export function MembersList({
       </div>
 
       {filtered.length === 0 ? (
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', padding: '32px 20px', textAlign: 'center' }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', padding: '32px 20px', textAlign: 'center' }}>
           <Users size={28} color="#c8d4e8" style={{ marginBottom: 8 }} />
           <p style={{ fontSize: 14, color: '#666', margin: 0 }}>Keine Mitglieder gefunden</p>
         </div>
@@ -195,7 +195,7 @@ export function MembersList({
                 <Users size={11} />
                 {group.label} · {group.members.length}
               </p>
-              <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
+              <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', overflow: 'hidden' }}>
                 {group.members.map((m, i) => (
                   <div key={m.id}>
                     {i > 0 && <div style={{ height: 1, background: '#e8eef6', margin: '0 16px' }} />}
@@ -207,7 +207,7 @@ export function MembersList({
           ))}
         </div>
       ) : (
-        <div style={{ background: 'white', borderRadius: 14, border: '1px solid #c8d4e8', overflow: 'hidden' }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 14, border: '1px solid var(--ds-border)', overflow: 'hidden' }}>
           {filtered.map((m, i) => (
             <div key={m.id}>
               {i > 0 && <div style={{ height: 1, background: '#e8eef6', margin: '0 16px' }} />}

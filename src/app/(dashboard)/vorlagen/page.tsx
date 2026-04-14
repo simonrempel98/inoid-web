@@ -21,7 +21,7 @@ export default async function VorlagenPage() {
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
         <div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: '#000', margin: '0 0 2px' }}>{t('title')}</h1>
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--ds-text)', margin: '0 0 2px' }}>{t('title')}</h1>
           <p style={{ fontSize: 13, color: '#666', margin: 0 }}>
             {templates?.length ?? 0} {templates?.length === 1 ? t('title').replace('n', '') : t('title')}
           </p>
@@ -40,7 +40,7 @@ export default async function VorlagenPage() {
       <div style={{ padding: '12px 20px 0' }}>
         <div style={{
           backgroundColor: '#f0f4ff', borderRadius: 12, padding: '12px 16px',
-          border: '1px solid #c8d4e8',
+          border: '1px solid var(--ds-border)',
         }}>
           <p style={{ fontSize: 13, color: '#003366', margin: 0, lineHeight: 1.5 }}>
             {t('info')}
@@ -52,11 +52,11 @@ export default async function VorlagenPage() {
       <div style={{ padding: '16px 20px' }}>
         {!templates || templates.length === 0 ? (
           <div style={{
-            background: 'white', borderRadius: 16, padding: 40,
-            border: '1px solid #c8d4e8', textAlign: 'center',
+            background: 'var(--ds-surface)', borderRadius: 16, padding: 40,
+            border: '1px solid var(--ds-border)', textAlign: 'center',
           }}>
             <div style={{ marginBottom: 12 }}><ClipboardList size={40} style={{ color: '#96aed2' }} /></div>
-            <p style={{ fontWeight: 700, color: '#000', fontSize: 16, margin: '0 0 8px' }}>
+            <p style={{ fontWeight: 700, color: 'var(--ds-text)', fontSize: 16, margin: '0 0 8px' }}>
               {t('noTitle')}
             </p>
             <p style={{ color: '#666', fontSize: 14, margin: '0 0 20px' }}>
@@ -78,22 +78,22 @@ export default async function VorlagenPage() {
               return (
                 <Link key={tpl.id} href={`/vorlagen/${tpl.id}`} style={{ textDecoration: 'none' }}>
                   <div style={{
-                    background: 'white', borderRadius: 14, padding: '14px 16px',
-                    border: '1px solid #c8d4e8',
+                    background: 'var(--ds-surface)', borderRadius: 14, padding: '14px 16px',
+                    border: '1px solid var(--ds-border)',
                     display: 'flex', alignItems: 'center', gap: 14,
                     boxShadow: '0 1px 3px rgba(0,51,102,0.06)',
                   }}>
                     {/* Icon */}
                     <div style={{
                       width: 52, height: 52, borderRadius: 12, flexShrink: 0,
-                      backgroundColor: '#f0f4ff', border: '1px solid #c8d4e8',
+                      backgroundColor: '#f0f4ff', border: '1px solid var(--ds-border)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                     }}>
                       <TemplateIcon name={tpl.icon ?? '📦'} size={26} color="#003366" />
                     </div>
                     {/* Info */}
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <p style={{ fontWeight: 700, color: '#000', fontSize: 15, margin: '0 0 3px',
+                      <p style={{ fontWeight: 700, color: 'var(--ds-text)', fontSize: 15, margin: '0 0 3px',
                         overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {tpl.name}
                       </p>
@@ -129,6 +129,6 @@ export default async function VorlagenPage() {
 const tagStyle: React.CSSProperties = {
   display: 'inline-block', fontSize: 10, fontWeight: 700,
   padding: '2px 8px', borderRadius: 10,
-  backgroundColor: '#f4f6f9', color: '#666', border: '1px solid #c8d4e8',
+  backgroundColor: '#f4f6f9', color: '#666', border: '1px solid var(--ds-border)',
   fontFamily: 'Arial, sans-serif',
 }

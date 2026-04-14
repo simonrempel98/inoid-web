@@ -32,7 +32,7 @@ export function ServiceSchedules({ schedules, assetId }: { schedules: Schedule[]
 
   const btnStyle: React.CSSProperties = {
     width: 30, height: 30, borderRadius: 8,
-    border: '1px solid #c8d4e8', background: 'white',
+    border: '1px solid var(--ds-border)', background: 'var(--ds-surface)',
     display: 'flex', alignItems: 'center', justifyContent: 'center',
     cursor: 'pointer', flexShrink: 0,
   }
@@ -62,7 +62,7 @@ export function ServiceSchedules({ schedules, assetId }: { schedules: Schedule[]
 
           return (
             <div key={s.id} style={{
-              background: 'white', borderRadius: 12,
+              background: 'var(--ds-surface)', borderRadius: 12,
               border: `1px solid ${days !== null && days <= 7 ? color + '66' : '#c8d4e8'}`,
               overflow: 'hidden',
             }}>
@@ -73,7 +73,7 @@ export function ServiceSchedules({ schedules, assetId }: { schedules: Schedule[]
                 {/* Info */}
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <p style={{
-                    fontWeight: 700, fontSize: 13, color: '#000', margin: '0 0 2px',
+                    fontWeight: 700, fontSize: 13, color: 'var(--ds-text)', margin: '0 0 2px',
                     overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                   }}>{s.name}</p>
                   <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
@@ -139,10 +139,10 @@ export function ServiceSchedules({ schedules, assetId }: { schedules: Schedule[]
           zIndex: 100, padding: '0 16px 32px',
         }}>
           <div style={{
-            background: 'white', borderRadius: 20, padding: 24,
+            background: 'var(--ds-surface)', borderRadius: 20, padding: 24,
             width: '100%', maxWidth: 420, fontFamily: 'Arial, sans-serif',
           }}>
-            <p style={{ fontWeight: 700, fontSize: 16, color: '#000', margin: '0 0 8px' }}>
+            <p style={{ fontWeight: 700, fontSize: 16, color: 'var(--ds-text)', margin: '0 0 8px' }}>
               {t('service.schedules.deleteConfirmTitle')}
             </p>
             <p style={{ color: '#666', fontSize: 14, margin: '0 0 20px', lineHeight: 1.5 }}>
@@ -154,7 +154,7 @@ export function ServiceSchedules({ schedules, assetId }: { schedules: Schedule[]
                 onClick={() => setConfirmId(null)}
                 style={{
                   flex: 1, padding: '13px', borderRadius: 50,
-                  border: '1px solid #c8d4e8', background: 'white',
+                  border: '1px solid var(--ds-border)', background: 'var(--ds-surface)',
                   color: '#666', fontSize: 14, fontWeight: 700, cursor: 'pointer',
                 }}
               >

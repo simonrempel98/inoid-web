@@ -34,7 +34,7 @@ export function AssetQrDisplay({ url, assetId }: { url: string; assetId: string 
       ) : (
         <div style={{
           width: 160, height: 160, borderRadius: 12,
-          backgroundColor: '#f4f6f9', border: '1px solid #c8d4e8',
+          backgroundColor: '#f4f6f9', border: '1px solid var(--ds-border)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
           <span style={{ color: '#96aed2', fontSize: 12, fontFamily: 'Arial, sans-serif' }}>Lädt…</span>
@@ -50,13 +50,13 @@ export function AssetQrDisplay({ url, assetId }: { url: string; assetId: string 
           <p style={{
             flex: 1, fontSize: 11, color: '#003366', fontFamily: 'monospace',
             wordBreak: 'break-all', margin: 0,
-            background: '#f4f6f9', borderRadius: 6, padding: '6px 8px', border: '1px solid #c8d4e8',
+            background: '#f4f6f9', borderRadius: 6, padding: '6px 8px', border: '1px solid var(--ds-border)',
           }}>
             {url}
           </p>
           <button type="button" onClick={copy} style={{
             flexShrink: 0, padding: '6px 10px', borderRadius: 8,
-            border: '1px solid #c8d4e8', background: copied ? '#e8f5e9' : 'white',
+            border: '1px solid var(--ds-border)', background: copied ? '#e8f5e9' : 'white',
             color: copied ? '#2e7d32' : '#003366', fontSize: 11, fontWeight: 700,
             cursor: 'pointer', fontFamily: 'Arial, sans-serif', whiteSpace: 'nowrap',
           }}>

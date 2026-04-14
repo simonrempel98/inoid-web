@@ -332,14 +332,14 @@ export default function NeuerServiceEintragPage() {
         <button type="button" onClick={() => router.back()} style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           width: 36, height: 36, borderRadius: '50%',
-          background: '#f4f6f9', border: '1px solid #c8d4e8', cursor: 'pointer',
+          background: '#f4f6f9', border: '1px solid var(--ds-border)', cursor: 'pointer',
         }}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#003366" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <polyline points="15 18 9 12 15 6"/>
           </svg>
         </button>
         <div>
-          <h1 style={{ fontSize: 20, fontWeight: 700, color: '#000', margin: 0 }}>
+          <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--ds-text)', margin: 0 }}>
             {isEditing ? t('service.entry.edit') : fromSchedule ? t('service.entry.completeMaintenance') : t('service.entry.new')}
           </h1>
           <p style={{ fontSize: 12, color: '#96aed2', margin: 0 }}>
@@ -408,7 +408,7 @@ export default function NeuerServiceEintragPage() {
           {showNewTypeForm && (
             <div style={{
               marginTop: 10, padding: 14, borderRadius: 12,
-              border: '1px solid #c8d4e8', background: '#f9fbff',
+              border: '1px solid var(--ds-border)', background: '#f9fbff',
               display: 'flex', flexDirection: 'column', gap: 10,
             }}>
               <p style={{ fontSize: 12, fontWeight: 700, color: '#003366', margin: 0 }}>{t('service.entry.newType')}</p>
@@ -428,7 +428,7 @@ export default function NeuerServiceEintragPage() {
                   }} />
                 ))}
                 <input type="color" value={newTypeColor} onChange={e => setNewTypeColor(e.target.value)}
-                  style={{ width: 24, height: 24, borderRadius: '50%', border: '1px solid #c8d4e8', padding: 2, cursor: 'pointer', background: 'none' }} />
+                  style={{ width: 24, height: 24, borderRadius: '50%', border: '1px solid var(--ds-border)', padding: 2, cursor: 'pointer', background: 'none' }} />
                 {newTypeLabel && (
                   <span style={{
                     fontSize: 12, fontWeight: 700, padding: '3px 10px', borderRadius: 16,
@@ -522,7 +522,7 @@ export default function NeuerServiceEintragPage() {
                   type="button"
                   onClick={() => applyNextDatePreset(p.days)}
                   style={{
-                    padding: '5px 10px', borderRadius: 16, border: '1px solid #c8d4e8',
+                    padding: '5px 10px', borderRadius: 16, border: '1px solid var(--ds-border)',
                     background: '#f4f6f9', color: '#003366', fontSize: 12, fontWeight: 700,
                     cursor: 'pointer',
                   }}
@@ -536,7 +536,7 @@ export default function NeuerServiceEintragPage() {
                   onClick={() => setNextServiceDate('')}
                   style={{
                     padding: '5px 10px', borderRadius: 16, border: '1px solid #fecaca',
-                    background: 'white', color: '#dc2626', fontSize: 12, fontWeight: 700,
+                    background: 'var(--ds-surface)', color: '#dc2626', fontSize: 12, fontWeight: 700,
                     cursor: 'pointer',
                   }}
                 >
@@ -561,7 +561,7 @@ export default function NeuerServiceEintragPage() {
         {/* Checkliste (nur wenn Schritte vorhanden) */}
         {checklistItems.length > 0 && (
           <div style={{
-            background: 'white', borderRadius: 16,
+            background: 'var(--ds-surface)', borderRadius: 16,
             border: '2px solid #003366',
             overflow: 'hidden',
           }}>
@@ -682,7 +682,7 @@ export default function NeuerServiceEintragPage() {
                           autoFocus
                           style={{
                             width: '100%', padding: '8px 10px', borderRadius: 8,
-                            border: '1px solid #c8d4e8', fontSize: 12,
+                            border: '1px solid var(--ds-border)', fontSize: 12,
                             fontFamily: 'Arial, sans-serif', color: '#333',
                             backgroundColor: '#f9fbff', outline: 'none',
                             resize: 'vertical', boxSizing: 'border-box' as const,
@@ -717,7 +717,7 @@ export default function NeuerServiceEintragPage() {
               const url = a.split('|photo|')[0]
               return (
                 <div key={`existing-photo-${i}`} style={{ position: 'relative' }}>
-                  <img src={url} alt="" style={{ width: 72, height: 72, objectFit: 'cover', borderRadius: 10, border: '1px solid #c8d4e8' }} />
+                  <img src={url} alt="" style={{ width: 72, height: 72, objectFit: 'cover', borderRadius: 10, border: '1px solid var(--ds-border)' }} />
                   <button type="button" onClick={() => setExistingAttachments(prev => prev.filter(x => x !== a))} style={{
                     position: 'absolute', top: -6, right: -6, width: 20, height: 20, borderRadius: '50%',
                     background: '#dc2626', color: 'white', border: 'none', cursor: 'pointer',
@@ -728,7 +728,7 @@ export default function NeuerServiceEintragPage() {
             })}
             {photoPreviews.map((src, i) => (
               <div key={i} style={{ position: 'relative' }}>
-                <img src={src} alt="" style={{ width: 72, height: 72, objectFit: 'cover', borderRadius: 10, border: '1px solid #c8d4e8' }} />
+                <img src={src} alt="" style={{ width: 72, height: 72, objectFit: 'cover', borderRadius: 10, border: '1px solid var(--ds-border)' }} />
                 <button type="button" onClick={() => removePhoto(i)} style={{
                   position: 'absolute', top: -6, right: -6, width: 20, height: 20, borderRadius: '50%',
                   background: '#dc2626', color: 'white', border: 'none', cursor: 'pointer',
@@ -765,7 +765,7 @@ export default function NeuerServiceEintragPage() {
               return (
                 <div key={`existing-doc-${i}`} style={{
                   display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px',
-                  borderRadius: 10, border: '1px solid #c8d4e8', background: '#f4f6f9',
+                  borderRadius: 10, border: '1px solid var(--ds-border)', background: '#f4f6f9',
                 }}>
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#003366" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -779,7 +779,7 @@ export default function NeuerServiceEintragPage() {
             {docFiles.map((f, i) => (
               <div key={i} style={{
                 display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px',
-                borderRadius: 10, border: '1px solid #c8d4e8', background: '#f4f6f9',
+                borderRadius: 10, border: '1px solid var(--ds-border)', background: '#f4f6f9',
               }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#003366" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -856,7 +856,7 @@ const labelStyle: React.CSSProperties = {
 
 const inputStyle: React.CSSProperties = {
   width: '100%', padding: '11px 12px', borderRadius: 10,
-  border: '1px solid #c8d4e8', fontSize: 14, fontFamily: 'Arial, sans-serif',
-  backgroundColor: 'white', color: '#000', outline: 'none',
+  border: '1px solid var(--ds-border)', fontSize: 14, fontFamily: 'Arial, sans-serif',
+  backgroundColor: 'white', color: 'var(--ds-text)', outline: 'none',
   boxSizing: 'border-box',
 }

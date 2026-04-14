@@ -140,7 +140,7 @@ function QrScannerModal({ onMatch, onClose }: { onMatch: (uuid: string) => void;
           )}
           {found && (
             <div style={{ position: 'absolute', inset: 0, background: 'rgba(39,174,96,0.45)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ background: 'white', borderRadius: 20, padding: '18px 28px', display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{ background: 'var(--ds-surface)', borderRadius: 20, padding: '18px 28px', display: 'flex', alignItems: 'center', gap: 10 }}>
                 <span style={{ fontSize: 22 }}>✓</span>
                 <span style={{ fontSize: 15, fontWeight: 700, color: '#27AE60', fontFamily: 'Arial, sans-serif' }}>Asset gefunden!</span>
               </div>
@@ -296,7 +296,7 @@ export function FixedSlotEditClient({
             placeholder="Suche: Name, Serien-Nr., Artikel-Nr."
             value={search}
             onChange={e => setSearch(e.target.value)}
-            style={{ flex: 1, padding: '9px 12px', borderRadius: 8, border: '1px solid #c8d4e8', fontSize: 14, outline: 'none', boxSizing: 'border-box' }}
+            style={{ flex: 1, padding: '9px 12px', borderRadius: 8, border: '1px solid var(--ds-border)', fontSize: 14, outline: 'none', boxSizing: 'border-box' }}
           />
           <button type="button" onClick={() => { setScanNotFound(null); setShowScanner(true) }}
             title="QR-Code scannen"
@@ -314,21 +314,21 @@ export function FixedSlotEditClient({
           <div style={{ display: 'flex', gap: 8, marginBottom: 10, flexWrap: 'wrap' }}>
             {categories.length > 0 && (
               <select value={filterCategory} onChange={e => setFilterCategory(e.target.value)}
-                style={{ padding: '7px 10px', borderRadius: 8, border: '1px solid #c8d4e8', fontSize: 13, outline: 'none', background: filterCategory ? '#e8f4fd' : 'white', color: '#003366' }}>
+                style={{ padding: '7px 10px', borderRadius: 8, border: '1px solid var(--ds-border)', fontSize: 13, outline: 'none', background: filterCategory ? '#e8f4fd' : 'white', color: '#003366' }}>
                 <option value="">Alle Kategorien</option>
                 {categories.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
             )}
             {manufacturers.length > 0 && (
               <select value={filterManufacturer} onChange={e => setFilterManufacturer(e.target.value)}
-                style={{ padding: '7px 10px', borderRadius: 8, border: '1px solid #c8d4e8', fontSize: 13, outline: 'none', background: filterManufacturer ? '#e8f4fd' : 'white', color: '#003366' }}>
+                style={{ padding: '7px 10px', borderRadius: 8, border: '1px solid var(--ds-border)', fontSize: 13, outline: 'none', background: filterManufacturer ? '#e8f4fd' : 'white', color: '#003366' }}>
                 <option value="">Alle Hersteller</option>
                 {manufacturers.map(m => <option key={m} value={m}>{m}</option>)}
               </select>
             )}
             {statuses.length > 0 && (
               <select value={filterStatus} onChange={e => setFilterStatus(e.target.value)}
-                style={{ padding: '7px 10px', borderRadius: 8, border: '1px solid #c8d4e8', fontSize: 13, outline: 'none', background: filterStatus ? '#e8f4fd' : 'white', color: '#003366' }}>
+                style={{ padding: '7px 10px', borderRadius: 8, border: '1px solid var(--ds-border)', fontSize: 13, outline: 'none', background: filterStatus ? '#e8f4fd' : 'white', color: '#003366' }}>
                 <option value="">Alle Status</option>
                 {statuses.map(s => <option key={s} value={s}>{s}</option>)}
               </select>
@@ -350,7 +350,7 @@ export function FixedSlotEditClient({
         </div>
 
         {/* Asset-Liste */}
-        <div style={{ background: 'white', borderRadius: 12, border: '1px solid #c8d4e8', overflow: 'hidden', maxHeight: 420, overflowY: 'auto', marginBottom: 16 }}>
+        <div style={{ background: 'var(--ds-surface)', borderRadius: 12, border: '1px solid var(--ds-border)', overflow: 'hidden', maxHeight: 420, overflowY: 'auto', marginBottom: 16 }}>
           {sorted.slice(0, 200).map((a, idx) => {
             const checked = selectedIds.includes(a.id)
             return (
@@ -402,7 +402,7 @@ export function FixedSlotEditClient({
             style={{ background: loading ? '#c8d4e8' : '#003366', color: 'white', padding: '12px 28px', borderRadius: 50, border: 'none', fontSize: 14, fontWeight: 700, cursor: loading ? 'default' : 'pointer' }}>
             {loading ? 'Speichern…' : `Speichern${selectedIds.length > 0 ? ` (${selectedIds.length})` : ''}`}
           </button>
-          <Link href={backHref} style={{ background: 'transparent', color: '#6b7280', padding: '12px 20px', borderRadius: 50, border: '1px solid #c8d4e8', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>
+          <Link href={backHref} style={{ background: 'transparent', color: '#6b7280', padding: '12px 20px', borderRadius: 50, border: '1px solid var(--ds-border)', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>
             Abbrechen
           </Link>
         </div>
