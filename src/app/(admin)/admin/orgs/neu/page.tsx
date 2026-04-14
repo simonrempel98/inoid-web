@@ -21,8 +21,10 @@ export default function AdminOrgNeuPage() {
   const [featServiceheft, setFeatServiceheft] = useState(true)
   const [featWartung, setFeatWartung] = useState(true)
   const [featTeamchat, setFeatTeamchat] = useState(true)
+  const [featSensorik, setFeatSensorik] = useState(false)
   const [featFlexodruck, setFeatFlexodruck] = useState(false)
   const [featInoai, setFeatInoai] = useState(false)
+  const [featKiImport, setFeatKiImport] = useState(false)
 
   // Dateigröße
   const SIZE_OPTIONS = [
@@ -88,7 +90,7 @@ export default function AdminOrgNeuPage() {
         userLimit,
         contactEmail: contactEmail.trim() || null,
         notes: notes.trim() || null,
-        features: { serviceheft: featServiceheft, wartung: featWartung, teamchat: featTeamchat, flexodruck: featFlexodruck, inoai: featInoai },
+        features: { serviceheft: featServiceheft, wartung: featWartung, teamchat: featTeamchat, sensorik: featSensorik, flexodruck: featFlexodruck, inoai: featInoai, ki_import: featKiImport },
         settings: {
           image_max_dim: imageMaxDim ?? null,
           image_quality: imageQuality,
@@ -253,13 +255,13 @@ export default function AdminOrgNeuPage() {
           </p>
           <ToggleRow
             label="Serviceheft"
-            description="Wartungshistorie & Lebenszyklusereignisse pro Asset"
+            description="Serviceeinträge & Dokumentation pro Asset"
             value={featServiceheft}
             onChange={setFeatServiceheft}
           />
           <ToggleRow
-            label="Wartungsbereich"
-            description="Wartungsintervalle, Fälligkeiten & Übersicht"
+            label="Wartung"
+            description="Wartungspläne, Aufgaben & Gantt-Chart"
             value={featWartung}
             onChange={setFeatWartung}
           />
@@ -270,16 +272,28 @@ export default function AdminOrgNeuPage() {
             onChange={setFeatTeamchat}
           />
           <ToggleRow
+            label="Sensorik"
+            description="Echtzeit-Sensordaten je Asset: Temperatur, Vibration, Drehzahl u.v.m."
+            value={featSensorik}
+            onChange={setFeatSensorik}
+          />
+          <ToggleRow
             label="Flexodruck"
-            description="Setup-Manager für Flexodruck-Maschinen: Druckwerke, Vorlagen & Rüstvorgänge (opt-in)"
+            description="Setup-Manager für Flexodruck-Maschinen: Druckwerke, Vorlagen & Rüstvorgänge"
             value={featFlexodruck}
             onChange={setFeatFlexodruck}
           />
           <ToggleRow
             label="INOai"
-            description="KI-Produktassistent auf Basis der INOMETA-Wissensbasis (opt-in)"
+            description="KI-Produktassistent auf Basis der INOMETA-Wissensbasis"
             value={featInoai}
             onChange={setFeatInoai}
+          />
+          <ToggleRow
+            label="KI-Import"
+            description="Asset-Import per KI: Daten aus Fotos, Dokumenten oder Text automatisch auslesen"
+            value={featKiImport}
+            onChange={setFeatKiImport}
           />
         </div>
 
