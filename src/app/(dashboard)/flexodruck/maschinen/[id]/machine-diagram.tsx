@@ -173,17 +173,37 @@ export function MachineDiagram({
   }
 
   // ── SVG ──
-  const W = 440, H = 440, CX = W / 2, CY = H / 2
-  const PAD = 56
-  const CYLL_R = 58
+  // Landscape-Format wie echte CI-Flexo (Bobst, W&H): Druckwerke nur links + rechts
+  const W = 520, H = 340, CX = W / 2, CY = H / 2
+  const PAD = 64
+  const CYLL_R = 60
 
   const dbR = n <= 4 ? 30 : n <= 7 ? 26 : n <= 11 ? 22 : 18
   const fR  = Math.round(dbR * 0.72)
-  const DB_DIST   = CYLL_R + 22 + dbR
-  const F_DIST    = DB_DIST + dbR + 8 + fR
-  const LBL_DIST  = F_DIST + fR + (n <= 8 ? 18 : 14)
+  const DB_DIST   = CYLL_R + 24 + dbR
+  const F_DIST    = DB_DIST + dbR + 9 + fR
+  const LBL_DIST  = F_DIST + fR + (n <= 8 ? 22 : 14)
   const DOT_R     = Math.max(3.5, Math.round(dbR * 0.24))
   const SQRT2_INV = 0.707
+
+  // Winkelbereich pro Seite: je schmäler desto weiter auseinander die DW
+  const MAX_DEG = n <= 2 ? 40 : n <= 4 ? 52 : n <= 6 ? 62 : n <= 8 ? 72 : n <= 12 ? 80 : 84
+  const MAX_RAD = MAX_DEG * Math.PI / 180
+  const rightCount = Math.ceil(n / 2)   // DW 1…rightCount → rechte Seite
+  const leftCount  = n - rightCount     // rest → linke Seite
+
+  // Winkel berechnen: rechts von oben-rechts nach unten-rechts,
+  // links von unten-links nach oben-links (fortlaufende Nummerierung im Uhrzeigersinn)
+  function getDWAngle(i: number): number {
+    if (i < rightCount) {
+      const t = rightCount === 1 ? 0.5 : i / (rightCount - 1)
+      return -MAX_RAD + t * 2 * MAX_RAD          // von -MAX_DEG bis +MAX_DEG um 0° (rechts)
+    } else {
+      const si = i - rightCount
+      const t  = leftCount === 1 ? 0.5 : si / (leftCount - 1)
+      return (Math.PI - MAX_RAD) + t * 2 * MAX_RAD  // von 180°-MAX bis 180°+MAX (links)
+    }
+  }
 
   const showLabels = n <= 14
 
@@ -252,7 +272,7 @@ export function MachineDiagram({
 
           {/* Verbindungslinien */}
           {orderedDW.map((dw, i) => {
-            const angle = (i * 2 * Math.PI / n) - Math.PI / 2
+            const angle = getDWAngle(i)
             const c = Math.cos(angle), s = Math.sin(angle)
             const x1 = CX + (CYLL_R + 3) * c, y1 = CY + (CYLL_R + 3) * s
             const x2 = CX + (DB_DIST - dbR - 3) * c, y2 = CY + (DB_DIST - dbR - 3) * s
@@ -277,7 +297,7 @@ export function MachineDiagram({
 
           {/* Druckwerke */}
           {orderedDW.map((dw, i) => {
-            const angle = (i * 2 * Math.PI / n) - Math.PI / 2
+            const angle = getDWAngle(i)
             const c = Math.cos(angle), s = Math.sin(angle)
             const dbX = CX + DB_DIST * c, dbY = CY + DB_DIST * s
             const fX  = CX + F_DIST  * c, fY  = CY + F_DIST  * s
